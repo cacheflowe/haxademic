@@ -16,13 +16,11 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 
 import processing.core.PGraphics;
-import processing.video.Movie;
 
-public class Demo_OpticalFlowGLSL
+public class Demo_OpticalFlowVanilla
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected Movie testMovie;
 	protected RealSenseWrapper realSenseWrapper;
 
 	protected PGraphics lastFrame;
@@ -103,7 +101,7 @@ extends PAppletHax {
 		opFlowShader.shader().set("tex0", curFrame);
 		opFlowShader.shader().set("tex1", lastFrame);
 		opFlowShader.shader().set("uDecayLerp", 0.02f);
-		opFlowShader.shader().set("uForce", 0.5f);
+		opFlowShader.shader().set("uForce", 0.75f);
 		opFlowShader.shader().set("uOffset", 8f);
 		opFlowShader.shader().set("uLambda", 0.012f);
 		opFlowShader.shader().set("uThreshold", 0.1f);
@@ -162,11 +160,3 @@ extends PAppletHax {
 	}
 
 }
-
-
-
-
-
-
-
-

@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.draw.image.OpticalFlowCPU;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
@@ -15,7 +15,7 @@ extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected OpticalFlow opticalFlow;
+	protected OpticalFlowCPU opticalFlow;
 
 	protected void firstFrame() {
 		WebCam.instance().setDelegate(this);
@@ -39,7 +39,7 @@ implements IWebCamCallback {
 		// lazy-init color detection and update it with `pg`
 		if(opticalFlow == null) {
 			float detectionScaleDown = 0.15f;
-			opticalFlow = new OpticalFlow(pg, detectionScaleDown);
+			opticalFlow = new OpticalFlowCPU(pg, detectionScaleDown);
 		}
 		opticalFlow.smoothing(0.02f);
 		opticalFlow.update(pg);

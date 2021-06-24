@@ -6,7 +6,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
-import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.draw.image.OpticalFlowCPU;
 import com.haxademic.core.draw.textures.Fluid;
 
 import processing.core.PGraphics;
@@ -17,7 +17,7 @@ extends PAppletHax {
 
 	protected int w = 480; 
 	protected int h = 480; 
-	protected OpticalFlow opticalFlow;
+	protected OpticalFlowCPU opticalFlow;
 
 	protected Fluid fluid;
 	protected PGraphics fluidBuff;
@@ -29,7 +29,7 @@ extends PAppletHax {
 		
 		// build optical flow
 		float detectionScaleDown = 0.15f;
-		opticalFlow = new OpticalFlow(pg, detectionScaleDown);
+		opticalFlow = new OpticalFlowCPU(pg, detectionScaleDown);
 		
 		// build fluid
 		fluid = new Fluid(w/scale, h/scale);

@@ -3,14 +3,14 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
-import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.draw.image.OpticalFlowCPU;
 
 import processing.core.PImage;
 
 public class UVGridOpticalFlow
 extends BaseVideoFilter {
 	
-	protected OpticalFlow opticalFlow;
+	protected OpticalFlowCPU opticalFlow;
 	float detectionScaleDown = 0.15f;
 
 	public UVGridOpticalFlow(int width, int height) {
@@ -23,7 +23,7 @@ extends BaseVideoFilter {
 		// use copied sourceBuffer instead of frame
 		// lazy-init optical flow
 		if(opticalFlow == null) {
-			opticalFlow = new OpticalFlow(sourceBuffer, detectionScaleDown);
+			opticalFlow = new OpticalFlowCPU(sourceBuffer, detectionScaleDown);
 		}
 	}
 	

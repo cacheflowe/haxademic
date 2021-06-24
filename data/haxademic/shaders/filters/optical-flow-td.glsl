@@ -40,6 +40,7 @@ uniform sampler2D tex0;
 uniform sampler2D tex1;
 uniform sampler2D texFlow;
 
+uniform bool firstFrame = false;
 uniform float uForce = 0.5;
 uniform float uOffset = 8.;
 uniform float uLambda = 0.012;
@@ -115,6 +116,11 @@ void main()
 	// add 0.5 as the resting state, which is mid-gray
 	flow.xy += 0.5;
 	gl_FragColor = vec4(flow.xy, 0.5, 1.0);
+
+	// default to mid gray (resting state) on first frame
+	if(firstFrame == true) {
+		gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+	}
 
 	// debug draw ///////////
 	// gl_FragColor = a;

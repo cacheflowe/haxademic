@@ -7,7 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
-import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.draw.image.OpticalFlowCPU;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.render.FrameLoop;
@@ -22,12 +22,12 @@ extends PAppletHax {
 	protected int camH;
 	protected RealSenseWrapper camera1;
 	protected PGraphics cam1LerpedFrame; 
-	protected OpticalFlow cam1OpticalFlow;
+	protected OpticalFlowCPU cam1OpticalFlow;
 	protected FloatBuffer cam1DirX = new FloatBuffer(60);
 	protected FloatBuffer cam1DirY = new FloatBuffer(60);
 	protected RealSenseWrapper camera2;
 	protected PGraphics cam2LerpedFrame; 
-	protected OpticalFlow cam2OpticalFlow;
+	protected OpticalFlowCPU cam2OpticalFlow;
 	protected FloatBuffer cam2DirX = new FloatBuffer(60);
 	protected FloatBuffer cam2DirY = new FloatBuffer(60);
 
@@ -48,11 +48,11 @@ extends PAppletHax {
 		
 		// build buffers
 		cam1LerpedFrame = PG.newPG(camW, camH);
-		cam1OpticalFlow = new OpticalFlow(cam1LerpedFrame, 1);
+		cam1OpticalFlow = new OpticalFlowCPU(cam1LerpedFrame, 1);
 		DebugView.setTexture("cam1LerpedFrame", cam1LerpedFrame);
 
 		cam2LerpedFrame = PG.newPG(camW, camH);
-		cam2OpticalFlow = new OpticalFlow(cam2LerpedFrame, 1);
+		cam2OpticalFlow = new OpticalFlowCPU(cam2LerpedFrame, 1);
 		DebugView.setTexture("cam2LerpedFrame", cam2LerpedFrame);
 	}
 
@@ -84,7 +84,7 @@ extends PAppletHax {
 		if(FrameLoop.frameModHours(1)) P.out("Still running:", DebugView.uptimeStr());
 	}
 
-	protected void updateCamera(RealSenseWrapper camera, PGraphics lerpedBuffer, OpticalFlow opticalFlow, FloatBuffer dirX, FloatBuffer dirY, float cameraX, float cameraY) {
+	protected void updateCamera(RealSenseWrapper camera, PGraphics lerpedBuffer, OpticalFlowCPU opticalFlow, FloatBuffer dirX, FloatBuffer dirY, float cameraX, float cameraY) {
 		// update realsense
 		camera.update();
 
