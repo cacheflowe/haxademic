@@ -163,21 +163,4 @@ public class Mouse {
 	    comp.setCursor(invisibleCursor);
 	}
 	
-	// keyboard utils to move later
-	
-	public static void keyPress(int keyCode) {
-		mouseRobot().keyPress(keyCode);
-	}
-	
-	public static void keyRelease(int keyCode) {
-		mouseRobot().keyRelease(keyCode);
-	}
-	
-	public static void keyCommandPaste() {
-		mouseRobot().keyPress(KeyEvent.VK_CONTROL);
-		mouseRobot().keyPress(KeyEvent.VK_V);
-		mouseRobot().keyRelease(KeyEvent.VK_V);
-		mouseRobot().keyRelease(KeyEvent.VK_CONTROL);
-	}
-	
 }

@@ -12,6 +12,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.image.Base64Image;
+import com.haxademic.core.hardware.keyboard.Keyboard;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.ISocketClientDelegate;
@@ -142,7 +143,7 @@ implements ISocketClientDelegate {
 	}
 
 	public void keyPress(int keyCode) {
-		Mouse.keyPress(keyCode);
+		Keyboard.keyPress(keyCode);
 	}
 
 	////////////////////////////////////////////
