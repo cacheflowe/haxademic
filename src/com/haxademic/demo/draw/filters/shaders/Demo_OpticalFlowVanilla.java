@@ -51,7 +51,7 @@ extends PAppletHax {
 		DebugView.setTexture("camDisplaced", camDisplaced);
 		
 		// load shader
-		opFlowShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/optical-flow-td.glsl"));
+		opFlowShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/optical-flow.glsl"));
 		
 		// init flow result to gray (resting)
 		opFlowResult.beginDraw();

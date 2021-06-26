@@ -3,16 +3,15 @@ package com.haxademic.core.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.opengl.PShader;
 
 public class OpticalFlow {
 
@@ -21,7 +20,7 @@ public class OpticalFlow {
 	protected PGraphics tex0;
 	protected PGraphics resultBuffer;
 	protected PGraphics debugBuffer;
-	protected PShaderHotSwap opFlowShader;
+	protected PShader opFlowShader;
 	protected int frameCount = -1;
 	
 	// uniforms
@@ -49,7 +48,7 @@ public class OpticalFlow {
 		resultBuffer = PG.newPG32(w, h, false, false);		// disabling smoothing allows for per-pixel lerping w/very small values
 		
 		// load shader
-		opFlowShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/optical-flow-td.glsl"));
+		opFlowShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/optical-flow.glsl"));
 	}
 	
 	// setters
@@ -108,18 +107,17 @@ public class OpticalFlow {
 		}
 		
 		// update shader & do optical flow calculations
-		opFlowShader.update();
-		opFlowShader.shader().set("texFlow", resultBuffer);	// lerp from previous flow frame
-		opFlowShader.shader().set("tex0", tex0);
-		opFlowShader.shader().set("tex1", tex1);
-		opFlowShader.shader().set("uDecayLerp", uDecayLerp);
-		opFlowShader.shader().set("uForce", uForce);
-		opFlowShader.shader().set("uOffset", uOffset);
-		opFlowShader.shader().set("uLambda", uLambda);
-		opFlowShader.shader().set("uThreshold", uThreshold);
-		opFlowShader.shader().set("uInverse", uInverseX, uInverseY);
-		opFlowShader.shader().set("firstFrame", frameCount < 2);
-		resultBuffer.filter(opFlowShader.shader());
+		opFlowShader.set("texFlow", resultBuffer);	// lerp from previous flow frame
+		opFlowShader.set("tex0", tex0);
+		opFlowShader.set("tex1", tex1);
+		opFlowShader.set("uDecayLerp", uDecayLerp);
+		opFlowShader.set("uForce", uForce);
+		opFlowShader.set("uOffset", uOffset);
+		opFlowShader.set("uLambda", uLambda);
+		opFlowShader.set("uThreshold", uThreshold);
+		opFlowShader.set("uInverse", uInverseX, uInverseY);
+		opFlowShader.set("firstFrame", frameCount < 2);
+		resultBuffer.filter(opFlowShader);
 		
 		if(flowTheResults) {
 			// displace & blur the flow data for liquidy flow & dispersion
