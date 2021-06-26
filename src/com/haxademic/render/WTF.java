@@ -8,6 +8,7 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
@@ -17,6 +18,7 @@ import processing.core.PFont;
 public class WTF
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 
 	protected int FRAMES = 60 * 6;
 	
@@ -81,5 +83,4 @@ extends PAppletHax {
 		}
 		
 	}
-
 }

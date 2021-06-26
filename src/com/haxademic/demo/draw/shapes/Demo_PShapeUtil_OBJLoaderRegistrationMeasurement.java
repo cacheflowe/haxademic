@@ -7,7 +7,6 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;

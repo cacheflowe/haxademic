@@ -25,6 +25,7 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
@@ -57,7 +58,7 @@ extends PAppletHax {
 		mixers = new ArrayList<Mixer>();
 		
 		// beads
-//		audioContext = new AudioContext();
+//		audioContext = AudioUtil.getBeadsContext();
 //		audioContext.postAudioFormatInfo();
 //		P.out("audioContext.out.getOuts()", audioContext.out.getOuts());
 //		audioContext.start();

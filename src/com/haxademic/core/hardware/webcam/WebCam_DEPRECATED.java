@@ -3,6 +3,7 @@ package com.haxademic.core.hardware.webcam;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
@@ -20,7 +21,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Capture;
 
-public class WebCam
+public class WebCam_DEPRECATED
 implements IUIButtonDelegate {
 
 	
@@ -58,19 +59,14 @@ implements IUIButtonDelegate {
 	// normal initialization
 	/////////////////////////////
 	
-	public WebCam() {
+	public WebCam_DEPRECATED() {
 		this(null);
 	}
 	
-	public WebCam(String configId) {
+	public WebCam_DEPRECATED(String configId) {
 		this.configId = configId;
 		noCamera = P.getImage("haxademic/images/no-signal.png");
 		refreshCameraList();
-//		webCam = new Capture(P.p, "pipeline:autovideosrc");
-//		webCam = new Capture(P.p, 640, 480);
-		// init default camera to get things moving
-		webCam = new Capture(P.p, camerasList[0]);
-		webCam.start();
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
 	}
@@ -79,12 +75,12 @@ implements IUIButtonDelegate {
 	// static instance & initializer for quick & easy webcam access
 	/////////////////////////////
 	
-	public static WebCam instance;
+	public static WebCam_DEPRECATED instance;
 	public static String defaultId = "default_webcam";
 	
-	public static WebCam instance() {
+	public static WebCam_DEPRECATED instance() {
 		if(instance != null) return instance;
-		instance = new WebCam(defaultId);
+		instance = new WebCam_DEPRECATED(defaultId);
 		return instance;
 	}
 	
@@ -145,17 +141,17 @@ implements IUIButtonDelegate {
 	public void refreshCameraList() {
 		camerasList = null;
 		camerasListed = false;
-		
-		// was threaded, but it's pretty fast to load cameras now
-		P.out("CameraConfig :: getting cameras");
-		camerasList = Capture.list();
+		new Thread(new Runnable() { public void run() {
+			P.out("CameraConfig :: getting cameras");
+			camerasList = Capture.list();
+		}}).start();	
 	}
 
 	protected void lazyLoadConfigs() {
 		if(camerasList == null) return;
 		camerasListed = true;
 		if (camerasList.length == 0) {
-			 P.error("There are no cameras available.");
+			// P.println("There are no cameras available.");
 		} else if(cameraConfigs == null) {
 			// setup
 			cameraConfigs = new ArrayList<CameraConfig>();
@@ -166,8 +162,11 @@ implements IUIButtonDelegate {
 			for (int i = 0; i < camerasList.length; i++) {
 				// get camera name & components
 				String camera = camerasList[i];
-				String cameraName = camera;
-				P.println("# [" + i + "]" + camera);
+				String[] cameraNameParts = camera.split(",");
+				String cameraName = cameraNameParts[0].split("=")[1];
+				String sizeStr = cameraNameParts[1].split("=")[1];
+				String widthStr = sizeStr.split("x")[0];
+				int width = ConvertUtil.stringToInt(widthStr);
 
 				// when we find a new camera, make a new config object
 				if(lastCamName.equals(cameraName) == false) {
@@ -176,8 +175,10 @@ implements IUIButtonDelegate {
 				}
 
 				// add config to camera object
-				CameraConfig curConfig = cameraConfigs.get(cameraConfigs.size()-1);
-				curConfig.addConfig(camera);
+				if(width > 420) {
+					CameraConfig curConfig = cameraConfigs.get(cameraConfigs.size()-1);
+					curConfig.addConfig(camera);
+				}
 			}
 			
 			// if we had a selected config from file, load it up
@@ -299,12 +300,12 @@ implements IUIButtonDelegate {
 
 	public class CameraConfig {
 
-		protected WebCam picker;
+		protected WebCam_DEPRECATED picker;
 		protected String name;
 		protected String fps;
 		protected ArrayList<CameraConfigMode> configs;
 
-		public CameraConfig(WebCam picker, String name) {
+		public CameraConfig(WebCam_DEPRECATED picker, String name) {
 			this.picker = picker;
 			this.name = name;
 			configs = new ArrayList<CameraConfigMode>();
@@ -316,7 +317,7 @@ implements IUIButtonDelegate {
 				if(configs.get(i).config().equals(config)) hasConfig = true;
 			}
 			if(hasConfig == false) {
-				configs.add(new CameraConfigMode(picker, name, config));
+				configs.add(new CameraConfigMode(picker, config));
 			}
 		}
 
@@ -333,32 +334,31 @@ implements IUIButtonDelegate {
 	public class CameraConfigMode {
 
 		protected String config;
-//		protected String size;
-//		protected String fps;
+		protected String size;
+		protected String fps;
 		protected UIButton button;
 
-		public CameraConfigMode(WebCam picker, String name, String config) {
+		public CameraConfigMode(WebCam_DEPRECATED picker, String config) {
 			this.config = config;
 			String[] cameraNameParts = config.split(",");
-//			size = cameraNameParts[1].split("=")[1];
-//			fps = cameraNameParts[2].split("=")[1];
+			size = cameraNameParts[1].split("=")[1];
+			fps = cameraNameParts[2].split("=")[1];
 
 			button = new UIButton(picker, config, 0, 0, BUTTON_W, BUTTON_H, false);
-//			button.label(size + " / " + fps);
-			button.label(name);
+			button.label(size + " / " + fps);
 		}
 
 		public String config() {
 			return config;
 		}
 
-//		public String size() {
-//			return size;
-//		}
-//
-//		public String fps() {
-//			return fps;
-//		}
+		public String size() {
+			return size;
+		}
+
+		public String fps() {
+			return fps;
+		}
 
 		public UIButton button() {
 			return button;

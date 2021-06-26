@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 
@@ -27,7 +28,7 @@ extends PAppletHax {
 	WavePlayer[] wp;
 	
 	protected void firstFrame() {
-		AudioContext ac = new AudioContext();
+		AudioContext ac = AudioUtil.getBeadsContext();
 		AudioIn.instance(new AudioInputBeads(ac));
 		
 		// initialize the arrays

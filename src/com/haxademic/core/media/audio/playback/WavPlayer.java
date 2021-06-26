@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.ui.UI;
+import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -57,7 +57,6 @@ public class WavPlayer {
 	}
 	
 	public static AudioContext newAudioContext() {
-		AudioContext ctx = new AudioContext();
 		ctx.start();
 		return ctx;
 	}

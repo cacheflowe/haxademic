@@ -6,6 +6,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import beads.AudioContext;
@@ -37,7 +38,7 @@ extends PAppletHax {
 		AudioIn.instance();
 		dmx = new DMXWrapper();
 
-		ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 		sample01 = SampleManager.sample(FileUtil.getPath("audio/kit808/kick.wav"));
 		sample02 = SampleManager.sample(FileUtil.getPath("audio/kit808/snare.wav"));
 		ac.start();

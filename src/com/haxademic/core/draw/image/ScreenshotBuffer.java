@@ -1,23 +1,15 @@
 package com.haxademic.core.draw.image;
 
 import java.awt.AWTException;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
+import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.DirectColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.peer.RobotPeer;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.system.ScreenshotUtil;
 
 import processing.core.PImage;
-import sun.awt.SunToolkit;
 
 public class ScreenshotBuffer {
 
@@ -30,17 +22,8 @@ public class ScreenshotBuffer {
 	protected boolean needsUpdate = false;
 
 	// screenshot-copying props
-	protected SunToolkit toolkit;
-	protected RobotPeer robot;
+	protected Robot robot;
 	protected BufferedImage screenshot;
-
-	protected DataBufferInt buffer;
-	protected WritableRaster raster;
-	protected int[] bandmasks = new int[3];
-	protected DirectColorModel screenCapCM = new DirectColorModel(24,
-			/* red mask */    0x00FF0000,
-			/* green mask */  0x0000FF00,
-			/* blue mask */   0x000000FF);
 
 
 	public ScreenshotBuffer() {
@@ -48,27 +31,24 @@ public class ScreenshotBuffer {
 	}
 
 	public ScreenshotBuffer(Rectangle2D bound) {
+		try {
+			robot = new Robot();
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// default bounds to capture all screens 
 		bounds = (bound == null) ? ScreenshotUtil.getFullScreenBounds() : bound;
 		w = (int) bounds.getWidth();
 		h = (int) bounds.getHeight();
 		image = new PImage(w, h);
 		
-		// below ported from Java's Robot class
-		// I'm trying to just copy pixel data instead of create new BufferedImage instances, and the like
-		// init required native image objects
-		toolkit = (SunToolkit) Toolkit.getDefaultToolkit();
-		try {
-			robot = toolkit.createRobot(new Robot(), GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice());
-		} catch (HeadlessException e) { e.printStackTrace(); } catch (AWTException e) {	e.printStackTrace(); }
-		int pixels[] = robot.getRGBPixels(bounds.getBounds());
-		buffer = new DataBufferInt(pixels, pixels.length);
-		bandmasks[0] = screenCapCM.getRedMask();
-		bandmasks[1] = screenCapCM.getGreenMask();
-		bandmasks[2] = screenCapCM.getBlueMask();
-		raster = Raster.createPackedRaster(buffer, w, h, w, bandmasks, null);
-		screenshot = new BufferedImage(screenCapCM, raster, false, null);
-
+		// get new screenshot...
+		// it's okay because garbage collection :-/
+        Rectangle capture = new Rectangle((int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight());
+        screenshot = robot.createScreenCapture(capture);
+		
 		// listen for Processing post command for threaded drawing 
 		P.p.registerMethod("post", this);
 	}
@@ -99,7 +79,12 @@ public class ScreenshotBuffer {
 	
 	public void updateScreenshot() {
 		// copy screenshot pixels right into screenshot BufferedImage
-		screenshot.setRGB(0, 0, w, h, robot.getRGBPixels(bounds.getBounds()), 0, w);
+//		screenshot.setRGB(0, 0, w, h, robot.getRGBPixels(bounds.getBounds()), 0, w);
+		
+		// do old fashioned way
+        Rectangle capture = new Rectangle((int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight());
+        screenshot = robot.createScreenCapture(capture);
+
 		// save pixels directly to PImage
 		ImageUtil.copyBufferedToPImagePixels(screenshot, image);
 		// copy scaled copy if needed

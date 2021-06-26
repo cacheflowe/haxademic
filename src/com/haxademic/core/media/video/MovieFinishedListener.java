@@ -1,6 +1,6 @@
 package com.haxademic.core.media.video;
 
-import org.gstreamer.elements.PlayBin2;
+import org.freedesktop.gstreamer.elements.PlayBin;
 
 import processing.video.Movie;
 
@@ -42,9 +42,9 @@ public class MovieFinishedListener {
 	// GSTREAMER CALLBACK
 	
 	// for video library v1
-	protected PlayBin2.ABOUT_TO_FINISH FinishCallback = new PlayBin2.ABOUT_TO_FINISH() {
+	protected PlayBin.ABOUT_TO_FINISH FinishCallback = new PlayBin.ABOUT_TO_FINISH() {
 		@Override
-		public void aboutToFinish(PlayBin2 playbin) {
+		public void aboutToFinish(PlayBin playbin) {
 			delegate.videoFinished(movie);
 		}
 	};

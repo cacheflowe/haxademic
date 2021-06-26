@@ -45,7 +45,8 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);
+		boolean hasMidiUI = false;
+		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasMidiUI);
 		P.store.addListener(this);
 		
 		P.out("WebServer.DEBUG", WebServer.DEBUG);
@@ -93,10 +94,10 @@ implements IAppStoreListener {
 		}
 		
 		// override sequences on some channels
-//		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0});
-//		interphase.sequencers()[1].setPatternByInts(new int[] {0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0});
-//		interphase.sequencers()[2].setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0});
-//		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0});
+		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0});
+		interphase.sequencers()[1].setPatternByInts(new int[] {0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1});
+		interphase.sequencers()[2].setPatternByInts(new int[] {0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1});
+		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0});
 		
 		// update Interphase object every frame
 		interphase.update(null);

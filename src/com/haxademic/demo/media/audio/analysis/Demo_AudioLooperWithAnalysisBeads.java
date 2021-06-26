@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.playback.AudioPlayerBeads;
 
@@ -21,7 +22,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	}
 	
 	protected void firstFrame() {
-		ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 		ac.start();
 	
 		// oad samples

@@ -6,6 +6,7 @@ import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -40,7 +41,7 @@ public class Metronome {
 	}
 	
 	protected void initAudioContext() {
-		ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 		new AudioIn(new AudioInputBeads(ac));	// connects the audio input to the global audio frequencies getter & draws debug view
 	}
 	

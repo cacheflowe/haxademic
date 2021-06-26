@@ -16,7 +16,7 @@ extends PAppletHax {
 	float ampThreshold = 0.2f;
 	
 	protected void firstFrame() {
-		AudioIn.instance(AudioInputLibrary.ESS);
+		AudioIn.instance(AudioInputLibrary.Beads);
 
 		numElements = 40; // p.width;
 		

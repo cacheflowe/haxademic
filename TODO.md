@@ -2,12 +2,31 @@
 
 ## New ideas, TODOs
 
+* Processing 4 update
+  * Commit!
+  * Commit lib files & remove old
+  * Make Interphase pyramid demo
+    * Add UI controls to master gain
+    * Draw texture based on current sequence pattern
+    * Torus dashed demo/render
+  * Fix JavaFX WebView & demos. Needs updated JavaFX jars?
+  * Upgrade notes:
+  	* Now we can use AdoptOpenJDK's version of Java, which is more open and doesn't require a login for Oracle
+  	* JavaSound changes required an update to Beads AudioContext initialization
+  		* A huge bonus though - with Java 11, system audio input (across all audio libraries) no longer starts to lag after a few hours of running an app! This was a really annoying bug that I couldn't seem to fix
+	* Any references to `frame` need to go away
+		* DropFile library no longer works
+	* Updated JavaFX components exist in the external JavaFX library
+		* Still need to figure out the right way to import WebView, which used to come in Java 8, but was very out-of-date
+	* Webcam interface via `Capture` object is very different. No longer gives you a list of resolutions, but has other improvements based on the updates to the underlying gstreame library
+	* Video library is far more performant based on these same changes
+	* MIDI output meant for a hardware device started triggering system MIDI piano sounds
+	* [To watch] Does Robot's screenshot utility fix the old problem of screenshots getting stuck and not updating?
 * More GPGPU/curl effects
   * Splash shapes or letters onto screen
   * Start with an actual grid of pixels & displace from there
   * Build array of launch positions to colorize a color map by pixel in a 2nd draw call
 * Optical flow shader displace filter
-* Processing 4 test branch
 * Grab a row of pixels from any image to populate audio buffer AND Interphase sequencer
 * Fill a PShape with GPU particles. (check barradeu article)
 * Glitch mirror w/slit scan history but blocks on buffer difference active areas

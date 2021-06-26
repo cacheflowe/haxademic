@@ -1,5 +1,6 @@
 package com.haxademic.sketch.net;
 
+
 import com.haxademic.core.app.P;
 
 import javafx.application.Application;
@@ -27,7 +28,7 @@ extends Application {
 		
 		// create the browser
 		stage.setTitle("Web Window");
-		Scene scene = new Scene(new Browser(),750,500, Color.web("#666970"));
+		Scene scene = new Scene(new Browser(), 750, 500, Color.web("#666970"));
 		stage.setScene(scene);
 		//      scene.getStylesheets().add("webviewsample/BrowserToolbar.css");        
 		stage.show();

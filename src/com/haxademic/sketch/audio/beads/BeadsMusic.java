@@ -7,6 +7,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -41,7 +42,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 
 		// load a sample		
 		sample01 = SampleManager.sample(FileUtil.getPath("audio/kit808/kick.wav"));

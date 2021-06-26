@@ -1,6 +1,7 @@
 package com.haxademic.core.media.audio.analysis;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -31,10 +32,7 @@ implements IAudioInput {
 	protected boolean audioInput = true;
 
 	public AudioInputBeads() {
-		ac = new AudioContext();
-//		ac = new AudioContext(new beads.JavaSoundAudioIO());
-//		ac = new AudioContext(new AudioServerIO.JavaSound());
-
+		ac = AudioUtil.getBeadsContext();
 
 		ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		gain = new Gain(ac, 2);

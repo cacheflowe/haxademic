@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
 import beads.Gain;
@@ -21,7 +22,7 @@ extends PAppletHax {
 	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{' '}).addMidiNotes(new Integer[]{43});
 
 	protected void firstFrame() {
-		ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 
 		// load a sample		
 		sample01 = SampleManager.sample(FileUtil.getPath("audio/drums/booty-house.wav"));

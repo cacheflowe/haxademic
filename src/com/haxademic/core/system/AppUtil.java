@@ -16,11 +16,11 @@ import processing.core.PImage;
 
 public class AppUtil {
 	
-	public static void setFrameBackground(PApplet p, float r, float g, float b) {
-		if(p.frame != null) {
-			p.frame.setBackground(new java.awt.Color(r,g,b));
-		}
-	}
+//	public static void setFrameBackground(PApplet p, float r, float g, float b) {
+//		if(p.frame != null) {
+//			p.frame.setBackground(new java.awt.Color(r,g,b));
+//		}
+//	}
 	
 	public static void setGLWindowChromeless(PApplet p) {
 		GLWindow window = (GLWindow) p.getSurface().getNative();
@@ -42,9 +42,7 @@ public class AppUtil {
 	}
 	
 	public static void setTitle(PApplet p, String title) {
-		if(p.frame != null) {
-			p.getSurface().setTitle(title);
-		}
+		p.getSurface().setTitle(title);
 	}
 
 	public static void setAppIconJFrame(JFrame jframe, String imagePath) {

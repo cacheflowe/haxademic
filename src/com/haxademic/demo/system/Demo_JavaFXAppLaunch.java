@@ -6,6 +6,8 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.sketch.net.Demo_WebViewTestApp;
 
+import javafx.application.Application;
+
 public class Demo_JavaFXAppLaunch
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -19,7 +21,7 @@ extends PAppletHax {
         new Thread() {
             @Override
             public void run() {
-                javafx.application.Application.launch(Demo_WebViewTestApp.class);
+            	Application.launch(Demo_WebViewTestApp.class, new String[] {});
             }
         }.start();
 	}

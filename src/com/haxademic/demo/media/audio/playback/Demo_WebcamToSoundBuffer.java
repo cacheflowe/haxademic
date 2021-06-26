@@ -12,6 +12,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 
@@ -37,7 +38,7 @@ implements IWebCamCallback {
 		WebCam.instance().setDelegate(this);
 		
 		// init audio
-		AudioContext ac = new AudioContext();
+		AudioContext ac = AudioUtil.getBeadsContext();
 		AudioIn.instance(new AudioInputBeads(ac));
 	
 		// try changing Buffer.SINE to Buffer.SQUARE

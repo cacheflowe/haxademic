@@ -166,16 +166,16 @@ public class JavaInfo {
 
     }
 
-    @SuppressWarnings("deprecation")
-	public static void printSecurityInfo() throws UnknownHostException {
-        SecurityManager security = System.getSecurityManager();
-         if (security != null) {
-             out.println("security manager "+security.getClass().getName()+" in check "+security.getInCheck());
-
-         } else {
-             out.println("no security manager");
-         }
-    }
+//    @SuppressWarnings("deprecation")
+//	public static void printSecurityInfo() throws UnknownHostException {
+//        SecurityManager security = System.getSecurityManager();
+//         if (security != null) {
+//             out.println("security manager "+security.getClass().getName()+" in check "+security.getInCheck());
+//
+//         } else {
+//             out.println("no security manager");
+//         }
+//    }
 
     public static void printKeyManagerInfo() {
         out.println("key manager default algorithm "+KeyManagerFactory.getDefaultAlgorithm());      
@@ -286,15 +286,15 @@ public class JavaInfo {
 		}
         out.println("");
         out.println("****************************************");
-        out.println("SECURITY");
-        try {
-			printSecurityInfo();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-        out.println("");
-        out.println("");
-        out.println("****************************************");
+//        out.println("SECURITY");
+//        try {
+//			printSecurityInfo();
+//		} catch (UnknownHostException e) {
+//			e.printStackTrace();
+//		}
+//        out.println("");
+//        out.println("");
+//        out.println("****************************************");
         out.println("LOG");
         printLoggingInfo();
         out.println("");

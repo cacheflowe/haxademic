@@ -3,6 +3,7 @@ package com.haxademic.sketch.audio.beads;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -26,7 +27,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	}
 
 	protected void firstFrame2() {
-		  ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 		  Gain g = new Gain(ac, 2, 0.4f);
 		  g.addInput(ac.getAudioInput());
 		  ac.out.addInput(g);
@@ -47,7 +48,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	}
 		  
 	protected void firstFrame() {
-		  ac = new AudioContext();
+		ac = AudioUtil.getBeadsContext();
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		  FFT fft = new FFT();
 		  ps = new PowerSpectrum();

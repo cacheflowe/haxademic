@@ -22,6 +22,8 @@ import com.haxademic.core.system.SystemUtil;
 
 public class DropFileWindow {
 	
+	protected DropFile dropFile;
+	
 	// Built because OpenGL modes don't allow file drag & drop >:|
 
 	public interface IDropFileDelegate {
@@ -51,11 +53,12 @@ public class DropFileWindow {
 	}
 	
 	protected void initDropFileWindow() {
+		P.error("initDropFileWindow() can't run b/c no more `frame` in Processing 4");
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				P.p.frame = new DropFile();
-				P.p.frame.setVisible(true);
-				P.p.frame.setSize(320, 240);
+				dropFile = new DropFile();
+				dropFile.setVisible(true);
+				dropFile.setSize(320, 240);
 			}
 		});
 	}

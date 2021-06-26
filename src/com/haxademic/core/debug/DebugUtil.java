@@ -1,7 +1,5 @@
 package com.haxademic.core.debug;
 
-import javax.swing.JOptionPane;
-
 import com.haxademic.core.app.P;
 
 public class DebugUtil {
@@ -46,7 +44,8 @@ public class DebugUtil {
 
 	public static void alert( String message ) {
 		// more info: http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-		JOptionPane.showMessageDialog( P.p.frame, message );
+		printErr("Need new DebugUtil.alert() method");
+//		JOptionPane.showMessageDialog( P.p.frame, message );
 	}
 	
 	public static void printBig(String debugString) {

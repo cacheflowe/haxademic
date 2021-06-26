@@ -21,9 +21,11 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
+		boolean hasMidiUI = false;
+
 //		interphase = new Interphase(SequencerConfig.interphaseChannels, true);
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);
+		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasMidiUI);
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 	}
 	

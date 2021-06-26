@@ -6,7 +6,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PShape;

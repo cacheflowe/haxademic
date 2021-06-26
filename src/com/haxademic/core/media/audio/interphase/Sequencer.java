@@ -40,8 +40,8 @@ implements IAppStoreListener {
 	protected int sequencesComplete = 0;		// keeps counting up
 	protected int lastSequenceCountChangedSound = 0;
 	protected int sequenceCountChangeSound = 16;
-	protected int curStep = 0;				// 1-16
-	protected int queuedBeat = -1;			// the next beat
+	protected int curStep = 0;					// 1-16
+	protected int queuedBeat = -1;				// the next beat
 	
 	// note selection
 	protected int pitchIndex1 = 0;

@@ -6,6 +6,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.JavaInfo;
 
+import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
 
@@ -18,6 +19,7 @@ public class AudioIn {
 		Processing,
 	}
 	protected PGraphics audioInputDebugBuffer;
+	public static boolean DRAW_DEBUG = true;
 	
 	// static arrays for singleton-style usage
 	public static IAudioInput audioInput;
@@ -38,13 +40,25 @@ public class AudioIn {
 	
 	public static AudioIn instance(AudioInputLibrary lib) {
 		if(instance != null) return instance;
-		instance = new AudioIn(lib);
+		instance = new AudioIn(lib, P.p);
+		return instance;
+	}
+	
+	public static AudioIn instance(AudioInputLibrary lib, PApplet p) {
+		if(instance != null) return instance;
+		instance = new AudioIn(lib, p);
 		return instance;
 	}
 	
 	public static AudioIn instance(IAudioInput input) {
 		if(instance != null) return instance;
-		instance = new AudioIn(input);
+		instance = new AudioIn(input, P.p);
+		return instance;
+	}
+	
+	public static AudioIn instance(IAudioInput input, PApplet p) {
+		if(instance != null) return instance;
+		instance = new AudioIn(input, p);
 		return instance;
 	}
 	
@@ -63,22 +77,32 @@ public class AudioIn {
 	}
 	
 	public AudioIn(AudioInputLibrary lib) {
-		this(initAudioInput(lib));
+		this(initAudioInput(lib), P.p);
+	}
+	
+	public AudioIn(AudioInputLibrary lib, PApplet p) {
+		this(initAudioInput(lib), p);
 	}
 	
 	public AudioIn(IAudioInput input) {
+		this(input, P.p);
+	}
+	
+	public AudioIn(IAudioInput input, PApplet p) {
 		AudioIn.audioInput = input;
 		AudioIn.audioInput.update(null);	// force a build of the internal AudioStreamData object
 		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
 		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
 
 		// build debug buffer
-		audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
-		DebugView.setTexture("Audio Input", audioInputDebugBuffer);
+		if(DRAW_DEBUG) {
+			audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
+			DebugView.setTexture("Audio Input", audioInputDebugBuffer);
+		}
 		
 		// subscribe for auto draw() updates
-		P.p.registerMethod(PRegisterableMethods.pre, this);
-		P.p.registerMethod(PRegisterableMethods.keyEvent, this);
+		p.registerMethod(PRegisterableMethods.pre, this);
+		p.registerMethod(PRegisterableMethods.keyEvent, this);
 	}
 	
 	// audio object factory
@@ -173,7 +197,7 @@ public class AudioIn {
 	
 	protected void updateAudioData() {
 		// only draw if debugging
-		PGraphics audioBuffer = (P.isHaxApp() && DebugView.active() == true) ? audioInputDebugBuffer : null;
+		PGraphics audioBuffer = (P.isHaxApp() && DebugView.active() == true && DRAW_DEBUG) ? audioInputDebugBuffer : null;
 		// set up context
 		if(audioBuffer != null) {
 			audioBuffer.beginDraw();
