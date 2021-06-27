@@ -1,12 +1,13 @@
 package com.haxademic.core.media.audio;
 
-import org.jaudiolibs.beads.AudioServerIO;
-
 import beads.AudioContext;
+import beads.AudioServerIO;
 import beads.JavaSoundAudioIO;
 
 public class AudioUtil {
 
+	public static int DEFAULT_AUDIO_MIXER_INDEX = 4;
+	
 	public static void printMixerInfo() {
 		JavaSoundAudioIO.printMixerInfo();
 	}
@@ -16,7 +17,7 @@ public class AudioUtil {
 	// https://discourse.processing.org/t/solution-beads-audio-library-error-java-lang-illegalargumentexception-line-unsupported/9454/6
 	
 	public static AudioContext getBeadsContext() {
-		return getBeadsContext(4);
+		return getBeadsContext(DEFAULT_AUDIO_MIXER_INDEX);
 	}
 	
 	public static AudioContext getBeadsContextJavaSound() {

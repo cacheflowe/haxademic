@@ -1,7 +1,5 @@
 package com.haxademic.demo.media.audio.playback.multichannel;
 
-import org.jaudiolibs.beads.AudioServerIO;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -14,6 +12,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import beads.AudioContext;
+import beads.AudioServerIO;
 import beads.Gain;
 import beads.IOAudioFormat;
 import beads.Sample;
