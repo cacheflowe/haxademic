@@ -4,35 +4,22 @@
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/artnet4j/library/artnet4j.jar"/>
-
-	<!-- New Beads library causes super slow FFT updates
-	<classpathentry kind="lib" path="lib/beads/library.new/audioservers-api-2.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/audioservers-jack-2.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/audioservers-javasound-2.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/beads.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/jlayer-1.0.1.4.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/jlayer-1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/jna-5.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/jnajack-1.4.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/junit-3.8.2.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/mp3spi-1.9.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/tritonus-aos-1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/tritonus-share-0.3.7.4.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library.new/tritonus-share-1.0.0.jar"/>
-	-->
+	<classpathentry kind="lib" path="lib/beads/library/audioservers-api-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/audioservers-jack-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/audioservers-javasound-2.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/beads.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/jarjar-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/jl1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers-jack.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers-javasound.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-jnajack.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/tritonus_aos-0.3.6.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/> 
-	
+	<classpathentry kind="lib" path="lib/beads/library/jlayer-1.0.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/jlayer-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/jna-5.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/jnajack-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/junit-3.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/mp3spi-1.9.5.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tritonus-aos-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tritonus-share-0.3.7.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tritonus-share-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
+	<classpathentry kind="lib" path="lib/Drop/library/Drop.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
@@ -52,7 +39,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/jinput/native"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/jnajack/jnajack-1.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/joons.jar"/>
@@ -74,28 +60,24 @@
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
 	<classpathentry kind="lib" path="lib/poly2tri/poly2tri-core-0.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar" sourcepath="/processing-core/src"/>
-	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/pdf/library/itext.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/pdf/library/pdf.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/jssc.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/serial.jar">
+	<classpathentry kind="lib" path="lib/processing-4/core/library/core.jar" sourcepath="D:/workspace/processing/core/src"/>
+	<classpathentry kind="lib" path="lib/processing-4/core/library/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/core/library/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/javafx.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/pdf/library/itext.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/pdf/library/pdf.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/serial/library/jssc.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/serial/library/serial.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/serial/library/windows64"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-4/libraries/serial/library/windows64"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/javamp3-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/jsyn-20171016.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/sound.jar"/>
-	<!-- 
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gst1-java-core-1.2.0.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/jna.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/>
-	-->
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gstreamer-java.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/jna.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/javamp3-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/jsyn-20171016.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/sound.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/gst1-java-core-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/jna.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/video.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4-macosx-x86_64.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4-windows-x86_64.jar"/>
