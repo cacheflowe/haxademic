@@ -12,7 +12,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraTy
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.ui.UI;
 
-public class Demo_Kinect_ConfigureApp
+public class Demo_DepthCamera_ConfigureApp
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -28,10 +28,10 @@ extends PAppletHax {
 	protected String drawGradient = "drawGradient";
 
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1280 );
-		Config.setProperty( AppSettings.HEIGHT, 720 );
-		Config.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
+		Config.setProperty(AppSettings.WIDTH, 1680 );
+		Config.setProperty(AppSettings.HEIGHT, 840 );
 		Config.setProperty(AppSettings.SHOW_UI, true);
+		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
 	}
 	
 	protected void firstFrame() {
@@ -45,9 +45,9 @@ extends PAppletHax {
 		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
 		UI.addSlider(kinectBottom, DepthCameraSize.HEIGHT, DepthCameraSize.HEIGHT/2,DepthCameraSize.HEIGHT, 1, false);
-		UI.addSlider(kinectNear, 300, 300, 12000, 5, false);
-		UI.addSlider(kinectFar, 7000, 300, 12000, 5, false);
-		UI.addSlider(pixelSkip, 5, 1, 10, 1, false);
+		UI.addSlider(kinectNear, 300, 300, 12000, 10, false);
+		UI.addSlider(kinectFar, 7000, 300, 12000, 10, false);
+		UI.addSlider(pixelSkip, 5, 1, 30, 1, false);
 		UI.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
 		UI.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
 		UI.addToggle(drawGradient, false, false);
@@ -104,8 +104,10 @@ extends PAppletHax {
 		p.popMatrix();
 
 		// debug view updates
-		DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
+		DebugView.setValue("DepthCameraSize.WIDTH", DepthCameraSize.WIDTH);
+		DebugView.setValue("DepthCameraSize.HEIGHT", DepthCameraSize.HEIGHT);
 		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
+		DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
 	}
 	
 }
