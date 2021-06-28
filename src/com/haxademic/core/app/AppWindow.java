@@ -98,7 +98,7 @@ implements IAppStoreListener {
 		if(Config.getInt(AppSettings.FPS, 60) != 60) P.p.frameRate(_fps);
 		
 		// APP RESIZING
-		if(Config.getBoolean(AppSettings.RESIZABLE, false) == true) {
+		if(Config.getBoolean(AppSettings.RESIZABLE, true) == true) {
 			AppUtil.setResizable(P.p, true);
 		}
 	}
