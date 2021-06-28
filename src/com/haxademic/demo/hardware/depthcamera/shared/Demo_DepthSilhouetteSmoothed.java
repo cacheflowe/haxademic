@@ -36,7 +36,7 @@ extends PAppletHax {
 		// init depth cam
 		DepthCamera.instance(DepthCameraType.Realsense);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
-		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 5);
+		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 10);
 		
 		// add camera images to debugview
 		DebugView.setTexture("depthBuffer", depthSilhouetteSmoothed.depthBuffer());

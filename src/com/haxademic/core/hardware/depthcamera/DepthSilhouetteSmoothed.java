@@ -14,7 +14,7 @@ import processing.core.PGraphics;
 
 public class DepthSilhouetteSmoothed {
 
-	protected IDepthCamera kinectWrapper;
+	protected IDepthCamera depthCamera;
 	protected int pixelSkip = 5;
 	protected int pixelsActive = 0;
 	protected float frameBlend = 0.25f;
@@ -29,8 +29,8 @@ public class DepthSilhouetteSmoothed {
 	protected PGraphics avgBuffer;
 	protected PGraphics postBuffer;
 
-	public DepthSilhouetteSmoothed(IDepthCamera kinectWrapper, int pixelSkip) {
-		this.kinectWrapper = kinectWrapper;
+	public DepthSilhouetteSmoothed(IDepthCamera depthCamera, int pixelSkip) {
+		this.depthCamera = depthCamera;
 		this.pixelSkip = pixelSkip;
 		
 		depthBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
@@ -84,7 +84,7 @@ public class DepthSilhouetteSmoothed {
 		pixelsActive = 0;
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
-				pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
+				pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
 				if( pixelDepth != 0 && pixelDepth > DEPTH_NEAR && pixelDepth < DEPTH_FAR ) {
 					depthBuffer.pushMatrix();
 					depthBuffer.rect(x, y, 1, 1);
@@ -95,31 +95,35 @@ public class DepthSilhouetteSmoothed {
 		}
 		depthBuffer.endDraw();
 		
-		// lerp texture
-		BlendTowardsTexture.instance(P.p).setBlendLerp(frameBlend);
-		BlendTowardsTexture.instance(P.p).setSourceTexture(depthBuffer);
-		BlendTowardsTexture.instance(P.p).applyTo(avgBuffer);
-
-		// blur averaged buffer pre-threshold
-		BlurHFilter.instance(P.p).setBlurByPercent(smoothing, avgBuffer.width);
-		BlurHFilter.instance(P.p).applyTo(avgBuffer);
-		BlurVFilter.instance(P.p).setBlurByPercent(smoothing, avgBuffer.height);
-		BlurVFilter.instance(P.p).applyTo(avgBuffer);
-		
-		// clean up post copy blobs
-		ImageUtil.copyImage(avgBuffer, postBuffer);
-		BrightnessFilter.instance(P.p).setBrightness(thresholdPreBrightness);
-		BrightnessFilter.instance(P.p).applyTo(postBuffer);
-		ThresholdFilter.instance(P.p).setCutoff(thresholdCutoff);
-		ThresholdFilter.instance(P.p).applyTo(postBuffer);
-		
-		// do post blur if applicable
-		if(postBlur > 0) {
+		// if we don't want a smoothed result, we can just do the depth buffer
+		if(smoothing > 0) {
+			
+			// lerp texture
+			BlendTowardsTexture.instance(P.p).setBlendLerp(frameBlend);
+			BlendTowardsTexture.instance(P.p).setSourceTexture(depthBuffer);
+			BlendTowardsTexture.instance(P.p).applyTo(avgBuffer);
+	
 			// blur averaged buffer pre-threshold
-			BlurHFilter.instance(P.p).setBlurByPercent(postBlur, postBuffer.width);
-			BlurHFilter.instance(P.p).applyTo(postBuffer);
-			BlurVFilter.instance(P.p).setBlurByPercent(postBlur, postBuffer.height);
-			BlurVFilter.instance(P.p).applyTo(postBuffer);
+			BlurHFilter.instance(P.p).setBlurByPercent(smoothing, avgBuffer.width);
+			BlurHFilter.instance(P.p).applyTo(avgBuffer);
+			BlurVFilter.instance(P.p).setBlurByPercent(smoothing, avgBuffer.height);
+			BlurVFilter.instance(P.p).applyTo(avgBuffer);
+			
+			// clean up post copy blobs
+			ImageUtil.copyImage(avgBuffer, postBuffer);
+			BrightnessFilter.instance(P.p).setBrightness(thresholdPreBrightness);
+			BrightnessFilter.instance(P.p).applyTo(postBuffer);
+			ThresholdFilter.instance(P.p).setCutoff(thresholdCutoff);
+			ThresholdFilter.instance(P.p).applyTo(postBuffer);
+			
+			// do post blur if applicable
+			if(postBlur > 0) {
+				// blur averaged buffer pre-threshold
+				BlurHFilter.instance(P.p).setBlurByPercent(postBlur, postBuffer.width);
+				BlurHFilter.instance(P.p).applyTo(postBuffer);
+				BlurVFilter.instance(P.p).setBlurByPercent(postBlur, postBuffer.height);
+				BlurVFilter.instance(P.p).applyTo(postBuffer);
+			}
 		}
 	}
 }

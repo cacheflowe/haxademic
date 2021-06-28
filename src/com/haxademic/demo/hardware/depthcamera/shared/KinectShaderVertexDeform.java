@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -42,7 +43,7 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		DepthCamera.instance(DepthCameraType.KinectV1);
+		DepthCamera.instance(DepthCameraType.Realsense);
 		
 		UI.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
 		UI.addSlider(kinectRight, 1.06f, 0f, 2f, 0.01f, false);
@@ -71,12 +72,13 @@ extends PAppletHax {
 //		texDisplace.image(p.kinectWrapper.getDepthImage(), texDisplace.width * kinectLeft, texDisplace.height * kinectTop, texDisplace.width * kinectRight, texDisplace.height * kinectBottom);
 		texDisplace.image(depthCamera.getDepthImage(), 0, 0, texDisplace.width, texDisplace.height);
 		texDisplace.endDraw();
+		DebugView.setTexture("texDisplace", texDisplace);
 		
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texDisplace);
 		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(-100f);
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+//		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 		// set texture using PShape method
 
 		// draw mesh

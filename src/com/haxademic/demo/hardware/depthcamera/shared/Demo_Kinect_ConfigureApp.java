@@ -25,6 +25,7 @@ extends PAppletHax {
 	protected String pixelSkip = "pixelSkip";
 	protected String depthDivider = "depthDivider";
 	protected String pixelDrawSize = "pixelDrawSize";
+	protected String drawGradient = "drawGradient";
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -49,6 +50,7 @@ extends PAppletHax {
 		UI.addSlider(pixelSkip, 5, 1, 10, 1, false);
 		UI.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
 		UI.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
+		UI.addToggle(drawGradient, false, false);
 	}
 
 	protected void drawApp() {
@@ -91,7 +93,7 @@ extends PAppletHax {
 				if( pixelDepth != 0 && pixelDepth > kNear && pixelDepth < kFar ) {
 					p.pushMatrix();
 					p.translate(0, 0, -pixelDepth/depthDiv);
-					p.fill(P.map(pixelDepth, kNear, kFar, 255, 0));
+					p.fill((UI.valueToggle(drawGradient)) ? P.map(pixelDepth, kNear, kFar, 255, 0) : 255);
 					p.rect(x, y, pixelsize, pixelsize);
 					p.popMatrix();
 					numPixelsProcessed++;

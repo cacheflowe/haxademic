@@ -50,7 +50,7 @@ extends PAppletHax {
 	}
 
 	protected void drawApp() {
-		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		IDepthCamera depthCamera = DepthCamera.instance(DepthCameraType.Realsense).camera;
 		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();

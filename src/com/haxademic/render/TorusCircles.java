@@ -154,7 +154,6 @@ extends PAppletHax {
 			// draw text
 			String fontFile = DemoAssets.fontRalewayPath;
 			float fontSize = p.height * 0.035f;
-			float heightHalf = fontSize/2; 
 			PFont font = FontCacher.getFont(fontFile, fontSize);
 			FontCacher.setFontOnContext(p.g, font, p.color(240), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
 			p.g.text("\"No, You're a Torus\"".toUpperCase(), 0, p.height - fontSize * 4.35f, p.width, fontSize * 3f);
