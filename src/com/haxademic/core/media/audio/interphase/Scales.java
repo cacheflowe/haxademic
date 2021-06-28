@@ -45,7 +45,7 @@ implements IAppStoreListener {
 	
 	public void newBeat(int beat) {
 		// change scale sometimes
-		if(beat % BEATS_PER_SCALE_CHANGE == 0 && P.store.getBoolean(Interphase.PATTERNS_AUTO_MORPH)) {
+		if(beat % BEATS_PER_SCALE_CHANGE == 0 && P.store.getBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE)) {
 			setScaleIndex(MathUtil.randRange(0, SCALES.length - 1));
 		}
 	}

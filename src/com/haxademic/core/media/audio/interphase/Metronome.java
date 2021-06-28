@@ -136,6 +136,12 @@ public class Metronome {
 		player.setPitch(id, -pitchShift * 12f);
 	}
 	
-
+	public static float loopProgress() {
+		float bpm = P.store.getFloat(Interphase.BPM);
+		float loopTime = Interphase.NUM_STEPS * Metronome.bpmToIntervalMS(bpm, 1);
+		float loopFrames = loopTime / 1000f * 60;
+		float loopProgress = (P.p.frameCount % loopFrames) / loopFrames;
+		return loopProgress;
+	}
 	
 }

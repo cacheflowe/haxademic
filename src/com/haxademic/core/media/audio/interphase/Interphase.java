@@ -36,7 +36,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// state
 	
 	public static final String CUR_SCALE_INDEX = "CUR_SCALE_INDEX";
-	public static final String PATTERNS_AUTO_MORPH = "PATTERNS_AUTO_MORPH";
+	public static final String GLOBAL_PATTERNS_EVLOVE = "GLOBAL_PATTERNS_EVLOVE";
 	public static boolean SYSTEM_MUTED = false;
 
 	// input 
@@ -72,7 +72,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase(SequencerConfig[] interphaseChannels, boolean hasUI) {
+	public Interphase(SequencerConfig[] interphaseChannels, boolean hasUI, boolean hasMIDI) {
 		NUM_WALLS = interphaseChannels.length;
 		this.hasUI = hasUI;
 		
@@ -83,7 +83,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 		P.store.setNumber(SEQUENCER_TRIGGER, 0);
-		P.store.setBoolean(PATTERNS_AUTO_MORPH, true);
+		P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, true);
 		P.store.addListener(this);
 		
 		// build music machine
@@ -94,13 +94,14 @@ implements IAppStoreListener, ILaunchpadCallback {
 			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
 		}
 		
-		if(hasUI) {
+		if(hasMIDI) {
 			// build launchpad
 			launchpad1 = new LaunchPad(0, 3);
 			launchpad1.setDelegate(this);
 			launchpad2 = new LaunchPad(1, 4);
 			launchpad2.setDelegate(this);
-			
+		}			
+		if(hasUI) {
 			// alternate UI buttons
 			for (int i = 0; i < 16; i++) {
 				P.out("Interphase TODO: make UI buttons dynamic per number of channels");
@@ -124,6 +125,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public Sequencer[] sequencers() {
 		return sequencers;
+	}
+	
+	public Sequencer sequencerAt(int index) {
+		return sequencers[index];
 	}
 	
 	/////////////////////////////////
@@ -239,20 +244,23 @@ implements IAppStoreListener, ILaunchpadCallback {
 	/////////////////////////////////
 	
 	protected void checkInputs() {
-		if(trigger1.triggered()) sequencers[0].evolvePattern(true);
-		if(trigger2.triggered()) sequencers[1].evolvePattern(true);
-		if(trigger3.triggered()) sequencers[2].evolvePattern(true);
-		if(trigger4.triggered()) sequencers[3].evolvePattern(true);
-		if(trigger5.triggered()) sequencers[4].evolvePattern(true);
-		if(trigger6.triggered()) sequencers[5].evolvePattern(true);
-		if(trigger7.triggered()) sequencers[6].evolvePattern(true);
-		if(trigger8.triggered()) sequencers[7].evolvePattern(true);
-		
+		// sample triggers & evolve
+		if(trigger1.triggered()) { sequencers[0].evolvePattern(); sequencers[0].triggerSample(); }
+		if(trigger2.triggered()) { sequencers[1].evolvePattern(); sequencers[1].triggerSample(); }
+		if(trigger3.triggered()) { sequencers[2].evolvePattern(); sequencers[2].triggerSample(); }
+		if(trigger4.triggered()) { sequencers[3].evolvePattern(); sequencers[3].triggerSample(); }
+		if(trigger5.triggered()) { sequencers[4].evolvePattern(); sequencers[4].triggerSample(); }
+		if(trigger6.triggered()) { sequencers[5].evolvePattern(); sequencers[5].triggerSample(); }
+		if(trigger7.triggered()) { sequencers[6].evolvePattern(); sequencers[6].triggerSample(); }
+		if(trigger8.triggered()) { sequencers[7].evolvePattern(); sequencers[7].triggerSample(); }
+
+		// bpm
 		int curBmpMIDI = P.store.getInt(Interphase.BPM);
 		if(triggerDown.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1);
 		if(triggerUp.triggered())  P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
 
-		if(trigger9.triggered()) P.store.setBoolean(PATTERNS_AUTO_MORPH, !P.store.getBoolean(PATTERNS_AUTO_MORPH));
+		// global settings
+		if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
 	}
 	
 	public void update(PGraphics pg) {
@@ -269,6 +277,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// update sequencers & draw to wall PG. also set overall user activity for tempo change
 		float numWallsInteracted = 0;
 		for (int i = 0; i < sequencers.length; i++) {
+			sequencers[i].update();
 			if(sequencers[i].userInteracted()) numWallsInteracted++;
 		}
 		P.store.setNumber(INTERACTION_SPEED_MULT, numWallsInteracted);
@@ -278,7 +287,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		DebugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
 		DebugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
 		DebugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
-		DebugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
+		DebugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
 		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
 		DebugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
@@ -348,7 +357,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 //		P.out("Interphase.noteOn", launchpadNumber, note, value);
 		if(launchpadNumber == 1) {
 			for (int i = 0; i < 8; i++) {
-				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(true); 
+				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(); 
 			}
 		} else {
 			// change sample

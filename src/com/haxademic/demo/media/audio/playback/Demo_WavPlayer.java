@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -22,6 +23,7 @@ extends PAppletHax {
 	protected String soundbed = "data/audio/communichords/bass/operator-organ-bass.aif";
 	
 	protected void firstFrame() {
+		AudioUtil.printMixerInfo();
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.sharedContext());
 //		player2 = new WavPlayer(WavPlayer.newAudioContext());

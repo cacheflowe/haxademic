@@ -8,17 +8,15 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternUtil;
 import com.haxademic.core.data.store.IAppStoreListener;
-import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.math.easing.LinearFloat;
 
 import beads.AudioContext;
 import beads.Envelope;
 import beads.Gain;
 import beads.Glide;
 import beads.KillTrigger;
+import beads.Reverb;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
@@ -28,20 +26,18 @@ import processing.core.PImage;
 public class Sequencer
 implements IAppStoreListener {
 	
-	// app & buffer
-	protected Interphase p;
-	protected PGraphics buffer;
-	protected PGraphics bufferOver;
+	// app
+	protected Interphase inter;
 	protected boolean muted = false;
 	protected SequencerConfig config;
 	
 	// beats & beat offset
-	protected int index;						// wall index number
-	protected int sequencesComplete = 0;		// keeps counting up
+	protected int index;							// wall index number
+	protected int sequencesComplete = 0;			// keeps counting up
 	protected int lastSequenceCountChangedSound = 0;
 	protected int sequenceCountChangeSound = 16;
-	protected int curStep = 0;					// 1-16
-	protected int queuedBeat = -1;				// the next beat
+	protected int curStep = 0;						// 1-16
+	protected int manualTriggerQueuedIndex = -1;	// the next beat
 	
 	// note selection
 	protected int pitchIndex1 = 0;
@@ -68,20 +64,6 @@ implements IAppStoreListener {
 	protected int sampleTriggerCount = 0;
 	protected boolean evolves = true;
 
-	// colors
-	protected static final int COLOR_INT_WHITE = 0xffffffff;
-	protected static final int COLOR_INT_BLACK = 0xff000000;
-	protected static final int COLOR_INT_CLEAR = 0x00ffffff;
-	protected int ledColor;
-	protected int wallIntColor;
-	protected EasingFloat wallColorMultiplier = new EasingFloat(0, 5);				// used to shift lighter & darker on the beat
-	protected EasingColor wallColorEasedBase = new EasingColor(COLOR_INT_WHITE, 14);	// wall color without white fade
-	protected EasingColor wallEaseColorFaded = new EasingColor(COLOR_INT_WHITE, 8);	// wall color with white fade
-	protected EasingColor stepColors[];
-	protected EasingColor stepActiveColors[];
-	protected LinearFloat stepCirclesProgress[];
-	protected LinearFloat stepFlashProgress[];
-
 	// audio sample playback objects
 	protected Sample curSample;
 	protected int curSampleIndex = 0;
@@ -94,16 +76,17 @@ implements IAppStoreListener {
 	protected String[] filenames;
 	protected boolean useASDR = true;
 	protected float triggerDelay = 0;
+
+	// draw object
+	protected ISequencerDrawable drawable;
 	
-	public Sequencer(Interphase i, SequencerConfig config) {
+	public Sequencer(Interphase inter, SequencerConfig config) {
 		this.config = config;
 		this.index = config.index;
 		this.audioDir = config.audioPath;
 		this.sequencerPatterns = config.patterns;
-		p = i;
-		// new Thread(new Runnable() { public void run() {
-			getAudiofiles(audioDir);
-		// }}).start();	
+		this.inter = inter;
+		getAudiofiles(audioDir);
 		loadNextSound();
 		initStepValues();
 		updateChangeSoundCount();
@@ -135,18 +118,10 @@ implements IAppStoreListener {
 	
 	protected void initStepValues() {
 		steps = new boolean[Interphase.NUM_STEPS];
-		stepColors = new EasingColor[Interphase.NUM_STEPS];
-		stepActiveColors = new EasingColor[Interphase.NUM_STEPS];
-		stepCirclesProgress = new LinearFloat[Interphase.NUM_STEPS];
-		stepFlashProgress = new LinearFloat[Interphase.NUM_STEPS];
 		for (int i = 0; i < Interphase.NUM_STEPS; i++) {
 			steps[i] = false;
-			stepColors[i] = new EasingColor(0xffffffff, 8);
-			stepActiveColors[i] = new EasingColor(0xffffffff, 8);
-			stepCirclesProgress[i] = new LinearFloat(0, 0.05f);
-			stepFlashProgress[i] = new LinearFloat(0, 0.05f);
 		}
-		evolvePattern(false);
+		evolvePattern();
 	}
 	
 	protected void newRandomPattern() {
@@ -156,31 +131,11 @@ implements IAppStoreListener {
 	}
 	
 	/////////////////////////////////////
-	// GETTERS
+	// GETTERS / SETTERS
 	/////////////////////////////////////
 	
-	public PGraphics image() {
-		return buffer;
-	}
-
 	public boolean muted() {
 		return muted;
-	}
-	
-	public int wallColorFaded() {
-		return wallEaseColorFaded.colorInt(wallColorMultiplier.value());
-	}
-	
-	public EasingColor wallColor() {
-		return wallColorEasedBase;
-	}
-	
-//	public int wallColor() {
-//		return wallEaseColorFaded.colorInt(wallColorMultiplier.value());
-//	}
-	
-	public EasingColor wallColorPrev() {
-		return p.sequencers[(index + 7) % Interphase.NUM_WALLS].wallColor();
 	}
 	
 	protected boolean stepActive(int i) {
@@ -201,10 +156,6 @@ implements IAppStoreListener {
 		return shouldPlay;
 	}
 	
-	public boolean userInteracted() {
-		return P.p.millis() < manualTriggerTime + Interphase.TRIGGER_TIMEOUT;
-	}
-	
 	public boolean toggleEvloves() {
 		evolves = !evolves;
 		return evolves;
@@ -223,6 +174,22 @@ implements IAppStoreListener {
 		curSample = samples[curSampleIndex];
 	}
 	
+	public boolean userInteracted() {
+		return P.p.millis() < manualTriggerTime + Interphase.TRIGGER_TIMEOUT;
+	}
+	
+	public void update() {
+		if(drawable != null) drawable.update(steps, curStep); 
+	}
+	
+	public void setDrawable(ISequencerDrawable drawable) {
+		this.drawable = drawable;
+	}
+	
+	public ISequencerDrawable getDrawable() {
+		return drawable;
+	}
+	
 	/////////////////////////////////////
 	// INPUT
 	/////////////////////////////////////
@@ -231,21 +198,33 @@ implements IAppStoreListener {
 		muted = !muted;
 	}
 	
-	public void evolvePattern(boolean isManual) {
+	public void setMute(boolean muted) {
+		this.muted = muted;
+	}
+	
+	public void triggerSample() {
 		// keep track of manual input time
-		if(isManual) {
+//		if(isManual) {
 			manualTriggerTime = P.p.millis();
 			sampleTriggerCount++;
 			// queue up for manual jamming
-			queuedBeat = (curStep + 1) % Interphase.NUM_STEPS;
-		} else {
-			// if user interaction timed out, advance trigger count for slower pattern switching & morphing below
-			if(userInteracted() == false) {
-				sampleTriggerCount++;
-			}
-		}
+			manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
+//		} else {
+//			// if user interaction timed out, advance trigger count for slower pattern switching & morphing below
+//			if(userInteracted() == false) {
+//				sampleTriggerCount++;
+//			}
+//		}
 		
-		if(evolves == true && (P.store.getBoolean(Interphase.PATTERNS_AUTO_MORPH) || isManual)) {
+	}
+	
+	/////////////////////////////////////
+	// EVOLVE
+	/////////////////////////////////////
+	
+	public void evolvePattern() {
+		if(!P.store.getBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE)) return;
+		if(evolves == true) {
 			// every 4 sample triggers, make a bigger evoloving change
 			// new pattern, note & note props
 			if(sampleTriggerCount % 4 == 0) {
@@ -455,70 +434,8 @@ implements IAppStoreListener {
 			// load a new sound on a random interval
 			checkLoadNewSound();
 			// every 8 cycles, trigger
-			if(P.round(sequencesComplete) % Interphase.NUM_WALLS == index) evolvePattern(false);
+			if(P.round(sequencesComplete) % Interphase.NUM_WALLS == index) evolvePattern();
 		}
-		
-		// toggle wall color multiplier
-		if(curStep % 2 == 0) {
-			if(curStep % 4 == 0) {
-				wallColorMultiplier.setTarget(1.1f);
-			} else {
-				wallColorMultiplier.setTarget(0.9f);
-			}
-		}
-		
-		// set 16 step colors
-		for (int i = 0; i < Interphase.NUM_STEPS; i++) {
-			
-			///////////////////////////////////////
-			// set playhead step color blocks
-			///////////////////////////////////////
-			if(curStep == i) {
-				stepColors[i].setCurrentInt(COLOR_INT_WHITE);		// current beat
-				if(stepActive(i)) {
-					stepColors[i].setTargetInt(COLOR_INT_WHITE);		// active
-				} else {
-					stepColors[i].setTargetInt(COLOR_INT_WHITE);		// inactive
-				}
-			} else if(stepActive(i)) {
-				stepColors[i].setTargetInt(COLOR_INT_BLACK); 		// active step
-			} else {
-				stepColors[i].setTargetInt(COLOR_INT_CLEAR);			// inactive step
-			}
-			
-			///////////////////////////////////////
-			// set active step color dots
-			///////////////////////////////////////
-			if(curStep == i && stepActive(i)) {
-				stepActiveColors[i].setTargetInt(COLOR_INT_BLACK); 		// current & active step
-			} else if(stepActive(i)) {
-				stepActiveColors[i].setTargetInt(ledColor); 				// active step
-			} else {
-				stepActiveColors[i].setTargetInt(COLOR_INT_CLEAR);		// inactive step
-			}
-			
-			///////////////////////////////////////
-			// set circle splashes progress
-			///////////////////////////////////////
-			if(curStep == i && stepActive(i)) {
-				stepCirclesProgress[i].setCurrent(0f); 					// current & active step
-				stepCirclesProgress[i].setTarget(1f); 					// current & active step
-			} else if(i == queuedBeat) {
-				stepCirclesProgress[i].setCurrent(0f); 					// current & queued step
-				stepCirclesProgress[i].setTarget(1f); 					// current & queued step
-			} else if(stepActive(i)) {
-				stepCirclesProgress[i].setTarget(1f); 					// current & active step
-			} else {
-				stepCirclesProgress[i].setTarget(1f); 					// current & active step
-			}
-			
-		}
-		
-		// override current colors if user interaction should flash the wall
-//		if(queuedBeat != -1) {
-//			for (int i = 0; i < stepColors.length; i++) stepColors[i].setCurrentInt(COLOR_INT_WHITE);
-//		}
-
 		
 		// trigger sound! queue up so Metronome can trigger it within main audio thread/context
 		if(stepActive(curStep)) {
@@ -526,9 +443,9 @@ implements IAppStoreListener {
 		}
 		
 		// if step is quantized/queued from user interaction, play that!
-		if(curStep == queuedBeat) { 
+		if(curStep == manualTriggerQueuedIndex) { 
 			shouldPlay = true;
-			queuedBeat = -1;
+			manualTriggerQueuedIndex = -1;
 		}
 		
 		// playhead restarted, flash LEDs
@@ -546,6 +463,7 @@ implements IAppStoreListener {
 		if(key.equals(Interphase.BEAT)) {
 			int newBeat = val.intValue();
 			int offset = 0; // index * 2; // 8 / 16
+//			offset = index * 4;
 			newBeat = (newBeat - offset + Interphase.NUM_STEPS) % Interphase.NUM_STEPS; // do loop and offset per panel
 			if(newBeat != curStep) {
 				curStep = newBeat;

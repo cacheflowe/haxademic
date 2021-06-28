@@ -45,8 +45,9 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		boolean hasMidiUI = false;
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasMidiUI);
+		boolean hasUI = true;
+		boolean hasMidi = false;
+		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI, hasMidi);
 		P.store.addListener(this);
 		
 		P.out("WebServer.DEBUG", WebServer.DEBUG);
@@ -84,7 +85,7 @@ implements IAppStoreListener {
 		// update music playback
 		// overall interphase props
 		P.store.setNumber(Interphase.BPM, UI.value(GLOBAL_BPM));
-		P.store.setBoolean(Interphase.PATTERNS_AUTO_MORPH, UI.valueToggle(GLOBAL_EVOLVES));
+		P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, UI.valueToggle(GLOBAL_EVOLVES));
 		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(CUR_SCALE));
 		
 		// set current instruments
