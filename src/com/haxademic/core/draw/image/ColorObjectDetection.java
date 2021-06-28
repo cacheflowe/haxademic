@@ -37,8 +37,6 @@ public class ColorObjectDetection {
 		bufferH = P.round(scale * sourceImg.height);
 		source = PG.newPG2DFast(bufferW, bufferH);
 		analysisBuffer = PG.newPG2DFast(bufferW, bufferH);
-//		source.noSmooth();
-//		analysisBuffer.noSmooth();
 		colorDistanceFilter = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
 	}
@@ -128,7 +126,6 @@ public class ColorObjectDetection {
 		InvertFilter.instance(P.p).applyTo(analysisBuffer);
 		ThresholdFilter.instance(P.p).setCutoff(colorClosenessThreshold);
 		ThresholdFilter.instance(P.p).applyTo(analysisBuffer);
-		// ErosionFilter.instance(P.p).applyTo(bufferOutput);
 		
 		// loop through pixels
 		totalChecked = 0;
@@ -165,11 +162,15 @@ public class ColorObjectDetection {
 		if(debugging) {
 			analysisBuffer.beginDraw();
 			PG.setDrawCenter(analysisBuffer);
-			analysisBuffer.fill(0, 255, 0);
+			if(isActive()) {
+				analysisBuffer.fill(0, 255, 0);
+			} else {
+				analysisBuffer.fill(255, 0, 0);
+			}
 			analysisBuffer.noStroke();
 			analysisBuffer.ellipse(x.value() * analysisBuffer.width, y.value() * analysisBuffer.height, 10, 10);
 			analysisBuffer.endDraw();
-
+			
 			DebugView.setValue("BufferColorObjectDetection time", (P.p.millis() - analyzeStart)+"ms");
 			DebugView.setValue("BufferColorObjectDetection totalChecked", totalChecked);
 		}

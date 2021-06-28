@@ -30,8 +30,14 @@ public class DepthSilhouetteSmoothed {
 	protected PGraphics postBuffer;
 
 	public DepthSilhouetteSmoothed(IDepthCamera depthCamera, int pixelSkip) {
+		this(depthCamera, pixelSkip, DEPTH_NEAR, DEPTH_FAR);
+	}
+	
+	public DepthSilhouetteSmoothed(IDepthCamera depthCamera, int pixelSkip, int depthNear, int depthFar) {
 		this.depthCamera = depthCamera;
 		this.pixelSkip = pixelSkip;
+		DEPTH_NEAR = depthNear;
+		DEPTH_FAR = depthFar;
 		
 		depthBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
 		avgBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
