@@ -10,7 +10,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
-import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -59,7 +58,6 @@ extends PAppletHax {
 		pg.blendMode(PBlendModes.ADD);
 
 		// automate camera
-		// move camera
 		float cameraXRot = 0;
 		if(animStyle == 0) {
 			cameraProgress.setCompleteThreshold(0.000001f);
@@ -83,12 +81,12 @@ extends PAppletHax {
 //		PG.basicCameraFromMouse(pg);
 		
 		// draw torus
-		float torii = 36f;
-		float segmentRads = P.TWO_PI / torii;
+		float circles = 36f;
+		float segmentRads = P.TWO_PI / circles;
 		float size20p = pg.height * 0.2f;
-		for (int i = 0; i < torii; i++) {
+		for (int i = 0; i < circles; i++) {
 			float curRads = segmentRads * i;
-			curRads += FrameLoop.progressRads() / (torii / 6f);	// 6 places moved from circle start to finish 
+			curRads += FrameLoop.progressRads() / (circles / 6f);	// 6 places moved from circle start to finish for seamless loop
 			float yOffset = size20p * P.sin(curRads);
 			float radiusOffset = size20p * 0.95f * P.sin(P.HALF_PI + curRads);
 			
@@ -145,6 +143,7 @@ extends PAppletHax {
 		p.image(pg, 0, 0, p.width, p.height);
 
 		if(animStyle == 0) {
+			// add frame
 			InvertFilter.instance(p).applyTo(pg);
 			p.background(20);
 			p.fill(100);
