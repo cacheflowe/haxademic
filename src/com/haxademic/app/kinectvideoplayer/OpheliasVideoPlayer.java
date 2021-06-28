@@ -15,7 +15,7 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSilhouetteVectorField;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.midi.MidiState;
@@ -375,13 +375,13 @@ extends PAppletHax {
 	
 	
 	public class KinectLayer extends MovieLayer {
-		public KinectSilhouetteVectorField _silhouette;
+		public DepthCameraSilhouetteVectorField _silhouette;
 		public KinectLayer() {
 			super(null);
 			_whiteOverlayAlpha = 4;
 			BlurHFilter.instance(p).setBlurByPercent(0.3f, _curFrame.width);
 			BlurVFilter.instance(p).setBlurByPercent(0.3f, _curFrame.height);
-			_silhouette = new KinectSilhouetteVectorField(false, true);
+			_silhouette = new DepthCameraSilhouetteVectorField(false, true);
 		}
 		
 		public PImage imageToProcess() {

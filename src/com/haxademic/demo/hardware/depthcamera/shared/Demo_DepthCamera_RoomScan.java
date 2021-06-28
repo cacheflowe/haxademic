@@ -10,18 +10,18 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.BufferThresholdMonitor;
 import com.haxademic.core.draw.text.FontCacher;
-import com.haxademic.core.hardware.depthcamera.KinectRoomScanDiff;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRoomScanDiff;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
 
-public class Demo_Kinect_RoomScan
+public class Demo_DepthCamera_RoomScan
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected KinectRoomScanDiff kinectDiff;
+	protected DepthCameraRoomScanDiff kinectDiff;
 	protected boolean needsDelayedReset = false;
 	
 	protected String colorDiffThresh = "colorDiffThresh";
@@ -44,7 +44,7 @@ extends PAppletHax {
 		// Choose depthImageMode vs raw depth data method.
 		// Depending on whether the camera re-calibrates the depth image, we might need to go with pixel data
 //		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera, 3, true);
-		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera, 8, false);
+		kinectDiff = new DepthCameraRoomScanDiff(DepthCamera.instance().camera, 8, false);
 		
 		// build ui
 		UI.addSlider(colorDiffThresh, 0.005f, 0f, 1f, 0.001f, false);

@@ -16,7 +16,7 @@ import com.haxademic.core.math.MathUtil;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-public class KinectRoomScanDiff {
+public class DepthCameraRoomScanDiff {
 
 	protected IDepthCamera depthCamera;
 	protected PGraphics roomScanBuffer;
@@ -42,11 +42,11 @@ public class KinectRoomScanDiff {
 	protected float smoothLerp = 0.15f;
 	protected boolean erodes = true;
 	
-	public KinectRoomScanDiff(IDepthCamera kinectWrapper) {
+	public DepthCameraRoomScanDiff(IDepthCamera kinectWrapper) {
 		this(kinectWrapper, 3, true);
 	}
 	
-	public KinectRoomScanDiff(IDepthCamera kinectWrapper, int pixelSkip, boolean depthImageMode) {
+	public DepthCameraRoomScanDiff(IDepthCamera kinectWrapper, int pixelSkip, boolean depthImageMode) {
 		this.depthCamera = kinectWrapper;
 		this.pixelSkip = pixelSkip;
 		this.depthImageMode = depthImageMode;

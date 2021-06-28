@@ -9,7 +9,7 @@ import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
 
-public class KinectRegion
+public class DepthCameraRegion
 extends BaseJoystick
 implements IJoystickControl {
 	
@@ -25,7 +25,7 @@ implements IJoystickControl {
 	protected int debugColor = -1;
 	protected int pixelCount = 0;
 	
-	public KinectRegion(int left, int right, int near, int far, int top, int bottom, int pixelSkip, int minPixels, int debugColor) {
+	public DepthCameraRegion(int left, int right, int near, int far, int top, int bottom, int pixelSkip, int minPixels, int debugColor) {
 		this.left = left;
 		this.right = right;
 		this.near = near;

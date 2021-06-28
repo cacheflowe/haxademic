@@ -22,7 +22,7 @@ import com.haxademic.core.ui.UI;
 import processing.core.PFont;
 import processing.core.PImage;
 
-public class Demo_Kinect_RunDetector
+public class Demo_DepthCamera_RunDetector
 extends PAppletHax
 implements IEasingBooleanCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

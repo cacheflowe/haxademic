@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
-import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRegionGrid;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
@@ -22,7 +22,7 @@ extends PAppletHax {
 	protected boolean audioActive = false;
 	protected LinearFloat fadeOut = new LinearFloat(0, 0.05f);
 	
-	protected KinectRegionGrid kinectRegionGrid;
+	protected DepthCameraRegionGrid kinectRegionGrid;
 	protected LinearFloat dimmer = new LinearFloat(0, 0.05f);
 
 
@@ -43,7 +43,7 @@ extends PAppletHax {
 		int PLAYER_MIN_PIXELS = Config.getInt( "player_min_pixels", 10 );
 		
 		// build input!
-		kinectRegionGrid = new KinectRegionGrid(NUM_PLAYERS, 1, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
+		kinectRegionGrid = new DepthCameraRegionGrid(NUM_PLAYERS, 1, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 
 	protected void drawApp() {

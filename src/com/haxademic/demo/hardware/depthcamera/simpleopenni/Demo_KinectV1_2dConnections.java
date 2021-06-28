@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.toxi.VectorFlyerToxi;
-import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.SkeletonsTrackerKinectV1;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -24,7 +24,7 @@ public class Demo_KinectV1_2dConnections
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected SkeletonsTracker _skeletonTracker;
+	protected SkeletonsTrackerKinectV1 _skeletonTracker;
 	protected PGraphics _texture;
 	
 	protected void config() {
@@ -37,7 +37,7 @@ extends PAppletHax {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		// do something
-		_skeletonTracker = new SkeletonsTracker();
+		_skeletonTracker = new SkeletonsTrackerKinectV1();
 		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 	}
 	

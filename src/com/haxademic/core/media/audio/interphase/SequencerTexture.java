@@ -1,16 +1,13 @@
 package com.haxademic.core.media.audio.interphase;
 
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.math.easing.LinearFloat;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 public class SequencerTexture
 implements ISequencerDrawable {

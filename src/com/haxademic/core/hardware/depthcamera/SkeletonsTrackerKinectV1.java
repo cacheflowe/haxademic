@@ -15,7 +15,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 import toxi.geom.Vec3D;
 
-public class SkeletonsTracker {
+public class SkeletonsTrackerKinectV1 {
 	
 	protected PAppletHax p;
 	public KinectWrapperV1 _kinectContext;
@@ -36,7 +36,7 @@ public class SkeletonsTracker {
 	protected PImage testHead;
 	protected PImage testHand;
 	
-	public SkeletonsTracker() {
+	public SkeletonsTrackerKinectV1() {
 		p = (PAppletHax) P.p;
 		// Set Kinect user/skeleton tracking - most of the setup and updating happens in PAppletHax
 		//_kinectContext = p.kinectWrapper.openni();

@@ -10,8 +10,8 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
-import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRegionGrid;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSilhouetteVectorField;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 
@@ -27,7 +27,7 @@ extends PAppletHax {
 	
 	protected boolean _isDebug = false;
 	
-	protected KinectRegionGrid _kinectGrid;
+	protected DepthCameraRegionGrid _kinectGrid;
 	protected int _lastPlayerTime = 0;
 	
 	protected KinectLayer _kinectLayer;
@@ -62,7 +62,7 @@ extends PAppletHax {
 		buildCanvas();
 		loadGalleryImages();
 		_kinectLayer = new KinectLayer();
-		_kinectGrid = new KinectRegionGrid(1, 1, Config.getInt("kinect_close", 0), Config.getInt("kinect_far", 0), 0, 0, 480, 20, 10);
+		_kinectGrid = new DepthCameraRegionGrid(1, 1, Config.getInt("kinect_close", 0), Config.getInt("kinect_far", 0), 0, 0, 480, 20, 10);
 		buildText();
 		newImageForNewPlayers();
 	}
@@ -146,13 +146,13 @@ extends PAppletHax {
 	
 	public class KinectLayer {
 
-		public KinectSilhouetteVectorField _silhouette;
+		public DepthCameraSilhouetteVectorField _silhouette;
 		protected float[] _cropProps = null;
 		protected PGraphics _particleMask;
 		protected PGraphics _galleryImg;
 
 		public KinectLayer() {
-			_silhouette = new KinectSilhouetteVectorField(false, true);
+			_silhouette = new DepthCameraSilhouetteVectorField(false, true);
 			initImageBuffer();
 		}
 		

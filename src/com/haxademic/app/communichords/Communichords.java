@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRegionGrid;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
@@ -94,7 +94,7 @@ extends PAppletHax {
 //		if(Config.getBoolean("leap_active", false) == true) {
 //			_joysticks = new LeapRegionGrid(NUM_PLAYERS, 1, 1, 0f);
 //		} else if(Config.getBoolean("kinect_active", false) == true) {
-			_joysticks = new KinectRegionGrid(
+			_joysticks = new DepthCameraRegionGrid(
 				NUM_PLAYERS, 
 				1, 
 				Config.getInt("kinect_min_mm", -1), 

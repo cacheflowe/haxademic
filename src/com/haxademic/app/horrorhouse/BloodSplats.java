@@ -11,7 +11,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
+import com.haxademic.core.hardware.depthcamera.DepthCameraAmbientActivityMonitor;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -45,7 +45,7 @@ extends PAppletHax {
 	protected PShader _blurV;
 	
 	protected Minim minim;
-	protected KinectAmbientActivityMonitor _kinectMonitor;
+	protected DepthCameraAmbientActivityMonitor _kinectMonitor;
 	
 	protected PImage _horrorhouse;
 	protected boolean _logoShowing = true;
@@ -94,7 +94,7 @@ extends PAppletHax {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		_kinectActive = depthCamera.isActive();
 		
-		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
+		if( _kinectActive == true ) _kinectMonitor = new DepthCameraAmbientActivityMonitor( 20, 500, 15000 );
 		
 		_vidClips = new ArrayList<Movie>();
 		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_02.mov")) );

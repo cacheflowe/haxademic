@@ -3,11 +3,11 @@ package com.haxademic.core.hardware.depthcamera;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 
-public class KinectUserDetection {
+public class DepthCameraUserDetection {
 
-	protected KinectRegionGrid kinectRegionGrid;
+	protected DepthCameraRegionGrid kinectRegionGrid;
 
-	public KinectUserDetection(int cols, int rows) {
+	public DepthCameraUserDetection(int cols, int rows) {
 		// build detection grid
 		int KINECT_MIN_DIST = 	Config.getInt( "kinect_min_mm", 500 );
 		int KINECT_MAX_DIST = 	Config.getInt( "kinect_max_mm", 1000 );
@@ -16,7 +16,7 @@ public class KinectUserDetection {
 		int KINECT_PLAYER_GAP = Config.getInt( "kinect_player_gap", 0 );
 		int KINECT_PIXEL_SKIP = Config.getInt( "kinect_pixel_skip", 20 );
 		int PLAYER_MIN_PIXELS = Config.getInt( "player_min_pixels", 10 );
-		kinectRegionGrid = new KinectRegionGrid(cols, rows, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
+		kinectRegionGrid = new DepthCameraRegionGrid(cols, rows, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
 	public void update() {

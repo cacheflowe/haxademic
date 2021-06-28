@@ -6,7 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.SkeletonsTrackerKinectV1;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -21,7 +21,7 @@ public class KinectFootMovement
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected SkeletonsTracker _skeletonTracker;
+	protected SkeletonsTrackerKinectV1 _skeletonTracker;
 	protected PGraphics _texture;
 	protected AudioPlayer _sound;
 	protected PImage _ballImage;
@@ -41,7 +41,7 @@ extends PAppletHax {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
-		if(Config.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();
+		if(Config.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTrackerKinectV1();
 		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 //		_sound = _minim.loadFile( "audio/bodymovements/goal.wav", 512 );
 		_ballImage = p.loadImage("images/foot-movement/ball.png");

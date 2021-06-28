@@ -2,14 +2,14 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
+import com.haxademic.core.hardware.depthcamera.DepthCameraAmbientActivityMonitor;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.easing.FloatBuffer;
 
 
-public class Demo_KinectAmbientActivityMonitor 
+public class Demo_DepthCameraAmbientActivityMonitor 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -17,13 +17,13 @@ extends PAppletHax {
 	public static final int KINECT_CLOSE = 500;
 	public static final int KINECT_FAR = 10000;
 		
-	protected KinectAmbientActivityMonitor kinectMonitor;
+	protected DepthCameraAmbientActivityMonitor kinectMonitor;
 	protected FloatBuffer activitySmoothed = new FloatBuffer(60);
 	
 	protected void firstFrame() {
 		// init camera & monitoring object
 		DepthCamera.instance(DepthCameraType.KinectV1);
-		kinectMonitor = new KinectAmbientActivityMonitor( PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR );
+		kinectMonitor = new DepthCameraAmbientActivityMonitor( PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR );
 	}
 	
 	protected void drawApp() {

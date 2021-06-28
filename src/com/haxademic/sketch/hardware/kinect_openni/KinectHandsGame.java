@@ -4,7 +4,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.SkeletonsTrackerKinectV1;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -18,7 +18,7 @@ public class KinectHandsGame
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected SkeletonsTracker _skeletonTracker;
+	protected SkeletonsTrackerKinectV1 _skeletonTracker;
 	protected PGraphics _texture;
 	
 	protected GamePiece gamePiece;
@@ -27,7 +27,7 @@ extends PAppletHax {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
-		_skeletonTracker = new SkeletonsTracker();
+		_skeletonTracker = new SkeletonsTrackerKinectV1();
 		_texture = P.p.createGraphics( p.width, p.height, P.P2D );
 		
 		gamePiece = new GamePiece();

@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.easing.FloatBuffer;
 
-public class KinectAmbientActivityMonitor {
+public class DepthCameraAmbientActivityMonitor {
 	
 	protected float _pixelSize;
 	protected float _kinectClose;
@@ -14,7 +14,7 @@ public class KinectAmbientActivityMonitor {
 	protected ArrayList<FloatBuffer> _gridBuffer;
 	protected float _activityLevel;
 	
-	public KinectAmbientActivityMonitor( float pixelSize, float kinectClose, float kinectFar ) {
+	public DepthCameraAmbientActivityMonitor( float pixelSize, float kinectClose, float kinectFar ) {
 		_pixelSize = pixelSize;
 		_kinectClose = kinectClose;
 		_kinectFar = kinectFar;

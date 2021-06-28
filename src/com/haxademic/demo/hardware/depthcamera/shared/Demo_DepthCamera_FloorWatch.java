@@ -11,7 +11,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraTy
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 
-public class Demo_Kinect_FloorWatch 
+public class Demo_DepthCamera_FloorWatch 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

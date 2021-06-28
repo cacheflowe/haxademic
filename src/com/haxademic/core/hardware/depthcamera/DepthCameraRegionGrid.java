@@ -9,7 +9,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class KinectRegionGrid
+public class DepthCameraRegionGrid
 extends BaseJoysticksCollection
 implements IJoystickCollection {
 
@@ -26,7 +26,7 @@ implements IJoystickCollection {
 	protected int rows = 1;
 
 
-	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
+	public DepthCameraRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
 		super();
 		
 		this.rows = rows;
@@ -41,7 +41,7 @@ implements IJoystickCollection {
 
 		for ( int x = 0; x < cols; x++ ) {
 			for ( int y = 0; y < rows; y++ ) {
-				KinectRegion region = new KinectRegion(
+				DepthCameraRegion region = new DepthCameraRegion(
 						colW * x + padding * x,
 						colW * x + padding * x + colW,
 						kinectClose + y * rowH + padding * y,

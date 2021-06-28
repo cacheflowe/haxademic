@@ -20,7 +20,7 @@ import processing.core.PVector;
 import processing.opengl.PShader;
 import processing.video.Movie;
 
-public class KinectSilhouetteBasic {
+public class DepthCameraSilhouetteBasic {
 	
 	protected int PIXEL_SIZE = 20;
 	protected int KINECT_NEAR = 500;
@@ -34,8 +34,8 @@ public class KinectSilhouetteBasic {
 
 	public PGraphics _kinectPixelated;
 	
-	protected KinectBufferedData _kinectBuffer;
-	protected KinectBufferedData _kinectBufferRoomScan;
+	protected DepthCameraBufferedData_DEPRECATED _kinectBuffer;
+	protected DepthCameraBufferedData_DEPRECATED _kinectBufferRoomScan;
 	protected int _framesToScan = 300;
 	
 	BlobDetection theBlobDetection;
@@ -57,7 +57,7 @@ public class KinectSilhouetteBasic {
 	Movie _movieFallback;
 
 	
-	public KinectSilhouetteBasic(boolean depthKeying, boolean hasParticles) {
+	public DepthCameraSilhouetteBasic(boolean depthKeying, boolean hasParticles) {
 		// set properties if they're been defined in appConfig
 		if(Config.getInt("kinect_pixel_skip", -1) != -1) PIXEL_SIZE = Config.getInt("kinect_pixel_skip", -1);
 		if(Config.getInt("kinect_left_pixel", -1) != -1) KINECT_LEFT_PIXEL = Config.getInt("kinect_left_pixel", -1);
@@ -73,10 +73,10 @@ public class KinectSilhouetteBasic {
 //		_scaleDownForBlobDetection = scaleDownForBlobDetection;
 		_hasParticles = hasParticles;
 		
-		_kinectBuffer = new KinectBufferedData(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, true);
+		_kinectBuffer = new DepthCameraBufferedData_DEPRECATED(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, true);
 		setCustomKinectRect();
 		if(depthKeying == true) {
-			_kinectBufferRoomScan = new KinectBufferedData(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, false);
+			_kinectBufferRoomScan = new DepthCameraBufferedData_DEPRECATED(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, false);
 			_kinectBufferRoomScan.setKinectRect(KINECT_LEFT_PIXEL, KINECT_RIGHT_PIXEL, KINECT_TOP_PIXEL, KINECT_BOTTOM_PIXEL);
 		}
 //		_kinectPixelated = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.P3D );

@@ -11,14 +11,14 @@ import com.haxademic.core.math.easing.EasingFloat;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public class KinectSilhouetteVectorField 
-extends KinectSilhouetteBasic {
+public class DepthCameraSilhouetteVectorField 
+extends DepthCameraSilhouetteBasic {
 	
 	protected ArrayList<PVector> _vectorFieldBase;
 	protected ArrayList<PVector> _vectorFieldOffset;
 	protected boolean SHOW_ATTRACTORS = false;
 
-	public KinectSilhouetteVectorField(boolean depthKeying, boolean hasParticles) {
+	public DepthCameraSilhouetteVectorField(boolean depthKeying, boolean hasParticles) {
 		super(depthKeying, hasParticles);
 		
 		buildVectorField();

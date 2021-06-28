@@ -7,7 +7,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
-import com.haxademic.core.hardware.depthcamera.KinectRegion;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRegion;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingBoolean;
@@ -16,12 +16,12 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
-public class Demo_KinectRegion
+public class Demo_DepthCameraRegion
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// base components
-	protected KinectRegion region;
+	protected DepthCameraRegion region;
 	protected PGraphics regionDebug;
 	
 	// ui
@@ -51,7 +51,7 @@ extends PAppletHax {
 
 		// build kinect region and debug buffer
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
-		region = new KinectRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);
+		region = new DepthCameraRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);
 		
 		// add ui sliders to tweak at runtime
 		UI.addSlider(KINECT_left, 0, 0, DepthCameraSize.WIDTH, 1, false);

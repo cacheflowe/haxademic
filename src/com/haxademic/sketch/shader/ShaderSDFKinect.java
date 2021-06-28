@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRegionGrid;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -26,14 +26,14 @@ extends PAppletHax {
 	protected EasingFloat _userZ = new EasingFloat(0, 12);
 	protected float _autoTime = 0;
 	
-	protected KinectRegionGrid _kinectGrid;
+	protected DepthCameraRegionGrid _kinectGrid;
 
 	
 	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		_bg = p.createGraphics(p.width, p.height, P.P2D);
-		_kinectGrid = new KinectRegionGrid(1, 1, 500, 2000, 0, 0, 480, 20, 10);
+		_kinectGrid = new DepthCameraRegionGrid(1, 1, 500, 2000, 0, 0, 480, 20, 10);
 
 		sdfShader = loadShader( FileUtil.getPath("haxademic/shaders/textures/sdf-01.glsl") ); 
 	}

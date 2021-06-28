@@ -4,16 +4,16 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
-import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRegionGrid;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
-public class Demo_KinectRegionGrid
+public class Demo_DepthCameraOverheadGrid
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected KinectRegionGrid kinectRegionGrid;
+	protected DepthCameraRegionGrid kinectRegionGrid;
 	
 	public void config() {
 		Config.setAppSize(1280, 720);
@@ -32,7 +32,7 @@ extends PAppletHax {
 		
 		// build input!
 		DepthCamera.instance(DepthCameraType.Realsense);
-		kinectRegionGrid = new KinectRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
+		kinectRegionGrid = new DepthCameraRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
 	public void keyPressed() {

@@ -9,7 +9,7 @@ import com.haxademic.core.math.easing.FloatBuffer;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class KinectBufferedData {
+public class DepthCameraBufferedData_DEPRECATED {
 	
 	protected float _pixelSize;
 	protected float _kinectClose;
@@ -25,7 +25,7 @@ public class KinectBufferedData {
 	protected boolean _allowsEmptyData = false;
 	protected PGraphics _debugCanvas;
 	
-	public KinectBufferedData( float pixelSize, float kinectClose, float kinectFar, int bufferFrames, boolean allowsEmptyData ) {
+	public DepthCameraBufferedData_DEPRECATED( float pixelSize, float kinectClose, float kinectFar, int bufferFrames, boolean allowsEmptyData ) {
 		_pixelSize = pixelSize;
 		_allowsEmptyData = allowsEmptyData;
 		_bufferFrames = bufferFrames;

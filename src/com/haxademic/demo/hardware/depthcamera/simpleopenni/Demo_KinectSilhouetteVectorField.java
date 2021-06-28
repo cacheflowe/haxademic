@@ -3,8 +3,8 @@ package com.haxademic.demo.hardware.depthcamera.simpleopenni;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.hardware.depthcamera.KinectSilhouetteBasic;
-import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSilhouetteBasic;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSilhouetteVectorField;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 
@@ -12,7 +12,7 @@ public class Demo_KinectSilhouetteVectorField
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected KinectSilhouetteBasic _silhouette;
+	protected DepthCameraSilhouetteBasic _silhouette;
 
 	protected boolean _isDebug = false;
 	
@@ -40,7 +40,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 //		_silhouette = new KinectSilhouetteBasic(false, true);
-		_silhouette = new KinectSilhouetteVectorField(false, true);
+		_silhouette = new DepthCameraSilhouetteVectorField(false, true);
 	}
 	
 	protected void drawApp() {

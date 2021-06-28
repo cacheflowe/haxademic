@@ -9,18 +9,18 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectRoomScanDiff;
+import com.haxademic.core.hardware.depthcamera.DepthCameraRoomScanDiff;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 
-public class Demo_Kinect_RoomScanMapped
+public class Demo_DepthCamera_RoomScanMapped
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected KinectRoomScanDiff kinectDiff;
+	protected DepthCameraRoomScanDiff kinectDiff;
 	protected PGraphics mappedKinectBuffer;
 	protected PGraphicsKeystone mappedKinectKeystone;
 	protected boolean DEBUG = false;
@@ -32,7 +32,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
-		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera);
+		kinectDiff = new DepthCameraRoomScanDiff(DepthCamera.instance().camera);
 		mappedKinectBuffer = PG.newPG(pg.width, pg.height);
 		mappedKinectKeystone = new PGraphicsKeystone( p, kinectDiff.resultSmoothed(), 12, FileUtil.getPath("text/keystoning/keystone-kinect.txt") );
 
