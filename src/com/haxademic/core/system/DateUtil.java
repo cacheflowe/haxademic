@@ -127,6 +127,10 @@ public class DateUtil {
 		return DateUtil.timeFromSeconds((int) Math.round( millies * 0.001f ), showHours);
 	}
 	
+	public static long epochTime() {
+		return System.currentTimeMillis();
+	}
+	
 	// WEEK
 	
 	public static Calendar sharedCalendar;

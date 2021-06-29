@@ -23,6 +23,7 @@ extends PAppletHax {
 				
 		// draw debug output
 		p.text(
+				"Epoch time :: " + DateUtil.epochTime() + FileUtil.NEWLINE + 
 				"Processing date components :: " + P.year() + "/" + P.month() + "/" + P.day() + FileUtil.NEWLINE + 
 				"Processing time components :: " + P.hour() + ":" + P.minute() + ":" + P.second() + FileUtil.NEWLINE +
 				"Uptime (timeFromSeconds()) :: " + DateUtil.timeFromSeconds((int) DateUtil.uptimeSeconds(), true) + FileUtil.NEWLINE + 
