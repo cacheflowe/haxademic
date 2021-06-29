@@ -167,7 +167,7 @@ implements IUIButtonDelegate {
 				// get camera name & components
 				String camera = camerasList[i];
 				String cameraName = camera;
-				P.println("# [" + i + "]" + camera);
+				P.println("# [" + i + "] " + camera);
 
 				// when we find a new camera, make a new config object
 				if(lastCamName.equals(cameraName) == false) {
