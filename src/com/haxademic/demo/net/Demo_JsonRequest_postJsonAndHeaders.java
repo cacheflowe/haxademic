@@ -1,18 +1,11 @@
 package com.haxademic.demo.net;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
-
-import javax.imageio.ImageIO;
+import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.Base64Image;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.net.IJsonRequestDelegate;
 import com.haxademic.core.net.JsonHttpRequest;
 import com.haxademic.core.net.JsonRequest;
@@ -21,7 +14,7 @@ import com.haxademic.core.system.DateUtil;
 import processing.core.PGraphics;
 import processing.data.JSONObject;
 
-public class Demo_JsonRequest_postJsonData
+public class Demo_JsonRequest_postJsonAndHeaders
 extends PAppletHax
 implements IJsonRequestDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -29,11 +22,15 @@ implements IJsonRequestDelegate {
 	protected JsonRequest postJSON;
 	protected PGraphics scaledPG;
 	protected String serverPostPath = "http://localhost/haxademic/www/post-json/";
-	
+	protected static HashMap<String, String> headers;
+	static {
+		headers = new HashMap<String, String>();
+		headers.put("x-api-key", "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+		headers.put("Content-Type", "application/json");
+	};
+
 	protected void firstFrame() {
 		postJSON = new JsonRequest(serverPostPath);
-		scaledPG = p.createGraphics(p.width / 2, p.height / 2, PRenderers.P2D);
-		P.out(Arrays.toString(ImageIO.getWriterFormatNames()));
 	}
 	
 	protected void drawApp() {
@@ -55,49 +52,19 @@ implements IJsonRequestDelegate {
 		p.image(pg, 0, 0);
  	}
 	
-	protected void submitJSON(BufferedImage img1) {
-		// build JSON object & set a string
-        JSONObject jsonOut = new JSONObject();
-        jsonOut.setString("project", "test");
-        jsonOut.setString("frameCount", p.frameCount + "");
-        jsonOut.setString("uptime", DateUtil.timeFromSeconds(P.p.millis() / 1000, true) + "");
-        jsonOut.setString("frameRate", P.round(p.frameRate)+"");
-        jsonOut.setString("resolution", P.p.width + "x" + P.p.height);
-        
-        // add image to json
-		String base64Img = "";
-		try {
-			base64Img = Base64Image.encodeNativeImageToBase64(img1, "png");
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-        jsonOut.setString("imageBase64", base64Img);
-
+	protected void submitJSON() {
         // send json to server
         try {
-			postJSON.postJsonData(jsonOut, this);
+			postJSON.postJsonDataWithHeaders(new JSONObject(), headers, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	
-	protected void checkQueuedScreenshot() {
-		// copy images and get native buffers on UI thread
-		ImageUtil.copyImage(pg, scaledPG);
-		BufferedImage img1 = (BufferedImage)scaledPG.getNative();
-		
-		new Thread(new Runnable() { public void run() {
-			submitJSON(img1);
-		}}).start();
-	}
-	
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			checkQueuedScreenshot();
+			submitJSON();
 		}
 	}
 	

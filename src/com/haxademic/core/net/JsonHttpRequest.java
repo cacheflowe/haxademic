@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.text.RandomStringUtil;
@@ -18,14 +19,16 @@ implements Runnable {
 	
 	protected String requestURL;
 	protected JSONObject jsonOut;
-	protected IJsonRequestCallback delegate;
+	protected HashMap<String, String> headers;
+	protected IJsonRequestDelegate delegate;
 	protected String requestId;
 	protected String responseText = null;
 	protected int responseCode = 0;
 
-	public JsonHttpRequest(String requestURL, JSONObject jsonOut, IJsonRequestCallback delegate) {
+	public JsonHttpRequest(String requestURL, JSONObject jsonOut, HashMap<String, String> headers, IJsonRequestDelegate delegate) {
 		this.requestURL = requestURL;
 		this.jsonOut = jsonOut;
+		this.headers = headers;
 		this.delegate = delegate;
 	}    
 
@@ -39,9 +42,19 @@ implements Runnable {
 			// make http connection
 			HttpURLConnection httpcon = (HttpURLConnection) ((new URL(requestURL).openConnection()));
 			HttpURLConnection.setFollowRedirects(true);
+			// Pretend we're a web browser and let the server know we want json returned
 			httpcon.setDoOutput(true);
 			httpcon.setRequestProperty("Accept", "application/json");
 			httpcon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+			// add custom headers
+			if(this.headers != null) {
+				for (HashMap.Entry<String, String> entry : this.headers.entrySet()) {
+					String key = entry.getKey();
+					String value = entry.getValue();
+					httpcon.setRequestProperty(key, value);
+				}
+			}
+			// POST json or GET if we're not sending data, but want json response
 			if(jsonOut != null) {
 				httpcon.setRequestMethod("POST");
 				httpcon.setRequestProperty("Content-Type", "application/json");

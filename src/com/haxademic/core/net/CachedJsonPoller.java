@@ -9,7 +9,7 @@ import com.haxademic.core.system.SystemUtil;
 import processing.data.JSONObject;
 
 public class CachedJsonPoller
-implements IJsonRequestCallback {
+implements IJsonRequestDelegate {
 
 	public interface ICachedJsonPollerDelegate {
 		public void jsonUpdated(String json);

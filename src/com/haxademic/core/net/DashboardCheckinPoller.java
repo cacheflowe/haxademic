@@ -17,7 +17,7 @@ import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class DashboardCheckinPoller
-implements IJsonRequestCallback {
+implements IJsonRequestDelegate {
 
 	// basic props 
 	

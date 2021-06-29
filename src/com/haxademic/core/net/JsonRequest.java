@@ -1,6 +1,7 @@
 package com.haxademic.core.net;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import processing.data.JSONObject;
 
@@ -22,15 +23,19 @@ public class JsonRequest {
 		return request;
 	}
 	
-	public void requestJsonData(IJsonRequestCallback delegate) throws IOException {
+	public void requestJsonData(IJsonRequestDelegate delegate) throws IOException {
 		// send request with empty json
-		postJsonData(null, delegate);
 	}
 	
-	public void postJsonData(JSONObject jsonOut, IJsonRequestCallback delegate) throws IOException {
+	public void postJsonData(JSONObject jsonOut, IJsonRequestDelegate delegate) throws IOException {
+		// send request with empty json
+		postJsonDataWithHeaders(jsonOut, null, delegate);
+	}
+	
+	public void postJsonDataWithHeaders(JSONObject jsonOut, HashMap<String, String> headers, IJsonRequestDelegate delegate) throws IOException {
 		delegate.aboutToRequest(request);
 		// start thread
-		request = new JsonHttpRequest(requestURL, jsonOut, delegate);
+		request = new JsonHttpRequest(requestURL, jsonOut, headers, delegate);
 		requestThread = new Thread( request );
 		requestThread.start();
 	}

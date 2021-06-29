@@ -10,7 +10,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.net.IJsonRequestCallback;
+import com.haxademic.core.net.IJsonRequestDelegate;
 import com.haxademic.core.net.JsonHttpRequest;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.system.DateUtil;
@@ -21,7 +21,7 @@ import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class DashboardPoster 
-implements IJsonRequestCallback {
+implements IJsonRequestDelegate {
 
 	protected String projectName = "haxademic";
 	protected String serverPostPath = "http://localhost/haxademic/www/dashboard/";

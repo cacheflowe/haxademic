@@ -1,6 +1,7 @@
 package com.haxademic.core.net;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,11 +10,12 @@ import com.haxademic.core.app.P;
 import processing.data.JSONObject;
 
 public class JsonPoller 
-implements IJsonRequestCallback {
+implements IJsonRequestDelegate {
 
 	protected JsonRequest jsonRequest;
-	protected IJsonRequestCallback delegate;
+	protected IJsonRequestDelegate delegate;
 	protected JSONObject postData;
+	protected HashMap<String, String> headers;
 	
 	protected int numRequests = 0;
 	protected boolean isRequesting = false;
@@ -23,7 +25,7 @@ implements IJsonRequestCallback {
 	protected Timer timer;
 
 
-	public JsonPoller(String url, int interval, IJsonRequestCallback delegate) {
+	public JsonPoller(String url, int interval, IJsonRequestDelegate delegate) {
 		jsonRequest = new JsonRequest(url);
 		this.interval = interval;
 		this.delegate = delegate;
@@ -56,6 +58,10 @@ implements IJsonRequestCallback {
 		postData = jsonObj;
 	}
 	
+	public void setHeaders(HashMap<String, String> headers) {
+		this.headers = headers;
+	}
+	
 	public void start() {
 		timer = new Timer();
 		timer.schedule(new TimerTask() { public void run() {
@@ -74,7 +80,9 @@ implements IJsonRequestCallback {
 		
 	protected void requestJson() {
 		try {
-			if(postData != null) {
+			if(headers != null) {
+				jsonRequest.postJsonDataWithHeaders(postData, headers, this);
+			} else if(postData != null) {
 				jsonRequest.postJsonData(postData, this);
 			} else {
 				jsonRequest.requestJsonData(this);

@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.net.IJsonRequestCallback;
+import com.haxademic.core.net.IJsonRequestDelegate;
 import com.haxademic.core.net.JsonHttpRequest;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.net.JsonUtil;
@@ -17,7 +17,7 @@ import processing.data.JSONObject;
 
 public class Demo_JsonRequest_requestJsonData
 extends PAppletHax
-implements IJsonRequestCallback {
+implements IJsonRequestDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected JsonRequest postJSON;
