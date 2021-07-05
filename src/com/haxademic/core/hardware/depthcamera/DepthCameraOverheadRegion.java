@@ -94,12 +94,11 @@ implements IJoystickControl {
 		);
 		
 		// update color object detector
-		if(debugGraphics != null) {
-			colorObjectDetection.colorClosenessThreshold(0.95f);
-			colorObjectDetection.update(cameraRegionBuffer);
-			colorObjectDetection.debugging(true);
-			DebugView.setTexture("cameraAnalysisBuffer_"+left+"-"+top, colorObjectDetection.analysisBuffer());
-		}
+		boolean isDebugging = debugGraphics != null;
+		colorObjectDetection.colorClosenessThreshold(0.95f);
+		colorObjectDetection.update(cameraRegionBuffer);
+		colorObjectDetection.debugging(isDebugging);
+		DebugView.setTexture("cameraAnalysisBuffer_"+left+"-"+top, colorObjectDetection.analysisBuffer());
 		
         // take active reading from color object detection
 		_isActive = colorObjectDetection.isActive();

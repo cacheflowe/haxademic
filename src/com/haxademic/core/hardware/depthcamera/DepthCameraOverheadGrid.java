@@ -81,9 +81,13 @@ implements IJoystickCollection {
 		return silhouette.depthBuffer();
 	}
 
-	public void update(boolean debug) {
+	public void update() {
 		silhouette.update();
 		updateRegions();
+	}
+	
+	public void update(boolean debug) {
+		update();
 		if(debug == true) {
 			if(debugBuffer == null) debugBuffer = PG.newPG(silhouette.depthBuffer().width, silhouette.depthBuffer().height);
 			updateDebug();
