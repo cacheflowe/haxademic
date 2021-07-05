@@ -54,11 +54,6 @@ implements IJoystickCollection {
 //		int depthDepth = depthFar - depthNear;
 		int startX = leftX;
 		int startY = topY;
-		P.out("paddingPixels", paddingPixels);
-		P.out("boundsW", boundsW);
-		P.out("boundsH", boundsH);
-		P.out("colW", colW);
-		P.out("rowH", rowH);
 
 		for ( int x = 0; x < cols; x++ ) {
 			for ( int y = 0; y < rows; y++ ) {
