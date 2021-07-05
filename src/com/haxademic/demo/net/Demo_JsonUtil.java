@@ -38,13 +38,25 @@ extends PAppletHax {
 			// get json entry
 			String key = i.next();
 			Object val = jsonObj.get(key);
-			boolean isNull = jsonObj.isNull(key);
+			// boolean isNull = jsonObj.isNull(key);
 			
 			// check datatype & set proper values into AppStore
 			JsonUtil.Type dataType = JsonUtil.getTypeForKey(jsonObj, key);
 			P.out("[" + dataType + "]", key, " = ", val.toString());
 		}
+		
+		// unescape escaped json
+		String escapedJson = "\"{\\\"schema\\\":{\\\"fields\\\":[{\\\"name\\\":\\\"index\\\",\\\"type\\\":\\\"integer\\\"},{\\\"name\\\":\\\"ranked_colors\\\",\\\"type\\\":\\\"string\\\"},{\\\"name\\\":\\\"sentiment\\\",\\\"type\\\":\\\"string\\\"},{\\\"name\\\":\\\"word\\\",\\\"type\\\":\\\"string\\\"},{\\\"name\\\":\\\"x\\\",\\\"type\\\":\\\"number\\\"},{\\\"name\\\":\\\"y\\\",\\\"type\\\":\\\"number\\\"},{\\\"name\\\":\\\"z\\\",\\\"type\\\":\\\"number\\\"},{\\\"name\\\":\\\"time\\\",\\\"type\\\":\\\"number\\\"}],\\\"primaryKey\\\":[\\\"index\\\"],\\\"pandas_version\\\":\\\"0.20.0\\\"},\\\"data\\\":[]}\"";
+		String unescapedJson = JsonUtil.unescape(escapedJson, true);
+		P.out("");
+		P.out("");
+		P.out(JsonUtil.formatJsonString(unescapedJson));
+		
 		p.exit();
+	}
+
+	protected void drawApp() {
+		
 	}
 	
 }
