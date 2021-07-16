@@ -1,6 +1,27 @@
-// Ported from: Andrew Benson - andrewb@cycling74.com - 2009
-// https://github.com/v002/v002-Optical-Flow/blob/master/v002.GPUHSFlow.frag
-// output modifications by Cacheflowe
+// shader based on ofxFlowTools opticalFlow shader by Matthias Oostrik
+// modified by @cacheflowe
+
+// The MIT License (MIT)
+//
+// Copyright (c) 2015 Matthias Oostrik ( www.matthiasoostrik.com )
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 #ifdef GL_ES
 precision mediump float;
@@ -12,64 +33,96 @@ precision mediump int;
 uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
+uniform vec2 texOffset;
 
 // samplers
 uniform sampler2D tex0;
 uniform sampler2D tex1;
+uniform sampler2D texFlow;
 
-//variables
-uniform vec2 scale = vec2(2.3);
-uniform vec2 offset = vec2(0.05);
-uniform float lambda = 1.02;
+uniform bool firstFrame = false;
+uniform float uForce = 0.5;
+uniform float uOffset = 8.;
+uniform float uLambda = 0.012;
+uniform float uThreshold = 0.2;
+uniform float uDecayLerp = 1.;
+uniform vec2 uInverse = vec2(-1., -1.);
 
-float TWO_PI = radians(360.);
-float PI = radians(180.);
-
-float rgbToGray(vec4 rgba) {
+float luma(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
   return dot(rgba.xyz, W);
 }
 
-float rgbToFloat(vec3 color) {
-  return (color.r + color.g + color.b) / 3.;
-}
+void main()
+{
+	vec2 uv  = vertTexCoord.xy;
 
-void main() {
+	vec2 pixelOffset = vec2(texOffset.x*uOffset, texOffset.y*uOffset);
+	vec2 offX = vec2(pixelOffset.x,0.0);
+	vec2 offY = vec2(0.0,pixelOffset.y);
 
-	vec2 uv0 = vertTexCoord.xy;
-	vec2 uv1 = vertTexCoord.xy;
-	vec4 a = texture2D(tex0, uv0);
-	vec4 b = texture2D(tex1, uv1);
-	vec2 offsetX = vec2(offset.x,0.);
-	vec2 offsetY = vec2(0.,offset.y);
+	// difference calculation
+	vec4 a = texture2D(tex0, uv);
+	vec4 b = texture2D(tex1, uv);
+	float texDiff = luma(a) - luma(b);
 
-	// get the color difference between frames
-	vec4 frameDiff = b - a;
+	// gradient calculation
+	float gradX =  texture2D(tex0, uv + offX).r - texture2D(tex0, uv - offX).r;
+		    gradX += texture2D(tex1, uv + offX).r - texture2D(tex1, uv - offX).r;
 
-	// calculate the gradient on each axis
-	vec4 gradientX = texture2D(tex1, uv1 + offsetX) - texture2D(tex1, uv1 - offsetX);
-	gradientX += texture2D(tex0, uv0 + offsetX) - texture2D(tex0, uv0 - offsetX);
-	vec4 gradientY = texture2D(tex1, uv1 + offsetY) - texture2D(tex1, uv1 - offsetY);
-	gradientY += texture2D(tex0, uv0 + offsetY) - texture2D(tex0, uv0 - offsetY);
+	float gradY =  texture2D(tex0, uv + offY).r - texture2D(tex0, uv - offY).r;
+		    gradY += texture2D(tex1, uv + offY).r - texture2D(tex1, uv - offY).r;
 
-	// calc directional magnitude
-	vec4 gradientMagnitude = sqrt((gradientX * gradientX) + (gradientY * gradientY) + vec4(lambda));
+	float gradMag = sqrt((gradX*gradX)+(gradY*gradY)+uLambda);
 
-	//
-	vec4 vx = frameDiff * (gradientX / gradientMagnitude);
-	float vxd = rgbToGray(vx); // assumes greyscale
-	vec2 xout = vec2(max(vxd,0.),abs(min(vxd,0.)))*scale.x; // format output for flowrepos, out(-x,+x,-y,+y)
+	float vx = texDiff * (gradX/gradMag);
+	float vy = texDiff * (gradY/gradMag);
 
-	vec4 vy = frameDiff * (gradientY / gradientMagnitude);
-	float vyd = rgbToGray(vy);
-	vec2 yout = vec2(max(vyd,0.),abs(min(vyd,0.)))*scale.y; // format output for flowrepos, out(-x,+x,-y,+y)
+	vec2 flow = vec2(0.0);
+	flow.x = -vx * uInverse.x;
+	flow.y = -vy * uInverse.y;
 
-	// get rotation & strength
-	float dir = atan(rgbToFloat(vy.rgb), rgbToFloat(vx.rgb));
-	float rot = (PI + dir) / TWO_PI;	// normalize rotation to 0-1
-	float amp = abs(rgbToFloat(vx.rgb) + rgbToFloat(vy.rgb));
+	// apply treshold
+	float strength = length(flow);
+	if (strength * uThreshold > 0.0) {
+		if (strength < uThreshold) {
+			flow = vec2(0.0);
+		}
+		else {
+			strength = (strength - uThreshold) / (1.0 - uThreshold);
+			flow = normalize(flow) * vec2(strength);
+		}
+	}
 
-	// draw to buffer
-	// gl_FragColor = clamp(vec4(xout.xy,yout.xy), 0.0, 1.0);
-	gl_FragColor = vec4(rot, amp, 0., 1.);
+	// apply force
+	flow *= vec2(uForce);
+
+	// if we're decaying the results...
+	if(uDecayLerp < 1.) {
+		// get previous frame of flow
+		// subtract 0.5 - up/left is negative, right/down is positive
+		vec4 prevFlow = texture2D(texFlow, uv);
+		prevFlow.x -= 0.5;
+		prevFlow.y -= 0.5;
+
+		// lerp toward current flow calc if we're decaying...
+		// otherwise use a quick constant lerp to the higher value
+		if(abs(flow.x) < abs(prevFlow.x)) flow.x = mix(prevFlow.x, flow.x, uDecayLerp); 
+		else 															flow.x = mix(prevFlow.x, flow.x, 0.3);
+		if(abs(flow.y) < abs(prevFlow.y)) flow.y = mix(prevFlow.y, flow.y, uDecayLerp); 
+		else 															flow.y = mix(prevFlow.y, flow.y, 0.3);
+	}
+
+	// add 0.5 as the resting state, which is mid-gray
+	flow.xy += 0.5;
+	gl_FragColor = vec4(flow.xy, 0.5, 1.0);
+
+	// default to mid gray (resting state) on first frame
+	if(firstFrame == true) {
+		gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+	}
+
+	// debug draw ///////////
+	// gl_FragColor = a;
+	// gl_FragColor = vec4(flow.x);
 }
