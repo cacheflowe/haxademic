@@ -35,6 +35,7 @@ import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.pshader.DilateFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
+import com.haxademic.core.draw.filters.pshader.DitherFilter;
 import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.filters.pshader.EdgeColorFadeFilter;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
@@ -160,6 +161,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 //			DeformTunnelFanFilter.instance(p),
 			DilateFilter.instance(p),
 			DisplacementMapFilter.instance(p),
+			DitherFilter.instance(p),
 			EdgeColorDarkenFilter.instance(p),
 			EdgeColorFadeFilter.instance(p),
 			EdgesFilter.instance(p),
@@ -388,6 +390,11 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			DisplacementMapFilter.instance(p).setAmp(Mouse.yNorm * 0.5f);
 			DisplacementMapFilter.instance(p).setDivider(11 - Mouse.yNorm * 10f);
 			DisplacementMapFilter.instance(p).applyTo(pg);
+		} else if(curFilter == DitherFilter.instance(p)) {
+			if(Mouse.xNorm < 0.33f) DitherFilter.instance(P.p).setDitherMode2x2();
+			else if(Mouse.xNorm < 0.66f) DitherFilter.instance(P.p).setDitherMode4x4();
+			else DitherFilter.instance(P.p).setDitherMode8x8();
+			DitherFilter.instance(P.p).applyTo(pg);
 		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
 			EdgeColorDarkenFilter.instance(p).setSpreadX(Mouse.xNorm);
 			EdgeColorDarkenFilter.instance(p).setSpreadY(Mouse.yNorm);
