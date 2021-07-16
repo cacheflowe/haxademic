@@ -177,10 +177,10 @@ vec4 dither8x8(vec2 position, vec4 color) {
 // run dithering
 
 void main() {
+    // get coords & sample color
     vec2 uv = vertTexCoord.xy;
-    vec2 uvPixel = 1. / texOffset.xy * uv;  
+    vec2 uvPixel = 1. / texOffset.xy * uv;      // dithering filter needs actual pixel coordinates (not normalized UV)
     vec4 texColor = texture2D(texture, uv);
-    vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);
 
     // use original color
     vec4 finalColor = texColor;
