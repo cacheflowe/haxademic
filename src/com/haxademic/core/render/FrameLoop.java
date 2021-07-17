@@ -123,6 +123,17 @@ public class FrameLoop {
 		return FrameLoop.instance().progressRads;
 	}
 	
+	public static float progressOsc(float low, float high) {
+		return progressOsc(low, high, 0);
+	}
+	
+	public static float progressOsc(float low, float high, float offsetNorm) {
+		float range = (high - low) * 0.5f;
+		float mid = low + range;
+		float offsetRads = P.TWO_PI * offsetNorm;
+		return mid + P.sin(offsetRads + progressRads()) * range;
+	}
+	
 	public static int curTick() {
 		return FrameLoop.instance().curTick;
 	}
