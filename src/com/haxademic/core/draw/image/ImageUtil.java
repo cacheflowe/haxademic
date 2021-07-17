@@ -404,7 +404,7 @@ public class ImageUtil {
 		if(debug) sourceImg.fill(255,0,0, 255);
 		
 		// find initial low-resolution bounds
-		int searchSpacing = 10;
+		int searchSpacing = 1;
 		for(int x=0; x < sourceImg.width; x += searchSpacing) {
 			for(int y=0; y < sourceImg.height; y += searchSpacing) {
 				int pixelColor = ImageUtil.getPixelColor(sourceImg, x, y);

@@ -29,7 +29,7 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 1024);
 		Config.setProperty(AppSettings.HEIGHT, 1024);
-		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
 	}
 
 
