@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FitTextBuffer;
 import com.haxademic.core.math.MathUtil;
@@ -68,7 +69,10 @@ extends PAppletHax {
 		
 		// or draw quads
 //		p.background(0);
-//		DebugView.setTexture("fitText.crop()", fitText.crop());
+		DebugView.setTexture("fitText.crop()", fitText.crop());
+		DebugView.setTexture("fitText2.crop()", fitText2.crop());
+		DebugView.setTexture("fitText3.crop()", fitText3.crop());
+		DebugView.setTexture("fitText4.crop()", fitText4.crop());
 //		p.copy(fitText.crop(), 0, 0, fitText.crop().width/2, fitText.crop().height/2, 0, 0, p.width/2, p.height/2);
 //		p.copy(fitText2.crop(), fitText2.crop().width/2, 0, fitText2.crop().width/2, fitText2.crop().height/2, p.width/2, 0, p.width/2, p.height/2);
 	}
