@@ -3,12 +3,6 @@
 ## New ideas, TODOs
 
 * Processing 4 update
-  * Commit!
-  * Commit lib files & remove old
-  * Make Interphase pyramid demo
-    * Add UI controls to master gain
-    * Draw texture based on current sequence pattern
-    * Torus dashed demo/render
   * Fix JavaFX WebView & demos. Needs updated JavaFX jars?
   * Upgrade notes:
   	* Now we can use AdoptOpenJDK's version of Java, which is more open and doesn't require a login for Oracle
@@ -35,6 +29,8 @@
 
 ## Bugs
 
+* Add javafx web
+* Fix CEF Spout browser
 * [WIP, needs styling] UI via web interface (json config)  should support:
   * New textfield component
   * Title component
@@ -106,7 +102,7 @@ PGA + Bespoke:
 
 ## WebCam
 
-* WebCam updates for Video 2.0 beta4
+* WebCam updates for Video 2.0 / Processing 4
   * WebCam UI picker should draw flat on top of everything like DebugView
   	* It should also layout like UI, so it builds across the screen with title headers
   * Add webcam inspector to provide a list of native webcam options
@@ -114,8 +110,6 @@ PGA + Bespoke:
     * libusb or something like that to query weather a webcam is still plugged in. Java library?
       * http://usb4java.org/quickstart/libusb.html
       * http://usb4java.org/configuration.html
-    * Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
-      * Will this be solved by Processing 4?
 * Android high-framerate capture or UVC use?
   * https://github.com/android/media-samples/blob/master/MediaRecorder/Application/src/main/java/com/example/android/mediarecorder/MainActivity.java
 
@@ -133,6 +127,7 @@ PGA + Bespoke:
 * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
 * CrashMonitor is very slow to communicate & turns yellow if a heavy app is starting up
 * Screenshots still get "stuck" and don't update
+	* Maybe fixed with Java 11 updates?
 * [DONE?] On web side, uptime is modded every 24 hours - needs a day count up front!
 * Can CrashMonitor launch the main app instead of the other way around?
 * Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
@@ -245,6 +240,12 @@ PGA + Bespoke:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Save current config to JSON
+    * Use filenames instead of index position
+    * Load JSON back in
+    	* Drag & drop?
+    	* JSON config slider for collecrtion
+  * Add Gain sliders - allow bumping volume up past 1
   * Switch to playing audio with WavPlayer
   * Work within Demo_Interphase_AV_Loop & make a solid framework for AV loops
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
