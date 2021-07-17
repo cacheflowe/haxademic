@@ -233,6 +233,10 @@
 * Processing
 * TeamViewer
 
+Look into using a package manager or automated installer if you need to set up multiple machines:
+
+* [Chocolatey](https://chocolatey.org/)
+* [Ninite](https://ninite.com/)
 
 ## Additional steps
 
