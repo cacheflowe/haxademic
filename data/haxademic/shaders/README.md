@@ -38,6 +38,14 @@ vec2 uv = vertTexCoord.xy - 0.5;
 uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 ```
 
+Get current color and resolution
+```
+vec2 uv = vertTexCoord.xy;
+vec2 uvPixel = 1. / texOffset.xy * uv;   // get actual pixel position
+vec4 texColor = texture2D(texture, uv);
+vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);
+```
+
 Get a texture size
 ```
 vec2 texSize = textureSize(displacementMap, 0);
@@ -65,9 +73,19 @@ float map(float value, float low1, float high1, float low2, float high2) {
 
 Luminance
 ```
+// old
 float luma(vec4 rgba) {
-	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
+  const vec3 W = vec3(0.2125, 0.7154, 0.0721);
   return dot(rgba.xyz, W);
+}
+
+// hughsk: https://github.com/hughsk/glsl-luma/blob/master/index.glsl
+float luma(vec3 color) {
+  return dot(color, vec3(0.299, 0.587, 0.114));
+}
+
+float luma(vec4 color) {
+  return dot(color.rgb, vec3(0.299, 0.587, 0.114));
 }
 ```
 
