@@ -124,14 +124,14 @@ public class FrameLoop {
 	}
 	
 	public static float progressOsc(float low, float high) {
-		return progressOsc(low, high, 0);
+		return progressOsc(low, high, 0, 1);
 	}
 	
-	public static float progressOsc(float low, float high, float offsetNorm) {
+	public static float progressOsc(float low, float high, float offsetNorm, float freqMult) {
 		float range = (high - low) * 0.5f;
 		float mid = low + range;
 		float offsetRads = P.TWO_PI * offsetNorm;
-		return mid + P.sin(offsetRads + progressRads()) * range;
+		return mid + P.sin(offsetRads + progressRads() * freqMult) * range;
 	}
 	
 	public static int curTick() {
