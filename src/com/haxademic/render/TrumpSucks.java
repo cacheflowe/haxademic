@@ -99,7 +99,7 @@ extends PAppletHax {
 //		tiledImg.setRotation(P.sin(progressRads * 2f) * 0.1f);
 		tiledImg.setRotation(rot);
 		tiledImg.setOffset(-0.2f + progress * 4f, 0);
-		tiledImg.setSize(size, size);
+		tiledImg.setZoom(size, size);
 		tiledImg.update();
 		tiledImg.draw(p.g, p.width, p.height);
 		p.popMatrix();

@@ -65,7 +65,7 @@ implements IWebCamCallback {
 
 			// ImageUtil.cropFillCopyImage(flippedCamera, p.g, true);
 			float sizee = 1f + 0.5f * P.sin(p.frameCount * 0.004f);
-			tiledTexture.setSize(sizee, sizee);
+			tiledTexture.setZoom(sizee, sizee);
 			tiledTexture.setRotation(p.frameCount * 0.0001f);
 			tiledTexture.setOffset(1f * P.sin(p.frameCount * 0.0001f), 1f * P.sin(p.frameCount * 0.00005f));
 			tiledTexture.draw(p.g, p.width, p.height);

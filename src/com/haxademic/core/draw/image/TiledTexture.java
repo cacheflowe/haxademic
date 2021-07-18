@@ -37,7 +37,7 @@ public class TiledTexture {
 		uX = 0.5f * (float) texture.width;
 		vY = 0.5f * (float) texture.height;
 		setSpeed(0, 0);
-		setSize(1f, 1f);
+		setZoom(1f, 1f);
 	}
 	
 	public void setSpeed(float x, float y) {
@@ -50,7 +50,7 @@ public class TiledTexture {
 		vY = (0.5f + y) * (float) texture.height;
 	}
 	
-	public void setSize(float x, float y) {
+	public void setZoom(float x, float y) {
 		sizeX = x;
 		sizeY = y;
 	}

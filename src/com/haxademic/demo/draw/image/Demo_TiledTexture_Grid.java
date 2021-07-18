@@ -34,7 +34,7 @@ extends PAppletHax {
 
 		tiledImg.setRotation(UI.valueEased(ROT));
 		tiledImg.setOffset(UI.valueEased(OFFSET_X), UI.valueEased(OFFSET_Y));
-		tiledImg.setSize(UI.valueEased(SIZE), UI.valueEased(SIZE));
+		tiledImg.setZoom(UI.valueEased(SIZE), UI.valueEased(SIZE));
 		tiledImg.update();
 		tiledImg.draw(p.g, p.width, p.height, false);
 		p.popMatrix();

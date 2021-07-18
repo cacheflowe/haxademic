@@ -18,7 +18,7 @@ public class Demo_FitTextBuffer_quadLetter
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected FitTextBuffer fitText;
+	protected FitTextBuffer fitText1;
 	protected FitTextBuffer fitText2;
 	protected FitTextBuffer fitText3;
 	protected FitTextBuffer fitText4;
@@ -38,8 +38,8 @@ extends PAppletHax {
 		String text = "A"; 
 		
 		PFont font = p.createFont( DemoAssets.fontOpenSansPath, fontSize );
-		fitText = new FitTextBuffer(font, p.color(255));
-		fitText.updateText(text);
+		fitText1 = new FitTextBuffer(font, p.color(255));
+		fitText1.updateText(text);
 
 		PFont font2 = p.createFont( DemoAssets.fontRalewayPath, fontSize );
 		fitText2 = new FitTextBuffer(font2, p.color(255));
@@ -62,14 +62,14 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 		p.blendMode(PBlendModes.EXCLUSION);
 		float drawH = p.height * 0.7f;
-		drawTextAtHeight(fitText.crop(), FrameLoop.progressOsc(-7f, 7f), 0, drawH);
-		drawTextAtHeight(fitText2.crop(), FrameLoop.progressOsc(2f, -2f, 0.25f), FrameLoop.progressOsc(-2f, 2f, 0.25f), drawH);
-		drawTextAtHeight(fitText3.crop(), FrameLoop.progressOsc(-3f, 3f, 0.5f), FrameLoop.progressOsc(-4f, 4f, 0.5f), drawH);
-		drawTextAtHeight(fitText4.crop(), 0, FrameLoop.progressOsc(4f, -4f, 0.75f), drawH);
+		drawTextAtHeight(fitText1.crop(), FrameLoop.progressOsc(-7f, 7f), 0, drawH);
+		drawTextAtHeight(fitText2.crop(), FrameLoop.progressOsc(2f, -2f, 0.25f, 1f), FrameLoop.progressOsc(-2f, 2f, 0.25f, 1f), drawH);
+		drawTextAtHeight(fitText3.crop(), FrameLoop.progressOsc(-3f, 3f, 0.5f, 1f), FrameLoop.progressOsc(-4f, 4f, 0.5f, 1f), drawH);
+		drawTextAtHeight(fitText4.crop(), 0, FrameLoop.progressOsc(4f, -4f, 0.75f, 1f), drawH);
 		
 		// or draw quads
 //		p.background(0);
-		DebugView.setTexture("fitText.crop()", fitText.crop());
+		DebugView.setTexture("fitText.crop()", fitText1.crop());
 		DebugView.setTexture("fitText2.crop()", fitText2.crop());
 		DebugView.setTexture("fitText3.crop()", fitText3.crop());
 		DebugView.setTexture("fitText4.crop()", fitText4.crop());

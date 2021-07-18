@@ -130,7 +130,7 @@ extends BaseVideoFilter {
 		PG.setCenterScreen(destBuffer);
 		// draw upside-down background layer
 		if(animIndex == 5 || animIndex == 6) {
-			tiledTexture.setSize(1, 1);
+			tiledTexture.setZoom(1, 1);
 			tiledTexture.setRotation(P.PI);
 			tiledTexture.setOffset(0, 0);
 			tiledTexture.draw(destBuffer, destBuffer.width, destBuffer.height);
@@ -141,14 +141,14 @@ extends BaseVideoFilter {
 			float stepSize = (1f - drawSize.value()) / punchSteps;
 			for (int i = 0; i < punchSteps; i++) {
 				float stepDrawSize = 1f - (float) i * stepSize;
-				tiledTexture.setSize(tileSize.value() - (punchSteps - 1 - i) * stepSize, tileSize.value() - (punchSteps - 1 - i) * stepSize);
+				tiledTexture.setZoom(tileSize.value() - (punchSteps - 1 - i) * stepSize, tileSize.value() - (punchSteps - 1 - i) * stepSize);
 				tiledTexture.setRotation(tileRot.value());
 				tiledTexture.setOffset(tileOffsetX.value(), tileOffsetY.value());
 				tiledTexture.draw(destBuffer, destBuffer.width * stepDrawSize, destBuffer.height * stepDrawSize);
 			}
 		}
 		// set animated properties
-		tiledTexture.setSize(tileSize.value(), tileSize.value());
+		tiledTexture.setZoom(tileSize.value(), tileSize.value());
 		tiledTexture.setRotation(tileRot.value());
 		tiledTexture.setOffset(tileOffsetX.value(), tileOffsetY.value());
 		tiledTexture.draw(destBuffer, destBuffer.width * drawSize.value(), destBuffer.height * drawSize.value());

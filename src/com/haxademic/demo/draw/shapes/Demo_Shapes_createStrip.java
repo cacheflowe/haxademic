@@ -100,7 +100,7 @@ extends PAppletHax {
 		texture.translate(texture.width / 2, texture.height / 2);
 		
 		tiledImg.setOffset(4f * FrameLoop.progress(), 0f);
-		tiledImg.setSize(2f, 2f);
+		tiledImg.setZoom(2f, 2f);
 		tiledImg.update();
 		tiledImg.draw(texture, texture.width, texture.height);
 

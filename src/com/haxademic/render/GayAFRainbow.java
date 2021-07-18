@@ -131,7 +131,7 @@ extends PAppletHax {
 		meshTextureBuffer.beginDraw();
 		meshTextureBuffer.translate(meshTextureBuffer.width / 2, meshTextureBuffer.height / 2);
 		tiledRainbow.setOffset(0, 0);
-		tiledRainbow.setSize(3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()), 3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()));
+		tiledRainbow.setZoom(3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()), 3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()));
 		tiledRainbow.setRotation(P.sin(4f * FrameLoop.progressRads()));
 		tiledRainbow.draw(meshTextureBuffer, meshTextureBuffer.width, meshTextureBuffer.height);
 		meshTextureBuffer.endDraw();
@@ -139,7 +139,7 @@ extends PAppletHax {
 		textTextureBuffer.beginDraw();
 		textTextureBuffer.translate(textTextureBuffer.width / 2, textTextureBuffer.height / 2);
 		tiledRainbow.setOffset(0, 0);
-		tiledRainbow.setSize(2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()), 2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()));
+		tiledRainbow.setZoom(2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()), 2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()));
 		tiledRainbow.setRotation(P.PI - P.sin(4f * FrameLoop.progressRads()));
 		tiledRainbow.draw(textTextureBuffer, textTextureBuffer.width, textTextureBuffer.height);
 		textTextureBuffer.endDraw();

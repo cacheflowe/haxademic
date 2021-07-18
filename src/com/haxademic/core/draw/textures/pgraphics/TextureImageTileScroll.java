@@ -109,7 +109,7 @@ extends BaseTexture {
 		yOffset.update(true);
 		tiledImg.setRotation(rotation.value());
 		tiledImg.setOffset(xOffset.value(), yOffset.value());
-		tiledImg.setSize(scale.value(), scale.value());
+		tiledImg.setZoom(scale.value(), scale.value());
 		tiledImg.update();
 		tiledImg.draw(_texture, width, height);
 		

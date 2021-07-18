@@ -12,18 +12,18 @@ public class FitTextBuffer {
 	
 	protected PFont font;
 	protected int color;
-	protected PGraphics buffer;
+	protected PGraphics sourceBuffer;
 	protected PImage croppedText;
 	
 	public FitTextBuffer(PFont font, int color) {
 		this.font = font;
 		this.color = color;
-		buffer = PG.newPG(2048, P.ceil(font.getSize() * 1.4f));
+		sourceBuffer = PG.newPG(2048, P.ceil(font.getSize() * 1.4f));
 		croppedText = P.p.createImage(16, 16, P.ARGB);
 	}
 	
-	public PGraphics buffer() {
-		return buffer;
+	public PGraphics source() {
+		return sourceBuffer;
 	}
 	
 	public PImage crop() {
@@ -31,24 +31,18 @@ public class FitTextBuffer {
 	}
 	
 	public void updateText(String text) {
-		// set text size
-//		buffer.beginDraw();
-//		buffer.textFont(font);
-//		int textW = P.ceil(buffer.textWidth(text) * 1.001f);
-//		buffer.endDraw();
+		// draw text to source buffer
+		sourceBuffer.beginDraw();
+		sourceBuffer.clear();
+		sourceBuffer.noStroke();
+		sourceBuffer.fill(color);
+		sourceBuffer.textAlign(P.CENTER, P.TOP);
+		sourceBuffer.textFont(font);
+		sourceBuffer.text(text, 0, 0, sourceBuffer.width, sourceBuffer.height);
+		sourceBuffer.endDraw();
 		
-		// draw
-		buffer.beginDraw();
-		buffer.clear();
-		buffer.noStroke();
-		buffer.fill(color);
-		buffer.textAlign(P.CENTER, P.TOP);
-		buffer.textFont(font);
-		buffer.text(text, 0, 0, buffer.width, buffer.height);
-		buffer.endDraw();
-		
-		// analyze & crop
-		ImageUtil.imageCroppedEmptySpace(buffer, croppedText, ImageUtil.EMPTY_INT, false);
+		// analyze & crop - store results in new PImage
+		ImageUtil.imageCroppedEmptySpace(sourceBuffer, croppedText, ImageUtil.EMPTY_INT, false);
 	}
 	
 }

@@ -211,7 +211,7 @@ extends PAppletHax {
 			// update scrolling texture 
 			tileScale = (float) gridCellPG.width * (1f / ((float) materialBuffer.width / (float) gridCellPG.width));
 			float repeatZoom = 1f;
-			tiledImg.setSize(1f, repeatZoom);
+			tiledImg.setZoom(1f, repeatZoom);
 			tiledImg.setOffset(0, -scrollZ / tileScale * repeatZoom / meshSize * (float) gridCellPG.height);
 			tiledImg.update();
 			

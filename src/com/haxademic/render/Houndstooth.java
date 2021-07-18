@@ -181,7 +181,7 @@ extends PAppletHax {
 		tileRot.update(true);
 		finalPatternTileRepeat.draw(pg, pg.width, pg.height);
 		finalPatternTileRepeat.setRotation(tileRot.value());
-		finalPatternTileRepeat.setSize(tileSize.value(), tileSize.value());
+		finalPatternTileRepeat.setZoom(tileSize.value(), tileSize.value());
 		
 		pg.endDraw();
 		
@@ -257,7 +257,7 @@ extends PAppletHax {
 			// draw tiled texture
 			houndsTooth4x4.fill(255);
 			bwCellTile.setOffset(easedOffsetX.value(), easedOffsetY.value());
-			bwCellTile.setSize(0.75f, 0.75f);
+			bwCellTile.setZoom(0.75f, 0.75f);
 			bwCellTile.setRotation(easedRot.value());
 			houndsTooth4x4.pushMatrix();
 			houndsTooth4x4.translate(size * col + size/2, size * row + size/2);

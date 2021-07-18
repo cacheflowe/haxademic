@@ -67,7 +67,7 @@ extends PAppletHax {
 		float size = 1f + 0.2f * P.sin(FrameLoop.progressRads());
 		tiledImg.setRotation(0.01f * P.sin(FrameLoop.progressRads()));
 		tiledImg.setOffset(0, -1f * FrameLoop.progress());
-		tiledImg.setSize(size, size);
+		tiledImg.setZoom(size, size);
 		tiledImg.update();
 		tiledImg.draw(p.g, p.width, p.height);
 	}
