@@ -117,7 +117,7 @@ extends PApplet {
 	////////////////////////
 	
 	protected void finishPdfRender() {
-		P.out(ConsoleColors.GREEN, "Finished PDF render.", ConsoleColors.RESET);
+		P.out("Finished PDF render.");
 		p.exit();
 	}
 		
