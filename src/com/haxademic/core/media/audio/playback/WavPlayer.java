@@ -57,6 +57,7 @@ public class WavPlayer {
 	}
 	
 	public static AudioContext newAudioContext() {
+		AudioContext ctx = AudioUtil.getBeadsContext();
 		ctx.start();
 		return ctx;
 	}
