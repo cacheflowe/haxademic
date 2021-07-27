@@ -8,6 +8,7 @@ import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.TextToPShape;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -47,8 +48,8 @@ extends PAppletHax {
 	protected void firstFrameSetup() {
 		P.println("America the Indefensible");
 		// load texture
-//		flag = p.loadImage(FileUtil.getFile("images/usa.png"));
-		img = p.loadImage(FileUtil.getPath("images/las-vegas-victims-nbcnews.png"));
+		img = P.getImage("images/_sketch/usa-flag.png");
+//		img = DemoAssets.textureJupiter();// p.loadImage(FileUtil.getPath("images/las-vegas-victims-nbcnews.png"));
 		gunTexture = p.createGraphics(img.width * 3, img.width * 3, P.P3D);
 		gunTexture.smooth(8);
 		gunTilingTexture = new TiledTexture(img);
@@ -131,7 +132,7 @@ extends PAppletHax {
 //		gunTilingTexture.setRotation(p.frameCount * 0.001f);
 		gunTilingTexture.setOffset(percentComplete, percentComplete);
 		float tileScale = 1.0f + 0.5f * P.sin(radsComplete);
-		gunTilingTexture.setSize(tileScale, -tileScale);
+		gunTilingTexture.setZoom(tileScale, -tileScale);
 		gunTilingTexture.draw(gunTexture, gunTexture.width, gunTexture.height);
 		gunTexture.endDraw();
 
