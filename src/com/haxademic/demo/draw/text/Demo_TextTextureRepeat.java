@@ -45,7 +45,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		texture = PG.newPG(p.width * 8, 150);
+		texture = PG.newPG(p.width * 6, 150);
 		PG.setTextureRepeat(texture, false);
 		
 		// create PShape
@@ -122,7 +122,7 @@ extends PAppletHax {
 		
 		tiledImg.setOffset(FrameLoop.progress() * 4f, 0f);
 //		tiledImg.setOffset(AnimationLoop.progress(), 0f);
-		tiledImg.setSize(1f, 1f);
+		tiledImg.setZoom(1f, 1f);
 		tiledImg.update();
 		tiledImg.draw(texture, texture.width, texture.height);
 
