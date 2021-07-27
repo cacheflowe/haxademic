@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="lib/beads/library/tritonus-share-1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
-	<classpathentry kind="lib" path="lib/Drop/library/Drop.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
