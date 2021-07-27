@@ -28,7 +28,7 @@ import processing.core.PShape;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PShader;
 
-public class Demo_Shapes_createTorus2
+public class Demo_Shapes_createTorusMatcap
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -47,7 +47,7 @@ extends PAppletHax {
 	protected void config() {
 		Config.setAppSize(1024, 1024);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
@@ -132,6 +132,7 @@ extends PAppletHax {
 		
 		// draw scaled back up
 		ImageUtil.copyImage(scaleDown, p.g);
+		p.image(scaleDown, 0, 0, p.width, p.height);
 	}
 
 }
