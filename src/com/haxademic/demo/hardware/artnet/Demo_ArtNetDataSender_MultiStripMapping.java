@@ -15,7 +15,6 @@ import com.haxademic.core.draw.mapping.SavedPointUI;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.dmx.artnet.LightStrip;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
@@ -72,7 +71,7 @@ extends PAppletHax {
 	protected void updateTexture() {
 		// update noise map
 		noise3d.offsetZ(p.frameCount / 10f);
-		noise3d.update(6f, 0, FrameLoop.count(0.005f), 0, FrameLoop.count(0.001f), false);
+		noise3d.update(6f, 0, FrameLoop.count(0.005f), 0, FrameLoop.count(0.001f), false, false);
 		
 		// post-process noise map
 //		ContrastFilter.instance(p).setContrast(3f);

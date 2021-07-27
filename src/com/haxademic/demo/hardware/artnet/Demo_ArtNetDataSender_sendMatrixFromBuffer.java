@@ -12,6 +12,8 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
@@ -72,7 +74,7 @@ extends PAppletHax {
 		
 		// copy to tiny texture, reduce brightness & send!
 		ImageUtil.copyImage(curTexture, ledTexture);
-		BrightnessFilter.instance(p).setBrightness(0.2f);
+		BrightnessFilter.instance(p).setBrightness(0.1f);
 		BrightnessFilter.instance(p).applyTo(ledTexture);
 		
 		// send it!
@@ -94,14 +96,18 @@ extends PAppletHax {
 
 	protected void updateNoiseTexture() {
 		// update noise map
-		noise3d.offsetZ(p.frameCount / 10f);
-		noise3d.update(0.8f, 0, 0, FrameLoop.count(0.01f), FrameLoop.count(0.0075f), false);
+		noise3d.update(1.8f, 0, 0, -FrameLoop.count(0.01f), FrameLoop.count(0.0075f), false, false);
 
 		// post-process noise map
-//		ContrastFilter.instance(p).setContrast(3f);
-//		ContrastFilter.instance(p).applyTo(noise3d.texture());
 		ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
+		ColorizeFromTexture.instance(p).setTexture(ImageGradient.SPARKS_FLAMES());
 		ColorizeFromTexture.instance(p).applyTo(noise3d.texture());
+		SaturationFilter.instance(p).setSaturation(3f);
+		SaturationFilter.instance(p).applyTo(noise3d.texture());
+		BrightnessFilter.instance(p).setBrightness(0.5f);
+		BrightnessFilter.instance(p).applyTo(noise3d.texture());
+		ContrastFilter.instance(p).setContrast(2f);
+		ContrastFilter.instance(p).applyTo(noise3d.texture());
 		
 		BlurHFilter.instance(p).setBlurByPercent(1f, noise3d.texture().width);
 		BlurVFilter.instance(p).setBlurByPercent(1f, noise3d.texture().height);

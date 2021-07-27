@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHMapFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -14,12 +15,12 @@ import com.haxademic.core.draw.filters.pshader.BlurVMapFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
-import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
-import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenMapFilter;
-import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
+import com.haxademic.core.draw.image.ImageCacher;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -47,7 +48,7 @@ extends PAppletHax {
 		
 		// init noise object
 		noiseTexture = new SimplexNoise3dTexture(p.width, p.height, true);
-		noiseTexture.update(0.07f, 0, 0, 0, 0, false);
+		noiseTexture.update(0.07f, 0, 0, 0, 0, false, false);
 		DebugView.setTexture("noise", noiseTexture.texture());
 		
 		// extra map
@@ -73,16 +74,21 @@ extends PAppletHax {
 		basicMap.endDraw();
 
 		// replace basic map with another image?
-//		BlendTowardsTexture.instance(p).setSourceTexture(ImageCacher.get("images/_sketch/kamala.jpg"));
-//		BlendTowardsTexture.instance(p).setBlendLerp(0.995f);
+		BlendTowardsTexture.instance(p).setSourceTexture(ImageCacher.get("images/_sketch/kamala.jpg"));
+		BlendTowardsTexture.instance(p).setFlipY(true);
+		BlendTowardsTexture.instance(p).setBlendLerp(0.995f);
 //		BlendTowardsTexture.instance(p).applyTo(basicMap);
+		ImageUtil.cropFillCopyImage(ImageCacher.get("images/_sketch/kamala.jpg"), basicMap, true);
+		InvertFilter.instance(p).applyTo(basicMap);
+		ContrastFilter.instance(p).setContrast(3.f);
+		ContrastFilter.instance(p).applyTo(basicMap);
 		
 		// blur basic map circle
 		BlurHFilter.instance(p).setBlurByPercent(1f, basicMap.width);
 		BlurVFilter.instance(p).setBlurByPercent(1f, basicMap.height);
 		for (int i = 0; i < 10; i++) {
-			BlurHFilter.instance(p).applyTo(basicMap);
-			BlurVFilter.instance(p).applyTo(basicMap);
+//			BlurHFilter.instance(p).applyTo(basicMap);
+//			BlurVFilter.instance(p).applyTo(basicMap);
 		}
 		
 		///////////////////////
@@ -94,7 +100,8 @@ extends PAppletHax {
 				0,									// offset x
 				0,									// offset y
 				FrameLoop.count(0.002f),			// offset z
-				false								// fractal mode
+				false,								// fractal mode
+				false								// xRepeat mode
 		);
 		ContrastFilter.instance(p).setContrast(3.f);
 		ContrastFilter.instance(p).applyTo(noiseTexture.texture());
@@ -126,24 +133,25 @@ extends PAppletHax {
 		GrainFilter.instance(p).setTime(p.frameCount);
 
 		PGraphics rdMap = (Mouse.yNorm > 0.5f) ? basicMap : noiseTexture.texture();
+		rdMap = basicMap;
 		BlurHMapFilter.instance(p).setMap(rdMap);
-		BlurHMapFilter.instance(p).setAmpMin(0.6f);
-		BlurHMapFilter.instance(p).setAmpMax(1.5f);
+		BlurHMapFilter.instance(p).setAmpMin(0.4f);
+		BlurHMapFilter.instance(p).setAmpMax(1.25f);
 		BlurVMapFilter.instance(p).setMap(rdMap);
 		BlurVMapFilter.instance(p).setAmpMin(0.6f);
-		BlurVMapFilter.instance(p).setAmpMax(1.5f);
+		BlurVMapFilter.instance(p).setAmpMax(1.25f);
 		SharpenMapFilter.instance(p).setMap(rdMap);
-		SharpenMapFilter.instance(p).setAmpMin(3f);
-		SharpenMapFilter.instance(p).setAmpMax(10f);
+		SharpenMapFilter.instance(p).setAmpMin(2f);
+		SharpenMapFilter.instance(p).setAmpMax(4f);
 		
 		DisplacementMapFilter.instance(p).setMap(noiseTexture.texture());
 		DisplacementMapFilter.instance(p).setMode(3);
 		DisplacementMapFilter.instance(p).setRotRange(P.TWO_PI * 2f);
-		DisplacementMapFilter.instance(p).setAmp(0.0005f);
+		DisplacementMapFilter.instance(p).setAmp(0.0001f);
 		
 		RotateFilter.instance(p).setRotation(0);
-		RotateFilter.instance(p).setZoom(0.998f);
-		RotateFilter.instance(p).setOffset(0f, 0f);
+		RotateFilter.instance(p).setZoom(0.9998f);
+		RotateFilter.instance(p).setOffset(0.0003f, 0.00001f);
 
 		BrightnessStepFilter.instance(p).setBrightnessStep((-255f * Mouse.xNorm)/255f);
 
@@ -156,10 +164,10 @@ extends PAppletHax {
 		///////////////////////
 		// Do R/D
 		///////////////////////
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 5; i++) {
 			BrightnessStepFilter.instance(p).applyTo(pg);
-			DisplacementMapFilter.instance(p).applyTo(pg);
 			RotateFilter.instance(p).applyTo(pg);
+			DisplacementMapFilter.instance(p).applyTo(pg);
 			GrainFilter.instance(p).applyTo(pg);	// add jitter. not sure if this helps. might prevent from going full black or white
 			BlurHMapFilter.instance(p).applyTo(pg);
 			BlurVMapFilter.instance(p).applyTo(pg);
@@ -168,9 +176,9 @@ extends PAppletHax {
 			SharpenMapFilter.instance(p).applyTo(pg);
 		}
 		
-		SaturationFilter.instance(p).setSaturation(0f);
-		SaturationFilter.instance(p).applyTo(pg);
-		ThresholdFilter.instance(p).applyTo(pg);
+//		SaturationFilter.instance(p).setSaturation(0f);
+//		SaturationFilter.instance(p).applyTo(pg);
+//		ThresholdFilter.instance(p).applyTo(pg);
 		pg.endDraw();
 		
 		///////////////////////
@@ -183,7 +191,7 @@ extends PAppletHax {
 		///////////////////////
 //		FakeLightingFilter.instance(p).applyTo(p.g);
 //		EdgesFilter.instance(p).applyTo(p.g);
-		FXAAFilter.instance(p).applyTo(p.g);
+//		FXAAFilter.instance(p).applyTo(p.g);
 	}
 
 }
