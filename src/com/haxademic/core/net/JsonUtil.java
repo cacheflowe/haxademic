@@ -46,7 +46,7 @@ public class JsonUtil {
 	}
 
 	public static void jsonToFile(JSONObject jsonData, String path) {
-		jsonToFile(path, jsonData.toString());
+		jsonToFile(jsonData.toString(), path);
 	}
 	
 	public static void jsonToFile(String jsonStr, String path) {
