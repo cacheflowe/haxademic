@@ -24,6 +24,8 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		AudioUtil.printMixerInfo();
+		AudioUtil.DEFAULT_AUDIO_MIXER_INDEX = AudioUtil.getAudioMixerIndex("Primary");
+		
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.sharedContext());
 //		player2 = new WavPlayer(WavPlayer.newAudioContext());
