@@ -9,12 +9,29 @@ import processing.core.PImage;
 public class KinectWrapperV2 
 implements IDepthCamera {
 	
-	// info on Kinect v2 readings: 
+	// Info on Kinect v2 readings: 
 	// - https://medium.com/@lisajamhoury/understanding-kinect-v2-joints-and-coordinate-system-4f4b90b9df16
+	// 
+	// Troubleshooting:
+	// - Make sure to update your graphics drivers to the latest version
+	// - Make sure you're using the fastest USB 3+ port on your computer. Some are faster than others!
+	// - Good luck using USB extensions... They generally don't work.
+	// - Don't disable the Kinect v2 microphone from the Windows Sound Input! This can throw the driver into a death loop, turning on & off on a short cycle
+	// - Also, make sure you keep permissions on in Microphone Privacy settings:
+	//     - Info here: https://social.msdn.microsoft.com/Forums/sqlserver/en-US/bcd775ef-64b0-4e94-8d26-ce297d6d60ea/kinect-v2-keeps-disconnecting-after-every-10-seconds-on-windows-10-1903?forum=kinectv2sdk
+	//     - and here: https://social.msdn.microsoft.com/Forums/en-US/8855395e-e181-474a-b994-82f89d96f35e/cannot-connect-to-the-kinect-studio-host-service?forum=kinectv2sdk
+	// - The latest SDK and Runtime should be: 
+	//     - SDK: 
+	//     - Runtime 2.2.1905: https://www.microsoft.com/en-us/download/details.aspx?id=100067
+	//     - Runtime 2.2.1811: https://www.microsoft.com/en-us/download/details.aspx?id=57578
+	// - Restart KinectMonitor.exe in the Windows Services panel: 
+	//     - `Win+R -> services.msc -> KinectMonitor`
+	// - Download different KinectSensor drivers if you must: 
+	//     - https://www.catalog.update.microsoft.com/Search.aspx?q=VID_045E+PID_02C4
 	
 	protected PApplet p;
-	protected KinectPV2 _kinect;
-	protected boolean _kinectActive = true;
+	protected KinectPV2 kinect;
+	protected boolean kinectActive = true;
 
 	public static int KWIDTH = 512;
 	public static int KHEIGHT = 424;
@@ -30,19 +47,19 @@ implements IDepthCamera {
 		
 		DepthCameraSize.setSize(KWIDTH, KHEIGHT);
 		
-		_kinect = new KinectPV2(p);
-		_kinect.enableDepthImg(initDepthImage);
-		_kinect.enableColorImg(initRGB);
-		_kinect.enableDepthMaskImg(true);
-		_kinect.enableBodyTrackImg(true);
-		_kinect.enableInfraredImg(true);
-		_kinect.init();
+		kinect = new KinectPV2(p);
+		kinect.enableDepthImg(initDepthImage);
+		kinect.enableColorImg(initRGB);
+		kinect.enableDepthMaskImg(true);
+		kinect.enableBodyTrackImg(true);
+		kinect.enableInfraredImg(true);
+		kinect.init();
 		
 		//TODO: Setup configurations to activate each individually
 		//_kinect.activateRawColor(true);
 		//_kinect.enableInfraredImg(true);
 		//_kinect.enableLongExposureInfraredImg(true);
-		int bufSize = _kinect.getDepthImage().height * _kinect.getDepthImage().width;
+		int bufSize = kinect.getDepthImage().height * kinect.getDepthImage().width;
 		_depthArray = new int[bufSize];
 		setMirror(false);
 	}
@@ -50,9 +67,9 @@ implements IDepthCamera {
 	@Override
 	public void update() {
 		// Get the raw depth as array of integers
-		if( _kinectActive == true ) {
+		if( kinectActive == true ) {
 			// Commented out until we get an updated jar
-			int[] depth16Array = _kinect.getRawDepthData();
+			int[] depth16Array = kinect.getRawDepthData();
 			if(_depthArray != null && depth16Array !=null) {			
 				//Convert from 2 byte short to 4 byte int.  
 				//Kinect V2 provides a 16 bit depth value. SimpleOpenNI presents as 32 bit int array
@@ -73,7 +90,7 @@ implements IDepthCamera {
 	 */
 	@Override
 	public PImage getDepthImage() {
-		return _kinect.getDepthImage();
+		return kinect.getDepthImage();
 	}
 	
 	/* (non-Javadoc)
@@ -81,12 +98,12 @@ implements IDepthCamera {
 	 */
 	@Override
 	public PImage getIRImage() {
-		return _kinect.getInfraredImage();
+		return kinect.getInfraredImage();
 //		return _kinect.getBodyTrackImage();
 	}
 	
 	public PImage getRgbImage() {
-		return _kinect.getColorImage();
+		return kinect.getColorImage();
 	}
 	
 	public int rgbWidth() {return 1920;};
@@ -100,7 +117,7 @@ implements IDepthCamera {
 	}
 	
 	public boolean isActive() {
-		return _kinectActive;
+		return kinectActive;
 	}
 	
 	public void setMirror( boolean mirrored ) {
@@ -151,8 +168,8 @@ implements IDepthCamera {
 	}
 	
 	public void stop() {
-		if( _kinectActive ) {
-			_kinect.dispose();
+		if( kinectActive ) {
+			kinect.dispose();
 		}
 	}
 	
