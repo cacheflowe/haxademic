@@ -17,6 +17,10 @@ public class AudioUtil {
 		JavaSoundAudioIO.printMixerInfo();
 	}
 	
+	public static void setPrimaryMixer() {
+		DEFAULT_AUDIO_MIXER_INDEX = AudioUtil.getAudioMixerIndex("Primary");
+	}
+	
 	public static int getAudioMixerIndex(String mixerSearchString) {
 		if(mixerSearchString != null) {
 			Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();

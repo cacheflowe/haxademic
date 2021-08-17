@@ -49,8 +49,7 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
-		AudioUtil.DEFAULT_AUDIO_MIXER_INDEX = 4;
-
+		AudioUtil.setPrimaryMixer();
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		boolean hasUI = true;
