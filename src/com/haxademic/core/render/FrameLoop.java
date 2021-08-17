@@ -14,6 +14,8 @@ public class FrameLoop {
 	protected float ticks;
 	protected int curTick;
 	protected boolean isTick = false;
+	protected float lastTime;
+	protected float deltaTime;
 	
 	// Singleton instance
 	
@@ -47,6 +49,7 @@ public class FrameLoop {
 		loopCurFrame = 1;
 		frame = 1;
 		curTick = -1;
+		lastTime = P.p.millis();
 		
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
@@ -142,11 +145,33 @@ public class FrameLoop {
 		return FrameLoop.instance().isTick;
 	}
 
+	public static float deltaTime() {
+		return FrameLoop.instance().deltaTime;
+	}
+	
+	public static float timeAmp() {
+		return timeAmp(60);
+	}
+	
+	public static float timeAmp(float fps) {	// multiply speeds by this to make up for slow framerates
+		float msPerFrame = 1000f / fps;
+		return FrameLoop.instance().deltaTime / msPerFrame;
+	}
+	
+	public static float curTime() {
+		return FrameLoop.instance().lastTime;
+	}
+	
 	// frame loop calculations 
 	
 	public void pre() {
 		// make framecount available everywhere
 		frame = P.p.frameCount;
+		
+		// check time
+		float curTime = P.p.millis();
+		deltaTime = curTime - lastTime;
+		lastTime = curTime;
 		
 		// update progress
 		if(loopFrames > 0) {

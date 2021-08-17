@@ -60,7 +60,7 @@ extends PAppletHax {
 		// set font
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 18);
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
-				
+
 		// draw debug output
 		p.text(
 				"FrameLoop.count() :: " + (int) FrameLoop.count() + FileUtil.NEWLINE + 
@@ -69,6 +69,8 @@ extends PAppletHax {
 				"FrameLoop.curTick() :: " + FrameLoop.curTick() + FileUtil.NEWLINE + 
 				"FrameLoop.loopCurFrame() :: " + FrameLoop.loopCurFrame() + " / " + FrameLoop.loopFrames() + FileUtil.NEWLINE + 
 				"FrameLoop.frameMod(100) :: " + FrameLoop.frameMod(100) + FileUtil.NEWLINE + 
+				"FrameLoop.timeSpeed() :: " + FrameLoop.timeAmp() + FileUtil.NEWLINE + 
+				"FrameLoop.deltaTime() :: " + FrameLoop.deltaTime() + FileUtil.NEWLINE + 
 				""
 		, 20, 300);
 	}
