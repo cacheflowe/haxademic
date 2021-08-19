@@ -191,6 +191,10 @@ implements IAppStoreListener {
 		((UITextInput) controls.get(key)).set(val);
 	}
 	
+	public static void setValueToggle(String key, boolean val) {
+		controls.get(key).set((val) ? 1 : 0);
+	}
+	
 	public static void setRandomValue(String key) {
 		((UISlider) controls.get(key)).setRandomValue();
 	}
