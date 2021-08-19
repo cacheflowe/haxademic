@@ -3,6 +3,7 @@ package com.haxademic.core.media.audio.interphase;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.patterns.ISequencerPattern;
@@ -16,12 +17,14 @@ import beads.Envelope;
 import beads.Gain;
 import beads.Glide;
 import beads.KillTrigger;
-import beads.Reverb;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.data.IntList;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
 
 public class Sequencer
 implements IAppStoreListener {
@@ -66,7 +69,7 @@ implements IAppStoreListener {
 
 	// audio sample playback objects
 	protected Sample curSample;
-	protected int curSampleIndex = 0;
+	protected int sampleIndex = 0;
 	protected SamplePlayer player;
 	protected SamplePlayer player2;
 	protected Gain gain;
@@ -97,7 +100,8 @@ implements IAppStoreListener {
 		return 
 				  "index: " + index + FileUtil.NEWLINE
 				+ "curStep: " + curStep + FileUtil.NEWLINE
-				+ "file: " + filenames[curSampleIndex] + FileUtil.NEWLINE
+				+ "file: " + filenames[sampleIndex] + FileUtil.NEWLINE
+				+ "sampleLength: " + sampleLength + FileUtil.NEWLINE
 				+ "evolves: " + evolves + FileUtil.NEWLINE
 				+ "sequencesComplete: " + sequencesComplete + FileUtil.NEWLINE
 				+ "triggerCount: " + (sampleTriggerCount % 4) + FileUtil.NEWLINE
@@ -108,8 +112,24 @@ implements IAppStoreListener {
 				+ "release: " + release + FileUtil.NEWLINE
 				+ "playsNotes: " + config.playsNotes + FileUtil.NEWLINE
 				+ "notesByStep: " + notesByStep + FileUtil.NEWLINE
+				+ "noteOffset: " + noteOffset + FileUtil.NEWLINE
 				+ "chordMode: " + chordMode + FileUtil.NEWLINE
 				;
+	}
+	
+	public String json() {
+		// convert steps to ints
+		IntList stepsList =  new IntList(steps.length);
+		for (int i = 0; i < steps.length; i++) {
+			stepsList.append((steps[i]) ? 1 : 0);
+		}
+		JSONArray dataSteps = new JSONArray(stepsList);
+		JSONObject jsonConfig = new JSONObject();
+		jsonConfig.setJSONArray("steps", dataSteps);
+		jsonConfig.setInt("sampleIndex", sampleIndex);
+		jsonConfig.setBoolean("notesByStep", notesByStep);
+		jsonConfig.setInt("noteOffset", noteOffset);
+		return jsonConfig.toString();
 	}
 	
 	/////////////////////////////////////
@@ -146,10 +166,11 @@ implements IAppStoreListener {
 		steps[i] = active;
 	}
 	
-	public void setPatternByInts(int[] pattern) {
+	public Sequencer setPatternByInts(int[] pattern) {
 		for (int i = 0; i < steps.length; i++) {
 			steps[i] = (pattern[i] == 1);
 		}
+		return this;
 	}
 	
 	public boolean shouldPlay() {
@@ -165,13 +186,57 @@ implements IAppStoreListener {
 		return evolves = doesEvolve;
 	}
 	
+	public int noteOffset() {
+		return noteOffset;
+	}
+	
+	public Sequencer noteOffset(int noteOffset) {
+		this.noteOffset = noteOffset;
+		return this;
+	}
+	
+	public boolean notesByStep() {
+		return notesByStep;
+	}
+	
+	public Sequencer notesByStep(boolean notesByStep) {
+		this.notesByStep = notesByStep;
+		return this;
+	}
+	
 	public int numSamples() {
 		return filenames.length;
 	}
 	
-	public void setSampleByIndex(int index) {
-		curSampleIndex = index;
-		curSample = samples[curSampleIndex];
+	public Sequencer setSampleByIndex(int index) {
+		sampleIndex = index;
+		curSample = samples[sampleIndex];
+		return this;
+	}
+	
+	public int sampleIndex() {
+		return sampleIndex;
+	}
+	
+	public String stepsListString() {
+		String stepsString = "";
+		for (int i = 0; i < steps.length; i++) {
+			stepsString += (steps[i]) ? 1 : 0;
+			if(i < steps.length - 1) stepsString += ",";
+		}
+		return stepsString;
+	}
+	
+	public void setSampleByPath(String samplePath) {
+		curSample = SampleManager.sample(samplePath); // samples[curSampleIndex];
+		// check if exists in current sample collection
+		// otherwise, note that we loaded outside of collection
+	}
+	
+	public String fileNameForPath(String samplePath) {
+		File file = new File(samplePath);
+		String simpleFileName = file.getName();
+		return simpleFileName;
 	}
 	
 	public boolean userInteracted() {
@@ -273,15 +338,13 @@ implements IAppStoreListener {
 		filenames = new String[files.size()];
 		for (int i = 0; i < files.size(); i++) {
 			samples[i] = SampleManager.sample(files.get(i));
-			File file = new File(files.get(i));
-			String simpleFileName = file.getName();
-			filenames[i] = simpleFileName;
+			filenames[i] = fileNameForPath(files.get(i));
 			// filenames[i] = this.audioDir + File.separator + simpleFileName;
 			// P.println("loading:", filenames[i]);
 		}
 		
-		curSampleIndex = MathUtil.randRange(0, samples.length - 1);
-		curSample = samples[curSampleIndex];
+		sampleIndex = MathUtil.randRange(0, samples.length - 1);
+		curSample = samples[sampleIndex];
 	}
 	
 	public void playSample() {
@@ -403,9 +466,9 @@ implements IAppStoreListener {
 	// load next sound
 	
 	public void loadNextSound() {
-		curSampleIndex++;
-		if(curSampleIndex >= samples.length) curSampleIndex = 0;
-		curSample = samples[curSampleIndex];
+		sampleIndex++;
+		if(sampleIndex >= samples.length) sampleIndex = 0;
+		curSample = samples[sampleIndex];
 		sampleLength = (float) curSample.getLength();
 	}
 	
