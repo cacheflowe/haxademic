@@ -23,6 +23,7 @@ public class Metronome {
 	protected Clock clock;
 	protected int tempoMin = 60;
 	protected int tempoMax = 140;
+	protected static int loopStartFrame = 0;	// since bpm intervals don't match ful frames, we need to track the start of the last loop
 	
 	public static int numTempos = Interphase.NUM_WALLS + 1; // (0-8 = 9 total)
 	public static int[] TEMPOS = new int[numTempos];
@@ -107,6 +108,7 @@ public class Metronome {
 			int beat = P.round(c.getCount() / 4);
 			P.store.setNumber(Interphase.BEAT, beat);
 			P.store.setNumber(Interphase.CUR_STEP, beat % Interphase.NUM_STEPS);
+			if(beat % 16 == 0) loopStartFrame = P.p.frameCount;	// reset loop to calc looped frames
 		}
 	}
 	
@@ -138,9 +140,9 @@ public class Metronome {
 	
 	public static float loopProgress() {
 		float bpm = P.store.getFloat(Interphase.BPM);
-		float loopTime = Interphase.NUM_STEPS * Metronome.bpmToIntervalMS(bpm, 1);
-		float loopFrames = loopTime / 1000f * 60;
-		float loopProgress = (P.p.frameCount % loopFrames) / loopFrames;
+		float loopTime = Interphase.NUM_STEPS * Metronome.bpmToIntervalMS(bpm, 1) / 4f;	 // divided by 4 beats...
+		float loopFrames = P.round(loopTime / 1000f * 60);
+		float loopProgress = ((P.p.frameCount - loopStartFrame) % loopFrames) / loopFrames;
 		return loopProgress;
 	}
 	

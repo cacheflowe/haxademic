@@ -3,7 +3,6 @@ package com.haxademic.core.media.audio.interphase;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.patterns.ISequencerPattern;
@@ -194,6 +193,12 @@ implements IAppStoreListener {
 		this.noteOffset = noteOffset;
 		return this;
 	}
+	
+	public float attack() { return attack; }
+	public Sequencer attack(float attack) { this.attack = attack; return this; } 
+	public float release() { return release; }
+	public Sequencer release(float release) { this.release = release; return this; }
+	public int pitchIndex1() { return pitchIndex1; }
 	
 	public boolean notesByStep() {
 		return notesByStep;
