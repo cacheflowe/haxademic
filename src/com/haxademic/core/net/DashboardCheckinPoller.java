@@ -19,8 +19,14 @@ import processing.data.JSONObject;
 public class DashboardCheckinPoller
 implements IJsonRequestDelegate {
 
-	// basic props 
+	// events
+	public static String IMAGE_READY_SCREENSHOT = "IMAGE_READY_SCREENSHOT";
+	public static String IMAGE_READY_SCREENSHOT_64 = "IMAGE_READY_SCREENSHOT_64";
+	public static String IMAGE_READY_CUSTOM = "IMAGE_READY_CUSTOM";
+	public static String IMAGE_READY_CUSTOM_64 = "IMAGE_READY_CUSTOM_64";
 	
+	// basic props 
+	public static float JPG_QUALITY = 0.5f;
 	public static boolean DEBUG = false;
 	protected String appId;
 	protected String appTitle;
@@ -37,12 +43,12 @@ implements IJsonRequestDelegate {
 	protected boolean screenshotNeedsUpdate = false;
 	protected String screenshotBase64 = null;
 	
-	protected PImage extraImg;
-	protected PImage extraImgToCopy;
-	protected BufferedImage extraImgNative;
-	protected Timer extraImgTimer;
-	protected String extraImgBase64 = null;
-	protected boolean extraImgNeedsUpdate = false;
+	protected PImage customImg;
+	protected PImage customImgToCopy;
+	protected BufferedImage customImgNative;
+	protected Timer customImgTimer;
+	protected String customImgBase64 = null;
+	protected boolean customImgNeedsUpdate = false;
 	
 	public DashboardCheckinPoller(String appId, String appTitle, String checkinURL, int checkinIntervalSeconds, int screenshotIntervalSeconds, float screenshotScale) {
 		this.appId = appId;
@@ -50,8 +56,10 @@ implements IJsonRequestDelegate {
 
 		// init polling to dashboard URL
 		// & set initial post data on poller
-		jsonPoller = new JsonPoller(checkinURL, checkinIntervalSeconds * 1000, this);
-		jsonPoller.setPostData(getJsonObj());
+		if(checkinURL != null) {
+			jsonPoller = new JsonPoller(checkinURL, checkinIntervalSeconds * 1000, this);
+			jsonPoller.setPostData(getJsonObj());
+		}
 		
 		// add screenshot grabber
 		screenshotBuffer = new ScreenshotBuffer();
@@ -71,8 +79,8 @@ implements IJsonRequestDelegate {
 			updateScreenshot();
 		}}, 60 * 1000); 
 		
-		// subscribe to post for base64 encoding of extra image
-		P.p.registerMethod(PRegisterableMethods.pre, this);
+		// subscribe to post for base64 encoding of custom image
+		P.p.registerMethod(PRegisterableMethods.post, this);
 	}
 	
 	// set basic json data
@@ -93,9 +101,9 @@ implements IJsonRequestDelegate {
 			jsonObj.setString("imageScreenshot", screenshotBase64);		// imageBase64
 			screenshotBase64 = null;
 		}
-		if(extraImgBase64 != null) {
-			jsonObj.setString("imageExtra", extraImgBase64);			// screenshotBase64
-			extraImgBase64 = null;
+		if(customImgBase64 != null) {
+			jsonObj.setString("imagecustom", customImgBase64);			// screenshotBase64
+			customImgBase64 = null;
 		}
 		
 		// add custom props
@@ -127,43 +135,60 @@ implements IJsonRequestDelegate {
 		screenshotNeedsUpdate = true;
 	}
 	
-	public PImage extraImage() {
-		return extraImg;
+	public PImage customImage() {
+		return customImg;
 	}
 	
-	public void setExtraImage(PImage img, int extraImgIntervalSeconds) {
+	public String customImageBase64() {
+		return customImgBase64;
+	}
+	
+	public PImage screenshotImage() {
+		return screenshotBuffer.image();
+	}
+	
+	public String screenshotImageBase64() {
+		return screenshotBase64;
+	}
+	
+	public void setCustomImage(PImage img, int customImgIntervalSeconds) {
 		// store image and create jpeg-encoding-safe copy for posting
-		extraImg = ImageUtil.newPImageForBase64Jpeg(img.width, img.height);
-		extraImgToCopy = img;
+		customImg = ImageUtil.newPImageForBase64Jpeg(img.width, img.height);
+		customImgToCopy = img;
 
 		// upload first image one minute after setting
 		(new Timer()).schedule(new TimerTask() { public void run() {
-			extraImgNeedsUpdate = true;
+			customImgNeedsUpdate = true;
 		}}, 60 * 1000); 
 
-		// start timer to base64 extra image on interval
-		extraImgIntervalSeconds *= 1000;
-		if(extraImgTimer != null) extraImgTimer.cancel();
-		extraImgTimer = new Timer();
-		extraImgTimer.schedule(new TimerTask() { public void run() {
-			extraImgNeedsUpdate = true;
-		}}, extraImgIntervalSeconds / 2, extraImgIntervalSeconds);	 // delay, [repeat]
+		// start timer to base64 custom image on interval
+		customImgIntervalSeconds *= 1000;
+		if(customImgTimer != null) customImgTimer.cancel();
+		customImgTimer = new Timer();
+		customImgTimer.schedule(new TimerTask() { public void run() {
+			customImgNeedsUpdate = true;
+		}}, customImgIntervalSeconds / 2, customImgIntervalSeconds);	 // delay, [repeat]
 	}
 	
-	public void pre() {
+	public void post() {
 		// base64 encode on ui thread
 		if(screenshotNeedsUpdate) {
 			screenshotBuffer.updateScreenshot();
-			screenshotBase64 = screenshotBuffer.base64Scaled(0.5f);
+			screenshotBase64 = screenshotBuffer.base64Scaled(JPG_QUALITY);
 			screenshotNeedsUpdate = false;
+			P.store.setString(IMAGE_READY_SCREENSHOT_64, screenshotBase64);
+			P.store.setImage(IMAGE_READY_SCREENSHOT, screenshotBuffer.image());
 		}
-		if(extraImgNeedsUpdate) {
+		if(customImgNeedsUpdate) {
 			// copy image into special jpeg-encoding-safe format
-			ImageUtil.copyImage(extraImgToCopy, extraImg);
+			ImageUtil.copyImage(customImgToCopy, customImg);
 
-//			extraImgBase64 = Base64Image.encodePImageToBase64(extraImg, "jpg");
-			extraImgBase64 = Base64Image.encodeImageToBase64Jpeg(extraImg, 0.5f);
-			extraImgNeedsUpdate = false;
+//			customImgBase64 = Base64Image.encodePImageToBase64(customImg, "jpg");
+			customImgBase64 = Base64Image.encodeImageToBase64Jpeg(customImg, JPG_QUALITY);
+			customImgNeedsUpdate = false;
+			P.store.setString(IMAGE_READY_CUSTOM_64, customImgBase64);
+			P.store.setImage(IMAGE_READY_CUSTOM, customImg);
+
 		}
 	}
 	
@@ -199,6 +224,7 @@ implements IJsonRequestDelegate {
 	
 	public void aboutToRequest(JsonHttpRequest request) {
 		// update post data on poller
+		if(jsonPoller == null) return;
 		JSONObject postData = (jsonPoller != null) ? getJsonObj() : new JSONObject();	// send an empty object if we're not fully initialized
 		jsonPoller.setPostData(postData);
 	}

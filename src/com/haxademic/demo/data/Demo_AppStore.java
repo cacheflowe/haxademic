@@ -38,6 +38,10 @@ implements IAppStoreListener {
 		p.image(AppStore.instance().getImage("image"), p.width * AppStore.instance().getFloat("mousePercentX"), p.height * AppStore.instance().getFloat("mousePercentY"));
 	}
 
+	//////////////////////////////////////////////
+	// IAppStoreListener delegate methods
+	//////////////////////////////////////////////
+	
 	@Override
 	public void updatedNumber(String key, Number val) {
 //		DebugView.setValue(key, val.floatValue());

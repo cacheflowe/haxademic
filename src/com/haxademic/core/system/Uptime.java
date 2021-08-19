@@ -59,7 +59,7 @@ implements IAppStoreListener, IVideoOutputsWatcherDelegate, IAppSizeWatcherDeleg
 		int hourInSeconds = 3600;
 		int tenMinutesInSeconds = 600;
 		dashboardCheckinPoller = new DashboardCheckinPoller("test-project", "Test Project", "localhost/haxademic/www/dashboard/", tenMinutesInSeconds, hourInSeconds, 0.5f);
-		dashboardCheckinPoller.setExtraImage(debugBuffer, hourInSeconds);	// Upload debugBuffer every hour
+		dashboardCheckinPoller.setCustomImage(debugBuffer, hourInSeconds);	// Upload debugBuffer every hour
 		crashMonitor = new CrashMonitor(false, 30000, false);				// quit (restart via cmd run script) after 30 seconds if crashed
 		DebugView.setTexture("debugBuffer", debugBuffer);
 	}	

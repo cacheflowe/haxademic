@@ -241,13 +241,15 @@ PGA + Bespoke:
 
 ## Interphase
   * Save current config to JSON
-    * Use filenames instead of index position
+    * Use filenames instead of index position? And/or?
     * Load JSON back in
     	* Drag & drop?
-    	* JSON config slider for collecrtion
+    	* JSON config slider for collection
   * Add Gain sliders - allow bumping volume up past 1
+  	* Add this base volume to the Sequencer
+  * Can we get a AudioData to go in each Sequencer? it would be nice if each track had FFT/waveform
   * Switch to playing audio with WavPlayer
-  * Work within Demo_Interphase_AV_Loop & make a solid framework for AV loops
+  * Work within Demo_Interphase_AV_Example & make a solid framework for AV loops
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * [Demo exists!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
