@@ -30,16 +30,22 @@ void setup() {
 }
 
 void loop() {
-  // update buttons
-  button1.loop(); // MUST call the loop() function first
-  button2.loop(); // MUST call the loop() function first
-  button3.loop(); // MUST call the loop() function first
+  // update button objects & respond to events
+  button1.loop();
+  if(button1.isPressed()) Serial.println("The button 1 is pressed");
+  if(button1.isReleased()) Serial.println("The button 1 is released");
+  button2.loop();
+  if(button2.isPressed()) Serial.println("The button 2 is pressed");
+  if(button2.isReleased()) Serial.println("The button 2 is released");
+  button3.loop();
+  if(button3.isPressed()) Serial.println("The button 3 is pressed");
+  if(button3.isReleased()) Serial.println("The button 3 is released");
 
+  // get current state - probably unnecessary
   int btn1State = button1.getState();
   int btn2State = button2.getState();
   int btn3State = button3.getState();
-
-  // stream state
+  // stream state - 1=off, 0=on
   //  Serial.print("button 1 state: ");
   //  Serial.println(btn1State);
   //  Serial.print("button 2 state: ");
@@ -47,22 +53,4 @@ void loop() {
   //  Serial.print("button 3 state: ");
   //  Serial.println(btn3State);
 
-  // trigger events
-  if(button1.isPressed())
-    Serial.println("The button 1 is pressed");
-
-  if(button1.isReleased())
-    Serial.println("The button 1 is released");
-
-  if(button2.isPressed())
-    Serial.println("The button 2 is pressed");
-
-  if(button2.isReleased())
-    Serial.println("The button 2 is released");
-
-  if(button3.isPressed())
-    Serial.println("The button 3 is pressed");
-
-  if(button3.isReleased())
-    Serial.println("The button 3 is released");
 }
