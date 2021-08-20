@@ -11,9 +11,9 @@
  *   + detects the pressed and released events of multiple buttons
  */
 // Wiring:
-// - Black -> Ground
-// - Yellow -> Digital Pin
-// - Red -> 5v for LED light
+// - Put a wire in ground
+// - Put wires in Digital 6,7,8
+// - When you touch 6,7,8 to ground, the buttons are triggered
 
 #include <ezButton.h>
 
@@ -22,7 +22,8 @@ ezButton button2(7);  // create ezButton object that attach to pin 7;
 ezButton button3(8);  // create ezButton object that attach to pin 8;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("Buttons started");
   button1.setDebounceTime(50); // set debounce time to 50 milliseconds
   button2.setDebounceTime(50); // set debounce time to 50 milliseconds
   button3.setDebounceTime(50); // set debounce time to 50 milliseconds
