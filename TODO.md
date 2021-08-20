@@ -12,7 +12,7 @@
 		* DropFile library no longer works
 	* Updated JavaFX components exist in the external JavaFX library
 		* Still need to figure out the right way to import WebView, which used to come in Java 8, but was very out-of-date
-	* Webcam interface via `Capture` object is very different. No longer gives you a list of resolutions, but has other improvements based on the updates to the underlying gstreame library
+	* Webcam interface via `Capture` object is very different. No longer gives you a list of resolutions, but has other improvements based on the updates to the underlying gstreamer library
 	* Video library is far more performant based on these same changes
 	* MIDI output meant for a hardware device started triggering system MIDI piano sounds
 	* [To watch] Does Robot's screenshot utility fix the old problem of screenshots getting stuck and not updating?
@@ -69,11 +69,10 @@
 
 ## Bring into Haxademic:
 
-https://slides.com/nicolasbarradeau/it-s-dangerous-to-go-alone-take-this
-	DAMPING
-	x+=(newX−x)∗.1x += (newX-x) *.1x+=(newX−x)∗.1
-	EASING
-	t=t∗t∗(3−2∗t)t = t * t * ( 3 - 2 * t )t=t∗t∗(3−2∗t)
+Damping
+x += (newX-x * 0.1)
+Easing
+t = t * t * (3.-2.) * t
 
 Infinity:
 
@@ -85,11 +84,12 @@ Infinity:
 PGA + Bespoke:
 
 * Chrome launch script? And java side?
-* cef-spout updated compile
+
+Other: 
 
 * New 3d particle system from WashHands render
-
 * this: https://skeleton-tracing.netlify.app/
+* https://github.com/Bonjour-Interactive-Lab/Processing-GPUImage/
 
 ## InputTrigger revamp
 
@@ -248,19 +248,19 @@ PGA + Bespoke:
   * Add Gain sliders - allow bumping volume up past 1
   	* Add this base volume to the Sequencer
   * Can we get a AudioData to go in each Sequencer? it would be nice if each track had FFT/waveform
-  * Switch to playing audio with WavPlayer
+  * Switch to playing audio with WavPlayer? 
   * Work within Demo_Interphase_AV_Example & make a solid framework for AV loops
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * [Demo exists!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
     * Add to Interphase sequencer
-  * [Works!] Integrate Communichords looping tones (for Moire Room, specifically)
+  * Integrate Communichords looping tones (for Moire Room, specifically)
   * Add slider for BPM
   * [DONE but kills internal randomization & incrementing] Add sliders to specifically choose samples
   * Space button to start/stop
   * Store/recall audio & visual combos
     * Serialize sequencer config
-    * Need to turn off totally random notes (rely on position-based notes)
+    * [Done?] Need to turn off totally random notes (rely on position-based notes)
     * Morph between stored configs
     * Store premade patterns for different beats/songs. Json?
     * Make alternate z-space-scrolling sequencer grid
