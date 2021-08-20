@@ -105,6 +105,7 @@ implements IAppStoreListener {
 	protected void drawVisuals() {
 		// update easings
 		for (int i = 0; i < sequencerHits.length; i++) sequencerHits[i].update();
+		for (int i = 0; i < sequencerHits.length; i++) interphase.sequencerAt(0).update();
 		
 		// set draw context
 		p.background(255);
@@ -113,10 +114,10 @@ implements IAppStoreListener {
 		
 		// draw results
 		pg.beginDraw();
-		pg.background(255);
+		pg.background(0);
 		PG.setDrawCenter(pg);
 		
-		int[] colors = ColorsHax.COLOR_GROUPS[10];
+		int[] colors = ColorsHax.COLOR_GROUPS[9];
 
 		// draw background square with overall progress as rotation
 		DebugView.setValue("Metronome.loopProgress()", Metronome.loopProgress());
@@ -252,6 +253,26 @@ implements IAppStoreListener {
 			interphase.sequencerAt(5).setPatternByInts(new int[] {0,0,1,0,1,0,1,0,0,0,0,0,1,0,0,1}).noteOffset(8).attack(0).release(500);
 			interphase.sequencerAt(6).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0}).noteOffset(4).attack(0).release(500);
 			interphase.sequencerAt(7).setPatternByInts(new int[] {0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1}).noteOffset(1).attack(0).release(500);
+
+			// alt!
+//			UI.setValue("SAMPLE_1", 27);
+//			UI.setValue("SAMPLE_2", 76);
+//			UI.setValue("SAMPLE_3", 19);
+//			UI.setValue("SAMPLE_4", 43);
+//			UI.setValue("SAMPLE_5", 17);
+//			UI.setValue("SAMPLE_6", 45);
+//			UI.setValue("SAMPLE_7", 12);
+//			UI.setValue("SAMPLE_8", 28);
+//			
+//			interphase.sequencerAt(0).setPatternByInts(new int[] {1,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0}).noteOffset(0);
+//			interphase.sequencerAt(1).setPatternByInts(new int[] {0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1}).noteOffset(0);
+//			interphase.sequencerAt(2).setPatternByInts(new int[] {0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1}).noteOffset(0);
+//			interphase.sequencerAt(3).setPatternByInts(new int[] {0,0,0,0,1,0,0,1,0,1,0,1,1,0,0,0}).noteOffset(0);
+//			interphase.sequencerAt(4).setPatternByInts(new int[] {0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0}).noteOffset(0);
+//			interphase.sequencerAt(5).setPatternByInts(new int[] {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1}).noteOffset(8).attack(0).release(500);
+//			interphase.sequencerAt(6).setPatternByInts(new int[] {0,1,0,0,0,0,1,0,1,0,0,0,1,0,0,0}).noteOffset(4).attack(0).release(500);
+//			interphase.sequencerAt(7).setPatternByInts(new int[] {0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,1}).noteOffset(1).attack(0).release(500);
+
 		}
 		
 		// update Interphase object every frame

@@ -4,10 +4,10 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.interphase.Interphase;
@@ -34,7 +34,8 @@ implements IAppStoreListener {
 	}
 
 	protected void firstFrame() {
-		AppStore.instance().addListener(this);
+		AudioUtil.setPrimaryMixer();
+		P.store.addListener(this);
 		
 		P.store.setNumber(Interphase.BPM, 90);
 		metro = new Metronome();

@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.analysis;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
@@ -11,6 +12,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
 		AudioIn.instance(AudioInputLibrary.ESS);
 		AudioIn.instance().drawBufferFFT(true);
 		AudioIn.instance().drawBufferWaveform(true);
