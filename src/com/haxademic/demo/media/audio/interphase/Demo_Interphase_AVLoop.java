@@ -46,8 +46,7 @@ implements IAppStoreListener {
 	protected void firstFrame() {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		boolean hasUI = true;
-		boolean hasMidi = false;
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI, hasMidi);
+		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI);
 		P.store.addListener(this);
 		
 		P.out("WebServer.DEBUG", WebServer.DEBUG);

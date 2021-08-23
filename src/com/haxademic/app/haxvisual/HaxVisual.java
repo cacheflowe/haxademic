@@ -241,7 +241,7 @@ implements IAppStoreListener {
 		// buildInterstitial();
 
 		// build audio player?
-		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true, false);
+		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 		
 		
 		UI.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);

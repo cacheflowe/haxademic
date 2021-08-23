@@ -12,7 +12,6 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -59,8 +58,7 @@ implements IAppStoreListener {
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		boolean hasUI = true;
-		boolean hasMidi = false;
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI, hasMidi);
+		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI);
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
 		numSequencers = interphase.sequencers().length;
 

@@ -24,7 +24,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		AudioUtil.printMixerInfo();
-		AudioUtil.DEFAULT_AUDIO_MIXER_INDEX = AudioUtil.getAudioMixerIndex("Primary");
+		AudioUtil.setPrimaryMixer();
 		
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.sharedContext());
@@ -54,6 +54,7 @@ extends PAppletHax {
 		if(p.key == '8') player.loopWav(soundbed);
 		if(p.key == '9') player.pauseToggle(soundbed);
 		if(p.key == '0') player.stop(soundbed);
-		if(p.key == '-') player.playWav(oneshots[2], 1, WavPlayer.PAN_CENTER, true, 0, 0, 5000, 5000, 0);
+		if(p.key == '-') player.fadeOut(soundbed);
+		if(p.key == '=') player.playWav(oneshots[2], 1, WavPlayer.PAN_CENTER, true, 0, 0, 5000, 5000, 0);
 	}
 }

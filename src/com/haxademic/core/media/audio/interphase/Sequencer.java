@@ -8,8 +8,13 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternUtil;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.media.audio.analysis.AudioStreamData;
+import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
 import beads.Envelope;
@@ -82,17 +87,32 @@ implements IAppStoreListener {
 	// draw object
 	protected ISequencerDrawable drawable;
 	
+	// local audio analysis
+	protected AudioInputBeads audioIn;
+	protected PGraphics audioInputBuffer;
+	
 	public Sequencer(Interphase inter, SequencerConfig config) {
+		this(inter, config, false);
+	}
+	
+	public Sequencer(Interphase inter, SequencerConfig config, boolean analyzeAudio) {
 		this.config = config;
 		this.index = config.index;
 		this.audioDir = config.audioPath;
 		this.sequencerPatterns = config.patterns;
 		this.inter = inter;
+		if(analyzeAudio) addAudioAnalysis();
 		getAudiofiles(audioDir);
 		loadNextSound();
 		initStepValues();
 		updateChangeSoundCount();
 		P.store.addListener(this);
+	}
+	
+	protected void addAudioAnalysis() {
+		audioIn = new AudioInputBeads(Metronome.ac);
+		audioInputBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
+		DebugView.setTexture("Audio Input " + index, audioInputBuffer);
 	}
 	
 	public String info() {
@@ -249,6 +269,16 @@ implements IAppStoreListener {
 	}
 	
 	public void update() {
+		if(audioIn != null) {
+			if(audioInputBuffer != null && UI.active()) {
+				audioInputBuffer.beginDraw();
+				audioInputBuffer.background(0);
+				audioIn.update(audioInputBuffer);
+				audioInputBuffer.endDraw();
+			} else {
+				audioIn.update(null);
+			}
+		}
 		if(drawable != null) drawable.update(steps, curStep); 
 	}
 	
@@ -462,8 +492,15 @@ implements IAppStoreListener {
 			// add sample direct to AudioContext output
 			ac.out.addInput(curPlayer);
 		}
+		
+		// set gain on audio input analyzer
+		// todo: switch between gain or curPlayer, to take into account asdr
+		if(audioIn != null) audioIn.addInput(curPlayer);
 
-		int delay = (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0; //  add some swing... move this!
+		// add some swing... move this!
+		int delay = (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0;
+		
+		// play!
 		curPlayer.start(delay);
 		return curPlayer;
 	}
@@ -494,7 +531,7 @@ implements IAppStoreListener {
 	// AppStore callbacks & Beat updates
 	/////////////////////////////////////
 	
-	protected void beatChanged() {
+	protected void interphaseBeatChanged() {
 		// update timing
 		if(curStep == 0) {
 			// increment sequence
@@ -535,7 +572,7 @@ implements IAppStoreListener {
 			newBeat = (newBeat - offset + Interphase.NUM_STEPS) % Interphase.NUM_STEPS; // do loop and offset per panel
 			if(newBeat != curStep) {
 				curStep = newBeat;
-				beatChanged();
+				interphaseBeatChanged();
 			}
 		}
 	}

@@ -72,7 +72,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase(SequencerConfig[] interphaseChannels, boolean hasUI, boolean hasMIDI) {
+	public Interphase(SequencerConfig[] interphaseChannels, boolean hasUI) {
 		NUM_WALLS = interphaseChannels.length;
 		this.hasUI = hasUI;
 		
@@ -94,13 +94,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
 		}
 		
-		if(hasMIDI) {
-			// build launchpad
-			launchpad1 = new LaunchPad(0, 3);
-			launchpad1.setDelegate(this);
-			launchpad2 = new LaunchPad(1, 4);
-			launchpad2.setDelegate(this);
-		}			
 		if(hasUI) {
 			// alternate UI buttons
 			for (int i = 0; i < 16; i++) {
@@ -116,6 +109,13 @@ implements IAppStoreListener, ILaunchpadCallback {
 			DebugView.setHelpLine("[ASDF] |", "New sound");
 			DebugView.setHelpLine("[9] |", "Toggle auto morph");
 		}
+	}
+	
+	public void enableLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
+		launchpad1 = new LaunchPad(midiIn1, midiOut1);	// 0, 3
+		launchpad1.setDelegate(this);
+		launchpad2 = new LaunchPad(midiIn2, midiOut2);  // 1, 4
+		launchpad2.setDelegate(this);
 	}
 	
 	
