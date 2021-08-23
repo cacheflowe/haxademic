@@ -539,7 +539,7 @@ implements IAppStoreListener {
 			// load a new sound on a random interval
 			checkLoadNewSound();
 			// every 8 cycles, trigger
-			if(P.round(sequencesComplete) % Interphase.NUM_WALLS == index) evolvePattern();
+			if(P.round(sequencesComplete) % Interphase.NUM_CHANNELS == index) evolvePattern();
 		}
 		
 		// trigger sound! queue up so Metronome can trigger it within main audio thread/context

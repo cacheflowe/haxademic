@@ -6,13 +6,11 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Scales;
@@ -51,14 +49,10 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
-		AudioUtil.DEFAULT_AUDIO_MIXER_INDEX = 4;
-
 		mockup = P.getImage("images/_sketch/sheraton-street-view.png");
 		
-//		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		boolean hasUI = true;
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI);
-//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
+		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		interphase.initUI();
 		numSequencers = interphase.sequencers().length;
 
 		// add drawable sequencers

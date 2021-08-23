@@ -25,7 +25,7 @@ public class Metronome {
 	protected int tempoMax = 140;
 	protected static int loopStartFrame = 0;	// since bpm intervals don't match ful frames, we need to track the start of the last loop
 	
-	public static int numTempos = Interphase.NUM_WALLS + 1; // (0-8 = 9 total)
+	public static int numTempos = Interphase.NUM_CHANNELS + 1; // (0-8 = 9 total)
 	public static int[] TEMPOS = new int[numTempos];
 	protected LinearFloat bpmEased = new LinearFloat(0, Interphase.TEMPO_EASE_FACTOR);
 
@@ -49,7 +49,7 @@ public class Metronome {
 	public void initTempos() {
 		// helpers to calculate stopping points if user interaction with each wall "excites" the bpm
 		float tempoSpread = tempoMax - tempoMin;
-		float tempoIncrement = tempoSpread / Interphase.NUM_WALLS; 
+		float tempoIncrement = tempoSpread / Interphase.NUM_CHANNELS; 
 		for (int i = 0; i < TEMPOS.length; i++) {
 			float bpm = tempoMin + i * tempoIncrement;
 			TEMPOS[i] = (int) bpm;

@@ -55,11 +55,9 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
-		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		boolean hasUI = true;
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI);
-//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
+		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		interphase.initUI().initLaunchpads(numSequencers, numSequencers, numSequencers, numSequencers);
 		numSequencers = interphase.sequencers().length;
 
 		// add drawable sequencers

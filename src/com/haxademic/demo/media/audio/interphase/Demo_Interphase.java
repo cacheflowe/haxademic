@@ -17,15 +17,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
 		Config.setProperty( AppSettings.HEIGHT, 780 );
 		Config.setProperty( AppSettings.APP_NAME, "INTERPHASE" );
-//		Config.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 	
 	protected void firstFrame() {
-		boolean hasUI = true;
-
-//		interphase = new Interphase(SequencerConfig.interphaseChannels, true);
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI);
+		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
+		interphase.initLaunchpads(1, 4, 2, 5);
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 	}
 	

@@ -12,7 +12,6 @@ import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.http.HttpInputState;
-import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Scales;
@@ -49,11 +48,9 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
-		AudioUtil.setPrimaryMixer();
-		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		boolean hasUI = true;
-		interphase = new Interphase(SequencerConfig.interphaseChannels(), hasUI);
+		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		interphase.initUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
 		numSequencers = interphase.sequencers().length;
 

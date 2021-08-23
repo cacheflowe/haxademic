@@ -10,11 +10,13 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import themidibus.MidiBus;
 
 public class Interphase
 implements IAppStoreListener, ILaunchpadCallback {
@@ -23,7 +25,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	// sizes
 	
-	public static int NUM_WALLS = 8;
+	public static int NUM_CHANNELS = 8;
 	public static final int NUM_STEPS = 16;
 	
 	// events
@@ -53,7 +55,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public Sequencer sequencers[];
 	protected Metronome metronome;
 	
-	protected boolean hasUI;
+	protected boolean hasUI = false;
 	
 	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{104, 41});
 	protected InputTrigger trigger2 = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{105, 42});
@@ -72,9 +74,14 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase(SequencerConfig[] interphaseChannels, boolean hasUI) {
-		NUM_WALLS = interphaseChannels.length;
-		this.hasUI = hasUI;
+	public Interphase(SequencerConfig[] interphaseChannels) {
+		this(interphaseChannels, AudioUtil.getAudioMixerIndex("Primary"));
+	}
+	
+	public Interphase(SequencerConfig[] interphaseChannels, int audioOutDeviceIndex) {
+		AudioUtil.DEFAULT_AUDIO_MIXER_INDEX = audioOutDeviceIndex;
+		NUM_CHANNELS = interphaseChannels.length;
+		P.out("NUM_CHANNELS", NUM_CHANNELS);
 		
 		// init state
 		P.store.setNumber(BEAT, 0);
@@ -89,33 +96,52 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// build music machine
 		scales = new Scales();
 		metronome = new Metronome();
-		sequencers = new Sequencer[NUM_WALLS];
-		for (int i = 0; i < sequencers.length; i++) {
-			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
-		}
-		
-		if(hasUI) {
-			// alternate UI buttons
-			for (int i = 0; i < 16; i++) {
-				P.out("Interphase TODO: make UI buttons dynamic per number of channels");
-				UI.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
-			}
-			UI.addWebInterface(false);
+		buildSequencers(interphaseChannels);
+		addDebugHelpLines();
+	}
 	
-			// set debug help lines
-			DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
-			DebugView.setHelpLine("[1234] |", "Trigger");
-			DebugView.setHelpLine("[QWER] |", "Toggle on/off");
-			DebugView.setHelpLine("[ASDF] |", "New sound");
-			DebugView.setHelpLine("[9] |", "Toggle auto morph");
+	protected void buildSequencers(SequencerConfig[] interphaseChannels) {
+		sequencers = new Sequencer[NUM_CHANNELS];
+		for (int i = 0; i < NUM_CHANNELS; i++) {
+			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
 		}
 	}
 	
-	public void enableLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
-		launchpad1 = new LaunchPad(midiIn1, midiOut1);	// 0, 3
+	protected void addDebugHelpLines() {
+		DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
+		DebugView.setHelpLine("[1234] |", "Trigger");
+		DebugView.setHelpLine("[QWER] |", "Toggle on/off");
+		DebugView.setHelpLine("[ASDF] |", "New sound");
+		DebugView.setHelpLine("[9] |", "Toggle auto morph");
+	}
+	
+	// init config
+	
+	public Interphase initUI() {
+		hasUI = true;
+		// add UI buttons grid
+		// make dyanmic number of columns per number of sequencers
+		for (int i = 0; i < NUM_STEPS; i++) {
+			int numChannels = sequencers.length;
+			String[] buttonIds = new String[numChannels];
+			for(int j = 0; j < numChannels; j++) {
+				int channel = j;
+				int step = i;
+				buttonIds[j] = "beatgrid-"+channel+"-"+step;
+			}
+			UI.addButtons(buttonIds, true);
+		}
+		UI.addWebInterface(false);
+		return this;
+	}
+	
+	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
+		MidiBus.list();
+		launchpad1 = new LaunchPad(midiIn1, midiOut1);
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPad(midiIn2, midiOut2);  // 1, 4
+		launchpad2 = new LaunchPad(midiIn2, midiOut2);
 		launchpad2.setDelegate(this);
+		return this;
 	}
 	
 	
@@ -184,7 +210,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
-		if(!hasUI) return;
 		
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
@@ -217,11 +242,14 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	protected void updateUIButtons() {
 		if(!hasUI) return;
+		
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
+			int channel = i;
 			for (int step = 0; step < NUM_STEPS; step++) {
-				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
-				UI.get("beatgrid-"+i+"-"+step).set(value);
+				float value = (sequencers[i].stepActive(step)) ? 1 : 0;
+				String buttonId = "beatgrid-"+channel+"-"+step;
+				UI.get(buttonId).set(value);
 				
 				if(step % 4 == 0) {
 					if(UI.active()) {
@@ -349,19 +377,19 @@ implements IAppStoreListener, ILaunchpadCallback {
 //		P.out(launchpadNumber, x, y, value);
 		int step = (launchpadNumber == 1) ? y : 8 + y;
 		boolean isActive = (value == 1f);
-		if(x < 8) sequencers[x].stepActive(step, isActive);
+		if(x < NUM_CHANNELS) sequencers[x].stepActive(step, isActive);
 	}
 	
 	public void noteOn(LaunchPad launchpad, int note, float value) {
 		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
 //		P.out("Interphase.noteOn", launchpadNumber, note, value);
 		if(launchpadNumber == 1) {
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < NUM_CHANNELS; i++) {
 				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(); 
 			}
 		} else {
 			// change sample
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < NUM_CHANNELS; i++) {
 				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].loadNextSound(); 
 			}
 			// bpm up/down
