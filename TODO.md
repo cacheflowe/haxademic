@@ -240,23 +240,40 @@ Other:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Build a demo with an FFT history texture per channel
+  * Sequencer properties to add to JSON & UI. 
+  * ...Pull some of these from SequencerConfig & make setters on Sequencer?
+    * Base volume (new feature, currently in SequencerConfig - allow bumping volume up past 1)
+    * Base Pitch (new feature)
+    * Mute
+    * Evolve
+    * Attack / Release (active or not, also number!)
+    * Swing
+    * Sample index
+    * Plays Notes (currently in SequencerConfig)
+    * Plays chords (currently in SequencerConfig)
+    * Note offset
+    * Note randomization
+  * Add button to restart sequence
+  * Move UI from individual apps into Interphase & Sequencers
+    * UI.addTitle("Interphase Global");
+    * UI.addSlider(GLOBAL_BPM, 105, 60, 170, 1, false);
+    * UI.addToggle(GLOBAL_EVOLVES, false, false);
+    * UI.addSlider(CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
+  * Can a track be a loop instead of a one-shot? how does this work? add to SequencerConfig
   * Save current config to JSON
     * Use filenames instead of index position? And/or?
     * Load JSON back in
     	* Drag & drop?
     	* JSON config slider for collection
-  * Add Gain sliders - allow bumping volume up past 1
-  	* Add this base volume to the Sequencer
-  * Can we get a AudioData to go in each Sequencer? it would be nice if each track had FFT/waveform
-  * Switch to playing audio with WavPlayer? 
+  * Add getters for audio data + waveform per-channel
   * Work within Demo_Interphase_AV_Example & make a solid framework for AV loops
-  * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
+  * Switch to playing audio with WavPlayer? 
   * [Demo exists!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
     * Add to Interphase sequencer
+  * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * Integrate Communichords looping tones (for Moire Room, specifically)
-  * Add slider for BPM
-  * [DONE but kills internal randomization & incrementing] Add sliders to specifically choose samples
   * Space button to start/stop
   * Store/recall audio & visual combos
     * Serialize sequencer config
@@ -266,7 +283,6 @@ Other:
     * Make alternate z-space-scrolling sequencer grid
   * Musical interaction
     * allow doubletime sequencer
-    * More morphing options
     * Add breakbeat & synth loop Sequencer types? How to work these concepts in?
   * Sound style
     * More/new samples! Get rid of abrasive samples
@@ -302,10 +318,7 @@ Other:
       * https://stackoverflow.com/a/39415436
     * [DONE?] Figure out delay for swing
     * Check this out: https://www.elf-audio.com/synths/bauble/#
-  * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
-    * Look at Minim setInputMixer example to switch audio inputs
-    * Test/Fix basic audio input. why is audio getting delayed after hours of running?
-      * Create separate demos for each input object?
+    * Create separate demos for each input object?
   * Demo_DroneSampler upgrades: check TODO list
   * WavPlayer panning and FFT analysis need love:
     * FFT only works for the left channel if it's been panned
@@ -451,7 +464,7 @@ Other:
   * Geometry shaders
   	* http://www.nachocossio.com/geometry-shaders-in-processing/
   	* https://github.com/kosowski/Geometry-shaders-Processing/blob/master/geometry_shader_tessellation/sphere.pde
-  * 32-bit packing (not needed now with P32 renderer)
+  * 32-bit packing (not needed now with P32 renderer?)
   	* https://stackoverflow.com/questions/18453302/how-do-you-pack-one-32bit-int-into-4-8bit-ints-in-glsl-webgl
   	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
   	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
