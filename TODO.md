@@ -240,6 +240,11 @@ Other:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Fix up Audio buffers per input
+    * Clean up `AudioIn.updateAudioData()` - this should lazy-init its own debug buffer instead of passing in from outside
+    * Move update buffer into it's own method instead of tying into `update()`
+    * Add FFT/waveform buffer drawing into AudioStreamData so each channel can have a buffer created. Right now it's only global in AudioIn
+    * MAKE AN ADDRESSABLE LED DEMO WITH FFT/WAVEFORM!
   * Build a demo with an FFT history texture per channel
   * Sequencer properties to add to JSON & UI. 
   * ...Pull some of these from SequencerConfig & make setters on Sequencer?
@@ -301,6 +306,9 @@ Other:
     * Better haxvisual patterns configurations
 
 ## Audio
+  * Auto-pitch script
+    * `aubio notes keys-013.wav --release-drop 90`
+    * `sox keys-012.wav keys-012.pitched.wav pitch -100`
   * Last convo
     * Build a sequencer texture
     * Sequencer offset control (1-16). show playhead in sequencer display
