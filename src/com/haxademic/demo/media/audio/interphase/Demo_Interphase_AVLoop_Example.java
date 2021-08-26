@@ -57,6 +57,8 @@ implements IAppStoreListener {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase.initUI();
+		interphase.initAudioAnalysisPerChannel();
+		
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
 		numSequencers = interphase.sequencers().length;
 

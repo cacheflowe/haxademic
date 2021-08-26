@@ -92,16 +92,11 @@ implements IAppStoreListener {
 	protected PGraphics audioInputBuffer;
 	
 	public Sequencer(Interphase inter, SequencerConfig config) {
-		this(inter, config, false);
-	}
-	
-	public Sequencer(Interphase inter, SequencerConfig config, boolean analyzeAudio) {
 		this.config = config;
 		this.index = config.index;
 		this.audioDir = config.audioPath;
 		this.sequencerPatterns = config.patterns;
 		this.inter = inter;
-		if(analyzeAudio) addAudioAnalysis();
 		getAudiofiles(audioDir);
 		loadNextSound();
 		initStepValues();
@@ -109,10 +104,11 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 	}
 	
-	protected void addAudioAnalysis() {
+	public void addAudioAnalysis() {
 		audioIn = new AudioInputBeads(Metronome.ac);
 		audioInputBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
 		DebugView.setTexture("Audio Input " + index, audioInputBuffer);
+//		DebugView.setTexture("Audio Input " + index, audioIn.audioData().);
 	}
 	
 	public String info() {

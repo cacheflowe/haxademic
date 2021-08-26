@@ -144,6 +144,13 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
+	public Interphase initAudioAnalysisPerChannel() {
+		for (int i = 0; i < sequencers.length; i++) {
+			sequencers[i].addAudioAnalysis();
+		}
+		return this;
+	}
+	
 	
 	/////////////////////////////////
 	// GETTERS

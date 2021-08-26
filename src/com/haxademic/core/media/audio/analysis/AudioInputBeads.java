@@ -1,5 +1,8 @@
 package com.haxademic.core.media.audio.analysis;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.media.audio.AudioUtil;
 
@@ -13,6 +16,7 @@ import beads.PowerSpectrum;
 import beads.RampBuffer;
 import beads.ShortFrameSegmenter;
 import beads.SpectralDifference;
+import beads.UGen;
 import processing.core.PGraphics;
 
 public class AudioInputBeads
@@ -22,6 +26,8 @@ implements IAudioInput {
 	protected Gain gain;
 	protected int FFT_SIZE = 512;
 	protected float[] freqs = new float[FFT_SIZE/2];
+	protected ShortFrameSegmenter sfs;
+	protected FFT fft;
 	protected PowerSpectrum ps;
 	protected PeakDetector od;
 	protected BiquadFilter fftFilter;
@@ -34,9 +40,9 @@ implements IAudioInput {
 	public AudioInputBeads() {
 		ac = AudioUtil.getBeadsContext();
 
-		ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
+		sfs = new ShortFrameSegmenter(ac);
 		gain = new Gain(ac, 2);
-		FFT fft = new FFT();
+		fft = new FFT();
 		ps = new PowerSpectrum();
 		sfs.setChunkSize(FFT_SIZE);
 		sfs.setHopSize(FFT_SIZE/2);
@@ -65,20 +71,37 @@ implements IAudioInput {
 		fftFilter = new BiquadFilter(ac, BiquadFilter.BP_PEAK, 5000.0f, 0.7f);// connect the SamplePlayer to the filterfilter1.addInput(sp);
 		fftFilter.addInput(ac.out);
 
-		ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
-		sfs.addInput(fftFilter); // sfs.addInput(ac.out);
-		FFT fft = new FFT();
+		sfs = new ShortFrameSegmenter(ac);
+		gain = new Gain(ac, 2);
+		fft = new FFT();
 		ps = new PowerSpectrum();
 		sfs.setChunkSize(FFT_SIZE);
 		sfs.setHopSize(FFT_SIZE/2);
+		sfs.addInput(gain); // fftFilter // sfs.addInput(ac.out);
 		sfs.addListener(fft);
 		fft.addListener(ps);
 		ac.out.addDependent(sfs);
+		
+		gain.addInput(ac.out);
 
 		addBeatDetection();
 		
 		// make sure we have analysis arrays created
 		audioStreamData.setFFTFrequencies(freqs);
+	}
+	
+	public void addInput(UGen input) {
+		// remove inputs to make way for a new one
+		Set<UGen> ins = sfs.getConnectedInputs();
+		Iterator<UGen> itr = ins.iterator();
+		while(itr.hasNext()){
+			UGen in = itr.next();
+			sfs.removeAllConnections(in);
+		}
+		
+		// add new input!
+//		P.out("sfs.noInputs()", sfs.noInputs());
+		sfs.addInput(input);
 	}
 
 	public void addBeatDetection() {
@@ -118,11 +141,11 @@ implements IAudioInput {
 			audioStreamData.setFFTFrequencies(freqs);
 			audioStreamData.calcFreqsDampened();
 		}
-		if(audioInput) {
+//		if(audioInput) {
 			audioStreamData.setWaveformOffsets(gain.getOutBuffer(0));
-		} else {
-			audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
-		}
+//		} else {
+//			audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
+//		}
 		if(beatDirty && P.p.millis() > lastBeatTime + beatTimeThresh) {
 			lastBeatTime = P.p.millis();
 			beatDirty = false;
