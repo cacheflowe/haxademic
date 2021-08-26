@@ -39,6 +39,8 @@ public class AppStore {
 		return instance;
 	}
 	
+	// listeners
+	
 	public void addListener(IAppStoreListener obj) {
 		listeners.add(obj);
 	}
@@ -46,6 +48,8 @@ public class AppStore {
 	public void removeListener(IAppStoreListener obj) {
 		listeners.remove(obj);
 	}
+	
+	// setters
 	
 	public void setNumber(String storeKey, Number val) {
 		numberStore.put(storeKey, val);
@@ -92,33 +96,51 @@ public class AppStore {
 		deferredStateTimer.start();
 	}
 	
+	// getters
+	
+	public boolean hasNumber(String storeKey) { return numberStore.containsKey(storeKey); }
+	public Number getNumber(String storeKey, Number defaultVal) { return (hasNumber(storeKey)) ? getNumber(storeKey) : defaultVal; };
 	public Number getNumber(String storeKey) {
 		return numberStore.get(storeKey);
 	}
 
+	public boolean hasString(String storeKey) { return stringStore.containsKey(storeKey); }
+	public String getString(String storeKey, String defaultVal) { return (hasString(storeKey)) ? getString(storeKey) : defaultVal; };
 	public String getString(String storeKey) {
 		return stringStore.get(storeKey);
 	}
 	
+	public boolean hasFloat(String storeKey) { return numberStore.containsKey(storeKey); }
+	public float getFloat(String storeKey, float defaultVal) { return (hasFloat(storeKey)) ? getFloat(storeKey) : defaultVal; };
 	public float getFloat(String storeKey) {
 		return numberStore.get(storeKey).floatValue();
 	}
 
+	public boolean hasInt(String storeKey) { return numberStore.containsKey(storeKey); }
+	public int getInt(String storeKey, int defaultVal) { return (hasInt(storeKey)) ? getInt(storeKey) : defaultVal; };
 	public int getInt(String storeKey) {
 		return numberStore.get(storeKey).intValue();
 	}
 
+	public boolean hasBoolean(String storeKey) { return boolStore.containsKey(storeKey); }
+	public boolean getBoolean(String storeKey, boolean defaultVal) { return (hasBoolean(storeKey)) ? getBoolean(storeKey) : defaultVal; };
 	public boolean getBoolean(String storeKey) {
 		return boolStore.get(storeKey).booleanValue();
 	}
 
+	public boolean hasImage(String storeKey) { return imageStore.containsKey(storeKey); }
+	public PImage getImage(String storeKey, PImage defaultVal) { return (hasImage(storeKey)) ? getImage(storeKey) : defaultVal; };
 	public PImage getImage(String storeKey) {
 		return imageStore.get(storeKey);
 	}
 	
+	public boolean hasBuffer(String storeKey) { return bufferStore.containsKey(storeKey); }
+	public PGraphics getBuffer(String storeKey, PGraphics defaultVal) { return (hasBuffer(storeKey)) ? getBuffer(storeKey) : defaultVal; };
 	public PGraphics getBuffer(String storeKey) {
 		return bufferStore.get(storeKey);
 	}
+	
+	// key sets for printing all values
 	
 	public Set<String> numberKeys() {
 		return numberStore.keySet();

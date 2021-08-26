@@ -1,9 +1,9 @@
 package com.haxademic.demo.data;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
@@ -21,21 +21,24 @@ implements IAppStoreListener {
 	}
 
 	protected void firstFrame() {
-		AppStore.instance().addListener(this);
+		P.store.addListener(this);
 	}
 	
 	protected void drawApp() {
 		background(0);
-		AppStore.instance().setNumber("frameCount", p.frameCount);
-		AppStore.instance().setBoolean("Frame over 100", (p.frameCount % 200) > 100);
-		AppStore.instance().setNumber("mousePercentX", Mouse.xNorm);
-		AppStore.instance().setNumber("mousePercentY", Mouse.yNorm);
-		AppStore.instance().setImage("image", DemoAssets.justin());
-		// for (int i = 0; i < 50; i++) { AppStore.instance().setNumber("test_"+i, i); }
-		AppStore.instance().showStoreValuesInDebugView();
+		P.store.setNumber("frameCount", p.frameCount);
+		P.store.setBoolean("Frame over 100", (p.frameCount % 200) > 100);
+		P.store.setNumber("mousePercentX", Mouse.xNorm);
+		P.store.setNumber("mousePercentY", Mouse.yNorm);
+		P.store.setImage("image", DemoAssets.justin());
+		
+		P.store.setBoolean("has doesntExist?", P.store.hasBoolean("doesntExist"));
+		P.store.getBoolean("doesntExist", false);
+		// for (int i = 0; i < 50; i++) { P.store.setNumber("test_"+i, i); }
+		P.store.showStoreValuesInDebugView();
 		
 		// draw image from buffer
-		p.image(AppStore.instance().getImage("image"), p.width * AppStore.instance().getFloat("mousePercentX"), p.height * AppStore.instance().getFloat("mousePercentY"));
+		p.image(P.store.getImage("image"), p.width * P.store.getFloat("mousePercentX"), p.height * P.store.getFloat("mousePercentY"));
 	}
 
 	//////////////////////////////////////////////
