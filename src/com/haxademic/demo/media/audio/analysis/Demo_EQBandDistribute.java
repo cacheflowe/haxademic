@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -13,12 +14,20 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
-		AudioIn.instance(AudioInputLibrary.ESS);
-		AudioIn.instance().drawBufferFFT(true);
-		AudioIn.instance().drawBufferWaveform(true);
+//		AudioIn.instance(AudioInputLibrary.Beads);
+//		AudioIn.instance(AudioInputLibrary.ESS);
+		AudioIn.instance(AudioInputLibrary.Minim);
 	}
 	
 	protected void drawApp() {
+		// update audio textures/buffers
+		AudioIn.drawDebugBuffer();
+		AudioIn.drawBufferFFT();
+		AudioIn.drawBufferWaveform();
+		DebugView.setTexture("bufferDebug()", AudioIn.bufferDebug());
+		DebugView.setTexture("bufferFFT()", AudioIn.bufferFFT());
+		DebugView.setTexture("bufferWaveform()", AudioIn.bufferWaveform());
+		
 		p.background(0);
 		p.noStroke();
 

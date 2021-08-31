@@ -6,7 +6,6 @@ import krister.Ess.AudioChannel;
 import krister.Ess.AudioInput;
 import krister.Ess.Ess;
 import krister.Ess.FFT;
-import processing.core.PGraphics;
 
 public class AudioInputESS
 implements IAudioInput {
@@ -34,16 +33,21 @@ implements IAudioInput {
 		audioInput.start();
 	}
 	
-	public AudioStreamData audioData() {
-		return audioStreamData;
-	}
-	
 	public FFT fft() {
 		return fft;
 	}
 	
-	public void update(PGraphics pg) {
-		if(rendering) return; // don't override with microphone data
+	// update methods -------------------------------------
+	
+	public AudioStreamData audioData() { return audioStreamData; }
+	public void drawDebugBuffer() { audioStreamData.drawDebug(); }
+	public void drawDataBuffers() {
+		audioStreamData.drawBufferFFT();
+		audioStreamData.drawBufferWaveform();
+	}
+	
+	public void update() {
+//		if(rendering) return; // don't override with microphone data
 		
 		// update audio data object
 		audioStreamData.setFFTFrequencies(fft.spectrum);
@@ -51,9 +55,6 @@ implements IAudioInput {
 		audioStreamData.setAmp(fft.getLevel(audioInput));
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
-
-		// debug draw
-		if(pg != null) audioStreamData.drawDebug(pg);
 	}
 	
 	// override microphone input with audio file played in Renderer

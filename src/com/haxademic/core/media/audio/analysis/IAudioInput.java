@@ -1,14 +1,15 @@
 package com.haxademic.core.media.audio.analysis;
 
 import beads.AudioContext;
-import processing.core.PGraphics;
 
 public interface IAudioInput {
 	
 	// interface methods 
 	
-	public void update(PGraphics pg);
 	public AudioStreamData audioData();
+	public void update();
+	public void drawDebugBuffer();
+	public void drawDataBuffers();
 	
 	// factory methods
 	

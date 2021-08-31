@@ -52,7 +52,7 @@ extends PAppletHax {
 		
 		// show debug audio view (and keep it open)
 		DebugView.active(true);
-		p.image(AudioIn.instance().audioInputDebugBuffer(), 240, 100);
+		p.image(AudioIn.bufferDebug(), 240, 100);
 	}
 
 	public void keyPressed() {

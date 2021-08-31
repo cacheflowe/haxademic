@@ -1,6 +1,7 @@
 package com.haxademic.core.media.audio.analysis;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
@@ -17,9 +18,16 @@ public class AudioStreamData {
 	protected int beatFrame = 0;
 	protected float progress = 0;
 	
+	// debug buffer
+	public PGraphics debugBuffer;
 	public static float debugW = 300;
 	public static float debugH = 300;
 	protected float waveformAmp = 0.5f;
+	
+	// extra data buffers
+	public PGraphics bufferFFT;
+	public PGraphics bufferWaveform;
+
 
 	public AudioStreamData() {
 		
@@ -135,7 +143,21 @@ public class AudioStreamData {
 		}
 	}
 	
-	public void drawDebug(PGraphics pg) {
+	// debug buffer -----------------------------------
+	
+	public PGraphics buildDebugBuffer() {
+		return PG.newPG((int) debugW, (int) debugH);
+	}
+	
+	public void drawDebug() {
+		// lazy-init debug buffer
+		if(debugBuffer == null) debugBuffer = buildDebugBuffer();
+		PGraphics pg = debugBuffer;
+		
+		// start context
+		pg.beginDraw();
+		pg.background(0);
+		
 		// display config
 		float rowHeight = 100;
 		pg.textAlign(P.RIGHT, P.TOP);
@@ -219,5 +241,44 @@ public class AudioStreamData {
 		// draw progress
 		pg.fill(0,255 * gain,0);
 		pg.rect(0, rowHeight * 2.5f, debugW * progress, rowHeight * 0.5f);
+		
+		// end context
+		pg.endDraw();
 	}
+	
+	// audio data buffers -----------------------------------
+	
+	public void drawBufferFFT() {
+		// lazy init buffer
+		if(bufferFFT == null) bufferFFT = PG.newPG32(frequencies.length, 8, false, false);
+		
+		// draw fft data
+		bufferFFT.beginDraw();
+    	bufferFFT.background(0);
+    	bufferFFT.noStroke();
+    	for (int i = 0; i < frequencies.length; i++) {
+    		bufferFFT.fill(255f * frequencies[i] * 1f, 255);
+    		bufferFFT.rect(i, 0, 1, bufferFFT.height);
+    	}
+    	bufferFFT.endDraw();
+    	
+    	// re-draw with only a lower portion of the FFT spectrum... upper range is generally useless
+    	bufferFFT.copy(0, 0, 100, bufferFFT.height, 0, 0, bufferFFT.width, bufferFFT.height);
+	}
+	
+	public void drawBufferWaveform() {
+		// lazy init buffer
+		if(bufferWaveform == null) bufferWaveform = PG.newPG32(waveform.length, 8, false, false);
+		
+		// draw waveform data
+		bufferWaveform.beginDraw();
+		bufferWaveform.background(0);
+		bufferWaveform.noStroke();
+		for (int i = 0; i < waveform.length; i++) {
+			bufferWaveform.fill(127 + 127f * waveform[i] * 10f);
+			bufferWaveform.rect(i, 0, 1, bufferWaveform.height); // bufferWaveform.height
+		}
+		bufferWaveform.endDraw();
+	}
+	
 }

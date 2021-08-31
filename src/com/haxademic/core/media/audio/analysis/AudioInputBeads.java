@@ -121,11 +121,17 @@ implements IAudioInput {
 		});
 	}
 
-	public AudioStreamData audioData() {
-		return audioStreamData;
+	// update methods -------------------------------------
+	
+	public AudioStreamData audioData() { return audioStreamData; }
+	public PGraphics debugBuffer() { return audioStreamData.debugBuffer; }
+	public void drawDebugBuffer() { audioStreamData.drawDebug(); }
+	public void drawDataBuffers() {
+		audioStreamData.drawBufferFFT();
+		audioStreamData.drawBufferWaveform();
 	}
-
-	public void update(PGraphics pg) {
+	
+	public void update() {
 		// get FFT spectrum from Beads
 		if(ps == null) return;
 		float[] features = ps.getFeatures();
@@ -155,9 +161,6 @@ implements IAudioInput {
 		// audioStreamData.setAmp(od.getLastOnsetValue());
 		audioStreamData.calcAmpAverage();
 		audioStreamData.update();
-
-		// debug draw
-		if(pg != null) audioStreamData.drawDebug(pg);
 	}
 
 	protected float window(int length, int index) {

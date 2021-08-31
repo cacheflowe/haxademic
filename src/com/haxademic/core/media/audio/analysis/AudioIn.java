@@ -3,7 +3,6 @@ package com.haxademic.core.media.audio.analysis;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.JavaInfo;
 
 import processing.core.PApplet;
@@ -18,19 +17,11 @@ public class AudioIn {
 		Minim,
 		Processing,
 	}
-	protected PGraphics audioInputDebugBuffer;
-	public static boolean DRAW_DEBUG = true;
 	
 	// static arrays for singleton-style usage
 	public static IAudioInput audioInput;
 	public static float[] frequencies;
 	public static float[] waveform;
-	
-	// extra optional features
-	protected boolean drawsFFT;
-	public static PGraphics bufferFFT;
-	protected boolean drawsWaveform;
-	public static PGraphics bufferWaveform;
 	
 	/////////////////////////////
 	// static instance & initializer for quick & easy access
@@ -90,16 +81,10 @@ public class AudioIn {
 	
 	public AudioIn(IAudioInput input, PApplet p) {
 		AudioIn.audioInput = input;
-		AudioIn.audioInput.update(null);	// force a build of the internal AudioStreamData object
+		AudioIn.audioInput.update();	// force a build of the internal AudioStreamData object
 		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
 		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
 
-		// build debug buffer
-		if(DRAW_DEBUG) {
-			audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
-			DebugView.setTexture("Audio Input", audioInputDebugBuffer);
-		}
-		
 		// subscribe for auto draw() updates
 		p.registerMethod(PRegisterableMethods.pre, this);
 		p.registerMethod(PRegisterableMethods.keyEvent, this);
@@ -127,29 +112,8 @@ public class AudioIn {
 	
 	// getters
 	
-	public void drawBufferFFT(boolean drawsFFT) {
-		this.drawsFFT = drawsFFT;
-		if(this.drawsFFT && bufferFFT == null) {
-			bufferFFT = PG.newPG32(AudioIn.frequencies.length, 8, false, false);
-			DebugView.setTexture("AudioIn.bufferFFT", bufferFFT);
-		}
-	}
-	
-	public void drawBufferWaveform(boolean drawsWaveform) {
-		this.drawsWaveform = drawsWaveform;
-		if(this.drawsWaveform && bufferWaveform == null) {
-			bufferWaveform = PG.newPG32(AudioIn.waveform.length, 8, false, false);
-			DebugView.setTexture("AudioIn.bufferWaveform", bufferWaveform);
-		}
-
-	}
-	
 	public IAudioInput audioInput() {
 		return audioInput;
-	}
-	
-	public PGraphics audioInputDebugBuffer() {
-		return audioInputDebugBuffer;
 	}
 	
 	// static getters
@@ -169,13 +133,33 @@ public class AudioIn {
 	public static boolean isBeat() {
 		return audioInput.audioData().isBeat();
 	}
+	
+	public static void drawDebugBuffer() {
+		audioInput.drawDebugBuffer();
+	}
+	
+	public static void drawDataBuffers() {
+		audioInput.drawDataBuffers();
+	}
+	
+	public static void drawBufferFFT() {
+		audioInput.audioData().drawBufferFFT();
+	}
+	
+	public static void drawBufferWaveform() {
+		audioInput.audioData().drawBufferWaveform();
+	}
+
+	public static PGraphics bufferDebug() {
+		return audioInput.audioData().debugBuffer;
+	}
 
 	public static PGraphics bufferFFT() {
-		return bufferFFT;
+		return audioInput.audioData().bufferFFT;
 	}
 	
 	public static PGraphics bufferWaveform() {
-		return bufferWaveform;
+		return audioInput.audioData().bufferWaveform;
 	}
 	
 	// debug
@@ -189,53 +173,19 @@ public class AudioIn {
 	/////////////////////////////
 	
 	public void pre() {
-		updateAudioData();
+		// update data & data buffers
+		audioInput.update();
+		audioInput.drawDataBuffers();
+		
+		// update debug buffer if DebugView is showing
+		boolean shouldDrawDebug = (P.isHaxApp() && DebugView.active() == true);
+		if(shouldDrawDebug) audioInput.drawDebugBuffer();
+		
+		// store static props for global audio input
 		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
 		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
-		drawBuffers();
-	}
-	
-	protected void updateAudioData() {
-		// only draw if debugging
-		PGraphics audioBuffer = (P.isHaxApp() && DebugView.active() == true && DRAW_DEBUG) ? audioInputDebugBuffer : null;
-		// set up context
-		if(audioBuffer != null) {
-			audioBuffer.beginDraw();
-			audioBuffer.background(0);
-		}
-		// update actual audio data and draw if we have a buffer passed in
-		audioInput.update(audioBuffer);
-//		audioData = audioInput.audioData();
-		// close context
-		if(audioBuffer != null) audioBuffer.endDraw();
 	}
 
-	protected void drawBuffers() {
-		if(drawsFFT) {
-	    	bufferFFT.beginDraw();
-	    	bufferFFT.background(0);
-	    	bufferFFT.noStroke();
-	    	for (int i = 0; i < AudioIn.frequencies.length; i++) {
-	    		bufferFFT.fill(255f * AudioIn.frequencies[i] * 1f, 255);
-	    		bufferFFT.rect(i, 0, 1, bufferFFT.height);
-	    	}
-	    	bufferFFT.endDraw();
-	    	
-	    	// re-draw with only a lower portion of the FFT spectrum... upper range is generally useless
-	    	bufferFFT.copy(0, 0, 100, bufferFFT.height, 0, 0, bufferFFT.width, bufferFFT.height);
-		}
-		if(drawsWaveform) {
-	        bufferWaveform.beginDraw();
-	        bufferWaveform.background(0);
-	        bufferWaveform.noStroke();
-	        for (int i = 0; i < AudioIn.waveform.length; i++) {
-	            bufferWaveform.fill(127 + 127f * AudioIn.waveform[i] * 10f);
-	            bufferWaveform.rect(i, 0, 1, bufferWaveform.height); // bufferWaveform.height
-	        }
-	        bufferWaveform.endDraw();
-		}
-	}
-	
 	/////////////////////////////
 	// input
 	/////////////////////////////

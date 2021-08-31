@@ -57,17 +57,29 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		}
 		
 		// draw debug
-		loops[0].audioData().drawDebug(p.g);
+		// draw debug
+		loops[0].audioData().drawDebug();
+		p.image(loops[0].audioData().debugBuffer, 0, 0);
+		
+		loops[1].audioData().drawDebug();
 		p.translate(AudioStreamData.debugW, 0);
-		loops[1].audioData().drawDebug(p.g);
+		p.image(loops[1].audioData().debugBuffer, 0, 0);
+		
+		loops[2].audioData().drawDebug();
 		p.translate(AudioStreamData.debugW, 0);
-		loops[2].audioData().drawDebug(p.g);
+		p.image(loops[2].audioData().debugBuffer, 0, 0);
+		
+		loops[3].audioData().drawDebug();
 		p.translate(-AudioStreamData.debugW * 2, AudioStreamData.debugH);
-		loops[3].audioData().drawDebug(p.g);
+		p.image(loops[3].audioData().debugBuffer, 0, 0);
+		
+		loops[4].audioData().drawDebug();
 		p.translate(AudioStreamData.debugW, 0);
-		loops[4].audioData().drawDebug(p.g);
+		p.image(loops[4].audioData().debugBuffer, 0, 0);
+		
+		loops[5].audioData().drawDebug();
 		p.translate(AudioStreamData.debugW, 0);
-		loops[5].audioData().drawDebug(p.g);
+		p.image(loops[5].audioData().debugBuffer, 0, 0);
 	}
 
 }

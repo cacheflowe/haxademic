@@ -2,7 +2,6 @@ package com.haxademic.core.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 
-import processing.core.PGraphics;
 import processing.sound.Amplitude;
 import processing.sound.AudioIn;
 import processing.sound.FFT;
@@ -31,11 +30,16 @@ implements IAudioInput {
 		audioInput.start();
 	}
 	
-	public AudioStreamData audioData() {
-		return audioStreamData;
-	}
+	// update methods -------------------------------------
 	
-	public void update(PGraphics pg) {
+	public AudioStreamData audioData() { return audioStreamData; }
+	public void drawDebugBuffer() { audioStreamData.drawDebug(); }
+	public void drawDataBuffers() {
+		audioStreamData.drawBufferFFT();
+		audioStreamData.drawBufferWaveform();
+	}
+		
+	public void update() {
 		// analyze input
 		fft.analyze(spectrum);
 		for (int i = 0; i < spectrum.length; i++) spectrum[i] *= 10f;
@@ -47,9 +51,6 @@ implements IAudioInput {
 		audioStreamData.setWaveformOffsets(waveform.data);
 		audioStreamData.setAmp(curAmp);
 		audioStreamData.update();
-
-		// debug draw
-		if(pg != null) audioStreamData.drawDebug(pg);
 	}
 	
 }

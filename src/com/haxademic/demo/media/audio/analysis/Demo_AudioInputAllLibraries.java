@@ -1,16 +1,11 @@
 package com.haxademic.demo.media.audio.analysis;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.audio.analysis.AudioInputMinim;
-import com.haxademic.core.media.audio.analysis.AudioInputProcessing;
+import com.haxademic.core.media.audio.analysis.IAudioInput;
 import com.haxademic.core.system.JavaInfo;
 
 import krister.Ess.AudioInput;
@@ -18,10 +13,7 @@ import krister.Ess.AudioInput;
 public class Demo_AudioInputAllLibraries
 extends PAppletHax { public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected AudioInputESS audioInputESS;
-	protected AudioInputMinim audioInputMinim;
-	protected AudioInputBeads audioInputBeads;
-	protected AudioInputProcessing audioInputProcessing;
+	protected IAudioInput audioInput;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 600);
@@ -31,18 +23,19 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected void firstFrame() {
 		JavaInfo.printAudioInfo();
 		
-//	    audioInputESS = new AudioInputESS();
-		audioInputMinim = new AudioInputMinim();
-//		audioInputBeads = new AudioInputBeads();
-//		audioInputProcessing = new AudioInputProcessing();
+//	    audioInput = new AudioInputESS();
+		audioInput = new AudioInputMinim();
+//		audioInput = new AudioInputBeads();
+//		audioInput = new AudioInputProcessing();
 	}
 	
 	protected void drawApp() {
 		background(0);
-		if(audioInputESS != null) audioInputESS.update(p.g);
-		if(audioInputMinim != null) audioInputMinim.update(p.g);
-		if(audioInputBeads != null) audioInputBeads.update(p.g);
-		if(audioInputProcessing != null) audioInputProcessing.update(p.g);
+		audioInput.update();
+		audioInput.drawDataBuffers();
+		audioInput.drawDebugBuffer();
+		
+		p.image(audioInput.audioData().debugBuffer, 0, 0);
 	}
 	
 	////////////////////////////
@@ -52,7 +45,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	////////////////////////////
 	
 	public void audioInputData(AudioInput theInput) {
-		audioInputESS.audioInputCallback(theInput);
+		((AudioInputESS) audioInput).audioInputCallback(theInput);
 	}
 
 }

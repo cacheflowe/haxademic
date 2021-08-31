@@ -9,12 +9,9 @@ import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternUtil;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
-import com.haxademic.core.media.audio.analysis.AudioStreamData;
-import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
 import beads.Envelope;
@@ -89,7 +86,6 @@ implements IAppStoreListener {
 	
 	// local audio analysis
 	protected AudioInputBeads audioIn;
-	protected PGraphics audioInputBuffer;
 	
 	public Sequencer(Interphase inter, SequencerConfig config) {
 		this.config = config;
@@ -106,9 +102,6 @@ implements IAppStoreListener {
 	
 	public void addAudioAnalysis() {
 		audioIn = new AudioInputBeads(Metronome.ac);
-		audioInputBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
-		DebugView.setTexture("Audio Input " + index, audioInputBuffer);
-//		DebugView.setTexture("Audio Input " + index, audioIn.audioData().);
 	}
 	
 	public String info() {
@@ -266,13 +259,13 @@ implements IAppStoreListener {
 	
 	public void update() {
 		if(audioIn != null) {
-			if(audioInputBuffer != null && UI.active()) {
-				audioInputBuffer.beginDraw();
-				audioInputBuffer.background(0);
-				audioIn.update(audioInputBuffer);
-				audioInputBuffer.endDraw();
-			} else {
-				audioIn.update(null);
+			audioIn.update();
+			audioIn.drawDataBuffers();
+			DebugView.setTexture("Audio FFT " + index, audioIn.audioData().bufferFFT);
+			DebugView.setTexture("Audio Waveform " + index, audioIn.audioData().bufferWaveform);
+			if(DebugView.active()) {
+				audioIn.drawDebugBuffer();
+				DebugView.setTexture("Audio Input " + index, audioIn.debugBuffer());
 			}
 		}
 		if(drawable != null) drawable.update(steps, curStep); 

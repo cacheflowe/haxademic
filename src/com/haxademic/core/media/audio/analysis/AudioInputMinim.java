@@ -7,7 +7,6 @@ import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
 import ddf.minim.analysis.FFT;
-import processing.core.PGraphics;
 
 public class AudioInputMinim
 implements IAudioInput {
@@ -47,11 +46,16 @@ implements IAudioInput {
 		beatDetection.setSensitivity(300);
 	}
 	
-	public AudioStreamData audioData() {
-		return audioStreamData;
+	// update methods -------------------------------------
+	
+	public AudioStreamData audioData() { return audioStreamData; }
+	public void drawDebugBuffer() { audioStreamData.drawDebug(); }
+	public void drawDataBuffers() {
+		audioStreamData.drawBufferFFT();
+		audioStreamData.drawBufferWaveform();
 	}
 	
-	public void update(PGraphics pg) {
+	public void update() {
 		// analyze
 		fft.forward( audioInput.mix );
 		beatDetection.detect( audioInput.mix );
@@ -78,8 +82,5 @@ implements IAudioInput {
 		audioStreamData.calcFreqsDampened();
 		if( beatDetection.isOnset() == true ) audioStreamData.setBeat();
 		audioStreamData.update();
-
-		// debug draw
-		if(pg != null) audioStreamData.drawDebug(pg);
 	}
 }
