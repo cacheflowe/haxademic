@@ -209,7 +209,7 @@ implements IAppStoreListener {
 		for (Map.Entry<String, String> item : hashMap.entrySet()) {
 			String key = item.getKey();
 			String value = item.getValue();
-			if(value.length() > 100) value = value.substring(0, 99);	// limit long strings
+			if(value != null && value.length() > 100) value = value.substring(0, 99);	// limit long strings
 			if(key != null && value != null) {
 				String textLine = (value.length() > 0) ?
 						key + ": " + value + "\n" :
