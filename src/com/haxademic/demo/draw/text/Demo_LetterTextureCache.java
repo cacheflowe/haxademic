@@ -71,7 +71,7 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		// rebuild on interval for testing
-		if(FrameLoop.frameMod(60)) {
+		if(FrameLoop.frameModLooped(60)) {
 			buildText();
 		}
 		

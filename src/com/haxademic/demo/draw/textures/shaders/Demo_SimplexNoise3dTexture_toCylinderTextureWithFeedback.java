@@ -140,7 +140,7 @@ extends PAppletHax {
 		BlendTowardsTexture.instance(p).applyTo(texture);
 		
 		// colorize sometimes
-		if(FrameLoop.frameMod(120)) {
+		if(FrameLoop.frameModLooped(120)) {
 			// full blend to gray map
 			BlendTowardsTexture.instance(p).setBlendLerp(1);
 			BlendTowardsTexture.instance(p).applyTo(texture);

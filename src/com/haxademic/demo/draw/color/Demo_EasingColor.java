@@ -36,7 +36,7 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		// change color on interval
-		if(FrameLoop.frameMod(120)) {
+		if(FrameLoop.frameModLooped(120)) {
 			int newColor = ColorUtil.colorFromHex(ColorUtil.randomHex());
 			colorHaxEasing.setTargetInt(newColor);
 			DebugView.setValue("newHex", newColor);

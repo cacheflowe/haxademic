@@ -68,7 +68,7 @@ extends PAppletHax {
 				"FrameLoop.progress() :: " + FrameLoop.progress() + FileUtil.NEWLINE + 
 				"FrameLoop.curTick() :: " + FrameLoop.curTick() + FileUtil.NEWLINE + 
 				"FrameLoop.loopCurFrame() :: " + FrameLoop.loopCurFrame() + " / " + FrameLoop.loopFrames() + FileUtil.NEWLINE + 
-				"FrameLoop.frameMod(100) :: " + FrameLoop.frameMod(100) + FileUtil.NEWLINE + 
+				"FrameLoop.frameMod(100) :: " + FrameLoop.frameModLooped(100) + FileUtil.NEWLINE + 
 				"FrameLoop.timeSpeed() :: " + FrameLoop.timeAmp() + FileUtil.NEWLINE + 
 				"FrameLoop.deltaTime() :: " + FrameLoop.deltaTime() + FileUtil.NEWLINE + 
 				""
@@ -77,7 +77,7 @@ extends PAppletHax {
 	
 	protected void drawEventLog() {
 		// draw frame mod events 
-		if(FrameLoop.frameMod(90)) logOut.update("FrameLoop.frameMod(90) " + p.frameCount);
+		if(FrameLoop.frameModLooped(90)) logOut.update("FrameLoop.frameMod(90) " + p.frameCount);
 		if(FrameLoop.frameModSeconds(2)) logOut.update("frameModSeconds(2) " + p.frameCount);
 		if(FrameLoop.frameModSeconds(5)) logOut.update("frameModSeconds(5) " + p.frameCount);
 		if(FrameLoop.frameModMinutes(0.5f)) logOut.update("frameModMinutes(0.5) " + p.frameCount);

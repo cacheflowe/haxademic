@@ -125,7 +125,7 @@ extends Demo_SocketClient {
 		feedbackAmpLerp.update(true);
 		
 		// draw patterns if we have a good letter
-		if(letterQueue.length() > 0 && FrameLoop.frameMod(5)) {
+		if(letterQueue.length() > 0 && FrameLoop.frameModLooped(5)) {
 			// get current letter for pattern
 			String curLetter = letterQueue.substring(0, 1);
 			

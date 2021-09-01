@@ -33,8 +33,8 @@ public class ScreenSaverBlocker {
 	
 	public void post() {
 		// simulate SHIFT key press on interval
-		if(FrameLoop.frameMod(FRAME_INTERVAL, 10)) robot.keyPress(KeyEvent.VK_SHIFT);
-		if(FrameLoop.frameMod(FRAME_INTERVAL, 11)) robot.keyRelease(KeyEvent.VK_SHIFT);
+		if(FrameLoop.frameModLoopedAt(FRAME_INTERVAL, 10)) robot.keyPress(KeyEvent.VK_SHIFT);
+		if(FrameLoop.frameModLoopedAt(FRAME_INTERVAL, 11)) robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 	
 }

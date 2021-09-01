@@ -88,11 +88,15 @@ public class FrameLoop {
 		);
 	}
 
-	public static boolean frameMod(int mod) {
+	public static float frameMod(int mod) {
+		return FrameLoop.instance().frame % mod;
+	}
+	
+	public static boolean frameModLooped(int mod) {
 		return FrameLoop.instance().frame % mod == 0;
 	}
 	
-	public static boolean frameMod(int mod, int frameInLoop) {
+	public static boolean frameModLoopedAt(int mod, int frameInLoop) {
 		return FrameLoop.instance().frame % mod == frameInLoop;
 	}
 	

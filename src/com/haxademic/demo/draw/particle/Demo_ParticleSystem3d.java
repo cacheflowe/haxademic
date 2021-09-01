@@ -104,7 +104,7 @@ extends PAppletHax {
 		p.background(0);
 		
 		// launch particle
-		if(FrameLoop.frameMod(UI.valueInt(FRAME_LAUNCH_INTERVAL))) {
+		if(FrameLoop.frameModLooped(UI.valueInt(FRAME_LAUNCH_INTERVAL))) {
 			for (int i = 0; i < UI.valueInt(LAUNCHES_PER_FRAME); i++) {
 				
 				// circular launch

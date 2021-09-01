@@ -50,7 +50,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		// update audio texture
 		audioTexture.update();
-		if(FrameLoop.frameMod(200)) audioTexture.newLineMode();
+		if(FrameLoop.frameModLooped(200)) audioTexture.newLineMode();
 		
 		// draw video to screen once we've received its frames
 //		p.background(0);
