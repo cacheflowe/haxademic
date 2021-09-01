@@ -13,12 +13,17 @@ import com.haxademic.core.text.StringUtil;
 public class DateUtil {
 
 	public static final String NOSTRING = "";
+	public static final int secondInMS = 1000;
 	public static final int minuteInSeconds = 60;
 	public static final int minuteInMS = minuteInSeconds * 1000;
 	public static final int hourInSeconds = minuteInSeconds * 60;
 	public static final int hourInMS = hourInSeconds * 1000;
 	public static final int dayInSeconds = hourInSeconds * 24;
 	public static final int dayInMS = dayInSeconds * 1000;
+
+	public static int secondsToMS(float seconds) { return P.round(seconds * secondInMS); }
+	public static int minutesToMS(float minutes) { return P.round(minutes * minuteInMS); }
+	public static int hoursToMS(float hours) { return P.round(hours * hourInMS); }
 	
 	// TIME
 

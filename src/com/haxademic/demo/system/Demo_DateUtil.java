@@ -41,6 +41,9 @@ extends PAppletHax {
 				"Millis.parse('1 second') :: " + DateUtil.parse("1 second") + FileUtil.NEWLINE +
 				"Millis.parse('1 minute') :: " + DateUtil.parse("1 minute") + FileUtil.NEWLINE +
 				"Millis.parse('1 day') :: " + DateUtil.parse("1 day") + FileUtil.NEWLINE +
+				"secondsToMS(1) :: " + DateUtil.secondsToMS(1) + FileUtil.NEWLINE +
+				"minutesToMS(1) :: " + DateUtil.minutesToMS(1) + FileUtil.NEWLINE +
+				"hoursToMS(1) :: " + DateUtil.hoursToMS(1) + FileUtil.NEWLINE +
 				""
 		, 40, 40);
 	}
