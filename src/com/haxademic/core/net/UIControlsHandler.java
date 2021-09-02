@@ -79,6 +79,12 @@ extends AbstractHandler {
 		} else if(pathComponents[0].equals("values")) {
 			return UI.valuesToJSON();
 
+		} else if(pathComponents[0].equals("values")) {
+			return UI.valuesToJSON();
+			
+		} else if(pathComponents[0].equals("api")) {
+			return "{\"log\": \"api success: "+path+"\"}";
+			
 		} else {
 			return null;
 		}
