@@ -31,8 +31,8 @@ extends PAppletHax {
 //		player2 = new WavPlayer(WavPlayer.newAudioContext());
 		// send Beads audio player analyzer to PAppletHax
 		AudioIn.instance(new AudioInputBeads(player.context()));
-		AudioIn.instance().drawBufferFFT();
-		AudioIn.instance().drawBufferWaveform();
+		AudioIn.drawBufferFFT();
+		AudioIn.drawBufferWaveform();
 		
 		DebugView.setTexture(soundbed, AudioIn.bufferDebug());
 		DebugView.setTexture(soundbed, AudioIn.bufferWaveform());
