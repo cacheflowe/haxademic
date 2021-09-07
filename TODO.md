@@ -90,6 +90,7 @@ Other:
 * New 3d particle system from WashHands render
 * this: https://skeleton-tracing.netlify.app/
 * https://github.com/Bonjour-Interactive-Lab/Processing-GPUImage/
+* Evenly-spaced random distribution on a sphere: https://blog.davidlochhead.xyz/posts/2017-10-12-random-position-on-the-surface-of-a-sphere.html#spherical-coordinates
 
 ## InputTrigger revamp
 
@@ -240,15 +241,12 @@ Other:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Add more samples
   * Fix up Audio buffers per input
-    * Clean up `AudioIn.updateAudioData()` - this should lazy-init its own debug buffer instead of passing in from outside
-    * Move update buffer into it's own method instead of tying into `update()`
-    * Add FFT/waveform buffer drawing into AudioStreamData so each channel can have a buffer created. Right now it's only global in AudioIn
     * MAKE AN ADDRESSABLE LED DEMO WITH FFT/WAVEFORM!
-  * Build a demo with an FFT history texture per channel
+    * Build a demo with an FFT history texture per channel
   * Sequencer properties to add to JSON & UI. 
   * ...Pull some of these from SequencerConfig & make setters on Sequencer?
-    * Base volume (new feature, currently in SequencerConfig - allow bumping volume up past 1)
     * Base Pitch (new feature)
     * Mute
     * Evolve
@@ -260,11 +258,6 @@ Other:
     * Note offset
     * Note randomization
   * Add button to restart sequence
-  * Move UI from individual apps into Interphase & Sequencers
-    * UI.addTitle("Interphase Global");
-    * UI.addSlider(GLOBAL_BPM, 105, 60, 170, 1, false);
-    * UI.addToggle(GLOBAL_EVOLVES, false, false);
-    * UI.addSlider(CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
   * Can a track be a loop instead of a one-shot? how does this work? add to SequencerConfig
   * Save current config to JSON
     * Use filenames instead of index position? And/or?

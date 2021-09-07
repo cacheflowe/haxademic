@@ -137,6 +137,7 @@ implements IAppStoreListener {
 		jsonConfig.setInt("sampleIndex", sampleIndex);
 		jsonConfig.setBoolean("notesByStep", notesByStep);
 		jsonConfig.setInt("noteOffset", noteOffset);
+		jsonConfig.setFloat("volume", config.volume);
 		return jsonConfig.toString();
 	}
 	
@@ -203,11 +204,16 @@ implements IAppStoreListener {
 		return this;
 	}
 	
+	public float volume() { return config.volume; }
+	public Sequencer volume(float volume) { config.volume = volume; return this; } 
 	public float attack() { return attack; }
 	public Sequencer attack(float attack) { this.attack = attack; return this; } 
 	public float release() { return release; }
 	public Sequencer release(float release) { this.release = release; return this; }
 	public int pitchIndex1() { return pitchIndex1; }
+	
+	public PGraphics bufferWaveForm() { return audioIn.audioData().bufferWaveform; }
+	public PGraphics bufferFFT() { return audioIn.audioData().bufferFFT; }
 	
 	public boolean notesByStep() {
 		return notesByStep;

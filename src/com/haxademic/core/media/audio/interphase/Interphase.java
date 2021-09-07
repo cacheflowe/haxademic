@@ -31,7 +31,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// events
 	
 	public static final String BEAT = "BEAT";
-	public static final String CUR_STEP = "BEAT_MOD";
+	public static final String CUR_STEP = "CUR_STEP";
 	public static final String BPM = "BPM";
 	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER";
 
@@ -48,6 +48,15 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public static boolean TEMPO_MIDI_CONTROL = true;
 	public static final int TRIGGER_TIMEOUT = 45000;
 	public static final String INTERACTION_SPEED_MULT = "INTERACTION_SPEED_MULT";
+	
+	// ui
+	
+	public static final String GLOBAL_BPM = "GLOBAL_BPM";
+	public static final String GLOBAL_EVOLVES = "GLOBAL_EVOLVES";
+	public static final String CUR_SCALE = "CUR_SCALE";
+	public static final String SAMPLE_ = "SAMPLE_";
+	public static final String VOLUME_ = "VOLUME_";
+
 	
 	//////////////////////////////////////////
 	
@@ -81,7 +90,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public Interphase(SequencerConfig[] interphaseChannels, int audioOutDeviceIndex) {
 		AudioUtil.DEFAULT_AUDIO_MIXER_INDEX = audioOutDeviceIndex;
 		NUM_CHANNELS = interphaseChannels.length;
-		P.out("NUM_CHANNELS", NUM_CHANNELS);
 		
 		// init state
 		P.store.setNumber(BEAT, 0);
@@ -135,11 +143,42 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
+	public Interphase initGlobalControlsUI() {
+		return initGlobalControlsUI(-1, -1);
+	}
+	
+	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int volumeMidiCC) {
+		UI.addTitle("Interphase");
+		UI.addSlider(GLOBAL_BPM, 105, 60, 170, 1, false);
+		UI.addToggle(GLOBAL_EVOLVES, false, false);
+		UI.addSlider(CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
+		for (int i = 0; i < sequencers.length; i++) {
+			Sequencer seq = sequencerAt(i);
+			int midiCCSample = (samplePickerMidiCC > -1) ? samplePickerMidiCC + i : -1;
+			int midiCCVolume = (volumeMidiCC > -1) ? volumeMidiCC + i : -1;
+			UI.addSlider(SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
+			UI.addSlider(VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
+		}
+		return this;
+	}
+	
+	
+	// init launchpad grids
+	
 	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
 		MidiBus.list();
 		launchpad1 = new LaunchPad(midiIn1, midiOut1);
 		launchpad1.setDelegate(this);
 		launchpad2 = new LaunchPad(midiIn2, midiOut2);
+		launchpad2.setDelegate(this);
+		return this;
+	}
+	
+	public Interphase initLaunchpads(String deviceName1, String deviceName2) {
+		MidiBus.list();
+		launchpad1 = new LaunchPad(deviceName1);
+		launchpad1.setDelegate(this);
+		launchpad2 = new LaunchPad(deviceName2);
 		launchpad2.setDelegate(this);
 		return this;
 	}
@@ -247,7 +286,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	// Bridge to UIControls for mouse control
 	
-	protected void updateUIButtons() {
+	protected void updateUIGridButtons() {
 		if(!hasUI) return;
 		
 		// split across launchpads
@@ -278,6 +317,20 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// DRAW
 	/////////////////////////////////
 	
+	protected void updateFromGlobalUI() {
+		// set interphase props
+		P.store.setNumber(Interphase.BPM, UI.value(GLOBAL_BPM));
+		P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, UI.valueToggle(GLOBAL_EVOLVES));
+		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(CUR_SCALE));
+		
+		// set current sample, volume by UI sliders
+		for (int i = 0; i < sequencers.length; i++) {
+			Sequencer seq = sequencerAt(i);
+			seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
+			seq.volume(UI.value(VOLUME_+(i+1)));
+		}
+	}
+	
 	protected void checkInputs() {
 		// sample triggers & evolve
 		if(trigger1.triggered()) { sequencers[0].evolvePattern(); sequencers[0].triggerSample(); }
@@ -300,10 +353,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public void update(PGraphics pg) {
 		// check inputs & advance sequencers
+		updateFromGlobalUI();
 		checkInputs();
 		updateSequencers();
 		updateLaunchpads();
-		updateUIButtons();
+		updateUIGridButtons();
 		updateDebugValues();
 		if(pg != null) drawSequencer(pg);
 	}
