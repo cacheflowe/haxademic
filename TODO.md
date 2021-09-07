@@ -244,6 +244,7 @@ Other:
   * Better randomize functions to help the creative process
   * Store/recall JSON (add more props)
   * Add more samples
+  * Add patterns for notes, instead of just index-based determination. Like the patterns for steps
   * Fix up Audio buffers per input
     * MAKE AN ADDRESSABLE LED DEMO WITH FFT/WAVEFORM!
     * Build a demo with an FFT history texture per channel

@@ -26,6 +26,7 @@ void main() {
   vec4 colorizedColor = texture2D(colorMap, vec2(luma, 0.5));	// and center y coordinate
   if(lumaMult == 0) {
     gl_FragColor = mix(color, colorizedColor, crossfade);
+    gl_FragColor.a = color.a;
   } else {
     gl_FragColor = mix(color, vec4(colorizedColor.r * luma, colorizedColor.g * luma, colorizedColor.b * luma, colorizedColor.a), crossfade);
   }
