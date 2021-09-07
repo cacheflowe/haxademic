@@ -84,15 +84,6 @@
 	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/gst1-java-core-1.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/jna.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/video.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4-macosx-x86_64.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4-windows-x86_64.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-platform-1.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense2-2.40.0-1.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense2-2.40.0-1.5.4-macosx-x86_64.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense2-2.40.0-1.5.4-windows-x86_64.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense2-platform-2.40.0-1.5.4.jar"/>
-	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense-java-2.40.0-0.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/RealSenseProcessing.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
 	<classpathentry kind="lib" path="lib/sphinx4/sphinx4-core-5prealpha.jar"/>

@@ -241,6 +241,8 @@ Other:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Better randomize functions to help the creative process
+  * Store/recall JSON (add more props)
   * Add more samples
   * Fix up Audio buffers per input
     * MAKE AN ADDRESSABLE LED DEMO WITH FFT/WAVEFORM!
