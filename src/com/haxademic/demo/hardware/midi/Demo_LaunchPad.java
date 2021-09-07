@@ -13,7 +13,8 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		AudioIn.instance();
-		MidiDevice.init(1, 4);
+//		MidiDevice.init(1, 4);
+		MidiDevice.init("4- Launchpad");
 	}
 	
 	protected void drawApp() {
