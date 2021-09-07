@@ -1,5 +1,8 @@
 package com.haxademic.core.hardware.midi;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
+
 import themidibus.MidiBus;
 import themidibus.MidiListener;
 import themidibus.SimpleMidiListener;
@@ -69,6 +72,10 @@ public class MidiDevice {
 	}
 	
 	public void sendMidiOut(boolean isNoteOn, int channel, int note, int velocity) {
+		if(midiBus == null) {
+			DebugView.setValue("MidiDevice.midiBus not ready", P.p.frameCount);
+			return;
+		}
 		if(isNoteOn) {
 			midiBus.sendNoteOn(channel, note, velocity);
 		} else {
