@@ -15,10 +15,11 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.hardware.http.HttpInputState;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.devices.UC33;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
-import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.interphase.SequencerTexture;
@@ -38,11 +39,8 @@ implements IAppStoreListener {
 	protected Interphase interphase;
 	protected int numSequencers;
 	protected LinearFloat[] sequencerHits;
+	protected MidiDevice uc33;
 	
-	protected String SAMPLE_ = "SAMPLE_";
-	protected String GLOBAL_BPM = "GLOBAL_BPM";
-	protected String GLOBAL_EVOLVES = "GLOBAL_EVOLVES";
-	protected String CUR_SCALE = "CUR_SCALE";
 	protected String USE_OVERRIDES = "USE_OVERRIDES";
 	
 	protected void config() {
@@ -54,9 +52,14 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
+		// init UC33 for UI knobs MIDI input
+		uc33 = new MidiDevice(UC33.deviceName, null);
+		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase.initUI();
+		interphase.initGlobalControlsUI(UC33.KNOB_ROW1_01, UC33.KNOB_ROW2_01);
+		interphase.initLaunchpads("4- Launchpad", "5- Launchpad");
 		interphase.initAudioAnalysisPerChannel();
 		
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
@@ -79,16 +82,7 @@ implements IAppStoreListener {
 		P.out("WebServer.DEBUG", WebServer.DEBUG);
 		HttpInputState.DEBUG = false;
 		
-		// Interphase UI
-		UI.addTitle("Interphase");
-		UI.addSlider(GLOBAL_BPM, 105, 60, 170, 1, false);
-		UI.addToggle(GLOBAL_EVOLVES, false, false);
-		UI.addSlider(CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
 		UI.addToggle(USE_OVERRIDES, true, false);
-		for (int i = 0; i < numSequencers; i++) {
-			Sequencer seq = interphase.sequencerAt(i);
-			UI.addSlider(SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false);
-		}
 	}
 	
 	public void keyPressed() {
@@ -160,15 +154,9 @@ implements IAppStoreListener {
 	
 	protected void updateMusic() {
 		// update music playback
-		// set interphase props
-		P.store.setNumber(Interphase.BPM, UI.value(GLOBAL_BPM));
-		P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, UI.valueToggle(GLOBAL_EVOLVES));
-		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(CUR_SCALE));
-		
-		// set current instruments by UI sliders
+		// set sequencer properties
 		for (int i = 0; i < numSequencers; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
-			seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
 			seq.notesByStep(true);
 		}
 		
@@ -228,7 +216,7 @@ implements IAppStoreListener {
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
 			// add delay - signals happen before audio is audible
-			int vizTriggerDelay = 60;
+			int vizTriggerDelay = 120;
 			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {
 				sequencerHits[val.intValue()].setCurrent(1).setTarget(0);
 			}}, vizTriggerDelay);
