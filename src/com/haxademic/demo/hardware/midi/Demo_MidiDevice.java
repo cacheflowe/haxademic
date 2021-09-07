@@ -13,7 +13,7 @@ import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import themidibus.SimpleMidiListener;
 
-public class Demo_MidiBus
+public class Demo_MidiDevice
 extends PAppletHax
 implements SimpleMidiListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -29,7 +29,7 @@ implements SimpleMidiListener {
 		// prep audio input
 		AudioIn.instance();
 		// init 2 devices
-		MidiDevice.init(0, 3, this);			// basic singleton initialization in case there's only one deviec
+		MidiDevice.init(0, 3, this);			// basic singleton initialization in case there's only one device
 		device2 = new MidiDevice(1, 4, this);	// a 2nd device, with normal constructor
 	}
 	
