@@ -99,6 +99,14 @@ public class Shapes {
 		
 		p.popMatrix();
 	}
+	public static void drawPolygon( PGraphics p, float radius, int numSegments ) {
+		float segmentRads = P.TWO_PI / numSegments;
+		p.beginShape();
+		for( int i = 0; i <= numSegments; i++ ) {
+			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, 0 );
+		}
+		p.endShape();
+	}
 	
 	public static void drawDiscAudio( PGraphics pg, float radius, float innerRadius, int numSegments, float ampH, boolean radial) {
 		float segmentRads = P.TWO_PI / numSegments;
