@@ -15,6 +15,7 @@ extends BaseFragmentShader {
 		super(p, "haxademic/shaders/filters/colorize-from-texture.glsl");
 		setTexture(ImageGradient.PASTELS());
 		setCrossfade(1f);
+		setOffset(0f);
 		setLumaMult(false);
 	}
 	
@@ -29,11 +30,15 @@ extends BaseFragmentShader {
 	}
 	
 	public void setLumaMult(boolean lumaMult) {
-		shader.set("lumaMult", lumaMult);
+		shader.set("lumaMult", (lumaMult) ? 1 : 0);
 	}
 	
 	public void setCrossfade(float crossfade) {
 		shader.set("crossfade", crossfade);
+	}
+	
+	public void setOffset(float offset) {
+		shader.set("offset", offset);
 	}
 	
 }

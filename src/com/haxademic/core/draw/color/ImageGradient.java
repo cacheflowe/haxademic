@@ -20,10 +20,10 @@ public class ImageGradient {
 	public ArrayList<String> filenamesArray = null;
 
 	public ImageGradient(PImage texture) {
-		texture(texture);
+		setTexture(texture);
 	}
 
-	public void texture(PImage texture) {
+	public void setTexture(PImage texture) {
 		gradientImg = texture;
 		gradientImg.loadPixels();
 		sampleY = P.floor(gradientImg.height * 0.5f);
@@ -87,7 +87,7 @@ public class ImageGradient {
 	
 	public void randomGradientTexture() {
 		if(filenamesArray == null) return;
-		texture(P.p.loadImage(filenamesArray.get(MathUtil.randRange(0, filenamesArray.size() - 1))));
+		setTexture(P.p.loadImage(filenamesArray.get(MathUtil.randRange(0, filenamesArray.size() - 1))));
 	}
 
 }

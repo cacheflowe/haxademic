@@ -14,6 +14,7 @@ varying vec4 vertTexCoord;
 uniform sampler2D colorMap;
 uniform int lumaMult = 0;
 uniform float crossfade = 1.;
+uniform float offset = 0.;
 
 float rgbToGray(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -22,7 +23,9 @@ float rgbToGray(vec4 rgba) {
 
 void main() {
   vec4 color = texture2D(texture, vertTexCoord.xy);
-  float luma = clamp(rgbToGray(color), 0.01, 0.99);					  // map left-to-right based on luminance. colors could get weird at absolute 0/1
+  // float luma = clamp(rgbToGray(color), 0.01, 0.99);					  // map left-to-right based on luminance. colors could get weird at absolute 0/1
+  float luma = rgbToGray(color);
+  luma = fract(luma + offset);
   vec4 colorizedColor = texture2D(colorMap, vec2(luma, 0.5));	// and center y coordinate
   if(lumaMult == 0) {
     gl_FragColor = mix(color, colorizedColor, crossfade);
