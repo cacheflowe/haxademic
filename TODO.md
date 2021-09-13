@@ -127,9 +127,7 @@ Other:
 * Update standalone DashboardPoster app w/new dashboard code
 * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
 * CrashMonitor is very slow to communicate & turns yellow if a heavy app is starting up
-* Screenshots still get "stuck" and don't update
-	* Maybe fixed with Java 11 updates?
-* [DONE?] On web side, uptime is modded every 24 hours - needs a day count up front!
+* Screenshots still get "stuck" and don't update (Java 11 updates didn't fix this)
 * Can CrashMonitor launch the main app instead of the other way around?
 * Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
 * Add config CMS to BigMother for any app to receive commands and config
@@ -154,7 +152,6 @@ Other:
 
 ## Processing problems
 
-* Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
 * Make a GitHub issue around this:
 	* https://forum.processing.org/two/discussion/1723/unwanted-artifacts-in-a-simple-pixelation-shader
 	* Fixed here: https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/filters/pixelate.glsl
@@ -241,6 +238,7 @@ Other:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Why is drawing FFT per-Sequencer slowing down so much? do we move to pixel data instead of drawing rects?
   * Better randomize functions to help the creative process
   * Store/recall JSON (add more props)
   * Add more samples

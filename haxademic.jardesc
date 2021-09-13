@@ -92,6 +92,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.mapping"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media.audio"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.image"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.dmx"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.context"/>

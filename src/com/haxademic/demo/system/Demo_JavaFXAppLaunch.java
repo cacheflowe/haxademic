@@ -4,9 +4,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.sketch.net.Demo_WebViewTestApp;
-
-import javafx.application.Application;
 
 public class Demo_JavaFXAppLaunch
 extends PAppletHax {
@@ -21,7 +18,7 @@ extends PAppletHax {
         new Thread() {
             @Override
             public void run() {
-            	Application.launch(Demo_WebViewTestApp.class, new String[] {});
+//            	Application.launch(Demo_WebViewTestApp.class, new String[] {});
             }
         }.start();
 	}
