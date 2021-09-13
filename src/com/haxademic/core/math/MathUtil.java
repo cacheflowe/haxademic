@@ -246,6 +246,10 @@ public class MathUtil {
 		point.set(anchor.x + radius * P.cos(destRads), anchor.y + radius * P.sin(destRads), point.z);
 	}
 
+	public static float circumferenceFromRadius(float radius) {
+		return radius * P.TWO_PI;
+	};
+
 	/**
 	 *  Get the angle fron current coordinate to target coordinate
 	 *  @param  x1  first point's x position

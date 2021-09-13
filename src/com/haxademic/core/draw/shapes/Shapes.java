@@ -1029,6 +1029,26 @@ public class Shapes {
 		}
 	}
 	
+	public static void drawDashedCircle(PGraphics pg, float x, float y, float radius, float dashLength, float offset, boolean rounds) {
+		if(dashLength <= 0) dashLength = 1;	// prevent infinite loop
+		float lineLength = MathUtil.circumferenceFromRadius(radius);
+		float numDashes = (rounds) ? P.round(lineLength / dashLength) : lineLength / dashLength;
+		float numSegments = (numDashes * 2);
+		float segmentRadians = P.TWO_PI / numSegments;
+		int oddEven = 0;
+		for (float i = offset; i < numSegments + offset; i++) {
+			if(oddEven % 2 == 0) {
+				float curRads = segmentRadians * i;
+				float nextRads = segmentRadians * (i+1);
+				pg.line(
+					x + P.cos(curRads) * radius, y + P.sin(curRads) * radius,
+					x + P.cos(nextRads) * radius, y + P.sin(nextRads) * radius
+				);
+			}
+			oddEven++;
+		}
+	}
+	
 	public static void drawLineOfCircles(PGraphics pg, float startX, float startY, float endX, float endY) {
 		// set context
 		pg.noStroke();
