@@ -1,6 +1,8 @@
 package com.haxademic.core.draw.color;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -81,4 +83,38 @@ public class Gradients {
 		p.popMatrix();
 	}
 	
+	public static PGraphics textureFromColorArray(int width, int height, int[] colors) {
+		return textureFromColorArray(width, height, colors, false);
+	}
+	
+	public static PGraphics textureFromColorArray(int width, int height, int[] colors, boolean loops) {
+		// calculate sections
+		int numColors = colors.length - 1;
+		if(loops) numColors++; // repeat first color if looping
+		int sectionW = width / numColors;
+		
+		// new buffer
+		PGraphics pg = PG.newPG(width, height, true, true);
+		PG.setTextureRepeat(pg, false);	// prevent wrapping blur bleed
+		pg.beginDraw();
+		pg.noStroke();
+		pg.translate(sectionW/2, height/2);	// set to middle of first gradient section
+		
+		// draw gradient sections
+		for (int i = 0; i <= colors.length; i++) {
+			Gradients.linear(pg, sectionW, height, colors[i % colors.length], colors[(i+1) % colors.length]);
+			pg.translate(sectionW, 0);
+		}
+		
+		// blur it!
+		for (int i = 0; i < 10; i++) {
+			BlurProcessingFilter.instance(P.p).setBlurSize(20);
+			BlurProcessingFilter.instance(P.p).setSigma(10);
+			BlurProcessingFilter.instance(P.p).applyTo(pg);
+		}
+		
+		// return it
+		pg.endDraw();
+		return pg;
+	}
 }
