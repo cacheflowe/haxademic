@@ -353,7 +353,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 Haxademic uses the following Java & Processing libraries, which I've included in this repository so you don't have to find them yourself (more on that below):
 
-* [Processing Core](http://processing.org/) (view the [Processing for Eclipse instructions](https://processing.org/tutorials/eclipse/))
+* [Processing Core](http://processing.org/)
 * [Beads](http://www.beadsproject.net/)
 * [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
 * [DMXP512](https://github.com/hdavid/dmxP512)
@@ -381,28 +381,6 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [UMovieMaker](https://github.com/mariuswatz/modelbuilder)
 * [zxing4processing](https://github.com/cageehv/zxing4processing)
 
-
-## Installing / Compiling
-
-* If you're on OS X, it's helpful to see hidden files. Run this command in Terminal:
-	* `defaults write com.apple.finder AppleShowAllFiles YES`
-* Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
-	* [Eclipse](http://www.eclipse.org/)
-	* [Java 8 (OpenJDK HotSpot)](https://adoptopenjdk.net/) - After installing JDK 8, open Eclipse, go to **Preferences** then **Java -> Installed JREs**, and click **Search...** to have Eclipse find the newly-installed library.
-* Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the `haxademic` project
-* Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
-	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use.
-* In the **Package Explorer** in Eclipse, right-click the `lib` directory and select **Refresh**. This will let Eclipse know that you've added the appropriate libraries on your file system.
-* Make sure you're compiling with Java 1.8:
-	* Right-click the `haxademic` project in the **Package Explorer** or **Navigator** window and click **Properties**
-	* Click the **Java Compiler** section and check the **Enable project specific settings** box on the right
-	* Select **1.8** as your **Compiler compliance level**, if possible
-	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.8** item is checked, then click OK.
-* Right-click on any of the demo apps within `src/com/demo/` and choose **Run As -> Java Application** from the menu. This will create a run configuration for the app.
-* If it's necessary to add more RAM to the app, go to **Run -> Run Configurations**, select your app and add the following **VM Arguments** when running the Java Application to increase memory allocated to your app. This is a minimum of 1gb and a maximum of 4gb of RAM:
-	* `-Xms1G`
-	* `-Xmx4G`
-
 ## Licensing
 
-The Haxademic codebase and apps are [MIT licensed](https://raw.github.com/cacheflowe/haxademic/master/LICENSE), so do what you want with these files. Feel free to let me know that you're using it for something cool. I've added 3rd-party .jar files and compiled Java libraries that I'm probably not actually allowed to redistribute here, so if you're the owner of one of those libraries and would like the files removed, let me know. I've included them to aid those who would like a quick start and not have to search for the many dependencies of this project. Some of these libraries have disappeared from the web entirely, so searching for them may be futile anyway. I just want people to make cool things with this library, and hope you understand.
+The Haxademic codebase is [MIT licensed](https://raw.github.com/cacheflowe/haxademic/master/LICENSE), so do what you want with these files. Feel free to let me know that you're using it for something cool. I've added 3rd-party .jar files and compiled Java libraries that I'm probably not actually allowed to redistribute here, so if you're the owner of one of those libraries and would like the files removed, let me know. I've included them to aid those who would like a quick start and not have to search for the many dependencies of this project. Some of these libraries have disappeared from the web entirely, so searching for them may be futile anyway. I just want people to make cool things with this library, and hope you understand.
