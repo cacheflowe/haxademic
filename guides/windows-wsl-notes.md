@@ -67,6 +67,7 @@ Store your git credentials if you keep getting asked for your username & passwor
 * `git config credential.helper store`
 	* https://stackoverflow.com/a/22652170
 * https://stackoverflow.com/a/34919582
+* https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 More Git config for WSL here: [https://peteoshea.co.uk/setup-git-in-wsl/](https://peteoshea.co.uk/setup-git-in-wsl/)
 
