@@ -250,7 +250,7 @@ public class AudioStreamData {
 	
 	public void drawBufferFFT() {
 		// lazy init buffer
-		if(bufferFFT == null) bufferFFT = PG.newPG32(frequencies.length, 8, false, false);
+		if(bufferFFT == null) bufferFFT = PG.newPG(frequencies.length, 8, false, false);
 		
 		// draw fft data
 		bufferFFT.beginDraw();
@@ -268,7 +268,7 @@ public class AudioStreamData {
 	
 	public void drawBufferWaveform() {
 		// lazy init buffer
-		if(bufferWaveform == null) bufferWaveform = PG.newPG32(waveform.length, 8, false, false);
+		if(bufferWaveform == null) bufferWaveform = PG.newPG(waveform.length, 8, false, false);
 		
 		// draw waveform data
 		bufferWaveform.beginDraw();
