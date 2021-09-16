@@ -29,6 +29,7 @@ implements IDepthCamera {
 	protected PGraphics mirrorDepth;
 	protected short[][] data;
 	public static float METERS_FAR_THRESH = 15;
+	public static ColorScheme COLOR_SCHEME = ColorScheme.Cold;
 
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
 		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, null);
@@ -54,7 +55,7 @@ implements IDepthCamera {
 		camera = new RealSenseCamera(p);
 		camera.enableColorStream(CAMERA_W, CAMERA_H);
 		camera.enableDepthStream(CAMERA_W, CAMERA_H);
-		camera.enableColorizer(ColorScheme.Cold);
+		if(COLOR_SCHEME != null) camera.enableColorizer(COLOR_SCHEME);
 //		camera.enableIRStream(CAMERA_W, CAMERA_H, 30);
 		camera.enableAlign();
 		camera.addThresholdFilter(0.0f, METERS_FAR_THRESH);
@@ -80,6 +81,15 @@ implements IDepthCamera {
 			Device device = devices[i];
 			P.out("Device["+i+"] SerialNumber:", device.getSerialNumber());
 		}
+	}
+	
+//	public void setNearFar(float near, float far) {
+//		METERS_NEAR_QUEUED = near;
+//		METERS_FAR_QUEUED = far;
+//	}
+	
+	public RealSenseCamera camera() {
+		return camera;
 	}
 	
 	public void stop() {
