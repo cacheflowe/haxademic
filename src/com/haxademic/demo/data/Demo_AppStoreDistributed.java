@@ -34,7 +34,7 @@ implements IAppStoreListener {
 	protected String MOUSE_Y = "MOUSE_Y";
 	
 	// config
-	protected boolean isServer = false;
+	protected boolean isServer = true;
 	protected String socketServerAddress = null;// "ws://10.10.1.111:3001"; // null; // make null if we're running the server & client on the same machine
 	
 	// web server to serve up the html/js demo
@@ -194,8 +194,8 @@ implements IAppStoreListener {
 	protected void sendSharedValues() {
 		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber(MOUSE_X, p.mouseX);
 		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber(MOUSE_Y, p.mouseY);
-		if(FrameLoop.frameMod(100)) P.storeDistributed.setNumber("heartbeat", p.frameCount);
-		if(FrameLoop.frameMod(200)) broadcastJson();	
+		if(FrameLoop.frameModLooped(100)) P.storeDistributed.setNumber("heartbeat", p.frameCount);
+		if(FrameLoop.frameModLooped(200)) broadcastJson();	
 	}
 	
 	protected void broadcastJson() {
