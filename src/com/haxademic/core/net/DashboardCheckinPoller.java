@@ -102,7 +102,7 @@ implements IJsonRequestDelegate {
 			screenshotBase64 = null;
 		}
 		if(customImgBase64 != null) {
-			jsonObj.setString("imagecustom", customImgBase64);			// screenshotBase64
+			jsonObj.setString("imageExtra", customImgBase64);			// screenshotBase64
 			customImgBase64 = null;
 		}
 		
