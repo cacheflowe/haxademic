@@ -17,7 +17,7 @@ extends PAppletHax {
 		p.strokeWeight(1f + 4f * Mouse.xNorm);
 		
 		PG.setCenterScreen(p.g);
-		p.rotateX(0.75f);
+		p.rotateX(0.75f * Mouse.yNorm);
 		
 		float spacing = 10;
 		float numLines = p.height / spacing;
@@ -28,7 +28,7 @@ extends PAppletHax {
 			float dashLength = 20;
 			float offset = FrameLoop.count(0.03f);
 			p.push();
-			p.translate(0, 0, P.sin(FrameLoop.count(0.04f) + i*0.1f) * 100f);
+			p.translate(0, 0, P.sin(FrameLoop.count(0.04f) + i*0.1f) * 100f * Mouse.yNorm);
 			Shapes.drawDashedCircle(p.g, 0, 0, radius, dashLength, offset, roundsDashLength);
 			p.pop();
 		}

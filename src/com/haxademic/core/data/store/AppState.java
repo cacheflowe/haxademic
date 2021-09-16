@@ -18,20 +18,23 @@ public class AppState {
 	
 	// state handlers & helpers
 	
-	public static void initState(String initialState) {
+	public static void init(String initialState) {
 		P.store.setString(APP_STATE, initialState);
 		P.store.setString(QUEUED_APP_STATE, initialState);
+		P.store.setNumber(ANIMATION_FRAME, 0);
+		P.store.setNumber(ANIMATION_FRAME_PRE, 0);
+		P.store.setNumber(ANIMATION_FRAME_POST, 0);
 	}
 	
-	public static void setState(String newState) {
+	public static void set(String newState) {
 		P.store.setString(QUEUED_APP_STATE, newState);
 	}
 
-	public static String getState() {
+	public static String get() {
 		return P.store.getString(APP_STATE);
 	}
 
-	public static boolean stateIs(int state) {
+	public static boolean is(String state) {
 		return P.store.getString(APP_STATE).equals(state);
 	}
 	

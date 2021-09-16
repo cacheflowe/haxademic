@@ -38,7 +38,7 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 		// init state
-		AppState.initState(App.APP_STATE_INTRO);
+		AppState.init(App.APP_STATE_INTRO);
 		P.store.addListener(this);
 		
 		// build screens / objects

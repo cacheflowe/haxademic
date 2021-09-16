@@ -1,6 +1,7 @@
 package com.haxademic.core.media;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -59,6 +60,10 @@ public class DemoAssets {
 	public static PImage textureCursor() {
 		if(textureCursor == null) textureCursor = P.p.loadImage(FileUtil.getPath("haxademic/images/cursor-finger-trans.png"));
 		return textureCursor;
+	}
+	
+	public static PImage noSignal() {
+		return ImageCacher.get("haxademic/images/no-signal.png");
 	}
 	
 	// SVG

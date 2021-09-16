@@ -1029,7 +1029,7 @@ public class Shapes {
 		}
 	}
 	
-	public static void drawDashedCircle(PGraphics pg, float x, float y, float radius, float dashLength, float offset, boolean rounds) {
+	public static float drawDashedCircle(PGraphics pg, float x, float y, float radius, float dashLength, float offset, boolean rounds) {
 		if(dashLength <= 0) dashLength = 1;	// prevent infinite loop
 		float lineLength = MathUtil.circumferenceFromRadius(radius);
 		float numDashes = (rounds) ? P.round(lineLength / dashLength) : lineLength / dashLength;
@@ -1047,6 +1047,7 @@ public class Shapes {
 			}
 			oddEven++;
 		}
+		return numDashes;
 	}
 	
 	public static void drawLineOfCircles(PGraphics pg, float startX, float startY, float endX, float endY) {
