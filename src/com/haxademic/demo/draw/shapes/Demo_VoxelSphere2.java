@@ -209,7 +209,8 @@ extends PAppletHax {
 		// For every x,y coordinate in a 3D space, calculate a noise value and produce a brightness value
 		for (float x=0; x < numLights; x++) {
 			for (float y=0; y < numLights; y++) {
-				for (float z=numLights/2; z < numLights; z++) {		// only half a sphere
+//				for (float z=numLights/2; z < numLights; z++) {		// only half a sphere
+				for (float z=0; z < numLights; z++) {		// only half a sphere
 					// position
 					float curX = -cubeSizeHalf + x * lightSpacing;
 					float curY = -cubeSizeHalf + y * lightSpacing;
