@@ -211,7 +211,9 @@ implements IAppStoreListener {
 	public float release() { return release; }
 	public Sequencer release(float release) { this.release = release; return this; }
 	public int pitchIndex1() { return pitchIndex1; }
-	
+
+	// audio data getters
+	public float audioAmp() { return audioIn.audioData().amp(); }
 	public PGraphics bufferWaveForm() { return audioIn.audioData().bufferWaveform; }
 	public PGraphics bufferFFT() { return audioIn.audioData().bufferFFT; }
 	
