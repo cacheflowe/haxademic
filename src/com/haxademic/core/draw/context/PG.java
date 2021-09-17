@@ -452,6 +452,7 @@ public class PG {
 
 	public static void drawBorder(PGraphics pg, int color, float padd) {
 		pg.push();
+		PG.setDrawCorner(pg);
 		pg.fill(color);
 		pg.noStroke();
 		pg.rect(0, 0, pg.width, padd);
