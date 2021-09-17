@@ -14,54 +14,30 @@ public class DemoAssets {
 
 	// IMAGES
 	
-	public static PImage smallTexture = null;
 	public static PImage smallTexture() {
-		if(smallTexture == null) smallTexture = P.p.loadImage(FileUtil.getPath("haxademic/images/smiley.png"));
-		return smallTexture;
+		return ImageCacher.get("haxademic/images/smiley.png");
 	}
-	
-	public static PImage particle = null;
 	public static PImage particle() {
-		if(particle == null) particle = P.p.loadImage(FileUtil.getPath("haxademic/images/particle.png"));
-		return particle;
+		return ImageCacher.get("haxademic/images/particle.png");
 	}
-	
-	public static PImage arrow = null;
 	public static PImage arrow() {
-		if(arrow == null) arrow = P.p.loadImage(FileUtil.getPath("haxademic/images/arrow-right.png"));
-		return arrow;
+		return ImageCacher.get("haxademic/images/arrow-right.png");
 	}
-	
-	public static PImage justin = null;
 	public static PImage justin() {
-		if(justin == null) justin = P.p.loadImage(FileUtil.getPath("haxademic/images/justin-spike-portrait.png"));
-		return justin;
+		return ImageCacher.get("haxademic/images/justin-spike-portrait.png");
 	}
-	
-	public static PImage textureJupiter = null;
 	public static PImage textureJupiter() {
-		if(textureJupiter == null) textureJupiter = P.p.loadImage(FileUtil.getPath("haxademic/images/spherical/jupiter.jpg"));
-		return textureJupiter;
+		return ImageCacher.get("haxademic/images/spherical/jupiter.jpg");
 	}
-	
-	public static PImage textureNebula = null;
 	public static PImage textureNebula() {
-		if(textureNebula == null) textureNebula = P.p.loadImage(FileUtil.getPath("haxademic/images/space/carina-nebula.jpg"));
-		return textureNebula;
+		return ImageCacher.get("haxademic/images/space/carina-nebula.jpg");
 	}
-	
-	public static PImage squareTexture = null;
 	public static PImage squareTexture() {
-		if(squareTexture == null) squareTexture = P.p.loadImage(FileUtil.getPath("haxademic/images/space/sun.jpg"));
-		return squareTexture;
+		return ImageCacher.get("haxademic/images/space/sun.jpg");
 	}
-	
-	public static PImage textureCursor = null;
 	public static PImage textureCursor() {
-		if(textureCursor == null) textureCursor = P.p.loadImage(FileUtil.getPath("haxademic/images/cursor-finger-trans.png"));
-		return textureCursor;
+		return ImageCacher.get("haxademic/images/cursor-finger-trans.png");
 	}
-	
 	public static PImage noSignal() {
 		return ImageCacher.get("haxademic/images/no-signal.png");
 	}
