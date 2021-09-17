@@ -5,13 +5,18 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -23,6 +28,8 @@ implements IWebCamCallback {
 
 	protected PGraphics flippedCamera;
 	protected ImageGradient imageGradient;
+	protected PGraphics gradientTexture;
+	protected PGraphics gradientTexture2;
 
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 1280 );
@@ -32,8 +39,18 @@ implements IWebCamCallback {
 
 	protected void firstFrame () {
 		// build palette
-		imageGradient = new ImageGradient(ImageGradient.PASTELS());
+//		imageGradient = new ImageGradient(ImageGradient.PASTELS());
+		imageGradient = new ImageGradient(ImageGradient.RAINBOWISH());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
+		
+		// override with custom gradient texture
+		// 0xffFFB742, 0xffFFE406, 0xff32E003, 0xff53D5FF, 0xff1F27E9, 0xff9232D7, 0xffFF00FF, 0xffFF2601, 0xffFFB742
+		gradientTexture = Gradients.textureFromColorArray(512, 8, new int[] {0xffFF2601, 0xffFFE406, 0xff32E003, 0xff53D5FF}, true); 
+		gradientTexture2 = Gradients.textureFromColorArray(512, 8, new int[] {0xff1F27E9, 0xff9232D7, 0xffFF00FF, 0xffFFB742}, true); 
+		imageGradient.setTexture(gradientTexture);
+		
+		// add gradient to debug
+		DebugView.setTexture("imageGradient.texture()", imageGradient.texture());
 
 		// capture webcam frames
 		WebCam.instance().setDelegate(this);
@@ -42,7 +59,7 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 		// lazy-init flipped camera buffer
-		if(flippedCamera == null) flippedCamera = p.createGraphics(800, 600, PRenderers.P2D);
+		if(flippedCamera == null) flippedCamera = PG.newPG(800, 600);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
 		DebugView.setTexture("webcam", flippedCamera);
 	}
@@ -62,10 +79,21 @@ implements IWebCamCallback {
 
 		// show camera & colorize
 		if(flippedCamera != null) {
+//			if(FrameLoop.frameModLooped(360)) {
+//				imageGradient.setTexture((imageGradient.texture() == gradientTexture) ? gradientTexture2 : gradientTexture);
+//			}
+			
 			ImageUtil.cropFillCopyImage(flippedCamera, p.g, true);
+			
+			ContrastFilter.instance(p).setContrast(3f);
+//			ContrastFilter.instance(p).applyTo(p);
+			BrightnessFilter.instance(p).setBrightness(1.7f);
+			BrightnessFilter.instance(p).applyTo(p);
+			
 			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance(p).setLumaMult(Mouse.xNorm > 0.5f);
 			ColorizeFromTexture.instance(p).setCrossfade(Mouse.yNorm);
+			ColorizeFromTexture.instance(p).setOffset(FrameLoop.count(0.005f));
 			ColorizeFromTexture.instance(p).applyTo(p);
 		}
 	}
