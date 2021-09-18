@@ -28,10 +28,10 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		UI.addSlider(controlPoint1X, 0.2f, 0, 1, 0.001f, false);
-		UI.addSlider(controlPoint1Y, 0.2f, 0, 1, 0.001f, false);
-		UI.addSlider(controlPoint2X, 0.8f, 0, 1, 0.001f, false);
-		UI.addSlider(controlPoint2Y, 0.8f, 0, 1, 0.001f, false);
+		UI.addSlider(controlPoint1X, 0.2f, -1, 2, 0.001f, false);
+		UI.addSlider(controlPoint1Y, 0.2f, -1, 2, 0.001f, false);
+		UI.addSlider(controlPoint2X, 0.8f, -1, 2, 0.001f, false);
+		UI.addSlider(controlPoint2Y, 0.8f, -1, 2, 0.001f, false);
 	}
 
 	protected void drawApp() {
@@ -74,6 +74,7 @@ extends PAppletHax {
 		p.circle(ctrl2X, ctrl2Y, controlPointSize);
 		
 		// draw bezier w/Processing
+		p.noFill();
 		p.bezier(0, 0, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, simSize, simSize);
 		
 		// draw dots on top
@@ -100,7 +101,7 @@ extends PAppletHax {
 		ctrl1Y = UI.value(controlPoint1Y);
 		ctrl2X = UI.value(controlPoint2X);
 		ctrl2Y = UI.value(controlPoint2Y);
-		float bezEase = getBezierXY(bezProgress, 0, 0, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, 1, 1).x;
+		float bezEase = getBezierXY(bezProgress, 0, 0, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, 1, 1).y;
 		p.rect(0, simSize, bezEase * simSize, 20);
 	}
 	
