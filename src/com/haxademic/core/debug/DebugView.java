@@ -87,6 +87,11 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 	}
 	
+	public static void switchToManual() {
+		// if we want to draw in the normal drawApp frame, call this once, and call post() directly
+		P.p.unregisterMethod(PRegisterableMethods.post, instance);
+	}
+	
 	public static boolean active() {
 		return active;
 	}
