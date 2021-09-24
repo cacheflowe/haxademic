@@ -57,6 +57,10 @@
     * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
 * Turn off power management for wifi connection:
   * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
+* Turn off blue screen after bas power cuts: "Automatic Repair couldn’t repair your PC"
+  * Open Command Prompt as Administrator
+    * `bcdedit /set recoveryenabled NO`
+    * Info from: https://www.thewindowsclub.com/automatic-repair-couldnt-repair-pc
 
 ## Performance boost
 
