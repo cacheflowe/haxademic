@@ -14,7 +14,7 @@ import processing.core.PShape;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_ReloadInlineGlsl 
+public class Demo_VertexShader_ReloadInlineGlsl_Rippleskin 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -38,7 +38,7 @@ extends PAppletHax {
 	}
 	
 	protected void buildShape() {
-		int detail = 4;
+		int detail = 10;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, null);// DemoAssets.textureJupiter());
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.5f);
 	}

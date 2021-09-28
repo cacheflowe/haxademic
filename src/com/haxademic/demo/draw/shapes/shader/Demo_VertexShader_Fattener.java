@@ -30,9 +30,9 @@ extends PAppletHax {
 	PShader feedbackShader;
 
 	protected void config() {
-		int FRAMES = 340;
-		Config.setProperty(AppSettings.WIDTH, 600);
-		Config.setProperty(AppSettings.HEIGHT, 700);
+		int FRAMES = 300;
+		Config.setProperty(AppSettings.WIDTH, 1024);
+		Config.setProperty(AppSettings.HEIGHT, 1024);
 //		Config.setProperty(AppSettings.WIDTH, 1920);
 //		Config.setProperty(AppSettings.HEIGHT, 1080);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
@@ -46,11 +46,11 @@ extends PAppletHax {
 		
 		// build obj PShape and scale to window
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 
-		obj = p.loadShape(FileUtil.getPath("models/cacheflowe_2017-12-15_18-23-17.obj")).getTessellation();
+		obj = DemoAssets.objSkullRealistic().getTessellation(); // p.loadShape(FileUtil.getPath("models/cacheflowe_2017-12-15_18-23-17.obj")).getTessellation();
 
 		// normalize shape
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.5f);
 		
 		// load shader
 		fattenerVertShader = p.loadShader(
@@ -73,13 +73,14 @@ extends PAppletHax {
 		// draw shape to buffer
 		buffer.beginDraw();
 		buffer.clear();
+//		buffer.background(0);
 		buffer.translate(p.width/2f, p.height/2f, 0);
-		buffer.rotateY(0.5f * P.sin(FrameLoop.progressRads()));
+		buffer.rotateY(0.3f * P.sin(P.QUARTER_PI + FrameLoop.progressRads()));
 		
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
 		fattenerVertShader.set("time", FrameLoop.progressRads() * 2f);
-//		fattenerVertShader.set("amp", 20f + 20f * P.sin(AnimationLoop.progressRads()));
-		fattenerVertShader.set("amp", p.height * 0.05f);
+		fattenerVertShader.set("amp", 20f + 20f * P.sin(FrameLoop.progressRads()));
+//		fattenerVertShader.set("amp", p.height * 0.05f * P.map(P.sin(FrameLoop.progressRads()), -1, 1, 0, 1));
 		buffer.noLights();
 		buffer.shader(fattenerVertShader);  
 		buffer.shape(obj);
@@ -88,7 +89,7 @@ extends PAppletHax {
 		
 		// do feedback & draw buffer to screen
 		feedbackShader.set("amp", 0.00003f);
-		feedbackShader.set("samplemult", 0.998f);
+		feedbackShader.set("samplemult", 0.999f);
 		p.filter(feedbackShader); p.filter(feedbackShader); p.filter(feedbackShader); 
 		p.image(buffer, 0, 0);
 	

@@ -335,3 +335,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-ge
 ## DNS problems?
 
 * Check `/etc/resolv.conf` and make sure the default is: `nameserver 8.8.8.8`
+
+## Remove `.AAE` files left by importing iOS photos
+
+`find . -name '*.AAE' -exec rm -r {} \;`

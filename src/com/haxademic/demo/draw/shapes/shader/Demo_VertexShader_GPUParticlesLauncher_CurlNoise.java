@@ -10,7 +10,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.render.FrameLoop;
 
-public class Demo_VertexShader_GPUParticlesLauncher 
+public class Demo_VertexShader_GPUParticlesLauncher_CurlNoise 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

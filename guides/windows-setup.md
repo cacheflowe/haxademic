@@ -61,6 +61,7 @@
   * Open Command Prompt as Administrator
     * `bcdedit /set recoveryenabled NO`
     * Info from: https://www.thewindowsclub.com/automatic-repair-couldnt-repair-pc
+    * And: https://www.itechpost.com/articles/103531/20200814/4-solutions-to-fix-boot-critical-file-is-corrupt-error.htm
 
 ## Performance boost
 
