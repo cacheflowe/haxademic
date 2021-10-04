@@ -57,11 +57,22 @@
     * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
 * Turn off power management for wifi connection:
   * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
-* Turn off blue screen after bas power cuts: "Automatic Repair couldn’t repair your PC"
+* Turn off blue screen after bas power cuts: "Automatic Repair couldnï¿½t repair your PC"
   * Open Command Prompt as Administrator
     * `bcdedit /set recoveryenabled NO`
+    * `bcdedit /set {default} recoveryenabled No`
+    * `bcdedit /set {current} recoveryenabled No`
+    * `bcdedit /set {default} bootstatuspolicy ignoreallfailures`
+    * `bcdedit /set {current} bootstatuspolicy ignoreallfailures`
     * Info from: https://www.thewindowsclub.com/automatic-repair-couldnt-repair-pc
     * And: https://www.itechpost.com/articles/103531/20200814/4-solutions-to-fix-boot-critical-file-is-corrupt-error.htm
+  * If a blue screen Automatic Repair screen happens, run these commans in an elevated command prompt:
+    * `chkdsk /r c:` - then restart
+  * If you end up on the recovery screens, try the following:
+    * https://support.microsoft.com/en-us/topic/use-bootrec-exe-in-the-windows-re-to-troubleshoot-startup-issues-902ebb04-daa3-4f90-579f-0fbf51f7dd5d
+    * `bootrec.exe /rebuildbcd`
+    * `bootrec.exe /fixmbr`
+    * `bootrec.exe /fixboot`
 
 ## Performance boost
 
