@@ -60,7 +60,7 @@ implements IWebCamCallback {
 //		template = p.loadShape( FileUtil.getPath("images/_sketch/clocktower/clocktower.svg"));
 
 		// init webcam
-		WebCam.instance().setDelegate(this);
+		WebCam.instance().setDelegate(this).set720p();
 		
 		// ui
 		UI.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);

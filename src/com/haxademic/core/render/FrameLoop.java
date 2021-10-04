@@ -100,6 +100,12 @@ public class FrameLoop {
 		return FrameLoop.instance().frame % mod == frameInLoop;
 	}
 	
+	public static boolean frameModLoopedAt(int frameInLoop) {
+		return loopCurFrame() == frameInLoop;
+	}
+	
+	// loop in terms of time, assuming 60fps. very inaccurate
+	
 	public static boolean frameModSeconds(float seconds) {
 		return FrameLoop.instance().frame % P.round(seconds * 60) == 1;   		// 60 frames per second
 	}

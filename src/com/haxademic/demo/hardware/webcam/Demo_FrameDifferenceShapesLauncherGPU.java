@@ -45,7 +45,7 @@ implements IWebCamCallback {
 		
 	protected void firstFrame () {
 		// capture webcam frames
-		WebCam.instance().setDelegate(this);
+		WebCam.instance().setDelegate(this).set720p();
 		
 		// build gradient
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
@@ -61,8 +61,8 @@ implements IWebCamCallback {
 	public void newFrame(PImage frame) {
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) {
-			int cameraW = 640;	// frame.width (these are jacked up on OS X)
-			int cameraH = 480;	// frame.height
+			int cameraW = frame.width;	// frame.width (these are jacked up on OS X)
+			int cameraH = frame.height;	// frame.height
 			flippedCamera = p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			
 			// frame buffers

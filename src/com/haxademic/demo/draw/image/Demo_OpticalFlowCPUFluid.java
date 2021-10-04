@@ -11,7 +11,7 @@ import com.haxademic.core.draw.textures.Fluid;
 
 import processing.core.PGraphics;
 
-public class Demo_OpticalFlowFluid 
+public class Demo_OpticalFlowCPUFluid 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

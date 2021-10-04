@@ -27,6 +27,7 @@ implements IUIButtonDelegate {
 	protected String configId;
 	protected String configFile;
 	protected String prefsDir = "text/prefs/webcam/";
+	protected boolean listening = false;
 	protected boolean camerasListed = false;
 	protected static String[] camerasList = null;
 	protected ArrayList<CameraConfig> cameraConfigs;
@@ -50,8 +51,9 @@ implements IUIButtonDelegate {
 		public void newFrame(PImage frame);
 	}
 
-	public void setDelegate(IWebCamCallback delegate) {
+	public WebCam setDelegate(IWebCamCallback delegate) {
 		this.delegate = delegate;
+		return this;
 	}
 	
 	/////////////////////////////
@@ -64,13 +66,15 @@ implements IUIButtonDelegate {
 	
 	public WebCam(String configId) {
 		this.configId = configId;
-		noCamera = P.getImage("haxademic/images/no-signal.png");
+		if(noCamera == null) noCamera = P.getImage("haxademic/images/no-signal.png");
 		refreshCameraList();
-//		webCam = new Capture(P.p, "pipeline:autovideosrc");
-//		webCam = new Capture(P.p, 640, 480);
-		// init default camera to get things moving
-		webCam = new Capture(P.p, camerasList[0]);
-		webCam.start();
+		if(camerasList.length > 0) selectCam(camerasList[0]);  // init default camera to get things moving
+		addListeners();
+	}
+	
+	protected void addListeners() {
+		if(listening) return;
+		listening = true;
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
 	}
@@ -155,7 +159,7 @@ implements IUIButtonDelegate {
 		if(camerasList == null) return;
 		camerasListed = true;
 		if (camerasList.length == 0) {
-			 P.error("There are no cameras available.");
+			 // P.error("There are no cameras available.");
 		} else if(cameraConfigs == null) {
 			// setup
 			cameraConfigs = new ArrayList<CameraConfig>();
@@ -293,7 +297,34 @@ implements IUIButtonDelegate {
 		if(webCam != null) webCam.stop();
 	}
 	
-	/////////////////////////////
+	///////////////////////////// 
+	// GStreamer configs
+	///////////////////////////// 
+	
+	public void selectCamGstreamer(int w, int h, int fps, int deviceIndex) {
+		if(webCam != null) webCam.stop();
+		webCam = new Capture(P.p, w, h, gstreamerConfig(w, h, fps, deviceIndex));
+		webCam.start();
+		selectedConfig = null;
+	}
+	
+	public static String gstreamerConfig(int w, int h, int fps, int deviceIndex) {
+		// from https://github.com/processing/processing-video/issues/92#issuecomment-930411887
+		// cam = new Capture(this, 1920, 1080, "pipeline: ksvideosrc device-index=0 ! image/jpeg, width=1920, height=1080, framerate=30/1 ! jpegdec ! videoconvert");
+		return "pipeline: ksvideosrc device-index="+deviceIndex+" ! image/jpeg, width="+w+", height="+h+", framerate="+fps+"/1 ! jpegdec ! videoconvert";
+	}
+	
+	public WebCam set1080p() {
+		selectCamGstreamer(1920, 1080, 30, 0);
+		return this;
+	}
+	
+	public WebCam set720p() {
+		selectCamGstreamer(1280, 720, 30, 0);
+		return this;
+	}
+	
+	///////////////////////////// 
 	// camera config object
 	/////////////////////////////
 

@@ -3,9 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
@@ -54,12 +52,13 @@ implements IWebCamCallback {
 
 		// capture webcam frames
 		WebCam.instance().setDelegate(this);
+		WebCam.instance().selectCamGstreamer(1920, 1080, 30, 0);
 	}
 
 	@Override
 	public void newFrame(PImage frame) {
 		// lazy-init flipped camera buffer
-		if(flippedCamera == null) flippedCamera = PG.newPG(800, 600);
+		if(flippedCamera == null) flippedCamera = PG.newPG(frame.width, frame.height);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
 		DebugView.setTexture("webcam", flippedCamera);
 	}

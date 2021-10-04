@@ -28,7 +28,7 @@ implements IWebCamCallback {
 	
 	protected void firstFrame() {
 		// webcam callback
-		WebCam.instance().setDelegate(this);
+		WebCam.instance().setDelegate(this).set720p();
 	}
 	
 	public void keyPressed() {

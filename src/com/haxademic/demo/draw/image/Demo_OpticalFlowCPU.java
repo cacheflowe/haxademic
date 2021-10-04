@@ -10,7 +10,7 @@ import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PImage;
 
-public class Demo_OpticalFlow 
+public class Demo_OpticalFlowCPU 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

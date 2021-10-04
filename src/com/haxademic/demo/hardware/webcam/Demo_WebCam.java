@@ -21,7 +21,8 @@ implements IWebCamCallback {
 	}
 		
 	protected void firstFrame () {
-		WebCam.instance().setDelegate(this);
+		// load a webcam with the fancy gstreamer config, allowing for high-res camera feeds
+		WebCam.instance().setDelegate(this).set1080p();
 	}
 
 	protected void drawApp() {
