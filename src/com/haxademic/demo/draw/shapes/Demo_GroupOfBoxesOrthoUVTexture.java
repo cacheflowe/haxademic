@@ -31,7 +31,7 @@ extends PAppletHax {
 
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 1024);
-		Config.setProperty(AppSettings.HEIGHT, 768);
+		Config.setProperty(AppSettings.HEIGHT, 1024);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
