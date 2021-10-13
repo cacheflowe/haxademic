@@ -24,9 +24,11 @@ implements ILaunchpadCallback {
 	}
 	
 	protected void firstFrame() {
-		launchpad1 = new LaunchPad(0, 3);
+//		launchpad1 = new LaunchPad(1, 4);
+		launchpad1 = new LaunchPad("4- Launchpad");
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPad(1, 4);
+//		launchpad2 = new LaunchPad(2, 5);
+		launchpad2 = new LaunchPad("5- Launchpad");
 		launchpad2.setDelegate(this);
 	}
 	
