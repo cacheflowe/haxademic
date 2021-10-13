@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.DemoAssets;
@@ -101,7 +102,15 @@ extends PAppletHax {
 		ctrl1Y = UI.value(controlPoint1Y);
 		ctrl2X = UI.value(controlPoint2X);
 		ctrl2Y = UI.value(controlPoint2Y);
-		float bezEase = getBezierXY(bezProgress, 0, 0, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, 1, 1).y;
+		// option 1 - distance check... doesn't really work like this
+//		PVector bezOutputProgress = getBezierXY(bezProgress, 0, 0, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, 1, 1);
+//		float bezEase = 1f - MathUtil.getDistance(bezOutputProgress.x, bezOutputProgress.y, 1, 1) / MathUtil.getDistance(0, 0, 1, 1);
+//		DebugView.setValue("bezOutputProgress.x", bezOutputProgress.x);
+//		DebugView.setValue("bezOutputProgress.y", bezOutputProgress.y);
+//		DebugView.setValue("bezEase.y", bezEase);
+		// option 2 - just use one dimension of the resulting position along the bezier path
+		float bezEase = getBezierXY(bezProgress, 0, 0, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, 1, 1).x;
+		DebugView.setValue("bezEase", bezEase);
 		p.rect(0, simSize, bezEase * simSize, 20);
 	}
 	
