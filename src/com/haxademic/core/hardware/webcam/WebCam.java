@@ -293,6 +293,17 @@ implements IUIButtonDelegate {
 		selectedConfig = camId;
 	}
 	
+	public void clearStoredConfig() {
+		// clear file
+		configFile = FileUtil.getPath(prefsDir + configId + ".txt");
+		if(FileUtil.fileExists(configFile)) {
+			FileUtil.deleteFile(configFile);
+		}
+		// clear props
+		configId = null;
+		selectedConfig = null;
+	}
+	
 	public void dispose() {
 		if(webCam != null) webCam.stop();
 	}
@@ -302,6 +313,8 @@ implements IUIButtonDelegate {
 	///////////////////////////// 
 	
 	public void selectCamGstreamer(int w, int h, int fps, int deviceIndex) {
+		clearStoredConfig();
+		// init new webcam
 		if(webCam != null) webCam.stop();
 		webCam = new Capture(P.p, w, h, gstreamerConfig(w, h, fps, deviceIndex));
 		webCam.start();
@@ -312,15 +325,24 @@ implements IUIButtonDelegate {
 		// from https://github.com/processing/processing-video/issues/92#issuecomment-930411887
 		// cam = new Capture(this, 1920, 1080, "pipeline: ksvideosrc device-index=0 ! image/jpeg, width=1920, height=1080, framerate=30/1 ! jpegdec ! videoconvert");
 		return "pipeline: ksvideosrc device-index="+deviceIndex+" ! image/jpeg, width="+w+", height="+h+", framerate="+fps+"/1 ! jpegdec ! videoconvert";
+//		return "pipeline: ksvideosrc device-index="+deviceIndex+" ! image/jpeg, width="+w+", height="+h+", framerate="+fps+"/1 ! videoconvert";
 	}
 	
 	public WebCam set1080p() {
-		selectCamGstreamer(1920, 1080, 30, 0);
+		return set1080p(0);
+	}
+	
+	public WebCam set1080p(int deviceIndex) {
+		selectCamGstreamer(1920, 1080, 30, deviceIndex);
 		return this;
 	}
 	
 	public WebCam set720p() {
-		selectCamGstreamer(1280, 720, 30, 0);
+		return set720p(0);
+	}
+	
+	public WebCam set720p(int deviceIndex) {
+		selectCamGstreamer(1280, 720, 30, deviceIndex);
 		return this;
 	}
 	
