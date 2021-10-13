@@ -60,6 +60,10 @@ public class DisplacementPoint {
 	public float influenceByDistance() { return influenceByDistance; }
 	public void influenceByDistance(float influenceByDistance) { this.influenceByDistance = influenceByDistance; }
 
+	public float displacedCurX() { return P.abs(baseX - curX); }
+	public float displacedCurY() { return P.abs(baseY - curY); }
+	public float displacedCurTotal() { return displacedCurX() + displacedCurY(); }
+
 	public void update(float influenceX, float influenceY) {
 		// calculate displacement based on mouse distance from point base
 		float xdiff = baseX - influenceX;
