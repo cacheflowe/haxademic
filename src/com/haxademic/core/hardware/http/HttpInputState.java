@@ -46,7 +46,8 @@ public class HttpInputState {
 	}
 	
 	public static WebServer defaultServer() {
-		return new WebServer(new UIControlsHandler(), true);
+		if(instance != null && instance.server != null) return instance.server;
+		else return new WebServer(new UIControlsHandler(), true);
 	}
 	
 	///////////////////////////////

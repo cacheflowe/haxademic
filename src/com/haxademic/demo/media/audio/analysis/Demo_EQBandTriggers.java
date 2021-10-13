@@ -17,7 +17,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		AudioIn.instance(AudioInputLibrary.Beads);
-
+		
 		numElements = 40; // p.width;
 		
 		lastAudioFrame = new float[512];

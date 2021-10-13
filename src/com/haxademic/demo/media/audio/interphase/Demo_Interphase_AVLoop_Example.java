@@ -17,6 +17,7 @@ import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.UC33;
+import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
@@ -39,6 +40,7 @@ implements IAppStoreListener {
 	protected Interphase interphase;
 	protected int numSequencers;
 	protected LinearFloat[] sequencerHits;
+	protected FloatBuffer[] sequencerAmps;
 	protected MidiDevice uc33;
 	
 	protected String USE_OVERRIDES = "USE_OVERRIDES";
@@ -56,7 +58,8 @@ implements IAppStoreListener {
 		uc33 = new MidiDevice(UC33.deviceName, null);
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels());
+//		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.initGlobalControlsUI(UC33.KNOB_ROW1_01, UC33.KNOB_ROW2_01);
 		interphase.initLaunchpads("4- Launchpad", "5- Launchpad");
@@ -73,8 +76,10 @@ implements IAppStoreListener {
 		
 		// create local easing objects for each track
 		sequencerHits = new LinearFloat[numSequencers];
+		sequencerAmps = new FloatBuffer[numSequencers];
 		for (int i = 0; i < sequencerHits.length; i++) {
 			sequencerHits[i] = new LinearFloat(0, 0.05f);
+			sequencerAmps[i] = new FloatBuffer(3);
 		}
 		
 		P.store.addListener(this);
@@ -82,7 +87,7 @@ implements IAppStoreListener {
 		P.out("WebServer.DEBUG", WebServer.DEBUG);
 		HttpInputState.DEBUG = false;
 		
-		UI.addToggle(USE_OVERRIDES, true, false);
+		UI.addToggle(USE_OVERRIDES, false, false);
 	}
 	
 	public void keyPressed() {
@@ -97,7 +102,13 @@ implements IAppStoreListener {
 
 	protected void drawVisuals() {
 		// update easings
-		for (int i = 0; i < sequencerHits.length; i++) sequencerHits[i].update();
+		for (int i = 0; i < sequencerHits.length; i++) {
+			Sequencer seq = interphase.sequencerAt(i);
+			// update hits
+			sequencerHits[i].update();
+			// update amp
+			sequencerAmps[i].update(seq.audioAmp());
+		}
 		
 		// set draw context
 		p.background(30);
@@ -124,10 +135,17 @@ implements IAppStoreListener {
 			float totalW = spacing * numSequencers;
 			float x = pg.width/2 - totalW/2 + spacing * i;
 			float y = pg.height/2 - totalW/2 + spacing * i;
+			
+			// 
 			float circleSize = pg.width * 0.05f;
 			circleSize *= (1f + sequencerHits[i].value());
 			pg.fill(ColorsHax.COLOR_GROUPS[6][i % 4]);
 			pg.ellipse(x, y, circleSize, circleSize);
+			
+			// amp scale
+			circleSize = pg.width * 0.05f;
+			circleSize *= 1f + sequencerAmps[i].average();
+			pg.ellipse(x, y + 50, circleSize, circleSize);
 		}
 		
 		// kick 

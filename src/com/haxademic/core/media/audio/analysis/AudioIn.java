@@ -167,6 +167,12 @@ public class AudioIn {
 	public static void debugAudio() {
 		JavaInfo.printAudioInfo();
 	}
+	
+	public static void setDrawDebugBuffers() {
+	}
+
+	public static void drawDebugBuffers() {
+	}
 
 	/////////////////////////////
 	// update
@@ -177,13 +183,20 @@ public class AudioIn {
 		audioInput.update();
 		audioInput.drawDataBuffers();
 		
-		// update debug buffer if DebugView is showing
-		boolean shouldDrawDebug = (P.isHaxApp() && DebugView.active() == true);
-		if(shouldDrawDebug) audioInput.drawDebugBuffer();
-		
 		// store static props for global audio input
 		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
 		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
+		
+		// update debug buffer if DebugView is showing
+		boolean shouldDrawDebug = (P.isHaxApp() && DebugView.active() == true);
+		if(shouldDrawDebug) {
+			audioInput.drawDebugBuffer();
+			// show main debug view in debug panel
+			DebugView.setTexture("AudioIn.bufferDebug", AudioIn.bufferDebug());
+			// if fft/waveform data is being drawn, show in debug panel. currently it's always drawn for the main/singular AudioIn object
+			DebugView.setTexture("AudioIn.bufferFFT", AudioIn.bufferFFT());
+			DebugView.setTexture("AudioIn.bufferWaveform", AudioIn.bufferWaveform());
+		}
 	}
 
 	/////////////////////////////

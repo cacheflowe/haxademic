@@ -76,7 +76,11 @@ implements IAppStoreListener {
 	
 	public static void addWebInterface(boolean debugWebRequests) {
 		if(server != null) return;
-		server = new WebServer(new UIControlsHandler(), debugWebRequests);
+		if(HttpInputState.instance != null) {
+			server = HttpInputState.defaultServer(); 
+		} else {
+			server = new WebServer(new UIControlsHandler(), debugWebRequests);
+		}
 		HttpInputState.instance(server);
 	}
 	
