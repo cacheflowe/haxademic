@@ -111,9 +111,20 @@
 
 * Enable network sharing
   * Click on the Network button in Explorer, and the first time, a notification should show in the window header, asking you to enable
+  * This could be bad for network security vulnerability scans, so don't turn it on if this could be a concern with an IT department
 * Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
 * Allow WebSockets messages to go through on a specific port (3001 is default in Haxademic)
   * Open `Windows Firewall with Advanced Security` and add an incoming and outgoing rule for port 3001, and allow on all networks
+
+## Networking vulnerability scans
+
+* Turn off Remote Desktop Connection in Windows 10 Pro if you want to lock the computer down from vulnerabilities
+  * (WIN + "Remote Desktop Settings") Uncheck "Enable Remote Desktop"
+    * If the option to enable/disable RDP is greyed out, we might have to change the group policy for the computer. 
+      * WIN + R -> `gpedit.msc`
+        * Int the tree, find `Computer configuration\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session\Connections\Allow users to connect remotely...` and make its status is "Not Configured" instead of "Enabled".
+* Get Nessus and run a scan on your IP range:
+  * https://www.tenable.com/downloads/nessus
 
 ## Teamviewer settings
 
