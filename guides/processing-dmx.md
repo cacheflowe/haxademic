@@ -99,6 +99,7 @@ Voltage is sent through the decoder's wire terminals via PWM. Here are some comp
 The basic unit:
 
 * [24-channel DMX Decoder](https://www.amazon.com/gp/product/B01CCBG1SO/) (or [32-channel](https://www.amazon.com/Channel-Decoder-Controller-Dimmer-DC5-24V/dp/B075FHJM35))
+  * [Extra removable terminal blocks ("Euroblock" or "Phoenix-type")](https://www.amazon.com/Parts-Express-Phoenix-Connector-4-Pole/dp/B00MJGPFWG/)
 * [Power supply](https://www.amazon.com/500W-Power-Supply-Single-Output/dp/B01KZP2CKA/)
   * [Power supply IEC power cable](https://www.amazon.com/TNP-Universal-Power-Cord-Feet/dp/B01N237QI9/)
 * [DMX Terminals](https://www.amazon.com/Terminal-Adapter-Converters-Controller-Decoder/dp/B00Q32V2JC/)
