@@ -70,6 +70,11 @@ public class ColorsHax {
 	})
 	*/
 	
+	public static int[] colorGroupAt(int group) {
+		int groupLooped = group % COLOR_GROUPS.length;
+		return COLOR_GROUPS[groupLooped];
+	}
+	
 	public static int colorFromGroupAt(int group, int color) {
 		int groupLooped = group % COLOR_GROUPS.length;
 		int[] colorGroup = COLOR_GROUPS[groupLooped];
