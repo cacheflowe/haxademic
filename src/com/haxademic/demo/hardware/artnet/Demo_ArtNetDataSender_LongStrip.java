@@ -10,10 +10,11 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArtNetDataSender artNetDataSender;
-	protected int numPixels = 256 * 3;//400;
+//	protected int numPixels = 256 * 3;//400;
+	protected int numPixels = 600;
 
 	protected void firstFrame() {
-		artNetDataSender = new ArtNetDataSender("192.168.1.101", 4, numPixels);
+		artNetDataSender = new ArtNetDataSender("192.168.1.100", 0, numPixels);
 	}
 
 	protected void drawApp() {
@@ -25,13 +26,13 @@ extends PAppletHax {
 	
 	protected void createColors() {
 		// build entire LED data, to loop through afterwards
-		float colorSpeed = 0.02f;
+		float colorSpeed = 0.1f;
 		float colorFreq = 0.04f;
 		for(int i=0; i < numPixels; i++) {
 			// set rgb colors
-			float r = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(0+(i*colorFreq) + -frameCount * colorSpeed*1f));
-			float g = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(1+(i*colorFreq) + -frameCount * colorSpeed*0.8f));
-			float b = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.6f));
+			float r = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(0+(i*colorFreq) + -frameCount * colorSpeed*1f));
+			float g = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(1+(i*colorFreq) + -frameCount * colorSpeed*0.8f));
+			float b = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.6f));
 			
 			// set data
 			int pixelIndex = i * 3;

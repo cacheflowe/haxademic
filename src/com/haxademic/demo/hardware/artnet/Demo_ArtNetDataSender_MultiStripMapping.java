@@ -28,7 +28,7 @@ extends PAppletHax {
 
 	// mapping & UI
 	protected ArtNetDataSender artNetDataSender;
-	protected int numStrips = 4;
+	protected int numStrips = 6;
 	protected int lightsPerStrip = 100;
 	protected int numPixels = numStrips * lightsPerStrip;
 	
@@ -49,7 +49,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		noise3d = new SimplexNoise3dTexture(p.width, p.height);
-		artNetDataSender = new ArtNetDataSender("192.168.1.101", 0, numPixels);
+		artNetDataSender = new ArtNetDataSender("192.168.1.100", 0, numPixels);
 		buildLightBarMapUI();
 	}
 	
@@ -57,10 +57,12 @@ extends PAppletHax {
 		int centerX = p.width / 2;
 		int centerY = p.height / 2;
 		// zig zag flip/reverse for current physical strip layout
+		buildLightBar(centerX + 100, centerY + 100 - 100, centerX + 60, centerY - 100 - 100);
 		buildLightBar(centerX + 60, centerY + 100 - 100, centerX + 60, centerY - 100 - 100);
 		buildLightBar(centerX + 20, centerY - 100 - 100, centerX + 20, centerY + 100 - 100);
 		buildLightBar(centerX - 20, centerY + 100 - 100, centerX - 20, centerY - 100 - 100);
 		buildLightBar(centerX - 60, centerY - 100 - 100, centerX - 60, centerY + 100 - 100);
+		buildLightBar(centerX - 100, centerY - 100 - 100, centerX - 60, centerY + 100 - 100);
 		
 		// keyboard & mouse events for SavedPointUI
 		P.p.registerMethod("mouseEvent", this); // add mouse listeners
@@ -81,6 +83,8 @@ extends PAppletHax {
 		
 		// overdraw circles
 		PGraphics map = noise3d.texture();
+		
+		// replace with circles
 		map.beginDraw();
 		PG.setCenterScreen(map);
 		PG.setDrawCenter(map);
@@ -95,6 +99,20 @@ extends PAppletHax {
 			index++;
 		}
 		map.endDraw();
+		/* */
+		
+		// replace with rotating bar
+		map.beginDraw();
+		map.background(0);
+		PG.setCenterScreen(map);
+		PG.setDrawCorner(map);
+		map.fill(255);
+		map.rotate(FrameLoop.count(0.06f));
+		map.rect(0, 0, p.width * 3, 20);
+		map.fill(255, 255, 0);
+		map.rotate(P.PI);
+		map.rect(0, 0, p.width * 3, 20);
+		map.endDraw();
 		
 		// overdraw mouse
 		/*
@@ -108,8 +126,8 @@ extends PAppletHax {
 		*/
 		
 		// bring brightness down because voltage problems
-		BrightnessFilter.instance(p).setBrightness(0.4f);
-		BrightnessFilter.instance(p).applyTo(map);
+		BrightnessFilter.instance(p).setBrightness(0.1f);
+//		BrightnessFilter.instance(p).applyTo(map);
 	}
 	
 	// animate lights!
