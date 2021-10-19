@@ -2,7 +2,7 @@
 
 [Art-Net](https://en.wikipedia.org/wiki/Art-Net) is a network-based protocol for communicating with individual LED lights on a strip, (or on their own). It's a more robust and powerful way to send DMX messages to larger numbers of lights. You can get a "pixel controller" that can receive art-net messages and convert them to the required electrical signals that different types of LED strips use for communication.
 
-As I wrote this guide, I was alerted to the new [WLED](https://github.com/Aircoookie/WLED) method of controlling addressable LED strips. This is a nice viable alternative to the methods I describe here, and has it's own pros & cons that I'm not informed enough to weigh in on at this point. I'll be investigating this soon.
+As I wrote this guide, I was alerted to the new [WLED](https://github.com/Aircoookie/WLED) method of controlling addressable LED strips. This is a nice viable alternative to the methods I describe here, and has its own pros & cons that I'm not informed enough to weigh in on at this point. I'll be investigating this soon.
 
 Also, if you're interested in controlling individual light fixtures with DMX, you can check out my [DMX for Processing guide](./processing-dmx.md).
 
