@@ -1207,6 +1207,40 @@ public class PShapeUtil {
 		return shape;
 	}
 
+	public static PShape createTexturedRect(float width, float height, float x, float y, float z, PImage texture) {
+//		{
+//			P.p.push();
+//			P.p.textureMode(P.NORMAL);
+//			PShape shape = P.p.createShape();
+//			shape.beginShape();
+//			shape.textureMode(P.NORMAL);
+//			shape.texture(texture);
+//			shape.vertex(x + -width/2, y + -height/2, z,			0, 0);
+//			shape.vertex(x +  width/2, y + -height/2, z,			1, 0);
+//			shape.vertex(x +  width/2, y +  height/2, z,			1, 1);
+//			shape.vertex(x + -width/2, y +  height/2, z,			0, 1);
+//			shape.endShape();
+//			shape = shape.getTessellation();
+//			shape.setTexture(texture);
+//			P.p.pop();
+//			return shape;
+//		}
+		
+		{
+			P.p.push();
+			P.p.textureMode(P.NORMAL);
+			PShape shape = P.p.createShape(P.RECT, -width/2f, -height/2f, width, height);
+			shape.setStroke(false);
+//			shape.textureMode(P.NORMAL);
+			translateShape(shape, x, y, z);
+//			shape.texture(texture);
+//			shape = shape.getTessellation();
+			shape.setTexture(texture);
+			P.p.pop();
+			return shape;
+		}
+	}
+	
 	public static PShape createEllipse(float width, float height, int color) {
 		return createEllipse(width, height, 0, 0, 0, color, 0, 0);
 	}

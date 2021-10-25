@@ -9,6 +9,9 @@ varying vec3 vertNormal;
 varying vec3 vert;
 varying vec3 norm;
 
+uniform sampler2D texture;
+uniform int textureMode = 0;
+
 uniform vec3 lightDir = vec3(0., 0.5, 1.);
 uniform vec3 lightCol = vec3(0., 1., 0.);
 uniform vec3 lightAmbient = vec3(0.2, 0., 0.4);
@@ -30,5 +33,9 @@ void main() {
   vec3 col = lightAmbient * lightCol * vertColor.rgb * cosTheta * specularCoefficient * intensity + specularCoefficient/5.;
   gl_FragColor = vec4(col, 1.);
 
+  if(textureMode == 1.) {
+    gl_FragColor = texture2D(texture, vertTexCoord.xy) * vertColor;
+  }
+  
   // gl_FragColor = vertColor;
 }

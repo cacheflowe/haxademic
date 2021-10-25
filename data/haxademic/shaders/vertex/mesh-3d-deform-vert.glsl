@@ -11,6 +11,9 @@ attribute vec4 color;
 attribute vec2 texCoord;
 attribute vec3 normal;
 
+uniform sampler2D texture;
+uniform int textureMode = 0;
+
 uniform sampler2D displacementMap;
 uniform float displaceAmp = 1.;
 uniform int sheet = 0;
@@ -20,6 +23,9 @@ uniform mat4 modelviewInv;
 
 attribute float x;
 attribute float y;
+attribute float shapeCenterX;
+attribute float shapeCenterY;
+attribute float shapeCenterZ;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -125,8 +131,8 @@ vec3 rotate_vertex_position(vec3 position, vec3 axis, float angle)
 ////////////////////////////
 
 void main() {
-	vec4 origin = vec4(x, y, 0., 1.);
-	vec4 v = vertex + origin; // vertex * modelviewInv;
+	vec4 uvImageCoords = vec4(x, y, 0., 1.);
+	vec4 v = vertex;// + uvImageCoords; // vertex * modelviewInv;
 
 	// Calculating texture coordinates, with r and q set both to one
 	// And pass values along to fragment shader
@@ -161,6 +167,12 @@ void main() {
 		v.y + displaceAmp * offsetY,
 		v.z + displaceAmp * offsetZ
 	);
+	// newPos = v.xyz;
+
+	// attempt to scale
+	vec3 shapeCenter = vec3(shapeCenterX, shapeCenterY, shapeCenterZ);
+	vec3 posScaleOffset = vertex.xyz - shapeCenter;
+	newPos.xyz += posScaleOffset.xyz * (1. + gray * 3.);
 	
 
 	// attempt to set unique rotation for object
@@ -172,16 +184,20 @@ void main() {
 	// newPos.xyz = rotate_vertex_position(newPos.xyz, vec3(0., 0., 1.), float(time)/5.); 
 	// vec3 rotated_point = vec3(x, y, 0.) + (worldPos * (newPos-centerPos));
 	// newPos.xyz += tmpRot; 
-	// newPos.xyz += rotPos; 
+	// newPos.xyz += rotPos;
 	}
 
 	// rotate everything
 	vec3 rotatedPos = rotate_vertex_position(newPos, vec3(0., 0., 1.), time/4.); 
-	// rotated_point = origin + (orientation_quaternion * (point-origin));
+	// rotated_point = uvImageCoords + (orientation_quaternion * (point-uvImageCoords));
 	// mat4 rotateMat = rotationMatrix(vec3(vertex.x/1., 0.1, 0.1), vertex.x/1.);
 
 	// working/default displacement technique: multiply with original transform matrix
-	vec4 finalPosition = transform * vec4(rotatedPos, 1.0);
+	// vec4 finalPosition = transform * vec4(rotatedPos, 1.0);
+	
+	// alternate way of setting finalPosition
+	vec4 finalPosition = projection * modelview * vec4(newPos, 1.);
+	// finalPosition.xyz += vec3(0.) * 1.;
 
 	// write final position
 	gl_Position = finalPosition;
@@ -190,6 +206,13 @@ void main() {
 	// gl_Position = projection * modelview * vec4(newPos, 1);
 
 
+	// from THREE.js
+	/*
+	vec4 mvPosition = modelViewMatrix * vec4(posOffset * radiusAmp * legacyScale, 1.);
+	mvPosition.xyz += (position * scale);
+	gl_Position = projectionMatrix * mvPosition;
+	*/
+	
 	// attempts to rotate
 	// transform * rotationY(x/100.) * rotationX(y/20000.) * rotationZ(y/20000.) * vertex;
 	// vec4 tmpVert = vec4(newPos, 1.);
