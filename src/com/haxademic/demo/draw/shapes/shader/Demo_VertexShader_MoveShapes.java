@@ -21,7 +21,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PGraphicsOpenGL;
 
-public class Demo_VertexShader_MoveSpheres 
+public class Demo_VertexShader_MoveShapes 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -43,6 +43,9 @@ extends PAppletHax {
 
 	protected String CAMERA_ON = "CAMERA_ON";
 	protected String TEXTURE_MODE = "TEXTURE_MODE";
+	protected String GLOBAL_SCALE = "GLOBAL_SCALE";
+	protected String SPREAD_SCALE = "SPREAD_SCALE";
+	protected String INDIVIDUAL_MESH_SCALE = "INDIVIDUAL_MESH_SCALE";
 	protected String NOISE_SPEED_X = "NOISE_SPEED_X";
 	protected String NOISE_SPEED_Y = "NOISE_SPEED_Y";
 	protected String NOISE_ZOOM = "NOISE_ZOOM";
@@ -65,6 +68,9 @@ extends PAppletHax {
 		UI.addTitle("Spheres config");
 		UI.addToggle(CAMERA_ON, true, false);
 		UI.addToggle(TEXTURE_MODE, true, false);
+		UI.addSlider(GLOBAL_SCALE, 1f, 0.1f, 10f, 0.1f, false);
+		UI.addSlider(SPREAD_SCALE, 1f, 0f, 30f, 0.1f, false);
+		UI.addSlider(INDIVIDUAL_MESH_SCALE, 2f, 0f, 20f, 0.1f, false);
 		UI.addSlider(NOISE_SPEED_X, 0.001f, 0, 0.1f, 0.00001f, false);
 		UI.addSlider(NOISE_SPEED_Y, 0.001f, 0, 0.1f, 0.00001f, false);
 		UI.addSlider(NOISE_ZOOM, 3f, 0.2f, 10f, 0.01f, false);
@@ -79,23 +85,25 @@ extends PAppletHax {
 		// config build shapes
 		float shapeSize = 12;
 		float shapeSpacing = shapeSize * 1.2f;
+		float shapeSpacingHalf = shapeSpacing / 2f;
 		p.sphereDetail(5);
 
 		// create PShapes inside a group
 		int startBuildTime = p.millis();
-		int cols = 40;
-		int rows = 30;
+		int cols = 400;
+		int rows = 300;
 		startBuildTime = p.millis();
 		int numVerts = 0;
 		group = p.createShape(P.GROUP);
 		for (int x = 0; x < cols; x++) {
 			for (int y = 0; y < rows; y++) {
-				float gridX = -(shapeSpacing * cols/2) + (x * shapeSpacing);
-				float gridY = -(shapeSpacing * rows/2) + (y * shapeSpacing);
+				float gridX = shapeSpacingHalf + -(shapeSpacing * cols/2) + (x * shapeSpacing);
+				float gridY = shapeSpacingHalf + -(shapeSpacing * rows/2) + (y * shapeSpacing);
 				float gridZ = 0;
-				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, gridZ, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
-//				PShape shape = PShapeUtil.createBox(shapeSize, shapeSize, shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
+//				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, gridZ, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
+				PShape shape = PShapeUtil.createBox(shapeSize, shapeSize, shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
 //				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, DemoAssets.particle());
+				shape.setTexture(DemoAssets.smallTexture());
 				numVerts += shape.getVertexCount();
 				// give the shape attributes for the shader to pick out their UV coord from grid index
 				shape.attrib("x", x);
@@ -109,13 +117,6 @@ extends PAppletHax {
 		DebugView.setValue("Group PShape time", p.millis() - startBuildTime + "ms");
 		DebugView.setValue("Num shapes", cols * rows);
 		DebugView.setValue("Num verts", numVerts);
-		
-		// outer sphere
-//		shared.add(PShapeUtil.createSphere(4000, p.color(50, 0)));
-//		PShape innerSphere = PShapeCopy.copyShape(shared.get(shared.size() - 1));
-//		PShapeUtil.setBasicShapeStyles(innerSphere, 0, p.color(20), 10);
-//		innerSphere.scale(0.6f);
-//		shared.add(innerSphere);
 		
 		// load shader to move spheres
 		polygonShader = new PShaderHotSwap(
@@ -131,17 +132,18 @@ extends PAppletHax {
 	protected void drawApp() {
 		// setup context
 		background(0);
-		PG.setDrawFlat2d(p, true);
+		PG.setDrawFlat2d(p, false);
 		PG.setCenterScreen(p);
 //		PG.setBetterLights(p);
 		if(UI.valueToggle(CAMERA_ON)) {
 			PG.basicCameraFromMouse(p.g, 0.1f);
 		}
+		p.rotateX(P.PI);
 		
 		// update shader & displacement map
-		noiseTexture.offsetX(UI.value(DISPLACE_OFFSET_X) + FrameLoop.count(UI.value(NOISE_SPEED_X)));
-		noiseTexture.offsetY(UI.value(DISPLACE_OFFSET_Y) + FrameLoop.count(UI.value(NOISE_SPEED_Y)));
-		noiseTexture.zoom(UI.value(NOISE_ZOOM));
+		noiseTexture.offsetX(UI.valueEased(DISPLACE_OFFSET_X) + FrameLoop.count(UI.valueEased(NOISE_SPEED_X)));
+		noiseTexture.offsetY(UI.valueEased(DISPLACE_OFFSET_Y) + FrameLoop.count(UI.valueEased(NOISE_SPEED_Y)));
+		noiseTexture.zoom(UI.valueEased(NOISE_ZOOM));
 		noiseTexture.update();
 		// lerp proper 32-bit texture for displacement
 		BlendTowardsTexture.instance(p).setBlendLerp(0.5f);
@@ -153,17 +155,20 @@ extends PAppletHax {
 		polygonShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
 		polygonShader.shader().set("time", p.frameCount);
 		polygonShader.shader().set("displacementMap", displaceTexture);
-		polygonShader.shader().set("displaceAmp", UI.value(DISPLACE_AMP));
+		polygonShader.shader().set("displaceAmp", UI.valueEased(DISPLACE_AMP));
 //		polygonShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
 		polygonShader.shader().set("lightDir", UI.valueX(LIGHT_DIR), UI.valueY(LIGHT_DIR), UI.valueZ(LIGHT_DIR));
 		polygonShader.shader().set("lightCol", UI.valueX(LIGHT_COL), UI.valueY(LIGHT_COL), UI.valueZ(LIGHT_COL));
 		polygonShader.shader().set("lightAmbient", UI.valueX(LIGHT_AMBIENT), UI.valueY(LIGHT_AMBIENT), UI.valueZ(LIGHT_AMBIENT));
-		polygonShader.shader().set("materialShininess", UI.value(LIGHT_SHININESS));
+		polygonShader.shader().set("materialShininess", UI.valueEased(LIGHT_SHININESS));
+		polygonShader.shader().set("globalScale", UI.valueEased(GLOBAL_SCALE));
+		polygonShader.shader().set("spreadScale", UI.valueEased(SPREAD_SCALE));
+		polygonShader.shader().set("individualMeshScale", UI.valueEased(INDIVIDUAL_MESH_SCALE));
 		polygonShader.shader().set("textureMode", UI.valueToggle(TEXTURE_MODE) ? 1 : 0);
 		polygonShader.update();
 		
 		// draw mesh group
-		p.blendMode(PBlendModes.ADD);
+//		p.blendMode(PBlendModes.ADD);
 		p.shader(polygonShader.shader());
 //		p.translate(FrameLoop.osc(0.02f, -100, 100), 0);
 		p.shape(group);
