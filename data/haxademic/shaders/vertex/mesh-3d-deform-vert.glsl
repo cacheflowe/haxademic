@@ -44,36 +44,36 @@ varying vec3 vNormal;
 #define PROCESSING_POLYGON_SHADER
 
 float rgbToGray(vec4 rgba) {
-	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
+  const vec3 W = vec3(0.2125, 0.7154, 0.0721);
   return dot(rgba.xyz, W);
 }
 
 mat4 translate( float x, float y, float z ) {
-	return mat4(	1.0,		0,			0,		x,
-			 					0, 			1.0,		0,		y,
-								0, 			0,	 		1.0,	z,
-								0, 			0,			0, 		1);
+  return mat4(	1.0,		0,			0,		x,
+                 0, 			1.0,		0,		y,
+                0, 			0,	 		1.0,	z,
+                0, 			0,			0, 		1);
 }
 
 mat4 rotationX( in float angle ) {
-	return mat4(	1.0,		0,			0,			0,
-			 		0, 	cos(angle),	-sin(angle),		0,
-					0, 	sin(angle),	 cos(angle),		0,
-					0, 			0,			  0, 		1);
+  return mat4(	1.0,		0,			0,			0,
+           0, 	cos(angle),	-sin(angle),		0,
+          0, 	sin(angle),	 cos(angle),		0,
+          0, 			0,			  0, 		1);
 }
 
 mat4 rotationY( in float angle ) {
-	return mat4(	cos(angle),		0,		sin(angle),	0,
-			 				0,		1.0,			 0,	0,
-					-sin(angle),	0,		cos(angle),	0,
-							0, 		0,				0,	1);
+  return mat4(	cos(angle),		0,		sin(angle),	0,
+               0,		1.0,			 0,	0,
+          -sin(angle),	0,		cos(angle),	0,
+              0, 		0,				0,	1);
 }
 
 mat4 rotationZ( in float angle ) {
-	return mat4(	cos(angle),		-sin(angle),	0,	0,
-			 		sin(angle),		cos(angle),		0,	0,
-							0,				0,		1,	0,
-							0,				0,		0,	1);
+  return mat4(	cos(angle),		-sin(angle),	0,	0,
+           sin(angle),		cos(angle),		0,	0,
+              0,				0,		1,	0,
+              0,				0,		0,	1);
 }
 
 mat4 rotationMatrix(vec3 axis, float angle)
@@ -119,89 +119,89 @@ vec3 rotate_vertex_position(vec3 position, vec3 axis, float rads)
 ////////////////////////////
 
 void main() {
-	////////////////////////////////////////////////////////
-	// UV coords calculation
-	// Get original position * model center
-	vec4 uvImageCoords = vec4(x, y, 0., 1.);
-	vec4 v = vertex;
-	vec3 shapeCenter = vec3(shapeCenterX, shapeCenterY, shapeCenterZ);  // center is passed in via attributes
+  ////////////////////////////////////////////////////////
+  // UV coords calculation
+  // Get original position * model center
+  vec4 uvImageCoords = vec4(x, y, 0., 1.);
+  vec4 v = vertex;
+  vec3 shapeCenter = vec3(shapeCenterX, shapeCenterY, shapeCenterZ);  // center is passed in via attributes
 
-	// Calculating texture coordinates, with r and q set both to one
-	// And pass values along to fragment shader
-	vVertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
-	vVertColor = color; 
-	vVertNormal = normalize(normalMatrix * normal);
+  // Calculating texture coordinates, with r and q set both to one
+  // And pass values along to fragment shader
+  vVertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
+  vVertColor = color; 
+  vVertNormal = normalize(normalMatrix * normal);
   vVertex = vertex.xyz;
   vNormal = normal;
-	///////////////////////////
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// UV coords calculation
-	// get displacement map color and map to displace x/y coords
-	// use x/y attributes, (which are pixel coordinates) as normalized uv coords
-	ivec2 texSize = textureSize(displacementMap, 0); 
-	vec2 simulationUV = vec2(
-		x / float(texSize.x),
-		y / float(texSize.y)
-	);
-	vec4 displaceVal = texture2D(displacementMap, simulationUV);
+  ////////////////////////////////////////////////////////
+  // UV coords calculation
+  // get displacement map color and map to displace x/y coords
+  // use x/y attributes, (which are pixel coordinates) as normalized uv coords
+  ivec2 texSize = textureSize(displacementMap, 0); 
+  vec2 simulationUV = vec2(
+    x / float(texSize.x),
+    y / float(texSize.y)
+  );
+  vec4 displaceVal = texture2D(displacementMap, simulationUV);
   float luma = rgbToGray(displaceVal);
-	///////////////////////////
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// GENERATE colors
-	// Overwriting the `vVertColor` attribute entirely will break things. instead, overwrite individual color components
-	vVertColor.r = cos(x/100. + sin(luma * TWO_PI * 2.));
-	vVertColor.g = sin(y/100. + cos(luma * TWO_PI * 2.));
-	vVertColor.b = sin(luma * 10. + sin(luma * TWO_PI * 2.));
-	///////////////////////////
+  ////////////////////////////////////////////////////////
+  // GENERATE colors
+  // Overwriting the `vVertColor` attribute entirely will break things. instead, overwrite individual color components
+  vVertColor.r = cos(x/100. + sin(luma * TWO_PI * 2.));
+  vVertColor.g = sin(y/100. + cos(luma * TWO_PI * 2.));
+  vVertColor.b = sin(luma * 10. + sin(luma * TWO_PI * 2.));
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// ROTATE individual shapes
-	vec3 meshLocalVertInv = shapeCenter - v.xyz;	// get local vertex from center of the shape
-	float rotationAmp = time/300. + luma * 4.;// displaceLuma * TWO_PI * 30.;
-	vec3 rotatedPos = rotate_vertex_position(meshLocalVertInv, vec3(0., 1., 0.), rotationAmp); 
-	vec3 newPos = rotatedPos;
-	newPos += shapeCenter;
-	///////////////////////////
-	
-	////////////////////////////////////////////////////////
-	// DISPLACE postition
-	float positionOffset = vec3(
-		cos(luma * TWO_PI * 10.),
-		sin(luma * TWO_PI * 10.),
-		luma * -2.
-	);
-	newPos += displaceAmp * positionOffset; 
-	///////////////////////////
+  ////////////////////////////////////////////////////////
+  // ROTATE individual shapes
+  vec3 meshLocalVertInv = shapeCenter - v.xyz;	// get local vertex from center of the shape
+  float rotationAmp = time/300. + luma * 4.;// displaceLuma * TWO_PI * 30.;
+  vec3 rotatedPos = rotate_vertex_position(meshLocalVertInv, vec3(0., 1., 0.), rotationAmp); 
+  vec3 newPos = rotatedPos;
+  newPos += shapeCenter;
+  ///////////////////////////
+  
+  ////////////////////////////////////////////////////////
+  // DISPLACE postition
+  float positionOffset = vec3(
+    cos(luma * TWO_PI * 10.),
+    sin(luma * TWO_PI * 10.),
+    luma * -2.
+  );
+  newPos += displaceAmp * positionOffset; 
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// SCALE individual meshes by checking center of shape vs. vertices
-	vec3 meshLocalVertex = newPos.xyz - shapeCenter; 										// get vertex local to individual mesh center
-	float scaleAdjust = luma * individualMeshScale;
-	newPos.xyz += meshLocalVertex.xyz * scaleAdjust;
-	///////////////////////////
+  ////////////////////////////////////////////////////////
+  // SCALE individual meshes by checking center of shape vs. vertices
+  vec3 meshLocalVertex = newPos.xyz - shapeCenter; 										// get vertex local to individual mesh center
+  float scaleAdjust = luma * individualMeshScale;
+  newPos.xyz += meshLocalVertex.xyz * scaleAdjust;
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// SPREAD individual meshes with a multiplier
-	newPos += shapeCenter * spreadScale;
-	///////////////////////////
+  ////////////////////////////////////////////////////////
+  // SPREAD individual meshes with a multiplier
+  newPos += shapeCenter * spreadScale;
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// SPREAD individual meshes with a multiplier
-	newPos *= globalScale;
-	///////////////////////////
+  ////////////////////////////////////////////////////////
+  // SPREAD individual meshes with a multiplier
+  newPos *= globalScale;
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// SET FINAL VERTEX POSITION
-	vec4 finalPosition = projection * modelview * vec4(newPos, 1.);
-	gl_Position = finalPosition;
-	///////////////////////////
+  ////////////////////////////////////////////////////////
+  // SET FINAL VERTEX POSITION
+  vec4 finalPosition = projection * modelview * vec4(newPos, 1.);
+  gl_Position = finalPosition;
+  ///////////////////////////
 
-	////////////////////////////////////////////////////////
-	// NOTES
-	// working/default displacement technique: multiply with original transform matrix
-	// vec4 finalPosition = transform * vec4(rotatedPos, 1.0);
-	// alternate way of setting finalPosition
-	// gl_Position = projection * modelview * vec4(newPos, 1);
+  ////////////////////////////////////////////////////////
+  // NOTES
+  // working/default displacement technique: multiply with original transform matrix
+  // vec4 finalPosition = transform * vec4(rotatedPos, 1.0);
+  // alternate way of setting finalPosition
+  // gl_Position = projection * modelview * vec4(newPos, 1);
 }
