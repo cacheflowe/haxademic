@@ -39,6 +39,9 @@ extends PAppletHax {
 	protected PGraphics displaceTexture;
 
 	protected String CAMERA_ON = "CAMERA_ON";
+	protected String ORTHO_CAMERA = "ORTHO_CAMERA";
+	protected String DRAW_FLAT = "DRAW_FLAT";
+	protected String ADD_BLEND = "ADD_BLEND";
 	protected String TEXTURE_MODE = "TEXTURE_MODE";
 	protected String GLOBAL_SCALE = "GLOBAL_SCALE";
 	protected String SPREAD_SCALE = "SPREAD_SCALE";
@@ -46,6 +49,7 @@ extends PAppletHax {
 	protected String NOISE_SPEED_X = "NOISE_SPEED_X";
 	protected String NOISE_SPEED_Y = "NOISE_SPEED_Y";
 	protected String NOISE_ZOOM = "NOISE_ZOOM";
+	protected String ROTATE_AMP = "ROTATE_AMP";
 	protected String DISPLACE_AMP = "DISPLACE_AMP";
 	protected String DISPLACE_OFFSET_X = "DISPLACE_OFFSET_X";
 	protected String DISPLACE_OFFSET_Y = "DISPLACE_OFFSET_Y";
@@ -64,6 +68,9 @@ extends PAppletHax {
 		// UI
 		UI.addTitle("Spheres config");
 		UI.addToggle(CAMERA_ON, true, false);
+		UI.addToggle(ORTHO_CAMERA, false, false);
+		UI.addToggle(DRAW_FLAT, false, false);
+		UI.addToggle(ADD_BLEND, false, false);
 		UI.addToggle(TEXTURE_MODE, true, false);
 		UI.addSlider(GLOBAL_SCALE, 1f, 0.001f, 10f, 0.01f, false);
 		UI.addSlider(SPREAD_SCALE, 1f, 0f, 30f, 0.1f, false);
@@ -72,6 +79,7 @@ extends PAppletHax {
 		UI.addSlider(NOISE_SPEED_Y, 0.001f, 0, 0.1f, 0.00001f, false);
 		UI.addSlider(NOISE_ZOOM, 3f, 0.2f, 10f, 0.01f, false);
 		UI.addSlider(DISPLACE_AMP, 10, 0, 1000, 1, false);
+		UI.addSlider(ROTATE_AMP, 2, 0, 20, 0.01f, false);
 		UI.addSlider(DISPLACE_OFFSET_X, 0, 0, 1000, 0.01f, false);
 		UI.addSlider(DISPLACE_OFFSET_Y, 0, 0, 1000, 0.01f, false);
 		UI.addSliderVector(LIGHT_DIR, 1f, -10f, 10f, 0.01f, false);
@@ -97,10 +105,10 @@ extends PAppletHax {
 				float gridX = shapeSpacingHalf + -(shapeSpacing * cols/2) + (x * shapeSpacing);
 				float gridY = shapeSpacingHalf + -(shapeSpacing * rows/2) + (y * shapeSpacing);
 				float gridZ = 0;
-				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, gridZ, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
+//				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, gridZ, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
 //				PShape shape = PShapeUtil.createBox(shapeSize, shapeSize, shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
-//				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, DemoAssets.particle());
-				shape.setTexture(DemoAssets.textureJupiter());
+//				shape.setTexture(DemoAssets.textureJupiter());
+				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, DemoAssets.particle());
 				numVerts += shape.getVertexCount();
 				// give the shape attributes for the shader to pick out their UV coord from grid index
 				shape.attrib("x", x);
@@ -129,10 +137,12 @@ extends PAppletHax {
 	protected void drawApp() {
 		// setup context
 		p.background(0);
-		PG.setDrawFlat2d(p, false);
-//		p.ortho();
-		p.perspective();
+		PG.setDrawFlat2d(p, UI.valueToggle(DRAW_FLAT));
 		PG.setCenterScreen(p);
+		
+		// camera
+		if(UI.valueToggle(ORTHO_CAMERA)) p.ortho();
+		else p.perspective();
 		if(UI.valueToggle(CAMERA_ON)) {
 			PG.basicCameraFromMouse(p.g, 0.1f);
 		}
@@ -155,11 +165,11 @@ extends PAppletHax {
 		polygonShader.shader().set("time", p.frameCount);
 		polygonShader.shader().set("displacementMap", displaceTexture);
 		polygonShader.shader().set("displaceAmp", UI.valueEased(DISPLACE_AMP));
+		polygonShader.shader().set("rotateAmp", UI.valueEased(ROTATE_AMP));
 		polygonShader.shader().set("globalScale", UI.valueEased(GLOBAL_SCALE));
 		polygonShader.shader().set("spreadScale", UI.valueEased(SPREAD_SCALE));
 		polygonShader.shader().set("individualMeshScale", UI.valueEased(INDIVIDUAL_MESH_SCALE));
 		polygonShader.shader().set("textureMode", UI.valueToggle(TEXTURE_MODE) ? 1 : 0);
-//		polygonShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
 		polygonShader.shader().set("lightDir", UI.valueX(LIGHT_DIR), UI.valueY(LIGHT_DIR), UI.valueZ(LIGHT_DIR));
 		polygonShader.shader().set("lightCol", UI.valueX(LIGHT_COL), UI.valueY(LIGHT_COL), UI.valueZ(LIGHT_COL));
 		polygonShader.shader().set("lightAmbient", UI.valueX(LIGHT_AMBIENT), UI.valueY(LIGHT_AMBIENT), UI.valueZ(LIGHT_AMBIENT));
@@ -167,7 +177,7 @@ extends PAppletHax {
 		polygonShader.update();
 		
 		// draw mesh group
-//		p.blendMode(PBlendModes.ADD);
+		if(UI.valueToggle(ADD_BLEND)) p.blendMode(PBlendModes.ADD);
 		p.shader(polygonShader.shader());
 		p.shape(group);
 		p.resetShader();

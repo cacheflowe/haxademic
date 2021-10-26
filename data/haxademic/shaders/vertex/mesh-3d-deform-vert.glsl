@@ -1,45 +1,47 @@
 #define PROCESSING_POLYGON_SHADER
 
+// Processing uniforms
 uniform mat4 transform;
 uniform mat4 texMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 modelviewMatrix;
-
 uniform mat4 projection;
 uniform mat4 modelview;
 
+// Processing PShape vertex attributes
 attribute vec4 vertex;
 attribute vec4 color;
 attribute vec2 texCoord;
 attribute vec3 normal;
 
+// Custom uniforms
 uniform sampler2D texture;
 uniform int textureMode = 0;
-
 uniform sampler2D displacementMap;
 uniform float displaceAmp = 1.;
+uniform float rotateAmp = 1.;
 uniform float globalScale = 1.;
 uniform float spreadScale = 1.;
 uniform float individualMeshScale = 1.;
-uniform int sheet = 0;
-uniform int yAxisOnly = 0;
 uniform int time = 0;
 uniform mat4 modelviewInv;
 
+// Custom attributes
 attribute float x;
 attribute float y;
 attribute float shapeCenterX;
 attribute float shapeCenterY;
 attribute float shapeCenterZ;
 
+// Data for fragment shaders
 varying vec4 vVertColor;
 varying vec4 vVertTexCoord;
 varying vec3 vVertNormal;
 varying vec3 vVertLightDir;
-
 varying vec3 vVertex;
 varying vec3 vNormal;
 
+// Constants
 #define PI     3.14159265358
 #define TWO_PI 6.28318530718
 
@@ -131,7 +133,6 @@ void main() {
   // UV coords calculation
   // Get original position * model center
   vec4 uvImageCoords = vec4(x, y, 0., 1.);
-  vec4 v = vertex;
   vec3 shapeCenter = vec3(shapeCenterX, shapeCenterY, shapeCenterZ);  // center is passed in via attributes
 
   ////////////////////////////////////////////////////////
@@ -149,11 +150,19 @@ void main() {
 
   ////////////////////////////////////////////////////////
   // ROTATE individual shapes
-  vec3 meshLocalVertInv = shapeCenter - v.xyz;  // get local vertex from center of the shape
-  float rotationAmp = luma * displaceAmp / 20.;   //  time/300. +   // displaceLuma * TWO_PI * 30.;
-  vec3 rotatedPos = rotate_vertex_position(meshLocalVertInv, vec3(0., 1., 0.), rotationAmp); 
-  vec3 newPos = rotatedPos;
+  vec3 meshLocalVertInv = shapeCenter - vertex.xyz;  // get local vertex from center of the shape
+  float rotationAmp = luma * rotateAmp;   //  time/300. +   // displaceLuma * TWO_PI * 30.;
+  vec3 rotateAxis = vec3(0., 1., 0.);
+  vec3 rotatedPos = rotate_vertex_position(meshLocalVertInv, rotateAxis, rotationAmp); 
+  vec3 newPos = rotatedPos; // meshLocalVertInv
   newPos += shapeCenter;
+
+  // and normal too so the light keeps hitting on the same side.
+  // not sure if this is correct, but it looks about right!
+  vec3 rotatedNorm = rotate_vertex_position(normal, rotateAxis, rotationAmp);
+  normal.x = rotatedNorm.x;
+  normal.y = rotatedNorm.y;
+  normal.z = rotatedNorm.z;
   ///////////////////////////
   
   ////////////////////////////////////////////////////////

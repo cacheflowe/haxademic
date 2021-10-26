@@ -44,7 +44,7 @@ void main() {
   if(textureMode == 1.) {
     gl_FragColor = texture2D(texture, vVertTexCoord.xy) * vVertColor;
     gl_FragColor.rgb += lightCol * cosTheta * specularCoefficient * intensity + specularCoefficient/5.; // add lighting to texture
-    gl_FragColor.a = 1.;
+    // gl_FragColor.a = 1.; // keep alpha for particle textures. maybe discard for 3d meshes
   }
   
   //////////////////////////////////////////////

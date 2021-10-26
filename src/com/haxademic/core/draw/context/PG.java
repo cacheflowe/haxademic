@@ -14,6 +14,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 import processing.core.PGraphics;
+import processing.core.PMatrix3D;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.Texture;
 
@@ -232,6 +233,10 @@ public class PG {
 	public static void basicCameraFromMouse(PGraphics pg, float amp) {
 		pg.rotateX(P.map(Mouse.yEasedNorm, 0, 1, P.PI * amp, -P.PI * amp));
 		pg.rotateY(P.map(Mouse.xEasedNorm, 0, 1, -P.PI * amp, P.PI * amp));
+	}
+	
+	public static PMatrix3D getModelviewInv(PGraphics pg) {
+		return ((PGraphicsOpenGL) pg).modelviewInv;
 	}
 	
 	//////////////////////////////

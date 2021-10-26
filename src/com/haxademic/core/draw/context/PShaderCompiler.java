@@ -139,7 +139,7 @@ extends PShader {
 	// It would be nice to integrate this into the PShader class
 	// https://github.com/processing/processing/blob/master/core/src/processing/opengl/PGraphicsOpenGL.java#L6946
 
-	static protected URL defColorShaderVertURL =   PGraphicsOpenGL.class.getResource("/processing/opengl/shaders/ColorVert.glsl");
+	static protected URL defColorShaderVertURL =    PGraphicsOpenGL.class.getResource("/processing/opengl/shaders/ColorVert.glsl");
 	static protected URL defTextureShaderVertURL =  PGraphicsOpenGL.class.getResource("/processing/opengl/shaders/TexVert.glsl");
 	static protected URL defLightShaderVertURL =    PGraphicsOpenGL.class.getResource("/processing/opengl/shaders/LightVert.glsl");
 	static protected URL defTexlightShaderVertURL = PGraphicsOpenGL.class.getResource("/processing/opengl/shaders/TexLightVert.glsl");
