@@ -1,6 +1,5 @@
 package com.haxademic.demo.hardware.mouse;
 
-import java.awt.MouseInfo;
 import java.awt.Point;
 
 import com.haxademic.core.app.P;
@@ -33,7 +32,7 @@ extends PAppletHax {
 	
 	public void post() {
 		// update mouse w/system location
-		mousePoint = MouseInfo.getPointerInfo().getLocation();
+		mousePoint = Mouse.systemMouseLocation();
 		DebugView.setValue("mousePoint.x", mousePoint.x);
 		DebugView.setValue("mousePoint.y", mousePoint.y);
 		
