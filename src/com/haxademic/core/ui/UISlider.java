@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.PrefToText;
@@ -15,7 +14,6 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -214,7 +212,7 @@ implements IUIControl {
 			case MouseEvent.PRESS:
 				if(uiRect.contains(mousePoint)) {
 					mousePressed = true;
-					P.p.cursor(P.CROSS);
+					P.p.noCursor(); // P.p.cursor(P.CROSS);
 					mouseLockReset();
 				}
 				break;
@@ -226,7 +224,10 @@ implements IUIControl {
 				}
 				break;
 			case MouseEvent.MOVE:
-				mouseHovered = uiRect.contains(mousePoint);
+				boolean currentlyHovered = uiRect.contains(mousePoint);
+				if(mouseHovered == true && currentlyHovered == false) P.p.cursor(P.ARROW);	// mouse out
+				mouseHovered = currentlyHovered;
+				if(mouseHovered) P.p.cursor(P.CROSS);										// mouse over
 				break;
 			case MouseEvent.DRAG:
 				if(mousePressed) {

@@ -196,7 +196,10 @@ implements IUIControl {
 			}
 			break;
 		case MouseEvent.MOVE:
-			over = rect.contains(mouseX,  mouseY);
+			boolean currentlyHovered = rect.contains(mouseX,  mouseY);
+			if(over == true && currentlyHovered == false) P.p.cursor(P.ARROW);	// mouse out
+			over = currentlyHovered;
+			if(over) P.p.cursor(P.TEXT);										// mouse over
 			break;
 		case MouseEvent.DRAG:
 			break;

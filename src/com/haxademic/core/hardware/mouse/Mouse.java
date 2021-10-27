@@ -7,7 +7,6 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;

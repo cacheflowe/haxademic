@@ -45,7 +45,7 @@ implements IAppStoreListener {
 		UI.setEasingFactor(G, 0.05f);
 		UI.setEasingFactor(B, 0.05f);
 		UI.addTitle("Rotation");
-		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
+		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.01f, false);
 		UI.setEasingFactor(VECTOR_3+"_X", 0.05f);
 		UI.setEasingFactor(VECTOR_3+"_Y", 0.05f);
 		UI.setEasingFactor(VECTOR_3+"_Z", 0.05f);
