@@ -5,14 +5,17 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.PrefToText;
 import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -32,11 +35,17 @@ implements IUIControl {
 	protected float layoutW;
 	protected int activeTime = 0;
 	protected Point mousePoint = new Point();
+	protected Point lastMousePoint = new Point();
 	protected Rectangle uiRect = new Rectangle();
 	protected boolean mouseHovered = false;
 	protected boolean mousePressed = false;
 	protected boolean saves = false;
 	protected int midiCCNote = -1;
+	
+	protected int lastLoopFrame = 0;
+	protected Point systemMousePoint = new Point();
+	protected Point lastSystemMousePoint = new Point();
+
 
 	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h) {
 		this(property, value, low, high, dragStep, x, y, w, h, true);
@@ -198,29 +207,59 @@ implements IUIControl {
 	public void mouseEvent(MouseEvent event) {
 		if(isActive() == false) return;
 		// collision detection
+		lastMousePoint.setLocation(mousePoint);
 		mousePoint.setLocation(event.getX(), event.getY());
+		
 		switch (event.getAction()) {
-		case MouseEvent.PRESS:
-			if(uiRect.contains(mousePoint)) mousePressed = true;
-			break;
-		case MouseEvent.RELEASE:
-			if(mousePressed) {
-				mousePressed = false;
-				if(saves) PrefToText.setValue(id, value);
-			}
-			break;
-		case MouseEvent.MOVE:
-			mouseHovered = uiRect.contains(mousePoint);
-			break;
-		case MouseEvent.DRAG:
-			if(mousePressed) {
-				float deltaX = (P.p.mouseX - P.p.pmouseX) * dragStep;
-				value += deltaX;
-				value = P.constrain(value, valueMin, valueMax);
-				updateStore();
-			}
-			break;
+			case MouseEvent.PRESS:
+				if(uiRect.contains(mousePoint)) {
+					mousePressed = true;
+					P.p.cursor(P.CROSS);
+					mouseLockReset();
+				}
+				break;
+			case MouseEvent.RELEASE:
+				if(mousePressed) {
+					mousePressed = false;
+					if(saves) PrefToText.setValue(id, value);
+					P.p.cursor(P.ARROW);
+				}
+				break;
+			case MouseEvent.MOVE:
+				mouseHovered = uiRect.contains(mousePoint);
+				break;
+			case MouseEvent.DRAG:
+				if(mousePressed) {
+					// Pointer lock: added check to space out mouse movements by user input vs Mouse.movePointerTo()
+					if(P.p.frameCount > lastLoopFrame + 1) {
+						// update slider value
+						{	// original slider logic pre-pointer lock
+							int mouseMoveX = mousePoint.x - lastMousePoint.x;
+							float deltaX = (mouseMoveX) * dragStep;
+							value += deltaX;
+							value = P.constrain(value, valueMin, valueMax);
+							updateStore();
+						}
+						
+						// Pointer lock: check mouse moved
+						if(P.abs(Mouse.systemMouseLocation().x - lastSystemMousePoint.x) > 0) {
+							// set flags
+							lastLoopFrame = P.p.frameCount;
+							Mouse.movePointerTo(lastSystemMousePoint.x, lastSystemMousePoint.y);
+							// store mouse position
+							lastSystemMousePoint.setLocation(systemMousePoint);
+							systemMousePoint.setLocation(Mouse.systemMouseLocation());
+						}
+					}
+				}
+				break;
 		}
+	}
+	
+	protected void mouseLockReset() {
+		// Pointer lock: 
+		systemMousePoint.setLocation(Mouse.systemMouseLocation());
+		lastSystemMousePoint.setLocation(systemMousePoint);
 	}
 
 	/////////////////////////////////////////
