@@ -10,7 +10,6 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 
@@ -20,7 +19,6 @@ extends PAppletHax {
 
 	PImage img;
 	PShape shape;
-	PGraphics pg;
 	int frames = 120;
 
 	protected void config() {
@@ -32,13 +30,11 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-
 		img = DemoAssets.smallTexture();
 		shape = DemoAssets.shapeX().getTessellation();
 		shape.disableStyle();
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.7f);
-		pg = p.createGraphics(p.width, p.height, P.P3D);
 		pg.smooth(8);
 	}
 

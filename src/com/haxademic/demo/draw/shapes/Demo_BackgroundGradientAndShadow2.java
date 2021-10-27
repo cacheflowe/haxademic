@@ -18,7 +18,7 @@ import com.haxademic.core.render.FrameLoop;
 import processing.core.PGraphics;
 import processing.core.PShape;
 
-public class Demo_BackgroundGradientAndShadow
+public class Demo_BackgroundGradientAndShadow2
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -106,10 +106,11 @@ extends PAppletHax {
 		
 		pg.translate(0, 180 * P.sin(FrameLoop.progressRads()));
 		pg.rotateY(FrameLoop.progressRads());
+		pg.rotateX(FrameLoop.progressRads());
 		
-		pg.box(400, 20, 50);
-		pg.box(50, 20, 400);
-		// PShapeUtil.drawTriangles(pg, obj, null, 1);
+//		pg.box(400, 20, 50);
+//		pg.box(50, 20, 400);
+		PShapeUtil.drawTriangles(pg, obj, null, 1);
 		
 		pg.popMatrix();
 	}
