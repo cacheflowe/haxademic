@@ -8,8 +8,8 @@ precision mediump int;
 #define PROCESSING_COLOR_SHADER
 
 // depth map
-uniform vec4 farColor = vec4(1.0, 1.0, 1.0, 1.0);
-uniform vec4 nearColor = vec4(0.0, 0.0, 0.0, 1.0);
+uniform vec4 farColor = vec4(0.0, 0.0, 0.0, 1.0);
+uniform vec4 nearColor = vec4(1.0, 1.0, 1.0, 1.0);
 uniform float near = 0.0;
 uniform float far = 1000.0;
 
