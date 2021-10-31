@@ -68,10 +68,11 @@ public class DemoAssets {
 		return objSkeleton;
 	}
 	
+	public static String objSkullRealisticPath = "haxademic/models/skull-realistic.obj";
 	public static PShape objSkullRealistic = null;
 	public static PShape objSkullRealistic() {
 		if(objSkullRealistic == null) {
-			objSkullRealistic = P.p.loadShape(FileUtil.getPath("haxademic/models/skull-realistic.obj"));
+			objSkullRealistic = P.p.loadShape(FileUtil.getPath(objSkullRealisticPath));
 			PShapeUtil.meshRotateOnAxis(objSkullRealistic, P.PI, P.Z);
 		}
 		return objSkullRealistic;

@@ -1,0 +1,27 @@
+package com.haxademic.core.hardware.depthcamera.ar;
+
+import KinectPV2.KJoint;
+import processing.core.PGraphics;
+
+public interface IArElement {
+	public enum BodyTrackType {
+		CUSTOM,
+		HEAD,
+		HAND_POINT,
+		HAND_POINTER,
+		HAND_FLAG,
+		HANG_ON_SHOULDERS,
+	}
+	
+	public void setActive(boolean isActive);
+	public boolean isActive();
+	public IArElement setPosition(float x, float y, float z);
+	public IArElement setPositionOffset(float x, float y, float z);
+	public IArElement setPivotOffset(float x, float y, float z);
+	public IArElement setRotation(float x, float y, float z);
+	public IArElement setScale(float scale);
+	public IArElement setJoints(KJoint[] joints2d, KJoint[] joints3d);
+	public void updatePre(PGraphics pg);
+	public void draw(PGraphics pg);
+	public void drawOrigin(PGraphics pg);
+}

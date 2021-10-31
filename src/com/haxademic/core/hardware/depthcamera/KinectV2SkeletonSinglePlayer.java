@@ -61,7 +61,6 @@ implements IAppStoreListener, IEasingBooleanCallback {
 	public static String USER_X = "USER_X";
 	public static String USER_Z = "USER_Z";
 	
-	
 	// UI
 	public static String SKELETONS_THRESH_NEAR = "SKELETONS_THRESH_NEAR";
 	public static String SKELETONS_THRESH_FAR = "SKELETONS_THRESH_FAR";
