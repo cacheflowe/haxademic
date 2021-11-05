@@ -18,13 +18,13 @@ attribute vec3 normal;
 uniform sampler2D texture;
 uniform int textureMode = 0;
 uniform sampler2D displacementMap;
+uniform sampler2D positionMap;
 uniform float displaceAmp = 1.;
 uniform float rotateAmp = 1.;
 uniform float globalScale = 1.;
-uniform float spreadScale = 1.;
 uniform float individualMeshScale = 1.;
 uniform int time = 0;
-uniform mat4 modelviewInv;
+uniform float pointScale = 1.;
 
 // Custom attributes
 attribute float x;
@@ -58,46 +58,6 @@ float lumaFromRGB(vec4 rgba) {
 ////////////////////////////////////////////////////////
 // Translation helpers. Currenltly unused
 ////////////////////////////////////////////////////////
-
-mat4 translate( float x, float y, float z ) {
-  return mat4(  1.0,    0,      0,    x,
-                0,      1.0,    0,    y,
-                0,      0,      1.0,  z,
-                0,      0,      0,    1);
-}
-
-mat4 rotationX( in float angle ) {
-  return mat4(  1.0,    0,          0,             0,
-                0,      cos(angle), -sin(angle),   0,
-                0,      sin(angle), cos(angle),    0,
-                0,      0,          0,             1);
-}
-
-mat4 rotationY( in float angle ) {
-  return mat4(  cos(angle),   0,    sin(angle),  0,
-                0,            1.0,  0,            0,
-                -sin(angle),  0,    cos(angle),   0,
-                0,            0,    0,           1);
-}
-
-mat4 rotationZ( in float angle ) {
-  return mat4(  cos(angle),   -sin(angle),  0,  0,
-                sin(angle),   cos(angle),   0,  0,
-                0,            0,            1,  0,
-                0,            0,            0,  1);
-}
-
-mat4 rotationMatrix(vec3 axis, float angle) {
-    axis = normalize(axis);
-    float s = sin(angle);
-    float c = cos(angle);
-    float oc = 1.0 - c;
-
-    return mat4(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  1.,
-                oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  1.,
-                oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           1.,
-                0.0,                                0.0,                                0.0,                                1.0);
-} 
 
 ////////////////////////////////////////////////////////
 // Rotation functions from: 
@@ -134,67 +94,61 @@ void main() {
   // Get original position * model center
   vec4 uvImageCoords = vec4(x, y, 0., 1.);
   vec3 shapeCenter = vec3(shapeCenterX, shapeCenterY, shapeCenterZ);  // center is passed in via attributes
+  vec3 meshLocalVert = shapeCenter - vertex.xyz;  // get local vertex from center of the shape
 
   ////////////////////////////////////////////////////////
   // UV coords calculation
   // get displacement map color and map to displace x/y coords
   // use x/y attributes, (which are pixel coordinates) as normalized uv coords
   ivec2 texSize = textureSize(displacementMap, 0); 
-  vec2 simulationUV = vec2(
+  vec2 displaceUV = vec2(
     x / float(texSize.x),
     y / float(texSize.y)
   );
-  vec4 displaceVal = texture2D(displacementMap, simulationUV);
+  vec4 displaceVal = texture2D(displacementMap, displaceUV);
   float luma = lumaFromRGB(displaceVal);
   ///////////////////////////
 
   ////////////////////////////////////////////////////////
-  // ROTATE individual shapes
-  vec3 meshLocalVertInv = shapeCenter - vertex.xyz;  // get local vertex from center of the shape
-  float rotationAmp = luma * rotateAmp;   //  time/300. +   // displaceLuma * TWO_PI * 30.;
-  vec3 rotateAxis = vec3(0., 1., 0.);
-  vec3 rotatedPos = rotate_vertex_position(meshLocalVertInv, rotateAxis, rotationAmp); 
-  vec3 newPos = rotatedPos; // meshLocalVertInv
-  newPos += shapeCenter;
+  // Position from simulation
+  ivec2 texSizeSim = textureSize(positionMap, 0); 
+  vec2 simulationUV = vec2(
+    x / float(texSizeSim.x),
+    y / float(texSizeSim.y)
+  );
+  vec4 posTex = texture2D( positionMap, simulationUV ); // rgba color of displacement map
+  // use vertex color for positioning use - here we're putting points in a cube
+  float w = 1000.; // width * scale;
+  float h = 1000.; // height * scale;
+  float x = -w / 2. + posTex.x * w;
+  float y = -h / 2. + posTex.y * h;
+  float z = 0.; // luma * 100.; // -h / 2. + posTex.z * h;
+  vec4 simulationPos = vec4(x, y, z, 1.);
 
-  // and normal too so the light keeps hitting on the same side.
-  // not sure if this is correct, but it looks about right!
-  vec3 rotatedNorm = rotate_vertex_position(normal, rotateAxis, rotationAmp);
-  normal.x = rotatedNorm.x;
-  normal.y = rotatedNorm.y;
-  normal.z = rotatedNorm.z;
-  ///////////////////////////
-  
+  ////////////////////////////////////////////////////////
+  // ROTATE individual shapes
+  float rotationAmp = luma * rotateAmp;
+  vec3 rotateAxis = vec3(0., 0., 1.);
+  vec3 rotatedPos = rotate_vertex_position(meshLocalVert, rotateAxis, rotationAmp); 
+  vec3 vertPos = rotatedPos; // meshLocalVert
+  vertPos *= pointScale * luma;
+  vertPos += simulationPos.xyz; // shapeCenter;
+
   ////////////////////////////////////////////////////////
   // SCALE individual meshes by checking center of shape vs. vertices
-  vec3 meshLocalVertex = newPos.xyz - shapeCenter;                     // get vertex local to individual mesh center
-  float scaleAdjust = luma * individualMeshScale;
-  newPos.xyz += meshLocalVertex.xyz * scaleAdjust;
-  ///////////////////////////
-
-  ////////////////////////////////////////////////////////
-  // DISPLACE postition
-  vec3 positionOffset = vec3(
-    cos(luma * TWO_PI * 10.),
-    sin(luma * TWO_PI * 10.),
-    luma * -2.
-  );
-  newPos += displaceAmp * positionOffset; 
-  ///////////////////////////
-
-  ////////////////////////////////////////////////////////
-  // SPREAD individual meshes with a multiplier
-  newPos += shapeCenter * spreadScale;
+  // vec3 meshLocalVertex = vertPos.xyz - shapeCenter;                     // get vertex local to individual mesh center
+  // float scaleAdjust = luma * individualMeshScale;
+  // vertPos.xyz += meshLocalVertex.xyz; // * scaleAdjust; // * 0.01;
   ///////////////////////////
 
   ////////////////////////////////////////////////////////
   // GLOBAL scale multiplier
-  newPos *= globalScale;
+  vertPos *= globalScale;
   ///////////////////////////
 
   ////////////////////////////////////////////////////////
   // SET FINAL VERTEX POSITION
-  vec4 finalPosition = projection * modelview * vec4(newPos, 1.);
+  vec4 finalPosition = projection * modelview * vec4(vertPos, 1.);
   gl_Position = finalPosition;
   ///////////////////////////
 
@@ -204,7 +158,7 @@ void main() {
   vVertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
   vVertColor = color; 
   vVertNormal = normalize(normalMatrix * normal);
-  vVertex = vertex.xyz;
+  vVertex = finalPosition.xyz;
   vNormal = normal;
 
   // GENERATE colors - passed to fragment shader
@@ -216,12 +170,4 @@ void main() {
   // vVertColor.r = 1.;
   // vVertColor.g = 1.;
   // vVertColor.b = 1.;
-  ///////////////////////////
-
-  ////////////////////////////////////////////////////////
-  // NOTES
-  // working/default displacement technique: multiply with original transform matrix
-  // vec4 finalPosition = transform * vec4(rotatedPos, 1.0);
-  // alternate way of setting finalPosition
-  // gl_Position = projection * modelview * vec4(newPos, 1);
 }
