@@ -25,17 +25,21 @@ extends PAppletHax {
 //		shape = PShapeUtil.shapeFromImage(DemoAssets.textureCursor());
 //		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/power-glove.png"));
 //		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/hand-peace.png"));
-//		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/mario-mushroom.png"));
+		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/mario-mushroom.png"));
 //		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/mario-cloud-smile.png"));
-		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/skull-mini.png"));
-		shape2 = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/sunglasses-deal-with-it.png"));
+//		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/pizza.png"));
+//		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/football.png"));
+//		shape = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/skull-mini.png"));
+//		shape2 = PShapeUtil.shapeFromImage(P.getImage("images/_sketch/pixel-objects/sunglasses-deal-with-it.png"));
 		
-		PShapeUtil.scaleVertices(shape, 40, 40, 80);
-//		PShapeUtil.scaleShapeToWidth(shape, p.height * 0.2f);
+		PShapeUtil.scaleVertices(shape, 40, 40, 340);
+		PShapeUtil.scaleShapeToWidth(shape, p.height * 0.3f);
 //		PShapeUtil.scaleShapeToWidth(shape, p.height * 0.01f * 40);
 
-		PShapeUtil.scaleVertices(shape2, 40, 40, 80);
-//		PShapeUtil.scaleShapeToWidth(shape2, p.height * 0.01f * 40);
+		if(shape2 != null) {
+			PShapeUtil.scaleVertices(shape2, 40, 40, 80);
+	//		PShapeUtil.scaleShapeToWidth(shape2, p.height * 0.01f * 40);
+		}
 	}
 	
 	protected void drawApp() {
@@ -48,8 +52,9 @@ extends PAppletHax {
 		// draw
 		p.shape(shape);
 		
-		p.translate(0, 0, 80);
-		p.shape(shape2);
-		
+		if(shape2 != null) {
+			p.translate(0, 0, 80);
+			p.shape(shape2);
+		}
 	}
 }

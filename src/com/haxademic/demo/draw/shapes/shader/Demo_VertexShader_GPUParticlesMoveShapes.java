@@ -19,10 +19,9 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.core.PVector;
 import processing.opengl.PGraphicsOpenGL;
 
-public class Demo_VertexShader_MoveShapes 
+public class Demo_VertexShader_GPUParticlesMoveShapes 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
