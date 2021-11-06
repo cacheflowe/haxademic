@@ -107,7 +107,7 @@ void main() {
 
 		colorDisplaced = texture2D(texture, displace);
 	} else if(mode == 10) {
-		// optical flow displacement, to be used with results from `optical-flow-td.glsl`
+		// optical flow displacement, to be used with results from `optical-flow.glsl`
 		vec2 opFlowDisplace = texture2D(map, p).xy - 0.5;
 		opFlowDisplace *= amp;
 		colorDisplaced = texture2D(texture, p + opFlowDisplace);

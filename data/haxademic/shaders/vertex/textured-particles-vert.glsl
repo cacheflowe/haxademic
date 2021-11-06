@@ -40,6 +40,7 @@ varying vec3 vVertNormal;
 varying vec3 vVertLightDir;
 varying vec3 vVertex;
 varying vec3 vNormal;
+varying vec2 vSimulationUV;
 
 // Constants
 #define PI     3.14159265358
@@ -124,6 +125,7 @@ void main() {
   float y = -h / 2. + posTex.y * h;
   float z = 0.; // luma * 100.; // -h / 2. + posTex.z * h;
   vec4 simulationPos = vec4(x, y, z, 1.);
+  vSimulationUV = simulationUV;
 
   ////////////////////////////////////////////////////////
   // ROTATE individual shapes

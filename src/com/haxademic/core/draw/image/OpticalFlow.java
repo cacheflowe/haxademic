@@ -8,6 +8,7 @@ import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -23,6 +24,23 @@ public class OpticalFlow {
 	protected PShader opFlowShader;
 	protected int frameCount = -1;
 	
+	// UI
+	public static final String _uDecayLerp = "uDecayLerp";
+	public static final String _uForce = "uForce";
+	public static final String _uOffset = "uOffset";
+	public static final String _uLambda = "uLambda";
+	public static final String _uThreshold = "uThreshold";
+	public static final String _uInverseX = "uInverseX";
+	public static final String _uInverseY = "uInverseY";
+	
+	public static final String _preBlurAmp = "preBlurAmp";
+	public static final String _preBlurSigma = "preBlurSigma";
+	
+	public static final String _resultFlowDisplaceAmp = "resultFlowDisplaceAmp";
+	public static final String _resultFlowDisplaceIters = "resultFlowDisplaceIters";
+	public static final String _resultBlurAmp = "resultBlurAmp";
+	public static final String _resultBlurSigma = "resultBlurSigma";
+
 	// uniforms
 	protected float uDecayLerp = 0.02f;
 	protected float uForce = 0.75f;
@@ -49,6 +67,29 @@ public class OpticalFlow {
 		
 		// load shader
 		opFlowShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/optical-flow.glsl"));
+	}
+	
+	// ui
+	
+	public void buildUI() {
+		UI.addTitle("OF: Calculation");
+		UI.addSlider(_uDecayLerp, 0.02f, 0f, 1f, 0.001f, false);
+		UI.addSlider(_uForce, 0.75f, 0f, 10f, 0.01f, false);
+		UI.addSlider(_uOffset, 8f, 0f, 100f, 0.01f, false);
+		UI.addSlider(_uLambda, 0.012f, 0f, 1f, 0.0001f, false);
+		UI.addSlider(_uThreshold, 0.1f, 0f, 1f, 0.001f, false);
+		UI.addSlider(_uInverseX, -1f, -1f, 1f, 1f, false);
+		UI.addSlider(_uInverseY, -1f, -1f, 1f, 1f, false);
+		
+		UI.addTitle("OF: Pre blur");
+		UI.addSlider(_preBlurAmp, 20f, 0f, 100f, 0.1f, false);
+		UI.addSlider(_preBlurSigma, 20f, 0f, 100f, 0.1f, false);
+		
+		UI.addTitle("OF: Flow result displace");
+		UI.addSlider(_resultFlowDisplaceAmp, 0.2f, 0f, 1f, 0.001f, false);
+		UI.addSlider(_resultFlowDisplaceIters, 1f, 0f, 10f, 1f, false);
+		UI.addSlider(_resultBlurAmp, 20f, 0f, 100f, 0.1f, false);
+		UI.addSlider(_resultBlurSigma, 20f, 0f, 100f, 0.1f, false);
 	}
 	
 	// setters
@@ -80,6 +121,24 @@ public class OpticalFlow {
 	}
 	
 	// internal calculations
+	
+	public void updateOpticalFlowProps() {
+		uDecayLerp(UI.value(_uDecayLerp));
+		uForce(UI.value(_uForce));
+		uOffset(UI.value(_uOffset));
+		uLambda(UI.value(_uLambda));
+		uThreshold(UI.value(_uThreshold));
+		uInverseX(UI.value(_uInverseX));
+		uInverseY(UI.value(_uInverseY));
+				
+		preBlurAmp(UI.valueInt(_preBlurAmp));
+		preBlurSigma(UI.value(_preBlurSigma));
+				
+		resultFlowDisplaceAmp(UI.value(_resultFlowDisplaceAmp));
+		resultFlowDisplaceIters(UI.valueInt(_resultFlowDisplaceIters));
+		resultBlurAmp(UI.valueInt(_resultBlurAmp));
+		resultBlurSigma(UI.value(_resultBlurSigma));
+	}
 	
 	public void update(PImage newFrame, boolean flowTheResults) {
 		frameCount++;

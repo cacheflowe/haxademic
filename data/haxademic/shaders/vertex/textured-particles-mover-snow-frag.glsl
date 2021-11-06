@@ -11,7 +11,10 @@ varying vec4 vertTexCoord;
 
 uniform sampler2D ampMap;
 uniform sampler2D directionMap;
+uniform sampler2D flowMap;
 uniform float amp = 0.005;
+uniform float flowAmp = 0.5;
+uniform int flowMode = 1;
 
 float TWO_PI = radians(360);
 
@@ -20,8 +23,8 @@ float random2d(vec2 n) {
 }
 
 vec2 wrappedPos(vec2 pos) {
-  if(pos.x > 1.) pos.x = pos.x - 1.;
-  if(pos.x < 0.) pos.x = pos.x + 1.;
+  // if(pos.x > 1.) pos.x = pos.x - 1.;
+  // if(pos.x < 0.) pos.x = pos.x + 1.;
   if(pos.y > 1.) {
     pos.x = random2d(vertTexCoord.xy * 1000.);
     pos.y = pos.y - 1.;
@@ -58,6 +61,16 @@ void main() {
   pos.x = pos.x + xOsc;
   pos.y = pos.y + ampFromMap * amp + texelColor.b * 0.001;
 	float z = 1.; // 0.5 + 0.5 * sin(ampCol * TWO_PI * 4.);
+
+  // optical flow displacement, to be used with results from `optical-flow-td.glsl`
+  // get uv ccords from current normalize position
+  if(flowMode == 1) {
+    vec2 posFilpY = vec2(pos.x, 1. - pos.y);
+    vec2 opFlowDisplace = texture2D(flowMap, posFilpY).xy - 0.5;
+    opFlowDisplace *= flowAmp;
+		pos.x -= opFlowDisplace.x;
+		pos.y += opFlowDisplace.y;
+  }
 
 	// wrap position and write back to texture
 	pos = wrappedPos(pos);

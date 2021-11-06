@@ -8,21 +8,34 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
+import com.haxademic.core.draw.image.ImageCacher;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_GPUParticlesSnow 
-extends PAppletHax {
+public class Demo_VertexShader_GPUParticlesSnowAdvanced 
+extends PAppletHax
+implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	// TODO: 
+	// - Add array of particle textures - need to pass in as new uniforms
+	// - Add z-depth and distribution of (mostly) small vs large flakes
+	// - Add Webcam + Optical flow displacement
+	// - Add width & height for simulation bounds - in simulation? or just in render shader? 
+	
 	protected PShape particleMesh;
 	protected PGraphics bufferPositions;
+	protected PGraphics randomNumbers;
 	protected SimplexNoiseTexture varianceNoise;
 	protected PShader randomColorShader;
 	protected PShaderHotSwap simulationShader;
@@ -31,7 +44,12 @@ extends PAppletHax {
 	float simW = 64;
 	float simH = 64;
 	int FRAMES = 300;
-	protected boolean needsRestart = false;
+	protected boolean particlesShouldRespawn = false;
+	
+	// optical flow
+	protected PGraphics camBuffer;
+	protected OpticalFlow opticalFlow;
+
 	
 	protected void config() {
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
@@ -45,9 +63,26 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
+		initCamera();
 		buildSimulationBuffers();
 		buildSimulation();
 		buildParticles();
+	}
+	
+	protected void initCamera() {
+		// webcam
+		WebCam.instance().setDelegate(this);
+		camBuffer = PG.newPG(1920, 1080);
+
+		// optical flow
+		opticalFlow = new OpticalFlow(camBuffer.width, camBuffer.height);
+		opticalFlow.buildUI();
+		PG.setTextureRepeat(opticalFlow.resultBuffer(), false);	// don't wrap optical flow results
+
+		// add textures to debug panel
+		DebugView.setTexture("opFlowResult", opticalFlow.resultBuffer());
+		DebugView.setTexture("getDepthImage()", camBuffer);
+
 	}
 	
 	protected void buildSimulationBuffers() {
@@ -62,13 +97,16 @@ extends PAppletHax {
 		varianceNoise = new SimplexNoiseTexture(256, 256, true, true);
 		DebugView.setTexture("varianceNoise", varianceNoise.texture());
 
-		randomColorShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
-
 		// build particle mover shader - uses displacement map to move particles
 		bufferPositions = PG.newDataPG((int) simW, (int) simH);
 		DebugView.setTexture("bufferPositions", bufferPositions);
 		simulationShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/vertex/textured-particles-mover-snow-frag.glsl"));
-		resetParticlePositions();	
+		
+		randomColorShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
+		resetParticlePositions();
+		
+		randomNumbers = PG.newDataPG((int) simW, (int) simH);
+		bufferPositions.filter(randomColorShader);
 	}
 	
 	protected void buildParticles() {
@@ -98,26 +136,46 @@ extends PAppletHax {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') needsRestart = true;
+		if(p.key == ' ') particlesShouldRespawn = true;
 	}
 	
 	protected void drawApp() {
-		if(needsRestart) {
-			resetParticlePositions();
-			needsRestart = false;
-		}
 		
 		// clear the screen
 		p.background(0);
 		PG.setDrawCorner(p);
 		
+		// draw app~!
+		updateOpticalFlow();
+		updateParticles();
+	}
+	
+	protected void updateOpticalFlow() {
+		opticalFlow.updateOpticalFlowProps();
+		// override w/decent values
+		opticalFlow.uDecayLerp(0.005f);
+		opticalFlow.resultFlowDisplaceAmp(0.55f);
+		opticalFlow.resultBlurSigma(40f);
+		opticalFlow.resultBlurAmp(40);
+		// apply new camera frame
+		opticalFlow.update(camBuffer, true);
+	}
+	
+	protected void updateParticles() {
+		if(particlesShouldRespawn) {
+			resetParticlePositions();
+			particlesShouldRespawn = false;
+		}
+
 		// update noise/randomness
 		varianceNoise.update(2f, P.sin(p.frameCount * 0.04f) * 0.07f, 0f, p.frameCount * 0.004f);
 		
 		// update particle positions
 		simulationShader.shader().set("directionMap", varianceNoise.texture());
 		simulationShader.shader().set("ampMap", varianceNoise.texture());
-		simulationShader.shader().set("amp", 0.004f);// * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
+		simulationShader.shader().set("amp", 0.004f); // * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
+		simulationShader.shader().set("flowMap", opticalFlow.resultBuffer());
+		simulationShader.shader().set("flowMode", 1);
 		simulationShader.update();
 		bufferPositions.filter(simulationShader.shader());
 		
@@ -126,12 +184,16 @@ extends PAppletHax {
 		float renderH = bufferRenderedParticles.height * 5f;
 		particlesSimulationRenderShader.shader().set("displacementMap", varianceNoise.texture());
 		particlesSimulationRenderShader.shader().set("positionMap", bufferPositions);
+		particlesSimulationRenderShader.shader().set("randomMap", randomNumbers);
 		particlesSimulationRenderShader.shader().set("width", (float) renderW);
 		particlesSimulationRenderShader.shader().set("height", (float) renderH);
 		particlesSimulationRenderShader.shader().set("displaceAmp", 10f);
 		particlesSimulationRenderShader.shader().set("rotateAmp", 1f);
 		particlesSimulationRenderShader.shader().set("globalScale", 2f);
 		particlesSimulationRenderShader.shader().set("pointScale", 2f);
+		particlesSimulationRenderShader.shader().set("texture1", ImageCacher.get("haxademic/images/particles/magic_05.png"));
+		particlesSimulationRenderShader.shader().set("texture2", ImageCacher.get("haxademic/images/particles/star_08.png"));
+		particlesSimulationRenderShader.shader().set("texture3", ImageCacher.get("haxademic/images/particles/star_09.png"));
 		particlesSimulationRenderShader.update();
 
 		// render particles
@@ -154,5 +216,14 @@ extends PAppletHax {
 		// draw buffer to screen
 		p.image(bufferRenderedParticles, 0, 0);
 	}
+	
+	// IWebCamCallback
+	
+	@Override
+	public void newFrame(PImage frame) {
+		DebugView.setValue("Last WebCam frame", p.frameCount);
+		ImageUtil.copyImageFlipH(frame, camBuffer);
+	}
+
 		
 }
