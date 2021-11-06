@@ -52,6 +52,19 @@ public class SequencerConfig {
 		};
 	}
 	
+	public static SequencerConfig[] interphaseChannelsAlt() {
+		return new SequencerConfig[] {
+				new SequencerConfig(0, "audio/samples2/01-kick", buildKickSnarePatterns(), 1f, false, false, false, false, false),
+				new SequencerConfig(1, "audio/samples2/02-snare",buildKickSnarePatterns(), 0.75f, false, false, false, false, false),
+				new SequencerConfig(2, "audio/samples2/03-hats", buildHatPatterns(), 0.6f, false, false, false, false, false),
+				new SequencerConfig(3, "audio/samples2/04-perc", buildSfxPatterns(), 0.8f, false, false, false, false, false),
+				new SequencerConfig(4, "audio/samples2/05-fx",   buildSfxPatterns(), 0.85f, false, false, false, false, false),
+				new SequencerConfig(5, "audio/samples2/06-bass", buildNotesPatterns(), 1f, true, true, false, true, true),
+				new SequencerConfig(6, "audio/samples2/07-keys", buildNotesPatterns(), 0.85f, true, false, true, true, true),
+				new SequencerConfig(7, "audio/samples2/08-lead", buildNotesPatterns(), 0.85f, true, true, false, true, true),
+		};
+	}
+	
 	public static SequencerConfig[] interphaseChannelsMinimal() {
 		return new SequencerConfig[] {
 			new SequencerConfig(0, "audio/samples/01-kick", buildKickPatterns(), 1f, false, false, false, false, false),
