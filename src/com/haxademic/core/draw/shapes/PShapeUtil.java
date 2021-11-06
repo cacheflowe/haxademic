@@ -869,7 +869,48 @@ public class PShapeUtil {
 		}
 		shape.endShape();
 		return shape;
-	}	
+	}
+
+	public static PShape texturedParticlesShapeForGPUData(float cols, float rows, float shapeSize, PImage texture) {
+		return texturedParticlesShapeForGPUData(cols, rows, shapeSize, new PImage[] {texture});
+	}
+	
+	public static PShape texturedParticlesShapeForGPUData(float cols, float rows, float shapeSize, PImage[] textures) {
+		// make a perfect grid
+		float shapeSpacing = shapeSize * 1f;
+		float shapeSpacingHalf = shapeSpacing / 2f;
+
+		// create PShapes inside a group
+		int startBuildTime = P.p.millis();
+		startBuildTime = P.p.millis();
+		int numVerts = 0;
+		PShape group = P.p.createShape(P.GROUP);
+		for (int x = 0; x < cols; x++) {
+			for (int y = 0; y < rows; y++) {
+				float gridX = shapeSpacingHalf + -(shapeSpacing * cols/2) + (x * shapeSpacing);
+				float gridY = shapeSpacingHalf + -(shapeSpacing * rows/2) + (y * shapeSpacing);
+				float gridZ = 0;
+				
+				PImage randomTexture = (textures.length == 1) ? 
+						textures[0] : 
+						textures[MathUtil.randIndex(textures.length)];
+				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, randomTexture);
+				numVerts += shape.getVertexCount();
+				
+				// give the shape attributes for the shader to pick out their UV coord from grid index
+				shape.attrib("x", x);
+				shape.attrib("y", y);
+				shape.attrib("shapeCenterX", gridX);
+				shape.attrib("shapeCenterY", gridY);
+				shape.attrib("shapeCenterZ", gridZ);
+				group.addChild(shape);
+			}
+		}
+		DebugView.setValue("Group PShape time", P.p.millis() - startBuildTime + "ms");
+		DebugView.setValue("Num shapes", cols * rows);
+		DebugView.setValue("Num verts", numVerts);
+		return group;
+	}
 	
 	///////////////////////////
 	// MESH ROTATION
