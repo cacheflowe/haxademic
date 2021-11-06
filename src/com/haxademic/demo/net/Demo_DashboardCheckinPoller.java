@@ -11,7 +11,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class Demo_DashboardCheckinPoller
-extends PAppletHax {
 extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
