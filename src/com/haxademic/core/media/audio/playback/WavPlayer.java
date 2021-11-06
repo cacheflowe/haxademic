@@ -23,6 +23,7 @@ public class WavPlayer {
 	public static AudioContext sharedContext;
 	protected AudioContext curContext;
 	protected HashMap<String, SamplePlayer> players = new HashMap<String, SamplePlayer>();
+	protected HashMap<String, Envelope> ampEnvs = new HashMap<String, Envelope>();
 	protected HashMap<String, Gain> gains = new HashMap<String, Gain>();
 	protected HashMap<String, Glide> glides = new HashMap<String, Glide>();
 	protected HashMap<String, Number> glideTimes = new HashMap<String, Number>();
@@ -228,6 +229,23 @@ public class WavPlayer {
 //			gains.remove(id);
 //			glides.remove(id);
 //			glideTimes.remove(id);
+		}
+		return this;
+	}
+	
+	public WavPlayer fadeOut(String id) {
+		if(getPlayer(id) != null) {
+			P.out("FASE", ampEnvs.get(id));
+			float fadeCurve = 2f;
+//			ampEnvs.get(id).addSegment(1, 0, fadeCurve);
+//			ampEnvs.get(id).addSegment(fadeCurve, fadeCurve, fadeCurve, null)
+//			ampEnvs.get(id).addSegment(0, 1000, 1f/fadeCurve, new KillTrigger(gains.get(id)));			// attack & release envelope segments
+//			Envelope ampEnv = new Envelope(curContext, 1);				// start volume at 0 or 1
+			ampEnvs.get(id).addSegment(0, 1000, 1f, new KillTrigger(gains.get(id)));			// attack & release envelope segments
+			gains.get(id).addDependent(ampEnvs.get(id));
+//			ampEnvs.get(id).start();
+//			gains.get(id).setGain(ampEnvs.get(id));
+//			gains.get(id).setGainEnvelope(ampEnvs.get(id));
 		}
 		return this;
 	}
