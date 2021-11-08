@@ -874,10 +874,6 @@ public class PShapeUtil {
 	}
 
 	public static PShape texturedParticlesShapeForGPUData(float cols, float rows, float shapeSize, PImage texture) {
-		return texturedParticlesShapeForGPUData(cols, rows, shapeSize, new PImage[] {texture});
-	}
-	
-	public static PShape texturedParticlesShapeForGPUData(float cols, float rows, float shapeSize, PImage[] textures) {
 		// make a perfect grid
 		float shapeSpacing = shapeSize * 1f;
 		float shapeSpacingHalf = shapeSpacing / 2f;
@@ -893,10 +889,7 @@ public class PShapeUtil {
 				float gridY = shapeSpacingHalf + -(shapeSpacing * rows/2) + (y * shapeSpacing);
 				float gridZ = 0;
 				
-				PImage randomTexture = (textures.length == 1) ? 
-						textures[0] : 
-						textures[MathUtil.randIndex(textures.length)];
-				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, randomTexture);
+				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, texture);
 				numVerts += shape.getVertexCount();
 				
 				// give the shape attributes for the shader to pick out their UV coord from grid index
