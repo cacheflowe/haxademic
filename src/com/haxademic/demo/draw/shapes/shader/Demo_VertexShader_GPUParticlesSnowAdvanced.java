@@ -16,6 +16,7 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -28,10 +29,13 @@ implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// TODO: 
-	// - Add array of particle textures - need to pass in as new uniforms
 	// - Add z-depth and distribution of (mostly) small vs large flakes
-	// - Add Webcam + Optical flow displacement
 	// - Add width & height for simulation bounds - in simulation? or just in render shader? 
+	
+	protected String SNOW_RENDER_WIDTH = "SNOW_RENDER_WIDTH"; 
+	protected String SNOW_RENDER_HEIGHT = "SNOW_RENDER_HEIGHT"; 
+	protected String SNOW_GLOBAL_SCALE = "SNOW_GLOBAL_SCALE"; 
+	protected String SNOW_POINT_SCALE = "SNOW_POINT_SCALE"; 
 	
 	protected PShape particleMesh;
 	protected PGraphics bufferPositions;
@@ -63,13 +67,22 @@ implements IWebCamCallback {
 	}
 	
 	protected void firstFrame() {
-		initCamera();
+		initUserCamera();
 		buildSimulationBuffers();
 		buildSimulation();
 		buildParticles();
+		buildUI();
 	}
 	
-	protected void initCamera() {
+	protected void buildUI() {
+		UI.addTitle("SNOW Config");
+		UI.addSlider(SNOW_RENDER_WIDTH, bufferRenderedParticles.width, 10, bufferRenderedParticles.width * 2, 5f, false);
+		UI.addSlider(SNOW_RENDER_HEIGHT, bufferRenderedParticles.height, 10, bufferRenderedParticles.height * 2, 5f, false);
+		UI.addSlider(SNOW_GLOBAL_SCALE, 1.1f, 0.1f, 5f, 0.01f, false);
+		UI.addSlider(SNOW_POINT_SCALE, 2, 0, 20, 0.01f, false);
+	}
+	
+	protected void initUserCamera() {
 		// webcam
 		WebCam.instance().setDelegate(this);
 		camBuffer = PG.newPG(1920, 1080);
@@ -88,8 +101,6 @@ implements IWebCamCallback {
 	protected void buildSimulationBuffers() {
 		// build offscreen buffer (thing don't work the same on the main drawing surface)
 		bufferRenderedParticles = PG.newPG32(p.width, p.height, false, false); // p.createGraphics(p.width, p.height, PRenderers.P3D);
-//		bufferRenderedParticles.smooth(8);
-
 		DebugView.setTexture("bufferRenderedParticles", bufferRenderedParticles);
 	}
 	
@@ -111,13 +122,7 @@ implements IWebCamCallback {
 	
 	protected void buildParticles() {
 		// Build points vertices
-		PImage[] particleTextures = new PImage[] {
-//				P.getImage("haxademic/images/particles/magic_05.png"),	
-				P.getImage("haxademic/images/particles/star_07.png"),	
-//				P.getImage("haxademic/images/particles/star_08.png"),	
-//				P.getImage("haxademic/images/particles/star_09.png"),	
-		};
-		particleMesh = PShapeUtil.texturedParticlesShapeForGPUData(simW, simH, 10, particleTextures);
+		particleMesh = PShapeUtil.texturedParticlesShapeForGPUData(simW, simH, 10, P.getImage("haxademic/images/particles/star_07.png"));
 		
 		// load shader
 		particlesSimulationRenderShader = new PShaderHotSwap(
@@ -180,20 +185,17 @@ implements IWebCamCallback {
 		bufferPositions.filter(simulationShader.shader());
 		
 		// update render shader
-		float renderW = bufferRenderedParticles.width * 5f;
-		float renderH = bufferRenderedParticles.height * 5f;
 		particlesSimulationRenderShader.shader().set("displacementMap", varianceNoise.texture());
 		particlesSimulationRenderShader.shader().set("positionMap", bufferPositions);
 		particlesSimulationRenderShader.shader().set("randomMap", randomNumbers);
-		particlesSimulationRenderShader.shader().set("width", (float) renderW);
-		particlesSimulationRenderShader.shader().set("height", (float) renderH);
-		particlesSimulationRenderShader.shader().set("displaceAmp", 10f);
-		particlesSimulationRenderShader.shader().set("rotateAmp", 1f);
-		particlesSimulationRenderShader.shader().set("globalScale", 2f);
-		particlesSimulationRenderShader.shader().set("pointScale", 2f);
 		particlesSimulationRenderShader.shader().set("texture1", ImageCacher.get("haxademic/images/particles/magic_05.png"));
 		particlesSimulationRenderShader.shader().set("texture2", ImageCacher.get("haxademic/images/particles/star_08.png"));
 		particlesSimulationRenderShader.shader().set("texture3", ImageCacher.get("haxademic/images/particles/star_09.png"));
+		particlesSimulationRenderShader.shader().set("width", (float) UI.valueEased(SNOW_RENDER_WIDTH));
+		particlesSimulationRenderShader.shader().set("height", (float) UI.valueEased(SNOW_RENDER_HEIGHT));
+		particlesSimulationRenderShader.shader().set("rotateAmp", 1f);
+		particlesSimulationRenderShader.shader().set("globalScale", UI.valueEased(SNOW_GLOBAL_SCALE));
+		particlesSimulationRenderShader.shader().set("pointScale", UI.valueEased(SNOW_POINT_SCALE));
 		particlesSimulationRenderShader.update();
 
 		// render particles
@@ -206,7 +208,6 @@ implements IWebCamCallback {
 //		PG.basicCameraFromMouse(bufferRenderedParticles);
 		
 		// draw vertex points. strokeWeight w/disableStyle works here for point size
-//		shape.disableStyle();
 		bufferRenderedParticles.blendMode(PBlendModes.ADD);
 		bufferRenderedParticles.shader(particlesSimulationRenderShader.shader());  	// update positions
 		bufferRenderedParticles.shape(particleMesh);					// draw vertices

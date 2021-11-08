@@ -16,10 +16,10 @@ attribute vec3 normal;
 
 // Custom uniforms
 uniform sampler2D texture;
-uniform int textureMode = 0;
 uniform sampler2D displacementMap;
 uniform sampler2D positionMap;
-uniform float displaceAmp = 1.;
+uniform float width = 1000.;
+uniform float height = 1000.;
 uniform float rotateAmp = 1.;
 uniform float globalScale = 1.;
 uniform float individualMeshScale = 1.;
@@ -119,8 +119,8 @@ void main() {
   );
   vec4 posTex = texture2D( positionMap, simulationUV ); // rgba color of displacement map
   // use vertex color for positioning use - here we're putting points in a cube
-  float w = 1000.; // width * scale;
-  float h = 1000.; // height * scale;
+  float w = width; // * scale;
+  float h = height; // * scale;
   float x = -w / 2. + posTex.x * w;
   float y = -h / 2. + posTex.y * h;
   float z = 0.; // luma * 100.; // -h / 2. + posTex.z * h;

@@ -13,7 +13,6 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
@@ -73,13 +72,7 @@ extends PAppletHax {
 	
 	protected void buildParticles() {
 		// Build points vertices
-		PImage[] particleTextures = new PImage[] {
-//				P.getImage("haxademic/images/particles/magic_05.png"),	
-				P.getImage("haxademic/images/particles/star_07.png"),	
-//				P.getImage("haxademic/images/particles/star_08.png"),	
-//				P.getImage("haxademic/images/particles/star_09.png"),	
-		};
-		particleMesh = PShapeUtil.texturedParticlesShapeForGPUData(simW, simH, 10, particleTextures);
+		particleMesh = PShapeUtil.texturedParticlesShapeForGPUData(simW, simH, 10, P.getImage("haxademic/images/particles/star_07.png"));
 		
 		// load shader
 		particlesSimulationRenderShader = new PShaderHotSwap(
