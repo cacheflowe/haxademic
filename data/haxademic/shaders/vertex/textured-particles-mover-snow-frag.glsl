@@ -56,7 +56,9 @@ void main() {
   float rotEased = mix(rot, targetDir.r, turnSpeed);
 	float rotation = rotEased * TWO_PI * 3.;
 
-  // move
+  // move snow
+  // x is on an oscillation
+  // y is always moving down at variable speeds
   float xOsc = 0.00025 * cos(pos.y * 10. + 20. * ampColor.g);
   pos.x = pos.x + xOsc;
   pos.y = pos.y + ampFromMap * amp + texelColor.b * 0.001;
@@ -65,9 +67,10 @@ void main() {
   // optical flow displacement, to be used with results from `optical-flow-td.glsl`
   // get uv ccords from current normalize position
   if(flowMode == 1) {
-    vec2 posFilpY = vec2(pos.x, 1. - pos.y);
-    vec2 opFlowDisplace = texture2D(flowMap, posFilpY).xy - 0.5;
+    vec2 posFlipY = vec2(pos.x, 1. - pos.y);
+    vec2 opFlowDisplace = texture2D(flowMap, posFlipY).xy - 0.5;
     opFlowDisplace *= flowAmp;
+    opFlowDisplace *= 1. + 0.75 * sin(p.x * 10.);  // use original UV.x for variance in displacement per particle. shouldn't be too uniform
 		pos.x -= opFlowDisplace.x;
 		pos.y += opFlowDisplace.y;
   }

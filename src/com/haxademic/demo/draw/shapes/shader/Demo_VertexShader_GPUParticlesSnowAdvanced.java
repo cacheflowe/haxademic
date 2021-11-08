@@ -30,12 +30,12 @@ implements IWebCamCallback {
 
 	// TODO: 
 	// - Add z-depth and distribution of (mostly) small vs large flakes
-	// - Add width & height for simulation bounds - in simulation? or just in render shader? 
 	
 	protected String SNOW_RENDER_WIDTH = "SNOW_RENDER_WIDTH"; 
 	protected String SNOW_RENDER_HEIGHT = "SNOW_RENDER_HEIGHT"; 
 	protected String SNOW_GLOBAL_SCALE = "SNOW_GLOBAL_SCALE"; 
 	protected String SNOW_POINT_SCALE = "SNOW_POINT_SCALE"; 
+	protected String SNOW_OPFLOW_AMP = "SNOW_OPFLOW_AMP"; 
 	
 	protected PShape particleMesh;
 	protected PGraphics bufferPositions;
@@ -80,6 +80,7 @@ implements IWebCamCallback {
 		UI.addSlider(SNOW_RENDER_HEIGHT, bufferRenderedParticles.height, 10, bufferRenderedParticles.height * 2, 5f, false);
 		UI.addSlider(SNOW_GLOBAL_SCALE, 1.1f, 0.1f, 5f, 0.01f, false);
 		UI.addSlider(SNOW_POINT_SCALE, 2, 0, 20, 0.01f, false);
+		UI.addSlider(SNOW_OPFLOW_AMP, 0.3f, 0, 5f, 0.01f, false);
 	}
 	
 	protected void initUserCamera() {
@@ -181,6 +182,8 @@ implements IWebCamCallback {
 		simulationShader.shader().set("amp", 0.004f); // * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		simulationShader.shader().set("flowMap", opticalFlow.resultBuffer());
 		simulationShader.shader().set("flowMode", 1);
+		simulationShader.shader().set("flowAmp", UI.valueEased(SNOW_OPFLOW_AMP));
+
 		simulationShader.update();
 		bufferPositions.filter(simulationShader.shader());
 		
@@ -201,7 +204,8 @@ implements IWebCamCallback {
 		// render particles
 		bufferRenderedParticles.beginDraw();
 		PG.setDrawFlat2d(bufferRenderedParticles, true);
-		bufferRenderedParticles.background(0);
+//		bufferRenderedParticles.background(0);
+		bufferRenderedParticles.clear();
 		bufferRenderedParticles.translate(0, 0,0);
 		PG.setCenterScreen(bufferRenderedParticles);
 		PG.setDrawCorner(bufferRenderedParticles);
@@ -215,7 +219,10 @@ implements IWebCamCallback {
 		bufferRenderedParticles.endDraw();
 
 		// draw buffer to screen
+		p.image(camBuffer, 0, 0, p.width, p.height);
+		p.blendMode(PBlendModes.SCREEN);
 		p.image(bufferRenderedParticles, 0, 0);
+		p.blendMode(PBlendModes.BLEND);
 	}
 	
 	// IWebCamCallback
