@@ -26,6 +26,8 @@ public class KinectV2SkeletonsAR {
 	protected PGraphics pg;
 	protected PGraphics pgBG;
 	protected PImage rgbImage;
+	protected PImage depthImage;
+	protected boolean updatesDepthImage = false;
 	
 	// kinect & skeletons
 	protected KinectPV2 kinectV2;
@@ -43,11 +45,17 @@ public class KinectV2SkeletonsAR {
 
 	// AppStore
 	public static float CAMERA_DISPLAY_SCALE = 1f;
-	protected String KINECT_RGB_IMAGE = "KINECT_RGB_IMAGE";
+	public static final String KINECT_RGB_IMAGE = "KINECT_RGB_IMAGE";
+	public static final String KINECT_DEPTH_IMAGE = "KINECT_DEPTH_IMAGE";
 	
 	public KinectV2SkeletonsAR(PGraphics pg, ArElementPool arPool) {
+		this(pg, arPool, false);
+	}
+	
+	public KinectV2SkeletonsAR(PGraphics pg, ArElementPool arPool, boolean updatesDepthImage) {
 		this.pg = pg;
 		this.arPool = arPool;
+		this.updatesDepthImage = updatesDepthImage;
 		
 		pgBG = PG.newPG(pg.width, pg.height, true, false);
 		DebugView.setTexture("pgBG", pgBG);
@@ -240,6 +248,13 @@ public class KinectV2SkeletonsAR {
 		rgbImage = kinectV2.getColorImage();
 		P.store.setImage(KINECT_RGB_IMAGE, rgbImage);
 		DebugView.setTexture(KINECT_RGB_IMAGE, rgbImage);
+		
+		// update depth image for other uses
+		if(updatesDepthImage) {
+			depthImage = kinectV2.getDepthImage();
+			DebugView.setTexture(KINECT_DEPTH_IMAGE, depthImage);
+			P.store.setImage(KINECT_DEPTH_IMAGE, depthImage);
+		}
 
 		// draw camera pinned to pg height
 		pgBG.beginDraw();
