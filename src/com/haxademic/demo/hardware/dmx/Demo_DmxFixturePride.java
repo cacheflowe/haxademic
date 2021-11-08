@@ -59,7 +59,3 @@ extends PAppletHax {
 	}
 }
 
-
-
-
-
