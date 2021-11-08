@@ -7,8 +7,8 @@ public interface IArElement {
 	public enum BodyTrackType {
 		CUSTOM,
 		HEAD,
+		HAND,
 		HAND_POINT,
-		HAND_POINTER,
 		HAND_FLAG,
 		HANG_ON_SHOULDERS,
 	}
@@ -19,6 +19,8 @@ public interface IArElement {
 	public IArElement setPositionOffset(float x, float y, float z);
 	public IArElement setPivotOffset(float x, float y, float z);
 	public IArElement setRotation(float x, float y, float z);
+	public IArElement setRotationOffset(float x, float y, float z);
+	public IArElement setBaseScale(float scale);
 	public IArElement setScale(float scale);
 	public IArElement setJoints(KJoint[] joints2d, KJoint[] joints3d);
 	public void updatePre(PGraphics pg);

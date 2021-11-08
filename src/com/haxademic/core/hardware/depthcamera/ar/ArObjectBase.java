@@ -43,6 +43,11 @@ public class ArObjectBase
 		this.isReset = true;
 	}
 	
+	public IArElement setBaseScale(float baseScale) {
+		this.baseScale = baseScale;
+		return this;
+	}
+	
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 		if(isActive) this.isReset = true;
@@ -109,7 +114,8 @@ public class ArObjectBase
 		// you can override this and do something totally custom 
 		switch (bodyTrackType) {
 			case HEAD: 						setPositionForHead(joints2d, joints3d); break;
-			case HAND_POINT: 				setPositionHand(joints2d, joints3d); break;
+			case HAND: 						setPositionHand(joints2d, joints3d, false); break;
+			case HAND_POINT: 				setPositionHand(joints2d, joints3d, true); break;
 			case HANG_ON_SHOULDERS: 		setPositionHangFromShoulders(joints2d, joints3d); break;
 			case HAND_FLAG: 				setPositionForHandFlag(joints2d, joints3d); break;
 			default: break;
@@ -171,56 +177,6 @@ public class ArObjectBase
 		setRotation(0, rotY, imgRot * rotZAmp);
 	}
 
-	protected void setPositionForHeadImgSeqAbove(KJoint[] joints2d, KJoint[] joints3d) {
-		// get position & rotation of head
-		KJoint headJoint3 = joints3d[KinectPV2.JointType_SpineShoulder];
-		KQuaternion q1 = headJoint3.getOrientation();
-		double q1x = q1.getX();
-		double q1y = q1.getY();
-		double q1z = q1.getZ();
-		double q1w = q1.getW();
-		double sqw = q1w*q1w;
-		double sqx = q1x*q1x;
-		double sqy = q1y*q1y;
-		double sqz = q1z*q1z;
-		float attitudeX = (float) Math.asin(-2.0 * (q1x*q1z - q1y*q1w)/(sqx + sqy + sqz + sqw));
-		float headingY = (float) Math.atan2(2.0 * (q1x*q1y + q1z*q1w),(sqx - sqy - sqz + sqw));
-		float bankZ = (float) Math.atan2(2.0 * (q1y*q1z + q1x*q1w),(-sqx - sqy + sqz + sqw));
-		
-		// scale based on spine-should to spine-mid
-		KJoint neckJoint = joints2d[KinectPV2.JointType_Neck];
-		KJoint headJoint = joints2d[KinectPV2.JointType_Head];
-		KJoint spineShoulderJoint = joints2d[KinectPV2.JointType_SpineShoulder];
-		KJoint spineMidJoint = joints2d[KinectPV2.JointType_SpineMid];
-		float halfSpineDist = P.dist(spineShoulderJoint.getX(), spineShoulderJoint.getY(), spineMidJoint.getX(), spineMidJoint.getY());
-		
-		// use distance between spine-mid and head as the base body-size distance to put objects above head
-		// - Multiply by the camera scale based on resizing camera to fit vertically at the current resolution
-		// - Multiply by a constant, then additional custom multiplication
-		float shoulderHeadDist = P.dist(spineMidJoint.getX(), spineMidJoint.getY(), headJoint.getX(), headJoint.getY());
-		shoulderHeadDist *= KinectV2SkeletonsAR.CAMERA_DISPLAY_SCALE;
-		shoulderHeadDist *= 1.3f;
-//		positionOffset.y = 1.75f; // uncomment for testing in realtime
-		shoulderHeadDist *= positionOffset.y;
-		float imgRot = MathUtil.getRadiansToTarget(spineShoulderJoint.getX(), spineShoulderJoint.getY(), spineMidJoint.getX(), spineMidJoint.getY());
-
-		// horizontal offset - use should/head dist calculation as baseline
-//		// comment out for realtime offset number-finding
-//		positionOffset.x = -0.2f;
-//		positionOffset.y = 0.5f;
-//		pivotOffset.x = 0.35f;
-//		pivotOffset.y = -0.25f;
-		float offsetX = shoulderHeadDist * positionOffset.x;
-		
-		// set position
-//		float imgScale = MathUtil.scaleToTarget(hatImg.height, halfSpineDist) * 0.1325f;
-//		setPosition(spineMidJoint.getX(), spineMidJoint.getY() - imgScale * 2.75f, 0);
-		setPosition(headJoint.getX() + offsetX, headJoint.getY() - shoulderHeadDist, headJoint.getZ());// - imgScale * 2.75f, 0);
-		
-		// rotation
-		setRotation(0, 0, imgRot - P.HALF_PI);
-	}
-	
 	protected void setPositionHangFromShoulders(KJoint[] joints2d, KJoint[] joints3d) {
 		// get position & rotation of head
 		KJoint headJoint3 = joints3d[KinectPV2.JointType_SpineShoulder];
@@ -293,7 +249,7 @@ public class ArObjectBase
 		setRotation(0, 0, P.constrain(imgRot - P.HALF_PI, -0.4f, 0.4f));
 	}
 	
-	protected void setPositionHand(KJoint[] joints2d, KJoint[] joints3d) {
+	protected void setPositionHand(KJoint[] joints2d, KJoint[] joints3d, boolean rotates) {
 		KJoint leftElbowJoint = joints2d[KinectPV2.JointType_ElbowLeft];
 		KJoint leftHandJoint = joints2d[KinectPV2.JointType_WristLeft];
 		KJoint leftElbowJoint3 = joints3d[KinectPV2.JointType_ElbowLeft];
@@ -324,6 +280,7 @@ public class ArObjectBase
 
 
 		float imgRot = MathUtil.getRadiansToTarget(elbowJoint.getX(), elbowJoint.getY(), handJoint.getX(), handJoint.getY());
+		if(rotates == false) imgRot *= 0.1; // slight rotation 
 		setPosition(handJoint.getX(), handJoint.getY(), handJoint.getZ());
 		setRotation(0, rotY, imgRot - P.HALF_PI * 3f);
 	}

@@ -80,6 +80,12 @@ extends PAppletHax {
 		ColorAdjustmentFilter.applyFromUI(kinectSkeletonsAR.bufferBG());
 		p.image(kinectSkeletonsAR.bufferBG(), 0, 0);
 		p.image(kinectSkeletonsAR.bufferAR(), 0, 0);
+		
+		// adjust ar element on the fly
+//		arPool.elementAt(2).setPositionOffset(0.45f, 0f, 0f);
+//		arPool.elementAt(1).setBaseScale(0.375f);
+//		arPool.elementAt(1).setPivotOffset(0, 0.1f, 0);
+//		arPool.elementAt(2).setRotationOffset(0, 0, -P.HALF_PI);
 	}
 
 }

@@ -42,7 +42,7 @@ implements IArElement {
 	
 	@Override
 	public IArElement setJoints(KJoint[] joints2d, KJoint[] joints3d) {
-		// TODO: add tracking of a seconf joint with lerping like `setPosition()` does
+		// TODO: add tracking of a second joint with lerping like `setPosition()` does
 		
 		KJoint leftElbowJoint = joints2d[KinectPV2.JointType_ElbowLeft];
 		KJoint leftHandJoint = joints2d[KinectPV2.JointType_WristLeft];
