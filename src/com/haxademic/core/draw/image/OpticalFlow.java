@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
@@ -39,6 +40,7 @@ public class OpticalFlow {
 	public static final String UI_preBlurAmp = "preBlurAmp";
 	public static final String UI_preBlurSigma = "preBlurSigma";
 	
+	public static final String UI_resultFlowDecayLerp = "resultFlowDecayLerp";
 	public static final String UI_resultFlowDisplaceAmp = "resultFlowDisplaceAmp";
 	public static final String UI_resultFlowDisplaceIters = "resultFlowDisplaceIters";
 	public static final String UI_resultBlurAmp = "resultBlurAmp";
@@ -53,9 +55,12 @@ public class OpticalFlow {
 	protected float uInverseX = -1f;
 	protected float uInverseY = -1f;
 
-	// more 
+	// incoming frame pre-processing
 	protected int preBlurAmp = 20;
 	protected float preBlurSigma = 20f;
+
+	// flow the flow
+	protected float resultFlowDecayLerp = 0.15f;
 	protected float resultFlowDisplaceAmp = 0.2f;
 	protected int resultFlowDisplaceIters = 1;
 	protected int resultBlurAmp = 20;
@@ -67,7 +72,7 @@ public class OpticalFlow {
 		tex0 = PG.newPG(w, h);
 		tex1 = PG.newPG(w, h);
 		resultBuffer = PG.newPG32(w, h, false, false);		// disabling smoothing allows for per-pixel lerping w/very small values
-		resultFlowedBuffer = PG.newPG(w, h, false, false);	// can't be 32-bit because displacement doesn't work properly - only goes diagonal
+		resultFlowedBuffer = PG.newPG32(w, h, true, false);	// can't be 32-bit because displacement doesn't work properly - only goes diagonal
 		PG.setTextureRepeat(resultBuffer, false);
 		PG.setTextureRepeat(resultFlowedBuffer, false);
 		
@@ -92,6 +97,7 @@ public class OpticalFlow {
 		UI.addSlider(UI_preBlurSigma, 20f, 0f, 100f, 0.1f, false);
 		
 		UI.addTitle("OF: Flow result displace");
+		UI.addSlider(UI_resultFlowDecayLerp, 0.15f, 0f, 1f, 0.001f, false);
 		UI.addSlider(UI_resultFlowDisplaceAmp, 0.2f, 0f, 1f, 0.001f, false);
 		UI.addSlider(UI_resultFlowDisplaceIters, 1f, 0f, 10f, 1f, false);
 		UI.addSlider(UI_resultBlurAmp, 20f, 0f, 100f, 0.1f, false);
@@ -107,6 +113,7 @@ public class OpticalFlow {
 	public void uThreshold(float val) { uThreshold = val; }
 	public void uInverseX(float val) { uInverseX = val; }
 	public void uInverseY(float val) { uInverseY = val; }
+	public void resultFlowDecayLerp(float val) { resultFlowDecayLerp = val; }
 	
 	public void preBlurAmp(int val) { preBlurAmp = val; }
 	public void preBlurSigma(float val) { preBlurSigma = val; }
@@ -140,6 +147,7 @@ public class OpticalFlow {
 		uThreshold(UI.value(UI_uThreshold));
 		uInverseX(UI.value(UI_uInverseX));
 		uInverseY(UI.value(UI_uInverseY));
+		resultFlowDecayLerp(UI.value(UI_resultFlowDecayLerp));
 				
 		preBlurAmp(UI.valueInt(UI_preBlurAmp));
 		preBlurSigma(UI.value(UI_preBlurSigma));
@@ -193,9 +201,9 @@ public class OpticalFlow {
 //			resultFlowedBuffer.beginDraw();
 //			resultFlowedBuffer.background(0);
 //			resultFlowedBuffer.endDraw();
-			BlendTowardsTexture.instance(P.p).setBlendLerp(0.15f);
-			BlendTowardsTexture.instance(P.p).setSourceTexture(resultBuffer);
-			BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
+//			BlendTowardsTexture.instance(P.p).setBlendLerp(resultFlowDecayLerp);
+//			BlendTowardsTexture.instance(P.p).setSourceTexture(resultBuffer);
+//			BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
 			ImageUtil.copyImage(resultBuffer, resultFlowedBuffer);
 			
 			// displace & blur the flow data for liquidy flow & dispersion

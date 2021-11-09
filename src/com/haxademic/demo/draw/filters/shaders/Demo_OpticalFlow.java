@@ -102,7 +102,7 @@ extends PAppletHax {
 		
 		// draw debug lines
 		PG.setPImageAlpha(p.g, 0.9f);
-//		ImageUtil.drawImageCropFill(opticalFlow.debugBuffer(), p.g, true);	
+		ImageUtil.drawImageCropFill(opticalFlow.debugBuffer(), p.g, true);	
 		PG.resetPImageAlpha(p.g);
 	}
 	
