@@ -68,10 +68,10 @@ void main()
 
 	// gradient calculation
 	float gradX =  texture2D(tex0, uv + offX).r - texture2D(tex0, uv - offX).r;
-		    gradX += texture2D(tex1, uv + offX).r - texture2D(tex1, uv - offX).r;
+				gradX += texture2D(tex1, uv + offX).r - texture2D(tex1, uv - offX).r;
 
 	float gradY =  texture2D(tex0, uv + offY).r - texture2D(tex0, uv - offY).r;
-		    gradY += texture2D(tex1, uv + offY).r - texture2D(tex1, uv - offY).r;
+				gradY += texture2D(tex1, uv + offY).r - texture2D(tex1, uv - offY).r;
 
 	float gradMag = sqrt((gradX*gradX)+(gradY*gradY)+uLambda);
 

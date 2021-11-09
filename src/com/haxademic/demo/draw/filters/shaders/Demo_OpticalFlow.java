@@ -11,6 +11,7 @@ import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -52,6 +53,7 @@ extends PAppletHax {
 		// add textures to debug panel
 		DebugView.setTexture("camDisplaced", camDisplaced);
 		DebugView.setTexture("opFlowResult", opticalFlow.resultBuffer());
+		DebugView.setTexture("opFlowResultFlowed", opticalFlow.resultFlowedBuffer());
 		DebugView.setTexture("getDepthImage()", realSenseWrapper.getDepthImage());
 
 		// ui
@@ -70,7 +72,8 @@ extends PAppletHax {
 		// copy camera frames to buffers
 		opticalFlow.updateOpticalFlowProps();
 		opticalFlow.update(realSenseWrapper.getDepthImage(), true);
-		opticalFlow.drawDebugLines();
+//		opticalFlow.drawDebugLines((FrameLoop.frameMod(200) < 100) ? opticalFlow.resultBuffer() : opticalFlow.resultFlowedBuffer());
+		opticalFlow.drawDebugLines(opticalFlow.resultFlowedBuffer());
 		applyFlowToRgbCamera();
 		drawToScreen();
 	}
@@ -84,7 +87,7 @@ extends PAppletHax {
 		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
 		
 		// flow the displaced camera buffer
-		PGraphics opFlowResult = opticalFlow.resultBuffer();
+		PGraphics opFlowResult = opticalFlow.resultFlowedBuffer();
 		DisplacementMapFilter.instance(P.p).setMap(opFlowResult);
 		DisplacementMapFilter.instance(P.p).setMode(10);
 		DisplacementMapFilter.instance(P.p).setAmp(UI.value(cameraDisplaceAmp));
@@ -98,7 +101,9 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(camDisplaced, p.g, true);
 		
 		// draw debug lines
-		ImageUtil.drawImageCropFill(opticalFlow.debugBuffer(), p.g, true);	
+		PG.setPImageAlpha(p.g, 0.9f);
+//		ImageUtil.drawImageCropFill(opticalFlow.debugBuffer(), p.g, true);	
+		PG.resetPImageAlpha(p.g);
 	}
 	
 }

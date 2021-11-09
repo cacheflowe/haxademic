@@ -108,9 +108,18 @@ void main() {
 		colorDisplaced = texture2D(texture, displace);
 	} else if(mode == 10) {
 		// optical flow displacement, to be used with results from `optical-flow.glsl`
+		// get displacement amp from map
 		vec2 opFlowDisplace = texture2D(map, p).xy - 0.5;
 		opFlowDisplace *= amp;
-		colorDisplaced = texture2D(texture, p + opFlowDisplace);
+		// get offset texture for displacement
+		vec2 displaceUV = p + opFlowDisplace;
+		displaceUV.x = min(1., displaceUV.x);
+		displaceUV.y = min(1., displaceUV.y);
+		displaceUV.x = max(0., displaceUV.x);
+		displaceUV.y = max(0., displaceUV.y);
+		colorDisplaced = texture2D(texture, displaceUV);
+		if(colorDisplaced.a < 0.8) colorDisplaced = texture2D(texture, p);	// if we get weird alpha results, just use the original texture
+		// colorDisplaced.a = 1.;	// keep alpha locked at 1 so things don't get weird at image edges when no pixel data exists... doesn't work
 	}
 	gl_FragColor = mix(colorOrig, colorDisplaced, colorDisplaced.a);
 }
