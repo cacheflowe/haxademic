@@ -45,8 +45,8 @@ implements IWebCamCallback {
 	protected PShaderHotSwap simulationShader;
 	protected PGraphics bufferRenderedParticles;
 	protected PShaderHotSwap particlesSimulationRenderShader;
-	float simW = 64;
-	float simH = 64;
+	float simW = 256;
+	float simH = 256;
 	int FRAMES = 300;
 	protected boolean particlesShouldRespawn = false;
 	

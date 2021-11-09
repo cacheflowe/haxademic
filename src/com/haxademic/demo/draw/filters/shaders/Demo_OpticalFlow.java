@@ -11,7 +11,6 @@ import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
-import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;

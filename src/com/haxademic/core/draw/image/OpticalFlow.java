@@ -1,17 +1,14 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
-import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
