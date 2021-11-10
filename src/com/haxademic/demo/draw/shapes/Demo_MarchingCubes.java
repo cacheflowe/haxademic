@@ -32,32 +32,32 @@ extends PAppletHax {
 		p.background(0);
 		pushMatrix();
 		PG.setCenterScreen(p);
-		PG.basicCameraFromMouse(p.g);
+		PG.basicCameraFromMouse(p.g, 0.2f);
 		PG.setBetterLights(p.g);
 		
 		// generate metaballs balls
 		mc.reset();
-		for (int i = 0; i < 15; i++) {
+		mc.setIsoLevel(10);
+		for (int i = 0; i < 10; i++) {
 			// add data to marching cubes metaballs algorithm
 			PVector metaBallPos = new PVector(
-					150 * P.sin(i + frameCount * 0.05f * (i+1)/10f),
+					150 * P.sin(i + frameCount * 0.05f * (i+1)/20f),
 					150 * P.sin(i + frameCount * 0.04f * (i+1)/10f),
 					150 * P.sin(i + frameCount * 0.03f)
 					);
-			float size = 10 + i * 5;
-			mc.addMetaBall(metaBallPos, size * 2.5f, 2 + 30f * Mouse.xNorm);
+			float size = 50 + i * 10;
+			mc.addMetaBall(metaBallPos, size, size * Mouse.xNorm);
 			
 			// draw source balls
 			p.pushMatrix();
 			p.translate(metaBallPos.x, metaBallPos.y, metaBallPos.z);
-			p.sphere(size);
+			p.sphere(size/2);
 			p.popMatrix();
 		}
 		
 		// create mesh
-		mc.createMesh();
 		if(bUseFill){
-			fill(0,255,0);
+			fill(0,0,0);
 			noStroke();
 		}
 		else {
@@ -65,6 +65,7 @@ extends PAppletHax {
 			stroke(127);
 		}
 		
+		mc.createMesh();
 		mc.renderMesh();
 //		mc.renderGrid();
 		popMatrix();
