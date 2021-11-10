@@ -28,6 +28,10 @@ public class CrashMonitor {
 		monitorApp.getSurface().setLocation(x, y);
 	}
 	
+	public void setVisible(boolean visible) {
+		monitorApp.getSurface().setVisible(visible);
+	}
+	
 	public void post() {
 		if(monitorApp == null && P.p.frameCount >= 2) {
 			monitorApp = new CrashMonitorWindow(P.p, timeAfterCrash, showWindow);

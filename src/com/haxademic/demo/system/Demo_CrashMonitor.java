@@ -39,6 +39,8 @@ extends PAppletHax {
 		p.text("CLICK TO CRASH", 20, 30);
 		
 		if(p.frameCount == 100) appMonitor.setLocation(1800, 800);
+		if(p.frameCount == 200) appMonitor.setVisible(false);
+		if(p.frameCount == 300) appMonitor.setVisible(true);
 	}
 
 	public void keyPressed() {
