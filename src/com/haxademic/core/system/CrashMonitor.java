@@ -24,6 +24,10 @@ public class CrashMonitor {
 		P.p.registerMethod("post", this);	 // update texture to 2nd window after main draw() execution
 	}
 	
+	public void setLocation(int x, int y) {
+		monitorApp.getSurface().setLocation(x, y);
+	}
+	
 	public void post() {
 		if(monitorApp == null && P.p.frameCount >= 2) {
 			monitorApp = new CrashMonitorWindow(P.p, timeAfterCrash, showWindow);

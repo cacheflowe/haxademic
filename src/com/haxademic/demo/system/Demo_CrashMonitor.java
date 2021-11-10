@@ -37,11 +37,14 @@ extends PAppletHax {
 		
 		p.fill(255);
 		p.text("CLICK TO CRASH", 20, 30);
+		
+		if(p.frameCount == 100) appMonitor.setLocation(1800, 800);
 	}
 
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == 'c') mouseClicked();
+		if(p.key == 'p') appMonitor.setLocation(1800, 900);
 		if(p.key == 'x') p.exit();
 	}
 
