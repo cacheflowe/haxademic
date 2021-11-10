@@ -43,7 +43,7 @@ public class CrashMonitor {
 		}
 	}
 	
-	class CrashMonitorWindow extends PApplet {
+	public class CrashMonitorWindow extends PApplet {
 
 		PAppletHax p;
 		public boolean showing;
