@@ -6,23 +6,19 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
-import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
-import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 
 public class Demo_BufferFrameDifference_MaskedWebcamOpticalFlow 
 extends PAppletHax
@@ -76,16 +72,17 @@ implements IWebCamCallback {
 		
 	protected void firstFrame () {
 		// init webcam
-		WebCam.instance().setDelegate(this).set720p();
+//		WebCam.instance().setDelegate(this).set720p(1);
+		WebCam.instance().setDelegate(this).selectCamGstreamer(640, 480, 60, 2);
 		
 		// ui
-		UI.addSlider(diffFalloffBW, 0.7f, 0, 1, 0.01f, false);
+		UI.addSlider(diffFalloffBW, 0.4f, 0, 1, 0.01f, false);
 		UI.addSlider(diffThresh, 0.1f, 0, 1, 0.001f, false);
 		UI.addSlider(diffSmoothThresh, 0.66f, 0, 1, 0.001f, false);
 		
 		
 		// build optical flow object
-		opticalFlow = new OpticalFlow(p.width, p.height);
+		opticalFlow = new OpticalFlow(1024, 1024);
 		
 		// add textures to debug panel
 		DebugView.setTexture("camDisplaced", camDisplaced);
@@ -106,14 +103,14 @@ implements IWebCamCallback {
 		UI.addSlider(preBlurSigma, 20f, 0f, 100f, 0.1f, false);
 		
 		UI.addTitle("OF: Flow result displace");
-		UI.addSlider(resultFlowDisplaceAmp, 0.2f, 0f, 1f, 0.001f, false);
+		UI.addSlider(resultFlowDisplaceAmp, 0.6f, 0f, 1f, 0.001f, false);
 		UI.addSlider(resultFlowDisplaceIters, 1f, 0f, 10f, 1f, false);
 		UI.addSlider(resultBlurAmp, 20f, 0f, 100f, 0.1f, false);
 		UI.addSlider(resultBlurSigma, 20f, 0f, 100f, 0.1f, false);
 
 		UI.addTitle("Final comp: Use the flow");
 		UI.addSlider(cameraLerp, 0.1f, 0f, 1f, 0.01f, false);
-		UI.addSlider(cameraDisplaceAmp, 0.2f, 0f, 1f, 0.01f, false);
+		UI.addSlider(cameraDisplaceAmp, 0.6f, 0f, 1f, 0.01f, false);
 		UI.addSlider(cameraDisplaceIters, 1, 0f, 10f, 1f, false);
 
 	}
@@ -144,7 +141,7 @@ implements IWebCamCallback {
 		// copy camera frames to buffers
 		updateOpticalFlowProps();
 		opticalFlow.update(frame, true);
-		opticalFlow.drawDebugLines();
+		opticalFlow.drawDebugLines(opticalFlow.resultBuffer());
 	}
 	
 	protected void updateOpticalFlowProps() {
