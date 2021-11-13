@@ -11,6 +11,7 @@ import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -31,7 +32,9 @@ extends PAppletHax {
 	protected String cameraLerp = "cameraLerp";
 	protected String cameraDisplaceAmp = "cameraDisplaceAmp";
 	protected String cameraDisplaceIters = "cameraDisplaceIters";
+	protected String showDebug = "showDebug";
 
+	protected String faceMeltConfig = "{ \"OF: Calculation_38151\": \"OF: Calculation\", \"uDecayLerp\": 0.0069999974, \"uForce\": 4.3399997, \"uOffset\": 8.0, \"uLambda\": 0.008800002, \"uThreshold\": 0.056000013, \"uInverseX\": -1.0, \"uInverseY\": -1.0, \"OF: Pre blur_49233\": \"OF: Pre blur\", \"preBlurAmp\": 14.500001, \"preBlurSigma\": 6.9, \"OF: Flow result displace_64231\": \"OF: Flow result displace\", \"resultFlowDecayLerp\": 0.13499989, \"resultFlowDisplaceAmp\": 0.412, \"resultFlowDisplaceIters\": 1.0, \"resultBlurAmp\": 47.800003, \"resultBlurSigma\": 49.9, \"Final comp: Use the flow_23615\": \"Final comp: Use the flow\", \"cameraLerp\": 1.0, \"cameraDisplaceAmp\": 0.01, \"cameraDisplaceIters\": 8.0, \"showDebug\": 0.0 }";
 	
 	protected void config() {
 		Config.setProperty( AppSettings.RESIZABLE, true );
@@ -60,9 +63,11 @@ extends PAppletHax {
 		UI.addSlider(cameraLerp, 0.1f, 0f, 1f, 0.01f, false);
 		UI.addSlider(cameraDisplaceAmp, 0.2f, 0f, 1f, 0.01f, false);
 		UI.addSlider(cameraDisplaceIters, 1, 0f, 10f, 1f, false);
+		UI.addToggle(showDebug, true, false);
 	}
 
 	protected void drawApp() {
+		if(p.frameCount % 200 == 0) P.out(JsonUtil.jsonToSingleLine(UI.valuesToJSON()));
 		p.background(0);
 		
 		// update camera
@@ -100,9 +105,11 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(camDisplaced, p.g, true);
 		
 		// draw debug lines
-		PG.setPImageAlpha(p.g, 0.9f);
-		ImageUtil.drawImageCropFill(opticalFlow.debugBuffer(), p.g, true);	
-		PG.resetPImageAlpha(p.g);
+		if(UI.valueToggle(showDebug)) {
+			PG.setPImageAlpha(p.g, 0.9f);
+			ImageUtil.drawImageCropFill(opticalFlow.debugBuffer(), p.g, true);	
+			PG.resetPImageAlpha(p.g);
+		}
 	}
 	
 }
