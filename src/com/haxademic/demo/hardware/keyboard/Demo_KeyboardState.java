@@ -23,6 +23,9 @@ extends PAppletHax {
 		if(KeyboardState.keyOn('b')) {
 			p.background(0, 0, 255);
 		}
+		if(KeyboardState.keyOn('B')) {
+			p.background(0, 255, 255);
+		}
 		if(KeyboardState.keyTriggered(' ')) {
 			P.out("SPACE");
 		}
