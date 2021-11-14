@@ -33,6 +33,7 @@ public class KinectV2SkeletonsAR {
 	protected KinectPV2 kinectV2;
 	protected ArrayList<KSkeleton> skeletons2d = new ArrayList<KSkeleton>();
 	protected ArrayList<KSkeleton> skeletons3d = new ArrayList<KSkeleton>();
+	protected boolean usersActive = false;
 	
 	// ar elements
 	protected HashMap<KSkeleton, IArElement> skellyToAr = new HashMap<KSkeleton, IArElement>();
@@ -95,13 +96,17 @@ public class KinectV2SkeletonsAR {
 	
 	// Kinect user tracking
 	
-	protected int numUsers() {
+	public int numUsers() {
 		return kinectV2.getNumOfUsers();
+	}
+	
+	public boolean usersActive() {
+		return usersActive;
 	}
 	
 	protected void detectUserActive() {
 		// update easing boolean switch
-//		boolean userActive = numUsers() > 0;
+		usersActive = numUsers() > 0;
 		DebugView.setValue("NUM KINECT USERS", numUsers());
 	}
 	
