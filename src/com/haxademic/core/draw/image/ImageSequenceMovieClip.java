@@ -102,6 +102,10 @@ public class ImageSequenceMovieClip {
 		return new ImageSequenceMovieClip(imageSequence, fps, totalImages);
 	}
 	
+	public void setFps(float fps) {
+		this.fps = fps;
+	}
+	
 	public void setTint(int tintColor) {
 		tint = tintColor;
 	}
