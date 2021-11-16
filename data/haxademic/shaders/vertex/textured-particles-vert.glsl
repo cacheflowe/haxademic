@@ -25,6 +25,8 @@ uniform float globalScale = 1.;
 uniform float individualMeshScale = 1.;
 uniform int time = 0;
 uniform float pointScale = 1.;
+uniform float scaleCenterShrinkAmp = 0.;
+uniform float scaleCenterShrinkRadius = 0.5;
 
 // Custom attributes
 attribute float x;
@@ -128,23 +130,38 @@ void main() {
   vSimulationUV = simulationUV;
 
   ////////////////////////////////////////////////////////
+  // SCALE (applied below)
+  float scaleAmp = pointScale * luma; // scale by luma map
+
+  // additional scaling - shrink towards center
+  // this is project-specific, but disabled via uniforms `scaleCenterShrinkAmp` & `scaleCenterShrinkRadius`
+  float distFromCenter = length(simulationPos);
+  float scaleDownRadius = width * scaleCenterShrinkRadius;
+  // if(scaleCenterShrinkAmp > 0. && distFromCenter < scaleDownRadius) {
+    float scaleCenterShrink = (1.-(distFromCenter/scaleDownRadius));
+    scaleCenterShrink = smoothstep(0.5, 0.9, scaleCenterShrink);
+    scaleCenterShrink *= scaleCenterShrinkAmp;
+    scaleAmp *= 1. - scaleCenterShrink;
+  // }
+
+  ////////////////////////////////////////////////////////
   // ROTATE individual shapes
   float rotationAmp = luma * rotateAmp;
   vec3 rotateAxis = vec3(0., 0., 1.);
   vec3 rotatedPos = rotate_vertex_position(meshLocalVert, rotateAxis, rotationAmp); 
-  vec3 vertPos = rotatedPos; // meshLocalVert
-  vertPos *= pointScale * luma;
-  vertPos += simulationPos.xyz; // shapeCenter;
+  vec3 vertPos = rotatedPos;    // set position to local/rotated position
+  vertPos *= scaleAmp;          // apply scale
+  vertPos += simulationPos.xyz; // move back to actual position by adding the original *mesh* position from the simulation buffer
 
   ////////////////////////////////////////////////////////
-  // SCALE individual meshes by checking center of shape vs. vertices
+  // MOVE individual meshes by checking center of shape vs. vertices
   // vec3 meshLocalVertex = vertPos.xyz - shapeCenter;                     // get vertex local to individual mesh center
   // float scaleAdjust = luma * individualMeshScale;
   // vertPos.xyz += meshLocalVertex.xyz; // * scaleAdjust; // * 0.01;
   ///////////////////////////
 
   ////////////////////////////////////////////////////////
-  // GLOBAL scale multiplier
+  // GLOBAL scale multiplier - scales the entire particle system
   vertPos *= globalScale;
   ///////////////////////////
 
