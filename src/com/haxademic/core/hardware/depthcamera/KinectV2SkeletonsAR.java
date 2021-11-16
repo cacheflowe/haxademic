@@ -41,8 +41,10 @@ public class KinectV2SkeletonsAR {
 	
 	// UI
 	public static final String DRAW_SKELETONS = "DRAW_SKELETONS";
+	public static final String DRAW_AR_ELEMENTS = "DRAW_AR_ELEMENTS";
 	public static final String SKELETONS_THRESH_NEAR = "SKELETONS_THRESH_NEAR";
 	public static final String SKELETONS_THRESH_FAR = "SKELETONS_THRESH_FAR";
+	public static final String SKELETONS_THRESH_X_PAD = "SKELETONS_THRESH_X_PAD";
 
 	// AppStore
 	public static float CAMERA_DISPLAY_SCALE = 1f;
@@ -82,8 +84,10 @@ public class KinectV2SkeletonsAR {
 		// kinect config
 		UI.addTitle("KinectSkeletonsAR");
 		UI.addToggle(DRAW_SKELETONS, true, false);
+		UI.addToggle(DRAW_AR_ELEMENTS, true, false);
 		UI.addSlider(SKELETONS_THRESH_NEAR, 0, 0, 15, 0.01f, true);
 		UI.addSlider(SKELETONS_THRESH_FAR, 25, 0, 20, 0.01f, true);
+		UI.addSlider(SKELETONS_THRESH_X_PAD, 100, 0, 1920/2, 1, true);
 	}
 	
 	public PGraphics bufferAR() {
@@ -114,7 +118,7 @@ public class KinectV2SkeletonsAR {
 		// get current skeletons and compare to persistent array
 		ArrayList<KSkeleton> skeletonsCur2d = kinectV2.getSkeletonColorMap();
 		ArrayList<KSkeleton> skeletonsCur3d = kinectV2.getSkeleton3d();
-		boolean usersChanged = numUsersChanged(skeletonsCur2d, skeletonsCur3d);
+		boolean usersChanged = skeletonsDidChange(skeletonsCur2d, skeletonsCur3d);
 		DebugView.setValue("usersChanged", usersChanged);
 		
 		// If users changed, store an ArElement along with the Skeleton, and remove olds
@@ -180,12 +184,25 @@ public class KinectV2SkeletonsAR {
 		setCameraRegistrationOffset();
 		pg.scale(MathUtil.scaleToTarget(1080, pg.height));
 		setCameraType(pg);
-		drawSkeletons();
+		drawXPad();
+		drawSkeletonsAndAElements();
 		pg.pop();
 		pg.endDraw();
 	}
 	
-	protected void drawSkeletons() {
+	protected void drawXPad() {
+		if(UI.valueToggle(DRAW_SKELETONS) == false) return;
+		int xPad = UI.valueInt(SKELETONS_THRESH_X_PAD);
+		if(xPad == 0) return;
+		pg.push();
+		pg.fill(255,0,0);
+		pg.noStroke();
+		pg.rect(xPad - 2, 0, 4, pg.height);
+		pg.rect(pg.width - xPad - 2, 0, 4, pg.height);
+		pg.pop();
+	}
+	
+	protected void drawSkeletonsAndAElements() {
 		// track skeletons between frames. protect against bad skeleton data 
 		DebugView.setValue("skeletons2d.size()", skeletons2d.size());
 		DebugView.setValue("skeletons3d.size()", skeletons3d.size());
@@ -204,7 +221,9 @@ public class KinectV2SkeletonsAR {
 				KJoint[] joints2d = skeleton2d.getJoints();
 				KJoint[] joints3d = skeleton3d.getJoints();
 				float skeletonZ = joints3d[KinectPV2.JointType_SpineShoulder].getZ();
+				float skeletonX = joints2d[KinectPV2.JointType_SpineShoulder].getX();
 				DebugView.setValue("skeleton_"+i+"_z", skeletonZ);
+				DebugView.setValue("skeleton_"+i+"_x", skeletonX);
 				
 				// get skeleton base scale based on 3d distance between neck and mid-spine
 				// this is the size of a person
@@ -221,10 +240,12 @@ public class KinectV2SkeletonsAR {
 				
 				// only draw skeletons if we're in the right depth range
 				boolean skeletonInRange = skeletonZ > UI.value(SKELETONS_THRESH_NEAR) && skeletonZ < UI.value(SKELETONS_THRESH_FAR);
+				int xPad = UI.valueInt(SKELETONS_THRESH_X_PAD);
+				if(skeletonX < xPad || skeletonX > 1920 - xPad) skeletonInRange = false;
 				if(skeletonInRange) {
 					
 					// get ar element for this skeleton and draw it
-					if(skellyToAr.containsKey(skeleton2d)) {
+					if(skellyToAr.containsKey(skeleton2d) && UI.valueToggle(DRAW_AR_ELEMENTS)) {
 						IArElement arEl = skellyToAr.get(skeleton2d);
 						arEl.setScale(skeletonBaseScale * skeletonUserScale);
 						arEl.setJoints(joints2d, joints3d);
@@ -274,7 +295,7 @@ public class KinectV2SkeletonsAR {
 		pg.perspective();
 	}
 	
-	protected boolean numUsersChanged(ArrayList<KSkeleton> skeletonsCur2d, ArrayList<KSkeleton> skeletonsCur3d) {
+	protected boolean skeletonsDidChange(ArrayList<KSkeleton> skeletonsCur2d, ArrayList<KSkeleton> skeletonsCur3d) {
 		if(skeletons2d.size() != skeletonsCur2d.size()) return true;
 		for (int i = 0; i < skeletons2d.size(); i++) {
 			if(skeletons2d.get(i) != skeletonsCur2d.get(i)) return true;
