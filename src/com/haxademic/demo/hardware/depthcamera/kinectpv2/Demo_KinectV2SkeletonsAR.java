@@ -7,17 +7,22 @@ import com.haxademic.core.draw.filters.pshader.compound.ColorAdjustmentFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
+import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR.IKinectV2SkeletonsARDelegate;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementCustom;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementImage;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementObj;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementPool;
+import com.haxademic.core.hardware.depthcamera.ar.IArElement;
 import com.haxademic.core.hardware.depthcamera.ar.IArElement.BodyTrackType;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
+import KinectPV2.KSkeleton;
 import processing.core.PShape;
 
 public class Demo_KinectV2SkeletonsAR 
-extends PAppletHax {
+extends PAppletHax
+implements IKinectV2SkeletonsARDelegate {
 
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -31,7 +36,8 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, buildArPool());
+		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, buildArPool(), true);
+		kinectSkeletonsAR.setDelegate(this);
 		ColorAdjustmentFilter.initUI();
 	}
 	
@@ -76,16 +82,30 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		p.background(0);
+		UI.setValueToggle(KinectV2SkeletonsAR.DRAW_AR_ELEMENTS, true);	// externally toggle whether AR elements are active
 		kinectSkeletonsAR.update();
 		ColorAdjustmentFilter.applyFromUI(kinectSkeletonsAR.bufferBG());
 		p.image(kinectSkeletonsAR.bufferBG(), 0, 0);
 		p.image(kinectSkeletonsAR.bufferAR(), 0, 0);
+		
 		
 		// adjust ar element on the fly
 //		arPool.elementAt(2).setPositionOffset(0.45f, 0f, 0f);
 //		arPool.elementAt(1).setBaseScale(0.375f);
 //		arPool.elementAt(1).setPivotOffset(0, 0.1f, 0);
 //		arPool.elementAt(2).setRotationOffset(0, 0, -P.HALF_PI);
+	}
+
+	//////////////////////////////////////////
+	// IKinectV2SkeletonsARDelegate methods
+	//////////////////////////////////////////
+
+	public void arElementShowing(IArElement arElement, KSkeleton skeleton2d, KSkeleton skeleton3d) {
+		P.out("arElement SHOW");
+	}
+
+	public void arElementHidden(IArElement arElement, KSkeleton skeleton2d, KSkeleton skeleton3d) {
+		P.out("arElement HIDE");
 	}
 
 }

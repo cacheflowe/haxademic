@@ -19,6 +19,11 @@ import processing.core.PImage;
 
 public class KinectV2SkeletonsAR {
 
+	public interface IKinectV2SkeletonsARDelegate {
+		public void arElementShowing(IArElement arElement, KSkeleton skeleton2d, KSkeleton skeleton3d);
+		public void arElementHidden(IArElement arElement, KSkeleton skeleton2d, KSkeleton skeleton3d);
+	}
+	
 	// TODO
 	// - Refactor positioning in ArObjectBase - this should happen more discretely
 
@@ -50,6 +55,9 @@ public class KinectV2SkeletonsAR {
 	public static float CAMERA_DISPLAY_SCALE = 1f;
 	public static final String KINECT_RGB_IMAGE = "KINECT_RGB_IMAGE";
 	public static final String KINECT_DEPTH_IMAGE = "KINECT_DEPTH_IMAGE";
+	
+	// Delegate
+	protected IKinectV2SkeletonsARDelegate delegate;
 	
 	public KinectV2SkeletonsAR(PGraphics pg, ArElementPool arPool) {
 		this(pg, arPool, false);
@@ -90,6 +98,17 @@ public class KinectV2SkeletonsAR {
 		UI.addSlider(SKELETONS_THRESH_X_PAD, 100, 0, 1920/2, 1, true);
 	}
 	
+	public KinectV2SkeletonsAR setDelegate(IKinectV2SkeletonsARDelegate delegate) {
+		this.delegate = delegate;
+		return this;
+	}
+	
+	public KinectPV2 kinectV2() { return kinectV2; }
+	public ArElementPool arPool() { return arPool; }
+	public ArrayList<KSkeleton> skeletons2d() { return skeletons2d; }
+	public ArrayList<KSkeleton> skeletons3d() { return skeletons3d; }
+	public HashMap<KSkeleton, IArElement> skellyToAr() { return skellyToAr; }
+
 	public PGraphics bufferAR() {
 		return pg;
 	}
@@ -114,6 +133,14 @@ public class KinectV2SkeletonsAR {
 		DebugView.setValue("NUM KINECT USERS", numUsers());
 	}
 	
+	protected boolean skeletonsDidChange(ArrayList<KSkeleton> skeletonsCur2d, ArrayList<KSkeleton> skeletonsCur3d) {
+		if(skeletons2d.size() != skeletonsCur2d.size()) return true;
+		for (int i = 0; i < skeletons2d.size(); i++) {
+			if(skeletons2d.get(i) != skeletonsCur2d.get(i)) return true;
+		}
+		return false;
+	}
+	
 	protected void checkUsersChanged() {
 		// get current skeletons and compare to persistent array
 		ArrayList<KSkeleton> skeletonsCur2d = kinectV2.getSkeletonColorMap();
@@ -127,11 +154,13 @@ public class KinectV2SkeletonsAR {
 			// check to see if new skeletons have shown up (not in old array) - assign them an ar element
 			for (int i = 0; i < skeletonsCur2d.size(); i++) {
 				KSkeleton skel = skeletonsCur2d.get(i);
+				KSkeleton skel3d = skeletonsCur3d.get(i);
 				if(skeletons2d.indexOf(skel) == -1) {
 					IArElement nextArElement = arPool.nextArElement();
 					if(nextArElement != null) {
 						skellyToAr.put(skel, nextArElement);
 						nextArElement.setActive(true);
+						if(delegate != null) delegate.arElementShowing(nextArElement, skel, skel3d);
 					}
 				}
 			}
@@ -140,8 +169,10 @@ public class KinectV2SkeletonsAR {
 				KSkeleton skel = skeletons2d.get(i);
 				if(skeletonsCur2d.indexOf(skel) == -1) {
 					if(skellyToAr.containsKey(skel)) {
-						skellyToAr.get(skel).setActive(false);		// was true and worked fine...
+						IArElement hidingArElement = skellyToAr.get(skel);
+						hidingArElement.setActive(false);		// was true and worked fine...
 						skellyToAr.remove(skel);
+						if(delegate != null) delegate.arElementHidden(hidingArElement, skel, null);
 					}
 				}
 			}
@@ -222,8 +253,8 @@ public class KinectV2SkeletonsAR {
 				KJoint[] joints3d = skeleton3d.getJoints();
 				float skeletonZ = joints3d[KinectPV2.JointType_SpineShoulder].getZ();
 				float skeletonX = joints2d[KinectPV2.JointType_SpineShoulder].getX();
-				DebugView.setValue("skeleton_"+i+"_z", skeletonZ);
-				DebugView.setValue("skeleton_"+i+"_x", skeletonX);
+//				DebugView.setValue("skeleton_"+i+"_z", skeletonZ);
+//				DebugView.setValue("skeleton_"+i+"_x", skeletonX);
 				
 				// get skeleton base scale based on 3d distance between neck and mid-spine
 				// this is the size of a person
@@ -293,14 +324,6 @@ public class KinectV2SkeletonsAR {
 	protected void setCameraType(PGraphics pg) {
 		// pg.ortho();
 		pg.perspective();
-	}
-	
-	protected boolean skeletonsDidChange(ArrayList<KSkeleton> skeletonsCur2d, ArrayList<KSkeleton> skeletonsCur3d) {
-		if(skeletons2d.size() != skeletonsCur2d.size()) return true;
-		for (int i = 0; i < skeletons2d.size(); i++) {
-			if(skeletons2d.get(i) != skeletonsCur2d.get(i)) return true;
-		}
-		return false;
 	}
 	
 	protected void arElementsUpdatePre() {
