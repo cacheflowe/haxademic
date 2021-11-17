@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.depthcamera.ar;
 
 import KinectPV2.KJoint;
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 public interface IArElement {
 	public enum BodyTrackType {
@@ -15,6 +16,7 @@ public interface IArElement {
 	
 	public void setActive(boolean isActive);
 	public boolean isActive();
+	public PVector position();
 	public IArElement setPosition(float x, float y, float z);
 	public IArElement setPositionOffset(float x, float y, float z);
 	public IArElement setPivotOffset(float x, float y, float z);

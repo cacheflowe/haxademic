@@ -57,6 +57,10 @@ public class ArObjectBase
 		return isActive;
 	}
 	
+	public PVector position() {
+		return position;
+	}
+	
 	public IArElement setPosition(float x, float y, float z) {
 		if(isReset) {
 			position.set(x, y, z);
