@@ -8,6 +8,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR.IKinectV2SkeletonsARDelegate;
+import com.haxademic.core.hardware.depthcamera.ar.ArElementCompound;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementCustom;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementImage;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementObj;
@@ -48,12 +49,16 @@ implements IKinectV2SkeletonsARDelegate {
 				arPool.addElement(arAsset);
 			}
 			{
+				ArElementCompound arAsset = new ArElementCompound();
+				arPool.addElement(arAsset);
+			}
+			{
 				ArElementCustom arAsset = new ArElementCustom(0.1f);
 				arAsset.setPositionOffset(0, -1, 0);
 				arPool.addElement(arAsset);
 			}
 			{
-				ArElementImage arAsset = new ArElementImage(DemoAssets.arrow(), 0.1f, BodyTrackType.HAND_POINT);
+				ArElementImage arAsset = new ArElementImage(DemoAssets.arrow(), 0.1f, BodyTrackType.HAND_POINT_RIGHT);
 				arAsset.setRotationOffset(0, 0, -P.HALF_PI);
 				arAsset.setPositionOffset(0.5f, 0, 0);
 				arPool.addElement(arAsset);
@@ -90,8 +95,9 @@ implements IKinectV2SkeletonsARDelegate {
 		
 		
 		// adjust ar element on the fly
-//		arPool.elementAt(2).setPositionOffset(0.45f, 0f, 0f);
-//		arPool.elementAt(1).setBaseScale(0.375f);
+//		arPool.elementAt(2).setPositionOffset(0, 0.075f, 0f);
+//		arPool.elementAt(3).setPositionOffset(0, 0f, 0f);
+//		arPool.elementAt(3).setBaseScale(0.65f);
 //		arPool.elementAt(1).setPivotOffset(0, 0.1f, 0);
 //		arPool.elementAt(2).setRotationOffset(0, 0, -P.HALF_PI);
 	}

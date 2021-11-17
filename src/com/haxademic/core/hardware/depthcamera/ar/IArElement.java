@@ -8,8 +8,11 @@ public interface IArElement {
 	public enum BodyTrackType {
 		CUSTOM,
 		HEAD,
-		HAND,
-		HAND_POINT,
+		WAIST,
+		HAND_LEFT,
+		HAND_RIGHT,
+		HAND_POINT_LEFT,
+		HAND_POINT_RIGHT,
 		HAND_FLAG,
 		HANG_ON_SHOULDERS,
 	}

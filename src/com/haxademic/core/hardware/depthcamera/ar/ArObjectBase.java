@@ -118,10 +118,13 @@ public class ArObjectBase
 		// you can override this and do something totally custom 
 		switch (bodyTrackType) {
 			case HEAD: 						setPositionForHead(joints2d, joints3d); break;
-			case HAND: 						setPositionHand(joints2d, joints3d, false); break;
-			case HAND_POINT: 				setPositionHand(joints2d, joints3d, true); break;
+			case HAND_LEFT: 				setPositionHand(joints2d, joints3d, false, false); break;
+			case HAND_POINT_LEFT: 			setPositionHand(joints2d, joints3d, true, false); break;
+			case HAND_RIGHT: 				setPositionHand(joints2d, joints3d, false, true); break;
+			case HAND_POINT_RIGHT: 			setPositionHand(joints2d, joints3d, true, true); break;
 			case HANG_ON_SHOULDERS: 		setPositionHangFromShoulders(joints2d, joints3d); break;
 			case HAND_FLAG: 				setPositionForHandFlag(joints2d, joints3d); break;
+			case WAIST: 					setPositionWaist(joints2d, joints3d); break;
 			default: break;
 		}
 		return this;
@@ -181,6 +184,35 @@ public class ArObjectBase
 		setRotation(0, rotY, imgRot * rotZAmp);
 	}
 
+	protected void setPositionWaist(KJoint[] joints2d, KJoint[] joints3d) {
+		// get joint positions
+		KJoint spineMidJoint = joints2d[KinectPV2.JointType_SpineMid];
+		KJoint spineShoulderJoint = joints2d[KinectPV2.JointType_SpineShoulder];
+		KJoint spineBaseJoint = joints2d[KinectPV2.JointType_SpineBase];
+		
+		// get position & rotation of waist
+		KQuaternion q1 = spineMidJoint.getOrientation();
+		double q1x = q1.getX();
+		double q1y = q1.getY();
+		double q1z = q1.getZ();
+		double q1w = q1.getW();
+		double sqw = q1w*q1w;
+		double sqx = q1x*q1x;
+		double sqy = q1y*q1y;
+		double sqz = q1z*q1z;
+		float attitudeX = (float) Math.asin(-2.0 * (q1x*q1z - q1y*q1w)/(sqx + sqy + sqz + sqw));
+		
+		// scale based on spine-should to spine-mid
+//		KJoint headJoint = joints2d[KinectPV2.JointType_Head];
+		float imgRot =  -P.HALF_PI + MathUtil.getRadiansToTarget(spineShoulderJoint.getX(), spineShoulderJoint.getY(), spineBaseJoint.getX(), spineBaseJoint.getY());
+		float rotY = (this instanceof ArElementObj) ? attitudeX * 0.5f : 0;
+		float rotZAmp = 1.f;
+		
+		// set position
+		setPosition(spineMidJoint.getX(), spineMidJoint.getY(), spineMidJoint.getZ());
+		setRotation(0, rotY, imgRot * rotZAmp);
+	}
+	
 	protected void setPositionHangFromShoulders(KJoint[] joints2d, KJoint[] joints3d) {
 		// get position & rotation of head
 		KJoint headJoint3 = joints3d[KinectPV2.JointType_SpineShoulder];
@@ -253,16 +285,17 @@ public class ArObjectBase
 		setRotation(0, 0, P.constrain(imgRot - P.HALF_PI, -0.4f, 0.4f));
 	}
 	
-	protected void setPositionHand(KJoint[] joints2d, KJoint[] joints3d, boolean rotates) {
-		KJoint leftElbowJoint = joints2d[KinectPV2.JointType_ElbowLeft];
-		KJoint leftHandJoint = joints2d[KinectPV2.JointType_WristLeft];
-		KJoint leftElbowJoint3 = joints3d[KinectPV2.JointType_ElbowLeft];
-		KJoint leftHandJoint3 = joints3d[KinectPV2.JointType_WristLeft];
-		PVector elbowV = new PVector(leftElbowJoint.getX(), leftElbowJoint.getY(), leftElbowJoint3.getZ() * 100f);
-		PVector handV = new PVector(leftHandJoint.getX(), leftHandJoint.getY(), leftHandJoint3.getZ() * 100f);
+	protected void setPositionHand(KJoint[] joints2d, KJoint[] joints3d, boolean rotates, boolean isRightHand) {
+		KJoint elbowJoint = 		joints2d[(isRightHand) ? KinectPV2.JointType_ElbowRight : KinectPV2.JointType_ElbowLeft];
+		KJoint elbowJoint3 = 		joints3d[(isRightHand) ? KinectPV2.JointType_ElbowRight : KinectPV2.JointType_ElbowLeft];
+		KJoint handJoint3 = 		joints3d[(isRightHand) ? KinectPV2.JointType_HandRight : KinectPV2.JointType_HandLeft];
+		KJoint handJoint = 			joints2d[(isRightHand) ? KinectPV2.JointType_WristRight : KinectPV2.JointType_WristLeft];
+		KJoint leftHandJoint3 = 	joints3d[(isRightHand) ? KinectPV2.JointType_WristRight : KinectPV2.JointType_WristLeft];
+		KJoint handTipJoint = 		joints2d[(isRightHand) ? KinectPV2.JointType_HandTipRight : KinectPV2.JointType_HandTipLeft];
+//		PVector elbowV = new PVector(elbowJoint.getX(), elbowJoint.getY(), elbowJoint3.getZ() * 100f);
+//		PVector handV = new PVector(handJoint.getX(), handJoint.getY(), leftHandJoint3.getZ() * 100f);
 		
 		// get 3d hand rotation???
-		KJoint handJoint3 = joints3d[KinectPV2.JointType_HandLeft];
 		KQuaternion q1 = handJoint3.getOrientation();
 		double q1x = q1.getX();
 		double q1y = q1.getY();
@@ -277,15 +310,13 @@ public class ArObjectBase
 		float attitudeX = (float) Math.asin(-2.0 * (q1x*q1z - q1y*q1w)/(sqx + sqy + sqz + sqw));
 		
 		//				drawHandState(joints[KinectPV2.JointType_HandTipRight]);
-		KJoint handJoint = joints2d[KinectPV2.JointType_HandTipLeft];
-		KJoint elbowJoint = joints2d[KinectPV2.JointType_ElbowLeft];
 		float elbowHandDist = P.dist(handJoint.getX(), handJoint.getY(), elbowJoint.getX(), elbowJoint.getY());
 		float rotY = (this instanceof ArElementObj) ? attitudeX * 0.5f : 0;
 
 
 		float imgRot = MathUtil.getRadiansToTarget(elbowJoint.getX(), elbowJoint.getY(), handJoint.getX(), handJoint.getY());
 		if(rotates == false) imgRot *= 0.1; // slight rotation 
-		setPosition(handJoint.getX(), handJoint.getY(), handJoint.getZ());
+		setPosition(handTipJoint.getX(), handTipJoint.getY(), handTipJoint.getZ());
 		setRotation(0, rotY, imgRot - P.HALF_PI * 3f);
 	}
 	

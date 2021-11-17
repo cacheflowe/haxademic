@@ -4,6 +4,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.LinearFloat;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -14,6 +15,7 @@ implements IArElement {
 
 	protected ImageSequenceMovieClip imageSequence;
 	protected PImage image;
+	protected LinearFloat fadeIn;
 
 	public ArElementImage(String filePath, float baseScale, BodyTrackType bodyTrackType) {
 		this(filePath, baseScale, bodyTrackType, 30);
@@ -31,6 +33,10 @@ implements IArElement {
 		this.image = image;
 	}
 	
+	public void addFadeIn() {
+		fadeIn = new LinearFloat(0, 0.05f);
+	}
+	
 	public void updatePre(PGraphics pg) {
 		if(imageSequence != null) {
 			imageSequence.preCacheImages(pg);
@@ -38,6 +44,19 @@ implements IArElement {
 		}
 	}
 
+	public void play() {
+		imageSequence.stopLooping();
+		imageSequence.playFromStart();
+	}
+	
+	public boolean isPlaying() {
+		return imageSequence.isPlaying();
+	}
+	
+	public float progress() {
+		return imageSequence.progress();
+	}
+	
 	public PImage image() {
 		return (imageSequence != null) ? imageSequence.image() : image;
 	}
@@ -54,6 +73,13 @@ implements IArElement {
 	}
 	
 	public void draw(PGraphics pg) {
+		if(fadeIn != null) {
+			if(this.isReset == true) {
+				fadeIn.setCurrent(0).setTarget(1);
+			}
+			fadeIn.update();
+		}
+		
 		float curScale = MathUtil.scaleToTarget(image().height, pg.height * baseScale);
 		float imgW = image().width * curScale * userScale; 
 		float imgH = image().height * curScale * userScale; 
@@ -67,7 +93,9 @@ implements IArElement {
 				positionOffset.y * userScale * responsiveHeight, 
 				positionOffset.z * userScale * responsiveHeight
 		);
+		if(fadeIn != null) PG.setPImageAlpha(pg, fadeIn.value());
 		pg.image(image(), pivotOffset.x * imgW, pivotOffset.y * imgH, imgW, imgH);
+		PG.resetPImageAlpha(pg);
 		
 		drawLoadingBar(pg);
 		pg.pop();
