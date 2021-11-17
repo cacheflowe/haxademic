@@ -160,6 +160,10 @@ public class ImageSequenceMovieClip {
 		return (pauseTime != -1);
 	}
 	
+	public float progress() {
+		return playbackProgress / duration();
+	}
+	
 	public int loadedTime() {
 		return loadFinishTime;
 	}
