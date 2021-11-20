@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import VLCJVideo.VLCJVideo;
 import uk.co.caprica.vlcj.player.base.State;
