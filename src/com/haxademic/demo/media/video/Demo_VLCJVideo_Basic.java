@@ -22,7 +22,7 @@ extends PAppletHax {
 		// https://hap.video/using-hap.html
 		// https://gist.github.com/dlublin/e4585b872dd136ae88b2aa51a6a89aac
 		video = new VLCJVideo(p);
-//		video.open(FileUtil.getPath(DemoAssets.movieFractalCubePath));
+		video.open(FileUtil.getPath(DemoAssets.movieFractalCubePath));
 	}
 	
 	public void keyPressed() {

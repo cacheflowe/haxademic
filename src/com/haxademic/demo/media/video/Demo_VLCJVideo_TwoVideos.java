@@ -2,12 +2,9 @@ package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import VLCJVideo.VLCJVideo;
-import uk.co.caprica.vlcj.player.base.State;
 
 public class Demo_VLCJVideo_TwoVideos 
 extends PAppletHax {
