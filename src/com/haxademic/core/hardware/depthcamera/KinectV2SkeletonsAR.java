@@ -53,6 +53,7 @@ public class KinectV2SkeletonsAR {
 
 	// AppStore
 	public static float CAMERA_DISPLAY_SCALE = 1f;
+	public static float CAMERA_HEIGHT = 1080;
 	public static final String KINECT_RGB_IMAGE = "KINECT_RGB_IMAGE";
 	public static final String KINECT_DEPTH_IMAGE = "KINECT_DEPTH_IMAGE";
 	
@@ -71,7 +72,7 @@ public class KinectV2SkeletonsAR {
 		pgBG = PG.newPG(pg.width, pg.height, true, false);
 		DebugView.setTexture("pgBG", pgBG);
 		
-		CAMERA_DISPLAY_SCALE = pg.height / 1080f;
+		CAMERA_DISPLAY_SCALE = pg.height / CAMERA_HEIGHT;
 		
 		initCamera();
 		buildUI();
@@ -91,7 +92,7 @@ public class KinectV2SkeletonsAR {
 	protected void buildUI() {
 		// kinect config
 		UI.addTitle("KinectSkeletonsAR");
-		UI.addToggle(DRAW_SKELETONS, true, false);
+		UI.addToggle(DRAW_SKELETONS, false, false);
 		UI.addToggle(DRAW_AR_ELEMENTS, true, false);
 		UI.addSlider(SKELETONS_THRESH_NEAR, 0, 0, 15, 0.01f, true);
 		UI.addSlider(SKELETONS_THRESH_FAR, 25, 0, 20, 0.01f, true);
@@ -213,7 +214,7 @@ public class KinectV2SkeletonsAR {
 		pg.clear();
 		pg.push();
 		setCameraRegistrationOffset();
-		pg.scale(MathUtil.scaleToTarget(1080, pg.height));
+		pg.scale(MathUtil.scaleToTarget(CAMERA_HEIGHT, pg.height));
 		setCameraType(pg);
 		drawXPad();
 		drawSkeletonsAndAElements();
