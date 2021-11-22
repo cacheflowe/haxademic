@@ -38,6 +38,7 @@ public class DMXFixture {
 	public int colorA() { return P.round(color.a()); }
 	public int colorLuma() { return (int) P.p.brightness(color.colorInt()); }
 	
+	// called automatically by the DMXUniverse
 	public void update() {
 		color.update();
 		
