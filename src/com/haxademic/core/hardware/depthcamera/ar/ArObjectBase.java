@@ -287,11 +287,11 @@ public class ArObjectBase
 	
 	protected void setPositionHand(KJoint[] joints2d, KJoint[] joints3d, boolean rotates, boolean isRightHand) {
 		KJoint elbowJoint = 		joints2d[(isRightHand) ? KinectPV2.JointType_ElbowRight : KinectPV2.JointType_ElbowLeft];
-		KJoint elbowJoint3 = 		joints3d[(isRightHand) ? KinectPV2.JointType_ElbowRight : KinectPV2.JointType_ElbowLeft];
+//		KJoint elbowJoint3 = 		joints3d[(isRightHand) ? KinectPV2.JointType_ElbowRight : KinectPV2.JointType_ElbowLeft];
 		KJoint handJoint3 = 		joints3d[(isRightHand) ? KinectPV2.JointType_HandRight : KinectPV2.JointType_HandLeft];
-		KJoint handJoint = 			joints2d[(isRightHand) ? KinectPV2.JointType_WristRight : KinectPV2.JointType_WristLeft];
-		KJoint leftHandJoint3 = 	joints3d[(isRightHand) ? KinectPV2.JointType_WristRight : KinectPV2.JointType_WristLeft];
-		KJoint handTipJoint = 		joints2d[(isRightHand) ? KinectPV2.JointType_HandTipRight : KinectPV2.JointType_HandTipLeft];
+		KJoint handJoint = 			joints2d[(isRightHand) ? KinectPV2.JointType_HandRight : KinectPV2.JointType_HandLeft];
+//		KJoint leftHandJoint3 = 	joints3d[(isRightHand) ? KinectPV2.JointType_WristRight : KinectPV2.JointType_WristLeft];
+//		KJoint handTipJoint = 		joints2d[(isRightHand) ? KinectPV2.JointType_HandTipRight : KinectPV2.JointType_HandTipLeft];
 //		PVector elbowV = new PVector(elbowJoint.getX(), elbowJoint.getY(), elbowJoint3.getZ() * 100f);
 //		PVector handV = new PVector(handJoint.getX(), handJoint.getY(), leftHandJoint3.getZ() * 100f);
 		
@@ -315,9 +315,15 @@ public class ArObjectBase
 
 
 		float imgRot = MathUtil.getRadiansToTarget(elbowJoint.getX(), elbowJoint.getY(), handJoint.getX(), handJoint.getY());
-		if(rotates == false) imgRot *= 0.1; // slight rotation 
-		setPosition(handTipJoint.getX(), handTipJoint.getY(), handTipJoint.getZ());
-		setRotation(0, rotY, imgRot - P.HALF_PI * 3f);
+		if(rotates == false) imgRot *= 0.1f;
+		
+		float x = handJoint.getX();
+		float y = handJoint.getY();
+		float z = handJoint.getZ();
+		if(P.abs(x) < 9999 && P.abs(y) < 9999 && P.abs(z) < 9999 && P.abs(imgRot) < 9999 && P.abs(rotY) < 9999) { // make sure we're not getting NaN numbers...
+			setPosition(x, y, z);
+			setRotation(0, rotY, imgRot);
+		}
 	}
 	
 }
