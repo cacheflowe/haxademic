@@ -26,6 +26,12 @@ public class KinectV2SkeletonsAR {
 	
 	// TODO
 	// - Refactor positioning in ArObjectBase - this should happen more discretely
+	// - AR elements scale: Figure out app scaledown for future use
+	//   - Handle scaling depending on app resolution - it changes if the app size changes...
+	//   - Why the scale difference between AFI app and Haxademic demo?
+	//   - POSSIBLE FIX: in the `depthcamera.ar` package, replace `pg.height` with `KinectV2SkeletonsAR.CAMERA_HEIGHT` - AFTER we launch. this would mess up our scales in AFI app
+	// - Kinect user detection
+	//   - Sort drawing by `z` using `skeletonZ` - or change z-position and switch to ortho() camera?
 
 	// buffers
 	protected PGraphics pg;

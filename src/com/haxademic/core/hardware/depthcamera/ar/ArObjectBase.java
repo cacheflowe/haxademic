@@ -44,7 +44,8 @@ public class ArObjectBase
 	}
 	
 	public IArElement setBaseScale(float baseScale) {
-		this.baseScale = baseScale;
+		if(!floatIsSafe(baseScale)) return this;
+		this.baseScale = safeFloat(baseScale, 1);
 		return this;
 	}
 	
@@ -62,6 +63,10 @@ public class ArObjectBase
 	}
 	
 	public IArElement setPosition(float x, float y, float z) {
+		if(!floatIsSafe(x) || !floatIsSafe(y) || !floatIsSafe(z)) return this;
+		x = safeFloat(x, 0);
+		y = safeFloat(y, 0);
+		z = safeFloat(z, 0);
 		if(isReset) {
 			position.set(x, y, z);
 		} else {
@@ -71,16 +76,28 @@ public class ArObjectBase
 	}
 	
 	public IArElement setPositionOffset(float x, float y, float z) {
+		if(!floatIsSafe(x) || !floatIsSafe(y) || !floatIsSafe(z)) return this;
+		x = safeFloat(x, 0);
+		y = safeFloat(y, 0);
+		z = safeFloat(z, 0);
 		positionOffset.set(x, y, z);
 		return this;
 	}
 	
 	public IArElement setPivotOffset(float x, float y, float z) {
+		if(!floatIsSafe(x) || !floatIsSafe(y) || !floatIsSafe(z)) return this;
+		x = safeFloat(x, 0);
+		y = safeFloat(y, 0);
+		z = safeFloat(z, 0);
 		pivotOffset.set(x, y, z);
 		return this;
 	}
 	
 	public IArElement setRotation(float x, float y, float z) {
+		if(!floatIsSafe(x) || !floatIsSafe(y) || !floatIsSafe(z)) return this;
+		x = safeFloat(x, 0);
+		y = safeFloat(y, 0);
+		z = safeFloat(z, 0);
 		x += rotationOffset.x;
 		y += rotationOffset.y;
 		z += rotationOffset.z;
@@ -99,11 +116,17 @@ public class ArObjectBase
 	}
 	
 	public IArElement setRotationOffset(float x, float y, float z) {
+		if(!floatIsSafe(x) || !floatIsSafe(y) || !floatIsSafe(z)) return this;
+		x = safeFloat(x, 0);
+		y = safeFloat(y, 0);
+		z = safeFloat(z, 0);
 		rotationOffset.set(x, y, z);
 		return this;
 	}
 	
 	public IArElement setScale(float scale) {
+		if(!floatIsSafe(scale)) return this;
+		scale = safeFloat(scale, 1);
 		// this is set from KinectSkeletons as skeleton data is processed
 		if(isReset) {
 			this.userScale = scale;
@@ -128,6 +151,15 @@ public class ArObjectBase
 			default: break;
 		}
 		return this;
+	}
+	
+	protected float safeFloat(float num, float defaultNum) {
+		if(floatIsSafe(num)) return num;
+		else return defaultNum;
+	}
+	
+	protected boolean floatIsSafe(float num) {
+		return num > Float.NEGATIVE_INFINITY && num < Float.POSITIVE_INFINITY && Float.isNaN(num) == false;
 	}
 	
 	public void updatePre(PGraphics pg) {
@@ -320,10 +352,9 @@ public class ArObjectBase
 		float x = handJoint.getX();
 		float y = handJoint.getY();
 		float z = handJoint.getZ();
-		if(P.abs(x) < 9999 && P.abs(y) < 9999 && P.abs(z) < 9999 && P.abs(imgRot) < 9999 && P.abs(rotY) < 9999) { // make sure we're not getting NaN numbers...
-			setPosition(x, y, z);
-			setRotation(0, rotY, imgRot);
-		}
+
+		setPosition(x, y, z);
+		setRotation(0, rotY, imgRot);
 	}
 	
 }
