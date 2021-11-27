@@ -364,9 +364,15 @@ public class PG {
 	}
 
 	public static void drawGrid(PGraphics pg, int bgColor, int strokeColor, float cols, float rows, float strokeSize) {
+		drawGrid(pg, bgColor, strokeColor, cols, rows, strokeSize, true);
+	}
+	public static void drawGrid(PGraphics pg, int bgColor, int strokeColor, float cols, float rows, float strokeSize, boolean openContext) {
 		// update texture
-		pg.beginDraw();
-		pg.background(bgColor);
+		if(openContext) {
+			pg.beginDraw();
+			pg.background(bgColor);
+		}
+		pg.push();
 		pg.fill(strokeColor);
 		pg.noStroke();
 		float cellW = (float) pg.width / (float) cols;
@@ -379,7 +385,8 @@ public class PG {
 		for (float y = 0; y <= pg.height; y += cellH) {
 			pg.rect(0, y, pg.width, strokeSize);
 		}
-		pg.endDraw();
+		pg.pop();
+		if(openContext) pg.endDraw();
 	}
 	
 	public static void drawRainbow(PGraphics pg) {
