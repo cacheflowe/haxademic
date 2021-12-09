@@ -958,7 +958,7 @@ public class PShapeUtil {
 	///////////////////////////
 
 	public static void verticalTwistShape(PShape shape, float amp, float freq) {
-		float height = PShapeUtil.getMaxAbsY(shape);
+		// float height = PShapeUtil.getMaxAbsY(shape);
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			PVector v = shape.getVertex(i);
 			float radius = MathUtil.getDistance(v.x, v.z, 0, 0);
@@ -1267,10 +1267,8 @@ public class PShapeUtil {
 			P.p.textureMode(P.NORMAL);
 			PShape shape = P.p.createShape(P.RECT, -width/2f, -height/2f, width, height);
 			shape.setStroke(false);
-//			shape.textureMode(P.NORMAL);
+			shape.textureMode(P.NORMAL);
 			translateShape(shape, x, y, z);
-//			shape.texture(texture);
-//			shape = shape.getTessellation();
 			shape.setTexture(texture);
 			P.p.pop();
 			return shape;
