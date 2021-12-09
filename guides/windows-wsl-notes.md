@@ -131,6 +131,10 @@ reload
 workspace
 ```
 
+## Install Node.js on WSL / Ubuntu
+
+* https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl
+
 ## Install Apache on WSL / Ubuntu
 
 I use Apache as a basic web server, and also use php as a quick & easy web server scripting language. Below you'll find some helpful info to get these set up quickly.
