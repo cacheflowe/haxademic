@@ -23,45 +23,59 @@ extends PAppletHax {
 	// base components
 	protected DepthCameraRegion region;
 	protected PGraphics regionDebug;
+	protected PGraphics joystickDebug;
 	
 	// ui
-	protected String KINECT_left = "KINECT_left";
-	protected String KINECT_right = "KINECT_right";
-	protected String KINECT_near = "KINECT_near";
-	protected String KINECT_far = "KINECT_far";
-	protected String KINECT_top = "KINECT_top";
-	protected String KINECT_bottom = "KINECT_bottom";
-	protected String KINECT_pixelSkip = "KINECT_pixelSkip";
-	protected String KINECT_minPixels = "KINECT_minPixels";
+	protected String CAMERA_LEFT = "CAMERA_LEFT";
+	protected String CAMERA_RIGHT = "CAMERA_RIGHT";
+	protected String CAMERA_near = "CAMERA_near";
+	protected String CAMERA_far = "CAMERA_far";
+	protected String CAMERA_top = "CAMERA_top";
+	protected String CAMERA_bottom = "CAMERA_bottom";
+	protected String CAMERA_pixelSkip = "CAMERA_pixelSkip";
+	protected String CAMERA_minPixels = "CAMERA_minPixels";
+	protected String CAMERA_debug = "CAMERA_debug";
 	
 	// smoothed output
-	protected EasingBoolean userActive = new EasingBoolean(false, 180);
+	protected EasingBoolean userActive = new EasingBoolean(false, 60);
 	protected EasingFloat userX = new EasingFloat(0, 0.1f);
 	protected EasingFloat userZ = new EasingFloat(0, 0.1f);
 
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1024 );
-		Config.setProperty( AppSettings.HEIGHT, 512 );
+		Config.setAppSize(1024, 1024);
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
 	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.Realsense);
-
-		// build kinect region and debug buffer
-		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
-		region = new DepthCameraRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);
 		
 		// add ui sliders to tweak at runtime
-		UI.addSlider(KINECT_left, 0, 0, DepthCameraSize.WIDTH, 1, false);
-		UI.addSlider(KINECT_right, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
-		UI.addSlider(KINECT_near, 500, 0, 1, 1, false);
-		UI.addSlider(KINECT_far, 1200, 0, 20000, 1, false);
-		UI.addSlider(KINECT_top, 0, 0, DepthCameraSize.HEIGHT, 1, false);
-		UI.addSlider(KINECT_bottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
-		UI.addSlider(KINECT_pixelSkip, 10, 1, 30, 1, false);
-		UI.addSlider(KINECT_minPixels, 20, 1, 200, 1, false);
+		UI.addTitle("DepthCamera Config");
+		UI.addSlider(CAMERA_LEFT, 0, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(CAMERA_near, 500, 0, 20000, 1, false);
+		UI.addSlider(CAMERA_far, 1200, 0, 20000, 1, false);
+		UI.addSlider(CAMERA_top, 0, 0, DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(CAMERA_bottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(CAMERA_pixelSkip, 20, 1, 30, 1, false);
+		UI.addSlider(CAMERA_minPixels, 20, 1, 200, 1, false);
+		UI.addToggle(CAMERA_debug, true, false);
+		
+		// build CAMERA region and debug buffer
+		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
+		joystickDebug = PG.newPG(200, 200);
+		region = new DepthCameraRegion(
+				UI.valueInt(CAMERA_LEFT), 
+				UI.valueInt(CAMERA_RIGHT), 
+				UI.valueInt(CAMERA_near), 
+				UI.valueInt(CAMERA_far), 
+				UI.valueInt(CAMERA_top),
+				UI.valueInt(CAMERA_bottom), 
+				UI.valueInt(CAMERA_pixelSkip), 
+				UI.valueInt(CAMERA_minPixels), 
+				0xff00ff00);
+//		region = new DepthCameraRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);
 	}
 	
 	public void keyPressed() {
@@ -73,61 +87,83 @@ extends PAppletHax {
 		p.background(127);
 		
 		// set ui params
-		region.left(UI.valueInt(KINECT_left));
-		region.right(UI.valueInt(KINECT_right));
-		region.near(UI.valueInt(KINECT_near));
-		region.far(UI.valueInt(KINECT_far));
-		region.top(UI.valueInt(KINECT_top));
-		region.bottom(UI.valueInt(KINECT_bottom));
-		region.pixelSkip(UI.valueInt(KINECT_pixelSkip));
-		region.minPixels(UI.valueInt(KINECT_minPixels));
+		region.left(UI.valueInt(CAMERA_LEFT));
+		region.right(UI.valueInt(CAMERA_RIGHT));
+		region.near(UI.valueInt(CAMERA_near));
+		region.far(UI.valueInt(CAMERA_far));
+		region.top(UI.valueInt(CAMERA_top));
+		region.bottom(UI.valueInt(CAMERA_bottom));
+		region.pixelSkip(UI.valueInt(CAMERA_pixelSkip));
+		region.minPixels(UI.valueInt(CAMERA_minPixels));
+
+		// debug info
+//		DebugView.setValue("region.left", region.left());
+//		DebugView.setValue("region.right", region.right());
+//		DebugView.setValue("region.near", region.near());
+//		DebugView.setValue("region.far", region.far());
+//		DebugView.setValue("region.top", region.top());
+//		DebugView.setValue("region.bottom", region.bottom());
+//		DebugView.setValue("region.pixelSkip", region.pixelSkip());
+		DebugView.setValue("region.isActive", region.isActive());
+		DebugView.setValue("region.pixelCount", region.pixelCount());
+		DebugView.setValue("region.minPixels", region.minPixels());
+		DebugView.setValue("region.controlX", region.controlX());
+		DebugView.setValue("region.controlY", region.controlY());
+		DebugView.setValue("region.controlZ", region.controlZ());
 		
 		// update region and draw into debug buffer
-		regionDebug.beginDraw();
-		regionDebug.background(0);
-		region.update(regionDebug);
-		regionDebug.endDraw();
+		PGraphics debugPG = UI.valueToggle(CAMERA_debug) ? regionDebug : null;
+		if(debugPG != null) {
+			regionDebug.beginDraw();
+			regionDebug.background(0);
+			region.update(regionDebug);
+			regionDebug.endDraw();
+		} else {
+			region.update();			
+		}
 		
-		// show debug buffer
-		p.image(regionDebug, p.width - regionDebug.width, 0);
-		ImageUtil.cropFillCopyImage(regionDebug, p.g, false);
-
 		// update smoothed results
 		userActive.target(region.isActive()).update();
 		userX.setTarget(region.controlX()).update();
 		userZ.setTarget(region.controlZ()).update();
-		
 		DebugView.setValue("userActive", userActive.value());
 		DebugView.setValue("userX", userX.value());
 		DebugView.setValue("userZ", userZ.value());
 		
-		p.pushMatrix();
-		PG.setDrawCenter(p);
-		p.translate(p.width - regionDebug.width/2, regionDebug.height/2); // move to center of debug image
-		p.fill((userActive.value()) ? p.color(0,255,0) : p.color(255,0,0));
-		p.ellipse(userX.value() * regionDebug.width/2, userZ.value() * regionDebug.height/2, 20, 20);
-		PG.setDrawCorner(p);
-		p.popMatrix();
-		
-		// debug info
-		DebugView.setValue("region.controlX", region.controlX());
-		DebugView.setValue("region.controlY", region.controlY());
-		DebugView.setValue("region.controlZ", region.controlZ());
-		DebugView.setValue("region.isActive", region.isActive());
-		DebugView.setValue("region.left", region.left());
-		DebugView.setValue("region.right", region.right());
-		DebugView.setValue("region.near", region.near());
-		DebugView.setValue("region.far", region.far());
-		DebugView.setValue("region.top", region.top());
-		DebugView.setValue("region.bottom", region.bottom());
-		DebugView.setValue("region.pixelSkip", region.pixelSkip());
-		DebugView.setValue("region.pixelCount", region.pixelCount());
-		DebugView.setValue("region.minPixels", region.minPixels());
+		// show debug buffer
+		if(UI.valueToggle(CAMERA_debug)) {
+			ImageUtil.cropFillCopyImage(regionDebug, p.g, false);
+		}
+
+		// draw debug to screen
+		drawJoystickDebug();
+		p.g.image(joystickDebug, p.width - joystickDebug.width, 0);
 		
 		// debug textures
-//		if(p.depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
-//		if(p.depthCamera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
-		if(regionDebug != null) DebugView.setTexture("kinectRegionGrid.debugImage", regionDebug);
+		if(DepthCamera.instance().camera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", DepthCamera.instance().camera.getRgbImage());
+		if(DepthCamera.instance().camera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", DepthCamera.instance().camera.getDepthImage());
+		if(UI.valueToggle(CAMERA_debug)) DebugView.setTexture("DepthCameraRegion.debugImage", regionDebug);
+		if(UI.valueToggle(CAMERA_debug)) DebugView.setTexture("joystickDebug", joystickDebug);
+	}
+	
+	protected void drawJoystickDebug() {
+		float debugSize = joystickDebug.width;
+		joystickDebug.beginDraw();
+		joystickDebug.background(0);
+		joystickDebug.push();
+		// draw debug bg
+		PG.setDrawCorner(joystickDebug);
+		PG.drawGrid(joystickDebug, 0xff111111, 0xff999999, 10, 10, 2, false);
+		joystickDebug.rect(joystickDebug.width/2 - 2, 0, 4, pg.height);
+		joystickDebug.rect(0, joystickDebug.height/2 - 2, pg.width, 4);
+		// draw point
+		PG.setDrawCenter(joystickDebug);
+		joystickDebug.fill((userActive.value()) ? p.color(0,255,0) : p.color(255,0,0));
+		joystickDebug.stroke(0);
+		joystickDebug.strokeWeight(2);
+		joystickDebug.ellipse(debugSize/2 + userX.value() * debugSize/2, debugSize/2 + userZ.value() * debugSize/2, 20, 20);
+		joystickDebug.pop();
+		joystickDebug.endDraw();
 	}
 	
 }
