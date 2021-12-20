@@ -58,6 +58,7 @@ As of 2021/12, the latest version of Rasberry Pi OS isn't compatible with the Hy
     * `--win 0,0,720,720` tells the video to play fullscreen on the Hyperpixel's 720x720 resolution
     * `--no-osd` hides the text info that shows after each loop by default
     * `--crop` and `--aspect-mode` could be useful here if you want to do something fancy like crop an HD aspect ration video to work in the square frame
+  * Press `ESC` to quit the app
 * Run the following command do disable the Raspberry Pi's "screensaver", which shuts the screen off after some amount of inactivity 
   * `sudo apt-get install xscreensaver`
 
