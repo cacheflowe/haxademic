@@ -7,6 +7,8 @@ There are tons of existing options out there for setting up an art frame, but I 
 * [Raspberry Pi Art Frame Using OpenFrame](https://hackaday.com/2016/03/28/raspberry-pi-art-frame-using-openframe/)
 * [How I built a digital picture frame with a Raspberry Pi](https://www.thedigitalpictureframe.com/how-to-build-a-digital-picture-frame-with-a-raspberry-pi/)
 
+Someone also sent me info about a similar [HDMI version](https://www.aliexpress.com/item/1005001834155902.html) of this screen, in case you want to use a non-Pi computer to drive a screen like this. I haven't tried it, so I can't confirm that it works well.
+
 ## Required Hardware
 
 * [Raspberry Pi](https://www.raspberrypi.com/products/) (I recommend model 3 or 4)
