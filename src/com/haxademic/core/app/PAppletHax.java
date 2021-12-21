@@ -66,27 +66,27 @@ extends PApplet {
 	protected void parentFirstFrame() {
 		if( p.frameCount == 1 ) {
 			if(P.isOpenGL()) {
-				// P.outInitLineBreak();
-				P.outInit("System info -----------");
+				P.outInitLineBreak();
+				P.outInit("PAppletHax starting....");				
+				P.outInitLineBreak();
+				P.outInit("System info ---------------------");
 				OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();	// from JavaInfo
 				P.outInit("- OS name: "+os.getName() + " | version: " + os.getVersion());
 				P.outInit("- Architecture:", os.getArch());
 				P.outInit("- Available processor cores:", os.getAvailableProcessors());
 				P.outInit("- Java version:", SystemUtil.getJavaVersion());
 				P.outInitLineBreak();
-				P.outInit("Graphics init");
+				P.outInit("Graphics init -------------------");
 				P.outInit("- Processing renderer:", P.renderer);
 				P.outInit("- GL version:", OpenGLUtil.getGlVersion(p.g));
-				int pgW = Config.getInt(AppSettings.PG_WIDTH, p.width);
-				int pgH = Config.getInt(AppSettings.PG_HEIGHT, p.height);
-				boolean is32Bit = Config.getBoolean(AppSettings.PG_32_BIT, false);
-				pg = (is32Bit) ? PG.newPG32(pgW, pgH, true, true) : PG.newPG(pgW, pgH);
 				P.outInit("- App Size:", p.width, "x", p.height);
+				boolean is32Bit = buildMainPg();
 				P.outInit("- pg Size: ", pg.width, "x", pg.height);
 				if(is32Bit) P.outInit("- 32-bit pg");
 				P.outInitLineBreak();
 				P.outInit("PAppletHax started in:", (p.millis() - startupTime)+"ms");				
-				P.out("--------------------------------", "\n");
+				P.outInitLineBreak();
+				P.out("------------------------------------------", "\n");
 			} else {
 				P.outInit("Processing special renderer:", P.renderer);
 			}
@@ -94,6 +94,13 @@ extends PApplet {
 		}
 	}
 	
+	protected boolean buildMainPg() {
+		int pgW = Config.getInt(AppSettings.PG_WIDTH, p.width);
+		int pgH = Config.getInt(AppSettings.PG_HEIGHT, p.height);
+		boolean is32Bit = Config.getBoolean(AppSettings.PG_32_BIT, false);
+		pg = (is32Bit) ? PG.newPG32(pgW, pgH, true, true) : PG.newPG(pgW, pgH);
+		return is32Bit;
+	}
 	////////////////////////
 	// OVERRIDES
 	////////////////////////
@@ -117,11 +124,10 @@ extends PApplet {
 	public void draw() {
 		parentFirstFrame();
 		
-		p.pushMatrix();	// because drawApp can leave the context in a bad state for anything drawing via the "post" event
+		p.push();	// because drawApp can leave the context in an unpredictable state for anything drawing via the "post" event
 		P.store.setNumber(PEvents.DRAW_PRE, p.frameCount);	// mostly for Renderer to prep for rendering current frame
 		drawApp();
 		P.store.setNumber(PEvents.DRAW_POST, p.frameCount);
-		p.popMatrix();
 		
 		if(P.renderer == PRenderers.PDF) finishPdfRender();
 	}

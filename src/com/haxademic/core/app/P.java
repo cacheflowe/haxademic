@@ -83,7 +83,7 @@ extends PApplet {
 		}
 	}
 	public static void outInitLineBreak() {
-		outInit("=======================");
+		outInit("=================================");
 	}
 	public static void error(Object ...args) {
 		if(logging) {
