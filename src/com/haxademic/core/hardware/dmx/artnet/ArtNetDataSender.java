@@ -46,6 +46,7 @@ public class ArtNetDataSender {
 	
 	public void setColorAtIndex(int pixelIndex, float r, float g, float b) {
 		// https://processing.org/reference/byte.html
+		pixelIndex *= 3; // assuming RGB LEDs
 		dmxData[pixelIndex + 0] = P.parseByte(r);
 		dmxData[pixelIndex + 1] = P.parseByte(g);
 		dmxData[pixelIndex + 2] = P.parseByte(b);

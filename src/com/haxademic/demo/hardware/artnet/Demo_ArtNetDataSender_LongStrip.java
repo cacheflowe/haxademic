@@ -66,11 +66,10 @@ extends PAppletHax {
 			float b = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.6f));
 			
 			// set data
-			int pixelIndex = i * 3;
 			if(UI.valueToggle(SOLID_COLOR) == false) {
-				artNetDataSender.setColorAtIndex(pixelIndex, r, g, b);
+				artNetDataSender.setColorAtIndex(i, r, g, b);
 			} else {
-				artNetDataSender.setColorAtIndex(pixelIndex, UI.value(COLOR_R), UI.value(COLOR_G), UI.value(COLOR_B));
+				artNetDataSender.setColorAtIndex(i, UI.value(COLOR_R), UI.value(COLOR_G), UI.value(COLOR_B));
 			}
 		}
 	}

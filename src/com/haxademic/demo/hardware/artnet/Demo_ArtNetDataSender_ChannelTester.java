@@ -1,6 +1,5 @@
 package com.haxademic.demo.hardware.artnet;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -10,12 +9,9 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
-import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
-import processing.core.PFont;
 import processing.core.PGraphics;
 
 public class Demo_ArtNetDataSender_ChannelTester
@@ -81,20 +77,19 @@ extends PAppletHax {
 		// build entire LED data, to loop through afterwards
 		for(int i=0; i < numPixels; i++) {
 			// set data
-			int pixelIndex = i * 3;
 			if(UI.valueToggle(SINGLE_LED_MODE) == true) {
 				// SINGLE CHANNEL TEST
 				if(i == UI.valueInt(CHANNEL_SINGLE)) {
-					artNetDataSender.setColorAtIndex(pixelIndex, r, g, b);
+					artNetDataSender.setColorAtIndex(i, r, g, b);
 				} else {
-					artNetDataSender.setColorAtIndex(pixelIndex, 0, 0, 0);
+					artNetDataSender.setColorAtIndex(i, 0, 0, 0);
 				}
 			} else {
 				// CHANNEL RANGE TEST
 				if(i >= UI.valueInt(CHANNEL_RANGE_START) && i <= UI.valueInt(CHANNEL_RANGE_END)) {
-					artNetDataSender.setColorAtIndex(pixelIndex, r, g, b);
+					artNetDataSender.setColorAtIndex(i, r, g, b);
 				} else {
-					artNetDataSender.setColorAtIndex(pixelIndex, 0, 0, 0);
+					artNetDataSender.setColorAtIndex(i, 0, 0, 0);
 				}
 			}
 		}

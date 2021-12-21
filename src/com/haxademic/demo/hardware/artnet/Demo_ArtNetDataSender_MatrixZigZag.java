@@ -32,7 +32,7 @@ extends PAppletHax {
 			float b = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.33f));
 			
 			// pixel index, stepping through single-row sequential layout, 1 by 1
-			int pixelIndex = i * 3;
+			int pixelIndex = i;
 			
 			// zigzag remap
 			int matrixSize = 16;
@@ -40,7 +40,7 @@ extends PAppletHax {
 			int twoRowIndex = i % (matrixSize * 2);
 			int zigZagRevIndex = 16 - 1 - (i % 16);
 			if(twoRowIndex < matrixSize) {	// flip even rows
-				pixelIndex = (rowStartI + zigZagRevIndex) * 3;
+				pixelIndex = (rowStartI + zigZagRevIndex);
 			}
 			
 			// set data
