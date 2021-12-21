@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -118,7 +119,7 @@ public class Config {
 	}
 	
 	public static float getFloat(String id, float defVal) {
-		return new Float(properties.getProperty(id,""+defVal)); 
+		return ConvertUtil.stringToFloat(properties.getProperty(id,""+defVal));
   	} 
 	
 	/////////////////////////
