@@ -66,12 +66,12 @@ extends PApplet {
 	protected void parentFirstFrame() {
 		if( p.frameCount == 1 ) {
 			if(P.isOpenGL()) {
-				P.outInitLineBreak();
-				P.outInit("System info");
+				// P.outInitLineBreak();
+				P.outInit("System info -----------");
 				OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();	// from JavaInfo
-				P.outInit("- OS name "+os.getName()+" version "+os.getVersion());
-				P.outInit("- Architecture "+os.getArch());
-				P.outInit("- Available processor cores "+os.getAvailableProcessors());
+				P.outInit("- OS name: "+os.getName() + " | version: " + os.getVersion());
+				P.outInit("- Architecture:", os.getArch());
+				P.outInit("- Available processor cores:", os.getAvailableProcessors());
 				P.outInit("- Java version:", SystemUtil.getJavaVersion());
 				P.outInitLineBreak();
 				P.outInit("Graphics init");
@@ -85,7 +85,7 @@ extends PApplet {
 				P.outInit("- pg Size: ", pg.width, "x", pg.height);
 				if(is32Bit) P.outInit("- 32-bit pg");
 				P.outInitLineBreak();
-				P.outInit("- Started in:", (p.millis() - startupTime)+"ms");				
+				P.outInit("PAppletHax started in:", (p.millis() - startupTime)+"ms");				
 				P.out("--------------------------------", "\n");
 			} else {
 				P.outInit("Processing special renderer:", P.renderer);
