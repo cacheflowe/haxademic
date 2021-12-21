@@ -17,6 +17,8 @@ public class Demo_Bezier
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
+	// more thoughts on this: https://blog.maximeheckel.com/posts/cubic-bezier-from-math-to-motion
+	
 	protected String controlPoint1X = "controlPoint1X";
 	protected String controlPoint1Y = "controlPoint1Y";
 	protected String controlPoint2X = "controlPoint2X";
