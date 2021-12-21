@@ -45,6 +45,7 @@ public class ArtNetDataSender {
 	}
 	
 	public void setColorAtIndex(int pixelIndex, float r, float g, float b) {
+		// https://processing.org/reference/byte.html
 		dmxData[pixelIndex + 0] = P.parseByte(r);
 		dmxData[pixelIndex + 1] = P.parseByte(g);
 		dmxData[pixelIndex + 2] = P.parseByte(b);
@@ -111,14 +112,23 @@ public class ArtNetDataSender {
 	}
 	
 	public void drawDebug(PGraphics pg) {
+		drawDebug(pg, false);
+	}
+	
+	public void drawDebug(PGraphics pg, boolean openContext) {
+		if(openContext) {
+			pg.beginDraw();
+			pg.background(0);
+		}
 		pg.push();
 		pg.noStroke();
 		int pixSize = 4;
 		int x = 0;
 		int y = 0;
-		int debugMult = 10;
+		// need to properly convert byte back to int, because of weird byte value range without conversion
+		DebugView.setValue("dmxData[0]", P.parseInt(dmxData[0]) + ", " + P.parseInt(dmxData[1]) + ", " + P.parseInt(dmxData[2]));
 		for(int i=0; i < dmxData.length/3; i+=3) {
-			pg.fill(debugMult*dmxData[i + 0], debugMult*dmxData[i + 1], debugMult*dmxData[i + 2]);
+			pg.fill(P.parseInt(dmxData[i + 0]), P.parseInt(dmxData[i + 1]), P.parseInt(dmxData[i + 2]));
 			pg.rect(x, y, pixSize, pixSize);
 			x += pixSize;
 			if(x >= pg.width) {
@@ -127,5 +137,6 @@ public class ArtNetDataSender {
 			}
 		}
 		pg.pop();
+		if(openContext) pg.endDraw();
 	}
 }
