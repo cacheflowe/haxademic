@@ -107,7 +107,7 @@ implements IAppStoreListener {
 		if(P.renderer != PRenderers.PDF) {
 			if(P.p.frameCount == 1) {
 				AppUtil.setTitle(P.p, Config.getString(AppSettings.APP_NAME, "Haxademic | " + P.p.getClass().getSimpleName()));
-			} else if(Config.getBoolean(AppSettings.SHOW_FPS_IN_TITLE, false)) {
+			} else if(Config.getBoolean(AppSettings.SHOW_FPS_IN_TITLE, true)) {
 				AppUtil.setTitle(P.p, Config.getString(AppSettings.APP_NAME, "Haxademic | " + P.p.getClass().getSimpleName()) + " | " + P.round(P.p.frameRate) + "fps");
 			}
 		}	

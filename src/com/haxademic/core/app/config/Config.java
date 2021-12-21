@@ -24,12 +24,12 @@ public class Config {
 		String[] arguments = PAppletHax.arguments; 
 		if(arguments == null || arguments.length == 0) return;
 		// print command line arguments
-		P.out("=============");
-		P.out("main() args:");
+		P.outInitLineBreak();
+		P.outInit("main() args:");
 		for (String string : arguments) {
-			P.out("# " + string);
+			P.outInit("- " + string);
 		}
-		P.out("=============");
+		P.outInitLineBreak();
 	}
 	
 	public static String getArgValue(String arg) {

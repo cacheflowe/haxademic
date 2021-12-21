@@ -34,6 +34,7 @@ extends PApplet {
 		P.p = p;
 		P.store = AppStore.instance();
 		Config.instance();
+		Config.printArgs();
 	}
 	
 	public static void appInitialized() {
@@ -77,9 +78,12 @@ extends PApplet {
 	}
 	public static void outInit(Object ...args) {
 		if(logging) {
-			P.print("##Hax## ");
+			P.print("##HAX##| ");
 			P.println(args);
 		}
+	}
+	public static void outInitLineBreak() {
+		outInit("=======================");
 	}
 	public static void error(Object ...args) {
 		if(logging) {

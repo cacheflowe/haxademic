@@ -1,5 +1,8 @@
 package com.haxademic.core.app;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
@@ -36,6 +39,7 @@ extends PApplet {
 	public static String arguments[] = null;	// Args passed in via main() launch command
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
+	protected int startupTime;
 
 	////////////////////////
 	// INIT
@@ -43,7 +47,7 @@ extends PApplet {
 	
 	public void settings() {
 		p = this;
-		Config.printArgs();
+		startupTime = p.millis();
 		P.init(this);
 		config();
 		AppWindow.instance();
@@ -62,16 +66,27 @@ extends PApplet {
 	protected void parentFirstFrame() {
 		if( p.frameCount == 1 ) {
 			if(P.isOpenGL()) {
-				P.outInit("Graphics init ##############");
-				P.outInit("Processing renderer:", P.renderer);
-				P.outInit("Java version:", SystemUtil.getJavaVersion());
-				P.outInit("GL version:", OpenGLUtil.getGlVersion(p.g));
+				P.outInitLineBreak();
+				P.outInit("System info");
+				OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();	// from JavaInfo
+				P.outInit("- OS name "+os.getName()+" version "+os.getVersion());
+				P.outInit("- Architecture "+os.getArch());
+				P.outInit("- Available processor cores "+os.getAvailableProcessors());
+				P.outInit("- Java version:", SystemUtil.getJavaVersion());
+				P.outInitLineBreak();
+				P.outInit("Graphics init");
+				P.outInit("- Processing renderer:", P.renderer);
+				P.outInit("- GL version:", OpenGLUtil.getGlVersion(p.g));
 				int pgW = Config.getInt(AppSettings.PG_WIDTH, p.width);
 				int pgH = Config.getInt(AppSettings.PG_HEIGHT, p.height);
 				boolean is32Bit = Config.getBoolean(AppSettings.PG_32_BIT, false);
 				pg = (is32Bit) ? PG.newPG32(pgW, pgH, true, true) : PG.newPG(pgW, pgH);
-				if(is32Bit) P.outInit("32-bit pg");
-				P.outInit("############################");
+				P.outInit("- App Size:", p.width, "x", p.height);
+				P.outInit("- pg Size: ", pg.width, "x", pg.height);
+				if(is32Bit) P.outInit("- 32-bit pg");
+				P.outInitLineBreak();
+				P.outInit("- Started in:", (p.millis() - startupTime)+"ms");				
+				P.out("--------------------------------", "\n");
 			} else {
 				P.outInit("Processing special renderer:", P.renderer);
 			}
