@@ -126,6 +126,14 @@ public class AudioIn {
 		return frequencies[index % mod];
 	}
 
+	public static float audioWave(int index) {
+		return audioWaveMod(index, waveform.length);
+	}
+	
+	public static float audioWaveMod(int index, int mod) {
+		return waveform[index % mod];
+	}
+	
 	public static float amplitude() {
 		return audioInput.audioData().amp();
 	}
