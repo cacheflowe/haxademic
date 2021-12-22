@@ -146,3 +146,8 @@ void draw()
 ```
 
 From here, you'll want to fill up the `dmxData` array with different color values to take advantage of your addressable lights. How you do this is up to you :)
+
+### Hardware links
+
+* [Neopixel extension wire](https://www.amazon.com/RGBZONE-Extension-WS2812B-WS2811-Lights/dp/B06Y4716V7/) [[2](https://www.amazon.com/dp/B08JTZKN4M/)]
+* [Neopixel 3-wire quick connectors](https://www.amazon.com/BTF-LIGHTING-Connectors-WS2812B-WS2811-WS2812/dp/B01DC0KIT2/)
