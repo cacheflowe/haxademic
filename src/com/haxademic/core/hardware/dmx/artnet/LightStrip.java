@@ -105,7 +105,7 @@ public class LightStrip {
 		// draw light points
 		pg.noStroke();
 		pg.push();
-		int startIndex = artNetIndexStart * 3;
+		int startIndex = artNetIndexStart;
 		for (int i = 0; i < numLights; i++) {
 			// interpolate coordinates between points
 			float stripProgress = (float)i/numLights;
@@ -125,7 +125,7 @@ public class LightStrip {
 			pg.rect(pixelX, pixelY, 3, 3);
 
 			// set data
-			int pixelIndex = i * 3;
+			int pixelIndex = i;
 			artNet.setColorAtIndex(startIndex + pixelIndex, r, g, b);
 		}
 		pg.pop();
