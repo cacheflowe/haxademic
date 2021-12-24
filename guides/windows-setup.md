@@ -90,18 +90,18 @@
 * (WIN + "Taskbar") Settings -> Personalization -> Taskbar -> Hide the taskbar in desktop mode
 * (WIN + "Customize the Taskbar") Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
 * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
-* Set to Developer mode:
+* (WIN + "Developer") Set to Developer mode:
   * Settings -> Update & Security -> For developers -> Developer Mode option
   * Click "Apply" under the "Windows Explorer", "Remote Desktop" and "Powershell" section checkboxes
-* Rename PC (requires restart):
+* (WIN + "About") Rename PC (requires restart):
   * Settings -> System -> About -> Rename PC
 * Remove login screen:
   * Windows button + "R" -> "netplwiz" + Run
     * Uncheck "Users must enter..." -> Apply -> Type password twice
-    * If you're using Windows 10 Pro, you might not see this checkbox, in which case, you need to edit the registry:
+    * If you're using Windows 10 Pro or don't see this checkbox, in which case, you need to edit the registry:
       * regedit -> HKEY_LOCAL_MACHINE -> Software -> Microsoft -> Windows NT -> CurrentVersion -> Passwordless -> Device -> Change DevicePasswordLessBuildVersion to 0
 
-## Disable Java updates
+## Disable Java updates (If you installed Oracle Java)
 
 * Find the Java icon in the system taskbar from the up arrow on the right and disable (might not be a thing anymore)
 * Open Java app from Start Menu and disable from there
@@ -132,13 +132,13 @@
   * Check "Start with Windows" under "Unattended Access"
   * Go to "Extras -> Options"
     * Security Tab: 
-      * Enter a personal password
       * Windows Logon: Set to "All Users"
     * Remote Control
       * Optimize Speed
       * Uncheck "Remove Remote Wallpaper"
       * Uncheck "Play Sounds and Music"
     * Advanced
+      * Enter a personal password
       * Check: "Automatically Minimize local TeamViewer Panel"
       * Check: "Ignore Alpha Blending"
       * Check: "Full access control when a partner is connecting to the Windows Logon screen"
@@ -217,7 +217,7 @@
   +----[SHA256]-----+
   ```
 
-* Copy to Github:
+* Copy to Github project:
   ```
   $ cat /c/Users/your_user/.ssh/id_ed25519.pub
   ```
