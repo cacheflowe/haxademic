@@ -242,6 +242,11 @@
   $ `cd ~/Documents/workspace/github-repo`
   $ `git pull`
   ```
+* Set up your git identity:
+```
+  $ `git config --global user.email "you@example.com"`
+  $ `git config --global user.name "Your Name"`
+```
 * Do git things in Git Bash, and run scripts in CMD
 * CMD into project dir to pull, etc
   ```

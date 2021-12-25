@@ -4,13 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;

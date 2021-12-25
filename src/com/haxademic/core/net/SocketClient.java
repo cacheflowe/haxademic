@@ -101,7 +101,11 @@ public class SocketClient {
 				if(SOCKET_DEBUG == true) P.println("Attempting to reconnect to Websocket");
 				new Thread(new Runnable() { public void run() {
 					if(client != null) {
-						client.reconnect();
+						try {
+							client.reconnect();
+						} catch (IllegalStateException e) {
+							if(SOCKET_DEBUG == true) P.out("[SocketClient ERROR] client.reconnect() \n"+e.getMessage());
+						}	
 						lastConnectAttemptTime = P.p.millis();
 					} else {
 						buildSocketClient();
