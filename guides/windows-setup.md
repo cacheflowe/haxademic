@@ -76,13 +76,13 @@
 
 ## Performance boost
 
-  * Defrag Hard drive (should be automatic by default):
-    * Control Panel -> System & Security -> Administrative tools -> Defrag and optimize your drives
-  * (WIN + "Adjust performance") Control Panel -> System & Security -> System -> Advanced System settings -> Advanced tab -> Performance Settings -> Visual Effects -> Adjust for Best Performance
-    * But re-check:
-      * Show shadows under Mouse pointer
-      * Show window contents while dragging
-      * Smooth edges of screen fonts
+* Defrag Hard drive (should be automatic by default):
+  * Control Panel -> System & Security -> Administrative tools -> Defrag and optimize your drives
+* (WIN + "Adjust performance") Control Panel -> System & Security -> System -> Advanced System settings -> Advanced tab -> Performance Settings -> Visual Effects -> Adjust for Best Performance
+  * But re-check:
+    * Show shadows under Mouse pointer
+    * Show window contents while dragging
+    * Smooth edges of screen fonts
 
 ## Windows settings
 
@@ -255,15 +255,20 @@
 
 ## Download essential apps & pin to taskbar
 
-* Chrome
-* Atom
-* Github Desktop
-* Java latest version
-* Eclipse
-* Microsoft Kinect SDK
 * Latest GeForce drivers
-* Processing
 * TeamViewer
+* Chrome
+* VSCode
+* Git Bash (download from Git website)
+* Github Desktop
+* Java latest version (Eclipse Adoptium, not Oracle)
+* Eclipse
+* Branded desktop background image
+* Optional
+  * Microsoft Kinect SDK or Realsense Viewer
+  * Processing
+  * Advatek Assistant
+  * VLC
 
 Look into using a package manager or automated installer if you need to set up multiple machines:
 
