@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.pg32.PGraphics32;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PApplet;
@@ -399,6 +400,30 @@ public class PG {
 			pg.rect(0, colorHeight * i, pg.width, colorHeight);
 		}
 		pg.endDraw();
+	}
+	
+	public static void pixelFlushPattern(PGraphics pg) {
+		pixelFlushPattern(pg, true);
+	}
+	public static void pixelFlushPattern(PGraphics pg, boolean openContext) {
+		// run at night to help fix burn-in
+		if(openContext) {
+			pg.beginDraw();
+			pg.background(0);
+		}
+		pg.noStroke();
+		int cellSize = 50;
+		int offset = -P.p.frameCount % cellSize;
+		for( int x=offset; x < pg.width; x+= cellSize) {
+			for( int y=offset; y < pg.height; y+= cellSize) {
+				int r = MathUtil.randBoolean() ? 0 : 255;
+				int g = MathUtil.randBoolean() ? 0 : 255;
+				int b = MathUtil.randBoolean() ? 0 : 255;
+				pg.fill(r, g, b);
+				pg.rect(x,y,cellSize,cellSize);
+			}
+		}
+		if(openContext) pg.endDraw();
 	}
 	
 	public static void drawOriginAxis(PGraphics pg) {
