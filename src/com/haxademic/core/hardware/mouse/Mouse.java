@@ -34,7 +34,7 @@ public class Mouse {
 	protected EasingFloat yEase = new EasingFloat(0, 0.25f);
 	
 	public int lastMouseTime = 0;
-	public boolean mouseShowing = true;
+	public static boolean mouseShowing = true;
 
 	
 	// Singleton instance
@@ -99,6 +99,10 @@ public class Mouse {
 				mouseShowing = false;
 			}
 		}
+	}
+
+	public static boolean isShowing() {
+		return mouseShowing;
 	}
 	
 	///////////////////////////////////

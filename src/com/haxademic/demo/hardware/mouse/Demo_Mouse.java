@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PGraphics;
@@ -40,6 +41,8 @@ implements IAppStoreListener {
 			Mouse.movePointerTo(p.frameCount % 1920, p.frameCount % 1080);
 		}
 		Mouse.movePointerTo(500 + P.round(100f * P.cos(p.frameCount/10f)), 500 + P.round(100f * P.sin(p.frameCount/10f)));
+		
+		DebugView.setValue("Mouse.mouseShowing()", Mouse.isShowing());
 	}
 
 	/////////////////////////////////////
