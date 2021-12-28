@@ -86,7 +86,7 @@ extends PApplet {
 				P.outInitLineBreak();
 				P.outInit("PAppletHax started in:", (p.millis() - startupTime)+"ms");				
 				P.outInitLineBreak();
-				P.out("------------------------------------------", "\n");
+				P.out("##########################################", "\n");
 			} else {
 				P.outInit("Processing special renderer:", P.renderer);
 			}
@@ -101,6 +101,7 @@ extends PApplet {
 		pg = (is32Bit) ? PG.newPG32(pgW, pgH, true, true) : PG.newPG(pgW, pgH);
 		return is32Bit;
 	}
+	
 	////////////////////////
 	// OVERRIDES
 	////////////////////////
@@ -128,6 +129,7 @@ extends PApplet {
 		P.store.setNumber(PEvents.DRAW_PRE, p.frameCount);	// mostly for Renderer to prep for rendering current frame
 		drawApp();
 		P.store.setNumber(PEvents.DRAW_POST, p.frameCount);
+		p.pop();
 		
 		if(P.renderer == PRenderers.PDF) finishPdfRender();
 	}
