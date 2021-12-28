@@ -98,11 +98,11 @@ public class ParticleSystem {
 		PG.setDrawCorner(pg);
 	}
 
-	public void launchParticles(PGraphics pg) {
-		launchParticles(pg, 1f);
+	public void launchParticlesFromMap(PGraphics pg) {
+		launchParticlesFromMap(pg, 1f);
 	}
 	
-	public void launchParticles(PGraphics pg, float destScale) {
+	public void launchParticlesFromMap(PGraphics pg, float destScale) {
 		int numLaunched = 0;
 		int maxAttempts = (usingUI) ? UI.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
 		int maxLaunches = (usingUI) ? UI.valueInt(MAX_LAUNCHES) : MAX_LAUNCHES_PER_FRAME;
@@ -118,12 +118,12 @@ public class ParticleSystem {
 		}
 	}
 
-	protected void launchParticle(PGraphics pg, float x, float y) {
+	public Particle2d launchParticle(PGraphics pg, float x, float y) {
 		// look for an available shape
 		for (int i = 0; i < particles.size(); i++) {
 			if(particles.get(i).available(pg)) {
 				launch(pg, particles.get(i), x, y);
-				return;
+				return particles.get(i);
 			}
 		}
 		// didn't find one
@@ -132,7 +132,9 @@ public class ParticleSystem {
 			Particle2d newShape = initNewParticle();
 			launch(pg, newShape, x, y);
 			particles.add(newShape);
+			return newShape;
 		}
+		return null;
 	}
 	
 	protected Particle2d initNewParticle() {

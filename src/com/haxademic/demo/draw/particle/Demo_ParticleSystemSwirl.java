@@ -30,7 +30,7 @@ extends PAppletHax {
 		// draw image/map base
 		pg.beginDraw();
 		pg.background(0);
-		particles.launchParticles(pg);
+		particles.launchParticlesFromMap(pg);
 		particles.drawParticles(pg);
 		pg.endDraw();
 		

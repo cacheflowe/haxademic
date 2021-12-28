@@ -14,7 +14,7 @@ import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.mapping.SavedPointUI;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
-import com.haxademic.core.hardware.dmx.artnet.LightStrip;
+import com.haxademic.core.hardware.dmx.artnet.MappedLightStrip;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
@@ -32,9 +32,9 @@ extends PAppletHax {
 	protected int lightsPerStrip = 100;
 	protected int numPixels = numStrips * lightsPerStrip;
 	
-	protected ArrayList<LightStrip> lights = new ArrayList<LightStrip>();
+	protected ArrayList<MappedLightStrip> lights = new ArrayList<MappedLightStrip>();
 	protected int selectedLightIndex = 0;
-	protected LightStrip activeLight;
+	protected MappedLightStrip activeLight;
 
 	// texture
 	protected SimplexNoise3dTexture noise3d;
@@ -178,7 +178,7 @@ extends PAppletHax {
 		points.add(point2);
 		
 		// add points to LightStrip
-		LightStrip light = new LightStrip(lightsPerStrip, lights.size() * lightsPerStrip, point1.position(), point2.position());
+		MappedLightStrip light = new MappedLightStrip(lightsPerStrip, lights.size() * lightsPerStrip, point1.position(), point2.position());
 //		light.setDmxChannel(dmxChannel);
 		lights.add(light);
 	}
@@ -278,11 +278,11 @@ extends PAppletHax {
 		map.loadPixels();
 		
 		// draw/update lights
-		LightStrip newActiveLight = null;
+		MappedLightStrip newActiveLight = null;
 		PVector activePointPostion = (activePoint == null || pointsUiDisabled) ? null : activePoint.position();
 		DebugView.setValue("activePointPostion", (activePointPostion == null) ? null : activePointPostion.toString());
 		for (int i = 0; i < lights.size(); i++) {
-			LightStrip light = lights.get(i);
+			MappedLightStrip light = lights.get(i);
 			light.setActive(activePointPostion);
 			if(light.isActive()) newActiveLight = light;
 			light.update(pgUI, map, artNetDataSender);

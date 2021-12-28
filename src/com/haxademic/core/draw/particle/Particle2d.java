@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.particle;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -75,6 +76,10 @@ public class Particle2d {
 	
 	// Launch!
 	
+	public Particle2d launch(PGraphics pg, float x, float y) {
+		return launch(pg, x, y, image);	// launch with the same image
+	}
+	
 	public Particle2d launch(PGraphics pg, float x, float y, PImage img) {
 		// get random particle texture
 		image = img;
@@ -94,7 +99,8 @@ public class Particle2d {
 		gravity.set(
 				MathUtil.randRangeDecimal(gravityMin.x, gravityMax.x), 
 				MathUtil.randRangeDecimal(gravityMin.y, gravityMax.y));
-		
+		P.out(speed.x, speed.y);
+		P.out(gravity.x, gravity.y);
 		return this;
 	}
 	

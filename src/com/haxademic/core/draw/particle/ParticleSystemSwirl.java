@@ -20,7 +20,7 @@ extends ParticleSystem {
 		P.out("ENABLEUI YO", MAX_ATTEMPTS);
 	}
 
-	public void launchParticles(PGraphics pg) {
+	public void launchParticlesFromMap(PGraphics pg) {
 		int numLaunched = 0;
 		int maxAttempts = (usingUI) ? UI.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
 		int maxLaunches = (usingUI) ? UI.valueInt(MAX_LAUNCHES) : MAX_LAUNCHES_PER_FRAME;

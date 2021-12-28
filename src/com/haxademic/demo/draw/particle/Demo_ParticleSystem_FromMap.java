@@ -53,7 +53,7 @@ extends PAppletHax {
 		// draw image/map base
 		pg.beginDraw();
 		drawBaseImage(pg);
-		particles.launchParticles(pg, 1); // 2f * Mouse.xNorm);	// <- playing with scale here 
+		particles.launchParticlesFromMap(pg, 1); // 2f * Mouse.xNorm);	// <- playing with scale here 
 		particles.drawParticles(pg);
 		pg.endDraw();
 		

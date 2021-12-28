@@ -10,7 +10,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public class LightStrip {
+public class MappedLightStrip {
 	
 	protected int numLights;
 	protected int artNetIndexStart;
@@ -21,7 +21,7 @@ public class LightStrip {
 	
 	protected boolean active = false;
 	
-	public LightStrip(int numLights, int artNetIndexStart, PVector point1, PVector point2) {
+	public MappedLightStrip(int numLights, int artNetIndexStart, PVector point1, PVector point2) {
 		this.numLights = numLights;
 		this.artNetIndexStart = artNetIndexStart;
 		this.point1 = point1;
