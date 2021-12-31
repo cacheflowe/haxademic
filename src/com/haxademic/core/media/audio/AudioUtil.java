@@ -8,6 +8,7 @@ import com.haxademic.core.app.P;
 import beads.AudioContext;
 import beads.AudioServerIO;
 import beads.JavaSoundAudioIO;
+import ddf.minim.Minim;
 
 public class AudioUtil {
 
@@ -37,6 +38,16 @@ public class AudioUtil {
 		return DEFAULT_AUDIO_MIXER_INDEX;
 	}
 
+	public static Mixer getMixerFromIndex(int index) {
+		Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+		Mixer mixer = AudioSystem.getMixer(mixerInfo[index]);
+		return mixer;
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void setMinimAudioMixer(Minim minim, int index) {
+		minim.setOutputMixer(getMixerFromIndex(index));
+	}
 	
 	// Beads defaut AudioContext init got weird with the switch from Java 8 to 11.
 	// Thanks to @hamoid for the solution: 
