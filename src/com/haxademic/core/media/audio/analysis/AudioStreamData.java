@@ -30,7 +30,7 @@ public class AudioStreamData {
 
 
 	public AudioStreamData() {
-		
+		debugBuffer = PG.newPG((int) debugW, (int) debugH);
 	}
 	
 	// setters
@@ -145,13 +145,8 @@ public class AudioStreamData {
 	
 	// debug buffer -----------------------------------
 	
-	public PGraphics buildDebugBuffer() {
-		return PG.newPG((int) debugW, (int) debugH);
-	}
-	
 	public void drawDebug() {
 		// lazy-init debug buffer
-		if(debugBuffer == null) debugBuffer = buildDebugBuffer();
 		PGraphics pg = debugBuffer;
 		
 		// start context

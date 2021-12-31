@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.AmbientAudioLoop;
@@ -29,6 +30,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
+		
 		loadSounds();
 		ambientLoop = new AmbientAudioLoop(audioFiles[0]);
 

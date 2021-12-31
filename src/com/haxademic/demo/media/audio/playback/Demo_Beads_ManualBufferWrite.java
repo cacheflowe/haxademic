@@ -28,6 +28,7 @@ extends PAppletHax {
 	WavePlayer[] wp;
 	
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
 		AudioContext ac = AudioUtil.getBeadsContext();
 		AudioIn.instance(new AudioInputBeads(ac));
 		

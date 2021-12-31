@@ -22,23 +22,22 @@ extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected Metronome metro;
+	protected Metronome metronome;
 	protected WavPlayer player;
 //	protected String beat1 = "data/audio/breakbeats/break01.wav";
 	protected String beat1 = "data/audio/breakbeats/broken_down.wav";
 
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 800 );
-		Config.setProperty( AppSettings.HEIGHT, 400 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
+		
 		P.store.addListener(this);
 		
 		P.store.setNumber(Interphase.BPM, 90);
-		metro = new Metronome();
+		metronome = new Metronome();
 		Interphase.TEMPO_MOUSE_CONTROL = true;
 		
 		// create looping players
@@ -58,7 +57,7 @@ implements IAppStoreListener {
 		
 		// show debug audio view (and keep it open)
 		DebugView.active(true);
-		p.image(AudioIn.bufferDebug(), 240, 100);
+		p.image(AudioIn.bufferDebug(), 260, 100);
 	}
 
 	public void keyPressed() {

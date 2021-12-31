@@ -17,6 +17,7 @@ import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.FloatBuffer;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.DroneSampler;
@@ -56,6 +57,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
+
 		// create looping players
 		droneSamplers = new DroneSampler[] {
 				new DroneSampler("audio/communichords/bass", 5, 0.33f),

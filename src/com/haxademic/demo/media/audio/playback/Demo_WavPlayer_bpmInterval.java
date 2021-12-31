@@ -1,12 +1,11 @@
 package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
 import processing.core.PGraphics;
@@ -40,18 +39,19 @@ extends PAppletHax {
 	////////////////////////////////////////////////
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 800 );
-		Config.setProperty( AppSettings.HEIGHT, 400 );
+//		Config.setProperty( AppSettings.WIDTH, 800 );
+//		Config.setProperty( AppSettings.HEIGHT, 400 );
 	}
 
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
 		buildState();
 		buildSteps();
 	}
 	
 	protected void buildState() {
-		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.PROGRESS, 0);
-		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.LAST_PROGRESS, 0);
+		AppStore.instance().setNumber(PROGRESS, 0);
+		AppStore.instance().setNumber(LAST_PROGRESS, 0);
 	}
 	
 	protected void buildSteps() {
@@ -129,8 +129,8 @@ extends PAppletHax {
 		// events
 
 		@Override public void updatedNumber(String key, Number val) {
-			if(key == Demo_WavPlayer_bpmInterval.PROGRESS) checkTrigger();
-			if(key == Demo_WavPlayer_bpmInterval.DRAW) draw();
+			if(key == PROGRESS) checkTrigger();
+			if(key == DRAW) draw();
 		}
 
 		public void updatedString(String key, String val) {}

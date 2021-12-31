@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.interphase.Metronome;
@@ -25,6 +26,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
+
 		// create looping players
 		player = new WavPlayer();
 		player.loopWav(beat1);

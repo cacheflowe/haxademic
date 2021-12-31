@@ -5,36 +5,46 @@ import com.haxademic.core.app.PAppletHax;
 import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
 import ddf.minim.ugens.FilePlayer;
+import ddf.minim.ugens.Gain;
+import ddf.minim.ugens.Sampler;
 import ddf.minim.ugens.TickRate;
 
 public class Demo_Minim_TickRate_PitchBend
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	String fileName = "D:\\workspace\\haxademic-cacheflowe\\data\\audio\\communichords\\bass\\operator-hiphop-sub-bass.aif.wav";
+	protected Minim minim;
+	protected TickRate rateControl;
+	protected FilePlayer filePlayer;
+	protected AudioOutput out;
+	protected Sampler _sampler;
 
-	Minim minim;
-	TickRate rateControl;
-	FilePlayer filePlayer;
-	AudioOutput out;
-
+	protected String fileName = "D:\\workspace\\haxademic-cacheflowe\\data\\audio\\communichords\\bass\\operator-hiphop-sub-bass.aif.wav";
+	
 
 	protected void firstFrame() {
-		// init minim & player
+		// init mini,
 		minim = new Minim(this);
+		
+		// init FilePlayer
 		filePlayer = new FilePlayer( minim.loadFileStream(fileName) );
-		filePlayer.loop();
+//		filePlayer.loop();
+		
+		// OR Sampler!
+		_sampler = new Sampler(fileName, 1, minim);
+		_sampler.trigger();
+		_sampler.looping = true;
+		Gain gainEfx = new Gain(0f);
 
 		// this creates a TickRate UGen with the default playback speed of 1.
 		// ie, it will sound as if the file is patched directly to the output
 		rateControl = new TickRate(1.f);
-
-		// get a line out from Minim. It's important that the file is the same audio format 
-		// as our output (i.e. same sample rate, number of channels, etc).
-		out = minim.getLineOut();
-
+		rateControl.setInterpolation( true );
+		
 		// patch the file player through the TickRate to the output.
-		filePlayer.patch(rateControl).patch(out);
+		out = minim.getLineOut();
+//		filePlayer.patch(rateControl).patch(out);
+		_sampler.patch(rateControl).patch(gainEfx).patch(out);
 	}
 
 	protected void drawApp() {
@@ -60,6 +70,7 @@ extends PAppletHax {
 		}  
 	}
 
+	/*
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == 'i') {
@@ -75,4 +86,5 @@ extends PAppletHax {
 			rateControl.setInterpolation( false );
 		}
 	}
+	*/
 }
