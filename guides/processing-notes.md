@@ -250,6 +250,15 @@ These tools allow for deeper inspection of your Java app when building in Eclips
 * [VisualVM](https://visualvm.github.io/)
 
 
+#### Add another project's `src` 
+
+This lets you use a source folder from another project, for your core library, for example
+
+* Right click your project and "Build Path -> Link Source..."
+* For "Linked folder location", browse to your other project's `src` directory
+  * Give it a name like "haxademic-src"
+
+
 #### Create an Uber jar with Maven
 
 * Add the following xml to the .pom file, inside the closing </project> tag

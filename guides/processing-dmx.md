@@ -113,11 +113,12 @@ Wires to connect the basic unit components and LED strips or devices:
 LED strips:
 
 * [White single-color LED strips (2-conductor 5050 SMD)](https://www.amazon.com/dp/B01ELDJ5X4/)
-* [RGB LED strips (4-conductor 5050 SMD RGB)](https://www.amazon.com/Alfa-Lighting-Flexible-Remote-Control/dp/B018ZJL0MO/)
+* [RGB LED strips (4-conductor 5050 SMD RGB)](https://www.amazon.com/econoLED-Flexible-Multi-colors-Non-waterproof-Changing/dp/B006LW2NJM/)
 
 Solderless clips for prototyping:
 
 * [Solderless clips for single-channel LED strip](https://www.amazon.com/dp/B07N8GLBLL/)
+* [Solderless clips for RBG LED strip](https://www.amazon.com/iCreating-Connector-Conductor-Controller-Solderless/dp/B074G48LWQ/)
 * [Lever Nuts to combine power cables](https://www.amazon.com/Kalolary-Lever-Nut-Connector-50Pack-Assortment-Connectors/dp/B07NXZNW1K/)
 
 ### Other options
