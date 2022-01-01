@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="data"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-11.0.11"/>
 	<classpathentry kind="lib" path="lib/artnet4j/library/artnet4j.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/audioservers-api-2.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/audioservers-jack-2.0.0.jar"/>
