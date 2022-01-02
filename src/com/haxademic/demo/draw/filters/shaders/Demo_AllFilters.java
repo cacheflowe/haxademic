@@ -26,6 +26,7 @@ import com.haxademic.core.draw.filters.pshader.BulgeLinearFilter;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.filters.pshader.ColorCorrectionFilter;
 import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.ColorRotateFilter;
 import com.haxademic.core.draw.filters.pshader.ColorSolidFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
@@ -86,6 +87,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.filters.pshader.WarperFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -153,6 +155,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			ColorizeFilter.instance(p),
 			ColorizeFromTexture.instance(p),
 			ColorizeTwoColorsFilter.instance(p),
+			ColorRotateFilter.instance(p),
 			ColorSolidFilter.instance(p),
 			ContrastFilter.instance(p),
 			CubicLensDistortionFilter.instance(p),
@@ -365,6 +368,11 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
 			ColorizeTwoColorsFilter.instance(p).setCrossfadeMode(P.round(Mouse.xNorm * 2));
 			ColorizeTwoColorsFilter.instance(p).applyTo(pg);
+		} else if(curFilter == ColorRotateFilter.instance(p)) {
+			ImageUtil.cropFillCopyImage(DemoAssets.justin(), pg, true);	// needs color to operate on
+			ColorRotateFilter.instance(p).setRotate(Mouse.xNorm);
+			ColorRotateFilter.instance(p).setCrossfade(Mouse.yNorm);
+			ColorRotateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ColorSolidFilter.instance(p)) {
 			ColorSolidFilter.instance(p).setColor(Mouse.xNorm, Mouse.yNorm, Mouse.xNorm, Mouse.yNorm);
 			ColorSolidFilter.instance(p).setCrossfade(Mouse.yNorm);

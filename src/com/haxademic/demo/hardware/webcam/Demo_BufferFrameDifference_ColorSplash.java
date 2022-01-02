@@ -67,7 +67,7 @@ implements IWebCamCallback {
 			ColorRotateFilter.instance(p).setRotate(FrameLoop.count(0.01f) % 1f);
 			ColorRotateFilter.instance(p).applyTo(colorCopy);
 			
-			// pre-blur flattened before copynig new frame
+			// pre-blur flattened before copying new frame
 			BlurProcessingFilter.instance(P.p).setBlurSize(10);
 			BlurProcessingFilter.instance(P.p).setSigma(10);
 			BlurProcessingFilter.instance(P.p).applyTo(flattenPg);
