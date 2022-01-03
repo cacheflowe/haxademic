@@ -23,7 +23,7 @@ extends PAppletHax {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
 		interphase.initUI();
-		interphase.initLaunchpads(1, 4, 2, 5);
+		interphase.initLaunchpads(2, 5, 4, 7);
 		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 	}

@@ -9,14 +9,15 @@ import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
+import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 
 public class Demo_LaunchPad_Multiple
 extends PAppletHax
 implements ILaunchpadCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected LaunchPad launchpad1;
-	protected LaunchPad launchpad2;
+	protected LaunchPadMini launchpad1;
+	protected LaunchPadMini launchpad2;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.PG_WIDTH, 128 );
@@ -24,11 +25,11 @@ implements ILaunchpadCallback {
 	}
 	
 	protected void firstFrame() {
-//		launchpad1 = new LaunchPad(1, 4);
-		launchpad1 = new LaunchPad("4- Launchpad");
+		launchpad1 = new LaunchPadMini(1, 4);
+//		launchpad1 = new LaunchPadMini("4- Launchpad");
 		launchpad1.setDelegate(this);
-//		launchpad2 = new LaunchPad(2, 5);
-		launchpad2 = new LaunchPad("5- Launchpad");
+		launchpad2 = new LaunchPadMini(2, 5);
+//		launchpad2 = new LaunchPadMini("5- Launchpad");
 		launchpad2.setDelegate(this);
 	}
 	

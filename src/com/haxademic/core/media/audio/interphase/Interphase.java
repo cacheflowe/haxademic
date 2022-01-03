@@ -9,6 +9,8 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
+//import com.haxademic.core.hardware.midi.devices.LaunchPad;
+import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.ui.IUIControl;
@@ -79,8 +81,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected InputTrigger triggerUp = new InputTrigger().addKeyCodes(new char[]{'='});
 	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
 
-	protected LaunchPad launchpad1;
-	protected LaunchPad launchpad2;
+	protected LaunchPadMini launchpad1;
+	protected LaunchPadMini launchpad2;
 
 	
 	public Interphase(SequencerConfig[] interphaseChannels) {
@@ -167,18 +169,18 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
 		MidiBus.list();
-		launchpad1 = new LaunchPad(midiIn1, midiOut1);
+		launchpad1 = new LaunchPadMini(midiIn1, midiOut1);
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPad(midiIn2, midiOut2);
+		launchpad2 = new LaunchPadMini(midiIn2, midiOut2);
 		launchpad2.setDelegate(this);
 		return this;
 	}
 	
 	public Interphase initLaunchpads(String deviceName1, String deviceName2) {
 		MidiBus.list();
-		launchpad1 = new LaunchPad(deviceName1);
+		launchpad1 = new LaunchPadMini(deviceName1);
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPad(deviceName2);
+		launchpad2 = new LaunchPadMini(deviceName2);
 		launchpad2.setDelegate(this);
 		return this;
 	}
@@ -262,7 +264,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			for (int step = 0; step < NUM_STEPS; step++) {
 				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
 				float adjustedVal = value;
-				if(value == 0 && step % 4 == 0) adjustedVal = 0.15f;	// show divisor by 4
+				if(value == 0 && step % 4 == 0) adjustedVal = 0.3f;	// show divisor by 4
 				if(value == 0 && step == P.store.getInt(CUR_STEP)) adjustedVal = 0.65f;	// show playhead in row
 				if(step <= 7) {
 					launchpad1.setButton(i, step, adjustedVal);
@@ -273,13 +275,15 @@ implements IAppStoreListener, ILaunchpadCallback {
 		}
 		
 		// update playhead
-		int lastColIndex = 8;
-		for (int step = 0; step < NUM_STEPS; step++) {
-			float value = (step == P.store.getInt(CUR_STEP)) ? 0.68f : 0; 
-			if(step <= 7) {
-				launchpad1.setButton(lastColIndex, step, value);
-			} else {
-				launchpad2.setButton(lastColIndex, step - 8, value);
+		if(launchpad1 instanceof LaunchPadMini == false) {
+			int lastColIndex = 8;
+			for (int step = 0; step < NUM_STEPS; step++) {
+				float value = (step == P.store.getInt(CUR_STEP)) ? 0.68f : 0; 
+				if(step <= 7) {
+					launchpad1.setButton(lastColIndex, step, value);
+				} else {
+					launchpad2.setButton(lastColIndex, step - 8, value);
+				}
 			}
 		}
 	}
@@ -444,19 +448,23 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public void noteOn(LaunchPad launchpad, int note, float value) {
 		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
 //		P.out("Interphase.noteOn", launchpadNumber, note, value);
-		if(launchpadNumber == 1) {
-			for (int i = 0; i < NUM_CHANNELS; i++) {
-				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(); 
+		// special functions on original paunchpad.
+		// launchpad mini doesn't send MIDI notes from 9th row/col of buttons
+		if(launchpad1 instanceof LaunchPadMini == false) {
+			if(launchpadNumber == 1) {
+				for (int i = 0; i < NUM_CHANNELS; i++) {
+					if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(); 
+				}
+			} else {
+				// change sample
+				for (int i = 0; i < NUM_CHANNELS; i++) {
+					if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].loadNextSound(); 
+				}
+				// bpm up/down
+				int curBmpMIDI = P.store.getInt(Interphase.BPM);
+				if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1); 
+				if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
 			}
-		} else {
-			// change sample
-			for (int i = 0; i < NUM_CHANNELS; i++) {
-				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].loadNextSound(); 
-			}
-			// bpm up/down
-			int curBmpMIDI = P.store.getInt(Interphase.BPM);
-			if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1); 
-			if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
 		}
 	}
 	

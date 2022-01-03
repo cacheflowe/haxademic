@@ -17,7 +17,19 @@ implements SimpleMidiListener {
 	// STATIC GRID HELPERS
 	//////////////////////////////
 	
-	public static int gridMidiNote(int x, int y) {
+	public int colorByPercent(float percent) {
+		return NovationColors.colorByPercent(percent);
+	}
+	
+	public int numColors() {
+		return NovationColors.colors.length;
+	}
+	
+	public int gridMidiNote(int x, int y) {
+		return LaunchPad.gridToMidiNote(x, y);
+	}
+	
+	public static int gridToMidiNote(int x, int y) {
 		return y * 16 + x;
 	}
 	
@@ -29,11 +41,19 @@ implements SimpleMidiListener {
 		return y * 16 + 8;
 	}
 	
-	public static int xFromNote(int note) {
-		return note % 16;
+	public int xFromNote(int note) {
+		return xIndexFromNote(note);
 	}
 
-	public static int yFromNote(int note) {
+	public static int xIndexFromNote(int note) {
+		return note % 16;
+	}
+	
+	public int yFromNote(int note) {
+		return yIndexFromNote(note);
+	}
+	
+	public static int yIndexFromNote(int note) {
 		return P.floor(note / 16);
 	}
 	
@@ -89,12 +109,12 @@ implements SimpleMidiListener {
 	
 	public void setButton(int x, int y, float val) {
 		// quantize normalized number for less color-changing via the following comparison 
-		val = P.floor(val * (float) NovationColors.colors.length) / (float)NovationColors.colors.length;
+		val = P.floor(val * (float) numColors()) / (float) numColors();
 //		P.out(val);
 		// update on launchpad hardware
 		if(grid[x][y] != val) {
 			grid[x][y] = val;
-			midiBus.sendNoteOn(0, LaunchPad.gridMidiNote(x, y), NovationColors.colorByPercent(val));
+			midiBus.sendNoteOn(0, gridMidiNote(x, y), colorByPercent(val));
 		}
 	}
 	
@@ -145,8 +165,9 @@ implements SimpleMidiListener {
 	}
 
 	public void noteOn(int channel, int pitch, int velocity) {
-		int inputGridX = LaunchPad.xFromNote(pitch);
-		int inputGridY = LaunchPad.yFromNote(pitch);
+		int inputGridX = xFromNote(pitch);
+		int inputGridY = yFromNote(pitch);
+		P.out("noteOn:", pitch, inputGridX, inputGridY);
 		float buttonPressResult = toggleButton(inputGridX, inputGridY);
 		P.out(buttonPressResult);
 		if(delegate != null) {
