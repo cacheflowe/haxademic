@@ -8,7 +8,7 @@ implements ISequencerPattern {
 
 	protected float thresh = 0.6f; 
 	protected int maxSteps = 8;
-	protected float noiseSpeed = 2.1f;
+	protected float noiseZoom = 2.1f;
 	protected float noiseStart = 0;
 
 	public PatternNoise() {
@@ -33,7 +33,7 @@ implements ISequencerPattern {
 	public void newPattern(boolean[] steps) {
 		int numSteps = steps.length;
 		// new noise() props
-		noiseSpeed = MathUtil.randRangeDecimal(0.1f, 20f);
+		noiseZoom = MathUtil.randRangeDecimal(0.1f, 2f);
 		noiseStart = MathUtil.randRangeDecimal(0, 1000);
 		
 		// mouse control debug
@@ -60,7 +60,7 @@ implements ISequencerPattern {
 	
 	@Override
 	public float valueForStep(float progress, float numSteps) {
-		float noiseStep = progress * noiseSpeed;
+		float noiseStep = progress * noiseZoom;
 		return P.p.noise(noiseStart + noiseStep);
 	}
 	
