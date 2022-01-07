@@ -44,6 +44,10 @@ public class ArtNetDataSender {
 		}
 	}
 	
+	public String controllerAddress() { return controllerAddress; }
+	public int universeStart() { return universeStart; }
+	public int numPixels() { return numPixels; }
+	
 	public void setColorAtIndex(int pixelIndex, float r, float g, float b) {
 		// https://processing.org/reference/byte.html
 		pixelIndex *= 3; // assuming RGB LEDs
