@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.render.FrameLoop;
@@ -13,7 +12,7 @@ import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.system.shell.IScriptCallback;
 import com.haxademic.core.system.shell.ScriptRunner;
 
-public class Demo_ChromeKioskVideo
+public class Demo_ChromeKioskVideo_Multiple
 extends PAppletHax
 implements IScriptCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -22,6 +21,7 @@ implements IScriptCallback {
 	protected WebServer webServer;
 	protected ScriptRunner killChrome;
 	protected ScriptRunner runKiosk1;
+	protected ScriptRunner runKiosk2;
 	protected ScriptRunner killJava;
 	protected String baseURL = "http://localhost:8080/chrome-kiosk/#video%3D";	// url encoded "="
 	
@@ -31,8 +31,7 @@ implements IScriptCallback {
 	}
 	
 	protected void drawApp() {
-		if(p.frameCount == 1) p.background(FrameLoop.osc(0.1f, 0, 80));
-		if(KeyboardState.keyTriggered(' ')) launchChromeKiosk();
+		if(p.frameCount == 1) p.background(FrameLoop.osc(0.05f, 0, 80));
 		p.noStroke();
 	}
 	
@@ -52,26 +51,28 @@ implements IScriptCallback {
 		new Thread(new Runnable() { public void run() {
 			runKiosk1.runWithParams(baseURL + "video/kinect-silhouette.mp4", "0", "1");
 		}}).start();
+		
+		runKiosk2 = new ScriptRunner("chrome-kiosk-multi", this);
+		new Thread(new Runnable() { public void run() {
+			runKiosk2.runWithParams(baseURL + "video/kinect-silhouette.mp4", "1920", "2");
+		}}).start();
 	}
 
 	
 	public void killKiosks() {
 		// kill chrome kiosks
 		runKiosk1.process().destroy();
+		runKiosk2.process().destroy();
 		killChrome.runWithParams();
 		
 		// kill java. script exits on its own. Java process was hanging after launching Chrome kiosks
 		killJava = new ScriptRunner("kill-java", this);
 		killJava.runWithParams();
 	}
-	
-	// IScriptCallback listener
 
 	public void scriptComplete() {
 		P.out("FullscreenKiosks :: SCRIPT COMPLETE");
 	}
-	
-	// tap into Processing shutdown
 
 	public void exit() {
 		killKiosks();

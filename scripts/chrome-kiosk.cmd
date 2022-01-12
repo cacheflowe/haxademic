@@ -20,6 +20,6 @@ echo Step 5 of 5: Waiting a few seconds before restarting the browser...
 "C:\windows\system32\ping" -n 11 -w 1000 127.0.0.1 >NUL
 
 echo Final 'invisible' step: Starting the browser, Finally...
-"%SYSTEMDRIVE%%HOMEPATH%\AppData\Local\Chromium\Application\chrome.exe" --app=%1 --chrome -kiosk --incognito --disable-pinch --overscroll-history-navigation=0 --disable-session-crashed-bubble
+"%SYSTEMDRIVE%%HOMEPATH%\AppData\Local\Chromium\Application\chrome.exe" --app=%1 --chrome -kiosk --incognito --disable-pinch --overscroll-history-navigation=0 --disable-session-crashed-bubble --remote-debugging-port=9222
 
 exit
