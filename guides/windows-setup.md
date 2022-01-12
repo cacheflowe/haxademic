@@ -128,6 +128,8 @@
 
 ## Teamviewer settings
 
+Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howto/windows/disable-fast-user-switching-on-windows-xp/)" feature, to ensure that fullscreen OpenGL apps don't fail to view when switching windows.
+
 * On remote machine
   * Check "Start with Windows" under "Unattended Access"
   * Go to "Extras -> Options"
