@@ -89,8 +89,26 @@ public class SphericalCoord {
 		return util;
 	}
 	
-
-
+	
+	public static PVector randomUniformCoord(boolean surfaceOnly) {
+		return randomUniformCoord(1, surfaceOnly);	// unit sphere
+	}
+	
+	public static PVector randomUniformCoord(float radius, boolean surfaceOnly) {
+		// random uniform point on sphere 
+		// https://twitter.com/neuromantic6/status/1453731486159360005
+		float phi = P.p.random(P.TWO_PI);
+		float costheta = P.p.random(0, 2) - 1;
+		float theta = P.acos(costheta);
+		float r = (surfaceOnly) ? 1 : MathUtil.cuberoot(P.p.random(0, 1));
+		float x = r * P.sin( theta ) * P.cos( phi );
+		float y = r * P.sin( theta ) * P.sin( phi );
+		float z = r * P.cos( theta );
+			
+		util.set(x * radius, y * radius, z * radius);
+		return util;
+	}
+	
 	// https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
 	// Fibonacci distribution
 	public static PVector[] buildFibonacciSpherePoints(int numPoints) {
