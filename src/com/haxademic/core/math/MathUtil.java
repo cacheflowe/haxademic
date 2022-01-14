@@ -400,6 +400,10 @@ public class MathUtil {
 		return percent;
 	}
 	
+	public static float cuberoot(float val) {
+		return P.pow(val, 1/3f);
+	}	
+	
 	public static int[] buildIndexArray(int size) {
 		int[] indexArray = new int[size];
 		for (int i = 0; i < size; i++) {
