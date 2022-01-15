@@ -56,7 +56,7 @@ extends PAppletHax {
 			shape.setTexture(texture);
 		} else {
 			// create PShape for native triangle drawing
-			shape = Shapes.createStrip(texture.width, texture.height, 100).getTessellation();
+			shape = Shapes.createStrip(texture.width, texture.height, 1000).getTessellation();
 			PShapeUtil.repairMissingSVGVertex(shape);
 		}
 		
@@ -115,14 +115,14 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 		PG.basicCameraFromMouse(p.g);
 		
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(noiseTexture.texture());
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(texture.height * 2.5f);
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
+		MeshDeformAndTextureFilter.instance(p).setYAxisOnly(true);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p.g);
 		// draw shape
 		if(nativeTriangles == false) {
-			// deform mesh
-			MeshDeformAndTextureFilter.instance(p).setDisplacementMap(noiseTexture.texture());
-			MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(texture.height * 2.5f);
-			MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-			MeshDeformAndTextureFilter.instance(p).setYAxisOnly(true);
-			MeshDeformAndTextureFilter.instance(p).applyTo(p.g);
 	
 			p.shape(shape);
 			
