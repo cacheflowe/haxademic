@@ -205,6 +205,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return sequencers[index];
 	}
 	
+	public int numChannels() {
+		return sequencers.length;
+	}
+	
 	/////////////////////////////////
 	// SHARED
 	/////////////////////////////////
@@ -330,7 +334,9 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// set current sample, volume by UI sliders
 		for (int i = 0; i < sequencers.length; i++) {
 			Sequencer seq = sequencerAt(i);
-			seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
+			if(UI.valueToggle(GLOBAL_EVOLVES) == false) {
+				seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
+			}
 			seq.volume(UI.value(VOLUME_+(i+1)));
 		}
 	}
@@ -353,6 +359,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 
 		// global settings
 		if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
+	}
+	
+	public void update() {
+		update(null);
 	}
 	
 	public void update(PGraphics pg) {

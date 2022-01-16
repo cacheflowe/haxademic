@@ -7,10 +7,11 @@ import com.haxademic.core.data.patterns.PatternNoise;
 import com.haxademic.core.data.patterns.PatternRandom;
 import com.haxademic.core.data.patterns.PatternSine;
 import com.haxademic.core.data.patterns.PatternTechno;
+import com.haxademic.core.file.FileUtil;
 
 public class SequencerConfig {
 	
-	public static String BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
+	public static String BASE_AUDIO_PATH = null;
 	public int index;
 	public String audioPath;
 	public ISequencerPattern[] patterns;
@@ -23,8 +24,9 @@ public class SequencerConfig {
 	
 	public SequencerConfig(int index, String audioPath, ISequencerPattern[] patterns, float volume, boolean playsNotes, boolean playsOctaveNotes, boolean playsChords, boolean hasAttack, boolean hasRelease) {
 		this.index = index;
+		if(BASE_AUDIO_PATH == null) setLocalProjectPath();
 		this.audioPath = SequencerConfig.BASE_AUDIO_PATH + audioPath;
-		P.out("this.audioPath: ", this.audioPath);
+		P.out("SequencerConfig.audioPath: ", this.audioPath);
 		this.patterns = patterns;
 		this.volume = volume;
 		this.playsNotes = playsNotes;
@@ -32,6 +34,14 @@ public class SequencerConfig {
 		this.playsChords = playsChords;
 		this.hasAttack = hasAttack;
 		this.hasRelease = hasRelease;
+	}
+	
+	public static void setLocalProjectPath() {
+		BASE_AUDIO_PATH = FileUtil.haxademicDataPath();
+	}
+	
+	public static void setAbsolutePath() {
+		BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
 	}
 	
 	//////////////////////////////////////

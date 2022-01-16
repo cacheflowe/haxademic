@@ -59,6 +59,7 @@ implements IAppStoreListener {
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 //		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.initGlobalControlsUI(UC33.KNOB_ROW1_01, UC33.KNOB_ROW2_01);

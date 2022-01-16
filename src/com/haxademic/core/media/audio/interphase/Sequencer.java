@@ -1,6 +1,8 @@
 package com.haxademic.core.media.audio.interphase;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.system.SystemUtil;
 
 import beads.AudioContext;
 import beads.Envelope;
@@ -79,7 +82,9 @@ implements IAppStoreListener {
 	protected Sample[] samples;
 	protected String[] filenames;
 	protected boolean useASDR = true;
-	protected float triggerDelay = 0;
+	
+	// helps with syncing visual triggers with audio sample start time
+	public static int TRIGGER_DELAY = 130;
 
 	// draw object
 	protected ISequencerDrawable drawable;
@@ -391,7 +396,14 @@ implements IAppStoreListener {
 		if(chordMode) player2 = playSampleWithNote(player2, pitchRatioFromIndex(pitchIndex2));
 		
 		// let the app know
-		P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
+		if(TRIGGER_DELAY == 0) {
+			P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
+		} else {
+			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {
+				P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
+			}}, TRIGGER_DELAY);
+
+		}
 					
 		// reset play trigger flag
 		shouldPlay = false;
@@ -515,7 +527,7 @@ implements IAppStoreListener {
 		if(sequencesComplete - lastSequenceCountChangedSound >= sequenceCountChangeSound) {
 			lastSequenceCountChangedSound = sequencesComplete;
 			updateChangeSoundCount();
-			if(evolves == false) loadNextSound();
+			if(evolves == true) loadNextSound();
 		}	
 	}
 	
