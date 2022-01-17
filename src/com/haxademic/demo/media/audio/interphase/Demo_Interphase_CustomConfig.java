@@ -45,6 +45,7 @@ implements IAppStoreListener {
 		interphase.initGlobalControlsUI();
 		interphase.initAudioAnalysisPerChannel();
 //		interphase.initAudioTexturesPerChannel();
+		interphase.autoPlay();
 		
 		// build custom objects for tracking amplitude per sequencer
 		sequencerAmps = new FloatBuffer[interphase.numChannels()];

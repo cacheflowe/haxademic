@@ -552,11 +552,11 @@ implements IAppStoreListener {
 	// load next sound
 	
 	public void loadNextSound() {
-		P.out("loadNextSound", evolves);
 		sampleIndex++;
 		if(sampleIndex >= samples.length) sampleIndex = 0;
 		curSample = samples[sampleIndex];
 		sampleLength = (float) curSample.getLength();
+		DebugView.setValue("Sequencer.curSample_"+index, FileUtil.fileNameFromPath(curSample.getFileName()));
 	}
 	
 	protected void checkLoadNewSound() {

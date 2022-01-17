@@ -79,6 +79,7 @@ public class Metronome {
 		);
 		ac.out.addDependent(clock);
 		ac.start();
+		
 		paused = true;
 		clock.pause(true);
 	}
