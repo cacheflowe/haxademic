@@ -22,6 +22,7 @@ import beads.Envelope;
 import beads.Gain;
 import beads.Glide;
 import beads.KillTrigger;
+import beads.Reverb;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
@@ -61,6 +62,8 @@ implements IAppStoreListener {
 	protected float release = 650;
 	protected int MAX_SAMPLE_LENGTH = 400;
 	protected float velocity = 1;
+	protected float reverbSize = 0;
+	protected float reverbDamping = 0;
 
 	// step sequencer
 	protected boolean steps[];
@@ -246,6 +249,9 @@ implements IAppStoreListener {
 	public Sequencer attack(float attack) { this.attack = attack; return this; } 
 	public float release() { return release; }
 	public Sequencer release(float release) { this.release = release; return this; }
+	public float reverbSize() { return reverbSize; }
+	public float reverbDamping() { return reverbDamping; }
+	public Sequencer reverb(float reverbSize, float reverbDamping) { this.reverbSize = reverbSize; this.reverbDamping = reverbDamping; return this; }
 	public int pitchIndex1() { return pitchIndex1; }
 
 	// audio data getters
@@ -479,7 +485,7 @@ implements IAppStoreListener {
 		// re-init sample player
 		AudioContext ac = Metronome.ac;
 		curPlayer = new SamplePlayer(ac, curSample);
-		curPlayer.setKillOnEnd(false);
+		curPlayer.setKillOnEnd(true);
 		
 		// set pitch on all sequencers that play notes
 		if(config.playsNotes) {
@@ -524,12 +530,23 @@ implements IAppStoreListener {
 				ampEnv.addSegment(endGain, P.min(sampleLength, MAX_SAMPLE_LENGTH), new KillTrigger(gain));	// no attack or release, but using Gain for volume. set killtrigger at end of sample. 
 			}
 			
-//	        Reverb rb = new Reverb(ac, 2);
-//	        rb.setSize(0.01f);	
-//	        rb.addInput(curPlayer);
-//	        gain.addInput(rb);
+			// reverb?
+			boolean hasReverb = reverbSize > 0;
+			Reverb rb = null;
+			if(hasReverb) {
+		        rb = new Reverb(ac, 2);
+		        rb.setSize(reverbSize);	
+		        rb.setDamping(reverbDamping);
+		        rb.addInput(curPlayer);
+			}
 			
 			// build audio chain
+	        // any effects like reverb must be inserted before the gain in the audio chain ->
+	        // otherwise they won't get cleaned up?!
+			if(hasReverb) {
+		        rb.addInput(curPlayer);
+				gain.addInput(rb);
+			}
 			gain.addInput(curPlayer);
 			ac.out.addInput(gain);
 		} else {
@@ -542,7 +559,7 @@ implements IAppStoreListener {
 		if(audioIn != null) audioIn.addInput(curPlayer);
 
 		// add some swing... move this!
-		int delay = (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0;
+		int delay = 0; // (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0;
 		
 		// play!
 		curPlayer.start(delay);
@@ -606,9 +623,6 @@ implements IAppStoreListener {
 		}
 	}
 	
-	public void updatedAppStoreValue(String key, String val) {
-	}
-
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(Interphase.BEAT)) {
 			int newBeat = val.intValue();

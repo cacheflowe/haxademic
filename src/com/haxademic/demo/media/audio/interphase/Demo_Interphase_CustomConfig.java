@@ -1,5 +1,7 @@
 package com.haxademic.demo.media.audio.interphase;
 
+import javax.sound.sampled.AudioFormat;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -9,10 +11,14 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.interphase.Interphase;
+import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.ui.UI;
 
+import beads.AudioContext;
+import beads.RecordToSample;
+import beads.Sample;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -24,6 +30,7 @@ implements IAppStoreListener {
 	protected Interphase interphase;
 	protected FloatBuffer[] sequencerAmps;
 	protected LinearFloat[] sequencerTriggers;
+	RecordToSample rts;
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
@@ -62,23 +69,49 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 	}
 	
+	protected void buildRecorder() {
+		AudioContext ac = Metronome.ac;
+		try {
+			// specify the recording format
+			AudioFormat af = new AudioFormat(44100.0f, 16, 1, true, true);
+			// create a buffer for the recording
+			Sample outputSample = new Sample(44100);
+			// initialize the RecordToSample object
+			rts = new RecordToSample(ac, outputSample, RecordToSample.Mode.INFINITE);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			exit();
+		}
+//		rts.addInput(synthGain);
+		ac.out.addDependent(rts);
+	}
+	
 	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
-		PG.setDrawCorner(p);
+//		PG.setDrawCorner(p);
 		PG.setDrawCenter(p.g);
 
 		// update the music engine
 		interphase.update();
 		
+		// update audio effects
+		for (int i = 0; i < sequencerAmps.length; i++) {
+			Sequencer seq = interphase.sequencerAt(i);
+			seq.reverb(1f, 0.85f);
+			seq.attack(0).release(0);
+		}
+		
 		// update audio amps per channel
+		// and draw debug/test graphics
 		for (int i = 0; i < sequencerAmps.length; i++) {
 			// get FFT amplitude
 			Sequencer seq = interphase.sequencerAt(i);
 			sequencerAmps[i].update(seq.audioAmp());
 			
 			// draw debug
-			float x = p.width / 2 - 200 + 100 * i;
+			float x = p.width / 2 - 150 + 100 * i;
 			float y = p.height / 2;
 			float size = 100 * sequencerAmps[i].average();
 			p.ellipse(x, y - 100, size, size);
@@ -87,7 +120,6 @@ implements IAppStoreListener {
 			sequencerTriggers[i].update();
 			size = 100 * sequencerTriggers[i].value();
 			p.ellipse(x, y + 100, size, size);
-
 		}
 	}
 	
