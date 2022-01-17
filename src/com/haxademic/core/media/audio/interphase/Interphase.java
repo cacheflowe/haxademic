@@ -298,8 +298,9 @@ implements IAppStoreListener, ILaunchpadCallback {
 
 //		if(P.p.key == 'o') P.out(outputConfigSingleLine());
 		if(P.p.key == 'o') saveJsonConfigToFile();
+		if(P.p.key == 'O') rewriteCurJsonFile();
 //		if(P.p.key == 'p') loadConfig("{\"sequencers\": [ { \"volume\": 1, \"sampleIndex\": 19, \"noteOffset\": 3, \"notesByStep\": true, \"steps\": [ 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1 ] }, { \"volume\": 1, \"sampleIndex\": 22, \"noteOffset\": 6, \"notesByStep\": false, \"steps\": [ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 29, \"noteOffset\": 13, \"notesByStep\": true, \"steps\": [ 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 35, \"noteOffset\": 7, \"notesByStep\": true, \"steps\": [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] } ]}");
-		if(P.p.key == 'p') loadConfigFromFile("2022-01-16-20-34-35.json");
+//		if(P.p.key == 'p') loadConfigFromFile("2022-01-16-20-34-35.json");
 		if(configFiles.size() > 0) {
 			if(P.p.key == '9') { curConfigIndex--; curConfigIndex = P.max(curConfigIndex, 0); loadConfigFromFile(configFiles.get(curConfigIndex)); }
 			if(P.p.key == '0') { curConfigIndex++; curConfigIndex = P.min(curConfigIndex, configFiles.size() - 1); loadConfigFromFile(configFiles.get(curConfigIndex)); }
@@ -339,6 +340,14 @@ implements IAppStoreListener, ILaunchpadCallback {
 		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
 		configFiles.add(jsonFilename);
 		curConfigIndex = configFiles.size() - 1;
+	}
+	
+	public void rewriteCurJsonFile() {
+		// when we want to update an existing json :) 
+		FileUtil.createDir(FileUtil.getPath(SEQUENCES_PATH));
+		String jsonFilename = configFiles.get(curConfigIndex);
+		String jsonSavePath = FileUtil.getPath(SEQUENCES_PATH + jsonFilename);
+		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
 	}
 	
 	protected void loadConfig(String jsonStr) {
