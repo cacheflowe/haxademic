@@ -245,14 +245,14 @@ public class AudioStreamData {
 	
 	public void drawBufferFFT() {
 		// lazy init buffer
-		if(bufferFFT == null) bufferFFT = PG.newPG(frequencies.length, 8, false, false);
+		if(bufferFFT == null) bufferFFT = PG.newPG(frequencies.length, 2, false, false);
 		
 		// draw fft data
 		bufferFFT.beginDraw();
     	bufferFFT.background(0);
     	bufferFFT.noStroke();
     	for (int i = 0; i < frequencies.length; i++) {
-    		bufferFFT.fill(255f * frequencies[i] * 1f, 255);
+    		bufferFFT.fill(255f * frequencies[i] * 1f);
     		bufferFFT.rect(i, 0, 1, bufferFFT.height);
     	}
     	bufferFFT.endDraw();
