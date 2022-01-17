@@ -91,6 +91,7 @@ implements IAppStoreListener {
 	
 	// local audio analysis
 	protected AudioInputBeads audioIn;
+	protected boolean hasAudioTextures = false;
 	
 	public Sequencer(Interphase inter, SequencerConfig config) {
 		this.config = config;
@@ -107,6 +108,10 @@ implements IAppStoreListener {
 	
 	public void addAudioAnalysis() {
 		audioIn = new AudioInputBeads(Metronome.ac);
+	}
+	
+	public void addAudioTextures() {
+		hasAudioTextures = true;
 	}
 	
 	public String info() {
@@ -272,10 +277,15 @@ implements IAppStoreListener {
 	
 	public void update() {
 		if(audioIn != null) {
+			// update audio analysis: fft, waveform
 			audioIn.update();
-			audioIn.drawDataBuffers();
-			DebugView.setTexture("Audio FFT " + index, audioIn.audioData().bufferFFT);
-			DebugView.setTexture("Audio Waveform " + index, audioIn.audioData().bufferWaveform);
+			// update buffer if we've been asked to draw them
+			if(hasAudioTextures) {
+				audioIn.drawDataBuffers();
+				DebugView.setTexture("Audio FFT " + index, audioIn.audioData().bufferFFT);
+				DebugView.setTexture("Audio Waveform " + index, audioIn.audioData().bufferWaveform);
+			}
+			// draw audio in debug if debug panel is open
 			if(DebugView.active()) {
 				audioIn.drawDebugBuffer();
 				DebugView.setTexture("Audio Input " + index, audioIn.debugBuffer());
