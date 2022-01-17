@@ -22,7 +22,6 @@ import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
-import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
@@ -270,13 +269,7 @@ implements IAppStoreListener {
 		interphase.update(null);
 	}
 	
-	protected void outputConfig() {
-		// export json for fun
-		for (int i = 0; i < numSequencers; i++) {
-			Sequencer seq = interphase.sequencerAt(i);
-			P.out(JsonUtil.jsonToSingleLine(seq.json()));
-		}
-		
+	protected void outputConfig() {		
 		// write out code for setting samples
 		for (int i = 0; i < numSequencers; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
@@ -289,7 +282,7 @@ implements IAppStoreListener {
 			P.out("interphase.sequencerAt("+i+").setPatternByInts(new int[] {" + seq.stepsListString() + "});");
 		}
 	}
-	
+		
 	/////////////////////////////////////////////////////////////////
 	// IAppStoreListener
 	/////////////////////////////////////////////////////////////////

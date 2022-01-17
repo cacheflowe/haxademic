@@ -1,6 +1,8 @@
 package com.haxademic.core.media.audio.interphase;
 
 
+import java.util.ArrayList;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.constants.PEvents;
@@ -8,17 +10,22 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 //import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.audio.AudioUtil;
+import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.data.JSONArray;
+import processing.data.JSONObject;
 import themidibus.MidiBus;
 
 public class Interphase
@@ -67,6 +74,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public Sequencer sequencers[];
 	protected Metronome metronome;
 	
+	protected String SEQUENCES_PATH = "text/json/interphase/sequences/";
+	protected ArrayList<String> configFiles = new ArrayList<String>();
+	protected int curConfigIndex = 0;
+	
 	protected boolean hasUI = false;
 	
 	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{104, 41});
@@ -110,6 +121,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		metronome = new Metronome();
 		buildSequencers(interphaseChannels);
 		addDebugHelpLines();
+		loadConfigFiles();
 	}
 	
 	protected void buildSequencers(SequencerConfig[] interphaseChannels) {
@@ -279,7 +291,78 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(P.p.key == 'N') sequencers[5].toggleEvloves();
 		if(P.p.key == 'M') sequencers[6].toggleEvloves();
 		if(P.p.key == '<') sequencers[7].toggleEvloves();
+
+//		if(P.p.key == 'o') P.out(outputConfigSingleLine());
+		if(P.p.key == 'o') saveJsonConfigToFile();
+//		if(P.p.key == 'p') loadConfig("{\"sequencers\": [ { \"volume\": 1, \"sampleIndex\": 19, \"noteOffset\": 3, \"notesByStep\": true, \"steps\": [ 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1 ] }, { \"volume\": 1, \"sampleIndex\": 22, \"noteOffset\": 6, \"notesByStep\": false, \"steps\": [ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 29, \"noteOffset\": 13, \"notesByStep\": true, \"steps\": [ 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 35, \"noteOffset\": 7, \"notesByStep\": true, \"steps\": [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] } ]}");
+		if(P.p.key == 'p') loadConfigFromFile("2022-01-16-20-34-35.json");
+		if(P.p.key == '9') { curConfigIndex--; curConfigIndex = P.max(curConfigIndex, 0); loadConfigFromFile(configFiles.get(curConfigIndex)); }
+		if(P.p.key == '0') { curConfigIndex++; curConfigIndex = P.min(curConfigIndex, configFiles.size() - 1); loadConfigFromFile(configFiles.get(curConfigIndex)); }
 	}
+	
+	// JSON CONFIGS
+	
+	protected void loadConfigFiles() {
+		configFiles = FileUtil.getFilesInDirOfType(FileUtil.getPath(SEQUENCES_PATH), "json");
+	}
+	
+	public JSONObject outputConfig() {
+		JSONObject interphaseConfig = new JSONObject();
+		// add global props
+		interphaseConfig.setFloat(BPM, P.store.getInt(BPM));
+		// add sequencers' data
+		JSONArray sequencersJSON = new JSONArray(); 
+		interphaseConfig.setJSONArray("sequencers", sequencersJSON);
+		for (int i = 0; i < numChannels(); i++) {
+			Sequencer seq = sequencerAt(i);
+			sequencersJSON.setJSONObject(i, seq.json());
+		}
+		return interphaseConfig;
+	}
+	
+	public String outputConfigSingleLine() {
+		return JsonUtil.jsonToSingleLine(outputConfig());
+	}
+		
+	public void saveJsonConfigToFile() {
+		FileUtil.createDir(FileUtil.getPath(SEQUENCES_PATH));
+		String jsonFilename = SystemUtil.getTimestamp() + ".json";
+		String jsonSavePath = FileUtil.getPath(SEQUENCES_PATH + jsonFilename);
+		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
+		configFiles.add(jsonFilename);
+		curConfigIndex = configFiles.size() - 1;
+	}
+	
+	protected void loadConfig(String jsonStr) {
+		JSONObject jsonConfig = JsonUtil.jsonFromString(jsonStr);
+		loadConfig(jsonConfig);
+	}
+	
+	protected void loadConfigFromFile(String filename) {
+		JSONObject interphaseConfig = JsonUtil.jsonFromFile(FileUtil.getPath(SEQUENCES_PATH + filename));
+		loadConfig(interphaseConfig);
+	}
+	
+	protected void loadConfig(JSONObject interphaseConfig) {
+		// load global props
+		if(UI.has(UI_GLOBAL_BPM)) UI.setValue(UI_GLOBAL_BPM, interphaseConfig.getInt(BPM)); // just in case UI wasn't initialized
+		P.store.setNumber(BPM, interphaseConfig.getInt(BPM));
+			
+		// add sequencers' data
+		JSONArray sequencersDataArray = interphaseConfig.getJSONArray("sequencers");
+		for (int i = 0; i < sequencersDataArray.size(); i++) {
+			Sequencer seq = sequencerAt(i);
+			JSONObject sequencerDataObj = sequencersDataArray.getJSONObject(i); 
+			seq.load(sequencerDataObj);
+			
+			// make sure to update UI to keep in sync
+			String uiSampleKey = UI_SAMPLE_+(i+1);
+			String uiVolumeKey = UI_VOLUME_+(i+1);
+			if(UI.has(uiSampleKey)) UI.setValue(UI_SAMPLE_+(i+1), seq.sampleIndex());
+			if(UI.has(uiVolumeKey)) UI.setValue(UI_VOLUME_+(i+1), seq.volume());
+		}
+	}
+
 	
 	// LAUNCHPAD INTEGRATION
 	
@@ -354,10 +437,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(trigger2.triggered()) { sequencers[1].evolvePattern(); sequencers[1].triggerSample(); }
 		if(trigger3.triggered()) { sequencers[2].evolvePattern(); sequencers[2].triggerSample(); }
 		if(trigger4.triggered()) { sequencers[3].evolvePattern(); sequencers[3].triggerSample(); }
-		if(trigger5.triggered()) { sequencers[4].evolvePattern(); sequencers[4].triggerSample(); }
-		if(trigger6.triggered()) { sequencers[5].evolvePattern(); sequencers[5].triggerSample(); }
-		if(trigger7.triggered()) { sequencers[6].evolvePattern(); sequencers[6].triggerSample(); }
-		if(trigger8.triggered()) { sequencers[7].evolvePattern(); sequencers[7].triggerSample(); }
+//		if(trigger5.triggered()) { sequencers[4].evolvePattern(); sequencers[4].triggerSample(); }
+//		if(trigger6.triggered()) { sequencers[5].evolvePattern(); sequencers[5].triggerSample(); }
+//		if(trigger7.triggered()) { sequencers[6].evolvePattern(); sequencers[6].triggerSample(); }
+//		if(trigger8.triggered()) { sequencers[7].evolvePattern(); sequencers[7].triggerSample(); }
 
 		// bpm
 		int curBmpMIDI = P.store.getInt(Interphase.BPM);
@@ -365,7 +448,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(triggerUp.triggered())  P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
 
 		// global settings
-		if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
+//		if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
 	}
 	
 	public void update() {
@@ -514,7 +597,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	public void updatedString(String key, String val) {
 		if(key.equals(PEvents.KEY_PRESSED)) keyPressed();
-		
 	}
 	public void updatedBoolean(String key, Boolean val) {
 	}	

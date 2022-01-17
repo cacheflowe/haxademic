@@ -1,0 +1,101 @@
+{
+  "sequencers": [
+    {
+      "volume": 1,
+      "sampleIndex": 21,
+      "noteOffset": 11,
+      "notesByStep": true,
+      "steps": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 33,
+      "noteOffset": 15,
+      "notesByStep": true,
+      "steps": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 15,
+      "noteOffset": 5,
+      "notesByStep": true,
+      "steps": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 22,
+      "noteOffset": 14,
+      "notesByStep": false,
+      "steps": [
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1,
+        0,
+        1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "BPM": 116
+}

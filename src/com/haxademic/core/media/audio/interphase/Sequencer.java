@@ -14,6 +14,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import beads.AudioContext;
@@ -135,20 +136,45 @@ implements IAppStoreListener {
 				;
 	}
 	
-	public String json() {
-		// convert steps to ints
+	public JSONObject json() {
+		// convert steps to ints array
 		IntList stepsList =  new IntList(steps.length);
 		for (int i = 0; i < steps.length; i++) {
 			stepsList.append((steps[i]) ? 1 : 0);
 		}
 		JSONArray dataSteps = new JSONArray(stepsList);
+		
+		// build main json object
 		JSONObject jsonConfig = new JSONObject();
 		jsonConfig.setJSONArray("steps", dataSteps);
 		jsonConfig.setInt("sampleIndex", sampleIndex);
 		jsonConfig.setBoolean("notesByStep", notesByStep);
 		jsonConfig.setInt("noteOffset", noteOffset);
 		jsonConfig.setFloat("volume", config.volume);
-		return jsonConfig.toString();
+
+		return jsonConfig;
+	}
+	
+	public String jsonString() {
+		return json().toString();
+	}
+	
+	public void load(String jsonString) {
+		load(JsonUtil.jsonFromString(jsonString));
+	}
+	
+	public void load(JSONObject json) {
+		// get data from JSON
+		setSampleByIndex(json.getInt("sampleIndex", 0));
+		noteOffset = json.getInt("noteOffset", 0);
+		notesByStep = json.getBoolean("notesByStep", false);
+		volume(json.getFloat("volume", 1));
+		
+		// set local objects
+		JSONArray dataSteps = json.getJSONArray("steps");
+		for (int i = 0; i < steps.length; i++) {
+			steps[i] = dataSteps.getInt(i) == 1;
+		}
 	}
 	
 	/////////////////////////////////////
@@ -526,6 +552,7 @@ implements IAppStoreListener {
 	// load next sound
 	
 	public void loadNextSound() {
+		P.out("loadNextSound", evolves);
 		sampleIndex++;
 		if(sampleIndex >= samples.length) sampleIndex = 0;
 		curSample = samples[sampleIndex];
