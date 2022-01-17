@@ -148,19 +148,31 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	public Interphase initGlobalControlsUI() {
-		return initGlobalControlsUI(-1, -1);
+		return initGlobalControlsUI(null, null);
 	}
 	
-	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int volumeMidiCC) {
+	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int midiCCSequence) {
+		// create sequential MIDI CC notes
+		int[] samplePickerMidiCCArray = new int[sequencers.length];
+		for (int i = 0; i < samplePickerMidiCCArray.length; i++) samplePickerMidiCCArray[i] = samplePickerMidiCC + i;
+		int[] midiCCSequenceArray = new int[sequencers.length];
+		for (int i = 0; i < midiCCSequenceArray.length; i++) midiCCSequenceArray[i] = midiCCSequence + i;
+		// pass to constructor
+		return initGlobalControlsUI(samplePickerMidiCCArray, midiCCSequenceArray);
+	}
+	
+	public Interphase initGlobalControlsUI(int[] samplePickerMidiCC, int[] volumeMidiCC) {
 		UI.addTitle("Interphase");
 		UI.addSlider(UI_GLOBAL_BPM, 105, 60, 170, 1, false);
 		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
 		UI.addSlider(UI_CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
 		UI.addTitle("Interphase | Sequencers");
 		for (int i = 0; i < sequencers.length; i++) {
+			// add optonal midi
+			int midiCCSample = (samplePickerMidiCC != null) ? samplePickerMidiCC[i] : -1;
+			int midiCCVolume = (volumeMidiCC != null) ? volumeMidiCC[i] : -1;
+			// add sliders for each sequencer
 			Sequencer seq = sequencerAt(i);
-			int midiCCSample = (samplePickerMidiCC > -1) ? samplePickerMidiCC + i : -1;
-			int midiCCVolume = (volumeMidiCC > -1) ? volumeMidiCC + i : -1;
 			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
 			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
 		}
