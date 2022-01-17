@@ -18,10 +18,14 @@ import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import beads.AudioContext;
+import beads.Bead;
+import beads.Compressor;
+import beads.DelayTrigger;
 import beads.Envelope;
 import beads.Gain;
 import beads.Glide;
 import beads.KillTrigger;
+import beads.Panner;
 import beads.Reverb;
 import beads.Sample;
 import beads.SampleManager;
@@ -486,6 +490,11 @@ implements IAppStoreListener {
 		AudioContext ac = Metronome.ac;
 		curPlayer = new SamplePlayer(ac, curSample);
 		curPlayer.setKillOnEnd(true);
+//		curPlayer.pause(true);
+		
+		// set gain on audio input analyzer
+		// todo: switch between gain or curPlayer, to take into account asdr
+		if(audioIn != null) audioIn.addInput(curPlayer);
 		
 		// set pitch on all sequencers that play notes
 		if(config.playsNotes) {
@@ -530,21 +539,29 @@ implements IAppStoreListener {
 				ampEnv.addSegment(endGain, P.min(sampleLength, MAX_SAMPLE_LENGTH), new KillTrigger(gain));	// no attack or release, but using Gain for volume. set killtrigger at end of sample. 
 			}
 			
-			// reverb?
+			// got reverb?
 			boolean hasReverb = reverbSize > 0;
 			Reverb rb = null;
 			if(hasReverb) {
 		        rb = new Reverb(ac, 2);
 		        rb.setSize(reverbSize);	
 		        rb.setDamping(reverbDamping);
-		        rb.addInput(curPlayer);
 			}
+			
+//			Compressor comp = new Compressor(ac, 2);
+//			comp.setAttack(20);
+//			comp.setDecay(100);
+//			comp.setThreshold(0.85f);
+//			comp.setRatio(4f);
+//			comp.setKnee(2f);
 			
 			// build audio chain
 	        // any effects like reverb must be inserted before the gain in the audio chain ->
 	        // otherwise they won't get cleaned up?!
 			if(hasReverb) {
-		        rb.addInput(curPlayer);
+//				comp.addInput(curPlayer);
+//				rb.addInput(comp);
+				rb.addInput(curPlayer);
 				gain.addInput(rb);
 			}
 			gain.addInput(curPlayer);
@@ -554,15 +571,8 @@ implements IAppStoreListener {
 			ac.out.addInput(curPlayer);
 		}
 		
-		// set gain on audio input analyzer
-		// todo: switch between gain or curPlayer, to take into account asdr
-		if(audioIn != null) audioIn.addInput(curPlayer);
-
-		// add some swing... move this!
-		int delay = 0; // (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0;
-		
 		// play!
-		curPlayer.start(delay);
+//		curPlayer.start(0);
 		return curPlayer;
 	}
 	
@@ -619,6 +629,18 @@ implements IAppStoreListener {
 //		if(curStep == 0) flashLEDs();
 		
 		if(shouldPlay) {
+//			AudioContext ac = Metronome.ac;
+//			// add some swing... move this!
+////			int delay = 0; // (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0;
+//			int delay = (index == 2 || index == 5) ? MathUtil.randRange(0, 20) : 0;
+//			// play it, with delay or without
+//			Bead myBead = new Bead() {
+//				protected void messageReceived(Bead b) {
+//				}
+//			};
+//			
+//			DelayTrigger dt = new DelayTrigger(ac, delay, myBead, null);
+//			ac.out.addDependent(dt);
 			playSample();
 		}
 	}

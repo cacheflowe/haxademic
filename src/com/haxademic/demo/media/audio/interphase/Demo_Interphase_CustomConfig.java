@@ -68,7 +68,6 @@ implements IAppStoreListener {
 	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
-//		PG.setDrawCorner(p);
 		PG.setDrawCenter(p.g);
 
 		// update the music engine
@@ -77,7 +76,7 @@ implements IAppStoreListener {
 		// update audio effects
 		for (int i = 0; i < sequencerAmps.length; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
-			seq.reverb(1f, 0.85f);
+			seq.reverb(1.0f, 0.85f);
 			if(i == 0) seq.reverb(0.01f, 0.85f);
 			seq.attack(0).release(0);
 		}
