@@ -1,24 +1,21 @@
 package com.haxademic.demo.media.audio.interphase;
 
-import javax.sound.sampled.AudioFormat;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.ui.UI;
 
-import beads.AudioContext;
-import beads.RecordToSample;
-import beads.Sample;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -30,7 +27,6 @@ implements IAppStoreListener {
 	protected Interphase interphase;
 	protected FloatBuffer[] sequencerAmps;
 	protected LinearFloat[] sequencerTriggers;
-	RecordToSample rts;
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
@@ -63,28 +59,10 @@ implements IAppStoreListener {
 		}
 
 		// set custom props
-		UI.setValueToggle(Interphase.UI_GLOBAL_EVOLVES, true);
+		UI.setValueToggle(Interphase.UI_GLOBAL_EVOLVES, false);
 		
 		// listen for events
 		P.store.addListener(this);
-	}
-	
-	protected void buildRecorder() {
-		AudioContext ac = Metronome.ac;
-		try {
-			// specify the recording format
-			AudioFormat af = new AudioFormat(44100.0f, 16, 1, true, true);
-			// create a buffer for the recording
-			Sample outputSample = new Sample(44100);
-			// initialize the RecordToSample object
-			rts = new RecordToSample(ac, outputSample, RecordToSample.Mode.INFINITE);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			exit();
-		}
-//		rts.addInput(synthGain);
-		ac.out.addDependent(rts);
 	}
 	
 	protected void drawApp() {
@@ -100,6 +78,7 @@ implements IAppStoreListener {
 		for (int i = 0; i < sequencerAmps.length; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
 			seq.reverb(1f, 0.85f);
+			if(i == 0) seq.reverb(0.01f, 0.85f);
 			seq.attack(0).release(0);
 		}
 		
@@ -135,7 +114,12 @@ implements IAppStoreListener {
 			sequencerTriggers[val.intValue()].setCurrent(1).setTarget(0);
 		}
 	}
-	public void updatedString(String key, String val) {}
+	public void updatedString(String key, String val) {
+		if(key.equals(PEvents.KEY_PRESSED)) {
+			if(p.key == '6') AudioUtil.buildRecorder(Metronome.ac, 1500);
+			if(p.key == '7') AudioUtil.finishRecording();
+		}
+	}
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}

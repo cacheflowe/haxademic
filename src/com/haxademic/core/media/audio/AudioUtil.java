@@ -4,10 +4,16 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Mixer;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 import beads.AudioContext;
+import beads.AudioFileType;
 import beads.AudioServerIO;
+import beads.Gain;
 import beads.JavaSoundAudioIO;
+import beads.RecordToSample;
+import beads.Sample;
 import ddf.minim.Minim;
 
 public class AudioUtil {
@@ -49,9 +55,11 @@ public class AudioUtil {
 		minim.setOutputMixer(getMixerFromIndex(index));
 	}
 	
+	//////////////////////////////////////////////////
 	// Beads defaut AudioContext init got weird with the switch from Java 8 to 11.
 	// Thanks to @hamoid for the solution: 
 	// https://discourse.processing.org/t/solution-beads-audio-library-error-java-lang-illegalargumentexception-line-unsupported/9454/6
+	//////////////////////////////////////////////////
 	
 	public static AudioContext getBeadsContext() {
 		return getBeadsContext(DEFAULT_AUDIO_MIXER_INDEX);
@@ -71,4 +79,49 @@ public class AudioUtil {
 		AudioContext ctx = new AudioContext(jsaIO);
 		return ctx;
 	}
+	
+	//////////////////////////////////////////////////
+	// RECORDING
+	//////////////////////////////////////////////////
+	
+	public static RecordToSample rts;
+	public static Sample outputSample;
+	
+	public static void buildRecorder(AudioContext ac, int recordTime) {
+		P.out("Started recording audio!");
+		try {
+			// specify the recording format
+//			AudioFormat af = new AudioFormat(44100.0f, 16, 1, true, true);
+			// create a buffer for the recording
+			outputSample = new Sample(0, 2, 44100);
+			// initialize the RecordToSample object
+			rts = new RecordToSample(ac, outputSample, RecordToSample.Mode.INFINITE);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		Gain gain = new Gain(ac, 2);
+		gain.setGain(0.75f);
+		gain.addInput(ac.out);
+		rts.addInput(gain);
+		ac.out.addDependent(rts);
+	}
+	
+	public static void finishRecording() {
+		String baseDir = FileUtil.haxademicOutputPath() + "audio-recordings" + FileUtil.SEPARATOR;
+		FileUtil.createDir(baseDir);
+		String filename = "recording-" + SystemUtil.getTimestamp() + ".wav";
+		rts.pause(true);
+		try{
+			outputSample.write(baseDir + filename, AudioFileType.WAV);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		rts.kill();
+		P.out("Recorded audio:", filename);
+	}
+	
+
 }
