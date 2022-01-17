@@ -80,18 +80,18 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	protected boolean hasUI = false;
 	
-	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{104, 41});
-	protected InputTrigger trigger2 = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{105, 42});
-	protected InputTrigger trigger3 = new InputTrigger().addKeyCodes(new char[]{'3'}).addMidiNotes(new Integer[]{106, 43});
-	protected InputTrigger trigger4 = new InputTrigger().addKeyCodes(new char[]{'4'}).addMidiNotes(new Integer[]{107, 44});
-	protected InputTrigger trigger5 = new InputTrigger().addKeyCodes(new char[]{'5'}).addMidiNotes(new Integer[]{108, 45});
-	protected InputTrigger trigger6 = new InputTrigger().addKeyCodes(new char[]{'6'}).addMidiNotes(new Integer[]{109, 46});
-	protected InputTrigger trigger7 = new InputTrigger().addKeyCodes(new char[]{'7'}).addMidiNotes(new Integer[]{110, 47});
-	protected InputTrigger trigger8 = new InputTrigger().addKeyCodes(new char[]{'8'}).addMidiNotes(new Integer[]{111, 48});
+//	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{104, 41});
+//	protected InputTrigger trigger2 = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{105, 42});
+//	protected InputTrigger trigger3 = new InputTrigger().addKeyCodes(new char[]{'3'}).addMidiNotes(new Integer[]{106, 43});
+//	protected InputTrigger trigger4 = new InputTrigger().addKeyCodes(new char[]{'4'}).addMidiNotes(new Integer[]{107, 44});
+//	protected InputTrigger trigger5 = new InputTrigger().addKeyCodes(new char[]{'5'}).addMidiNotes(new Integer[]{108, 45});
+//	protected InputTrigger trigger6 = new InputTrigger().addKeyCodes(new char[]{'6'}).addMidiNotes(new Integer[]{109, 46});
+//	protected InputTrigger trigger7 = new InputTrigger().addKeyCodes(new char[]{'7'}).addMidiNotes(new Integer[]{110, 47});
+//	protected InputTrigger trigger8 = new InputTrigger().addKeyCodes(new char[]{'8'}).addMidiNotes(new Integer[]{111, 48});
 
 	protected InputTrigger triggerDown = new InputTrigger().addKeyCodes(new char[]{'-'});
 	protected InputTrigger triggerUp = new InputTrigger().addKeyCodes(new char[]{'='});
-	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
+//	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
 
 	protected LaunchPadMini launchpad1;
 	protected LaunchPadMini launchpad2;
@@ -106,6 +106,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		NUM_CHANNELS = interphaseChannels.length;
 		
 		// init state
+		// override these after Interphase init
 		P.store.setBoolean(SYSTEM_MUTED, false);
 		P.store.setNumber(BEAT, 0);
 		P.store.setNumber(CUR_STEP, 0);
@@ -113,7 +114,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 		P.store.setNumber(SEQUENCER_TRIGGER, 0);
-		P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, true);
+		P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, false);
 		P.store.addListener(this);
 		
 		// build music machine
@@ -401,7 +402,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 			}
 		}
 		
-		// update playhead
+		// update playhead row in play button column on 1st-gen Launchpad
+		/*
 		if(launchpad1 instanceof LaunchPadMini == false) {
 			int lastColIndex = 8;
 			for (int step = 0; step < NUM_STEPS; step++) {
@@ -413,6 +415,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 				}
 			}
 		}
+		*/
 	}
 	
 	// Bridge to UIControls for mouse control
@@ -450,10 +453,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	protected void checkInputs() {
 		// sample triggers & evolve
-		if(trigger1.triggered()) { sequencers[0].evolvePattern(); sequencers[0].triggerSample(); }
-		if(trigger2.triggered()) { sequencers[1].evolvePattern(); sequencers[1].triggerSample(); }
-		if(trigger3.triggered()) { sequencers[2].evolvePattern(); sequencers[2].triggerSample(); }
-		if(trigger4.triggered()) { sequencers[3].evolvePattern(); sequencers[3].triggerSample(); }
+//		if(trigger1.triggered()) { sequencers[0].evolvePattern(); sequencers[0].triggerSample(); }
+//		if(trigger2.triggered()) { sequencers[1].evolvePattern(); sequencers[1].triggerSample(); }
+//		if(trigger3.triggered()) { sequencers[2].evolvePattern(); sequencers[2].triggerSample(); }
+//		if(trigger4.triggered()) { sequencers[3].evolvePattern(); sequencers[3].triggerSample(); }
 //		if(trigger5.triggered()) { sequencers[4].evolvePattern(); sequencers[4].triggerSample(); }
 //		if(trigger6.triggered()) { sequencers[5].evolvePattern(); sequencers[5].triggerSample(); }
 //		if(trigger7.triggered()) { sequencers[6].evolvePattern(); sequencers[6].triggerSample(); }
@@ -476,7 +479,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// check inputs & advance sequencers
 		checkInputs();
 		updateSequencers();
-		updateLaunchpads();
 		updateUIGridButtons();
 		updateDebugValues();
 		if(pg != null) drawSequencer(pg);
@@ -597,17 +599,20 @@ implements IAppStoreListener, ILaunchpadCallback {
 			boolean isActive = (val.intValue() == 1);
 			sequencers[gridX].stepActive(gridY, isActive);
 		}
+		// update launchpads with BEAT delay
+		if(key.equals(BEAT)) updateLaunchpads();
 		// connect local UI events to global settings
 		if(key.equals(UI_GLOBAL_BPM)) P.store.setNumber(Interphase.BPM, val.floatValue());
 		if(key.equals(UI_CUR_SCALE)) P.store.setNumber(Interphase.CUR_SCALE_INDEX, val.intValue());
 		if(key.equals(UI_GLOBAL_EVOLVES)) P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, val.intValue() == 1);	// toggle events are 0-1, not boolean !!!
+		// set sample/volume props for specific channels
 		if(key.indexOf(UI_SAMPLE_) == 0) {
-			String sequencerNum = key.substring(UI_SAMPLE_.length(), UI_SAMPLE_.length() + 1);	// TODO: this will break after 9 channels!!!! 
+			String sequencerNum = key.substring(UI_SAMPLE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
 			sequencerAt(sequencerIndex).setSampleByIndex(val.intValue());
 		}
 		if(key.indexOf(UI_VOLUME_) == 0) {
-			String sequencerNum = key.substring(UI_SAMPLE_.length(), UI_SAMPLE_.length() + 1); 	// TODO: this will break after 9 channels!!!!
+			String sequencerNum = key.substring(UI_SAMPLE_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
 			sequencerAt(sequencerIndex).volume(val.floatValue());
 		}
