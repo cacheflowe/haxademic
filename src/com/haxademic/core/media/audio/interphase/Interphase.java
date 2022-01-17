@@ -3,6 +3,7 @@ package com.haxademic.core.media.audio.interphase;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -41,7 +42,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public static final String CUR_SCALE_INDEX = "CUR_SCALE_INDEX";
 	public static final String GLOBAL_PATTERNS_EVLOVE = "GLOBAL_PATTERNS_EVLOVE";
-	public static boolean SYSTEM_MUTED = false;
+	public static final String SYSTEM_MUTED = "SYSTEM_MUTED";
 
 	// input 
 	
@@ -53,11 +54,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	// ui
 	
-	public static final String GLOBAL_BPM = "GLOBAL_BPM";
-	public static final String GLOBAL_EVOLVES = "GLOBAL_EVOLVES";
-	public static final String CUR_SCALE = "CUR_SCALE";
-	public static final String SAMPLE_ = "SAMPLE_";
-	public static final String VOLUME_ = "VOLUME_";
+	public static final String UI_GLOBAL_BPM = "UI_GLOBAL_BPM";
+	public static final String UI_GLOBAL_EVOLVES = "UI_GLOBAL_EVOLVES";
+	public static final String UI_CUR_SCALE = "UI_CUR_SCALE";
+	public static final String UI_SAMPLE_ = "UI_SAMPLE_";
+	public static final String UI_VOLUME_ = "UI_VOLUME_";
 
 	
 	//////////////////////////////////////////
@@ -94,6 +95,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		NUM_CHANNELS = interphaseChannels.length;
 		
 		// init state
+		P.store.setBoolean(SYSTEM_MUTED, false);
 		P.store.setNumber(BEAT, 0);
 		P.store.setNumber(CUR_STEP, 0);
 		P.store.setNumber(BPM, 90);
@@ -151,15 +153,16 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int volumeMidiCC) {
 		UI.addTitle("Interphase");
-		UI.addSlider(GLOBAL_BPM, 105, 60, 170, 1, false);
-		UI.addToggle(GLOBAL_EVOLVES, false, false);
-		UI.addSlider(CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
+		UI.addSlider(UI_GLOBAL_BPM, 105, 60, 170, 1, false);
+		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
+		UI.addSlider(UI_CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
+		UI.addTitle("Interphase | Sequencers");
 		for (int i = 0; i < sequencers.length; i++) {
 			Sequencer seq = sequencerAt(i);
 			int midiCCSample = (samplePickerMidiCC > -1) ? samplePickerMidiCC + i : -1;
 			int midiCCVolume = (volumeMidiCC > -1) ? volumeMidiCC + i : -1;
-			UI.addSlider(SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
-			UI.addSlider(VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
+			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
+			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
 		}
 		return this;
 	}
@@ -192,6 +195,13 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
+	public Interphase initAudioTexturesPerChannel() {
+		for (int i = 0; i < sequencers.length; i++) {
+			sequencers[i].addAudioTextures();
+		}
+		return this;
+	}
+	
 	
 	/////////////////////////////////
 	// GETTERS
@@ -214,19 +224,20 @@ implements IAppStoreListener, ILaunchpadCallback {
 	/////////////////////////////////
 	
 	public void setSystemMute(boolean muted) {
-		SYSTEM_MUTED = muted;
+		P.store.setBoolean(SYSTEM_MUTED, muted);
 	}
 	
 	/////////////////////////////////
 	// INPUT
 	/////////////////////////////////
 	
-	public void keyPressed() {
+	protected void keyPressed() {
 		// App controls ---------------------------------------
-		
+		P.out("Interphase keyPressed:", P.p.key);
+		if (P.p.key == ' ') metronome.togglePlay();
 		if (P.p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
-		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) SYSTEM_MUTED = true;
-		if (P.p.key == P.CODED && P.p.keyCode == P.UP) SYSTEM_MUTED = false;
+		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) P.store.setBoolean(SYSTEM_MUTED, true);
+		if (P.p.key == P.CODED && P.p.keyCode == P.UP) P.store.setBoolean(SYSTEM_MUTED, false);
 		
 		// Sequencer controls ---------------------------------
 		
@@ -325,22 +336,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// DRAW
 	/////////////////////////////////
 	
-	protected void updateFromGlobalUI() {
-		// set interphase props
-		P.store.setNumber(Interphase.BPM, UI.value(GLOBAL_BPM));
-		P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, UI.valueToggle(GLOBAL_EVOLVES));
-		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(CUR_SCALE));
-		
-		// set current sample, volume by UI sliders
-		for (int i = 0; i < sequencers.length; i++) {
-			Sequencer seq = sequencerAt(i);
-			if(UI.valueToggle(GLOBAL_EVOLVES) == false) {
-				seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
-			}
-			seq.volume(UI.value(VOLUME_+(i+1)));
-		}
-	}
-	
 	protected void checkInputs() {
 		// sample triggers & evolve
 		if(trigger1.triggered()) { sequencers[0].evolvePattern(); sequencers[0].triggerSample(); }
@@ -367,7 +362,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public void update(PGraphics pg) {
 		// check inputs & advance sequencers
-		updateFromGlobalUI();
 		checkInputs();
 		updateSequencers();
 		updateLaunchpads();
@@ -483,6 +477,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	//////////////////////////
 	
 	public void updatedNumber(String key, Number val) {
+		// connect to sequencer UI
 		if(key.indexOf("beatgrid-") == 0) {
 			String[] components = key.split("-");
 			int gridX = ConvertUtil.stringToInt(components[1]);
@@ -490,9 +485,27 @@ implements IAppStoreListener, ILaunchpadCallback {
 			boolean isActive = (val.intValue() == 1);
 			sequencers[gridX].stepActive(gridY, isActive);
 		}
+		// connect local UI events to global settings
+		if(key.equals(UI_GLOBAL_BPM)) P.store.setNumber(Interphase.BPM, val.floatValue());
+		if(key.equals(UI_CUR_SCALE)) P.store.setNumber(Interphase.CUR_SCALE_INDEX, val.intValue());
+		if(key.equals(UI_GLOBAL_EVOLVES)) P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, val.intValue() == 1);	// toggle events are 0-1, not boolean !!!
+		if(key.indexOf(UI_SAMPLE_) == 0) {
+			String sequencerNum = key.substring(UI_SAMPLE_.length(), UI_SAMPLE_.length() + 1);	// TODO: this will break after 9 channels!!!! 
+			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
+			sequencerAt(sequencerIndex).setSampleByIndex(val.intValue());
+		}
+		if(key.indexOf(UI_VOLUME_) == 0) {
+			String sequencerNum = key.substring(UI_SAMPLE_.length(), UI_SAMPLE_.length() + 1); 	// TODO: this will break after 9 channels!!!!
+			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
+			sequencerAt(sequencerIndex).volume(val.floatValue());
+		}
 	}
-	public void updatedString(String key, String val) {}
-	public void updatedBoolean(String key, Boolean val) {}	
+	public void updatedString(String key, String val) {
+		if(key.equals(PEvents.KEY_PRESSED)) keyPressed();
+		
+	}
+	public void updatedBoolean(String key, Boolean val) {
+	}	
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
 }

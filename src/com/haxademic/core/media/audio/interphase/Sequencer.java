@@ -335,9 +335,8 @@ implements IAppStoreListener {
 	/////////////////////////////////////
 	
 	public void evolvePattern() {
-		if(!P.store.getBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE)) return;
 		if(evolves == true) {
-			// every 4 sample triggers, make a bigger evoloving change
+			// every 4 sample triggers, make a bigger evolving change
 			// new pattern, note & note props
 			if(sampleTriggerCount % 4 == 0) {
 				newRandomPattern();
@@ -600,6 +599,7 @@ implements IAppStoreListener {
 	}
 
 	public void updatedBoolean(String key, Boolean val) {
+		if(key.equals(Interphase.GLOBAL_PATTERNS_EVLOVE)) evolves = val;
 	}
 
 	public void updatedImage(String key, PImage val) {

@@ -76,11 +76,6 @@ implements IAppStoreListener {
 		}
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-		interphase.keyPressed();
-	}
-	
 	protected void drawApp() {
 		// set draw context
 		p.background(0);

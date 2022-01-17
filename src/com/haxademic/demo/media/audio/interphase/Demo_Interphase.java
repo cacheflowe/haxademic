@@ -28,12 +28,6 @@ extends PAppletHax {
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-		
-		interphase.keyPressed();
-	}
-	
 	protected void drawApp() {
 		p.background(0);
 		p.noStroke();

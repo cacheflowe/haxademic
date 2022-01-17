@@ -91,11 +91,6 @@ implements IAppStoreListener {
 		UI.addToggle(USE_OVERRIDES, false, false);
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-		interphase.keyPressed();
-	}
-	
 	protected void drawApp() {
 		updateMusic();
 		drawVisuals();

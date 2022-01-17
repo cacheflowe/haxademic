@@ -24,6 +24,7 @@ public class Metronome {
 	protected int tempoMin = 60;
 	protected int tempoMax = 140;
 	protected static int loopStartFrame = 0;	// since bpm intervals don't match ful frames, we need to track the start of the last loop
+	protected boolean paused = true;
 	
 	public static int numTempos = Interphase.NUM_CHANNELS + 1; // (0-8 = 9 total)
 	public static int[] TEMPOS = new int[numTempos];
@@ -63,7 +64,7 @@ public class Metronome {
 		clock.addMessageListener(
 			new Bead() {
 				public void messageReceived(Bead message) {
-					if(Interphase.SYSTEM_MUTED) return;
+					if(P.store.getBoolean(Interphase.SYSTEM_MUTED)) return;
 
 					Clock c = (Clock) message;
 					updateBpm(c);
@@ -78,6 +79,14 @@ public class Metronome {
 		);
 		ac.out.addDependent(clock);
 		ac.start();
+		paused = true;
+		clock.pause(true);
+	}
+	
+	public void togglePlay() {
+		paused = !paused;
+		if(paused == false) clock.reset();
+		clock.pause(paused);
 	}
 	
 	protected void updateBpm(Clock c) {

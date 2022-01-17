@@ -88,11 +88,6 @@ implements IAppStoreListener {
 		}
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-		interphase.keyPressed();
-	}
-	
 	protected void drawApp() {
 		updateMusic();
 		drawVisuals();
