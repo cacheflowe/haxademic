@@ -14,6 +14,8 @@ import com.haxademic.core.media.audio.playback.WavPlayer;
 import beads.AudioContext;
 import beads.Bead;
 import beads.Clock;
+import beads.Glide;
+import beads.SamplePlayer;
 
 public class Metronome {
 	
@@ -31,6 +33,7 @@ public class Metronome {
 	protected LinearFloat bpmEased = new LinearFloat(0, Interphase.TEMPO_EASE_FACTOR);
 
 	public Metronome() {
+		P.store.setBoolean(Interphase.SYSTEM_MUTED, false);
 		initAudioContext();
 		initTempos();
 		initClock();
@@ -139,6 +142,14 @@ public class Metronome {
 		float syncRatio = (bpmToMs) / player.duration(id);
 		float pitchShift = P.log(syncRatio) / P.log(2f);
 		player.setPitch(id, -pitchShift * 12f);
+	}
+	
+	public static void shiftPitchToMatchBpm(SamplePlayer player, Glide glide, float bpm, int measureDivider) {
+		// formula from https://math.stackexchange.com/a/1205895
+		float bpmToMs = Metronome.bpmToIntervalMS(bpm, measureDivider); // times 4 because they're only 1 bar loops
+		float syncRatio = (bpmToMs) / (float) player.getSample().getLength();
+		float pitchShift = P.log(syncRatio) / P.log(2f);
+		glide.setValueImmediately(WavPlayer.pitchRatioFromIndex(-pitchShift * 12f));
 	}
 	
 	public static void shiftPitchToMatchOtherPlayer(WavPlayer player, String id, WavPlayer player2, String id2) {

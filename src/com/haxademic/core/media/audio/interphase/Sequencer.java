@@ -595,7 +595,7 @@ implements IAppStoreListener {
 	}
 	
 	protected void updateChangeSoundCount() {
-		sequenceCountChangeSound = 20 + 4 * MathUtil.randRange(0, 6);	
+		sequenceCountChangeSound = 16 + 4 * MathUtil.randRange(0, 4);	
 	}
 	
 		
