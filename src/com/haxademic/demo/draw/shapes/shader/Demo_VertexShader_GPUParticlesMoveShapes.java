@@ -110,58 +110,11 @@ extends PAppletHax {
 //				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, gridZ, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
 				PShape shape = PShapeUtil.createBox(shapeSize, shapeSize, shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
 //				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, DemoAssets.particle());
-				
-				// Custom model
-				// not working with real 3d models!!
-//				PShape shape = DemoAssets.objSkeleton();
-//				PShapeUtil.centerShape(shape);
-//				PShapeUtil.scaleShapeToHeight(shape, p.height * 0.02f);
-////				shape = shape.getTessellation();
-//				PShapeUtil.addTextureUVToShape(shape, DemoAssets.textureJupiter());
-//				PShapeUtil.offsetShapeVertices(shape, gridX, gridY, gridZ);
-//				for (int i = 0; i < shape.getVertexCount(); i++) {
-//					PVector vertex = shape.getVertex(i);
-//					shape.attrib("x", (float) x);
-//					shape.attrib("y", (float) y);
-//					shape.attrib("shapeCenterX", gridX);
-//					shape.attrib("shapeCenterY", gridY);
-//					shape.attrib("shapeCenterZ", gridZ);
-//				}
-//				shape.setTexture(DemoAssets.textureJupiter());
-
-				// custom flat shape ----
-				// need to apply attributes to each vertex. 
-				// not sure what exactly the difference is between this and Processing-provided shapes
-//				PShape shape = DemoAssets.shapeX();
-//P.GROUP;
-//P.PRIMITIVE;;
-//P.PATH ;
-//P.GEOMETRY;
-//P.out("shape.getFamily", shape.getFamily());
-//P.out("shape.getChildren().length", shape.getChildCount());
-//				PShapeUtil.centerShape(shape);
-//				PShapeUtil.scaleShapeToHeight(shape, p.height * 0.02f);
-////				shape = PShapeUtil.PShapeCopy.copyShape(shape.getChild(0));// shape.getChild(0).getTessellation(); 
-//				shape.getTessellation();
-//				PShapeUtil.addTextureUVToShape(shape, DemoAssets.textureJupiter());
-//				PShapeUtil.offsetShapeVertices(shape, gridX, gridY, gridZ);
-//				for (int i = 0; i < shape.getVertexCount(); i++) {
-////					// PVector vertex = shape.getVertex(i);
-////					shape.attrib("x", (float) x);
-////					shape.attrib("y", (float) y);
-////					shape.attrib("shapeCenterX", gridX);
-////					shape.attrib("shapeCenterY", gridY);
-////					shape.attrib("shapeCenterZ", gridZ);
-//				}
 				shape.setTexture(DemoAssets.textureJupiter());
 
 				// end custom shape ----
 
 				numVerts += shape.getVertexCount();
-				
-//				PShape newGroup = p.createShape(P.GROUP);
-//				newGroup.addChild(shape);
-//				shape = newGroup;
 				
 				// give the shape attributes for the shader to pick out their UV coord from grid index
 				shape.attrib("x", (float) x);

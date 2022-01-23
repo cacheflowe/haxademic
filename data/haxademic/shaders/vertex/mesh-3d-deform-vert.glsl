@@ -1,4 +1,4 @@
-#define PROCESSING_POLYGON_SHADER
+#define PROCESSING_TEXTURE_SHADER
 
 // Processing uniforms
 uniform mat4 transform;
