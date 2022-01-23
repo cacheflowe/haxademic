@@ -16,7 +16,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_GPUParticlesSnow 
+public class Demo_VertexShader_GPUParticlesSnow_BROKEN 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

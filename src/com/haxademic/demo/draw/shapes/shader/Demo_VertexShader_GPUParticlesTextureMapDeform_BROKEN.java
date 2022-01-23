@@ -21,7 +21,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 
-public class Demo_VertexShader_GPUParticlesTextureMapDeform 
+public class Demo_VertexShader_GPUParticlesTextureMapDeform_BROKEN 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
