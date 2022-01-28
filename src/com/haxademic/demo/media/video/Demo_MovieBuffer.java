@@ -3,6 +3,7 @@ package com.haxademic.demo.media.video;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.video.MovieBuffer;
 
 public class Demo_MovieBuffer 
