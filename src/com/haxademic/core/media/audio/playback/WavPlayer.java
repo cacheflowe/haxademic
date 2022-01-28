@@ -179,7 +179,7 @@ public class WavPlayer {
 	
 	// pitch shift
 	
-	protected float pitchRatioFromIndex(float pitchIndex) {
+	public static float pitchRatioFromIndex(float pitchIndex) {
 		return P.pow(2, pitchIndex/12.0f);
 	}
 	
