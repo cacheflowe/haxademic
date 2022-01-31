@@ -76,8 +76,8 @@ implements IAppStoreListener {
 		// update audio effects
 		for (int i = 0; i < sequencerAmps.length; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
-			seq.reverb(1.0f, 0.85f);
-			if(i == 0) seq.reverb(0.01f, 0.85f);
+			seq.reverb(1.0f, 1.5f);
+			if(i == 0) seq.reverb(0.01f, 0.9f);
 			seq.attack(0).release(0);
 		}
 		

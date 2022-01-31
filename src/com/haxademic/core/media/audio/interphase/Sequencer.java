@@ -514,7 +514,7 @@ implements IAppStoreListener {
 		if(useASDR) {
 			// responsive release 
 			float loopInterval = Metronome.bpmToIntervalMS(P.store.getInt(Interphase.BPM));
-			MAX_SAMPLE_LENGTH = (int) loopInterval;
+			MAX_SAMPLE_LENGTH = (int) loopInterval * 3; // but this doesn't make much sense, does it??
 			// set volume
 			velocity = MathUtil.randRangeDecimal(0.8f, 1f) * config.volume;
 			float fullGain = (chordMode) ? velocity * 0.7f : velocity;	// quieter on keys channel, when we're playing chords
@@ -536,6 +536,7 @@ implements IAppStoreListener {
 			} else if(release > 0) {
 				ampEnv.addSegment(endGain, P.min(sampleLength, release), new KillTrigger(gain));				// just release
 			} else {
+				DebugView.setValue("release", release);
 				ampEnv.addSegment(endGain, P.min(sampleLength, MAX_SAMPLE_LENGTH), new KillTrigger(gain));	// no attack or release, but using Gain for volume. set killtrigger at end of sample. 
 			}
 			
@@ -548,20 +549,24 @@ implements IAppStoreListener {
 		        rb.setDamping(reverbDamping);
 			}
 			
+			Compressor comp = null;
 //			Compressor comp = new Compressor(ac, 2);
-//			comp.setAttack(20);
+//			comp.setAttack(10);
 //			comp.setDecay(100);
-//			comp.setThreshold(0.85f);
-//			comp.setRatio(4f);
-//			comp.setKnee(2f);
+//			comp.setThreshold(0.75f);
+//			comp.setRatio(7f);
+//			comp.setKnee(3f);
 			
 			// build audio chain
 	        // any effects like reverb must be inserted before the gain in the audio chain ->
 	        // otherwise they won't get cleaned up?!
 			if(hasReverb) {
-//				comp.addInput(curPlayer);
-//				rb.addInput(comp);
-				rb.addInput(curPlayer);
+				if(comp != null) {
+					comp.addInput(curPlayer);
+					rb.addInput(comp);
+				} else {
+					rb.addInput(curPlayer);
+				}
 				gain.addInput(rb);
 			}
 			gain.addInput(curPlayer);

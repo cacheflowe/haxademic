@@ -133,11 +133,17 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	protected void addDebugHelpLines() {
-		DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
+		DebugView.setHelpLine(DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
+		DebugView.setHelpLine("[SPACE] |", "Play/Stop");
 		DebugView.setHelpLine("[1234] |", "Trigger");
-		DebugView.setHelpLine("[QWER] |", "Toggle on/off");
+		DebugView.setHelpLine("[QWER] |", "Toggle mute");
 		DebugView.setHelpLine("[ASDF] |", "New sound");
-		DebugView.setHelpLine("[9] |", "Toggle auto morph");
+		DebugView.setHelpLine("[ZXCV] |", "Toggle Evloves");
+		DebugView.setHelpLine("[+]    |", "BPM ++");
+		DebugView.setHelpLine("[-]    |", "BPM --");
+		DebugView.setHelpLine("[9-0]  |", "Load stored sequences");
+		DebugView.setHelpLine("[o]    |", "Save stored sequences");
+		DebugView.setHelpLine("[O]    |", "Overwrite cur sequence");
 	}
 	
 	// init config
@@ -176,7 +182,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public Interphase initGlobalControlsUI(int[] samplePickerMidiCC, int[] volumeMidiCC) {
 		UI.addTitle("Interphase");
-		UI.addSlider(UI_GLOBAL_BPM, 105, 60, 170, 1, false);
+		UI.addSlider(UI_GLOBAL_BPM, P.store.getInt(BPM), 60, 170, 1, false);
 		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
 		UI.addSlider(UI_CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
 		UI.addTitle("Interphase | Sequencers");
