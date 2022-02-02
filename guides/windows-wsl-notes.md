@@ -71,6 +71,9 @@ Store your git credentials if you keep getting asked for your username & passwor
 
 More Git config for WSL here: [https://peteoshea.co.uk/setup-git-in-wsl/](https://peteoshea.co.uk/setup-git-in-wsl/)
 
+If you've cloned a repo with Github Desktop but want to use WSL git with ssh access, you might need to do this:
+`git remote set-url origin git@github.com:Username/repo-here.git
+
 ## Customizing the WSL shell
 
 There are a bunch of options to customize your bash shell, as with any Linux distribution. Here are a couple that I found:
