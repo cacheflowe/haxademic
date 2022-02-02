@@ -30,6 +30,11 @@ implements IDepthCamera {
 	protected short[][] data;
 	public static float METERS_FAR_THRESH = 15;
 	public static ColorScheme COLOR_SCHEME = ColorScheme.Cold;
+	
+	public static void setSmallStream() {
+		CAMERA_W = 640;
+		CAMERA_H = 480;
+	}
 
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
 		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, null);
