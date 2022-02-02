@@ -3,11 +3,13 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.DepthCameraRegionGrid;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 
 public class Demo_DepthCameraRegionGrid
 extends PAppletHax {
@@ -24,15 +26,17 @@ extends PAppletHax {
 		int KINECT_MAX_DIST = 	2000;
 		int KINECT_TOP = 		0;
 		int KINECT_BOTTOM = 	DepthCameraSize.HEIGHT;
-		int KINECT_PLAYER_GAP = 160;
+		int KINECT_PLAYER_GAP = 20;
 		int KINECT_PIXEL_SKIP = 20;
 		int PLAYER_MIN_PIXELS = 30;
 		int COLS = 				2;
 		int ROWS = 				1;
+		int SIDE_MARGIN = 		100;
 		
 		// build input!
+		RealSenseWrapper.setSmallStream();
 		DepthCamera.instance(DepthCameraType.Realsense);
-		kinectRegionGrid = new DepthCameraRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
+		kinectRegionGrid = new DepthCameraRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS, SIDE_MARGIN);
 	}
 	
 	public void keyPressed() {
@@ -41,11 +45,15 @@ extends PAppletHax {
 	}
 	
 	protected void drawApp() {
-		p.background(0);
+		p.background(30);
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
 		
 		// update & draw grid
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		kinectRegionGrid.update(true);
+		
+		// draw debug to screen
 		p.image(kinectRegionGrid.debugImage(), 0, 0);
 		DebugView.setValue("kinectRegionGrid(0).controlX()", kinectRegionGrid.getRegion(0).controlX());
 		

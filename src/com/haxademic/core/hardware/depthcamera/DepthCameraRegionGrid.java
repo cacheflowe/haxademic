@@ -27,6 +27,10 @@ implements IJoystickCollection {
 
 
 	public DepthCameraRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
+		this(cols, rows, kinectClose, kinectFar, padding, kinectTop, kinectBottom, kinectPixelSkip, minPixels, 0);
+	}
+	
+	public DepthCameraRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels, int sideMargin) {
 		super();
 		
 		this.rows = rows;
@@ -35,15 +39,33 @@ implements IJoystickCollection {
 		_kinectDepth = _kinectFar - _kinectClose;
 
 		// set up rectangles for position detection
-		int colW = (DepthCameraSize.WIDTH - padding*(cols-1)) / cols;
+		int depthWidth = DepthCameraSize.WIDTH - (sideMargin * 2);
+		int paddingBetweenCells = padding * (cols-1);
+		int colW = (depthWidth - paddingBetweenCells) / cols;
 		int kinectDepth = kinectFar - kinectClose;
 		int rowH = (kinectDepth - padding*(rows-1)) / rows;
+		int leftPos = sideMargin;
 
-		for ( int x = 0; x < cols; x++ ) {
-			for ( int y = 0; y < rows; y++ ) {
+		P.outInitLineBreak();
+		P.outInit("DepthCameraRegionGrid");
+		P.outInit("rows:", rows);
+		P.outInit("cols:", cols);
+		P.outInit("DepthCameraSize.WIDTH:", DepthCameraSize.WIDTH);
+		P.outInit("sideMargin:", sideMargin);
+		P.outInit("depthWidth:", depthWidth);
+		P.outInit("padding:", padding);
+		P.outInit("colW:", colW);
+		P.outInitLineBreak();
+		
+		for (int x = 0; x < cols; x++) {
+			
+			//Set side margins to narrow the field of view of the kinect and play area. thank you @jubby
+			if (x > 0) leftPos += colW + padding;
+			
+			for (int y = 0; y < rows; y++) {
 				DepthCameraRegion region = new DepthCameraRegion(
-						colW * x + padding * x,
-						colW * x + padding * x + colW,
+						leftPos,
+						leftPos + colW,
 						kinectClose + y * rowH + padding * y,
 						kinectClose + y * rowH + padding * y + rowH,
 						kinectTop,
