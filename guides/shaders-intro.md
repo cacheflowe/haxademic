@@ -8,7 +8,7 @@ Shaders, (most-commonly) written with GLSL, are an increasingly universal layer 
 
 Shader programs and the GPUs that run them are traditionally associated with drawing imagery to your screen. This technology emerged from the video game and graphics worlds, with fragmented ancestry going back to [PPUs](https://ultimatepopculture.fandom.com/wiki/Picture_Processing_Unit) in Nintendo systems, all the way back to the [first examples of 3d graphics](https://vimeo.com/16292363) in the 1970s. Their original use was to assist in the *shading* of 3d meshes, providing lighting and materials calculations for the triangulated surfaces of volumetric models. This technology has proven to be very powerful and efficient for other purposes in graphical contexts, like:
 
-* [Generative graphics](https://www.shadertoy.com) in [2d](https://www.shadertoy.com/view/XdGGzw) and [3d](https://www.shadertoy.com/view/XdGGzw) (via raymarching)
+* [Generative graphics](https://www.shadertoy.com) in [2d](https://www.shadertoy.com/view/lsjBRD) and [3d](https://www.shadertoy.com/view/XdGGzw) (via raymarching)
 * Post-processing effects (think real-time Photoshop filters)
   * [Shadertoy example](https://www.shadertoy.com/view/MdffDS)
   * [PIXI.js example](https://filters.pixijs.download/main/docs/index.html)
