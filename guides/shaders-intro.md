@@ -26,7 +26,7 @@ Shader programs and the GPUs that run them are traditionally associated with dra
 
 Check out the following interactive tutorials, and bear in mind some essential facts about GLSL:
 
-* The language spec itself is fairly small, and is more-or-less a smiplified c++
+* The language spec itself is fairly small, and is more-or-less a simplified [c](https://www.khronos.org/opengl/wiki/Core_Language_(GLSL))
 * The native coordinate system is normalized, meaning 0-1 on both axis. A coordinate of `0, 0` is the **bottom-left**, unlike most drawing contexts, where that would be top-left or world center. This is actually really nice, because the size of your canvas doesn't matter, however you need to think of things in a relative or responsive way
 * The two most common types of shaders are **fragment** and **vertex** shaders. You need both to draw to the screen, but many environments like Shadertoy remove the need to think about the vertices, and allow you to use the fragement shader as a 2d canvas.
   * When getting into drawing 3d meshes, vertex shaders become useful for:
