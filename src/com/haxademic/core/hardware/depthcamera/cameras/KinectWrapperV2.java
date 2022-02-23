@@ -21,7 +21,7 @@ implements IDepthCamera {
 	//     - Info here: https://social.msdn.microsoft.com/Forums/sqlserver/en-US/bcd775ef-64b0-4e94-8d26-ce297d6d60ea/kinect-v2-keeps-disconnecting-after-every-10-seconds-on-windows-10-1903?forum=kinectv2sdk
 	//     - and here: https://social.msdn.microsoft.com/Forums/en-US/8855395e-e181-474a-b994-82f89d96f35e/cannot-connect-to-the-kinect-studio-host-service?forum=kinectv2sdk
 	// - The latest SDK and Runtime should be: 
-	//     - SDK: 
+	//     - SDK: https://www.microsoft.com/en-us/download/details.aspx?id=44561
 	//     - Runtime 2.2.1905: https://www.microsoft.com/en-us/download/details.aspx?id=100067
 	//     - Runtime 2.2.1811: https://www.microsoft.com/en-us/download/details.aspx?id=57578
 	// - Restart KinectMonitor.exe in the Windows Services panel: 
