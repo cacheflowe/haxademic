@@ -109,7 +109,7 @@ void main() {
 	} else if(mode == 10) {
 		// optical flow displacement, to be used with results from `optical-flow.glsl`
 		// get displacement amp from map
-		vec2 opFlowDisplace = texture2D(map, p).xy - 0.5;
+		vec2 opFlowDisplace = texture2D(map, p).xy - 0.5 + (1./255.); // 1/255 is a weird flow correction. the optical flow result never seems to get back to perfect 0.5, but rather 1/255 step away
 		opFlowDisplace *= amp;
 		// get offset texture for displacement
 		vec2 displaceUV = p + opFlowDisplace;

@@ -82,7 +82,7 @@ void main()
 	flow.x = -vx * uInverse.x;
 	flow.y = -vy * uInverse.y;
 
-	// apply treshold
+	// apply threshold
 	float strength = length(flow);
 	if (strength * uThreshold > 0.0) {
 		if (strength < uThreshold) {

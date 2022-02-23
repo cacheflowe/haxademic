@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.file.FileUtil;
@@ -176,8 +177,8 @@ public class OpticalFlow {
 			BlurProcessingFilter.instance(P.p).setSigma(preBlurSigma);
 //			BlurProcessingFilter.instance(P.p).applyTo(tex1);
 //			BlurProcessingFilter.instance(P.p).applyTo(tex1);
-			BlurProcessingFilter.instance(P.p).applyTo(tex0);
-			BlurProcessingFilter.instance(P.p).applyTo(tex0);
+//			BlurProcessingFilter.instance(P.p).applyTo(tex0);
+//			BlurProcessingFilter.instance(P.p).applyTo(tex0);
 		}
 		
 		// update shader & do optical flow calculations
@@ -198,13 +199,13 @@ public class OpticalFlow {
 //			resultFlowedBuffer.beginDraw();
 //			resultFlowedBuffer.background(0);
 //			resultFlowedBuffer.endDraw();
-//			BlendTowardsTexture.instance(P.p).setBlendLerp(resultFlowDecayLerp);
-//			BlendTowardsTexture.instance(P.p).setSourceTexture(resultBuffer);
-//			BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
-			ImageUtil.copyImage(resultBuffer, resultFlowedBuffer);
+			BlendTowardsTexture.instance(P.p).setBlendLerp(resultFlowDecayLerp);
+			BlendTowardsTexture.instance(P.p).setSourceTexture(resultBuffer);
+			BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
+//			ImageUtil.copyImage(resultBuffer, resultFlowedBuffer);
 			
 			// displace & blur the flow data for liquidy flow & dispersion
-			DisplacementMapFilter.instance(P.p).setMap(resultBuffer);
+			DisplacementMapFilter.instance(P.p).setMap(resultFlowedBuffer);
 			DisplacementMapFilter.instance(P.p).setMode(10);	// special flow mode
 			DisplacementMapFilter.instance(P.p).setAmp(resultFlowDisplaceAmp);
 			for (int i = 0; i < resultFlowDisplaceIters; i++) {
