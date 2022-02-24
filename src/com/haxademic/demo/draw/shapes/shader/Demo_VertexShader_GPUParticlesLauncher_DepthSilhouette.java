@@ -1,4 +1,4 @@
-package com.haxademic.demo.hardware.webcam;
+package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -21,7 +21,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class Demo_FrameDifferenceShapesLauncherGPU 
+public class Demo_VertexShader_GPUParticlesLauncher_DepthSilhouette 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -53,7 +53,7 @@ implements IWebCamCallback {
 		imageGradient.randomGradientTexture();
 		
 		// build particles launcher
-		gpuParticles = new ParticleLauncherGPU(512);
+		gpuParticles = new ParticleLauncherGPU(128);
 		DebugView.setValue("totalVertices", gpuParticles.vertices());
 	}
 	
@@ -112,7 +112,7 @@ implements IWebCamCallback {
 			
 			// launch! need to open & close the position buffer where we're writing new launch pixels
 			int startLaunchTime = p.millis();
-			int launchesPerFrame = 10000;
+			int launchesPerFrame = 1000;
 			gpuParticles.beginLaunch();
 
 			

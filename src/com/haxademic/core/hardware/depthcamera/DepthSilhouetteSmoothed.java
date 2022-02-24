@@ -9,6 +9,7 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
@@ -28,6 +29,15 @@ public class DepthSilhouetteSmoothed {
 	protected PGraphics depthBuffer;
 	protected PGraphics avgBuffer;
 	protected PGraphics postBuffer;
+	
+	public static String SILHOUETTE_DEPTH_NEAR = "SILHOUETTE_DEPTH_NEAR";
+	public static String SILHOUETTE_DEPTH_FAR = "SILHOUETTE_DEPTH_FAR";
+	public static String SILHOUETTE_FRAME_BLEND = "SILHOUETTE_FRAME_BLEND";
+	public static String SILHOUETTE_SMOOTH = "SILHOUETTE_SMOOTH";
+	public static String SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS = "SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS";
+	public static String SILHOUETTE_THRESHOLD_CUTOFF = "SILHOUETTE_THRESHOLD_CUTOFF";
+	public static String SILHOUETTE_POST_BLUR = "SILHOUETTE_POST_BLUR";
+	protected boolean hasUI = false;
 
 	public DepthSilhouetteSmoothed(IDepthCamera depthCamera, int pixelSkip) {
 		this(depthCamera, pixelSkip, DEPTH_NEAR, DEPTH_FAR);
@@ -42,6 +52,31 @@ public class DepthSilhouetteSmoothed {
 		depthBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
 		avgBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
 		postBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
+	}
+	
+	public void buildUI(boolean saveValues) {
+		UI.addTitle("DepthSilhouetteSmoothed");
+		UI.addSlider(SILHOUETTE_DEPTH_NEAR, DEPTH_NEAR, 300, 3000, 10, saveValues);
+		UI.addSlider(SILHOUETTE_DEPTH_FAR, DEPTH_FAR, 500, 6000, 10, saveValues);
+		UI.addSlider(SILHOUETTE_FRAME_BLEND, 0.25f, 0, 1, 0.01f, saveValues);
+		UI.addSlider(SILHOUETTE_SMOOTH, 0.25f, 0, 2, 0.01f, saveValues);
+		UI.addSlider(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS, 1.25f, 0, 3, 0.01f, saveValues);
+		UI.addSlider(SILHOUETTE_THRESHOLD_CUTOFF, 0.4f, 0, 1, 0.01f, saveValues);
+		UI.addSlider(SILHOUETTE_POST_BLUR, 0, 0, 4, 0.01f, saveValues);
+		hasUI = true;
+	}
+	
+	protected void updateUI() {
+		// apply UI settings to silhouette object
+		DepthSilhouetteSmoothed.DEPTH_NEAR = UI.valueInt(SILHOUETTE_DEPTH_NEAR);
+		DepthSilhouetteSmoothed.DEPTH_FAR = UI.valueInt(SILHOUETTE_DEPTH_FAR);
+
+		// do depth processing & draw to screen
+		setFrameBlend(UI.value(SILHOUETTE_FRAME_BLEND));
+		setSmoothing(UI.value(SILHOUETTE_SMOOTH));
+		setThresholdPreBrightness(UI.value(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS));
+		setThresholdCutoff(UI.value(SILHOUETTE_THRESHOLD_CUTOFF));
+		setPostBlur(UI.value(SILHOUETTE_POST_BLUR));
 	}
 	
 	public void setFrameBlend(float frameBlend) {
@@ -81,6 +116,8 @@ public class DepthSilhouetteSmoothed {
 	}
 	
 	public void update() {
+		if(hasUI) updateUI();
+		
 		// draw current depth to buffer
 		depthBuffer.beginDraw();
 		depthBuffer.noStroke();

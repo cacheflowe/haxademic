@@ -28,7 +28,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build particles launcher
-		gpuParticles = new ParticleLauncherGPU(1024);
+		gpuParticles = new ParticleLauncherGPU(256);
 		DebugView.setValue("totalVertices", gpuParticles.vertices());
 	}
 	

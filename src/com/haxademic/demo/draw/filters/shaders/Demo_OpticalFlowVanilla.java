@@ -31,8 +31,8 @@ extends PAppletHax {
 	protected PShaderHotSwap opFlowShader;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 640 );
-		Config.setProperty( AppSettings.HEIGHT, 480 );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
 	}
 
 	protected void firstFrame() {

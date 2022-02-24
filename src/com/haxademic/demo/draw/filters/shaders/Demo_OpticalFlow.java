@@ -18,7 +18,6 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
@@ -62,8 +61,8 @@ extends PAppletHax {
 	protected PShaderHotSwap simulationShader;
 	protected PGraphics bufferRenderedParticles;
 	protected PShaderHotSwap particlesSimulationRenderShader;
-	float simW = 256;
-	float simH = 256;
+	float simW = 64; // 256;
+	float simH = 64; // 256;
 	protected boolean particlesShouldRespawn = false;
 	
 	// particle UI
@@ -241,7 +240,16 @@ extends PAppletHax {
 		}
 
 		// update noise/randomness
-		varianceNoise.update(0.1f, P.sin(p.frameCount * 0.04f) * 0.07f, 0f, p.frameCount * 0.004f);
+		varianceNoise.update(
+			// zoom
+			1f, 
+			// rotation
+			P.sin(p.frameCount * 0.04f) * 0.07f,
+			// offset x
+			0f, 
+			// offset y
+			p.frameCount * -0.004f
+		);
 		
 		// update particle positions
 		simulationShader.shader().set("directionMap", varianceNoise.texture());

@@ -21,7 +21,7 @@ public class ParticleLauncherGPU {
 	protected PGraphics colorBuffer;
 	protected PGraphics positionBuffer;
 //	protected PShader positionShader;
-	protected PShaderHotSwap positionShaderHotSwap;
+	protected PShaderHotSwap particlesSimulationHotSwap;
 	protected PShaderHotSwap particlesRenderHotSwap;
 	protected int vertices = 0;
 
@@ -32,7 +32,7 @@ public class ParticleLauncherGPU {
 		positionBufferSize = size;
 		// build random particle placement shader
 //		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
-		positionShaderHotSwap = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-launcher-frag.glsl"));
+		particlesSimulationHotSwap = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-launcher-frag.glsl"));
 
 		
 		// create texture to store positions
@@ -110,7 +110,7 @@ public class ParticleLauncherGPU {
 	public void update() {
 		// update particle movement
 //		positionBuffer.filter(positionShader);
-		positionBuffer.filter(positionShaderHotSwap.shader());
+		positionBuffer.filter(particlesSimulationHotSwap.shader());
 	}
 	
 	public void renderTo(PGraphics buffer) {
@@ -135,7 +135,7 @@ public class ParticleLauncherGPU {
 		buffer.resetShader();
 
 		// recompile if needed & show shader compile error messages
-		positionShaderHotSwap.update();
+		particlesSimulationHotSwap.update();
 		particlesRenderHotSwap.update();
 //		positionShaderHotSwap.showShaderStatus(buffer);
 	}
