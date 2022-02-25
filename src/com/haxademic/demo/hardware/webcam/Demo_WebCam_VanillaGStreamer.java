@@ -7,11 +7,10 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.system.DateUtil;
-import com.haxademic.core.system.SystemUtil;
 
 import processing.video.Capture;
 
-public class Demo_WebCam_VanillaGStreamer 
+class Demo_WebCam_VanillaGStreamer 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

@@ -6,17 +6,12 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
-import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
-import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
-import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 

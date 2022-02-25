@@ -15,7 +15,6 @@ import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
 
 import ch.bildspur.realsense.type.ColorScheme;
-import ch.bildspur.realsense.type.HoleFillingType;
 import ch.bildspur.realsense.type.PersistencyIndex;
 import processing.core.PGraphics;
 import processing.core.PImage;

@@ -2,13 +2,11 @@ package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -24,16 +22,24 @@ public class ParticleLauncherGPU {
 	protected PShaderHotSwap particlesSimulationHotSwap;
 	protected PShaderHotSwap particlesRenderHotSwap;
 	protected int vertices = 0;
+	protected static String particleLauncherShaderPath = "haxademic/shaders/point/particle-launcher-frag.glsl";
 
 //	protected PShader particlesRenderShader;
 	protected int launchIndex = 0;
+	
+	// points props
+	protected float pointSize = 0;
+	
 
 	public ParticleLauncherGPU(int size) {
+		this(size, particleLauncherShaderPath);
+	}
+	
+	public ParticleLauncherGPU(int size, String shaderPath) {
 		positionBufferSize = size;
 		// build random particle placement shader
 //		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
-		particlesSimulationHotSwap = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-launcher-frag.glsl"));
-
+		particlesSimulationHotSwap = new PShaderHotSwap(FileUtil.getPath(shaderPath));
 		
 		// create texture to store positions
 		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
@@ -61,13 +67,10 @@ public class ParticleLauncherGPU {
 		);
 	}
 	
-	public PGraphics positionBuffer() {
-		return positionBuffer;
-	}
-	
-	public int vertices() {
-		return vertices;
-	}
+	public PGraphics positionBuffer() { return positionBuffer; }
+	public PGraphics colorBuffer() { return colorBuffer; }
+	public int vertices() { return vertices; }
+	public ParticleLauncherGPU pointSize(float pointSize) { this.pointSize = pointSize; return this; }
 	
 	protected int getGridX(int size, int index) {
 		return index % size;
@@ -124,10 +127,8 @@ public class ParticleLauncherGPU {
 		renderShader.set("height", (float) buffer.height);
 		renderShader.set("depth", (float) buffer.width);
 		renderShader.set("colorTexture", colorBuffer);
-		renderShader.set("colorTexture", DemoAssets.textureJupiter());
-		renderShader.set("colorTexture", ImageGradient.BLACK_HOLE());
 		renderShader.set("positionTexture", positionBuffer);
-		renderShader.set("pointSize", 5f);
+		renderShader.set("pointSize", pointSize);
 		
 		buffer.shader(renderShader);	// set vertex shader
 		if(translateCenter) buffer.translate(buffer.width/2, buffer.height/2);

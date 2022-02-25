@@ -3,7 +3,6 @@ package com.haxademic.demo.hardware.midi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.midi.MidiDevice;
-import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
 import com.haxademic.core.media.audio.analysis.AudioIn;

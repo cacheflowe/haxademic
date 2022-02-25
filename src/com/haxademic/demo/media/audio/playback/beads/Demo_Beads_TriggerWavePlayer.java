@@ -11,9 +11,7 @@ import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
 import beads.AudioContext;
-import beads.AudioContextStopTrigger;
 import beads.Buffer;
-import beads.DelayTrigger;
 import beads.Envelope;
 import beads.Gain;
 import beads.KillTrigger;
