@@ -15,30 +15,29 @@ import processing.opengl.PShader;
 public class ParticleLauncherGPU {
 	
 	protected int positionBufferSize;
+	protected int vertices = 0;
+	protected int launchIndex = 0;
+	
 	protected PShape shape;
 	protected PGraphics colorBuffer;
 	protected PGraphics positionBuffer;
-//	protected PShader positionShader;
+	
 	protected PShaderHotSwap particlesSimulationHotSwap;
 	protected PShaderHotSwap particlesRenderHotSwap;
-	protected int vertices = 0;
-	protected static String particleLauncherShaderPath = "haxademic/shaders/point/particle-launcher-frag.glsl";
+	protected static String simulationShaderFragPath = "haxademic/shaders/point/particle-simulation-frag.glsl";
+	protected static String renderShaderFragPath = "haxademic/shaders/point/points-default-frag.glsl";
+	protected static String renderShaderVertPath = "haxademic/shaders/point/particle-launcher-render-points-vert.glsl";
 
-//	protected PShader particlesRenderShader;
-	protected int launchIndex = 0;
-	
 	// points props
-	protected float pointSize = 0;
-	
+	protected float pointSize = 2;
 
 	public ParticleLauncherGPU(int size) {
-		this(size, particleLauncherShaderPath);
+		this(size, simulationShaderFragPath);
 	}
 	
 	public ParticleLauncherGPU(int size, String shaderPath) {
 		positionBufferSize = size;
 		// build random particle placement shader
-//		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
 		particlesSimulationHotSwap = new PShaderHotSwap(FileUtil.getPath(shaderPath));
 		
 		// create texture to store positions
@@ -51,7 +50,7 @@ public class ParticleLauncherGPU {
 		
 		positionBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
 		positionBuffer.beginDraw();
-		positionBuffer.background(255);
+		positionBuffer.background(255, 0);
 		positionBuffer.noStroke();
 		positionBuffer.endDraw();
 		
@@ -61,10 +60,7 @@ public class ParticleLauncherGPU {
 		
 		// load shader
 //		particlesRenderShader = P.p.loadShader(
-		particlesRenderHotSwap = new PShaderHotSwap(
-			FileUtil.getPath("haxademic/shaders/point/particle-launcher-vert.glsl"),
-			FileUtil.getPath("haxademic/shaders/point/points-default-frag.glsl")
-		);
+		particlesRenderHotSwap = new PShaderHotSwap(FileUtil.getPath(renderShaderVertPath), FileUtil.getPath(renderShaderFragPath));
 	}
 	
 	public PGraphics positionBuffer() { return positionBuffer; }
@@ -104,7 +100,7 @@ public class ParticleLauncherGPU {
 		float launchX = (x / buffer.width) * 255f;
 		float launchY = (y / buffer.height) * 255f;
 		float radians = MathUtil.randRangeDecimal(0f, 255f);
-		float progress = 255f;	// reset progress to 100%, always, since alpha is additive. not sure if there's a good way to reset alpha to non-100% 
+		float progress = 255f;	// reset progress to 100%, always, since alpha is additive. switch to pixels[].set() 
 		int positionColor = P.p.color(launchX, launchY, radians, progress);
 		positionBuffer.fill(positionColor);
 		positionBuffer.rect(texX, texY, 1, 1);

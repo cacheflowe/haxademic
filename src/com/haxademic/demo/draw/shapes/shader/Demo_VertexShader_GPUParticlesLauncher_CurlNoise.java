@@ -6,7 +6,9 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.render.FrameLoop;
 
@@ -34,11 +36,14 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		// clear the screen
-		background(0);
+		p.background(0);
+
+		// set color map
+		ImageUtil.copyImage(ImageGradient.RAINBOWISH(), gpuParticles.colorBuffer());
 		
 		// launch! need to open & close the position buffer where we're writing new launch pixels
 		int startLaunchTime = p.millis();
-		int launchesPerFrame = 4000;
+		int launchesPerFrame = 150;
 		gpuParticles.beginLaunch();
 //		for (int j = 0; j < launchesPerFrame; j++) gpuParticles.launch(pg, Mouse.xEased, Mouse.yEased);
 //		for (int j = 0; j < launchesPerFrame; j++) gpuParticles.launch(pg, p.width/2 + p.width/4 * P.sin(p.frameCount/40f), p.height/2 + p.height/6 * P.sin(p.frameCount/20f));
@@ -56,9 +61,10 @@ extends PAppletHax {
 		pg.beginDraw();
 		pg.background(0);
 		PG.setCenterScreen(pg);
-//		PG.basicCameraFromMouse(pg, 0.5f);
-		pg.fill(255);
+		PG.basicCameraFromMouse(pg, 0.5f);
+//		pg.fill(255);
 		pg.blendMode(PBlendModes.ADD);
+		gpuParticles.pointSize(4);
 		gpuParticles.renderTo(pg);
 		pg.endDraw();
 		DebugView.setValue("renderTime", p.millis() - startRenderTime);

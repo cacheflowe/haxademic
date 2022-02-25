@@ -85,7 +85,6 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(depthSilhouetteSmoothed.image(), silhouetteCropped, true);
 		silhouetteCropped.loadPixels();
 
-		
 		// launch! need to open & close the position buffer where we're writing new launch pixels
 		int startLaunchTime = p.millis();
 		gpuParticles.beginLaunch();

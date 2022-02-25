@@ -103,15 +103,16 @@ void main() {
 
   // offset position with curl noise?
   float curlCohesion = 10.;  // larger numbers bring particles cohesion closer
-  float curlZoom = 300.;
+  float curlZoom = 600.;
   float curlAmp = 100. * progress;  // multiply by progress to spread furtherover time
   vec3 curlInputOffset = textureColor.rgb / curlCohesion;  // use particle color to slightly offset its input into the curl to give a little randomness
   vec3 curlVertInput = vertPosition.xyz;
-  curlVertInput.z = 0;  // things get too curly if we're moving z and also using that for the curl input
+  curlVertInput.z = 0.;  // things get too curly if we're moving z and also using that for the curl input
   curlVertInput /= curlZoom;
   vec3 curlInput = curlVertInput + curlInputOffset;
   vec3 curlResult = curlNoise(curlInput);
   vertPosition.xy += curlResult.xy * curlAmp; // only curl .xy for now. z fades off into the distance
+  vertPosition.z += curlResult.z * curlAmp * 10.; // only curl .xy for now. z fades off into the distance
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize * (1. - progress);
