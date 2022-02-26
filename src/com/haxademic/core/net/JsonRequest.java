@@ -25,10 +25,11 @@ public class JsonRequest {
 	
 	public void requestJsonData(IJsonRequestDelegate delegate) throws IOException {
 		// send request with empty json
+		postJsonDataWithHeaders(null, null, delegate);
 	}
 	
 	public void postJsonData(JSONObject jsonOut, IJsonRequestDelegate delegate) throws IOException {
-		// send request with empty json
+		// send request with posted json data
 		postJsonDataWithHeaders(jsonOut, null, delegate);
 	}
 	
