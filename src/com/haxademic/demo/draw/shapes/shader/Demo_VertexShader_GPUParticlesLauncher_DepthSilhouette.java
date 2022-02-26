@@ -9,16 +9,19 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class Demo_VertexShader_GPUParticlesLauncher_DepthSilhouette 
 extends PAppletHax {
@@ -65,14 +68,16 @@ extends PAppletHax {
 		
 		// build particles launcher
 		shapesLayer = PG.newPG(p.width, p.height);
-		gpuParticles = new ParticleLauncherGPU(128, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
-		DebugView.setValue("totalVertices", gpuParticles.vertices());
-		
+		gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
+		DebugView.setValue("gpuParticles.vertices()", gpuParticles.vertices());
+		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles.positionBuffer());
+		DebugView.setTexture("gpuParticles.colorBuffer()", gpuParticles.colorBuffer());
+
 		// UI
 		UI.addTitle("GPUParticlesLauncher");
-		UI.addSlider(UI_PARTICLES_LAUNCH_ATTEMPTS, 200, 1, 5000, 10, false);
-		UI.addSlider(UI_PARTICLES_POINT_SIZE, 5, 0, 50, 0.1f, false);
-		UI.addSlider(UI_SILHOUETTE_ALPHA, 0.3f, 0, 1, 0.01f, false);
+		UI.addSlider(UI_PARTICLES_LAUNCH_ATTEMPTS, 1700, 1, 5000, 10, false);
+		UI.addSlider(UI_PARTICLES_POINT_SIZE, 3, 0, 50, 0.1f, false);
+		UI.addSlider(UI_SILHOUETTE_ALPHA, 0.1f, 0, 1, 0.01f, false);
 	}
 	
 	protected void drawApp() {
@@ -117,9 +122,14 @@ extends PAppletHax {
 		DebugView.setValue("updateTime", p.millis() - startUpdateTime);
 		
 		// update particles color map
-		ImageUtil.copyImage(ImageGradient.SPARKS_FLAMES(), gpuParticles.colorBuffer());
-//		renderShader.set("colorTexture", DemoAssets.textureJupiter());
-//		renderShader.set("colorTexture", ImageGradient.BLACK_HOLE());
+		if(Mouse.xNorm < 0.5f) { 
+			ImageUtil.copyImage(ImageGradient.SPARKS_FLAMES(), gpuParticles.colorBuffer());
+//			ImageUtil.copyImage(ImageGradient.BLACK_HOLE(), gpuParticles.colorBuffer());
+		} else {
+			gpuParticles.colorBuffer().beginDraw();
+			gpuParticles.colorBuffer().background(255);
+			gpuParticles.colorBuffer().endDraw();
+		}
 
 		// update/draw particles
 		shapesLayer.beginDraw();
@@ -131,13 +141,21 @@ extends PAppletHax {
 
 		// draw to screen
 		// silhouette
+		p.blendMode(PBlendModes.BLEND);
 		PG.setPImageAlpha(p, UI.value(UI_SILHOUETTE_ALPHA));
 		p.image(silhouetteCropped, 0, 0, silhouetteCropped.width * scaleLaunchMapToScreen, silhouetteCropped.height * scaleLaunchMapToScreen);
 		PG.resetPImageAlpha(p);
 		// particles
-		p.blendMode(PBlendModes.ADD);
+		p.blendMode(PBlendModes.DIFFERENCE);
 		p.image(shapesLayer, 0, 0);
 		p.blendMode(PBlendModes.BLEND);
+		
+		// draw rgb camera
+		PImage cameraSource = DepthCamera.instance().camera.getRgbImage();
+		float camScale = 0.2f;
+		float camW = cameraSource.width * camScale;
+		float camH = cameraSource.height * camScale;
+		p.image(cameraSource, p.width - camW - 20, 20, camW, camH);
 	}
 	
 	

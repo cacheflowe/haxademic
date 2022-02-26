@@ -12,7 +12,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.render.FrameLoop;
 
-public class Demo_VertexShader_GPUParticlesLauncher_CurlNoise 
+public class Demo_VertexShader_GPUParticlesLauncher 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -31,7 +31,9 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// build particles launcher
 		gpuParticles = new ParticleLauncherGPU(256);
-		DebugView.setValue("totalVertices", gpuParticles.vertices());
+		DebugView.setValue("gpuParticles.vertices()", gpuParticles.vertices());
+		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles.positionBuffer());
+		DebugView.setTexture("gpuParticles.colorBuffer()", gpuParticles.colorBuffer());
 	}
 	
 	protected void drawApp() {
@@ -39,7 +41,7 @@ extends PAppletHax {
 		p.background(0);
 
 		// set color map
-		ImageUtil.copyImage(ImageGradient.RAINBOWISH(), gpuParticles.colorBuffer());
+		ImageUtil.copyImage(ImageGradient.BLACK_HOLE(), gpuParticles.colorBuffer());
 		
 		// launch! need to open & close the position buffer where we're writing new launch pixels
 		int startLaunchTime = p.millis();

@@ -42,7 +42,6 @@ public class ParticleLauncherGPU {
 		
 		// create texture to store positions
 		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
-		DebugView.setTexture("colorBuffer", colorBuffer);
 		colorBuffer.beginDraw();
 		colorBuffer.background(255);
 		colorBuffer.noStroke();
@@ -68,16 +67,15 @@ public class ParticleLauncherGPU {
 	public int vertices() { return vertices; }
 	public ParticleLauncherGPU pointSize(float pointSize) { this.pointSize = pointSize; return this; }
 	
-	protected int getGridX(int size, int index) {
+	public static int getGridX(int size, int index) {
 		return index % size;
 	}
 	
-	protected int getGridY(int size, int index) {
+	public static int getGridY(int size, int index) {
 		return P.floor(index / size);
 	}
 	
 	public void beginLaunch() {
-		DebugView.setTexture("progressBuffer", positionBuffer);
 		positionBuffer.beginDraw();
 	}
 	

@@ -112,7 +112,7 @@ void main() {
   vec3 curlInput = curlVertInput + curlInputOffset;
   vec3 curlResult = curlNoise(curlInput);
   vertPosition.xy += curlResult.xy * curlAmp; // only curl .xy for now. z fades off into the distance
-  vertPosition.z += curlResult.z * curlAmp * 10.; // only curl .xy for now. z fades off into the distance
+  vertPosition.z += 0.; // curlResult.z * curlAmp * 10.; // only curl .xy for now. z fades off into the distance
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize * (1. - progress);
