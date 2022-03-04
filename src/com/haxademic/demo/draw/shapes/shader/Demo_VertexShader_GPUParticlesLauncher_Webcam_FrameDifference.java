@@ -54,7 +54,7 @@ implements IWebCamCallback {
 		
 		// build particles launcher
 		gpuParticles = new ParticleLauncherGPU(128);
-		DebugView.setValue("totalVertices", gpuParticles.vertices());
+		DebugView.setValue("totalVertices", gpuParticles.numParticles());
 	}
 	
 	@Override
@@ -135,7 +135,7 @@ implements IWebCamCallback {
 			
 			// update particles buffers
 			int startUpdateTime = p.millis();
-			gpuParticles.update();
+			gpuParticles.updateSimulation();
 			DebugView.setValue("updateTime", p.millis() - startUpdateTime);
 			
 			// update/draw particles

@@ -346,3 +346,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-ge
 ## Remove `.AAE` files left by importing iOS photos
 
 `find . -name '*.AAE' -exec rm -r {} \;`
+
+## Enable GUI applications
+
+* https://scottspence.com/posts/gui-with-wsl

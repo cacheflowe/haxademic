@@ -64,6 +64,7 @@ public class ImageUtil {
 	
 	// needs testing....
 	public static int getPixelColorFast( PApplet p, PGraphics image, int x, int y ) {
+		// this should be done before all reading, and close after all reading (below)
 	    PGL pgl = image.beginPGL();
 	    ByteBuffer buffer = ByteBuffer.allocateDirect(1 * 1 * Integer.SIZE / 8);
 	

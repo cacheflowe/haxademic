@@ -52,59 +52,63 @@ extends PAppletHax {
 	
 	protected String[] vertSource() {
 		return new String[] {
-			"#version 150",
-			"uniform mat4 transform;",
-			"uniform mat4 modelview;",
-			"uniform mat4 normalMatrix;",
-			"uniform mat4 texMatrix;",
-			"in vec4 position;",
-			"in vec4 color;",
-			"in vec2 texCoord;",
-			"out vec4 vertColor;",
-			"out vec4 vertTexCoord;",
-			"out vec3 v_texCoord3D;",
-			"uniform mat4 modelviewInv;",
-			"uniform float time = 0;",
-			"uniform float displaceAmp = 0.25f;",
-			"void main() {",
-			"	vec4 tmp = position * modelviewInv;",								// apply inverse matrix to use models original position as uv coords
-			"	v_texCoord3D = tmp.xyz;",
-			"	vec3 p = tmp.xyz;",
-			"	float radsToCenter = atan(p.x, p.z);",								// circular waviness progress
-			"	p.y += sin(time + radsToCenter * 14.) * (60. + 60. * sin(time));",	// uv warping like we do in 2d
-			"	// send position-based stripes to fragment shader",
-			"	float grey = 0.5 + 0.5 * sin(time * 6. + p.y / 10.);",
-			"	vec4 col = vec4(grey, grey, grey, 1.0);",
-			"	vertColor = col;",
-			"	// deform based on color",
-			"	float amp = (1. + displaceAmp * col.r);",
-			"	gl_Position = transform * (position * vec4(amp, amp, amp, 1.));",
-			"	vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);",
-			"}",
+			"""
+			#version 150
+			uniform mat4 transform;
+			uniform mat4 modelview;
+			uniform mat4 normalMatrix;
+			uniform mat4 texMatrix;
+			in vec4 position;
+			in vec4 color;
+			in vec2 texCoord;
+			out vec4 vertColor;
+			out vec4 vertTexCoord;
+			out vec3 v_texCoord3D;
+			uniform mat4 modelviewInv;
+			uniform float time = 0;
+			uniform float displaceAmp = 0.25f;
+			void main() {
+				vec4 tmp = position * modelviewInv;								// apply inverse matrix to use models original position as uv coords
+				v_texCoord3D = tmp.xyz;
+				vec3 p = tmp.xyz;
+				float radsToCenter = atan(p.x, p.z);								// circular waviness progress
+				p.y += sin(time + radsToCenter * 14.) * (60. + 60. * sin(time));	// uv warping like we do in 2d
+				// send position-based stripes to fragment shader
+				float grey = 0.5 + 0.5 * sin(time * 6. + p.y / 10.);
+				vec4 col = vec4(grey, grey, grey, 1.0);
+				vertColor = col;
+				// deform based on color
+				float amp = (1. + displaceAmp * col.r);
+				gl_Position = transform * (position * vec4(amp, amp, amp, 1.));
+				vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
+			}
+			"""
 		};
 	}
 	
 	protected String[] fragSource() {
 		return new String[] {
-			"#version 150",
-			"#ifdef GL_ES",
-			"precision highp float;",
-			"precision mediump int;",
-			"#endif",
-			"#define PROCESSING_COLOR_SHADER",
-			"in vec4 position;",
-			"uniform sampler2D texture;",
-			"uniform vec2 texOffset;",
-			"in vec4 vertColor;",
-			"in vec4 vertTexCoord;",
-			"in vec3 v_texCoord3D;",
-			"uniform float time = 0;",
-			"out vec4 outColor;",
-			"#define PI     3.14159265358",
-			"#define TWO_PI 6.28318530718",
-			"void main(void) {",
-			"  outColor = vertColor * vec4(0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.01), 0.75 + 0.25 * sin(v_texCoord3D.y * 0.008), 0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.015), 1.);",
-			"}",
+			"""
+			#version 150
+			#ifdef GL_ES
+			precision highp float;
+			precision mediump int;
+			#endif
+			#define PROCESSING_COLOR_SHADER
+			in vec4 position;
+			uniform sampler2D texture;
+			uniform vec2 texOffset;
+			in vec4 vertColor;
+			in vec4 vertTexCoord;
+			in vec3 v_texCoord3D;
+			uniform float time = 0;
+			out vec4 outColor;
+			#define PI     3.14159265358
+			#define TWO_PI 6.28318530718
+			void main(void) {
+			  outColor = vertColor * vec4(0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.01), 0.75 + 0.25 * sin(v_texCoord3D.y * 0.008), 0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.015), 1.);
+			}
+			"""
 		};
 	}
 	

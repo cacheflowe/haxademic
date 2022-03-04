@@ -34,7 +34,7 @@ extends BaseVideoFilter {
 		
 		// build particle launcher
 		particleLaunchers = new ParticleLauncherGPU(512);
-		int totalVertices = particleLaunchers.vertices();
+		int totalVertices = particleLaunchers.numParticles();
 		
 		// debug
 		DebugView.setTexture("renderedParticles", renderedParticles);
@@ -95,7 +95,7 @@ extends BaseVideoFilter {
 			}
 		}
 		particleLaunchers.endLaunch();
-		particleLaunchers.update();
+		particleLaunchers.updateSimulation();
 
 		// render!
 		renderedParticles.beginDraw();

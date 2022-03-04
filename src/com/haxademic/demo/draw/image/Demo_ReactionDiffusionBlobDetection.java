@@ -179,7 +179,7 @@ extends PAppletHax {
 		pg.strokeWeight(5);
 
 		// loop through blobs
-		int numBlobs = blobFinder.numbBlobs();
+		int numBlobs = blobFinder.numBlobs();
 		for (int i=0 ; i < numBlobs; i++) {
 			blob = blobFinder.blobDetection().getBlob(i);
 			if ( blob != null ) {

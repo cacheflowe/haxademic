@@ -198,7 +198,7 @@ implements IWebCamCallback {
 		particlesSimulationRenderShader.shader().set("height", (float) UI.valueEased(SNOW_RENDER_HEIGHT));
 		particlesSimulationRenderShader.shader().set("rotateAmp", 1f);
 		particlesSimulationRenderShader.shader().set("globalScale", UI.valueEased(SNOW_GLOBAL_SCALE));
-		particlesSimulationRenderShader.shader().set("pointScale", UI.valueEased(SNOW_POINT_SCALE));
+		particlesSimulationRenderShader.shader().set("pointSize", UI.valueEased(SNOW_POINT_SCALE));
 		particlesSimulationRenderShader.update();
 
 		// render particles

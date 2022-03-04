@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -9,13 +9,15 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.core.PShape;
+import processing.core.PVector;
 import processing.opengl.PShader;
 
 public class ParticleLauncherGPU {
 	
 	protected int positionBufferSize;
-	protected int vertices = 0;
+	protected int numParticles = 0;
 	protected int launchIndex = 0;
 	
 	protected PShape shape;
@@ -28,20 +30,30 @@ public class ParticleLauncherGPU {
 	protected static String renderShaderFragPath = "haxademic/shaders/point/points-default-frag.glsl";
 	protected static String renderShaderVertPath = "haxademic/shaders/point/particle-launcher-render-points-vert.glsl";
 
+	protected PImage particleTexture;
+	
 	// points props
 	protected float pointSize = 2;
+	protected float rotateAmp = 1;
+	protected PVector gravity = new PVector();
 
 	public ParticleLauncherGPU(int size) {
-		this(size, simulationShaderFragPath);
+		this(size, simulationShaderFragPath, renderShaderFragPath, renderShaderVertPath, null);
 	}
 	
-	public ParticleLauncherGPU(int size, String shaderPath) {
+	public ParticleLauncherGPU(int size, String simFragPath) {
+		this(size, simFragPath, renderShaderFragPath, renderShaderVertPath, null);
+	}
+	
+	public ParticleLauncherGPU(int size, String simFragPath, String renderFragPath, String renderVertPath, PImage texture) {
 		positionBufferSize = size;
+		numParticles = P.round(positionBufferSize * positionBufferSize);
+		
 		// build random particle placement shader
-		particlesSimulationHotSwap = new PShaderHotSwap(FileUtil.getPath(shaderPath));
+		particlesSimulationHotSwap = new PShaderHotSwap(FileUtil.getPath(simFragPath));
 		
 		// create texture to store positions
-		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
+		colorBuffer = PG.newPG(positionBufferSize, positionBufferSize);
 		colorBuffer.beginDraw();
 		colorBuffer.background(255);
 		colorBuffer.noStroke();
@@ -53,19 +65,27 @@ public class ParticleLauncherGPU {
 		positionBuffer.noStroke();
 		positionBuffer.endDraw();
 		
-		// Build points vertices
-		vertices = P.round(positionBufferSize * positionBufferSize); 
-		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
+		// Build points vertices or textured planes
+		particleTexture = texture;
+		if(particleTexture != null) {
+			shape = PShapeUtil.texturedParticlesShapeForGPUData(positionBufferSize, positionBufferSize, 10, particleTexture);
+		} else {
+			shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
+		}
 		
 		// load shader
 //		particlesRenderShader = P.p.loadShader(
-		particlesRenderHotSwap = new PShaderHotSwap(FileUtil.getPath(renderShaderVertPath), FileUtil.getPath(renderShaderFragPath));
+		particlesRenderHotSwap = new PShaderHotSwap(FileUtil.getPath(renderVertPath), FileUtil.getPath(renderFragPath));
 	}
 	
+	public PShader simulationShader() { return particlesSimulationHotSwap.shader(); }
+	public PShader renderShader() { return particlesRenderHotSwap.shader(); }
 	public PGraphics positionBuffer() { return positionBuffer; }
 	public PGraphics colorBuffer() { return colorBuffer; }
-	public int vertices() { return vertices; }
+	public int numParticles() { return numParticles; }
 	public ParticleLauncherGPU pointSize(float pointSize) { this.pointSize = pointSize; return this; }
+	public ParticleLauncherGPU rotateAmp(float rotateAmp) { this.rotateAmp = rotateAmp; return this; }
+	public ParticleLauncherGPU gravity(float gravityX, float gravityY) { this.gravity.set(gravityX, gravityY); return this; }
 	
 	public static int getGridX(int size, int index) {
 		return index % size;
@@ -77,6 +97,7 @@ public class ParticleLauncherGPU {
 	
 	public void beginLaunch() {
 		positionBuffer.beginDraw();
+		positionBuffer.blendMode(PBlendModes.REPLACE); // ensures proper re-spawning and not additive alpha channel
 	}
 	
 	public void endLaunch() {
@@ -87,7 +108,7 @@ public class ParticleLauncherGPU {
 		// writes new pixels to reset particles
 		// set next launch index  
 		launchIndex++;
-		launchIndex = launchIndex % (shape.getVertexCount());
+		launchIndex = launchIndex % numParticles; // (shape.getVertexCount());
 
 		// get x/y coords for that pixel to reset properties
 		int texX = getGridX(positionBufferSize, launchIndex);
@@ -104,9 +125,9 @@ public class ParticleLauncherGPU {
 		positionBuffer.rect(texX, texY, 1, 1);
 	}
 	
-	public void update() {
+	public void updateSimulation() {
 		// update particle movement
-//		positionBuffer.filter(positionShader);
+		simulationShader().set("gravity", gravity.x, gravity.y);
 		positionBuffer.filter(particlesSimulationHotSwap.shader());
 	}
 	
@@ -115,23 +136,28 @@ public class ParticleLauncherGPU {
 	}
 	
 	public void renderTo(PGraphics buffer, boolean translateCenter) {
-		// update vertex/rendering shader props
-		PShader renderShader = particlesRenderHotSwap.shader();
-		renderShader.set("width", (float) buffer.width);
-		renderShader.set("height", (float) buffer.height);
-		renderShader.set("depth", (float) buffer.width);
-		renderShader.set("colorTexture", colorBuffer);
-		renderShader.set("positionTexture", positionBuffer);
-		renderShader.set("pointSize", pointSize);
-		
-		buffer.shader(renderShader);	// set vertex shader
-		if(translateCenter) buffer.translate(buffer.width/2, buffer.height/2);
-		buffer.shape(shape);			// draw particles
-		buffer.resetShader();
-
 		// recompile if needed & show shader compile error messages
 		particlesSimulationHotSwap.update();
 		particlesRenderHotSwap.update();
 //		positionShaderHotSwap.showShaderStatus(buffer);
+		
+		// update vertex/rendering shader props
+		renderShader().set("width", (float) buffer.width);
+		renderShader().set("height", (float) buffer.height);
+		renderShader().set("depth", (float) buffer.width);
+		renderShader().set("colorMap", colorBuffer);
+		renderShader().set("positionMap", positionBuffer);
+		renderShader().set("pointSize", pointSize);
+		renderShader().set("rotateAmp", rotateAmp);
+		if(particleTexture != null) {
+			renderShader().set("textureParticle", particleTexture);
+		}
+		
+		buffer.push();
+		buffer.shader(renderShader());	// set vertex shader
+		if(translateCenter) buffer.translate(buffer.width/2, buffer.height/2);
+		buffer.shape(shape);			// draw particles
+		buffer.resetShader();
+		buffer.pop();
 	}
 }

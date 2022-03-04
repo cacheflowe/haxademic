@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 
+import blobDetection.Blob;
 import blobDetection.BlobDetection;
 import processing.core.PGraphics;
 
@@ -39,8 +40,12 @@ public class BlobFinder {
 		return blobDetection;
 	}
 	
-	public int numbBlobs() {
+	public int numBlobs() {
 		return blobDetection.getBlobNb();
+	}
+	
+	public Blob getBlob(int index) {
+		return blobDetection.getBlob(index);
 	}
 	
 	public PGraphics blobSourceBuffer() {
