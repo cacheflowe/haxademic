@@ -82,24 +82,24 @@ public class OpticalFlow {
 	
 	public void buildUI() {
 		UI.addTitle("OF: Calculation");
-		UI.addSlider(UI_uDecayLerp, 0.02f, 0f, 1f, 0.001f, false);
-		UI.addSlider(UI_uForce, 0.75f, 0f, 10f, 0.01f, false);
-		UI.addSlider(UI_uOffset, 8f, 0f, 100f, 0.01f, false);
-		UI.addSlider(UI_uLambda, 0.012f, 0f, 1f, 0.0001f, false);
-		UI.addSlider(UI_uThreshold, 0.1f, 0f, 1f, 0.001f, false);
-		UI.addSlider(UI_uInverseX, -1f, -1f, 1f, 1f, false);
-		UI.addSlider(UI_uInverseY, -1f, -1f, 1f, 1f, false);
+		UI.addSlider(UI_uDecayLerp, uDecayLerp, 0f, 1f, 0.001f, false);
+		UI.addSlider(UI_uForce, uForce, 0f, 10f, 0.01f, false);
+		UI.addSlider(UI_uOffset, uOffset, 0f, 100f, 0.01f, false);
+		UI.addSlider(UI_uLambda, uLambda, 0f, 1f, 0.0001f, false);
+		UI.addSlider(UI_uThreshold, uThreshold, 0f, 1f, 0.001f, false);
+		UI.addSlider(UI_uInverseX, uInverseX, -1f, 1f, 1f, false);
+		UI.addSlider(UI_uInverseY, uInverseY, -1f, 1f, 1f, false);
 		
 		UI.addTitle("OF: Pre blur");
-		UI.addSlider(UI_preBlurAmp, 20f, 0f, 100f, 0.1f, false);
-		UI.addSlider(UI_preBlurSigma, 20f, 0f, 100f, 0.1f, false);
+		UI.addSlider(UI_preBlurAmp, preBlurAmp, 0f, 100f, 0.1f, false);
+		UI.addSlider(UI_preBlurSigma, preBlurSigma, 0f, 100f, 0.1f, false);
 		
 		UI.addTitle("OF: Flow result displace");
-		UI.addSlider(UI_resultFlowDecayLerp, 0.15f, 0f, 1f, 0.001f, false);
-		UI.addSlider(UI_resultFlowDisplaceAmp, 0.2f, 0f, 1f, 0.001f, false);
-		UI.addSlider(UI_resultFlowDisplaceIters, 1f, 0f, 10f, 1f, false);
-		UI.addSlider(UI_resultBlurAmp, 20f, 0f, 100f, 0.1f, false);
-		UI.addSlider(UI_resultBlurSigma, 20f, 0f, 100f, 0.1f, false);
+		UI.addSlider(UI_resultFlowDecayLerp, resultFlowDecayLerp, 0f, 1f, 0.001f, false);
+		UI.addSlider(UI_resultFlowDisplaceAmp, resultFlowDisplaceAmp, 0f, 1f, 0.001f, false);
+		UI.addSlider(UI_resultFlowDisplaceIters, resultFlowDisplaceIters, 0f, 10f, 1f, false);
+		UI.addSlider(UI_resultBlurAmp, resultBlurAmp, 0f, 100f, 0.1f, false);
+		UI.addSlider(UI_resultBlurSigma, resultBlurSigma, 0f, 100f, 0.1f, false);
 	}
 	
 	// setters
@@ -175,10 +175,8 @@ public class OpticalFlow {
 		if(preBlurAmp > 0) {
 			BlurProcessingFilter.instance(P.p).setBlurSize(preBlurAmp);
 			BlurProcessingFilter.instance(P.p).setSigma(preBlurSigma);
-//			BlurProcessingFilter.instance(P.p).applyTo(tex1);
-//			BlurProcessingFilter.instance(P.p).applyTo(tex1);
-//			BlurProcessingFilter.instance(P.p).applyTo(tex0);
-//			BlurProcessingFilter.instance(P.p).applyTo(tex0);
+			BlurProcessingFilter.instance(P.p).applyTo(tex1);
+			BlurProcessingFilter.instance(P.p).applyTo(tex0);
 		}
 		
 		// update shader & do optical flow calculations
@@ -222,13 +220,18 @@ public class OpticalFlow {
 //		BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
 	}
 	
-	public void drawDebugLines(PImage opFlowResults) {
+	public void drawDebugLines() {
+		drawDebugLines(false);
+	}
+	
+	public void drawDebugLines(boolean showFlowedResults) {
 		// lazy build debug buffer
 		if(debugBuffer == null) debugBuffer = PG.newPG(resultBuffer.width, resultBuffer.height);
 		
 		// debug lines to show flow
 		// r, g == x, y
 //		resultBuffer.loadPixels();
+		PImage opFlowResults = (showFlowedResults) ? resultFlowedBuffer : resultBuffer;
 		opFlowResults.loadPixels();
 		debugBuffer.beginDraw();
 		debugBuffer.clear();
@@ -243,7 +246,7 @@ public class OpticalFlow {
 				float yDir = (g) - 0.5f;
 				if(P.abs(xDir) > 0.01f || P.abs(yDir) > 0.01f) { 
 					float arrowScale = P.max(P.abs(xDir), P.abs(yDir));
-					float arrowSize = 4 +  200f * arrowScale;
+					float arrowSize = 4 +  60f * P.min(arrowScale, 1f);
 					debugBuffer.push();
 					debugBuffer.translate(x, y);
 					debugBuffer.rotate(P.PI - MathUtil.getRadiansToTarget(0, 0, xDir, yDir));
