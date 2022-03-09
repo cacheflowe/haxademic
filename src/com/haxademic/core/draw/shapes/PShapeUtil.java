@@ -893,8 +893,8 @@ public class PShapeUtil {
 				numVerts += shape.getVertexCount();
 				
 				// give the shape attributes for the shader to pick out their UV coord from grid index
-				shape.attrib("x", x);
-				shape.attrib("y", y);
+				shape.attrib("x", (float) x);
+				shape.attrib("y", (float) y);
 				shape.attrib("shapeCenterX", gridX);
 				shape.attrib("shapeCenterY", gridY);
 				shape.attrib("shapeCenterZ", gridZ);
