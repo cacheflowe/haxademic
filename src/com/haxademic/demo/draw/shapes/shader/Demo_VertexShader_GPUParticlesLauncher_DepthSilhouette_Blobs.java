@@ -6,6 +6,8 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.color.Gradients;
+import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
@@ -14,11 +16,13 @@ import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 
@@ -90,9 +94,7 @@ extends PAppletHax {
 		
 	protected void firstFrame () {
 		// Video Background
-		//		movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
-		//		movieBuffer = new MovieBuffer(FileUtil.getPath(DemoAssets.movieFractalCubePath));
-		movieBg = new Movie(P.p, "D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\Pepsi_Nitro_Loop_v001.mp4");
+		movieBg = new Movie(P.p, FileUtil.getPath(DemoAssets.movieFractalCubePath));
 		movieBg.play();
 
 
@@ -120,13 +122,13 @@ extends PAppletHax {
 		shapesLayer = PG.newPG(p.width, p.height);
 		
 //		gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
-		PImage particle = p.loadImage("D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\bubble_tex_02_alpha_00000_00001.png"); // DemoAssets.smallTexture()
+		PImage particle = DemoAssets.particle();
 		gpuParticles1 = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
 		DebugView.setValue("gpuParticles.vertices()", gpuParticles1.numParticles());
 		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles1.positionBuffer());
 		DebugView.setTexture("gpuParticles.colorBuffer()", gpuParticles1.colorBuffer());
 		
-		PImage particle2 = p.loadImage("D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\copper_tex_01.png"); // DemoAssets.smallTexture()
+		PImage particle2 = DemoAssets.particle();
 		gpuParticles2 = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle2);
 		DebugView.setValue("gpuParticles.vertices()", gpuParticles2.numParticles());
 		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles2.positionBuffer());
@@ -317,7 +319,7 @@ extends PAppletHax {
 		DebugView.setValue("updateTime", p.millis() - startUpdateTime);
 		
 		// update particles color map
-		ImageUtil.copyImage(ImageCacher.get("../../pepsi-nitro-wall/_assets/court-design-assets/color_grad_01.png"), gpuParticles1.colorBuffer());
+		ImageUtil.copyImage(ImageGradient.PASTELS(), gpuParticles1.colorBuffer());
 
 		// update/draw particles
 //		shapesLayer.beginDraw();
@@ -348,7 +350,7 @@ extends PAppletHax {
 		DebugView.setValue("updateTime2", p.millis() - startUpdateTime2);
 		
 		// update particles color map
-		ImageUtil.copyImage(ImageCacher.get("../../pepsi-nitro-wall/_assets/court-design-assets/color_grad_01.png"), gpuParticles2.colorBuffer());
+		ImageUtil.copyImage(ImageGradient.PASTELS(), gpuParticles2.colorBuffer());
 		
 		// update/draw particles
 //		shapesLayer.beginDraw();

@@ -11,12 +11,14 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
 
 import VLCJVideo.VLCJVideo;
@@ -54,8 +56,7 @@ extends PAppletHax {
 	protected void firstFrame () {
 		// TEMP REMOVE
 		videoVLC = new VLCJVideo(p);
-//		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\1920-1080_ALT.mov");
-		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\pepsi_h264_1080_best.mp4");
+		videoVLC.open(FileUtil.getPath(DemoAssets.movieFractalCubePath));
 		videoVLC.play();
 		videoVLC.setRepeat(true);
 
@@ -82,7 +83,7 @@ extends PAppletHax {
 		// build particles launcher
 		shapesLayer = PG.newPG(p.width, p.height);
 //		gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
-		PImage particle = p.loadImage("D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\bubble_tex_02_alpha_00000_00000.png");
+		PImage particle = DemoAssets.particle();
 		gpuParticles = new ParticleLauncherGPU(512, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
 
 		DebugView.setValue("gpuParticles.vertices()", gpuParticles.numParticles());

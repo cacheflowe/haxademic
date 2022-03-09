@@ -19,14 +19,14 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
-import com.haxademic.core.media.video.MovieBuffer;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 
-import VLCJVideo.VLCJVideo;
 import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
+import processing.video.Movie;
 
 public class Demo_OpticalFlow
 extends PAppletHax {
@@ -41,8 +41,7 @@ extends PAppletHax {
 
 	// sources
 	protected RealSenseWrapper realSenseWrapper;
-	protected MovieBuffer video;
-	protected VLCJVideo videoVLC;
+	protected Movie video;
 
 	// ui
 	protected String sourceLerp = "sourceLerp";
@@ -95,14 +94,8 @@ extends PAppletHax {
 	
 	protected void buildVideoSource() {
 //		realSenseWrapper = new RealSenseWrapper(p, true, true);
-//		video = new MovieBuffer(DemoAssets.movieKinectSilhouette());	// new MovieBuffer(FileUtil.getPath(DemoAssets.movieFractalCubePath));
-//		video = new MovieBuffer("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\pepsi_h264_1080_best.mp4");
-//		video = new MovieBuffer("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\1920-1080_ALT.mov");
-//		video.movie.loop();
-		videoVLC = new VLCJVideo(p);
-		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\1920-1080_ALT.mov");
-		videoVLC.play();
-		videoVLC.setRepeat(true);
+		video = new Movie(P.p, FileUtil.getPath(DemoAssets.movieFractalCubePath));
+		video.play();
 	}
 	
 	protected void buildBuffers() {
@@ -153,14 +146,11 @@ extends PAppletHax {
 			ImageUtil.cropFillCopyImage(realSenseWrapper.getDepthImage(), curSourceFrame, true);
 		} else if(video != null) {
 //			if(video.movie.isPlaying() == false) video.movie.play();
-			if(video.buffer != null) { 
-				ImageUtil.cropFillCopyImage(video.buffer, curRgbFrame, true);
-				ImageUtil.cropFillCopyImage(video.buffer, curSourceFrame, true);
+			if(video != null) { 
+				ImageUtil.cropFillCopyImage(video, curRgbFrame, true);
+				ImageUtil.cropFillCopyImage(video, curSourceFrame, true);
 			}
-		} else if(videoVLC != null) {
-			ImageUtil.cropFillCopyImage(videoVLC, curRgbFrame, true);
-			ImageUtil.cropFillCopyImage(videoVLC, curSourceFrame, true);
-		}
+		} 
 		
 		// update contrasted version
 		ImageUtil.copyImage(curSourceFrame, curSourceFrameContrasted);
@@ -316,7 +306,7 @@ extends PAppletHax {
 		if(KeyboardState.keyTriggered('1')) UI.loadValuesFromJSON(faceMeltConfig);
 		if(KeyboardState.keyTriggered('2')) UI.loadValuesFromJSON(flowwwwwConfig);
 		if(KeyboardState.keyTriggered(' ')) P.out(JsonUtil.jsonToSingleLine(UI.valuesToJSON()));
-		if(KeyboardState.keyTriggered('p')) { videoVLC.setTime(0); videoVLC.play(); }
+		if(KeyboardState.keyTriggered('p')) { video.jump(0); video.play(); }
 	}
 	
 	protected void drawToScreen() {

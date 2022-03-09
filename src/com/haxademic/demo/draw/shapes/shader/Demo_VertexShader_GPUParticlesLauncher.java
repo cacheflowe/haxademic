@@ -48,7 +48,7 @@ extends PAppletHax {
 		if(pointsShader) {
 			gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
 		} else {
-			PImage particle = DemoAssets.smallTexture();
+			PImage particle = DemoAssets.particle();
 			gpuParticles = new ParticleLauncherGPU(1024, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
 		}
 		DebugView.setValue("gpuParticles.vertices()", gpuParticles.numParticles());
