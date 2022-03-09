@@ -892,8 +892,8 @@ public class PShapeUtil {
 				numVerts += 6; // shape.getVertexCount(); // calling this caused tessellation calculations that triggered an error
 				
 				// give the shape attributes for the shader to pick out their UV coord from grid index
-				shape.attrib("x", x);
-				shape.attrib("y", y);
+				shape.attrib("x", (float) x);
+				shape.attrib("y", (float) y);
 				shape.attrib("shapeCenterX", gridX);
 				shape.attrib("shapeCenterY", gridY);
 				shape.attrib("shapeCenterZ", gridZ);
