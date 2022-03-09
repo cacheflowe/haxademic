@@ -68,8 +68,11 @@ extends PAppletHax {
 		
 		// build particles launcher
 		shapesLayer = PG.newPG(p.width, p.height);
-		gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
-		DebugView.setValue("gpuParticles.vertices()", gpuParticles.vertices());
+//		gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
+		PImage particle = p.loadImage("D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\bubble_tex_02_alpha_00000_00000.png");
+		gpuParticles = new ParticleLauncherGPU(512, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
+
+		DebugView.setValue("gpuParticles.vertices()", gpuParticles.numParticles());
 		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles.positionBuffer());
 		DebugView.setTexture("gpuParticles.colorBuffer()", gpuParticles.colorBuffer());
 
@@ -83,6 +86,9 @@ extends PAppletHax {
 	protected void drawApp() {
 		// set up context
 		p.background(0);
+		
+		// TEMP REMOVE
+		ImageUtil.drawImageCropFill(videoVLC, p.g, true);
 		
 		// copy silhouette to aspect-ratio-corrected copy
 		// and prepare pixels data
@@ -118,7 +124,7 @@ extends PAppletHax {
 		
 		// update particles buffers
 		int startUpdateTime = p.millis();
-		gpuParticles.update();
+		gpuParticles.updateSimulation();
 		DebugView.setValue("updateTime", p.millis() - startUpdateTime);
 		
 		// update particles color map
