@@ -9,7 +9,6 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
@@ -20,6 +19,7 @@ import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.ui.UI;
 
+import VLCJVideo.VLCJVideo;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -40,6 +40,11 @@ extends PAppletHax {
 	protected String UI_PARTICLES_LAUNCH_ATTEMPTS = "UI_MAX_LAUNCHES_PER_FRAME";
 	protected String UI_PARTICLES_POINT_SIZE = "UI_PARTICLES_POINT_SIZE";
 	protected String UI_SILHOUETTE_ALPHA = "UI_SILHOUETTE_ALPHA";
+
+	
+	// TEMP REMOVE
+	protected VLCJVideo videoVLC;
+
 	
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 1280 );
@@ -47,6 +52,14 @@ extends PAppletHax {
 	}
 		
 	protected void firstFrame () {
+		// TEMP REMOVE
+		videoVLC = new VLCJVideo(p);
+//		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\1920-1080_ALT.mov");
+		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\pepsi_h264_1080_best.mp4");
+		videoVLC.play();
+		videoVLC.setRepeat(true);
+
+		
 		// init depth cam
 		DepthCamera.instance(DepthCameraType.Realsense);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
@@ -131,6 +144,7 @@ extends PAppletHax {
 		if(Mouse.xNorm < 0.5f) { 
 			ImageUtil.copyImage(ImageGradient.SPARKS_FLAMES(), gpuParticles.colorBuffer());
 //			ImageUtil.copyImage(ImageGradient.BLACK_HOLE(), gpuParticles.colorBuffer());
+//			ImageUtil.copyImage(ImageCacher.get("../../pepsi-nitro-wall/_assets/cascade-gradient.png"), gpuParticles.colorBuffer());
 		} else {
 			gpuParticles.colorBuffer().beginDraw();
 			gpuParticles.colorBuffer().background(255);
