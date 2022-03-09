@@ -15,8 +15,8 @@ import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.ui.UI;
 
