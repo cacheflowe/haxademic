@@ -65,7 +65,7 @@
 	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/core/library/core.jar" sourcepath="D:/workspace/processing4/core/src"/>
 	<classpathentry kind="lib" path="lib/processing-4/core/library/gluegen-rt.jar">
-			<attributes>
+		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-4/core/library/windows-amd64"/>
 		</attributes>
 	</classpathentry>
