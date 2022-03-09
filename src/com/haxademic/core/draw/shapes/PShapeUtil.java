@@ -9,7 +9,6 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.Triangle3d;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
@@ -890,7 +889,7 @@ public class PShapeUtil {
 				float gridZ = 0;
 				
 				PShape shape = PShapeUtil.createTexturedRect(shapeSize, shapeSize, gridX, gridY, 0, texture);
-				numVerts += shape.getVertexCount();
+				numVerts += 6; // shape.getVertexCount(); // calling this caused tessellation calculations that triggered an error
 				
 				// give the shape attributes for the shader to pick out their UV coord from grid index
 				shape.attrib("x", x);
@@ -1263,14 +1262,11 @@ public class PShapeUtil {
 //		}
 		
 		{
-			P.p.push();
-			P.p.textureMode(P.NORMAL);
 			PShape shape = P.p.createShape(P.RECT, -width/2f, -height/2f, width, height);
 			shape.setStroke(false);
 			shape.textureMode(P.NORMAL);
 			translateShape(shape, x, y, z);
 			shape.setTexture(texture);
-			P.p.pop();
 			return shape;
 		}
 	}

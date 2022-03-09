@@ -12,6 +12,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
@@ -34,7 +35,7 @@ extends PAppletHax {
 
 
 	protected void config() {
-		Config.setAppSize(1600, 1600);
+		Config.setAppSize(1000, 1000);
 		Config.setProperty(AppSettings.SHOW_DEBUG, false);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
@@ -47,10 +48,8 @@ extends PAppletHax {
 		if(pointsShader) {
 			gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
 		} else {
-//			PImage particle = p.loadImage("D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\bubble_tex_01_alpha_00000.png");
-			PImage particle = p.loadImage("D:\\workspace\\pepsi-nitro-wall\\_assets\\court-design-assets\\bubble_tex_02_alpha_00000_00000.png");
-			// DemoAssets.smallTexture()
-			gpuParticles = new ParticleLauncherGPU(512, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
+			PImage particle = DemoAssets.smallTexture();
+			gpuParticles = new ParticleLauncherGPU(1024, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
 		}
 		DebugView.setValue("gpuParticles.vertices()", gpuParticles.numParticles());
 		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles.positionBuffer());
@@ -58,7 +57,7 @@ extends PAppletHax {
 		
 		// build random number texture
 		randomColorShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
-		randomNumbers = PG.newDataPG(256, 256);
+		randomNumbers = PG.newDataPG(1024, 1024);
 		randomNumbers.filter(randomColorShader);
 	}
 	
