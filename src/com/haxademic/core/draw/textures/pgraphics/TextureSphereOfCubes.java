@@ -62,6 +62,7 @@ extends BaseTexture {
 
      		// get size and alpha and draw cube
      		float size = boxSize.value() * (1f + AudioIn.audioFreq(i + 20));
+//     		size = P.min(size, 10);
      		float oscInc = P.p.frameCount * 0.04f;
 			
      		_texture.fill(ColorsHax.COLOR_GROUPS[0][i % 4]);

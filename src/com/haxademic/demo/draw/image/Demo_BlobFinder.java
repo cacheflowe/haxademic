@@ -69,7 +69,7 @@ implements IWebCamCallback {
 		
 		webcamBufferLerped.loadPixels();
 		
-		float iterations = 4;
+		float iterations = 10;
 		for (int x = 0; x < iterations; x++) {
 			
 			// update blob detection
@@ -91,14 +91,14 @@ implements IWebCamCallback {
 			float blobScaleH = webcamH;
 			
 			// loop through blobs
-			int numBlobs = blobFinder.blobDetection().getBlobNb();
+			int numBlobs = blobFinder.numBlobs();
 			for (int i=0 ; i < numBlobs; i++) {
-				blob = blobFinder.blobDetection().getBlob(i);
+				blob = blobFinder.getBlob(i);
 				if ( blob != null ) {
 					// loop through blob segments & draw vertices
 					int numBlobSegments = blob.getEdgeNb();
 				
-					if(numBlobSegments > 30) {
+					if(numBlobSegments > 10) {
 						
 						int numSegmentsToProcess = 20;
 						int segmentsToSkip = P.floor((float) numBlobSegments / (float) numSegmentsToProcess);

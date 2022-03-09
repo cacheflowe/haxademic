@@ -22,6 +22,7 @@ public class AudioIn {
 	public static IAudioInput audioInput;
 	public static float[] frequencies;
 	public static float[] waveform;
+	public static float INPUT_MULT = 1f;
 	
 	/////////////////////////////
 	// static instance & initializer for quick & easy access
@@ -82,7 +83,7 @@ public class AudioIn {
 	public AudioIn(IAudioInput input, PApplet p) {
 		AudioIn.audioInput = input;
 		AudioIn.audioInput.update();	// force a build of the internal AudioStreamData object
-		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
+		AudioIn.frequencies = AudioIn.audioInput.audioData().freqsDampened;
 		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
 
 		// subscribe for auto draw() updates
@@ -123,7 +124,7 @@ public class AudioIn {
 	}
 		
 	public static float audioFreqMod(int index, int mod) {
-		return frequencies[index % mod];
+		return frequencies[index % mod] * INPUT_MULT;
 	}
 
 	public static float audioWave(int index) {
@@ -131,11 +132,11 @@ public class AudioIn {
 	}
 	
 	public static float audioWaveMod(int index, int mod) {
-		return waveform[index % mod];
+		return waveform[index % mod] * INPUT_MULT;
 	}
 	
 	public static float amplitude() {
-		return audioInput.audioData().amp();
+		return audioInput.audioData().amp() * INPUT_MULT;
 	}
 	
 	public static boolean isBeat() {

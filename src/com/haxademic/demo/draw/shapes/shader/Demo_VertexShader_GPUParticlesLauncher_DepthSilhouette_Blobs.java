@@ -44,6 +44,17 @@ extends PAppletHax {
 	protected PGraphics shapesLayer;
 	protected ParticleLauncherGPU gpuParticles1;
 	protected ParticleLauncherGPU gpuParticles2;
+	protected String UI_SILHOUETTE_ALPHA = "UI_SILHOUETTE_ALPHA";
+	protected String UI_SILHOUETTE_FILL_BLUR = "UI_SILHOUETTE_FILL_BLUR";
+	protected String UI_OUTLINE_ALPHA = "UI_OUTLINE_ALPHA";
+	protected String UI_OUTLINE_BLUR_ITERS = "UI_OUTLINE_BLUR_ITERS";
+	protected String UI_OUTLINE_BLUR_SIZE = "UI_OUTLINE_BLUR_SIZE";
+	protected String UI_OUTLINE_BLUR_SIGMA = "UI_OUTLINE_BLUR_SIGMA";
+	protected String UI_SHOW_VIDEO = "UI_SHOW_VIDEO";
+	protected String UI_VIDEO_FLOW_DEBUG = "UI_VIDEO_FLOW_DEBUG";
+	protected String UI_SHOW_CAMERA_FLOW_DEBUG = "UI_SHOW_CAMERA_FLOW_DEBUG";
+
+	protected Movie movieBg;
 	protected String UI_PARTICLES_1_LAUNCH_ATTEMPTS = "UI_PARTICLES_1_LAUNCH_ATTEMPTS";
 	protected String UI_PARTICLES_1_POINT_SIZE = "UI_PARTICLES_1_POINT_SIZE";
 	protected String UI_PARTICLES_1_LIFESPAN_STEP = "UI_PARTICLES_1_LIFESPAN_STEP";
@@ -64,18 +75,7 @@ extends PAppletHax {
 	protected String UI_PARTICLES_2_ALPHA = "UI_PARTICLES_2_ALPHA";
 	protected String UI_PARTICLES_2_USE_OP_FLOW = "UI_PARTICLES_2_USE_OP_FLOW";
 	protected String UI_PARTICLES_2_OP_FLOW_AMP = "UI_PARTICLES_2_OP_FLOW_AMP";
-	protected String UI_SILHOUETTE_ALPHA = "UI_SILHOUETTE_ALPHA";
-	protected String UI_SILHOUETTE_FILL_BLUR = "UI_SILHOUETTE_FILL_BLUR";
-	protected String UI_OUTLINE_ALPHA = "UI_OUTLINE_ALPHA";
-	protected String UI_OUTLINE_BLUR_ITERS = "UI_OUTLINE_BLUR_ITERS";
-	protected String UI_OUTLINE_BLUR_SIZE = "UI_OUTLINE_BLUR_SIZE";
-	protected String UI_OUTLINE_BLUR_SIGMA = "UI_OUTLINE_BLUR_SIGMA";
-	protected String UI_SHOW_VIDEO = "UI_SHOW_VIDEO";
-	protected String UI_VIDEO_FLOW_DEBUG = "UI_VIDEO_FLOW_DEBUG";
-	protected String UI_SHOW_CAMERA_FLOW_DEBUG = "UI_SHOW_CAMERA_FLOW_DEBUG";
 
-	protected Movie movieBg;
-	
 	protected OpticalFlow opticalFlowVideo;
 	protected int opticalFlowScaleDown = 4;
 	protected PGraphics opticalFlowVideoBuffer;
@@ -229,7 +229,7 @@ extends PAppletHax {
 		// draw video optical flow debug
 		if(UI.valueToggle(UI_VIDEO_FLOW_DEBUG)) {
 			// generate debug texture
-			opticalFlowVideo.drawDebugLines(opticalFlowVideo.resultFlowedBuffer());
+			opticalFlowVideo.drawDebugLines(true);
 			// then draw it
 			PG.setPImageAlpha(p.g, 0.9f);
 			ImageUtil.drawImageCropFill(opticalFlowVideo.debugBuffer(), p.g, true);	
@@ -252,7 +252,7 @@ extends PAppletHax {
 		DebugView.setTexture("opticalFlowCameraResultFlowed", opticalFlowCamera.resultFlowedBuffer());
 		if(UI.valueToggle(UI_SHOW_CAMERA_FLOW_DEBUG)) {
 			// generate debug texture
-			opticalFlowCamera.drawDebugLines(opticalFlowCamera.resultFlowedBuffer());
+			opticalFlowCamera.drawDebugLines(true);
 			// then draw it
 			PG.setPImageAlpha(p.g, 0.5f);
 			p.g.image(opticalFlowCamera.debugBuffer(), 0, 0, p.width/2, p.height);	

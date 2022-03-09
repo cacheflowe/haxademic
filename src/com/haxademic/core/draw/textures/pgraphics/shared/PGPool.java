@@ -2,6 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics.shared;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
 
 import processing.core.PGraphics;
@@ -12,6 +13,8 @@ public class PGPool {
 	
 	public static PGraphics getPG(int w, int h) {
 		// find an available PG
+		DebugView.setValue("pgWrappers.size()", pgWrappers.size());
+		P.out("pgWrappers.size()", pgWrappers.size());
 		for (int i = 0; i < pgWrappers.size(); i++) {
 			PGraphicsWrapper wrapper = pgWrappers.get(i);
 			if(wrapper.available(w, h)) {
@@ -23,7 +26,6 @@ public class PGPool {
 		PGraphicsWrapper newWrapper = new PGraphicsWrapper(w, h);
 		newWrapper.setUpdated();
 		pgWrappers.add(newWrapper);
-		DebugView.setValue("pgWrappers.size()", pgWrappers.size());
 		return newWrapper.pg;
 	}
 	

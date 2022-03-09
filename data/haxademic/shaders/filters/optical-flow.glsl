@@ -53,8 +53,7 @@ float luma(vec4 rgba) {
   return dot(rgba.xyz, W);
 }
 
-void main()
-{
+void main() {
 	vec2 uv  = vertTexCoord.xy;
 
 	vec2 pixelOffset = vec2(texOffset.x*uOffset, texOffset.y*uOffset);

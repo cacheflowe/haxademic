@@ -7,7 +7,6 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
@@ -191,7 +190,7 @@ public class ImageUtil {
 	}
 	
 	public static PGraphics imageToGraphics(PImage img) {
-		PGraphics pg = P.p.createGraphics(img.width, img.height, PRenderers.P3D);
+		PGraphics pg = PG.newPG(img.width, img.height);
 		pg.beginDraw();
 		pg.background(0, 0);
 		pg.image(img, 0, 0);
@@ -208,7 +207,7 @@ public class ImageUtil {
 	}  
 	
 	public static PGraphics shapeToGraphics(PShape shape, float scale, int bgColor) {
-		PGraphics pg = P.p.createGraphics(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale));
+		PGraphics pg = PG.newPG(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale));
 		pg.beginDraw();
 		if(bgColor != -999) pg.background(bgColor);
 		pg.shape(shape, 0, 0, pg.width, pg.height);
@@ -228,14 +227,18 @@ public class ImageUtil {
 	}  
 	
 	public static PImage imageToImageWithPadding(PImage img, float scaleCanvasUp) {
-		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp));
+		return imageToPGWithPadding(img, scaleCanvasUp).copy();
+	}  
+	
+	public static PGraphics imageToPGWithPadding(PImage img, float scaleCanvasUp) {
+		PGraphics pg = PG.newPG(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp));
 		pg.beginDraw();
 		PG.setDrawCenter(pg);
 		pg.clear();
 		pg.translate(pg.width/2, pg.height/2);
 		pg.image(img, 0, 0);
 		pg.endDraw();
-		return pg.copy();
+		return pg;
 	}  
 	
 	public static PGraphics imageToGraphicsCropFill(PImage img, PGraphics pg) {

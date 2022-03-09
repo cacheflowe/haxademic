@@ -68,7 +68,7 @@ public class ParticleLauncherGPU {
 		// Build points vertices or textured planes
 		particleTexture = texture;
 		if(particleTexture != null) {
-			shape = PShapeUtil.texturedParticlesShapeForGPUData(positionBufferSize, positionBufferSize, 10, particleTexture);
+			shape = PShapeUtil.texturedParticlesShapeForGPUData(positionBufferSize, positionBufferSize, 1, particleTexture);
 		} else {
 			shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
 		}

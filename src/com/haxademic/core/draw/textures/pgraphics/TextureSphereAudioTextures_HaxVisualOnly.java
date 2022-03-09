@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
@@ -91,7 +92,7 @@ extends BaseTexture {
 		ImageUtil.cropFillCopyImage(_curTexturePool.get(texturePoolIndex).texture(), sphereTexture, true);
 		
 		// effects
-		applyChromaBlackKnockout(sphereTexture);
+		ChromaColorFilter.instance(P.p).presetBlackKnockout().applyTo(sphereTexture);
 //		LeaveWhiteFilter.instance(P.p).setMix(0.99f);
 //		LeaveWhiteFilter.instance(P.p).applyTo(sphereTexture);
 		VignetteAltFilter.instance(P.p).setSpread(0.95f);

@@ -28,9 +28,9 @@ public class BaseTexture {
 	protected int _timingFrame = 0;
 	protected int renderTime = 0;
 	
-//	public static PShader _chroma;
 	protected int _brightMode = -1;
 	protected EasingFloat _brightEaser = new EasingFloat(1, 10);
+	
 	protected boolean _makeOverlay;
 	protected boolean _knockoutBlack;
 	
@@ -44,7 +44,7 @@ public class BaseTexture {
 		this.width = width;
 		this.height = height;
 		this.smoothPG = smoothPG;
-		_texture = PG.newPG(width, height, smoothPG, true);
+//		_texture = PG.newPG(width, height, smoothPG, true);
 		_active = false;
 		_color = P.p.color(255);
 		_colorEase = new EasingColor( "#ffffff", 5 );
@@ -56,6 +56,7 @@ public class BaseTexture {
 	}
 	
 	public PGraphics texture() {
+		if(_texture == null) _texture = PGPool.getPG(width, height);
 		return _texture;
 	}
 	
@@ -66,7 +67,13 @@ public class BaseTexture {
 	public BaseTexture setActive( boolean isActive ) {
 		_active = isActive;
 		_newlyActive = true;
-		if( _active == true ) addUseCount();
+		if( _active == true ) {
+			if(_texture == null) {
+				_texture = PGPool.getPG(width, height);
+//				_texture = PG.newPG(width, height, smoothPG, true);
+			}
+			addUseCount();
+		}
 		return this;
 	}
 	
@@ -76,14 +83,6 @@ public class BaseTexture {
 	
 	public void setKnockoutBlack( boolean knockoutBlack ) {
 		_knockoutBlack = knockoutBlack;
-	}
-	
-	protected void applyChromaBlackKnockout(PGraphics pg) {
-		// set black knockout chroma shader 
-		ChromaColorFilter.instance(P.p).setColorToReplace(0f, 0f, 0f);
-		ChromaColorFilter.instance(P.p).setThresholdSensitivity(0.2f);
-		ChromaColorFilter.instance(P.p).setSmoothing(0.25f);
-		ChromaColorFilter.instance(P.p).applyTo(pg);
 	}
 	
 	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
@@ -96,9 +95,9 @@ public class BaseTexture {
 			ThresholdFilter.instance(P.p).setCutoff(0.5f);
 			ThresholdFilter.instance(P.p).applyTo(_texture);
 			InvertFilter.instance(P.p).applyTo(_texture);
-			applyChromaBlackKnockout(_texture);
+			ChromaColorFilter.instance(P.p).presetBlackKnockout().applyTo(_texture);
 		} else if( _knockoutBlack == true ) {
-			applyChromaBlackKnockout(_texture);
+			ChromaColorFilter.instance(P.p).presetBlackKnockout().applyTo(_texture);
 		}
 		
 		if( _brightMode > -1 ) {
@@ -142,12 +141,12 @@ public class BaseTexture {
 	}
 	
 	public void update() {
-		// TODO: reset to null after another BaseTexture uses it
-//		if(_texture == null) {
-////			_texture = PGPool.getPG(width, height);
-//			_texture = PG.newPG(width, height, smoothPG, true);
-//		}
-//		PGPool.updatePG(_texture);
+		if(_active == false) {
+			_texture = null;	// do this on the main draw thread so _texture doesn't disappear in a race condition
+			return; 
+		}
+
+		PGPool.updatePG(_texture);
 
 		int startRender = P.p.millis();
 		_colorEase.update();
@@ -156,6 +155,7 @@ public class BaseTexture {
 		preDraw();
 		
 		_texture.beginDraw();
+		_texture.push();
 		_texture.perspective();
 		_texture.noLights();
 //		_texture.strokeJoin(P.PROJECT);
@@ -163,9 +163,10 @@ public class BaseTexture {
 		_texture.blendMode(PBlendModes.BLEND);
 //		CameraUtil.setCameraDistance(_texture, 200, 20000);
 		PG.setDrawCorner(_texture);
-		PG.push(_texture);
+		_texture.push();
 		updateDraw();
-		PG.pop(_texture);
+		_texture.pop();
+		_texture.pop();
 		_texture.endDraw();
 		
 		postProcess();

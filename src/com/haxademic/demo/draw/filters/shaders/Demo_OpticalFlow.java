@@ -9,6 +9,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -35,6 +36,7 @@ extends PAppletHax {
 	protected OpticalFlow opticalFlow;
 	protected PGraphics curRgbFrame;	// just in case we want a separate color layer to blend in
 	protected PGraphics curSourceFrame;
+	protected PGraphics curSourceFrameContrasted;
 	protected PGraphics camDisplaced;
 
 	// sources
@@ -51,12 +53,13 @@ extends PAppletHax {
 	// realsense-specific
 	protected String faceMeltConfig = "{ \"uDecayLerp\": 0.0069999974, \"uForce\": 4.3399997, \"uOffset\": 8.0, \"uLambda\": 0.008800002, \"uThreshold\": 0.056000013, \"uInverseX\": -1.0, \"uInverseY\": -1.0, \"preBlurAmp\": 14.500001, \"preBlurSigma\": 6.9, \"resultFlowDecayLerp\": 0.13499989, \"resultFlowDisplaceAmp\": 0.412, \"resultFlowDisplaceIters\": 1.0, \"resultBlurAmp\": 47.800003, \"resultBlurSigma\": 49.9, \"sourceLerp\": 1.0, \"sourceDisplaceAmp\": 0.01, \"sourceDisplaceIters\": 8.0, \"showDebug\": 0.0 }";
 	protected String flowwwwwConfig = "{ \"uDecayLerp\": 0.02, \"uForce\": 0.75, \"uOffset\": 8.0, \"uLambda\": 0.012, \"uThreshold\": 0.1, \"uInverseX\": -1.0, \"uInverseY\": -1.0, \"preBlurAmp\": 20.0, \"preBlurSigma\": 20.0, \"resultFlowDecayLerp\": 0.9, \"resultFlowDisplaceAmp\": 0.213, \"resultFlowDisplaceIters\": 6.0, \"resultBlurAmp\": 20.0, \"resultBlurSigma\": 20.0, \"sourceLerp\": 0.05, \"sourceDisplaceAmp\": 0.17, \"sourceDisplaceIters\": 1.0, \"showDebug\": 0.0 }";
+	protected String videoConfig = "{ \"uDecayLerp\": 0.015, \"uForce\": 2.5, \"uOffset\": 9.0, \"uLambda\": 0.012, \"uThreshold\": 0.001, \"uInverseX\": -1.0, \"uInverseY\": -1.0, \"preBlurAmp\": 1.0, \"preBlurSigma\": 1.0, \"resultFlowDecayLerp\": 0.1, \"resultFlowDisplaceAmp\": 0.2, \"resultFlowDisplaceIters\": 1.0, \"resultBlurAmp\": 2.0, \"resultBlurSigma\": 4.0, \"sourceLerp\": 0.1, \"sourceDisplaceAmp\": 0.2, \"sourceDisplaceIters\": 1.0, \"showDebug\": 0.0 }";
 	
 	// flow-powered particle system
 	protected PShape particleMesh;
 	protected PGraphics bufferPositions;
-	protected PGraphics randomNumbers;
 	protected SimplexNoiseTexture varianceNoise;
+	protected PGraphics randomNumbers;
 	protected PShader randomColorShader;
 	protected PShaderHotSwap simulationShader;
 	protected PGraphics bufferRenderedParticles;
@@ -91,17 +94,20 @@ extends PAppletHax {
 	}
 	
 	protected void buildVideoSource() {
-		realSenseWrapper = new RealSenseWrapper(p, true, true);
+//		realSenseWrapper = new RealSenseWrapper(p, true, true);
 //		video = new MovieBuffer(DemoAssets.movieKinectSilhouette());	// new MovieBuffer(FileUtil.getPath(DemoAssets.movieFractalCubePath));
 //		video = new MovieBuffer("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\pepsi_h264_1080_best.mp4");
+//		video = new MovieBuffer("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\1920-1080_ALT.mov");
 //		video.movie.loop();
-//		videoVLC = new VLCJVideo(p);
-//		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\pepsi_h264_1080_best.mp4");
-//		videoVLC.play();
+		videoVLC = new VLCJVideo(p);
+		videoVLC.open("D:\\workspace\\pepsi-nitro-wall\\_assets\\video\\1920-1080_ALT.mov");
+		videoVLC.play();
+		videoVLC.setRepeat(true);
 	}
 	
 	protected void buildBuffers() {
 		curSourceFrame = PG.newPG32(p.width, p.height, true, false);
+		curSourceFrameContrasted = PG.newPG32(p.width, p.height, true, false);
 		curRgbFrame = PG.newPG(p.width, p.height);
 		camDisplaced = PG.newPG32(p.width, p.height, true, false);
 	}
@@ -135,6 +141,7 @@ extends PAppletHax {
 		DebugView.setTexture("opFlowResult", opticalFlow.resultBuffer());
 		DebugView.setTexture("opFlowResultFlowed", opticalFlow.resultFlowedBuffer());
 		DebugView.setTexture("source video", curSourceFrame);
+		DebugView.setTexture("curSourceFrameContrasted", curSourceFrameContrasted);
 		DebugView.setTexture("rgb video", curRgbFrame);
 	}
 	
@@ -154,6 +161,11 @@ extends PAppletHax {
 			ImageUtil.cropFillCopyImage(videoVLC, curRgbFrame, true);
 			ImageUtil.cropFillCopyImage(videoVLC, curSourceFrame, true);
 		}
+		
+		// update contrasted version
+		ImageUtil.copyImage(curSourceFrame, curSourceFrameContrasted);
+		ContrastFilter.instance(p).setContrast(2.5f);
+		ContrastFilter.instance(p).applyTo(curSourceFrameContrasted);
 	}
 	
 	protected void buildFlowParticles() {
@@ -167,7 +179,7 @@ extends PAppletHax {
 		// build particle mover shader - uses displacement map to move particles
 		bufferPositions = PG.newDataPG((int) simW, (int) simH);
 		DebugView.setTexture("bufferPositions", bufferPositions);
-		simulationShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/vertex/textured-particles-mover-snow-frag.glsl"));
+		simulationShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/vertex/textured-particles-mover-fizz-frag.glsl")); // fizz/snow
 		
 		randomColorShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
 		resetParticlePositions();
@@ -211,7 +223,7 @@ extends PAppletHax {
 	protected void updateOpticalFlow() {
 		opticalFlow.updateOpticalFlowProps();
 		opticalFlow.update(curSourceFrame, true);
-		opticalFlow.drawDebugLines(opticalFlow.resultFlowedBuffer());
+		opticalFlow.drawDebugLines(true);
 //		opticalFlow.drawDebugLines((FrameLoop.frameMod(200) < 100) ? opticalFlow.resultBuffer() : opticalFlow.resultFlowedBuffer());
 	}	
 	
@@ -222,7 +234,7 @@ extends PAppletHax {
 		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
 		
 		// flow the displaced source buffer
-		PGraphics opFlowResult = opticalFlow.resultFlowedBuffer();
+		PGraphics opFlowResult = opticalFlow.resultBuffer();
 		DisplacementMapFilter.instance(P.p).setMap(opFlowResult);
 		DisplacementMapFilter.instance(P.p).setMode(10);
 		DisplacementMapFilter.instance(P.p).setAmp(UI.value(sourceDisplaceAmp));
@@ -273,7 +285,7 @@ extends PAppletHax {
 		particlesSimulationRenderShader.shader().set("height", (float) UI.valueEased(PARTICLES_RENDER_HEIGHT));
 		particlesSimulationRenderShader.shader().set("rotateAmp", 1f);
 		particlesSimulationRenderShader.shader().set("globalScale", UI.valueEased(PARTICLES_GLOBAL_SCALE));
-		particlesSimulationRenderShader.shader().set("pointScale", UI.valueEased(PARTICLES_POINT_SCALE));
+		particlesSimulationRenderShader.shader().set("pointSize", UI.valueEased(PARTICLES_POINT_SCALE));
 		particlesSimulationRenderShader.update();
 
 		// render particles
@@ -303,7 +315,7 @@ extends PAppletHax {
 	protected void updateUIPresets() {
 		if(KeyboardState.keyTriggered('1')) UI.loadValuesFromJSON(faceMeltConfig);
 		if(KeyboardState.keyTriggered('2')) UI.loadValuesFromJSON(flowwwwwConfig);
-		if(KeyboardState.keyTriggered(' ')) P.out(JsonUtil.jsonToSingleLine(UI.configToJSON()));
+		if(KeyboardState.keyTriggered(' ')) P.out(JsonUtil.jsonToSingleLine(UI.valuesToJSON()));
 		if(KeyboardState.keyTriggered('p')) { videoVLC.setTime(0); videoVLC.play(); }
 	}
 	

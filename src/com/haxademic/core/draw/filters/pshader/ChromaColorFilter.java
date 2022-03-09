@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.filters.pshader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
 import processing.core.PApplet;
@@ -34,21 +35,24 @@ extends BaseFragmentShader {
 		shader.set("colorToReplace", colorToReplaceR, colorToReplaceG, colorToReplaceB);
 	}
 	
-	public void presetGreenScreen() {
+	public ChromaColorFilter presetGreenScreen() {
 		setThresholdSensitivity(0.73f);
 		setSmoothing(0.08f);
 		setColorToReplace(0.71f, 0.99f, 0.02f);
+		return instance(P.p);
 	}
 	
-	public void presetBlackKnockout() {
+	public ChromaColorFilter presetBlackKnockout() {
 		setThresholdSensitivity(0.2f);
-		setSmoothing(0.1f);
+		setSmoothing(0.1f); // 0.25>
 		setColorToReplace(0.0f, 0.0f, 0.0f);
+		return instance(P.p);
 	}
 
-	public void presetWhiteKnockout() {
+	public ChromaColorFilter presetWhiteKnockout() {
 		setThresholdSensitivity(0.2f);
 		setSmoothing(0.1f);
 		setColorToReplace(1.0f, 1.0f, 1.0f);
+		return instance(P.p);
 	}
 }

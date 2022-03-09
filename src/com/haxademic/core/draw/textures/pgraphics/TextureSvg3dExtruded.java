@@ -352,8 +352,9 @@ extends BaseTexture {
 		
 		// black to transparent
 		if(drawMode == DrawMode.Displacement2d) {
-			applyChromaBlackKnockout(_texture);
+			setKnockoutBlack(true);
 		} else {
+			setKnockoutBlack(false);
 		}
 	}
 	

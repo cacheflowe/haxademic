@@ -87,6 +87,17 @@ public class SequencerConfig {
 		};
 	}
 	
+	public static SequencerConfig[] interphaseChannelsTones() {
+		setAbsolutePath();
+		return new SequencerConfig[] {
+//				new SequencerConfig(0, "audio/samples/01-kick", buildKickPatterns(), 1f, false, false, false, false, false),
+				new SequencerConfig(1, "audio/samples/06-bass", buildNotesPatterns(), 1f, true, true, false, true, true),
+				new SequencerConfig(2, "audio/samples/07-keys", buildNotesPatterns(), 0.85f, true, false, true, true, true),
+				new SequencerConfig(3, "audio/samples/08-lead", buildNotesPatterns(), 0.85f, true, true, false, true, true),
+				new SequencerConfig(2, "audio/samples/07-keys", buildNotesPatterns(), 0.85f, true, false, true, true, true),
+		};
+	}
+	
 	//////////////////////////////////////
 	// Pattern generator collections for different instruments
 	//////////////////////////////////////

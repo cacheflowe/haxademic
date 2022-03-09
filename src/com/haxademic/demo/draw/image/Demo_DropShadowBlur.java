@@ -6,8 +6,10 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -30,12 +32,13 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setProperty( AppSettings.SHOW_UI, true );
+		Config.setProperty( AppSettings.LOOP_FRAMES, 900 );
 	}
 	
 	protected void firstFrame() {
 		img = DemoAssets.smallTexture();
-		shadowOrig = imageToImageWithPadding(img, 2f);
-		shadow = imageToImageWithPadding(img, 2f);
+		shadowOrig = ImageUtil.imageToPGWithPadding(img, 2f);
+		shadow = ImageUtil.imageToPGWithPadding(img, 2f);
 		colorTransformShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 		
 		UI.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
@@ -44,18 +47,9 @@ extends PAppletHax {
 		UI.addSlider(BLUR_STEPS, 9, 1, 20, 1, false);
 	}
 	
-	public PGraphics imageToImageWithPadding(PImage img, float scaleCanvasUp) {
-		PGraphics pg = PG.newPG(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp));
-		pg.beginDraw();
-		PG.setDrawCenter(pg);
-		pg.clear();
-		pg.translate(pg.width/2, pg.height/2);
-		pg.image(img, 0, 0);
-		pg.endDraw();
-		return pg;
-	}  
 	
 	protected void drawApp() {
+		// update shadow graphic
 		shadow.beginDraw();
 		shadow.clear();
 		shadow.image(shadowOrig, shadow.width/2, shadow.height/2);
@@ -70,13 +64,29 @@ extends PAppletHax {
 		}
 		shadow.endDraw();
 
-		p.background(255);
-		PG.setCenterScreen(p);
+		
+		// draw shadow and originating graphic on top
+		p.background(0);
 		PG.setDrawCenter(p);
+		
+		// draw single image & shadow in center
+		p.push();
+		PG.setCenterScreen(p);
 		PG.setPImageAlpha(p, UI.value(BLUR_ALPHA));
 		p.image(shadow, 0, 0);
 		PG.setPImageAlpha(p, 1f);
 		p.image(img, -3f + 3f * P.sin(p.frameCount * 0.03f), -10f + 10f * P.sin(p.frameCount * 0.03f));
+		p.pop();
+		
+		// draw a bunch of shapes overlapped
+		for (int i = 0; i < 100; i++) {
+			float x = FrameLoop.noiseLoop(i * 0.01f, i) * p.width;
+			float y = FrameLoop.noiseLoop(i * 0.01f, i * 2) * p.height;
+			PG.setPImageAlpha(p, UI.value(BLUR_ALPHA));
+			p.image(shadow, x, y);
+			PG.setPImageAlpha(p, 1f);
+			p.image(img, x-3f + 3f * P.sin(p.frameCount * 0.03f), y-10f + 10f * P.sin(p.frameCount * 0.03f));
+		}
 	}
 
 }

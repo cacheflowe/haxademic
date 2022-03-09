@@ -12,7 +12,6 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
@@ -72,7 +71,7 @@ extends PAppletHax {
 	protected void updateOpticalFlow() {
 		opticalFlow.updateOpticalFlowProps();
 		opticalFlow.update(curSourceFrame, true);
-		opticalFlow.drawDebugLines(opticalFlow.resultFlowedBuffer());
+		opticalFlow.drawDebugLines(true);
 //		opticalFlow.drawDebugLines((FrameLoop.frameMod(200) < 100) ? opticalFlow.resultBuffer() : opticalFlow.resultFlowedBuffer());
 	}	
 	

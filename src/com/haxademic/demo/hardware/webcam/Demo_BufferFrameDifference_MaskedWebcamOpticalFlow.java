@@ -141,7 +141,7 @@ implements IWebCamCallback {
 		// copy camera frames to buffers
 		updateOpticalFlowProps();
 		opticalFlow.update(frame, true);
-		opticalFlow.drawDebugLines(opticalFlow.resultBuffer());
+		opticalFlow.drawDebugLines(true);
 	}
 	
 	protected void updateOpticalFlowProps() {

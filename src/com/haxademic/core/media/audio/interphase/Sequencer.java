@@ -275,7 +275,7 @@ implements IAppStoreListener {
 	
 	public Sequencer setSampleByIndex(int index) {
 		sampleIndex = index;
-		curSample = samples[sampleIndex];
+		curSample = samples[sampleIndex % samples.length]; // safe access
 		return this;
 	}
 	

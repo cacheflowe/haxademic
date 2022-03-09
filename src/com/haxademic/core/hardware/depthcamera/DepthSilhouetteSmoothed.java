@@ -66,7 +66,7 @@ public class DepthSilhouetteSmoothed {
 		hasUI = true;
 	}
 	
-	protected void updateUI() {
+	public void updateUI() {
 		// apply UI settings to silhouette object
 		DepthSilhouetteSmoothed.DEPTH_NEAR = UI.valueInt(SILHOUETTE_DEPTH_NEAR);
 		DepthSilhouetteSmoothed.DEPTH_FAR = UI.valueInt(SILHOUETTE_DEPTH_FAR);
