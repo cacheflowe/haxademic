@@ -128,6 +128,7 @@ public class ParticleLauncherGPU {
 	public void updateSimulation() {
 		// update particle movement
 		simulationShader().set("gravity", gravity.x, gravity.y);
+		particlesSimulationHotSwap.update();
 		positionBuffer.filter(particlesSimulationHotSwap.shader());
 	}
 	
@@ -137,7 +138,6 @@ public class ParticleLauncherGPU {
 	
 	public void renderTo(PGraphics buffer, boolean translateCenter) {
 		// recompile if needed & show shader compile error messages
-		particlesSimulationHotSwap.update();
 		particlesRenderHotSwap.update();
 //		positionShaderHotSwap.showShaderStatus(buffer);
 		
