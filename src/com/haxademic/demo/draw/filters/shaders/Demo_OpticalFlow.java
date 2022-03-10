@@ -93,9 +93,9 @@ extends PAppletHax {
 	}
 	
 	protected void buildVideoSource() {
-//		realSenseWrapper = new RealSenseWrapper(p, true, true);
-		video = new Movie(P.p, FileUtil.getPath(DemoAssets.movieFractalCubePath));
-		video.play();
+		realSenseWrapper = new RealSenseWrapper(p, true, true);
+//		video = new Movie(P.p, FileUtil.getPath(DemoAssets.movieFractalCubePath));
+//		video.play();
 	}
 	
 	protected void buildBuffers() {
@@ -145,7 +145,7 @@ extends PAppletHax {
 			ImageUtil.cropFillCopyImage(realSenseWrapper.getRgbImage(), curRgbFrame, true);
 			ImageUtil.cropFillCopyImage(realSenseWrapper.getDepthImage(), curSourceFrame, true);
 		} else if(video != null) {
-//			if(video.movie.isPlaying() == false) video.movie.play();
+			if(video.isPlaying() == false) video.play();
 			if(video != null) { 
 				ImageUtil.cropFillCopyImage(video, curRgbFrame, true);
 				ImageUtil.cropFillCopyImage(video, curSourceFrame, true);

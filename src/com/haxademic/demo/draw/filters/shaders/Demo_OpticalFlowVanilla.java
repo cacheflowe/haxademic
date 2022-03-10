@@ -10,10 +10,10 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PGraphics;
 
@@ -29,6 +29,7 @@ extends PAppletHax {
 	protected PGraphics opFlowResult;
 	protected PGraphics camDisplaced;
 	protected PShaderHotSwap opFlowShader;
+	protected PShaderHotSwap displaceShader;
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -52,6 +53,7 @@ extends PAppletHax {
 		
 		// load shader
 		opFlowShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/optical-flow.glsl"));
+		displaceShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/displacement-map.glsl"));
 		
 		// init flow result to gray (resting)
 		opFlowResult.beginDraw();
@@ -87,7 +89,7 @@ extends PAppletHax {
 //		curFrame.endDraw();
 		
 		// pre-process frames before optical flow:
-		// blur for smoother optical flow results in some cases
+		// blur for smoother optical flow results
 		BlurProcessingFilter.instance(p).setBlurSize(20);
 		BlurProcessingFilter.instance(p).setSigma(20f);
 		BlurProcessingFilter.instance(p).applyTo(lastFrame);
@@ -110,12 +112,17 @@ extends PAppletHax {
 	
 	protected void flowTheFlowData() {
 		// displace & blur the flow data for liquidy flow & dispersion
-		DisplacementMapFilter.instance(p).setMap(opFlowResult);
-		DisplacementMapFilter.instance(p).setMode(10);
-		DisplacementMapFilter.instance(p).setAmp(0.6f);
-		DisplacementMapFilter.instance.applyTo(opFlowResult);
+//		DisplacementMapFilter.instance(p).setMap(opFlowResult);
+//		DisplacementMapFilter.instance(p).setMode(10);
+//		DisplacementMapFilter.instance(p).setAmp(0.16f);
+//		DisplacementMapFilter.instance(p).applyTo(opFlowResult);
+		displaceShader.shader().set("map", opFlowResult);
+		displaceShader.shader().set("amp", Mouse.xNorm);
+		displaceShader.shader().set("mode", 10);
+		displaceShader.update();
+		opFlowResult.filter(displaceShader.shader());
 
-		BlurProcessingFilter.instance(p).setBlurSize(20);
+		BlurProcessingFilter.instance(p).setBlurSize(30);
 		BlurProcessingFilter.instance(p).setSigma(10f);
 		BlurProcessingFilter.instance(p).applyTo(opFlowResult);
 	}
@@ -125,7 +132,13 @@ extends PAppletHax {
 		BlendTowardsTexture.instance(p).setSourceTexture(curRgbFrame);
 		BlendTowardsTexture.instance(p).setBlendLerp(0.1f);
 		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
-		DisplacementMapFilter.instance.applyTo(camDisplaced);	
+		
+//		DisplacementMapFilter.instance(p).setMode(10);
+//		DisplacementMapFilter.instance(p).applyTo(camDisplaced);	
+		displaceShader.shader().set("map", opFlowResult);
+		displaceShader.shader().set("amp", Mouse.xNorm);
+		displaceShader.shader().set("mode", 10);
+		camDisplaced.filter(displaceShader.shader());
 	}
 	
 	protected void drawToScreen() {

@@ -96,13 +96,15 @@ void main() {
 	// apply force
 	flow *= vec2(uForce);
 
+	float center = 0.5;
+
 	// if we're decaying the results...
 	if(uDecayLerp < 1.) {
 		// get previous frame of flow
 		// subtract 0.5 - up/left is negative, right/down is positive
 		vec4 prevFlow = texture2D(texFlow, uv);
-		prevFlow.x -= 0.5;
-		prevFlow.y -= 0.5;
+		prevFlow.x -= center;
+		prevFlow.y -= center;
 
 		// lerp toward current flow calc if we're decaying...
 		// otherwise use a quick constant lerp to the higher value
@@ -112,13 +114,16 @@ void main() {
 		else 															flow.y = mix(prevFlow.y, flow.y, 0.3);
 	}
 
+	// extract amplitude
+	float amp = length(flow);
+
 	// add 0.5 as the resting state, which is mid-gray
-	flow.xy += 0.5;
-	gl_FragColor = vec4(flow.xy, 0.5, 1.0);
+	flow.xy += center;
+	gl_FragColor = vec4(flow.xy, amp, 1.0);
 
 	// default to mid gray (resting state) on first frame
 	if(firstFrame == true) {
-		gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
+		gl_FragColor = vec4(center, center, 0., 1.0);
 	}
 
 	// debug draw ///////////

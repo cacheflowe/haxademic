@@ -15,6 +15,8 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		JavaInfo.printDebug();
+//		JavaInfo.printJavaPathInfo();
+//		JavaInfo.checkGstreamer();
 	}
 	
 	protected void drawApp() {

@@ -11,6 +11,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.MediaTimecodeTrigger;
 import com.haxademic.core.media.MediaTimecodeTrigger.IMediaTimecodeTriggerDelegate;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
 import processing.video.Movie;
@@ -42,6 +43,7 @@ implements IMediaTimecodeTriggerDelegate {
 
 	protected void firstFrame() {
 		// loop audio
+		AudioUtil.setPrimaryMixer();
 		AUDIO_FILE = FileUtil.getPath(DemoAssets.audioBiggerLoop); // make sure we're pulling from absolute project data path
 		audioPlayer = new WavPlayer(false);
 		audioPlayer.loopWav(AUDIO_FILE);
