@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
+import com.cage.zxing4p3.ZXING4P;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -16,6 +17,7 @@ import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.http.HttpInputState;
@@ -82,6 +84,10 @@ implements IAppStoreListener {
 			server = new WebServer(new UIControlsHandler(), debugWebRequests);
 		}
 		HttpInputState.instance(server);
+		
+		ZXING4P qr = new ZXING4P();
+		String webServerAddress = WebServer.getServerAddress();
+		DebugView.setTexture("Launch UI", qr.generateQRCode(webServerAddress + "ui/", 256, 256));
 	}
 	
 	////////////////////////
@@ -336,7 +342,10 @@ implements IAppStoreListener {
 //			IUIControl control = controls.get(hashKey);
 			String key = control.id();
 			String val;
-			if(control.type() == IUIControl.TYPE_TEXTFIELD ||	control.type() == IUIControl.TYPE_TITLE) {
+			boolean isTitle = control.type() == IUIControl.TYPE_TITLE; 
+			if(isTitle) {
+				val = "";
+			} else if(control.type() == IUIControl.TYPE_TEXTFIELD) {
 				val = "\"" + control.valueString() + "\"";
 			} else {
 				val = ""+control.value();
@@ -348,7 +357,7 @@ implements IAppStoreListener {
 			}
 
 			// add to json string
-			if(filters.length == 0 || filterFound) {
+			if((filters.length == 0 || filterFound) && control.type() == IUIControl.TYPE_TITLE == false) {
 //				json.setFloat(key, val);
 				jsonOutput += "\t" + "\"" + key + "\": " + val + "," + FileUtil.NEWLINE;
 			}
