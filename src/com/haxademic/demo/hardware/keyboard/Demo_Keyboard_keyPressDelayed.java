@@ -27,6 +27,7 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		p.background(0);
+//		if(p.frameCount == 360) Keyboard.keyCommandMinimizeWindow();
 		p.text("key: " + p.key + " keyCode: " + p.keyCode, 300, 20);
 	}
 

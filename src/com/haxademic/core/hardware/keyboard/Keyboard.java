@@ -60,10 +60,19 @@ public class Keyboard {
 	}
 	
 	public static void keyCommandPaste() {
-		keyboardRobot().keyPress(KeyEvent.VK_CONTROL);
-		keyboardRobot().keyPress(KeyEvent.VK_V);
-		keyboardRobot().keyRelease(KeyEvent.VK_V);
-		keyboardRobot().keyRelease(KeyEvent.VK_CONTROL);
+		keyPress(KeyEvent.VK_CONTROL);
+		keyPress(KeyEvent.VK_V);
+		keyRelease(KeyEvent.VK_V);
+		keyRelease(KeyEvent.VK_CONTROL);
+	}
+	
+	public static void keyCommandMinimizeWindow() {
+		keyPress(KeyEvent.VK_ALT);
+		keyPress(KeyEvent.VK_SPACE);
+		keyPress(KeyEvent.VK_N);
+		keyRelease(KeyEvent.VK_ALT);
+		keyRelease(KeyEvent.VK_SPACE);
+		keyRelease(KeyEvent.VK_N);
 	}
 	
 }
