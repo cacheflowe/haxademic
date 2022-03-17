@@ -91,7 +91,11 @@
 	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/sound.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/gst1-java-core-1.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/jna.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/video.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/video/library/video.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-4/libraries/video/library/windows-amd64"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/RealSenseProcessing.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
 	<classpathentry kind="lib" path="lib/sphinx4/sphinx4-core-5prealpha.jar"/>
