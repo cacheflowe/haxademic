@@ -70,8 +70,13 @@ implements IJoystickControl {
 	}
 	
 	public void update(PGraphics debugGraphics) {
+		update(debugGraphics, true);
+	}
+	
+	public void update(PGraphics debugGraphics, boolean is3d) {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		
+		// draw 3d "floor"
 		float depthDivider = 0.3f;
         if(debugGraphics != null) {
         	debugGraphics.beginShape(PShapeTypes.QUADS);
@@ -89,6 +94,7 @@ implements IJoystickControl {
 		if( depthCamera != null ) {
 			pixelCount = 0;
 			float controlXTotal = 0;
+			float controlYTotal = 0;
 			float controlZTotal = 0;
 			float pixelDepth = 0;
 			for ( int x = left; x < right; x += pixelSkip ) {
@@ -96,15 +102,17 @@ implements IJoystickControl {
 					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
 				        if(debugGraphics != null) {
+				        	float debugZ = is3d ? -pixelDepth * depthDivider : 0;
 				        	debugGraphics.fill( debugColor, 127 );
 				        	debugGraphics.pushMatrix();
-				        	debugGraphics.translate(x, y, -pixelDepth * depthDivider);
+				        	debugGraphics.translate(x, y, debugZ);
 				        	debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
 				        	debugGraphics.popMatrix();
 						}
 						// add up for calculations
 						pixelCount++;
 						controlXTotal += x;
+						controlYTotal += y;
 						controlZTotal += pixelDepth;
 					}
 				}
@@ -117,6 +125,8 @@ implements IJoystickControl {
 				if( controlXTotal > 0 && controlZTotal > 0 ) {
 					float avgX = controlXTotal / pixelCount;
 					_controlX = (MathUtil.getPercentWithinRange(left, right, avgX) - 0.5f) * 2f;
+					float avgY = controlYTotal / pixelCount;
+					_controlY = (MathUtil.getPercentWithinRange(top, bottom, avgY) - 0.5f) * 2f;
 					float avgZ = controlZTotal / pixelCount;
 					_controlZ = (MathUtil.getPercentWithinRange(near, far, avgZ) - 0.5f) * 2f;
 
@@ -132,4 +142,46 @@ implements IJoystickControl {
 			}
 		}
 	}
+	
+	public void drawDebugFlat(PGraphics debugGraphics) {
+		drawDebugFlat(null, debugGraphics);
+	}
+	
+	public void drawDebugFlat(IDepthCamera depthCamera, PGraphics debugGraphics) {
+		// get camera - singleton or pass one in
+		depthCamera = (depthCamera != null) ? depthCamera : DepthCamera.instance().camera;
+
+		// set up debug canvas
+		debugGraphics.beginDraw();
+		debugGraphics.background(0);
+		debugGraphics.noStroke();
+		
+		// check grid
+		pixelCount = 0;
+		float pixelDepth = 0;
+
+		for ( int x = left; x < right; x += pixelSkip ) {
+			for ( int y = top; y < bottom; y += pixelSkip ) {
+				pixelDepth = depthCamera.getDepthAt( x, y );
+				if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
+			        if(debugGraphics != null) {
+			        	debugGraphics.fill(debugColor, 127);
+			        	debugGraphics.rect(x, y, pixelSkip - 1, pixelSkip - 1);
+					}
+					// add up for calculations
+					pixelCount++;
+				}
+			}
+		}
+		
+		// draw bounds
+    	debugGraphics.stroke(255, 0, 0);
+    	debugGraphics.strokeWeight(4);
+    	debugGraphics.noFill();
+    	debugGraphics.rect(left, top, right - left, bottom - top);
+
+		
+		debugGraphics.endDraw();
+	}
+	
 }

@@ -1,5 +1,8 @@
 package com.haxademic.core.hardware.joystick;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
+
 import processing.core.PGraphics;
 
 public class BaseJoystick
@@ -52,6 +55,27 @@ implements IJoystickControl {
 	}
 	
 	public void drawDebug(PGraphics debugGraphics) {}
+	
+	public static void drawDebugCoords(PGraphics debugPG, float userX, float userY, boolean userActive) {
+		float debugSize = debugPG.width;
+		debugPG.beginDraw();
+		debugPG.background(0);
+		debugPG.push();
+		// draw debug bg
+		PG.setDrawCorner(debugPG);
+		PG.drawGrid(debugPG, 0xff111111, 0xff999999, 10, 10, 2, false);
+		debugPG.rect(debugPG.width/2 - 2, 0, 4, debugPG.height);
+		debugPG.rect(0, debugPG.height/2 - 2, debugPG.width, 4);
+		// draw point
+		PG.setDrawCenter(debugPG);
+		debugPG.fill((userActive) ? P.p.color(0,255,0) : P.p.color(255,0,0));
+		debugPG.stroke(0);
+		debugPG.strokeWeight(2);
+		debugPG.ellipse(debugSize/2 + userX * debugSize/2, debugSize/2 + userY * debugSize/2, 20, 20);
+		debugPG.pop();
+		debugPG.endDraw();
+	}
+
 	
 	public void update(PGraphics debugGraphics) {}
 }
