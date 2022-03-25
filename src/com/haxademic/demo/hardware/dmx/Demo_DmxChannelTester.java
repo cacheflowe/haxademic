@@ -9,7 +9,9 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 import com.haxademic.core.ui.UI;
 
 public class Demo_DmxChannelTester
@@ -48,7 +50,10 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		AudioIn.instance();
+		AudioUtil.setPrimaryMixer();
+//		AudioIn.instance(AudioInputLibrary.Beads);
+		AudioIn.instance(AudioInputLibrary.ESS);
+		
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM3", 9600);
 		
