@@ -13,10 +13,19 @@ public class FrozenImageMonitor {
 
 	public FrozenImageMonitor() {
 		pg = PG.newPG(64, 64);
+		P.outInit("FrozenImageMonitor() | Don't update at 60fps, ");
+		P.outInit("(or faster than your video stream is updating),");
+		P.outInit("or you'll get false positives.");
+		P.outInit("Also, only call in drawPre()!");
+		P.outInitLineBreak();
 	}
 	
 	public PGraphics buffer() {
 		return pg;
+	}
+
+	public float lastAnalysis() {
+		return lastAnalysis;
 	}
 
 	public boolean isFrozen(PImage img) {
