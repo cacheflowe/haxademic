@@ -47,7 +47,6 @@ extends PAppletHax {
 	
 	protected PGraphics shapesLayer;
 	protected ParticleLauncherGPU gpuParticles1;
-	protected ParticleLauncherGPU gpuParticles2;
 	protected String UI_SILHOUETTE_ALPHA = "UI_SILHOUETTE_ALPHA";
 	protected String UI_SILHOUETTE_FILL_BLUR = "UI_SILHOUETTE_FILL_BLUR";
 	protected String UI_OUTLINE_ALPHA = "UI_OUTLINE_ALPHA";
@@ -69,16 +68,6 @@ extends PAppletHax {
 	protected String UI_PARTICLES_1_ALPHA = "UI_PARTICLES_1_ALPHA";
 	protected String UI_PARTICLES_1_USE_OP_FLOW = "UI_PARTICLES_1_USE_OP_FLOW";
 	protected String UI_PARTICLES_1_OP_FLOW_AMP = "UI_PARTICLES_1_OP_FLOW_AMP";
-	protected String UI_PARTICLES_2_LAUNCH_ATTEMPTS = "UI_PARTICLES_2_LAUNCH_ATTEMPTS";
-	protected String UI_PARTICLES_2_POINT_SIZE = "UI_PARTICLES_2_POINT_SIZE";
-	protected String UI_PARTICLES_2_LIFESPAN_STEP = "UI_PARTICLES_2_LIFESPAN_STEP";
-	protected String UI_PARTICLES_2_BASE_SPEED = "UI_PARTICLES_2_BASE_SPEED";
-	protected String UI_PARTICLES_2_CURL_ZOOM = "UI_PARTICLES_2_CURL_ZOOM";
-	protected String UI_PARTICLES_2_CURL_AMP_BASE = "UI_PARTICLES_2_CURL_AMP_BASE";
-	protected String UI_PARTICLES_2_CURL_COHESION = "UI_PARTICLES_2_CURL_COHESION";
-	protected String UI_PARTICLES_2_ALPHA = "UI_PARTICLES_2_ALPHA";
-	protected String UI_PARTICLES_2_USE_OP_FLOW = "UI_PARTICLES_2_USE_OP_FLOW";
-	protected String UI_PARTICLES_2_OP_FLOW_AMP = "UI_PARTICLES_2_OP_FLOW_AMP";
 
 	protected OpticalFlow opticalFlowVideo;
 	protected int opticalFlowScaleDown = 4;
@@ -88,7 +77,7 @@ extends PAppletHax {
 
 
 	protected void config() {
-		Config.setAppSize(3746, 1200);
+		Config.setAppSize(1920, 1080);
 //		Config.setProperty(AppSettings.HEIGHT, 720 );
 	}
 		
@@ -128,11 +117,6 @@ extends PAppletHax {
 		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles1.positionBuffer());
 		DebugView.setTexture("gpuParticles.colorBuffer()", gpuParticles1.colorBuffer());
 		
-		PImage particle2 = DemoAssets.particle();
-		gpuParticles2 = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle2);
-		DebugView.setValue("gpuParticles.vertices()", gpuParticles2.numParticles());
-		DebugView.setTexture("gpuParticles.positionBuffer()", gpuParticles2.positionBuffer());
-		DebugView.setTexture("gpuParticles.colorBuffer()", gpuParticles2.colorBuffer());
 		
 		//////////////////////////////////////////////////////////////
 		// init blob detection
@@ -152,17 +136,6 @@ extends PAppletHax {
 		UI.addSlider(UI_PARTICLES_1_OP_FLOW_AMP, 0.04f, 0, 1, 0.001f, false);
 		UI.addToggle(UI_PARTICLES_1_USE_OP_FLOW, false, false);
 		UI.addToggle(UI_SHOW_CAMERA_FLOW_DEBUG, false, false);
-		UI.addTitle("GPUParticlesLauncher 2");
-		UI.addSlider(UI_PARTICLES_2_LAUNCH_ATTEMPTS, 1400, 1, 5000, 10, false);
-		UI.addSlider(UI_PARTICLES_2_POINT_SIZE, 0.9f, 0, 50, 0.1f, false);
-		UI.addSlider(UI_PARTICLES_2_LIFESPAN_STEP, 0.005f, 0.0001f, 0.05f, 0.0001f, false);
-		UI.addSlider(UI_PARTICLES_2_BASE_SPEED, 0.00075f, 0, 0.004f, 0.00001f, false);
-		UI.addSlider(UI_PARTICLES_2_CURL_ZOOM, 400, 0, 1000, 1, false);
-		UI.addSlider(UI_PARTICLES_2_CURL_AMP_BASE, 80, 0, 500, 1, false);
-		UI.addSlider(UI_PARTICLES_2_CURL_COHESION, 10, 0, 1000, 1, false); // larger numbers bring particles cohesion closer
-		UI.addSlider(UI_PARTICLES_2_ALPHA, 1, 0, 1, 0.01f, false);
-		UI.addSlider(UI_PARTICLES_2_OP_FLOW_AMP, 0.04f, 0, 1, 0.001f, false);
-		UI.addToggle(UI_PARTICLES_2_USE_OP_FLOW, true, false);
 		UI.addTitle("Background video");
 		UI.addToggle(UI_SHOW_VIDEO, true, false);
 		UI.addToggle(UI_VIDEO_FLOW_DEBUG, false, false);
@@ -304,7 +277,6 @@ extends PAppletHax {
 
 //		launchFromBlobs();
 		launchFromMap(gpuParticles1, UI.valueInt(UI_PARTICLES_1_LAUNCH_ATTEMPTS));
-		launchFromMap(gpuParticles2, UI.valueInt(UI_PARTICLES_1_LAUNCH_ATTEMPTS));
 		
 		//////////////////////////////////////////////////////////
 		// update particles buffers 1
@@ -334,37 +306,6 @@ extends PAppletHax {
 		gpuParticles1.renderShader().set("colorMapTints", 1);
 		gpuParticles1.renderShader().set("baseAlpha", UI.value(UI_PARTICLES_1_ALPHA));
 		gpuParticles1.renderTo(p.g, true);
-//		shapesLayer.endDraw();
-		
-		//////////////////////////////////////////////////////////
-		// update particles buffers 2
-		int startUpdateTime2 = p.millis();
-		gpuParticles2.simulationShader().set("lifespanStep", UI.valueEased(UI_PARTICLES_2_LIFESPAN_STEP));
-		gpuParticles2.simulationShader().set("baseSpeed", UI.valueEased(UI_PARTICLES_2_BASE_SPEED));
-		gpuParticles2.simulationShader().set("flowMap", opticalFlowCamera.resultFlowedBuffer());
-		gpuParticles2.simulationShader().set("flowMode", (UI.valueToggle(UI_PARTICLES_2_USE_OP_FLOW)) ? 1 : 0);
-		gpuParticles2.simulationShader().set("flowAmp", UI.valueEased(UI_PARTICLES_2_OP_FLOW_AMP));
-		gpuParticles2.simulationShader().set("flowXoffset", 0.25f);
-		gpuParticles2.gravity(0, -0.001f);
-		gpuParticles2.updateSimulation();
-		DebugView.setValue("updateTime2", p.millis() - startUpdateTime2);
-		
-		// update particles color map
-		ImageUtil.copyImage(ImageGradient.PASTELS(), gpuParticles2.colorBuffer());
-		
-		// update/draw particles
-//		shapesLayer.beginDraw();
-//		shapesLayer.background(0,0);
-		p.g.blendMode(PBlendModes.ADD);
-		gpuParticles2.pointSize(UI.value(UI_PARTICLES_2_POINT_SIZE));
-		gpuParticles2.rotateAmp(0);
-		gpuParticles2.renderShader().set("curlZoom", UI.value(UI_PARTICLES_2_CURL_ZOOM));
-		gpuParticles2.renderShader().set("curlAmpBase", UI.value(UI_PARTICLES_2_CURL_AMP_BASE));
-		gpuParticles2.renderShader().set("curlCohesion", UI.value(UI_PARTICLES_2_CURL_COHESION));
-		gpuParticles2.renderShader().set("colorMapTints", 0);
-		gpuParticles2.renderShader().set("baseAlpha", UI.value(UI_PARTICLES_2_ALPHA));
-		gpuParticles2.renderShader().set("flowMap", opticalFlowCamera.resultFlowedBuffer());
-		gpuParticles2.renderTo(p.g, true);
 //		shapesLayer.endDraw();
 		
 		//////////////////////////////////////////////////////////

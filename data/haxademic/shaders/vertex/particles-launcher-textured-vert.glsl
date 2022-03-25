@@ -18,13 +18,13 @@ attribute vec3 normal;
 uniform sampler2D texture;
 uniform sampler2D randomMap;
 uniform sampler2D positionMap;
-uniform sampler2D flowMap;
 uniform float width = 1000.;
 uniform float height = 1000.;
 uniform float rotateAmp = 1.;
 uniform float globalScale = 1.;
 uniform float individualMeshScale = 1.;
 uniform int time = 0;
+uniform int speedSimMode = 0;
 uniform float pointSize = 1.;
 uniform float scaleCenterShrinkAmp = 0.;
 uniform float scaleCenterShrinkRadius = 0.5;
@@ -155,6 +155,7 @@ void main() {
   ////////////////////////////////////////////////////////
   // Progress
   float progress = posTex.a;
+  if(speedSimMode == 1) progress = distance(posTex.a, 0.5) * 100.;
   ////////////////////////////////////////////////////////
   // Random
   vec3 randomVec3 = texture2D( randomMap, simulationUV ).rgb; // rgba color of displacement map
