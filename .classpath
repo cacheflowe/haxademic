@@ -70,14 +70,18 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/processing-4/core/library/jogl-all.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/javafx.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.base.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.fxml.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.media.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.swing.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows64/modules/javafx.web.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/javafx.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-4/libraries/javafx/library/windows-amd64"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.base.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.media.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/javafx/library/windows-amd64/modules/javafx.web.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/pdf/library/itext.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/pdf/library/pdf.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/serial/library/jssc.jar"/>
