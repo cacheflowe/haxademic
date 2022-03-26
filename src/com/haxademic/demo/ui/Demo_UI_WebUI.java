@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
+import com.haxademic.demo.net.WebViewWindow;
 
 public class Demo_UI_WebUI 
 extends PAppletHax {
@@ -37,10 +38,12 @@ extends PAppletHax {
 		UI.addWebInterface(false);
 		P.out(UI.configToJSON());
 		P.out(UI.valuesToJSON());
+		
+		WebViewWindow.launchWebView(WebServer.getServerAddress() + "ui/");
 	}
 	
 	protected void drawApp() {
-		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "ui/");
+//		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "ui/");
 
 		// bg components
 		p.background(
