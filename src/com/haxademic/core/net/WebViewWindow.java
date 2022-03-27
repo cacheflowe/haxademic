@@ -1,4 +1,4 @@
-package com.haxademic.demo.net;
+package com.haxademic.core.net;
 
 
 import com.haxademic.core.app.P;
@@ -38,6 +38,7 @@ extends Application {
 	protected IWebViewDelegate delegate;
 	protected Stage stage;
 	protected Browser browser;
+	protected boolean createdCalledBack = false;
 	
 	///////////////////////////////////////////////
 	// Static launcher helper
@@ -69,7 +70,12 @@ extends Application {
 		}
 	}
 
-	
+	protected WebViewWindow setDelegate(IWebViewDelegate delegate) {
+		this.delegate = delegate;
+		if(delegate != null) delegate.webViewCreated(this);
+		return this;
+	}
+		
 	///////////////////////////////////////////////
 	// JavaFX Application overrides
 	///////////////////////////////////////////////
@@ -105,10 +111,10 @@ extends Application {
 	// JavaFX WebView component
 	///////////////////////////////////////////////
 	
-	class Browser extends Region {
+	public class Browser extends Region {
 
 		protected WebView webView;
-		final WebEngine webEngine;
+		protected WebEngine webEngine;
 
 		public Browser() {
 			// init WebView
@@ -149,14 +155,14 @@ extends Application {
 			layoutInArea(webView,0,0,w,h,0, HPos.CENTER, VPos.CENTER);
 		}
 
-//		@Override protected double computePrefWidth(double height) {
-//			return 750;
-//		}
-//
-//		@Override protected double computePrefHeight(double width) {
-//			return 500;
-//		}
-
+		public WebView webView() {
+			return webView;
+		}
+		
+		public WebEngine webEngine() {
+			return webEngine;
+		}
+		
 	}
 	
 	///////////////////////////////////////////////
@@ -175,6 +181,11 @@ extends Application {
 	}
 	
 	protected void webPageLoaded() {
+		// do created callback only once
+		if(delegate != null && !createdCalledBack) delegate.webViewCreated(this);
+		createdCalledBack = true;
+
+		// kick off the building of the native bridge after any URL reload
 		Platform.runLater(() -> {
 			buildJsBridge();
 		});
@@ -187,7 +198,6 @@ extends Application {
 		// For simplicity, everything should route through a single method, in the form of JSON
 		JSObject win = (JSObject) browser.webEngine.executeScript("window");
 		win.setMember("nativeBridge", this);
-		if(delegate != null) delegate.webViewCreated(this);
 	}
 	
 	// callback from webview to native view
@@ -238,14 +248,18 @@ extends Application {
 	// Haxademic WebView interface
 	///////////////////////////////////////////////
 	
-	public WebViewWindow setDelegate(IWebViewDelegate delegate) {
-		this.delegate = delegate;
-		if(delegate != null) delegate.webViewCreated(this);
-		return this;
+	public Stage stage() {
+		return stage;
+	}
+	
+	public Browser browser() {
+		return browser;
 	}
 	
 	public void loadURL(String url) {
-		browser.webEngine.load(url);
+		Platform.runLater(() -> {
+			browser.webEngine.load(url);
+		});
 	}
 	
 	public void reload() {
@@ -253,6 +267,13 @@ extends Application {
 			browser.webEngine.reload();
 		});
 	}
+
+	public void hide() {
+        Platform.runLater(() -> {	// ensure this is on main thread or errors are thrown
+        	stage.toBack();
+        });
+	}
+	
 	
 	public void setFullscreen(boolean isFullscreen) {
         Platform.runLater(() -> {	// ensure this is on main thread or errors are thrown

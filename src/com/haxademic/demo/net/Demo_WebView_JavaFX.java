@@ -6,8 +6,9 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
+import com.haxademic.core.net.WebViewWindow;
+import com.haxademic.core.net.WebViewWindow.IWebViewDelegate;
 import com.haxademic.core.render.FrameLoop;
-import com.haxademic.demo.net.WebViewWindow.IWebViewDelegate;
 
 public class Demo_WebView_JavaFX
 extends PAppletHax
@@ -16,8 +17,6 @@ implements IWebViewDelegate {
 
 	// TODO:
 	// - Add hooks from AppStore to pass to WebView javascript. Like AppStoreDistributed
-	// - Add to UI demo for immediate web controls
-	// - Build a demo to show native <-> web bridge
 	// - Why won't launching work after all webviews are closed?
 	// Hopeful:
 	// - Can we get an image of the current frame of execution? Use a webview as a texture?
@@ -41,6 +40,10 @@ implements IWebViewDelegate {
 		// show off webview .js bridge
 		webServer = new WebServer(new UIControlsHandler());
 		WebViewWindow.launchWebView(WebServer.getServerAddress() + "webview-demo/", this);
+
+		// test GA demo
+//		webServer = new WebServer(new UIControlsHandler());
+//		WebViewWindow.launchWebView("http://localhost:" + WebServer.PORT + "/webview-ga-demo/", this);
 	}
 	
 	///////////////////////////////////////////////
@@ -49,8 +52,9 @@ implements IWebViewDelegate {
 	
 	public void webViewCreated(WebViewWindow webView) {
 		this.webView = webView;
-		webView.setSize(800, 800);
+		webView.setSize(200, 200);
 		webView.setLocation(10, 10);
+		webView.hide();
 	}
 	
 	public void webViewBridged(WebViewWindow webView) {
@@ -70,14 +74,17 @@ implements IWebViewDelegate {
 		super.keyPressed();
 //		if(p.key == '1') webView.printSomething();
 		if(p.key == '2') webView.executeJavascript("document.body.innerHTML = ''");
-		if(p.key == '3') webView.stage.centerOnScreen();
-		if(p.key == '4') webView.stage.setWidth(200);
+		if(p.key == '3') webView.stage().centerOnScreen();
+		if(p.key == '4') webView.stage().setWidth(200);
 		if(p.key == '5') webView.reload();
 		if(p.key == '6') webView.setLocation(100, 100);
 		if(p.key == '7') webView.setSize(800, 800);
 		if(p.key == '8') webView.setFullscreen(true);
 		if(p.key == '9') webView.setFullscreen(false);
 		if(p.key == '0') WebViewWindow.launchWebView("http://localhost", this);
+		if(p.key == '-') webView.hide();
+		if(p.key == '+') webView.loadURL("http://localhost:" + WebServer.PORT + "/webview-ga-demo/");
+		if(p.key == '=') webView.loadURL("http://localhost:" + WebServer.PORT + "/webview-ga-demo/no-track.html");
 	}
 	
 	protected void drawApp() {
@@ -95,12 +102,12 @@ implements IWebViewDelegate {
 		}
 		
 		// stream calls into the web view if the bridge has been built
-			int r = (int) FrameLoop.count(0.45f) % 255;
-			int g = (int) FrameLoop.count(0.39f) % 255;
-			int b = (int) FrameLoop.count(0.24f) % 255;
-			String jsOut = "window.app.setBGColor("+r+", "+g+", "+b+")";
-			DebugView.setValue("js out", jsOut);
-			if(hasBridge) webView.executeJavascript(jsOut);
+		int r = (int) FrameLoop.count(0.45f) % 255;
+		int g = (int) FrameLoop.count(0.39f) % 255;
+		int b = (int) FrameLoop.count(0.24f) % 255;
+		String jsOut = "window.app.setBGColor("+r+", "+g+", "+b+")";
+		DebugView.setValue("js out", jsOut);
+		if(hasBridge) webView.executeJavascript(jsOut);
 	}
 
 }

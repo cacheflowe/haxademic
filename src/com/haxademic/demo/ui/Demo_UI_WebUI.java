@@ -6,9 +6,8 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.net.WebViewWindow;
 import com.haxademic.core.ui.UI;
-import com.haxademic.demo.net.WebViewWindow;
 
 public class Demo_UI_WebUI 
 extends PAppletHax {
