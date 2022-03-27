@@ -133,7 +133,9 @@ Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howt
 * On remote machine
   * Check "Start with Windows" under "Unattended Access"
   * Go to "Extras -> Options"
-    * Security Tab: 
+    * General 
+      * Incoming LAN connections: "Accept"
+    * Security
       * Windows Logon: Set to "All Users"
     * Remote Control
       * Optimize Speed
@@ -253,7 +255,7 @@ Look into using a package manager or automated installer if you need to set up m
 
 ## Additional steps
 
-  * BIOS settings to resume after power loss
+  * BIOS settings to resume after power loss!!!
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
   * https://github.com/morphogencc/ofxWindowsSetup
   * https://github.com/brangerbriz/up-4evr-windows-10
@@ -278,4 +280,16 @@ Look into using a package manager or automated installer if you need to set up m
   * https://www.ghacks.net/2016/11/08/improve-windows-10-with-one-click-batch-files/
   * https://github.com/morphogencc/ofxWindowsSetup/tree/master/scripts
     
-    
+## USB device driver help
+
+From elevated admin CMD:
+https://docs.microsoft.com/en-us/windows-hardware/drivers/devtest/pnputil-command-syntax
+
+List connected devices w/IDs:
+$ `pnputil /enum-devices /connected`
+
+Check for update devices:
+$ `pnputil /scan-devices`
+
+Enable/disable/restart/remove device by id:
+$ `pnputil /enable-device "ROOT\WindowsHelloFaceSoftwareDriver\0000"`
