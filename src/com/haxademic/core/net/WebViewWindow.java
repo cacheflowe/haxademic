@@ -30,6 +30,7 @@ extends Application {
 	
 	public interface IWebViewDelegate {
 		public void webViewCreated(WebViewWindow webView);
+		public void webViewLoaded(WebViewWindow webView);
 		public void webViewBridged(WebViewWindow webView);
 		public void webViewClosed(WebViewWindow webView);
 	}
@@ -54,7 +55,6 @@ extends Application {
 		// build JavaFX WebView Application thread
 		Runnable webViewThread = new Runnable() {
 			public void run() {             
-				P.out("Loading WebView: ", url);
 				WebViewWindow newWebView = new WebViewWindow();
 				newWebView.start(new Stage());
 				newWebView.setDelegate(delegate);
@@ -99,7 +99,7 @@ extends Application {
 	
 	@Override
 	public void stop(){
-	    P.out("Stage is closing");
+//	    P.out("Stage is closing");
 	}
 	
 	private void closeWindowEvent(WindowEvent event) {
@@ -129,14 +129,13 @@ extends Application {
 			// add listeners
 			webEngine.setOnAlert(new EventHandler<WebEvent<String>>() {
 	            public void handle(WebEvent<String> ev) {
-	                P.out(">>>>>>> setOnAlert", ev);
+	                P.out(">>>>>>> WebViewWindow.alert() :: ", ev);
 	            }
 	        });
 		    webEngine.getLoadWorker().stateProperty().addListener( new ChangeListener<Worker.State>() {
 	            public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
 	            	// P.out("##### newState", newState);
 	                if (newState == State.SUCCEEDED) {
-	                	P.out("PAGE LOADED!");
 	                    webPageLoaded();
 	                }
 	            }
@@ -182,7 +181,7 @@ extends Application {
 	
 	protected void webPageLoaded() {
 		// do created callback only once
-		if(delegate != null && !createdCalledBack) delegate.webViewCreated(this);
+		if(delegate != null) delegate.webViewLoaded(this);
 		createdCalledBack = true;
 
 		// kick off the building of the native bridge after any URL reload

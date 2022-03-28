@@ -57,7 +57,12 @@ implements IWebViewDelegate {
 		webView.hide();
 	}
 	
+	public void webViewLoaded(WebViewWindow webView) {
+		P.out("WEB VIEW LOADED!");
+	}
+	
 	public void webViewBridged(WebViewWindow webView) {
+		P.out("WEB VIEW BRIDGED!");
 		hasBridge = true;
 	}
 	
@@ -105,7 +110,7 @@ implements IWebViewDelegate {
 		int r = (int) FrameLoop.count(0.45f) % 255;
 		int g = (int) FrameLoop.count(0.39f) % 255;
 		int b = (int) FrameLoop.count(0.24f) % 255;
-		String jsOut = "window.app.setBGColor("+r+", "+g+", "+b+")";
+		String jsOut = "if(!!window.app) window.app.setBGColor("+r+", "+g+", "+b+")";
 		DebugView.setValue("js out", jsOut);
 		if(hasBridge) webView.executeJavascript(jsOut);
 	}
