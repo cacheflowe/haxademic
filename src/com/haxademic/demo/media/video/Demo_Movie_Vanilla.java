@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.PG;
 
 import processing.video.Movie;
 
-public class Demo_MovieBetaLibrary 
+public class Demo_Movie_Vanilla 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
