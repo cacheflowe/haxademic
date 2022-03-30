@@ -18,6 +18,7 @@ implements IWebViewDelegate {
 	// TODO:
 	// - Add hooks from AppStore to pass to WebView javascript. Like AppStoreDistributed
 	// - Why won't launching work after all webviews are closed?
+	// - What's up with JFXPanel from VirtualCursor? Does this help us?
 	// Hopeful:
 	// - Can we get an image of the current frame of execution? Use a webview as a texture?
 	// - WebView - how to support WebGL??
@@ -52,6 +53,7 @@ implements IWebViewDelegate {
 	
 	public void webViewCreated(WebViewWindow webView) {
 		this.webView = webView;
+		webView.setWindowTitle("WebViewWindow test title!");
 		webView.setSize(200, 200);
 		webView.setLocation(10, 10);
 		webView.hide();

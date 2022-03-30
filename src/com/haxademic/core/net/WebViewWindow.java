@@ -2,6 +2,9 @@ package com.haxademic.core.net;
 
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
+import com.haxademic.core.file.FileUtil;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -13,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
@@ -84,7 +88,8 @@ extends Application {
 	public void start(Stage stage) {
 		// set up stage
 		this.stage = stage;
-		stage.setTitle("Web Window");
+		setAppIcon();
+		stage.setTitle("Haxademic | WebViewWindow");
 		stage.initStyle((UNDECORATED) ? StageStyle.UNDECORATED : StageStyle.DECORATED);
 		
 		// create the browser & embed into Stage/Scene
@@ -95,6 +100,14 @@ extends Application {
 		stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
 
 		numWebViews++;
+	}
+	
+	protected void setAppIcon() {
+		String appIconFile = Config.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
+		String iconPath = FileUtil.getPath(appIconFile);
+		if(FileUtil.fileExists(iconPath)) {
+			stage.getIcons().add(new Image(iconPath));
+		}
 	}
 	
 	@Override
@@ -273,6 +286,9 @@ extends Application {
         });
 	}
 	
+	public void setWindowTitle(String title) {
+		stage.setTitle("Haxademic | WebViewWindow | " + title);
+	}
 	
 	public void setFullscreen(boolean isFullscreen) {
         Platform.runLater(() -> {	// ensure this is on main thread or errors are thrown

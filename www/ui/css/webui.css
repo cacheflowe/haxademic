@@ -1,12 +1,13 @@
-:root {
+:root * {
   --height: 40px;
   --width: 80px;
   --slider-height: calc(var(--height) - 2px);
   --slider-width: calc(var(--width) - 2px);
   --background: #2a2a2a;
   --color: #ffffff;
-  --radius: 5px;
-  --border: 1px solid var(--color);
+  --radius: 4px;
+  --border-color: #999999;
+  --border: 1px solid var(--border-color);
   --margin: 0 0 20px;
 }
 
@@ -46,7 +47,7 @@ body {
   font-size: 14px;
   text-transform: uppercase;
   color: #fff;
-  margin: 0 0 5px;
+  margin: 10rem 0 1rem;
 }
 
 #log-inline {
@@ -56,6 +57,7 @@ body {
 
 .container {
   margin: 0;
+  max-width: 100%;
   padding: 40px 20px;
 }
 
@@ -64,24 +66,21 @@ body {
 }
 
 .width-33 {
-  width: calc(100% / 3);
+  width: calc(100% / 3) !important;
 }
 
 .width-25 {
-  width: 25%;
+  width: 25% !important;
 }
 
 .width-13 {
-  width: 12.5%;
+  width: 12.5% !important;
 }
 
 
 /*****************************
 Sliders
 *****************************/
-input {
-  background-color: transparent;
-}
 
 input[type=range] {
   -webkit-appearance: none;
@@ -91,39 +90,18 @@ input[type=range] {
 }
 
 input[type=range]::before {
-  content: attr(id);
+  content: attr(id) ': ' attr(data-value);
   position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -0.7rem;
+  left: 0;
   color: var(--color);
   text-transform: uppercase;
   font-weight: bold;
-}
-
-input[type=range]::after {
-  content: attr(data-value);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--color);
-  text-shadow: -1px -1px 0 var(--background), 1px -1px 0 var(--background), -1px 1px 0 var(--background), 1px 1px 0 var(--background);
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-  height: var(--height);
-  cursor: pointer;
-  background: var(--background);
-  border-radius: var(--radius);
-  border: var(--border);
+  font-size: 0.8rem;
 }
 
 input[type=range]::-webkit-slider-thumb {
-  height: var(--slider-height);
-  width: calc(100% / 3);
+  width: 100% ; 
   max-width: var(--slider-width);
   border: none;
   border-radius: calc(var(--radius) - 1px);
@@ -135,18 +113,21 @@ input[type=range]::-webkit-slider-thumb {
 /*****************************
 Buttons
 *****************************/
+
 .btn {
+  display: inline-block;
   background-color: var(--background);
   overflow: hidden;
-  text-transform: uppercase;
   font-weight: bold;
   color: var(--color);
-  border: 1px solid var(--color);
+  border: var(--border);
   border-radius: var(--radius);
   height: var(--height);
   margin: var(--margin);
   padding: 0;
   outline: none;
+  text-align: left;
+  text-indent: 1rem;
 }
 
 .btn:hover {
@@ -164,13 +145,6 @@ Buttons
 .btn[data-value="1"]:hover {
   background-color: var(--color);
   color: var(--background);
-}
-
-/*****************************
-Textfields
-*****************************/
-input[type=text] {
-  background-color: #fff;
 }
 
 /*****************************

@@ -1,7 +1,8 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="./css/normalize.css"/>
+  <!-- <link rel="stylesheet" href="./css/normalize.css"/> -->
+  <link rel="stylesheet" href="./css/pico.min.css"/>
   <link rel="stylesheet" href="./css/webui.css"/>
   <script src="./js/json-poller.es6.js"></script>
 </head>
@@ -34,16 +35,19 @@
 
     // build UI
     const TYPE_BUTTON = "button";
-    const TYPE_SLIDER = "slider";
-    const TYPE_TITLE = "title";
-    const TYPE_TEXTFIELD = "textfield";
     let buttonTemplate = '<button data-ui-button="true" class="btn {COLS}" id="{ID}" data-value="{VALUE}" data-toggles="{TOGGLES}">{ID}</button>';
+    const TYPE_SLIDER = "slider";
     let sliderTemplate = '<input data-ui-slider="true" id="{ID}" class="{COLS}" type="range" min="{MIN}" max="{MAX}" step="{STEP}" value="{VALUE}"></input>';
+    const TYPE_TITLE = "title";
     let titleTemplate = '<h3 id="{ID}">{VALUE}</h3>';
-    let textTemplate = '<input data-ui-textfield="true" id="{ID}" class="{COLS}" type="text" value="{VALUE}"></input>';
+    const TYPE_TEXTFIELD = "textfield";
+    let textTemplate = '<label for="{ID}">{ID}</label><input data-ui-textfield="true" id="{ID}" class="{COLS}" type="text" value="{VALUE}"></input>';
+
     let uiContainer = document.getElementById('ui-container');
+    let isTouching = false;
 
     function buildUiControls(uiArray) {
+      console.log(uiArray);
       uiArray.forEach(element => {
         if(element.type == TYPE_BUTTON) {
           let buttonStr = buttonTemplate + "";
@@ -97,8 +101,17 @@
     function removeDesktopSupport() {
       document.removeEventListener('mouseup', buttonClick);
     }
+    function touchStart() {
+      isTouching = true;
+    }
+    function touchEnd() {
+      isTouching = false;
+      removeDesktopSupport();
+    }
     document.addEventListener('mouseup', buttonClick);
     document.addEventListener('touchend', buttonClick);
+    document.addEventListener('touchstart', touchStart);
+    document.addEventListener('touchend', touchEnd);
     document.addEventListener('touchend', removeDesktopSupport);
     document.addEventListener('input', function(e){
       if(e.target && e.target.hasAttribute('data-ui-slider')) {
@@ -133,8 +146,10 @@
             let uiControl = document.getElementById(key);
             if(uiControl) {
               if(uiControl.hasAttribute('data-ui-slider')) {
-                uiControl.value = val;
-                uiControl.setAttribute('data-value', val.toFixed(1));
+                if(isTouching == false) {
+                  uiControl.value = val;
+                  uiControl.setAttribute('data-value', val.toFixed(1));
+                }
               } else if(uiControl.hasAttribute('data-ui-button')) {
                 uiControl.setAttribute('data-value', val);
               } else if(uiControl.hasAttribute('data-ui-textfield')) {

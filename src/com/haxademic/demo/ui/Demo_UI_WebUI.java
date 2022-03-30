@@ -28,16 +28,17 @@ extends PAppletHax {
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
 		UI.addSlider(B, 255, 0, 255, 0.5f);
-		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
+		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.005f, false);
 		UI.addButton("Button", false);
 		UI.addButton("Button 2", true);
 		UI.addButtons(new String[] {"1", "2", "3", "4"}, true);
 		UI.addTextfield(TEXT, "Test String", false);
 //		for (int i = 0; i < 30; i++) UI.addSlider("Test slider " + i, 255, 0, 255, 0.5f, false);
-		UI.addWebInterface(false);
 		P.out(UI.configToJSON());
 		P.out(UI.valuesToJSON());
 		
+		// add web controls
+		UI.addWebInterface(false);
 		WebViewWindow.launchWebView(WebServer.getServerAddress() + "ui/");
 	}
 	
@@ -60,7 +61,7 @@ extends PAppletHax {
 		p.rotateZ(UI.valueZEased(VECTOR_3));
 		p.fill(255);
 		p.stroke(0);
-		p.box(200);
+		p.box(p.height * 0.35f);
 	}
 	
 }

@@ -65,6 +65,10 @@ implements IAppStoreListener {
 		UIConfigFilesPicker.DEBUG = true;
 		configPicker = new UIConfigFilesPicker("UI Configs", "RGB_AND_ROT_CONFIG", FileUtil.getPath(configsPath));
 		
+		// add web controls
+		UI.addWebInterface(false);
+		// WebViewWindow.launchWebView(WebServer.getServerAddress() + "ui/");
+		
 		// subscribe to updates
 		P.store.addListener(this);
 	}
