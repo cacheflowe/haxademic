@@ -16,7 +16,7 @@ extends PAppletHax {
 	
 	protected void firstFrame () {
 		movies = new Movie[] {
-			new Movie(P.p, "C:\\Users\\cacheflowe\\Downloads\\BERNIE_02B_WAVE_L.mov"),
+			new Movie(P.p, "D:\\workspace\\afi-bernies-chalet\\data\\video\\attract\\BERNIE_08_JUMP_AROUND.mov"),
 //			new Movie(P.p, "C:\\Users\\cacheflowe\\Downloads\\SamplePackOneHap1080p\\Movies\\Suho-Hap-HD.mov"),
 //			new Movie(P.p, "D:\\workspace\\media-utility-scripts\\_saved_files\\Using the Ello iOS App-135605909.mp4"),
 //			new Movie(P.p, "D:\\workspace\\media-utility-scripts\\_saved_files\\Exploring CTD - Design Studio-341609057.mp4"),

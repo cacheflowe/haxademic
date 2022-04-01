@@ -3,6 +3,7 @@ package com.haxademic.demo.media.video;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.video.ChromaMovie;
 
 public class Demo_ChromaMovie
@@ -13,7 +14,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 
-		chromaMovie = new ChromaMovie(FileUtil.getPath("video/fractal-cube.mp4"));
+		chromaMovie = new ChromaMovie(FileUtil.getPath(DemoAssets.movieFractalCubePath));
 		chromaMovie.loop();
 	}
 	
