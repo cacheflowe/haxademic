@@ -34,7 +34,7 @@ public class PrefToText {
 
 	public static String getValueS(String key, String defaultVal) {
 		String[] lines = FileUtil.readTextFromFile(getFilePath(key));
-		return (lines == null) ? setValue(key, defaultVal) : lines[0];
+		return (lines == null || lines.length == 0) ? setValue(key, defaultVal) : lines[0];
 	}
 	
 	public static float getValueF(String key, float defaultVal) {
