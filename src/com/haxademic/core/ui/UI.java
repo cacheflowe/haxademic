@@ -209,6 +209,18 @@ implements IAppStoreListener {
 		((UISlider) controls.get(key)).setRandomValue();
 	}
 	
+	public static void setValueX(String key, float val) {
+		controls.get(key+"_X").set(val);
+	}
+	
+	public static void setValueY(String key, float val) {
+		controls.get(key+"_Y").set(val);
+	}
+	
+	public static void setValueZ(String key, float val) {
+		controls.get(key+"_Z").set(val);
+	}
+	
 	public static void setRandomValueInt(String key) {
 		((UISlider) controls.get(key)).setRandomValueInt();
 	}
