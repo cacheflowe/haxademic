@@ -346,7 +346,11 @@ public class PG {
 	//////////////////////////////
 	
 	public static void drawTestPattern(PGraphics pg) {
-		pg.beginDraw();
+		drawTestPattern(pg, true);
+	}
+	
+	public static void drawTestPattern(PGraphics pg, boolean opensContext) {
+		if(opensContext) pg.beginDraw();
 		pg.noStroke();
 		
 		int cellSize = pg.pixelWidth / 20;
@@ -361,7 +365,7 @@ public class PG {
 				pg.rect(x,y,cellSize,cellSize);
 			}
 		}
-		pg.endDraw();
+		if(opensContext) pg.endDraw();
 	}
 
 	public static void drawGrid(PGraphics pg, int bgColor, int strokeColor, float cols, float rows, float strokeSize) {
