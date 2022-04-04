@@ -45,7 +45,8 @@ int byteToInt(byte b) {
 
 void loop() { 
 //   runSingleDotPulseDemo();
-  runRgbSerial();
+   runSinWaveDemo();
+//  runRgbSerial();
 }
 
 /////////////////////////////
@@ -171,4 +172,18 @@ void runSingleDotPulseDemo() {
     // Turn our current led back to black for the next loop around
     leds[whiteLed] = CRGB::Black;
   }
+}
+
+
+void runSinWaveDemo() {
+  for(int i = 0; i < NUM_LEDS; i++) {
+    float freq = 0.2;
+    float offset = millis() * 0.005;
+    int luma = round(127 + 127.0 * sin(i * freq + offset));
+    leds[i] = CRGB(luma, luma, luma);
+  }
+
+  // Show the leds (only one of which is set to white, from above)
+  FastLED.show();
+  delay(16);
 }
