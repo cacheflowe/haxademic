@@ -13,76 +13,82 @@ public class DisplacementPoint3D {
 	protected PVector basePos;
 	protected PVector curPos;
 	protected PVector targetPos;
-	protected PVector speedX;
+	protected PVector speed;
+	protected PVector influencePos;
 
 	// displacement amp & bounciness 
-	float displaceAmp = 40;
-	float friction = 0.77f;
-	float acceleration = .1f;
-	float influenceByDistance = 1f;
+	protected float displaceRange = 40;
+	protected float friction = 0.77f;
+	protected float acceleration = .1f;
+	protected float displaceAmp = 1;
+	protected float influenceProximityRamp = 1;
+	protected float resultDisplacedAmp = 0;
 
 	public DisplacementPoint3D(float x, float y, float z) {
 		this(x, y, z, 50, 0.77f, 0.1f);
 	}
 	
-	public DisplacementPoint3D(float x, float y, float z, float displaceAmp, float friction, float acceleration) {
+	public DisplacementPoint3D(float x, float y, float z, float displaceRange, float friction, float acceleration) {
 		// base location
 		basePos = new PVector(x, y, z);
 		curPos = new PVector(x, y, z);
 		targetPos = new PVector(x, y, z);
-		speedX = new PVector(0, 0, 0);
+		speed = new PVector();
+		influencePos = new PVector();
 		
 		// springiness
-		this.displaceAmp = displaceAmp;
+		this.displaceRange = displaceRange;
 		this.friction = friction;
 		this.acceleration = acceleration;
-		this.influenceByDistance = 1;
+		this.influenceProximityRamp = 1;
 	}
 	
 	public void basePos(float x, float y, float z) { basePos.set(x, y, z); }
 	public PVector pos() { return curPos; }
 	public PVector targetX() { return targetPos; }
-	public float displaceAmp() { return displaceAmp; }
-	public void displaceAmp(float displaceAmp) { this.displaceAmp = displaceAmp; }
+	public float displaceRange() { return displaceRange; }
+	public void displaceRange(float displaceRange) { this.displaceRange = displaceRange; }
 	public float friction() { return friction; }
 	public void friction(float friction) { this.friction = friction; }
 	public float acceleration() { return acceleration; }
 	public void acceleration(float acceleration) { this.acceleration = acceleration; }
-	public float influenceByDistance() { return influenceByDistance; }
-	public void influenceByDistance(float influenceByDistance) { this.influenceByDistance = influenceByDistance; }
+	public float displaceAmp() { return displaceAmp; }
+	public void displaceAmp(float displaceAmp) { this.displaceAmp = displaceAmp; }
+	public float influenceProximityRamp() { return influenceProximityRamp; }
+	public void influenceProximityRamp(float influenceProximityRamp) { this.influenceProximityRamp = influenceProximityRamp; }
+	public float resultDisplacedAmp() { return resultDisplacedAmp; }
 
-	public float displacedCurX() { return P.abs(basePos.x - curPos.x); }
-	public float displacedCurY() { return P.abs(basePos.y - curPos.y); }
-	public float displacedCurZ() { return P.abs(basePos.z - curPos.z); }
-	public float displacedCurTotal() { return displacedCurX() + displacedCurY() + displacedCurZ(); }
-
-	protected PVector utilVec = new PVector();
 	public void update(float influenceX, float influenceY, float influenceZ) {
 		// calculate displacement based on mouse distance from point base
+		influencePos.set(influenceX, influenceY, influenceZ);
 		float xdiff = basePos.x - influenceX;
 		float ydiff = basePos.y - influenceY;
 		float zdiff = basePos.z - influenceZ;
-		utilVec.set(influenceX, influenceY, influenceZ);
-		float dist = PVector.dist(basePos, utilVec);
-		float distInfluence = (influenceByDistance > 0) ? P.map(influenceByDistance, 0, 1, 1, dist / displaceAmp) : 1f;	// lerp between distance influence (1) or clamped extreme displacement (0)
+		float distFromInfluence = PVector.dist(basePos, influencePos);
+		
+		// further from influence point can become less effective, if we use the `influenceProximityRamp`
+		float distFromInfluenceNorm = distFromInfluence / displaceRange;
+		distFromInfluenceNorm = P.constrain(distFromInfluenceNorm, 0, 1);
+		float adjustedDisplaceAmp = 1f - (distFromInfluenceNorm * influenceProximityRamp);
+		resultDisplacedAmp = 1f - distFromInfluenceNorm;	// for reporting back
 		
 		// update target based on influence point
-		if (dist < displaceAmp && dist > 0) {
+		if (distFromInfluence < displaceRange) {
 			targetPos.set( 
-				basePos.x-(xdiff-displaceAmp*(xdiff/dist)) * (distInfluence),
-				basePos.y-(ydiff-displaceAmp*(ydiff/dist)) * (distInfluence),
-				basePos.z-(zdiff-displaceAmp*(zdiff/dist)) * (distInfluence)
+				basePos.x - (xdiff-displaceRange*(xdiff/distFromInfluence)) * (adjustedDisplaceAmp * displaceAmp),
+				basePos.y - (ydiff-displaceRange*(ydiff/distFromInfluence)) * (adjustedDisplaceAmp * displaceAmp),
+				basePos.z - (zdiff-displaceRange*(zdiff/distFromInfluence)) * (adjustedDisplaceAmp * displaceAmp)
 			);
 		} else {
 			targetPos.set(basePos);
 		}
 		
 		// elastically move based on current target position vs. current position
-		speedX.set(
-			((targetPos.x-curPos.x)*acceleration+speedX.x)*friction,
-			((targetPos.y-curPos.y)*acceleration+speedX.y)*friction,
-			((targetPos.z-curPos.z)*acceleration+speedX.z)*friction
+		speed.set(
+			((targetPos.x-curPos.x)*acceleration+speed.x)*friction,
+			((targetPos.y-curPos.y)*acceleration+speed.y)*friction,
+			((targetPos.z-curPos.z)*acceleration+speed.z)*friction
 		);
-		curPos.add(speedX);
+		curPos.add(speed);
 	}
 }

@@ -17,11 +17,11 @@ extends PAppletHax {
 	protected float cellSize;
 	protected float cubeSize;
 	
-	protected String POINT_SIZE = "POINT_SIZE";
-	protected String DISPLACE_AMP = "DISPLACE_AMP";
+	protected String DISPLACE_RANGE = "DISPLACE_RANGE";
 	protected String FRICTION = "FRICTION";
 	protected String ACCELERATION = "ACCELERATION";
-	protected String INFLUENCE_BY_DISTANCE = "INFLUENCE_BY_DISTANCE";
+	protected String DISPLACE_AMP = "DISPLACE_AMP";
+	protected String INFLUENCE_PROXIMITY_RAMP = "INFLUENCE_PROXIMITY_RAMP";
 
 	protected String DISPLACE_POINT = "DISPLACE_POINT";
 	protected String SCENE_SCALE = "SCENE_SCALE";
@@ -67,14 +67,14 @@ extends PAppletHax {
 		}
 
 		// set up sliders
-		UI.addSlider(DISPLACE_AMP, 30, 1, 1000, 1, false, LaunchControlXL.SLIDERS[0]);
+		UI.addSlider(DISPLACE_RANGE, pg.height * 0.2f, 1, 1000, 1, false, LaunchControlXL.SLIDERS[0]);
 		UI.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false, LaunchControlXL.SLIDERS[1]);
 		UI.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false, LaunchControlXL.SLIDERS[2]);
-		UI.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false, LaunchControlXL.SLIDERS[3]);
-		
-		UI.addSlider(SCENE_SCALE, 1, 0, 2, 0.01f, false, LaunchControlXL.SLIDERS[4]);
+		UI.addSlider(DISPLACE_AMP, 1f, 0f, 5f, 0.01f, false, LaunchControlXL.SLIDERS[3]);
+		UI.addSlider(INFLUENCE_PROXIMITY_RAMP, 1, 0, 1, 0.01f, false, LaunchControlXL.SLIDERS[4]);
+		UI.addSlider(SCENE_SCALE, 1, 0, 2, 0.01f, false, LaunchControlXL.SLIDERS[5]);
 		UI.addSliderVector(DISPLACE_POINT, 0, -pg.height, pg.height, 2f, false, LaunchControlXL.KNOBS_ROW_1[0], LaunchControlXL.KNOBS_ROW_1[1], LaunchControlXL.KNOBS_ROW_1[2]);
-		UI.addSliderVector(SCENE_ROTATION, 0, -P.TWO_PI, P.TWO_PI, 0.001f, false, LaunchControlXL.KNOBS_ROW_2[0], LaunchControlXL.KNOBS_ROW_2[1], LaunchControlXL.KNOBS_ROW_2[2]);
+		UI.addSliderVector(SCENE_ROTATION, 0, -P.QUARTER_PI, P.QUARTER_PI, 0.001f, false, LaunchControlXL.KNOBS_ROW_2[0], LaunchControlXL.KNOBS_ROW_2[1], LaunchControlXL.KNOBS_ROW_2[2]);
 	}
 
 	protected void drawApp() {
@@ -107,10 +107,11 @@ extends PAppletHax {
 		// update properties w/sliders & draw points
 		for (int i = 0; i < points.length; i++) {
 			// set properties 
-			points[i].displaceAmp(UI.value(DISPLACE_AMP));
+			points[i].displaceRange(UI.value(DISPLACE_RANGE));
 			points[i].friction(UI.value(FRICTION));
 			points[i].acceleration(UI.value(ACCELERATION));
-			points[i].influenceByDistance(UI.value(INFLUENCE_BY_DISTANCE));
+			points[i].displaceAmp(UI.value(DISPLACE_AMP));
+			points[i].influenceProximityRamp(UI.value(INFLUENCE_PROXIMITY_RAMP));
 			points[i].update(displaceX, displaceY, displaceZ);
 		}
 		
@@ -119,9 +120,10 @@ extends PAppletHax {
 		p.stroke(255);
 		for (int i = 0; i < points.length; i++) {
 			// draw points
-			float scaleDown = points[i].displacedCurTotal() * 0.3f;
+			float scaleDown = cellSize * points[i].resultDisplacedAmp();
 			scaleDown = P.constrain(scaleDown, 0, cellSize);
 			p.push();
+			p.fill(255 * points[i].resultDisplacedAmp());
 			p.translate(points[i].pos().x, points[i].pos().y, points[i].pos().z);
 			p.box(cellSize - scaleDown);
 			p.pop();
