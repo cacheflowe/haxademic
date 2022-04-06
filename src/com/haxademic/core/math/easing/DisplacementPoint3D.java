@@ -45,7 +45,7 @@ public class DisplacementPoint3D {
 	
 	public void basePos(float x, float y, float z) { basePos.set(x, y, z); }
 	public PVector pos() { return curPos; }
-	public PVector targetX() { return targetPos; }
+	public PVector targetPos() { return targetPos; }
 	public float displaceRange() { return displaceRange; }
 	public void displaceRange(float displaceRange) { this.displaceRange = displaceRange; }
 	public float friction() { return friction; }
