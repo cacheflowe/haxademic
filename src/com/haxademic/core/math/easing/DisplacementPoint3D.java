@@ -17,11 +17,13 @@ public class DisplacementPoint3D {
 	protected PVector influencePos;
 
 	// displacement amp & bounciness 
-	protected float displaceRange = 40;
-	protected float friction = 0.77f;
-	protected float acceleration = .1f;
-	protected float displaceAmp = 1;
-	protected float influenceProximityRamp = 1;
+	protected float displaceRange;
+	protected float friction;
+	protected float acceleration;
+	protected float displaceAmp;
+	protected float influenceProximityRamp;
+	
+	// report displacement back for effects that need to know how far we've displaced
 	protected float resultDisplacedAmp = 0;
 
 	public DisplacementPoint3D(float x, float y, float z) {
@@ -40,6 +42,7 @@ public class DisplacementPoint3D {
 		this.displaceRange = displaceRange;
 		this.friction = friction;
 		this.acceleration = acceleration;
+		this.displaceAmp = 1;
 		this.influenceProximityRamp = 1;
 	}
 	
@@ -70,7 +73,7 @@ public class DisplacementPoint3D {
 		float distFromInfluenceNorm = distFromInfluence / displaceRange;
 		distFromInfluenceNorm = P.constrain(distFromInfluenceNorm, 0, 1);
 		float adjustedDisplaceAmp = 1f - (distFromInfluenceNorm * influenceProximityRamp);
-		resultDisplacedAmp = 1f - distFromInfluenceNorm;	// for reporting back
+		resultDisplacedAmp = 1f - distFromInfluenceNorm;
 		
 		// update target based on influence point
 		if (distFromInfluence < displaceRange) {
