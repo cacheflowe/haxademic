@@ -26,12 +26,14 @@ extends PAppletHax {
 		SINGLE_CHANNEL,
 		RGB,
 		ALL,
+		WILD,
 		NONE,
 	}
 	DMXTestmode[] modes = new DMXTestmode[] {
 		DMXTestmode.RGB, 
 		DMXTestmode.SINGLE_CHANNEL, 
 		DMXTestmode.ALL, 
+		DMXTestmode.WILD, 
 		DMXTestmode.NONE
 	};
 	
@@ -55,11 +57,11 @@ extends PAppletHax {
 		AudioIn.instance(AudioInputLibrary.ESS);
 		
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM3", 9600);
+		dmx = new DMXWrapper("COM8", 115200);
 		
 		// ui
 		UI.addSlider(CHANNEL, 1, 1, 512, 0.25f, false);
-		UI.addSlider(MODE, 0, 0, 3, 0.25f, false);
+		UI.addSlider(MODE, 0, 0, modes.length - 1, 0.25f, false);
 		UI.addSlider(R, 100, 0, 255, 1, false);
 		UI.addSlider(G, 100, 0, 255, 1, false);
 		UI.addSlider(B, 100, 0, 255, 1, false);
@@ -102,9 +104,9 @@ extends PAppletHax {
 		}
 		
 		if(UI.valueInt(AUDIOREACTIVE) == 1) {
-			valueR = P.round(AudioIn.audioFreq(10) * 255);
-			valueG = P.round(AudioIn.audioFreq(20) * 255);
-			valueB = P.round(AudioIn.audioFreq(30) * 255);
+			valueR = P.round(AudioIn.audioFreq(110) * 255 * 4f);
+			valueG = P.round(AudioIn.audioFreq(120) * 255 * 4f);
+			valueB = P.round(AudioIn.audioFreq(130) * 255 * 4f);
 		}
 		
 		// temp: brightness cap
@@ -147,6 +149,19 @@ extends PAppletHax {
 				}
 				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
 				debugInfo += "Value: " + valueR + "\n";
+				break;
+			case WILD:
+				freq = 0.02f;
+				for (int i = 1; i < 512; i+=3) {
+					valueR = P.round(127 + 127 * P.sin(i/10f + p.frameCount * freq));
+					valueG = P.round(127 + 127 * P.sin(i/10f + p.frameCount * freq + P.HALF_PI));
+					valueB = P.round(127 + 127 * P.sin(i/10f + p.frameCount * freq + P.PI));
+					dmx.setValue(i+0, valueR);
+					dmx.setValue(i+1, valueG);
+					dmx.setValue(i+2, valueB);
+				}
+				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
+//				debugInfo += "Value: " + valueR + "\n";
 				break;
 			case NONE:
 				debugInfo += "NONE";
