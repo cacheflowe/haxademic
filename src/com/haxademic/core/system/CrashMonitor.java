@@ -25,10 +25,12 @@ public class CrashMonitor {
 	}
 	
 	public void setLocation(int x, int y) {
+		if(monitorApp == null) { P.error("CrashMonitor.setLocation() error: No monitorApp yet"); return; }
 		monitorApp.getSurface().setLocation(x, y);
 	}
 	
 	public void setVisible(boolean visible) {
+		if(monitorApp == null) { P.error("CrashMonitor.setVisible() error: No monitorApp yet"); return; }
 		monitorApp.getSurface().setVisible(visible);
 	}
 	
