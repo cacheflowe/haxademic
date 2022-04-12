@@ -9,7 +9,7 @@ import processing.serial.Serial;
 
 public class DMXWrapper {
 
-	// This specifically works with the ENNTEC DMX USB Pro
+	// This specifically works with the ENNTEC DMX USB Pro (original and MK2), and also the replica DMXking UltraDMX Micro
 	// Make sure the Processing Serial library is pointing to the correct native library
 	
 	// On Windows, port should be an actual serial port, and probably needs to be upper case - something like "COM1"
@@ -37,6 +37,7 @@ public class DMXWrapper {
 	
 	protected DmxP512 dmx;
 	protected int universeSize = 512;
+	protected int[] localData;
 
 	public DMXWrapper(String port, int baudRate, int universeSize) {
 		init(port, baudRate, universeSize);		
@@ -59,7 +60,7 @@ public class DMXWrapper {
 			// win
 			init( 
 				Config.getString(DMXPRO_PORT, "COM3"), 
-				Config.getInt(DMXPRO_BAUDRATE, 9600), 
+				Config.getInt(DMXPRO_BAUDRATE, 115000), 
 				Config.getInt(DMXPRO_UNIVERSE_SIZE, 512)
 			);
 		}
@@ -68,6 +69,8 @@ public class DMXWrapper {
 	
 	protected void init(String port, int baudRate, int universeSize) {
 		this.universeSize = universeSize;
+		localData = new int[universeSize];
+		for (int i = 0; i < localData.length; i++) localData[i] = 0;
 		P.out("Initializing DMXWrapper ---------------------");
 		
 		// debug serial devices
@@ -98,7 +101,12 @@ public class DMXWrapper {
 		return universeSize;
 	}
 	
+	public int[] data() {
+		return localData;
+	}
+	
 	public void setValue(int channel, int value) {
+		if (channel > 0 && channel <= 512) localData[channel - 1] = value;
 		if (dmx != null) dmx.set(P.constrain(channel, 1, 512), P.constrain(value, 0, 255));
 		if (channel < 1 || channel > 512) DebugView.setValue("DMX Error", "DMX channel out of range (1-"+ universeSize +"): " + value);
 		if (value < 0 || value > 255) DebugView.setValue("DMX Error", "DMX value out of range (0-255): " + value);

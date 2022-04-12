@@ -184,6 +184,9 @@ implements IAppStoreListener {
 	// PUBLIC
 	/////////////////////////////////
 	
+	public DMXUniverse dmxUniverse() {
+		return dmxUniverseDefault;
+	}
 	public void showInfo(boolean showInfo) {
 		this.showInfo = showInfo;
 	}

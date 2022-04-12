@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.hardware.dmx.DMXDebug;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.AudioUtil;
@@ -19,6 +20,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected DMXWrapper dmx;
+	protected DMXDebug dmxDebug;
 
 	protected int value = 0;
 	
@@ -27,6 +29,7 @@ extends PAppletHax {
 		RGB,
 		ALL,
 		WILD,
+		AUDIOREACTIVE,
 		NONE,
 	}
 	DMXTestmode[] modes = new DMXTestmode[] {
@@ -34,6 +37,7 @@ extends PAppletHax {
 		DMXTestmode.SINGLE_CHANNEL, 
 		DMXTestmode.ALL, 
 		DMXTestmode.WILD, 
+		DMXTestmode.AUDIOREACTIVE, 
 		DMXTestmode.NONE
 	};
 	
@@ -42,12 +46,12 @@ extends PAppletHax {
 	protected String B = "B";
 	protected String CHANNEL = "CHANNEL";
 	protected String MODE = "MODE";
-	protected String AUDIOREACTIVE = "AUDIOREACTIVE";
 	protected String BOOLEAN_MODE = "BOOLEAN_MODE";
 	protected String BRIGHTNESS_CAP = "BRIGHTNESS_CAP";
 	protected String MANUAL_BRIGHTNESS = "MANUAL_BRIGHTNESS";
 	
 	protected void config() {
+		Config.setAppSize(1600, 800);
 		Config.setProperty(AppSettings.SHOW_UI, true );
 	}
 
@@ -58,6 +62,8 @@ extends PAppletHax {
 		
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM8", 115200);
+		dmxDebug = new DMXDebug();
+		DebugView.setTexture("dmxData", dmxDebug.buffer());
 		
 		// ui
 		UI.addSlider(CHANNEL, 1, 1, 512, 0.25f, false);
@@ -67,7 +73,6 @@ extends PAppletHax {
 		UI.addSlider(B, 100, 0, 255, 1, false);
 		UI.addSlider(MANUAL_BRIGHTNESS, 0, 0, 1, 1, false);
 		UI.addSlider(BRIGHTNESS_CAP, 255, 0, 255, 1, false);
-		UI.addSlider(AUDIOREACTIVE, 0, 0, 1, 1, false);
 		UI.addSlider(BOOLEAN_MODE, 0, 0, 1, 1, false);
 		
 		addKeyCommandInfo();
@@ -101,12 +106,6 @@ extends PAppletHax {
 			valueR = UI.valueInt(R);
 			valueG = UI.valueInt(G);
 			valueB = UI.valueInt(B);
-		}
-		
-		if(UI.valueInt(AUDIOREACTIVE) == 1) {
-			valueR = P.round(AudioIn.audioFreq(110) * 255 * 4f);
-			valueG = P.round(AudioIn.audioFreq(120) * 255 * 4f);
-			valueB = P.round(AudioIn.audioFreq(130) * 255 * 4f);
 		}
 		
 		// temp: brightness cap
@@ -161,7 +160,18 @@ extends PAppletHax {
 					dmx.setValue(i+2, valueB);
 				}
 				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
-//				debugInfo += "Value: " + valueR + "\n";
+				break;
+			case AUDIOREACTIVE:
+				int eqSpread = 5;
+				for (int i = 1; i < 512; i+=3) {
+					valueR = P.round(AudioIn.audioFreq(i*eqSpread+0) * 255 * 2f);
+					valueG = P.round(AudioIn.audioFreq(i*eqSpread+1) * 255 * 2f);
+					valueB = P.round(AudioIn.audioFreq(i*eqSpread+2) * 255 * 2f);
+					dmx.setValue(i+0, valueR);
+					dmx.setValue(i+1, valueG);
+					dmx.setValue(i+2, valueB);
+				}
+				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
 				break;
 			case NONE:
 				debugInfo += "NONE";
@@ -177,6 +187,11 @@ extends PAppletHax {
 		// draw color at bottom for debug
 		p.fill(valueR, valueG, valueB);
 		p.rect(0, 0, 252, p.height);
+		
+		// draw debug grid
+		dmxDebug.updateRGB(dmx.data());
+//		dmxDebug.updateSingleChannel(dmx.data());
+		p.image(dmxDebug.buffer(), p.width - dmxDebug.buffer().width, p.height - dmxDebug.buffer().height);
 	}
 	
 	protected void resetAllChannels() {
