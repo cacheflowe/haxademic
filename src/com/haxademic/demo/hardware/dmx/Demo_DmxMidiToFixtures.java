@@ -2,7 +2,6 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
@@ -21,21 +20,23 @@ implements SimpleMidiListener {
 	
 	protected DMXFixture fixtures[];
 	protected MidiDevice device;
+	protected MidiDevice device2;
 	protected StringBufferLog logOut = new StringBufferLog(40);
+	protected Midi2DMX[] midi2Dmx;
 
-	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{RolandSPDSX.PAD_06});
-	protected InputTrigger trigger2 = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{RolandSPDSX.PAD_07});
-	protected InputTrigger trigger3 = new InputTrigger().addKeyCodes(new char[]{'3'}).addMidiNotes(new Integer[]{RolandSPDSX.PAD_08});
-	protected InputTrigger trigger4 = new InputTrigger().addKeyCodes(new char[]{'4'}).addMidiNotes(new Integer[]{RolandSPDSX.PAD_09});
-	
 	protected void firstFrame() {
-		// Build DMXFixtures
-		DMXUniverse.instanceInit("COM7", 115200);
-		fixtures = new DMXFixture[] {
-				(new DMXFixture(1)).setEaseFactor(0.4f),
-				(new DMXFixture(4)).setEaseFactor(0.4f),
-				(new DMXFixture(7)).setEaseFactor(0.4f),
-				(new DMXFixture(10)).setEaseFactor(0.4f),
+		// Build DMXUniverse for fixtures
+		DMXUniverse.instanceInit("COM8", 115200);
+		midi2Dmx = new Midi2DMX[] {
+				new Midi2DMX('1', RolandSPDSX.PAD_01, 1),
+				new Midi2DMX('2', RolandSPDSX.PAD_02, 4),
+				new Midi2DMX('3', RolandSPDSX.PAD_03, 7),
+				new Midi2DMX('4', RolandSPDSX.PAD_04, 10),
+				new Midi2DMX('5', RolandSPDSX.PAD_05, 13),
+				new Midi2DMX('6', RolandSPDSX.PAD_06, 16),
+				new Midi2DMX('7', RolandSPDSX.PAD_07, 19),
+				new Midi2DMX('8', RolandSPDSX.PAD_08, 22),
+				new Midi2DMX('9', RolandSPDSX.PAD_09, 25),
 		};
 		
 		// prep audio input
@@ -43,6 +44,7 @@ implements SimpleMidiListener {
 		
 		// init MIDI device
 		device = MidiDevice.init(1, 4, this);	// basic singleton initialization in case there's only one device
+		device2 = new MidiDevice(2, 5, this);	// add 2nd input device
 		MidiState.instance();
 	}
 
@@ -51,9 +53,6 @@ implements SimpleMidiListener {
 		
 		// debug
 		if(MidiState.instance().isMidiNoteOn(RolandSPDSX.PAD_07)) P.println("trigger 1"); 
-		DebugView.setValue("trigger1.triggered()", trigger1.triggered());
-		DebugView.setValue("trigger2.triggered()", trigger2.triggered());
-		DebugView.setValue("trigger3.triggered()", trigger3.triggered());
 		
 		// check input triggers
 		// THIS DOESN'T WORK with SPD-SX, because the on/off note events happen at the same time...
@@ -85,11 +84,30 @@ implements SimpleMidiListener {
 		logOut.update("ON:  " + channel + ", " + pitch + ", " + velocity);
 		
 		// add direct midi listeners
-		int rand = p.color(p.random(50, 255), p.random(50, 255), p.random(50, 255));
-		if(pitch == RolandSPDSX.PAD_06) fixtures[0].color().setCurrentInt(rand).setTargetInt(0xff000000);
-		if(pitch == RolandSPDSX.PAD_07) fixtures[1].color().setCurrentInt(rand).setTargetInt(0xff000000);
-		if(pitch == RolandSPDSX.PAD_08) fixtures[2].color().setCurrentInt(rand).setTargetInt(0xff000000);
-		if(pitch == RolandSPDSX.PAD_09) fixtures[3].color().setCurrentInt(rand).setTargetInt(0xff000000);
+		for (int i = 0; i < midi2Dmx.length; i++) {
+			midi2Dmx[i].checkIncomingPitch(pitch);
+		}
 	}
 
+	
+	public class Midi2DMX {
+		
+		protected InputTrigger trigger;
+		protected DMXFixture fixture;
+		protected int midiNote;
+		
+		public Midi2DMX(char keyTrigger, int midiTrigger, int dmxChannel) {
+			midiNote = midiTrigger;
+			trigger = new InputTrigger().addKeyCodes(new char[]{keyTrigger}).addMidiNotes(new Integer[]{midiTrigger});
+			fixture = (new DMXFixture(dmxChannel)).setEaseFactor(0.2f);
+			fixture.color().setCurrentInt(0xffffffff).setTargetInt(0xff000000);
+		}
+		
+		public void checkIncomingPitch(int pitch) {
+			// pick random color and fade back to black
+			int rand = p.color(p.random(50, 255), p.random(50, 255), p.random(50, 255));
+			if(pitch == midiNote) fixture.color().setCurrentInt(rand).setTargetInt(0xff000000);
+		}
+		
+	}
 }

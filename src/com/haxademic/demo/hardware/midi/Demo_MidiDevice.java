@@ -18,7 +18,8 @@ extends PAppletHax
 implements SimpleMidiListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected StringBufferLog logOut = new StringBufferLog(20);
+	protected StringBufferLog logOut = new StringBufferLog(40);
+	protected MidiDevice device1;
 	protected MidiDevice device2;
 
 	protected void config() {
@@ -29,8 +30,8 @@ implements SimpleMidiListener {
 		// prep audio input
 		AudioIn.instance();
 		// init 2 devices
-		MidiDevice.init(0, 3, this);			// basic singleton initialization in case there's only one device
-		device2 = new MidiDevice(2, 5, this);	// a 2nd device, with normal constructor
+		device1 = MidiDevice.init(1, 4, this);	// basic singleton initialization in case there's only one device
+//		device2 = new MidiDevice(2, 5, this);	// a 2nd device, with normal constructor
 	}
 	
 	protected void drawApp() {
@@ -38,11 +39,16 @@ implements SimpleMidiListener {
 		
 		// debug views
 		DebugView.active(true);
-		logOut.printToScreen(p.g, 340, 20);
+		logOut.printToScreen(p.g, p.width - 300, 20);
 
 		// test MidiState storage
 		DebugView.setValue("PAD 1 on", MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01));
 		
+		// test midi out to launchpad
+		// updateLaunchpadLEDs();
+	}
+	
+	protected void updateLaunchpadLEDs() {
 		// outgoing midi changes the LED color on the launch control
 		int launchControlChannel = 0;
 		MidiDevice.instance().sendMidiOut(true, launchControlChannel, LaunchControl.PAD_01, P.round(AudioIn.audioFreq(2) * 150f));
