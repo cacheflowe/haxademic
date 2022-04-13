@@ -263,6 +263,9 @@ implements IAppStoreListener {
 	public void showTextureOverlay(float textureAlpha) {
 		UI.setValue(TEXTURE_ALPHA, textureAlpha);
 	}
+	public void toggleUI() {
+		showUI = !showUI;
+	}
 	
 	////////////////////////
 	// SavedPointUI Mouse interface
@@ -401,7 +404,7 @@ implements IAppStoreListener {
 			if(e.getKey() == 'i') quantizeToGrid();
 			if(e.getKey() == 's') saveLightsToFile();
 			if(e.getKeyCode() == 147) deleteActiveLight();
-			if(e.getKeyCode() == '`') showUI = !showUI;
+			if(e.getKeyCode() == '`') toggleUI();
 		}
 	}
 	
