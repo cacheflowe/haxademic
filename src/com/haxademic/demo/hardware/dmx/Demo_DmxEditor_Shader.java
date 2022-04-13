@@ -3,10 +3,12 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.hardware.dmx.DMXDebug;
 import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
 import com.haxademic.core.hardware.dmx.editor.DMXEditor;
 import com.haxademic.core.media.DemoAssets;
@@ -23,6 +25,7 @@ extends PAppletHax {
 	protected PGraphics dmxUI;
 	protected PImage floorplan;
 	protected TextureShader textureShader;
+	protected DMXDebug dmxDebug;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 960);
@@ -42,13 +45,16 @@ extends PAppletHax {
 		textureShader = new TextureShader(TextureShader.light_leak);
 		// build editor with all buffers & images
 		editor = new DMXEditor("COM8", 9600, DMXMode.RGB, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
+		// add
+		dmxDebug = new DMXDebug();
+		DebugView.setTexture("dmxDebug", dmxDebug.buffer());
 	}
 
 	protected void drawApp() {
 		// clear background
 		p.background(0);
 		// update & draw shader
-		textureShader.setTime((float) p.frameCount * 0.05f);
+		textureShader.setTime((float) p.frameCount * 0.01f);
 		pg.filter(textureShader.shader());
 		ContrastFilter.instance(p).setContrast(2f);
 		ContrastFilter.instance(p).applyTo(pg);
@@ -58,5 +64,7 @@ extends PAppletHax {
 		editor.update();
 		// Draw editor to screen
 		p.image(dmxUI, 0, 0);
+		// update debug buffer
+		dmxDebug.updateRGB(editor.dmxUniverse().data());
 	}
 }

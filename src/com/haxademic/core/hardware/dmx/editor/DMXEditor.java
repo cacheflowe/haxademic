@@ -41,6 +41,7 @@ implements IAppStoreListener {
 	protected ArrayList<SavedPointUI> points = new ArrayList<SavedPointUI>();
 	protected boolean draggingNewPoint = false;
 	protected PVector mousePoint = new PVector();
+	protected PVector mouseStartPoint = new PVector();
 	protected int pointIndex = 0;
 	protected String textConfigPath;
 	
@@ -136,7 +137,8 @@ implements IAppStoreListener {
 		for (int i = 0; i < configLines.length; i++) {
 			if(configLines[i].length() > 6) {	// ignore empty lines
 				String[] lineComponents = configLines[i].split(",");
-				if(lineComponents.length > 4) buildLightBar(lineComponents);
+				if(lineComponents.length == 3) buildLightPoint(lineComponents);
+				if(lineComponents.length == 5) buildLightBar(lineComponents);
 //				else buildLightDigit(lineComponents);
 			}
 		}
@@ -157,6 +159,21 @@ implements IAppStoreListener {
 		FileUtil.writeTextToFile(textConfigPath, FileUtil.textLinesJoined(saveString));
 	}
 
+	
+	protected void buildLightPoint(String[] lineComponents) {
+		int point1X = ConvertUtil.stringToInt(lineComponents[0]);
+		int point1Y = ConvertUtil.stringToInt(lineComponents[1]);
+		int dmxChannel = ConvertUtil.stringToInt(lineComponents[2]);
+		
+		SavedPointUI point1 = new SavedPointUI(0, 0, null);
+		point1.setPosition(point1X, point1Y);
+		point1.setActive(false);
+		points.add(point1);
+		
+		LightPoint light = new LightPoint(dmxUniverseDefault, dmxMode, point1.position());
+		light.setDmxChannel(dmxChannel);
+		lights.add(light);
+	}
 	
 	protected void buildLightBar(String[] lineComponents) {
 		int point1X = ConvertUtil.stringToInt(lineComponents[0]);
@@ -230,6 +247,7 @@ implements IAppStoreListener {
 		boolean createDragMode = P.store.getBoolean(DRAG_CREATE_MODE);
 		switch (event.getAction()) {
 		case MouseEvent.PRESS:
+			mouseStartPoint.set(event.getX(), event.getY());
 			if(createDragMode && isHoveringPoint() == false) {
 				// check points to see if one is hovered. cancel if so
 				points.add(newPoint());
@@ -237,11 +255,15 @@ implements IAppStoreListener {
 			}
 			break;
 		case MouseEvent.RELEASE:
-			// create a 2nd point on release
+			// create a fixture on release
 			if(createDragMode && draggingNewPoint) {
-				points.add(newPoint());
 				draggingNewPoint = false;
-				lights.add(new LightBar(dmxUniverseDefault, dmxMode, points.get(points.size() - 2).position(), points.get(points.size() - 1).position())); // add last 2 points PVectors to new LightFixture
+				if(mousePoint.dist(mouseStartPoint) > 10) {
+					points.add(newPoint());	// add 2nd point
+					lights.add(new LightBar(dmxUniverseDefault, dmxMode, points.get(points.size() - 2).position(), points.get(points.size() - 1).position())); // add last 2 points PVectors to new LightFixture
+				} else {
+					lights.add(new LightPoint(dmxUniverseDefault, dmxMode, points.get(points.size() - 1).position())); // add last point PVectors to new LightFixture
+				}
 			}
 			break;
 		case MouseEvent.MOVE:
@@ -292,6 +314,12 @@ implements IAppStoreListener {
 		lights.remove(light);
 	}
 	
+	protected void removeLight(LightPoint light) {
+		// remove SavedPointUI points and LightFixture
+		points.remove(pointFromPVector(light.point()));
+		lights.remove(light);
+	}
+	
 	protected SavedPointUI pointFromPVector(PVector pvec) {
 		for (int i = 0; i < points.size(); i++) {
 			if(pvec.equals(points.get(i).position())) {
@@ -306,6 +334,9 @@ implements IAppStoreListener {
 			ILight light = lights.get(i);
 			if(light.isActive() && light instanceof LightBar) {
 				removeLight((LightBar) light);
+				return;
+			} else if(light.isActive() && light instanceof LightPoint) {
+				removeLight((LightPoint) light);
 				return;
 			}
 		}
