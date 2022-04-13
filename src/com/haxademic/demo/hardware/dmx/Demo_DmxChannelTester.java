@@ -27,15 +27,17 @@ extends PAppletHax {
 	enum DMXTestmode {
 		SINGLE_CHANNEL,
 		RGB,
-		ALL,
+		RGB_ALL,
+		ALL_PULSE,
 		WILD,
 		AUDIOREACTIVE,
 		NONE,
 	}
 	DMXTestmode[] modes = new DMXTestmode[] {
 		DMXTestmode.RGB, 
+		DMXTestmode.RGB_ALL, 
 		DMXTestmode.SINGLE_CHANNEL, 
-		DMXTestmode.ALL, 
+		DMXTestmode.ALL_PULSE, 
 		DMXTestmode.WILD, 
 		DMXTestmode.AUDIOREACTIVE, 
 		DMXTestmode.NONE
@@ -67,11 +69,11 @@ extends PAppletHax {
 		
 		// ui
 		UI.addSlider(CHANNEL, 1, 1, 512, 0.25f, false);
-		UI.addSlider(MODE, 0, 0, modes.length - 1, 0.25f, false);
+		UI.addSlider(MANUAL_BRIGHTNESS, 1, 0, 1, 1, false);
+		UI.addSlider(MODE, 0, 0, modes.length - 1, 1, false);
 		UI.addSlider(R, 100, 0, 255, 1, false);
 		UI.addSlider(G, 100, 0, 255, 1, false);
 		UI.addSlider(B, 100, 0, 255, 1, false);
-		UI.addSlider(MANUAL_BRIGHTNESS, 0, 0, 1, 1, false);
 		UI.addSlider(BRIGHTNESS_CAP, 255, 0, 255, 1, false);
 		UI.addSlider(BOOLEAN_MODE, 0, 0, 1, 1, false);
 		
@@ -142,7 +144,18 @@ extends PAppletHax {
 				debugInfo += "ChannelB: " + (startChannel + 2) + "\n";
 				debugInfo += "ValueB: " + valueB + "\n\n";
 				break;
-			case ALL:
+			case RGB_ALL:
+				for (int i = 1; i < 512; i+=3) {
+					dmx.setValue(i+0, valueR);
+					dmx.setValue(i+1, valueG);
+					dmx.setValue(i+2, valueB);
+				}
+				debugInfo += "ValueR: " + valueR + "\n\n";
+				debugInfo += "ValueG: " + valueG + "\n\n";
+				debugInfo += "ValueB: " + valueB + "\n\n";
+				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
+				break;
+			case ALL_PULSE:
 				for (int i = 1; i < 512; i++) {
 					dmx.setValue(i, valueR);
 				}
