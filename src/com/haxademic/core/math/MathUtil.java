@@ -374,12 +374,16 @@ public class MathUtil {
 	    return f % 1f;
 	}
 	
-	public static int gridRowFromIndex(int index, float cols) {
-		return P.floor(index / cols);
+	public static int gridXFromIndex(int index, int detail) {
+		return index % detail;
+	}
+
+	public static int gridYFromIndex(int index, int detail) {
+		return P.floor((index / detail) % detail);
 	}
 	
-	public static int gridColFromIndex(int index, int cols) {
-		return index % cols;
+	public static int gridZFromIndex(int index, float detail) {
+		return P.floor(index / (detail * detail));
 	}
 	
 	public static int gridIndexFromXY(int x, int y, int width) {
