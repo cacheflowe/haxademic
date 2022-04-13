@@ -28,8 +28,8 @@ extends PAppletHax {
 	protected DMXDebug dmxDebug;
 	
 	protected void config() {
-		Config.setProperty(AppSettings.WIDTH, 960);
-		Config.setProperty(AppSettings.HEIGHT, 540);
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 720);
 	}
 
 	protected void firstFrame() {
@@ -65,6 +65,6 @@ extends PAppletHax {
 		// Draw editor to screen
 		p.image(dmxUI, 0, 0);
 		// update debug buffer
-		dmxDebug.updateRGB(editor.dmxUniverse().data());
+		if(DebugView.active()) dmxDebug.updateRGB(editor.dmxUniverse().data());
 	}
 }

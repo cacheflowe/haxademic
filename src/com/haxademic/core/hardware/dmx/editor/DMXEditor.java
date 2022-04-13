@@ -69,7 +69,8 @@ implements IAppStoreListener {
 	protected InputTrigger triggerShowDmxChannels = (new InputTrigger()).addKeyCodes(new char[]{'t'});
 	protected InputTrigger triggerShowLightIndex = (new InputTrigger()).addKeyCodes(new char[]{'y'});
 	protected InputTrigger triggerFullOverlay = (new InputTrigger()).addKeyCodes(new char[]{'i'});
-	protected InputTrigger triggerDarkWhenSelected = (new InputTrigger()).addKeyCodes(new char[]{'o'});
+	protected InputTrigger triggerRainbowOnHover = (new InputTrigger()).addKeyCodes(new char[]{'o'});
+	protected InputTrigger triggerShowGrid = (new InputTrigger()).addKeyCodes(new char[]{'p'});
 
 	/////////////////////////////////
 	// INIT
@@ -84,8 +85,8 @@ implements IAppStoreListener {
 		P.store.setBoolean(SHOW_DMX_CHANNELS, true);
 		P.store.setBoolean(SHOW_LIGHT_INDEX, false);
 		P.store.setBoolean(TEXTURE_OVERLAY, true);
-		P.store.setBoolean(DIMMED_FLOORPLAN, true);
-		P.store.setNumber(MODE_3D_PROGRESS, 0);
+		P.store.setBoolean(SHOW_GRID, false);
+		P.store.setBoolean(RAINBOW_ON_HOVER, false);
 		P.store.addListener(this);
 		
 		// dmx
@@ -122,6 +123,8 @@ implements IAppStoreListener {
 		DebugView.setHelpLine("[T] |", "Show DMX channels");
 		DebugView.setHelpLine("[Y] |", "Show light index");
 		DebugView.setHelpLine("[I] |", "Texture Overlay");
+		DebugView.setHelpLine("[O] |", "Rainbow on hover");
+		DebugView.setHelpLine("[P] |", "Show Grid");
 		DebugView.setHelpLine("[DEL] |", "Delete hovered light");
 		DebugView.setHelpLine("[`] |", "Toggle info");
 	}
@@ -135,7 +138,7 @@ implements IAppStoreListener {
 		String[] configLines = FileUtil.readTextFromFile(textConfigPath);
 		if(configLines == null) return;
 		for (int i = 0; i < configLines.length; i++) {
-			if(configLines[i].length() > 6) {	// ignore empty lines
+			if(configLines[i].length() > 2) {	// ignore empty lines
 				String[] lineComponents = configLines[i].split(",");
 				if(lineComponents.length == 3) buildLightPoint(lineComponents);
 				if(lineComponents.length == 5) buildLightBar(lineComponents);
@@ -232,6 +235,8 @@ implements IAppStoreListener {
 		if(triggerShowDmxChannels.triggered()) { P.store.setBoolean(SHOW_DMX_CHANNELS, !P.store.getBoolean(SHOW_DMX_CHANNELS)); P.store.setBoolean(SHOW_LIGHT_INDEX, false); }
 		if(triggerShowLightIndex.triggered()) { P.store.setBoolean(SHOW_LIGHT_INDEX, !P.store.getBoolean(SHOW_LIGHT_INDEX)); P.store.setBoolean(SHOW_DMX_CHANNELS, false); }
 		if(triggerFullOverlay.triggered()) P.store.setBoolean(TEXTURE_OVERLAY, !P.store.getBoolean(TEXTURE_OVERLAY));
+		if(triggerRainbowOnHover.triggered()) P.store.setBoolean(RAINBOW_ON_HOVER, !P.store.getBoolean(RAINBOW_ON_HOVER));
+		if(triggerShowGrid.triggered()) P.store.setBoolean(SHOW_GRID, !P.store.getBoolean(SHOW_GRID));
 	}
 	
 	////////////////////////
@@ -389,6 +394,7 @@ implements IAppStoreListener {
 		drawFloorPlan();
 		drawTextureOverlay();
 		drawUI();
+		drawGrid();
 		pgUI.endDraw();
 		
 	}
@@ -474,7 +480,7 @@ implements IAppStoreListener {
 		if(showInfo) {
 			pgUI.noStroke();
 			pgUI.fill(0, 100);
-			pgUI.rect(0, 0, 250, 250);
+			pgUI.rect(0, 0, 250, 290);
 			int infoX = 20;
 			int infoY = 15;
 			drawText(
@@ -485,6 +491,8 @@ implements IAppStoreListener {
 					"T - Show DMX channels: " + P.store.getBoolean(SHOW_DMX_CHANNELS) + FileUtil.NEWLINE + 
 					"Y - Show light index: "  + P.store.getBoolean(SHOW_LIGHT_INDEX) + FileUtil.NEWLINE + 
 					"I - Overlay Texture: "   + P.store.getBoolean(TEXTURE_OVERLAY) + FileUtil.NEWLINE + 
+					"O - Rainbow Hover: "   + P.store.getBoolean(RAINBOW_ON_HOVER) + FileUtil.NEWLINE + 
+					"P - Show Grid: "   + P.store.getBoolean(SHOW_GRID) + FileUtil.NEWLINE + 
 					"DEL - Delete UI Point" + FileUtil.NEWLINE + 
 					"[ - Prev UI Point" + FileUtil.NEWLINE + 
 					"] - Next UI Point" + FileUtil.NEWLINE + 
@@ -497,6 +505,19 @@ implements IAppStoreListener {
 			channelInput.draw(pgUI);
 		}
 		
+		// active point coordinates
+		if(activePoint != null) {
+			pgUI.noStroke();
+			pgUI.fill(0, 100);
+			pgUI.rect(0, 300, 250, 30);
+			int infoX = 20;
+			int infoY = 305;
+			drawText("Active Point: " + P.round(activePoint.position().x) + ", " + P.round(activePoint.position().y), infoX, infoY);
+	
+			// channel text input
+			drawText("DMX channel:", channelInput.x(), channelInput.y() - 25);
+		}
+		
 		// reset context
 		PG.setDrawFlat2d(pgUI, false);
 	}
@@ -505,6 +526,14 @@ implements IAppStoreListener {
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 14);
 		FontCacher.setFontOnContext(pgUI, font, ColorsHax.BUTTON_TEXT, 1.3f, PTextAlign.LEFT, PTextAlign.TOP);
 		pgUI.text(str, x, y);
+	}
+	
+	protected void drawGrid() {
+		if(P.store.getBoolean(SHOW_GRID)) {
+			int cols = pgUI.width / 20;
+			int rows = pgUI.height / 20;
+			PG.drawGrid(pgUI, 0x00000000, 0x88ffffff, cols, rows, 1, false);
+		}
 	}
 	
 	/////////////////////////////////
@@ -529,8 +558,9 @@ implements IAppStoreListener {
 	public static final String LIGHTS_UI_STAY_ON = "LIGHTS_UI_STAY_ON";
 	public static final String SHOW_DMX_CHANNELS = "SHOW_DMX_CHANNELS";
 	public static final String SHOW_LIGHT_INDEX = "SHOW_LIGHT_INDEX";
-	public static final String MODE_3D_PROGRESS = "MODE_3D_PROGRESS";
 	public static final String TEXTURE_OVERLAY = "TEXTURE_FULL_OVERLAY";
+	public static final String SHOW_GRID = "SHOW_GRID";
+	public static final String RAINBOW_ON_HOVER = "RAINBOW_ON_HOVER";
 	
 	// buffers
 	

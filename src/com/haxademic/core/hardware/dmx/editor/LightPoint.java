@@ -71,12 +71,13 @@ implements ILight {
 			pg.ellipse(point.x, point.y, highlightSize, highlightSize);
 			
 			// flash color
-			int rainbow = P.p.color(
-					127 + 127 * P.sin(P.p.frameCount * 0.1f),
-					127 + 127 * P.sin(P.p.frameCount * 0.15f),
-					127 + 127 * P.sin(P.p.frameCount * 0.225f));
-			dmxFixture.color().setCurrentInt((P.p.frameCount % 16 < 8) ? rainbow : P.p.color(0));
-			// dmxFixture.color().setCurrentInt(0xffff0000);
+			if(P.store.getBoolean(DMXEditor.RAINBOW_ON_HOVER)) {
+				int rainbow = P.p.color(
+						127 + 127 * P.sin(P.p.frameCount * 0.1f),
+						127 + 127 * P.sin(P.p.frameCount * 0.15f),
+						127 + 127 * P.sin(P.p.frameCount * 0.225f));
+				dmxFixture.color().setCurrentInt((P.p.frameCount % 16 < 8) ? rainbow : P.p.color(0));
+			}
 		}
 		
 		// draw light
@@ -84,11 +85,11 @@ implements ILight {
 		pg.fill(dmxFixture.color().colorInt());
 		pg.push();
 		pg.translate(point.x, point.y);
-		pg.ellipse(point.x, point.y, 10, 10);
+		pg.ellipse(0, 0, 30, 30);
 		pg.pop();
 		
 		// small circular ends
-		pg.ellipse(point.x, point.y, 3, 3);
+//		pg.ellipse(point.x, point.y, 3, 3);
 		
 		// show text labels overlay
 		if(P.store.getBoolean(DMXEditor.SHOW_DMX_CHANNELS)) {

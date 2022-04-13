@@ -84,12 +84,13 @@ implements ILight {
 			pg.ellipse(midPoint.x, midPoint.y, highlightSize, highlightSize);
 			
 			// flash color
-			int rainbow = P.p.color(
-					127 + 127 * P.sin(P.p.frameCount * 0.1f),
-					127 + 127 * P.sin(P.p.frameCount * 0.15f),
-					127 + 127 * P.sin(P.p.frameCount * 0.225f));
-			dmxFixture.color().setCurrentInt((P.p.frameCount % 16 < 8) ? rainbow : P.p.color(0));
-			// dmxFixture.color().setCurrentInt(0xffff0000);
+			if(P.store.getBoolean(DMXEditor.RAINBOW_ON_HOVER)) {
+				int rainbow = P.p.color(
+						127 + 127 * P.sin(P.p.frameCount * 0.1f),
+						127 + 127 * P.sin(P.p.frameCount * 0.15f),
+						127 + 127 * P.sin(P.p.frameCount * 0.225f));
+				dmxFixture.color().setCurrentInt((P.p.frameCount % 16 < 8) ? rainbow : P.p.color(0));
+			}
 		}
 		
 		// draw light
