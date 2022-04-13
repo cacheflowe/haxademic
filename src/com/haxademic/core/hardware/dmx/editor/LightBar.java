@@ -9,6 +9,7 @@ import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -84,7 +85,7 @@ implements ILight {
 			pg.ellipse(midPoint.x, midPoint.y, highlightSize, highlightSize);
 			
 			// flash color
-			if(P.store.getBoolean(DMXEditor.RAINBOW_ON_HOVER)) {
+			if(UI.valueToggle(DMXEditor.RAINBOW_ON_HOVER)) {
 				int rainbow = P.p.color(
 						127 + 127 * P.sin(P.p.frameCount * 0.1f),
 						127 + 127 * P.sin(P.p.frameCount * 0.15f),
@@ -107,10 +108,10 @@ implements ILight {
 		pg.ellipse(point2.x, point2.y, 3, 3);
 		
 		// show text labels overlay
-		if(P.store.getBoolean(DMXEditor.SHOW_DMX_CHANNELS)) {
+		if(UI.valueToggle(DMXEditor.SHOW_DMX_CHANNELS)) {
 			drawNumberValue(pg, dmxChannel);
 		}
-		if(P.store.getBoolean(DMXEditor.SHOW_LIGHT_INDEX)) {
+		if(UI.valueToggle(DMXEditor.SHOW_LIGHT_INDEX)) {
 			drawNumberValue(pg, index);
 		}
 	}

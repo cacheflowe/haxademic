@@ -21,6 +21,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.http.HttpInputState;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.UIControlsHandler;
@@ -205,6 +206,11 @@ implements IAppStoreListener {
 		controls.get(key).set((val) ? 1 : 0);
 	}
 	
+	public static void setValueToggleInverse(String key) {
+		boolean val = valueToggle(key);
+		controls.get(key).set((val) ? 0 : 1);
+	}
+	
 	public static void setRandomValue(String key) {
 		((UISlider) controls.get(key)).setRandomValue();
 	}
@@ -227,6 +233,10 @@ implements IAppStoreListener {
 	
 	public static float value(String key) {
 		return controls.get(key).value();
+	}
+	
+	public static float valueRounded(String key, int roundDecimal) {
+		return MathUtil.roundToPrecision(controls.get(key).value(), roundDecimal);
 	}
 	
 	public static float valueEased(String key) {
