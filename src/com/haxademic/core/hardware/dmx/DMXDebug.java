@@ -2,7 +2,6 @@ package com.haxademic.core.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PTextAlign;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.math.MathUtil;
