@@ -24,6 +24,8 @@
 	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
+	<classpathentry kind="lib" path="lib/fisica/library/fisica.jar"/>
+	<classpathentry kind="lib" path="lib/fisica/library/JBox2D-2.0.1-b250-Library.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
