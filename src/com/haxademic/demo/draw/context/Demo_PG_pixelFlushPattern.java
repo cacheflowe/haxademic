@@ -1,6 +1,7 @@
 package com.haxademic.demo.draw.context;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 
@@ -10,6 +11,7 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setAppSize(1280, 720);
+		Config.setProperty(AppSettings.FULLSCREEN, true);
 	}
 		
 	protected void drawApp() {
