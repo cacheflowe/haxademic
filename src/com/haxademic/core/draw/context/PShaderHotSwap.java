@@ -68,6 +68,10 @@ implements IWatchDirListener {
 	}
 
 	public void showShaderStatus(PGraphics pg) {
+		pg.push();
+		pg.noStroke();
+		pg.fill(0, 127);
+		pg.rect(10, 10, 200, 36);
 		if(compiledShader.isValid() == false) {
 			FontCacher.setFontOnContext(pg, FontCacher.getFont(DemoAssets.fontInterPath, 14), P.p.color(255, 0, 0), 1, PTextAlign.LEFT, PTextAlign.TOP);
 			pg.text("Shader error:" + compiledShader.compileMessage(), 20, 20);
@@ -75,6 +79,7 @@ implements IWatchDirListener {
 			FontCacher.setFontOnContext(pg, FontCacher.getFont(DemoAssets.fontInterPath, 14), P.p.color(0, 255, 0), 1, PTextAlign.LEFT, PTextAlign.TOP);
 			pg.text("Shader compiled!", 20, 20);
 		}
+		pg.pop();
 	}
 
 	// IWatchDirListener callback
