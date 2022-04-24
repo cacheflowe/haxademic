@@ -70,6 +70,11 @@ implements IAppStoreListener {
 				: null;
 	}
 	
+	public void setPG(PGraphics pg) {
+		if(videoRenderer != null) videoRenderer.setPG(pg);
+		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(pg);
+	}
+	
 	protected void handleRenderingStepthrough() {
 		// step through midi file if set
 		if( renderingMidi == true ) {

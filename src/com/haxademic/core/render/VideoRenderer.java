@@ -96,12 +96,12 @@ public class VideoRenderer {
 		if( isRendering == true ) {			
 			// if movie, add frame to MovieMaker file
 			if ( outputType == OUTPUT_TYPE_MOVIE ) {
-				P.p.loadPixels();
+				pg.loadPixels();
 				movieMaker.addFrame();
 				
 			// otherwise, save an image
 			} else {
-				P.p.saveFrame( "output/"+timestampStart+"/img_" + P.nf( curFrame, 8 ) + ".jpg" );
+				pg.save( "output/"+timestampStart+"/img_" + P.nf( curFrame, 8 ) + ".jpg" );
 			}
 			
 			// keep track of rendered frame count

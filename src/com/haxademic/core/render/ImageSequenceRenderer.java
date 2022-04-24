@@ -14,6 +14,7 @@ public class ImageSequenceRenderer {
 	protected PGraphics pg;
 	protected String savePath;
 	protected int framesRendered = 0;
+	public static String fileType = "png";
 
 	public ImageSequenceRenderer(PGraphics pg) {
 		this.pg = pg;
@@ -33,7 +34,7 @@ public class ImageSequenceRenderer {
 		if(framesRendered == -1) return;
 		framesRendered++;
 		P.println("== rendering image frame: "+framesRendered+" ==");
-		pg.save(savePath + File.separator + StringUtil.paddedNumberString(10, framesRendered) + ".png");
+		pg.save(savePath + File.separator + StringUtil.paddedNumberString(10, framesRendered) + "." + fileType);
 	}
 
 	public void finish() {
