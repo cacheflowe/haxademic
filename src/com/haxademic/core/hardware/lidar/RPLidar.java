@@ -138,8 +138,7 @@ public class RPLidar {
 
 		while (P.p.millis() - m_startTime < m_timeout)
 		{
-			if (m_port.available() == 0)
-				continue;
+			if (m_port.available() == 0) continue;
 			byte currByte = (byte)m_port.read();
 			if (currByte == respSyncByte2 && lastByte == respSyncByte1)
 			{

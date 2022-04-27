@@ -11,14 +11,15 @@ public class Demo_RPLidar
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	RPLidar lidarRP;
+	protected RPLidar lidarRP;
 
 	protected void config() {
 		Config.setAppSize(1280, 720);
 	}
 
 	protected void firstFrame() {
-		lidarRP = new RPLidar("COM3");
+		RPLidar.DEBUG = true;
+		lidarRP = new RPLidar("COM6");
 	}
 
 	public void keyPressed() {
