@@ -212,6 +212,10 @@ public class EasingColor {
 		return P.p.color(r.value(), g.value(), b.value(), a.value());
 	}
 	
+	public int colorIntRGB() {
+		return P.p.color(r.value(), g.value(), b.value());
+	}
+	
 	public int colorInt( float multiplier ) {
 		return P.p.color(r.value() * multiplier, g.value() * multiplier, b.value() * multiplier, a.value());
 	}

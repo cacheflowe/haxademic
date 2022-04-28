@@ -54,7 +54,7 @@ implements ILight {
 		
 		// draw light
 		pg.noStroke();
-		pg.fill(dmxFixture.color().colorInt());
+		pg.fill(dmxFixture.color().colorIntRGB());
 		pg.push();
 		pg.translate(point.x, point.y);
 		pg.ellipse(0, 0, 30, 30);

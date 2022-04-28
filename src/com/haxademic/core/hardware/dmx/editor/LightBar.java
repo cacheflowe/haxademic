@@ -66,7 +66,7 @@ implements ILight {
 		
 		// draw light
 		pg.noStroke();
-		pg.fill(dmxFixture.color().colorInt());
+		pg.fill(dmxFixture.color().colorIntRGB());
 		pg.push();
 		pg.translate(midPoint.x, midPoint.y);
 		pg.rotate(MathUtil.getRadiansToTarget(point2.x, point2.y, point1.x, point1.y));

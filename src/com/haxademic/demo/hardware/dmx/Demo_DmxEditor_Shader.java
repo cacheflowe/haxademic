@@ -41,7 +41,7 @@ extends PAppletHax {
 		// load floorplan - doesn't need to be the same aspect ratio, but will be cropped-to-fill
 		floorplan = DemoAssets.textureNebula();
 		// load a shader to sample colors from
-		textureShader = new TextureShader(TextureShader.flexi_spiral);
+		textureShader = new TextureShader(TextureShader.cacheflowe_scrolling_dashed_lines);
 		// build editor with all buffers & images
 		editor = new DMXEditor("COM8", 115200, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
 		// add debug buffer
@@ -65,7 +65,8 @@ extends PAppletHax {
 		p.image(dmxUI, 0, 0);
 		// update debug buffer as needed
 //		if(DebugView.active()) dmxDebug.updateRGB(editor.dmxUniverse().data());
-		dmxDebug.updateRGB(editor.dmxUniverse().data());
+//		dmxDebug.updateRGB(editor.dmxUniverse().data());
+		dmxDebug.updateFixtures(editor.dmxUniverse().fixtures());
 		p.image(dmxDebug.buffer(), 0, 540);
 	}
 }

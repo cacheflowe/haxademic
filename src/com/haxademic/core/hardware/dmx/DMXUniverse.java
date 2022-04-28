@@ -49,6 +49,10 @@ extends DMXWrapper {
 	// public methods & auto update
 	/////////////////////////////
 	
+	public ArrayList<DMXFixture> fixtures() {
+		return fixtures;
+	}
+	
 	public void addFixture(DMXFixture fixture) {
 		fixtures.add(fixture);
 	}
