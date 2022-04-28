@@ -7,17 +7,13 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
-import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class Demo_Sphere_EquirectangularRotate
 extends PAppletHax {
