@@ -92,7 +92,7 @@ implements ILight {
 	
 	public String toSaveString() {
 		return
-			this.getClass().getName() + "," +
+			this.getClass().getSimpleName() + "," +
 			dmxChannel + "," +
 			dmxMode().name() + "," +
 			P.round(point1.x) + "," + 

@@ -64,7 +64,6 @@ implements IAppStoreListener {
 	
 	// lights
 	protected DMXUniverse dmxUniverseDefault;
-	protected DMXMode dmxMode = DMXMode.RGB;
 	protected ArrayList<ILight> lights = new ArrayList<ILight>();
 	protected int selectedLightIndex = 0;
 	protected ILight activeLight;
@@ -125,7 +124,7 @@ implements IAppStoreListener {
 		UI.addSlider(FLOORPLAN_ALPHA, 1f, 0, 1, 0.01f, false);
 		UI.addSlider(TEXTURE_ALPHA, 0.5f, 0, 1, 0.01f, false);
 		UI.addSlider(QUANTIZE_SIZE, 20, 1, 100, 1, false);
-		UI.addSlider(DMX_MODE, 0, 0, DMXMode.values().length - 1, 1, false);
+		UI.addSlider(DMX_MODE, 1, 0, DMXMode.values().length - 1, 1, false);
 		UI.addToggle(DRAG_CREATE_MODE, false, false);
 		UI.addToggle(LIGHTS_UI_DISABLE, false, false);
 		UI.addToggle(LIGHTS_UI_STAY_ON, false, false);
@@ -260,6 +259,9 @@ implements IAppStoreListener {
 	public DMXUniverse dmxUniverse() {
 		return dmxUniverseDefault;
 	}
+	public DMXMode curDmxMode() {
+		return DMXMode.values()[UI.valueInt(DMX_MODE)];
+	}
 	public void showInfo(boolean showInfo) {
 		this.showUI = showInfo;
 	}
@@ -305,9 +307,9 @@ implements IAppStoreListener {
 				draggingNewPoint = false;
 				if(mousePoint.dist(mouseStartPoint) > 10) {
 					points.add(newPoint());	// add 2nd point
-					lights.add(new LightBar(dmxUniverseDefault, dmxMode, points.get(points.size() - 2).position(), points.get(points.size() - 1).position())); // add last 2 points PVectors to new LightFixture
+					lights.add(new LightBar(dmxUniverseDefault, curDmxMode(), points.get(points.size() - 2).position(), points.get(points.size() - 1).position())); // add last 2 points PVectors to new LightFixture
 				} else {
-					lights.add(new LightPoint(dmxUniverseDefault, dmxMode, points.get(points.size() - 1).position())); // add last point PVectors to new LightFixture
+					lights.add(new LightPoint(dmxUniverseDefault, curDmxMode(), points.get(points.size() - 1).position())); // add last point PVectors to new LightFixture
 				}
 			}
 			quantizeToGrid();
@@ -542,7 +544,7 @@ implements IAppStoreListener {
 					"Floorplan alpha:  " + UI.valueRounded(FLOORPLAN_ALPHA, 2) + FileUtil.NEWLINE +
 					"Texture alpha: "   + UI.valueRounded(TEXTURE_ALPHA, 2) + FileUtil.NEWLINE + 
 					"Quantize size: "   + UI.valueInt(QUANTIZE_SIZE) + FileUtil.NEWLINE + 
-					"DMXMode:  " + dmxMode.name() + FileUtil.NEWLINE + 
+					"DMXMode:  " + curDmxMode() + FileUtil.NEWLINE + 
 					"[Q] - Drag create mode:  " + UI.valueToggle(DRAG_CREATE_MODE) + FileUtil.NEWLINE + 
 					"[W] - Lights UI Disable: " + UI.valueToggle(LIGHTS_UI_DISABLE) + FileUtil.NEWLINE + 
 					"[E] - Lights UI stay on: " + UI.valueToggle(LIGHTS_UI_STAY_ON) + FileUtil.NEWLINE + 
