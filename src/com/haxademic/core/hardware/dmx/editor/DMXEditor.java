@@ -40,6 +40,7 @@ implements IAppStoreListener {
 	
 	public static final String FLOORPLAN_ALPHA = "FLOORPLAN_ALPHA";
 	public static final String TEXTURE_ALPHA = "TEXTURE_ALPHA";
+	public static final String DMX_MODE = "DMX_MODE";
 	public static final String DRAG_CREATE_MODE = "DRAG_CREATE_MODE";
 	public static final String LIGHTS_UI_DISABLE = "LIGHTS_UI_DISABLE";
 	public static final String LIGHTS_UI_STAY_ON = "LIGHTS_UI_STAY_ON";
@@ -63,7 +64,7 @@ implements IAppStoreListener {
 	
 	// lights
 	protected DMXUniverse dmxUniverseDefault;
-	protected DMXMode dmxMode;
+	protected DMXMode dmxMode = DMXMode.RGB;
 	protected ArrayList<ILight> lights = new ArrayList<ILight>();
 	protected int selectedLightIndex = 0;
 	protected ILight activeLight;
@@ -90,12 +91,11 @@ implements IAppStoreListener {
 	// INIT
 	/////////////////////////////////
 	
-	public DMXEditor(String port, int baudRate, DMXMode dmxMode, String configPath, PGraphics pgUI, PGraphics textureMap, PImage floorplan) {
+	public DMXEditor(String port, int baudRate, String configPath, PGraphics pgUI, PGraphics textureMap, PImage floorplan) {
 		// init state		
 		P.store.addListener(this);
 		
 		// dmx
-		this.dmxMode = dmxMode;
 		dmxUniverseDefault = new DMXUniverse(port, baudRate);
 		
 		// build screens / objects
@@ -125,6 +125,7 @@ implements IAppStoreListener {
 		UI.addSlider(FLOORPLAN_ALPHA, 1f, 0, 1, 0.01f, false);
 		UI.addSlider(TEXTURE_ALPHA, 0.5f, 0, 1, 0.01f, false);
 		UI.addSlider(QUANTIZE_SIZE, 20, 1, 100, 1, false);
+		UI.addSlider(DMX_MODE, 0, 0, DMXMode.values().length - 1, 1, false);
 		UI.addToggle(DRAG_CREATE_MODE, false, false);
 		UI.addToggle(LIGHTS_UI_DISABLE, false, false);
 		UI.addToggle(LIGHTS_UI_STAY_ON, false, false);
@@ -161,6 +162,7 @@ implements IAppStoreListener {
 	}
 	
 	protected void checkInputs() {
+		if(triggerCreateDrag.triggered()) UI.setValueToggleInverse(DRAG_CREATE_MODE);
 		if(triggerLightsUIDisable.triggered()) UI.setValueToggleInverse(LIGHTS_UI_DISABLE);
 		if(triggerLightsUIOn.triggered()) UI.setValueToggleInverse(LIGHTS_UI_STAY_ON);
 		if(triggerShowDmxChannels.triggered()) { UI.setValueToggleInverse(SHOW_DMX_CHANNELS); UI.setValueToggleInverse(SHOW_LIGHT_INDEX); }
@@ -180,8 +182,12 @@ implements IAppStoreListener {
 		for (int i = 0; i < configLines.length; i++) {
 			if(configLines[i].length() > 2) {	// ignore empty lines
 				String[] lineComponents = configLines[i].split(",");
-				if(lineComponents.length == 3) buildLightPoint(lineComponents);
-				else if(lineComponents.length == 5) buildLightBar(lineComponents);
+				String lightType = lineComponents[0];
+				if(lightType.equals(LightPoint.class.getSimpleName())) {
+					buildLightPoint(lineComponents);
+				} else if(lightType.equals(LightBar.class.getSimpleName())) {
+					buildLightBar(lineComponents);
+				}
 				else P.error("Couldn't load DMXEditor text line: " + configLines[i]);
 			}
 		}
@@ -205,9 +211,12 @@ implements IAppStoreListener {
 
 	
 	protected void buildLightPoint(String[] lineComponents) {
-		int point1X = ConvertUtil.stringToInt(lineComponents[0]);
-		int point1Y = ConvertUtil.stringToInt(lineComponents[1]);
-		int dmxChannel = ConvertUtil.stringToInt(lineComponents[2]);
+		String lightType = lineComponents[0];
+		int dmxChannel = ConvertUtil.stringToInt(lineComponents[1]);
+		DMXMode dmxMode = DMXMode.valueOf(lineComponents[2]);
+
+		int point1X = ConvertUtil.stringToInt(lineComponents[3]);
+		int point1Y = ConvertUtil.stringToInt(lineComponents[4]);
 		
 		SavedPointUI point1 = new SavedPointUI(0, 0, null);
 		point1.setPosition(point1X, point1Y);
@@ -220,11 +229,14 @@ implements IAppStoreListener {
 	}
 	
 	protected void buildLightBar(String[] lineComponents) {
-		int point1X = ConvertUtil.stringToInt(lineComponents[0]);
-		int point1Y = ConvertUtil.stringToInt(lineComponents[1]);
-		int point2X = ConvertUtil.stringToInt(lineComponents[2]);
-		int point2Y = ConvertUtil.stringToInt(lineComponents[3]);
-		int dmxChannel = ConvertUtil.stringToInt(lineComponents[4]);
+		String lightType = lineComponents[0];
+		int dmxChannel = ConvertUtil.stringToInt(lineComponents[1]);
+		DMXMode dmxMode = DMXMode.valueOf(lineComponents[2]);
+
+		int point1X = ConvertUtil.stringToInt(lineComponents[3]);
+		int point1Y = ConvertUtil.stringToInt(lineComponents[4]);
+		int point2X = ConvertUtil.stringToInt(lineComponents[5]);
+		int point2Y = ConvertUtil.stringToInt(lineComponents[6]);
 		
 		SavedPointUI point1 = new SavedPointUI(0, 0, null);
 		point1.setPosition(point1X, point1Y);
@@ -523,13 +535,14 @@ implements IAppStoreListener {
 		if(showUI) {
 			pgUI.noStroke();
 			pgUI.fill(0, 100);
-			pgUI.rect(0, 0, 250, 320);
+			pgUI.rect(0, 0, 250, 340);
 			int infoX = 20;
 			int infoY = 15;
 			drawText(
 					"Floorplan alpha:  " + UI.valueRounded(FLOORPLAN_ALPHA, 2) + FileUtil.NEWLINE +
 					"Texture alpha: "   + UI.valueRounded(TEXTURE_ALPHA, 2) + FileUtil.NEWLINE + 
 					"Quantize size: "   + UI.valueInt(QUANTIZE_SIZE) + FileUtil.NEWLINE + 
+					"DMXMode:  " + dmxMode.name() + FileUtil.NEWLINE + 
 					"[Q] - Drag create mode:  " + UI.valueToggle(DRAG_CREATE_MODE) + FileUtil.NEWLINE + 
 					"[W] - Lights UI Disable: " + UI.valueToggle(LIGHTS_UI_DISABLE) + FileUtil.NEWLINE + 
 					"[E] - Lights UI stay on: " + UI.valueToggle(LIGHTS_UI_STAY_ON) + FileUtil.NEWLINE + 
@@ -552,11 +565,12 @@ implements IAppStoreListener {
 		
 		// active point coordinates
 		if(showUI && activePoint != null) {
+			int y = 350;
 			pgUI.noStroke();
 			pgUI.fill(0, 100);
-			pgUI.rect(0, 330, 250, 30);
+			pgUI.rect(0, y, 250, 30);
 			int infoX = 20;
-			int infoY = 335;
+			int infoY = y + 5;
 			drawText("Active Point: " + P.round(activePoint.position().x) + ", " + P.round(activePoint.position().y), infoX, infoY);
 	
 			// channel text input

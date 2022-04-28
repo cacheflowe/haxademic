@@ -29,7 +29,7 @@ extends PAppletHax {
 		RGB,
 		RGB_ALL,
 		ALL_PULSE,
-		WILD,
+		CYCLE,
 		AUDIOREACTIVE,
 		NONE,
 	}
@@ -38,7 +38,7 @@ extends PAppletHax {
 		DMXTestmode.RGB_ALL, 
 		DMXTestmode.SINGLE_CHANNEL, 
 		DMXTestmode.ALL_PULSE, 
-		DMXTestmode.WILD, 
+		DMXTestmode.CYCLE, 
 		DMXTestmode.AUDIOREACTIVE, 
 		DMXTestmode.NONE
 	};
@@ -162,8 +162,8 @@ extends PAppletHax {
 				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
 				debugInfo += "Value: " + valueR + "\n";
 				break;
-			case WILD:
-				freq = 0.02f;
+			case CYCLE:
+				freq = 0.03f;
 				for (int i = 1; i < 512; i+=3) {
 					valueR = P.round(127 + 127 * P.sin(i/10f + p.frameCount * freq));
 					valueG = P.round(127 + 127 * P.sin(i/10f + p.frameCount * freq + P.HALF_PI));

@@ -1,40 +1,22 @@
 package com.haxademic.core.hardware.dmx.editor;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PTextAlign;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.text.FontCacher;
-import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
 
-import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
 public class LightPoint
+extends BaseLight
 implements ILight {
 	
 	protected PVector point;
-	protected int dmxChannel;
-	protected DMXFixture dmxFixture;
-	
-	protected boolean active = false;
 	
 	public LightPoint(DMXUniverse universe, DMXMode dmxMode, PVector point1) {
-		dmxFixture = (new DMXFixture(universe, 1, dmxMode)).setEaseFactor(0.75f);
+		super(universe, dmxMode);
 		this.point = point1;
-	}
-	
-	public void setDmxChannel(int channel) {
-		dmxChannel = channel;
-		dmxFixture.dmxChannel(channel);
-	}
-	
-	public int dmxChannel() {
-		return dmxChannel;
 	}
 	
 	public void setActive(PVector activePoint) {
@@ -42,23 +24,12 @@ implements ILight {
 		else active = false;
 	}
 	
-	public boolean isActive() {
-		return active;
-	}
-
 	public PVector point() {
 		return point;
 	}
 	
 	public void sampleColorTexture(PGraphics pgUI, PGraphics textureMap) {
-		// sample LED texture from midpoint of 2 light end points
-		int sampleX = (int) P.map(point.x, 0, pgUI.width, 0, textureMap.width);
-		int sampleY = (int) P.map(point.y, 0, pgUI.height, 0, textureMap.height);
-		int color = ImageUtil.getPixelColor(textureMap, sampleX, sampleY);
-		
-		// lerp towards map color
-		dmxFixture.color().setTargetInt(color);
-		dmxFixture.color().update();
+		super.sampleColorTexture(pgUI, textureMap, point);
 	}
 	
 	public void update(PGraphics pg, int index) {
@@ -99,25 +70,16 @@ implements ILight {
 	}
 	
 	protected void drawNumberValue(PGraphics pg, int val) {
-		// channel info text
-		pg.push();
-		pg.translate(0, 0);
-		pg.fill(255);
-		pg.noStroke();
-		float ellipseW = (val > 99) ? 30 : 20;	// make wider for 3 digits
-		pg.ellipse(point.x, point.y, ellipseW, 20);
-
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 12);
-		FontCacher.setFontOnContext(pg, font, P.p.color(0), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
-		pg.text(val+"", point.x, point.y - 2, 30, 20);
-		pg.pop();
-
+		super.drawNumberValue(pg, val, point);
 	}
 	
 	public String toSaveString() {
-		return P.round(point.x) + "," + 
-			   P.round(point.y) + "," +
-			   dmxChannel;
+		return 
+			this.getClass().getSimpleName() + "," +
+			dmxChannel + "," +
+			dmxMode().name() + "," +
+			P.round(point.x) + "," + 
+			P.round(point.y);
 	}
 	
 }

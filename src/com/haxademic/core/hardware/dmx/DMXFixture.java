@@ -28,6 +28,7 @@ public class DMXFixture {
 		else P.error("DMXFixture initialized without a DMXUniverse");
 	}
 	
+	public DMXMode mode() { return mode; }
 	public int dmxChannel() { return dmxChannel; }
 	public void dmxChannel(int channel) { dmxChannel = channel; }
 	public EasingColor color() { return color; }

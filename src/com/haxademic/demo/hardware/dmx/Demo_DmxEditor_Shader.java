@@ -9,7 +9,6 @@ import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.dmx.DMXDebug;
-import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
 import com.haxademic.core.hardware.dmx.editor.DMXEditor;
 import com.haxademic.core.media.DemoAssets;
 
@@ -42,9 +41,9 @@ extends PAppletHax {
 		// load floorplan - doesn't need to be the same aspect ratio, but will be cropped-to-fill
 		floorplan = DemoAssets.textureNebula();
 		// load a shader to sample colors from
-		textureShader = new TextureShader(TextureShader.light_leak);
+		textureShader = new TextureShader(TextureShader.flexi_spiral);
 		// build editor with all buffers & images
-		editor = new DMXEditor("COM8", 9600, DMXMode.RGB, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
+		editor = new DMXEditor("COM8", 115200, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
 		// add debug buffer
 		dmxDebug = new DMXDebug();
 		DebugView.setTexture("dmxDebug", dmxDebug.buffer());

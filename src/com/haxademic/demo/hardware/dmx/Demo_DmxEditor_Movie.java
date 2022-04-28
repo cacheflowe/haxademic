@@ -41,7 +41,7 @@ extends PAppletHax {
 		video = DemoAssets.movieFractalCube();
 		video.loop();
 		// build editor with all buffers & images
-		editor = new DMXEditor("COM4", 9600, DMXMode.SINGLE_CHANNEL, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
+		editor = new DMXEditor("COM4", 9600, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
 	}
 
 	protected void drawApp() {
