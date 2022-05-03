@@ -87,10 +87,18 @@ public class ParticleSystem {
 		UI.addSlider(SIZE_MIN, 10, 1, 40, 0.1f, saves);
 		UI.addSlider(SIZE_MAX, 40, 10, 200, 0.1f, saves);
 	}
+	
+	public int poolSize() {
+		return particles.size();
+	}
 
 	public void drawParticles(PGraphics pg) {
+		drawParticles(pg, PBlendModes.ADD);
+	}
+	
+	public void drawParticles(PGraphics pg, int blendMode) {
 		PG.setDrawCenter(pg);
-		pg.blendMode(PBlendModes.ADD);
+		pg.blendMode(blendMode);
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).update(pg);
 		}
@@ -144,20 +152,20 @@ public class ParticleSystem {
 	protected void launch(PGraphics pg, Particle2d shape, float x, float y) {
 		if(usingUI) {
 			shape
-				.setSpeed(UI.value(SPEED_X_MIN), UI.value(SPEED_X_MAX), UI.value(SPEED_Y_MIN), UI.value(SPEED_Y_MAX))
-				.setGravity(UI.value(GRAVITY_X_MIN), UI.value(GRAVITY_X_MAX), UI.value(GRAVITY_Y_MIN), UI.value(GRAVITY_Y_MAX))
-				.setLifespan(UI.value(LIFESPAN_MIN), UI.value(LIFESPAN_MAX))
-				.setRotation(UI.value(ROTATION_MIN), UI.value(ROTATION_MAX))
-				.setSize(UI.value(SIZE_MIN), UI.value(SIZE_MAX))
+				.setSpeedRange(UI.value(SPEED_X_MIN), UI.value(SPEED_X_MAX), UI.value(SPEED_Y_MIN), UI.value(SPEED_Y_MAX))
+				.setGravityRange(UI.value(GRAVITY_X_MIN), UI.value(GRAVITY_X_MAX), UI.value(GRAVITY_Y_MIN), UI.value(GRAVITY_Y_MAX))
+				.setLifespanRange(UI.value(LIFESPAN_MIN), UI.value(LIFESPAN_MAX))
+				.setRotationRange(UI.value(ROTATION_MIN), UI.value(ROTATION_MAX))
+				.setSizeRange(UI.value(SIZE_MIN), UI.value(SIZE_MAX))
 				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
 				.launch(pg, x, y, randomImg());
 		} else {
 			shape
-				.setSpeed(-1f, 1f, -1f, 0.5f)
-				.setGravity(0, 0, 0f, -0.05f)
-				.setLifespan(10, 50)
-				.setRotation(-0.1f, 0.1f)
-				.setSize(10, 40)
+				.setSpeedRange(-1f, 1f, -1f, 0.5f)
+				.setGravityRange(0, 0, 0f, -0.05f)
+				.setLifespanRange(10, 50)
+				.setRotationRange(-0.1f, 0.1f)
+				.setSizeRange(10, 40)
 				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
 				.launch(pg, x, y, randomImg());
 		}

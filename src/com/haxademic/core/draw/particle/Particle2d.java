@@ -1,6 +1,5 @@
 package com.haxademic.core.draw.particle;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -15,6 +14,7 @@ public class Particle2d {
 	protected PVector speed = new PVector(0, 0, 0);
 	protected PVector speedMin = new PVector(0, 0);
 	protected PVector speedMax = new PVector(0, 0);
+	protected float acceleration = 1;
 
 	protected PVector gravity = new PVector(0, 0, 0);
 	protected PVector gravityMin = new PVector(0, 0);
@@ -39,33 +39,65 @@ public class Particle2d {
 	
 	// Random range setters
 	
-	public Particle2d setSize(float sizeMin, float sizeMax) {
+	public Particle2d setSizeRange(float sizeMin, float sizeMax) {
 		this.sizeMin = sizeMin;
 		this.sizeMax = sizeMax;
 		return this;
 	}
 	
-	public Particle2d setLifespan(float lifespanMin, float lifespanMax) {
+	public Particle2d setSize(float size) {
+		this.size = size;
+		return this;
+	}
+	
+	public Particle2d setLifespanRange(float lifespanMin, float lifespanMax) {
 		this.lifespanMin = lifespanMin; 
 		this.lifespanMax = lifespanMax; 
 		return this;
 	}
+
+	public Particle2d setLifespan(float lifespan) {
+		this.lifespan = lifespan;
+		return this;
+	}
 	
-	public Particle2d setRotation(float rotationMin, float rotationMax) {
+	public Particle2d setRotationRange(float rotationMin, float rotationMax) {
 		this.rotationMin = rotationMin;
 		this.rotationMax = rotationMax;
 		return this;
 	}
 	
-	public Particle2d setSpeed(float speedMinX, float speedMaxX, float speedMinY, float speedMaxY) {
+	public Particle2d setRotationSpeed(float rotSpeed) {
+		this.speed.z = rotSpeed;
+		return this;
+	}
+	
+	public Particle2d setSpeedRange(float speedMinX, float speedMaxX, float speedMinY, float speedMaxY) {
 		this.speedMin.set(speedMinX, speedMinY);
 		this.speedMax.set(speedMaxX, speedMaxY);
 		return this;
 	}
 	
-	public Particle2d setGravity(float gravityMinX, float gravityMaxX, float gravityMinY, float gravityMaxY) {
+	public Particle2d setSpeed(float speedX, float speedY) {
+		this.speed.x = speedX;
+		this.speed.y = speedY;
+		return this;
+	}
+	
+	public Particle2d setAcceleration(float accel) {
+		this.acceleration = accel;
+		return this;
+	}
+	
+	public Particle2d setGravityRange(float gravityMinX, float gravityMaxX, float gravityMinY, float gravityMaxY) {
 		this.gravityMin.set(gravityMinX, gravityMinY);
 		this.gravityMax.set(gravityMaxX, gravityMaxY);
+		return this;
+	}
+	
+	public Particle2d setGravity(float gravityX, float gravityY) {
+		this.gravity.x = gravityX;
+		this.gravity.y = gravityY;
 		return this;
 	}
 	
@@ -73,6 +105,11 @@ public class Particle2d {
 		this.color = color;
 		return this;
 	}
+	
+	// getters
+	
+	public float size() { return size; }
+	public int color() { return color; }
 	
 	// Launch!
 	
@@ -99,8 +136,6 @@ public class Particle2d {
 		gravity.set(
 				MathUtil.randRangeDecimal(gravityMin.x, gravityMax.x), 
 				MathUtil.randRangeDecimal(gravityMin.y, gravityMax.y));
-		P.out(speed.x, speed.y);
-		P.out(gravity.x, gravity.y);
 		return this;
 	}
 	
@@ -111,6 +146,8 @@ public class Particle2d {
 		
 		// update position
 		speed.add(gravity);
+		speed.x = speed.x * acceleration;
+		speed.y = speed.y * acceleration;	// leave z alone
 		pos.add(speed);
 		
 		// update size
