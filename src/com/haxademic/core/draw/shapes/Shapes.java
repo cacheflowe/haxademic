@@ -376,13 +376,17 @@ public class Shapes {
 	}
 
 	public static void drawTexturedRect(PGraphics pg, PImage texture) {
+		drawTexturedRect(pg, texture, texture.width, texture.height);
+	}
+	
+	public static void drawTexturedRect(PGraphics pg, PImage texture, float width, float height) {
 		pg.beginShape(P.QUAD);
 		pg.textureMode(P.NORMAL);
 		pg.texture(texture);
-		pg.vertex(-texture.width/2, -texture.height/2, 			0, 0);
-		pg.vertex( texture.width/2, -texture.height/2, 			1, 0);
-		pg.vertex( texture.width/2,  texture.height/2, 			1, 1);
-		pg.vertex(-texture.width/2,  texture.height/2, 			0, 1);
+		pg.vertex(-width/2, -height/2, 			0, 0);
+		pg.vertex( width/2, -height/2, 			1, 0);
+		pg.vertex( width/2,  height/2, 			1, 1);
+		pg.vertex(-width/2,  height/2, 			0, 1);
 		pg.endShape();
 	}
 	
