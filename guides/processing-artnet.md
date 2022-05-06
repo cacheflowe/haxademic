@@ -27,13 +27,30 @@ The ArtNet data that you'll send over the LAN is actually DMX signals under the 
 
 It's up to you to build this array of sequential RGB values for as many lights as you need to animate. For example, if you have 10 lights, you'll need to send an array of 30 color values.
 
-#### Choosing an LED strip and power supply
+### Powering your lights
+
+Even though I used 5v lights and power in my example setup here, 12v is a more common voltage for LED strip lights, so we'll go with that when talking about calculating power. 
+
+A power supply has a **wattage** and **amperage** rating, which will help us calculate how may LED strips a single power supply can support. Here are some recommendations that I've come across that will help with your calculations:
+
+* Find the **watts** that a single LED strip will use at full brightness. This should be availabl in the product tech specifications, and might be displayed as wattage per foot, or for the whole strip. My 5-meter (16.4') 12v strips consume 90 watts at full brightness, for example. You should add 20% and round up to determine how many watts your power supply should have. In this case, 90 watts + 20% (18 watts) = 108 watts. I might round up slightly higher to a 120 watt power supply, just to be safe. This extra power headroom will help prevent your power supply from overheating and failing prematurely.
+* Figure out how many **amps** your power supply should have. The [spec sheet](https://www.amazon.com/BTF-LIGHTING-Upgraded-Individually-Addressable-Non-Waterproof/dp/B07LG6J39V/) for my LED strip suggests that for every 90 watt, 5-meter strip with 300 LEDs, you'd want a 10 amp, 120 watt  power supply. 
+* The density of your LED strips will impact its power consumtion. Common densities are 30, 60, and 100 LED per meter. Many strips come in 5-meter (16.4') spools, so a density of 60/m would mean 300 total LEDs for a 5-meter spool. 
+* If you want to have fewer power supplies, multiply the watts per strip by how many strips you have. For example, if my strip need 90 watts and 10 amps, and I want to power 4 of them from a single power supply, I should start with 90 * 4 = 360, add 20% again (72 watts), and round up. In this case, I might just go with a 500 watt / 42 amp power supply to ensure that I have enough juice.
+
+#### Links: Choosing an LED strip and power supply
 
 * [What Digital LED chip to choose](https://quinled.info/2019/06/02/what-digital-led-chip-to-choose/)
 * [Powering Any WS2812b Setup](https://www.temposlighting.com/guides/power-any-ws2812b-setup)
 * [How to choose a power supply for your LED strip project](https://www.waveformlighting.com/home-residential/how-to-choose-a-power-supply-for-your-led-strip-project)
+* [LED Strip Lighting: Choosing the Right LED Power Supply](https://www.superbrightleds.com/blog/choose-right-power-supply-led-strip-lighting/2186/)
+* [How many LED strips can I connect together?](https://vetco.net/blog/how-many-led-strips-can-i-connect-together/2018-09-26-10-24-27-0700)
 
 #### Power injection
+
+As you support more LED strips with fewer (and more powerful) power supplies, you'll need to learn about power injection, because of voltage drop. Essentially, the further an LED is from the power source, the less power it might have to illuminate it's diodes. This has drop brightness and change the color, and the R, G, & B diodes consume different amounts of electricity. My strip noted above suggests adding power injection after every 5 meters of strip. 
+
+#### Links: Power injection
 
 * [Power injection (via Advatek)](https://www.advateklights.com/knowledge-base/power-injection)
 * [Combating LED voltage drop | LED Power Injection](https://www.youtube.com/watch?v=EcjPR0UlU7U)
