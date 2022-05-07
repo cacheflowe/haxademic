@@ -14,6 +14,7 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
 
 public class OpticalFlow {
 
@@ -257,6 +258,24 @@ public class OpticalFlow {
 		}
 		debugBuffer.endDraw();
 	}
-
 	
+	public void prepareToReadCPUValues(boolean showFlowedResults) {
+		PImage opFlowResults = (showFlowedResults) ? resultFlowedBuffer : resultBuffer;
+		opFlowResults.loadPixels();
+	}
+
+	protected PVector util = new PVector();
+	public PVector resultAtNormalizedCoord(boolean showFlowedResults, float x, float y) {
+		// make sure to call opFlowResults.loadPixels();
+		PImage opFlowResults = (showFlowedResults) ? resultFlowedBuffer : resultBuffer;
+		int pixelX = P.floor(x * opFlowResults.width);
+		int pixelY = P.floor(y * opFlowResults.height);
+		int pixelColor = ImageUtil.getPixelColor(opFlowResults, pixelX, pixelY);
+		float r = ColorUtil.redFromColorInt(pixelColor) / 255f;
+		float g = ColorUtil.greenFromColorInt(pixelColor) / 255f;
+		float xDir = (r) - 0.5f;
+		float yDir = (g) - 0.5f;
+		util.set(xDir, yDir);
+		return util;
+	}
 }
