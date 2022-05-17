@@ -1,6 +1,8 @@
 package com.haxademic.core.hardware.lidar;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.file.FileUtil;
 
 import processing.serial.Serial;
 
@@ -60,23 +62,25 @@ public class RPLidar {
 	protected LidarScan          m_currScan;
 	public static boolean DEBUG = false;
 	
+	protected int baudRate = 115200;
+	
 	// TODO:
 	// - Make Serial reading threaded
-	// - Add rotation offset for configuration
-	// - 
 	
 	
 	public RPLidar(String portName)
 	{
 		m_isScanning = false;
-		m_port = new Serial(P.p, portName, 115200);
+		m_port = new Serial(P.p, portName, baudRate);
 		m_port.setDTR(false);
 		m_lastScan = new LidarScan();
-		m_timeout = 2000;
+		m_timeout = 5000;
 		
 		// start!
 		LidarDeviceInfo deviceInfo = getDeviceInfo();
+		P.out("deviceInfo = ", deviceInfo.toString());
 		LidarHealth health = getHealth();
+		P.out("health = " + health.toString());
 		startScan();
 	}
 
@@ -140,6 +144,7 @@ public class RPLidar {
 		{
 			if (m_port.available() == 0) continue;
 			byte currByte = (byte)m_port.read();
+			if(DEBUG) P.out("currByte: " + currByte);
 			if (currByte == respSyncByte2 && lastByte == respSyncByte1)
 			{
 				if(DEBUG) P.out("<-waitForResponseSyncBytes()");
@@ -174,11 +179,10 @@ public class RPLidar {
 		if(DEBUG) P.out("<-readBytes()");
 	}
 
-	protected void printByteArrayAsHex(byte[] bytes)
-	{
-		for (int i = 0 ; i < bytes.length ; i++)
-			if(DEBUG) P.out(P.hex(bytes[i]) + " ");
-		if(DEBUG) P.out();
+	protected String byteArrayAsHex(byte[] bytes) {
+		String serial = "";
+		for (int i = 0 ; i < bytes.length ; i++) serial += P.hex(bytes[i]); 
+		return serial;
 	}
 
 	protected void verifyResponseDescriptor(LidarResponseDescriptor responseDescriptor, int expectedDataType, int expectedSendMode, int expectedLength)
@@ -221,13 +225,8 @@ public class RPLidar {
 		byte[] serialNumber = new byte[16];
 		System.arraycopy(buffer, 4, serialNumber, 0, 16);
 
-		if(DEBUG) P.out("model = " + model);
-		if(DEBUG) P.out("firmware = " + firmwareMajor + "." + firmwareMinor);
-		if(DEBUG) P.out("hardware = " + hardware);
-		if(DEBUG) P.out("serialNumber = "); printByteArrayAsHex(serialNumber);
-
 		if(DEBUG) P.out("<-getDeviceInfo()");
-		return new LidarDeviceInfo(model, firmwareMinor, firmwareMajor, hardware, serialNumber);
+		return new LidarDeviceInfo(model, firmwareMinor, firmwareMajor, hardware, byteArrayAsHex(serialNumber));
 	}
 
 	public void reset()
@@ -266,10 +265,10 @@ public class RPLidar {
 
 	public void startScan()
 	{
+		if(DEBUG) P.out("->startScan()");
+		
 		final int lengthOfDataPacket = 5;
 		m_startTime = P.p.millis();
-
-		if(DEBUG) P.out("->startScan()");
 
 		stopScan();
 
@@ -354,7 +353,9 @@ public class RPLidar {
 
 		public LidarScan()
 		{
-			measurements = new LidarMeasurement[115200 / 10 / 5];
+			int numMeasurements = baudRate / 10 / 5;
+			DebugView.setValue("numMeasurements", numMeasurements);
+			measurements = new LidarMeasurement[numMeasurements];
 			measurementCount = 0;
 			startTime = System.currentTimeMillis();
 			scanRateInHz = 0.0f;
@@ -408,6 +409,13 @@ public class RPLidar {
 		public static final int stateGood = 0;
 		public static final int stateWarning = 1;
 		public static final int stateError = 2;
+		
+		public String toString() {
+			if(status == stateGood) return "LidarHealth: GOOD";
+			if(status == stateWarning) return "LidarHealth: WARNING";
+			if(status == stateError) return "LidarHealth: ERROR";
+			return "LidarHealth: UNKNOWN";
+		}
 	}
 	
 	public class LidarDeviceInfo
@@ -416,15 +424,23 @@ public class RPLidar {
 		public int  firmwareMinor;
 		public int  firmwareMajor;
 		public int  hardware;
-		public byte serialNumber[];
+		public String serialNumber;
 
-		public LidarDeviceInfo(int model, int firmwareMinor, int firmwareMajor, int hardware, byte[] serialNumber)
+		public LidarDeviceInfo(int model, int firmwareMinor, int firmwareMajor, int hardware, String serialNumber)
 		{
 			this.model = model;
 			this.firmwareMinor = firmwareMinor;
 			this.firmwareMajor = firmwareMajor;
 			this.hardware = hardware;
 			this.serialNumber = serialNumber;
+		}
+		
+		public String toString() {
+			return "LidarDeviceInfo: " + FileUtil.NEWLINE +
+					"model: " + model + FileUtil.NEWLINE + 
+					"firmware: " + firmwareMajor + "." + firmwareMinor + FileUtil.NEWLINE + 
+					"hardware: " + hardware + FileUtil.NEWLINE + 
+					"serialNumber: " + serialNumber + FileUtil.NEWLINE;
 		}
 	}
 
