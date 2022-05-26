@@ -36,6 +36,11 @@ implements IDepthCamera {
 		CAMERA_H = 480;
 	}
 
+	public static void setTinyStream() {
+		CAMERA_W = 424;
+		CAMERA_H = 240;
+	}
+	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
 		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, null);
 	}
@@ -58,8 +63,8 @@ implements IDepthCamera {
 		DepthCameraSize.setSize(CAMERA_W, CAMERA_H);
 		
 		camera = new RealSenseCamera(p);
-		camera.enableColorStream(CAMERA_W, CAMERA_H);
-		camera.enableDepthStream(CAMERA_W, CAMERA_H);
+		if(initRGB)        camera.enableColorStream(CAMERA_W, CAMERA_H);
+		if(initDepthImage) camera.enableDepthStream(CAMERA_W, CAMERA_H);
 		if(COLOR_SCHEME != null) camera.enableColorizer(COLOR_SCHEME);
 //		camera.enableIRStream(CAMERA_W, CAMERA_H, 30);
 		camera.enableAlign();
