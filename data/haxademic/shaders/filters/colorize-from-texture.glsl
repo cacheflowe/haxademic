@@ -23,9 +23,7 @@ float rgbToGray(vec4 rgba) {
 
 void main() {
   vec4 color = texture2D(texture, vertTexCoord.xy);
-  // float luma = clamp(rgbToGray(color), 0.01, 0.99);					  // map left-to-right based on luminance. colors could get weird at absolute 0/1
-  float luma = rgbToGray(color);
-  luma = fract(luma + offset);
+  float luma = clamp(rgbToGray(color), 0.0001, 0.9999);					  // map left-to-right based on luminance. colors could get weird at absolute 0/1
   vec4 colorizedColor = texture2D(colorMap, vec2(luma, 0.5));	// and center y coordinate
   if(lumaMult == 0) {
     gl_FragColor = mix(color, colorizedColor, crossfade);
