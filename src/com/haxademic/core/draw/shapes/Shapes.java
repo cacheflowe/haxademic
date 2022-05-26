@@ -101,9 +101,10 @@ public class Shapes {
 	}
 	public static void drawPolygon( PGraphics p, float radius, int numSegments ) {
 		float segmentRads = P.TWO_PI / numSegments;
+		float offsetOnFlatSide = P.HALF_PI + segmentRads/2f;
 		p.beginShape();
 		for( int i = 0; i <= numSegments; i++ ) {
-			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, 0 );
+			p.vertex( P.cos( i * segmentRads + offsetOnFlatSide ) * radius, P.sin( i * segmentRads + offsetOnFlatSide ) * radius, 0 );
 		}
 		p.endShape();
 	}
