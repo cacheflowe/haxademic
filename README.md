@@ -83,11 +83,13 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.draw.color`
 
+* __[ColorsHax](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/ColorsHax.java)__ - Some predefined easy-to-use color palettes.
+
 * __[ColorUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/ColorUtil.java)__ - Handy color conversion methods.
 
 * __[EasingColor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/EasingColor.java)__ - An object that represents a single color with interpolation and helpful getter/setter methods. Has some overlap with `ColorUtil` - the two classes should possibly be merged.
 
-* __[ImageGradient](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/ImageGradient.java)__ - Loads an image and samples its colors horizontally. Works well for gradients and comes with a library of presets.
+* __[ImageGradient](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/ImageGradient.java)__ - Loads an image and samples its colors horizontally via a normalized input float. Works well for gradients and comes with a library of presets.
 
 `com.haxademic.core.draw.context`
 
@@ -113,6 +115,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[Base64Image](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/Base64Image.java)__ - Encodes and decodes between a PImage and a base64-encoded string.
 
+* __[BlobFinder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BlobFinder.java)__ - Wraps v3ga's BlobDetection library with some GPU-accelerated enhancements.
+
 * __[BufferActivityMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferActivityMonitor.java)__ - Gives us an "activity" rating of a moving image, like a webcam, video, or other PGraphics instance that animates. Useful for motion detection.
 
 * __[BufferColorObjectDetection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferColorObjectDetection.java)__ - Finds the center of mass of a specific color (within a threshold) on an image. Useful for object tracking in controlled situations.
@@ -123,6 +127,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[FrozenImageMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/FrozenImageMonitor.java)__ - Helps detect a frozen video stream (from a webcam, most likely). Camera feeds have some natural noise that will change over time, even if the subject doesn't. If the feed is frozen, this can be detected.
 
+* __[GridHelper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/GridHelper.java)__ - A UI-enabled grid-drawing tool to help align and design an app's graphics.
+
 * __[ImageCyclerBuffer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageCyclerBuffer.java)__ - Uses GLSL transitions to create a slideshow from an array of PImages.
 
 * __[ImageSequenceMovieClip](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageSequenceMovieClip.java)__ - Loads and plays back an image sequence like a Movie object does for video files.
@@ -130,6 +136,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 * __[ImageSequenceRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageSequenceRecorder.java)__ - Builds an array of PGraphics objects to record recent video frames and play them back for time distortion effects or short video compiling.
 
 * __[ImageUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageUtil.java)__ - Lots of tools for dealing with images and drawing them to screen.
+
+* __[OpticalFlow](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/OpticalFlow.java)__ - A GPU-accelerated Optical flow algorithm, adapted from TouchDesigner's optical flow shader.
 
 * __[TickerScroller](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/TickerScroller.java)__ - Repeats a texture across a PGraphics and scrolls.
 
@@ -149,7 +157,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[ForceDirectedLayout](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/ForceDirectedLayout.java)__ - Force-directed layout implementation.
 
-* __[ParticleLauncher](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/ParticleLauncher.java)__ - GPU particle implementation.
+* __[ParticleLauncherGPU](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/ParticleLauncherGPU.java)__ - GPU particle implementation.
 
 * __[VectorFlyer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/VectorFlyer.java)__ - 3D particle that flies toward a destination point.
 
