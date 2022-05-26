@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.filters.pshader.shared;
 
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
@@ -8,29 +9,45 @@ import processing.opengl.PShader;
 
 public class BaseFragmentShader {
 
+	protected String shaderFilePath;
 	protected PShader shader;
+	protected PShaderHotSwap shaderHotSwap;
 	protected float time;
 
 	public BaseFragmentShader(PApplet p, String shaderFilePath) {
-		if(shaderFilePath != null) shader = p.loadShader(FileUtil.getPath(shaderFilePath));
+		if(shaderFilePath != null) {
+			this.shaderFilePath = FileUtil.getPath(shaderFilePath);
+			shader = p.loadShader(this.shaderFilePath);
+		}
 		setTime(0);
 	}
 
+	public PShaderHotSwap updateHotSwap() {
+		if(shaderHotSwap == null) {
+			shaderHotSwap = new PShaderHotSwap(this.shaderFilePath);
+		}
+		shaderHotSwap.update();
+		shader = shaderHotSwap.shader(); 
+		return shaderHotSwap;
+	}
+	
 	public PShader shader() {
-		return shader;
+		return (shaderHotSwap == null) ? 
+				shader : 
+				shaderHotSwap.shader();
 	}
 	
 	public void applyTo(PGraphics pg) {
-		pg.filter(shader);
+		pg.filter(shader());
 	}
 	
 	public void applyTo(PApplet p) {
-		p.filter(shader);
+		p.filter(shader());
 	}
 	
 	public void setTime(float time) {
 		this.time = time;
-		if(shader != null) shader.set("time", time);
+		if(shader() != null) shader().set("time", time);
 	}
 	
 	public float getTime() {
