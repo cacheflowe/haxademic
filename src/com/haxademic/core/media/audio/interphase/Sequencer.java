@@ -226,15 +226,6 @@ implements IAppStoreListener {
 		return shouldPlay;
 	}
 	
-	public boolean toggleEvloves() {
-		evolves = !evolves;
-		return evolves;
-	}
-	
-	public boolean setEvolves(boolean doesEvolve) {
-		return evolves = doesEvolve;
-	}
-	
 	public int noteOffset() {
 		return noteOffset;
 	}
@@ -244,6 +235,8 @@ implements IAppStoreListener {
 		return this;
 	}
 	
+	public boolean evolves() { return this.evolves; }
+	public Sequencer evolves(boolean evolves) { this.evolves = evolves; return this; } 
 	public float volume() { return config.volume; }
 	public Sequencer volume(float volume) { config.volume = volume; return this; } 
 	public float attack() { return attack; }

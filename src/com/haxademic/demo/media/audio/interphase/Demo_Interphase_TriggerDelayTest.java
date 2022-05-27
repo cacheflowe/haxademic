@@ -42,7 +42,7 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 		// load interphase
-//		SequencerConfig.BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
+		SequencerConfig.BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
 		interphase = new Interphase(new SequencerConfig[] {
 				new SequencerConfig(0, "audio/interphase/01-kick", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),
 				new SequencerConfig(1, "audio/interphase/02-snare", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),

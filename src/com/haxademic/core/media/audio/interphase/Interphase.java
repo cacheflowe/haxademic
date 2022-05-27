@@ -294,14 +294,14 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(P.p.key == 'J') sequencers[6].loadNextSound();
 		if(P.p.key == 'K') sequencers[7].loadNextSound();
 		
-		if(P.p.key == 'Z') sequencers[0].toggleEvloves();
-		if(P.p.key == 'X') sequencers[1].toggleEvloves();
-		if(P.p.key == 'C') sequencers[2].toggleEvloves();
-		if(P.p.key == 'V') sequencers[3].toggleEvloves();
-		if(P.p.key == 'B') sequencers[4].toggleEvloves();
-		if(P.p.key == 'N') sequencers[5].toggleEvloves();
-		if(P.p.key == 'M') sequencers[6].toggleEvloves();
-		if(P.p.key == '<') sequencers[7].toggleEvloves();
+		if(P.p.key == 'Z') sequencers[0].evolves(!sequencers[0].evolves());
+		if(P.p.key == 'X') sequencers[1].evolves(!sequencers[1].evolves());
+		if(P.p.key == 'C') sequencers[2].evolves(!sequencers[2].evolves());
+		if(P.p.key == 'V') sequencers[3].evolves(!sequencers[3].evolves());
+		if(P.p.key == 'B') sequencers[4].evolves(!sequencers[4].evolves());
+		if(P.p.key == 'N') sequencers[5].evolves(!sequencers[5].evolves());
+		if(P.p.key == 'M') sequencers[6].evolves(!sequencers[6].evolves());
+		if(P.p.key == '<') sequencers[7].evolves(!sequencers[7].evolves());
 
 //		if(P.p.key == 'o') P.out(outputConfigSingleLine());
 		if(P.p.key == 'o') saveJsonConfigToFile();
@@ -504,7 +504,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		DebugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
 		DebugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
 		DebugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
-		DebugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
+		DebugView.setValue("INTERPHASE :: GLOBAL_PATTERNS_EVLOVE", P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
 		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
 		DebugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
