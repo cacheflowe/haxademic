@@ -14,7 +14,7 @@ public class PGPool {
 	public static PGraphics getPG(int w, int h) {
 		// find an available PG
 		DebugView.setValue("pgWrappers.size()", pgWrappers.size());
-		P.out("pgWrappers.size()", pgWrappers.size());
+//		P.out("pgWrappers.size()", pgWrappers.size());
 		for (int i = 0; i < pgWrappers.size(); i++) {
 			PGraphicsWrapper wrapper = pgWrappers.get(i);
 			if(wrapper.available(w, h)) {

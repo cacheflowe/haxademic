@@ -20,7 +20,7 @@ public class PGraphicsWrapper {
 	}
 	
 	public boolean available(int matchW, int matchH) {
-		return P.p.frameCount - lastUpdated > 10 && 
+		return P.p.frameCount - lastUpdated > 0 && 		// lastUpdated > 10
 				width == matchW && 
 				height == matchH;
 	}

@@ -26,7 +26,7 @@ void main() {
 	vec2 origUV = vec2(x, y);
 
   // Calculate polar theta, r and center of hemisphere. Fix if other hemisphere.
-  float theta = TWO_PI * x;
+  float theta = TWO_PI * x + PI/2.;
   vec2 center = vec2(0.25, 0.5);
   float r = y;
   if (y > 0.5) {
@@ -34,7 +34,9 @@ void main() {
     r = 1.0 - r;
     theta = PI - theta;
   }
-	r *= 0.995;
+  // slight correction
+  float rOffset = 0.002 * sin(x * TWO_PI + PI);
+  r *= 0.993 + rOffset;
 
   // Calculate direction from angle, then lookup r distance in the direction. r
   // fits 4 times horizontally and 2 times vertically so have to squash.
