@@ -135,10 +135,10 @@ implements JVstHostListener {
 		randomizeAllParams(null);
 	}
 	
-	public void randomizeAllParams(int[] exceptIndexes) {
+	public void randomizeAllParams(int[] excludeIndices) {
 		if(vst == null) return;
 	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	if(exceptIndexes == null || ArrayUtil.indexOfInt(exceptIndexes, i) == -1 ) {
+	    	if(excludeIndices == null || ArrayUtil.indexOfInt(excludeIndices, i) == -1 ) {
 	    		vst.setParameter(i, P.p.random(1));
 	    	}
 	    }

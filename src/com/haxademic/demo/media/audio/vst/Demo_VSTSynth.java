@@ -19,7 +19,7 @@ extends PAppletHax {
 //		String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
 //		vstSynth = new SynthCharlatan();
 		vstSynth = new SynthYoozBL303();
-//		vstSynth2 = new VSTPlugin("vst/synth/PG-8X.dll");
+		vstSynth2 = new VSTPlugin("vst/synth/Synsonic_BD-909.dll");
 		
 		// these ones don't like their window opened, or at least opened automatically:
 //		String vstFile = FileUtil.getPath("vst/synth/JuceOPLVSTi_ax64.dll");
@@ -30,9 +30,9 @@ extends PAppletHax {
 	protected void drawApp() {
 		background(0);
 		// play notes
-		if(FrameLoop.frameMod(13) == 1) {
-			vstSynth.playRandomNote(120);
-//			vstSynth.playMidiNote(48, 300);
+		if(FrameLoop.frameMod(20) == 1) {
+			vstSynth.playRandomNote(300);
+			vstSynth2.playMidiNote(36, 100);
 		}
 //		if(FrameLoop.frameMod(60) == 30) vstSynth.playRandomNote(400);
 //		if(FrameLoop.frameMod(60) == 1) vstSynth2.playRandomNote(400);
