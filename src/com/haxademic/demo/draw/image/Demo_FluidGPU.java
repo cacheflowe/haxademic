@@ -18,11 +18,12 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
-public class Demo_FluidGPU_fail 
+public class Demo_FluidGPU 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// Ported from: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/
+	// Try this instead? https://domenicobrz.github.io/webgl/projects/Physarum-fluid-1/shaders/display.js
 	
 	protected SimplexNoiseTexture displaceTexture;
 	
@@ -109,7 +110,7 @@ extends PAppletHax {
 			// splat the velocity buffer
 	//		splatShader.shader().set("color", P.map(Mouse.xSpeed/2f, -10, 10, 0, 1), P.map(Mouse.ySpeed/-2f, -10, 10, 0, 1), 0);
 			splatShader.shader().set("point", Mouse.xNorm, 1f - Mouse.yNorm);
-			splatShader.shader().set("color", Mouse.xSpeed/10f,Mouse.ySpeed/-10f, 0f);
+			splatShader.shader().set("color", 0.5f + Mouse.xSpeed/10f, 0.5f + Mouse.ySpeed/-10f, 0f);
 			splatShader.shader().set("radius", UI.value(SPLAT_SIZE));
 			splatShader.update();
 			pgVelocity.filter(splatShader.shader());
@@ -139,9 +140,10 @@ extends PAppletHax {
 		// update velocity buffer w/vorticity shader
 		vorticityShader.shader().set("uVelocity", pgVelocity);
 		vorticityShader.shader().set("uCurl", pgCurl);
+		vorticityShader.shader().set("curlAmp", 0.1f);
 		vorticityShader.update();
 		DebugView.setValue("vorticityShader.isValid", vorticityShader.isValid());
-//		pgVelocity.filter(vorticityShader.shader());
+		pgVelocity.filter(vorticityShader.shader());
 		
 		// update divergence buffer w/velocity map
 		divergenceShader.shader().set("uVelocity", pgVelocity);
