@@ -47,6 +47,11 @@
 	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/joons.jar"/>
+	<classpathentry kind="lib" path="lib/jvsthost/JVstHost.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/jvsthost"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/KinectPV2/library/KinectPV2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/KinectPV2/library"/>
