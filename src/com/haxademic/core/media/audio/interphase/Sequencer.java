@@ -499,8 +499,6 @@ implements IAppStoreListener {
 		// set pitch on all sequencers that play notes
 //		if(config.playsNotes) {
 			// change pitch
-			if(index == 0) P.out(pitchRatio);
-
 			Glide glide = new Glide(ac, pitchRatio);
 			curPlayer.setRate(glide);
 
