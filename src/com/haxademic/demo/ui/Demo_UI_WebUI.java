@@ -39,7 +39,7 @@ extends PAppletHax {
 		
 		// add web controls
 		UI.addWebInterface(false);
-		WebViewWindow.launchWebView(WebServer.getServerAddress() + "ui/");
+		UI.launchWebUIWindow();
 	}
 	
 	protected void drawApp() {

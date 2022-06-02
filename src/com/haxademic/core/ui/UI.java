@@ -26,6 +26,7 @@ import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
+import com.haxademic.core.net.WebViewWindow;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -89,6 +90,10 @@ implements IAppStoreListener {
 		ZXING4P qr = new ZXING4P();
 		String webServerAddress = WebServer.getServerAddress();
 		DebugView.setTexture("Launch UI", qr.generateQRCode(webServerAddress + "ui/", 256, 256));
+	}
+	
+	public static void launchWebUIWindow() {
+		WebViewWindow.launchWebView(WebServer.getServerAddress() + "ui/");
 	}
 	
 	////////////////////////
