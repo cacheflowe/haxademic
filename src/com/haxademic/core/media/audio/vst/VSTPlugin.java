@@ -35,7 +35,9 @@ implements JVstHostListener, IAppStoreListener {
 	protected JVstAudioThread audioThread;
 	protected boolean allowsWindowOpen = true;
 	protected boolean vstWindowOpen = false;
+	
 	protected boolean hasUI = false;
+	protected String randomizeButtonUIKey;
 	
 	private int channel = 0;
 	private int velocity = 101;
@@ -114,6 +116,8 @@ implements JVstHostListener, IAppStoreListener {
 	protected void buildUISliders() {
 		hasUI = true;
 		UI.addTitle(getVstName());
+		randomizeButtonUIKey = getVstName() + " | Randomize!";
+		UI.addButton(randomizeButtonUIKey, false);
 	    for (int i = 0; i < vst.numParameters(); i++) {
 	    	float initVal = vst.getParameter(i);
 	    	UI.addSlider(vstUIKeyForParamIndex(i), initVal, 0, 1, 0.005f, false);
@@ -225,6 +229,9 @@ implements JVstHostListener, IAppStoreListener {
 			int index2Index = key.indexOf("|", indexIndex);
 			int vstParamIndex = ConvertUtil.stringToInt(key.substring(indexIndex, index2Index));
 			vst.setParameter(vstParamIndex, val.floatValue());
+		}
+		if(vst != null && hasUI && key.equals(randomizeButtonUIKey)) {
+			randomizeAllParams();
 		}
 	}
 	public void updatedString(String key, String val) {

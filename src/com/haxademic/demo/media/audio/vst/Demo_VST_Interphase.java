@@ -14,6 +14,7 @@ import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
 import com.haxademic.core.media.audio.vst.devices.synth.SynthCharlatan;
 import com.haxademic.core.media.audio.vst.devices.synth.SynthYoozBL303;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -38,12 +39,13 @@ implements IAppStoreListener {
 		interphase.initUI();
 		interphase.initLaunchpads(6, 9, 8, 11);
 		MidiDevice.init(3, 6);
-		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2);
+		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
 //		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
-		
+		UI.launchWebUIWindow();
 		P.store.addListener(this);
 		
+		// load VSTs
 		vstSynth = new SynthCharlatan(true, true);
 	}
 	
@@ -68,9 +70,10 @@ implements IAppStoreListener {
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
 			int sequencerIndex = val.intValue();
-			if(sequencerIndex == 6) {
+			int bassChannelIndex = 5;
+			if(sequencerIndex == bassChannelIndex) {
 				if(P.store.getInt(Interphase.CUR_STEP) <= 1) vstSynth.randomizeAllParams();
-				int curSequencerNote = interphase.sequencerAt(6).pitchIndex1();
+				int curSequencerNote = interphase.sequencerAt(bassChannelIndex).pitchIndex1();
 //				vstSynth.playRandomNote(200);
 				vstSynth.playMidiNote(24 + curSequencerNote, 300);
 			}

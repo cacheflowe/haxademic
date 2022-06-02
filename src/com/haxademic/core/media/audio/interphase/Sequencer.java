@@ -55,6 +55,7 @@ implements IAppStoreListener {
 	protected int curPatternGeneratorIndex = 0;
 	
 	// note selection
+	protected float pitchShift = 0;
 	protected int pitchIndex1 = 0;
 	protected int pitchIndex2 = 0;
 	protected boolean notesByStep = true;
@@ -65,7 +66,7 @@ implements IAppStoreListener {
 	// trigger updates 
 	protected int manualTriggerTime = 0;
 	protected int sampleTriggerCount = 0;
-	protected boolean evolves = true;
+	protected boolean evolves = false;
 	
 	// audio effects
 	protected float sampleLength = 0;
@@ -137,6 +138,9 @@ implements IAppStoreListener {
 				+ "attack: " + attack + FileUtil.NEWLINE
 				+ "release: " + release + FileUtil.NEWLINE
 				+ "NOTES ------------------- " + FileUtil.NEWLINE
+				+ "pitchShift: " + pitchShift + FileUtil.NEWLINE
+				+ "pitchIndex1: " + pitchIndex1 + FileUtil.NEWLINE
+				+ "pitchIndex2: " + pitchIndex2 + FileUtil.NEWLINE
 				+ "playsNotes: " + config.playsNotes + FileUtil.NEWLINE
 				+ "notesByStep: " + notesByStep + FileUtil.NEWLINE
 				+ "noteOffset: " + noteOffset + FileUtil.NEWLINE
@@ -197,7 +201,7 @@ implements IAppStoreListener {
 		evolvePattern();
 	}
 	
-	protected void newRandomPattern() {
+	public void newRandomPattern() {
 		curPatternGeneratorIndex = MathUtil.randRange(0, sequencerPatterns.length - 1);
 		sequencerPatterns[curPatternGeneratorIndex].newPattern(steps);
 		PatternUtil.ensureOneStepActive(steps);
@@ -251,6 +255,8 @@ implements IAppStoreListener {
 	public float reverbDamping() { return reverbDamping; }
 	public Sequencer reverb(float reverbSize, float reverbDamping) { this.reverbSize = reverbSize; this.reverbDamping = reverbDamping; return this; }
 	public int pitchIndex1() { return pitchIndex1; }
+	public float pitchShift() { return pitchShift; }
+	public Sequencer pitchShift(float pitchShift) { this.pitchShift = pitchShift; return this; }
 
 	// audio data getters
 	public float audioAmp() { return audioIn.audioData().amp(); }
@@ -469,11 +475,11 @@ implements IAppStoreListener {
 			// sometimes pitch up an octave 
 			if(upOctave && MathUtil.randBooleanWeighted(0.2f)) pitchIndex1 += 12;
 		}
-
 	}
 	
 	protected float pitchRatioFromIndex(int pitchIndex) {
-		return P.pow(2, pitchIndex/12.0f);
+		float alteredPitch = pitchIndex + pitchShift * 12f;	// pitch bending! 
+		return P.pow(2, alteredPitch/12.0f);
 	}
 	
 	protected SamplePlayer playSampleWithNote(SamplePlayer curPlayer, float pitchRatio) {
@@ -491,8 +497,10 @@ implements IAppStoreListener {
 		if(audioIn != null) audioIn.addInput(curPlayer);
 		
 		// set pitch on all sequencers that play notes
-		if(config.playsNotes) {
+//		if(config.playsNotes) {
 			// change pitch
+			if(index == 0) P.out(pitchRatio);
+
 			Glide glide = new Glide(ac, pitchRatio);
 			curPlayer.setRate(glide);
 
@@ -502,7 +510,7 @@ implements IAppStoreListener {
 			//				glide.setValue(-1.0f);
 			//				curPlayer.start();
 			//			}
-		}
+//		}
 
 		// apply attack/sustain
 		if(useASDR) {
