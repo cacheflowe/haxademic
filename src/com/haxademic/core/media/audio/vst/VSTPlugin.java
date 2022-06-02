@@ -227,8 +227,10 @@ implements JVstHostListener, IAppStoreListener {
 		if(vst != null && hasUI && key.contains(getVstName())) {
 			int indexIndex = key.indexOf("|") + 1;
 			int index2Index = key.indexOf("|", indexIndex);
-			int vstParamIndex = ConvertUtil.stringToInt(key.substring(indexIndex, index2Index));
-			vst.setParameter(vstParamIndex, val.floatValue());
+			if(indexIndex > 0 && index2Index > 0) {
+				int vstParamIndex = ConvertUtil.stringToInt(key.substring(indexIndex, index2Index));
+				vst.setParameter(vstParamIndex, val.floatValue());
+			}
 		}
 		if(vst != null && hasUI && key.equals(randomizeButtonUIKey)) {
 			randomizeAllParams();
