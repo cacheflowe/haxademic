@@ -30,7 +30,6 @@ import javax.sound.sampled.SourceDataLine;
 
 import com.haxademic.core.app.P;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
-import com.synthbot.audioplugin.vst.vst2.VstPinProperties;
 
 /**
  * JVstAudioThread implements a continuously running audio stream, calling

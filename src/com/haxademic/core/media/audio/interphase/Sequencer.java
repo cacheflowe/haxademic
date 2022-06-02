@@ -49,6 +49,11 @@ implements IAppStoreListener {
 	protected int curStep = 0;						// 1-16
 	protected int manualTriggerQueuedIndex = -1;	// the next beat
 	
+	// step sequencer
+	protected boolean steps[];
+	protected ISequencerPattern[] sequencerPatterns;
+	protected int curPatternGeneratorIndex = 0;
+	
 	// note selection
 	protected int pitchIndex1 = 0;
 	protected int pitchIndex2 = 0;
@@ -56,6 +61,11 @@ implements IAppStoreListener {
 	protected boolean upOctave = false;
 	protected int noteOffset = 0;
 	protected boolean chordMode = false;
+	
+	// trigger updates 
+	protected int manualTriggerTime = 0;
+	protected int sampleTriggerCount = 0;
+	protected boolean evolves = true;
 	
 	// audio effects
 	protected float sampleLength = 0;
@@ -65,16 +75,6 @@ implements IAppStoreListener {
 	protected float velocity = 1;
 	protected float reverbSize = 0;
 	protected float reverbDamping = 0;
-
-	// step sequencer
-	protected boolean steps[];
-	protected ISequencerPattern[] sequencerPatterns;
-	protected int curPatternGeneratorIndex = 0;
-	
-	// trigger updates 
-	protected int manualTriggerTime = 0;
-	protected int sampleTriggerCount = 0;
-	protected boolean evolves = true;
 
 	// audio sample playback objects
 	protected Sample curSample;
@@ -122,17 +122,21 @@ implements IAppStoreListener {
 	public String info() {
 		return 
 				  "index: " + index + FileUtil.NEWLINE
+			    + "SEQUENCE ------------------- " + FileUtil.NEWLINE
 				+ "curStep: " + curStep + FileUtil.NEWLINE
-				+ "file: " + filenames[sampleIndex] + FileUtil.NEWLINE
-				+ "sampleLength: " + sampleLength + FileUtil.NEWLINE
-				+ "evolves: " + evolves + FileUtil.NEWLINE
 				+ "sequencesComplete: " + sequencesComplete + FileUtil.NEWLINE
 				+ "triggerCount: " + (sampleTriggerCount % 4) + FileUtil.NEWLINE
-				+ "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound + FileUtil.NEWLINE
 				+ "velocity: " + P.round(100f * velocity) + FileUtil.NEWLINE
+				+ "EVOLVE ------------------- " + FileUtil.NEWLINE
+				+ "evolves: " + evolves + FileUtil.NEWLINE
+				+ "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound + FileUtil.NEWLINE
+				+ "SAMPLE ------------------- " + FileUtil.NEWLINE
+				+ "file: " + filenames[sampleIndex] + FileUtil.NEWLINE
+				+ "sampleLength: " + sampleLength + FileUtil.NEWLINE
 				+ "length: " + P.round(sampleLength) + FileUtil.NEWLINE
 				+ "attack: " + attack + FileUtil.NEWLINE
 				+ "release: " + release + FileUtil.NEWLINE
+				+ "NOTES ------------------- " + FileUtil.NEWLINE
 				+ "playsNotes: " + config.playsNotes + FileUtil.NEWLINE
 				+ "notesByStep: " + notesByStep + FileUtil.NEWLINE
 				+ "noteOffset: " + noteOffset + FileUtil.NEWLINE

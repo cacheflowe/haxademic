@@ -9,6 +9,9 @@ import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
+
+import themidibus.MidiBus;
+
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 
 public class Demo_LaunchPad_Multiple
@@ -25,10 +28,11 @@ implements ILaunchpadCallback {
 	}
 	
 	protected void firstFrame() {
-		launchpad1 = new LaunchPadMini(1, 4);
+		MidiBus.list();
+		launchpad1 = new LaunchPadMini(6, 9);
 //		launchpad1 = new LaunchPadMini("4- Launchpad");
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(2, 5);
+		launchpad2 = new LaunchPadMini(8, 11);
 //		launchpad2 = new LaunchPadMini("5- Launchpad");
 		launchpad2.setDelegate(this);
 	}

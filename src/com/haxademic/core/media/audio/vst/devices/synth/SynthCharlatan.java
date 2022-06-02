@@ -6,11 +6,16 @@ import com.haxademic.core.media.audio.vst.VSTPlugin;
 public class SynthCharlatan
 extends VSTPlugin {
 
+	public static String pluginPath = "vst/synth/Charlatan.dll";
+	
 	public SynthCharlatan() {
-		super("vst/synth/Charlatan.dll");
-//		allowsWindowOpen = false;
+		super(pluginPath);
 	}
 	
+	public SynthCharlatan(boolean openVstUI, boolean buildUI) {
+		super(pluginPath, openVstUI, buildUI);
+	}
+
 	public void randomizeAllParams() {
 		super.randomizeAllParams(new int[]{ 5, 9, 10, 11, 23, 49 });
 		// randomize some params that should stay within a specific range

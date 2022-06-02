@@ -9,26 +9,33 @@ import javax.sound.midi.ShortMessage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ArrayUtil;
+import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 import com.synthbot.audioio.vst.JVstAudioThread;
 import com.synthbot.audioplugin.vst.JVstLoadException;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
 import com.synthbot.audioplugin.vst.vst2.JVstHostListener;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class VSTPlugin
-implements JVstHostListener {
+implements JVstHostListener, IAppStoreListener {
 
 	private static final float SAMPLE_RATE = 44100f;
-	private static final int BLOCK_SIZE = 8912;
+	private static final int BLOCK_SIZE = 2048;
 	
 	protected String vstPath;
 	protected JVstHost2 vst;
 	protected JVstAudioThread audioThread;
 	protected boolean allowsWindowOpen = true;
 	protected boolean vstWindowOpen = false;
+	protected boolean hasUI = false;
 	
 	private int channel = 0;
 	private int velocity = 101;
@@ -45,14 +52,17 @@ implements JVstHostListener {
 
 
 	public VSTPlugin(String vstPath) {
-		this.vstPath = vstPath;
-		initVst();
+		this(vstPath, false, false);
 	}
 	
-	protected void initVst() {
+	public VSTPlugin(String vstPath, boolean openVstUI, boolean buildUI) {
+		this.vstPath = vstPath;
+		P.store.addListener(this);
+
+		// load VST
 		JVstHostListener self = this;
 		new Thread(new Runnable() { public void run() {
-			// these are happy
+			// load VST
 			String vstFile = FileUtil.getPath(vstPath);
 			try {
 				vst = JVstHost2.newInstance(FileUtil.fileFromPath(vstFile), SAMPLE_RATE, BLOCK_SIZE);
@@ -63,6 +73,10 @@ implements JVstHostListener {
 				jvle.printStackTrace(System.err);
 			}
 			vst.addJVstHostListener(self);
+			
+			// add UI options
+			if(openVstUI) toggleVstUI();
+			if(buildUI) buildUISliders();
 			
 			// start the audio thread
 			audioThread = new JVstAudioThread(vst);
@@ -76,13 +90,42 @@ implements JVstHostListener {
 		P.out("[VST] Loaded - " + vst.getEffectName() + " by " + vst.getVendorName());
 		P.out("[VST] ..with - " + vst.numParameters() + " parameters");
 	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	P.out("[VST] Param [" + i + "] - " + vst.getParameterName(i) + " (" + vst.getParameterLabel(i) + "}");
+	    	P.out("[VST] Param [" + i + "] - " + vst.getParameterName(i) + " (" + vst.getParameterLabel(i) + ")");
 	    }
 	    P.out("[VST] ..with - " + vst.numPrograms() + " programs");
 	    for (int i = 0; i < vst.numPrograms(); i++) {
 	    	P.out("[VST] Program [" + i + "] - " + vst.getProgramName(i));
 	    }
 	    P.out("[VST] ###################################################################");
+	}
+	
+	public String getVstName() {
+		return vst.getEffectName();
+	}
+	
+	public String getVstVendor() {
+		return vst.getVendorName();
+	}
+	
+	protected String vstUIKeyForParamIndex(int i) {
+		return getVstName() + " |" + i + "| " + vst.getParameterName(i);
+	}
+	
+	protected void buildUISliders() {
+		hasUI = true;
+		UI.addTitle(getVstName());
+	    for (int i = 0; i < vst.numParameters(); i++) {
+	    	float initVal = vst.getParameter(i);
+	    	UI.addSlider(vstUIKeyForParamIndex(i), initVal, 0, 1, 0.005f, false);
+	    }
+	}
+	
+	protected void syncUIToVstUI() {
+		if(!hasUI) return;
+	    for (int i = 0; i < vst.numParameters(); i++) {
+	    	float initVal = vst.getParameter(i);
+	    	UI.setValue(vstUIKeyForParamIndex(i), initVal);
+	    }
 	}
 	
 	public void playRandomNote() {
@@ -133,6 +176,7 @@ implements JVstHostListener {
 	
 	public void randomizeAllParams() {
 		randomizeAllParams(null);
+		syncUIToVstUI();
 	}
 	
 	public void randomizeAllParams(int[] excludeIndices) {
@@ -142,6 +186,7 @@ implements JVstHostListener {
 	    		vst.setParameter(i, P.p.random(1));
 	    	}
 	    }
+	    syncUIToVstUI();
 	}
 
 	public void toggleVstUI() {
@@ -168,4 +213,24 @@ implements JVstHostListener {
 	public void onAudioMasterEndEdit(JVstHost2 arg0, int arg1) {}
 	public void onAudioMasterIoChanged(JVstHost2 arg0, int arg1, int arg2, int arg3, int arg4) {}
 	public void onAudioMasterProcessMidiEvents(JVstHost2 arg0, ShortMessage arg1) {}
+
+	/////////////////////////////////////
+	// AppStore callbacks
+	/////////////////////////////////////
+	
+	public void updatedNumber(String key, Number val) {
+		// get index from UI slider key, and update params
+		if(vst != null && hasUI && key.contains(getVstName())) {
+			int indexIndex = key.indexOf("|") + 1;
+			int index2Index = key.indexOf("|", indexIndex);
+			int vstParamIndex = ConvertUtil.stringToInt(key.substring(indexIndex, index2Index));
+			vst.setParameter(vstParamIndex, val.floatValue());
+		}
+	}
+	public void updatedString(String key, String val) {
+//		if(key.equals(PEvents.KEY_PRESSED) && val.equals("p")) playRandomNote(300);
+	}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 }

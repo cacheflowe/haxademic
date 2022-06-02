@@ -110,7 +110,6 @@ implements SimpleMidiListener {
 	public void setButton(int x, int y, float val) {
 		// quantize normalized number for less color-changing via the following comparison 
 		val = P.floor(val * (float) numColors()) / (float) numColors();
-//		P.out(val);
 		// update on launchpad hardware
 		if(grid[x][y] != val) {
 			grid[x][y] = val;

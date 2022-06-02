@@ -182,7 +182,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public Interphase initGlobalControlsUI(int[] samplePickerMidiCC, int[] volumeMidiCC) {
 		UI.addTitle("Interphase");
-		UI.addSlider(UI_GLOBAL_BPM, P.store.getInt(BPM), 60, 170, 1, false);
+		UI.addSlider(UI_GLOBAL_BPM, P.store.getInt(BPM), 30, 200, 1, false);
 		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
 		UI.addSlider(UI_CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
 		UI.addTitle("Interphase | Sequencers");
@@ -392,7 +392,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
-		
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {

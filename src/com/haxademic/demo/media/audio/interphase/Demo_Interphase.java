@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 
@@ -24,6 +25,7 @@ extends PAppletHax {
 		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
 		interphase.initUI();
 		interphase.initLaunchpads(2, 5, 4, 7);
+//		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2);
 		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 	}

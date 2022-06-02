@@ -30,7 +30,7 @@ implements SimpleMidiListener {
 		// prep audio input
 		AudioIn.instance();
 		// init 2 devices
-		device1 = MidiDevice.init(1, 4, this);	// basic singleton initialization in case there's only one device
+		device1 = MidiDevice.init(3, 6, this);	// basic singleton initialization in case there's only one device
 //		device2 = new MidiDevice(2, 5, this);	// a 2nd device, with normal constructor
 	}
 	

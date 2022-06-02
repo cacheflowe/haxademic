@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.vst;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
 import com.haxademic.core.media.audio.vst.devices.synth.SynthYoozBL303;
 import com.haxademic.core.render.FrameLoop;
@@ -12,13 +13,15 @@ extends PAppletHax {
 
 	protected VSTPlugin vstSynth;
 	protected VSTPlugin vstSynth2;
+	
+	protected LinearFloat trigger = new LinearFloat(0, 0.03f);
 
 	protected void firstFrame() {
 		// these are happy with their window being opened
 //		String vstFile = FileUtil.getPath("vst/synth/Zebra2(x64).dll");
 //		String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
 //		vstSynth = new SynthCharlatan();
-		vstSynth = new SynthYoozBL303();
+		vstSynth = new SynthYoozBL303(true, true);
 		vstSynth2 = new VSTPlugin("vst/synth/Synsonic_BD-909.dll");
 		
 		// these ones don't like their window opened, or at least opened automatically:
@@ -28,11 +31,14 @@ extends PAppletHax {
 	}
 
 	protected void drawApp() {
-		background(0);
+		trigger.update();
+		background(30 * trigger.value());
+		
 		// play notes
-		if(FrameLoop.frameMod(20) == 1) {
+		if(FrameLoop.frameMod(30) == 1) {
 			vstSynth.playRandomNote(300);
 			vstSynth2.playMidiNote(36, 100);
+			trigger.setTarget(0).setCurrent(1);
 		}
 //		if(FrameLoop.frameMod(60) == 30) vstSynth.playRandomNote(400);
 //		if(FrameLoop.frameMod(60) == 1) vstSynth2.playRandomNote(400);
@@ -43,7 +49,6 @@ extends PAppletHax {
 		// it messes up the output. we need to grab from the audio thread?
 //		float[][] waveform = vstSynth.updateWaveform();
 //		drawWaveform(waveform);
-
 	}
 
 	protected void drawWaveform(float[][] waveform) {
@@ -63,6 +68,10 @@ extends PAppletHax {
 		if(p.key == 'v') vstSynth.toggleVstUI();
 		if(p.key == 'V' && vstSynth2 != null) vstSynth2.toggleVstUI();
 		if(p.key == 'm' && vstSynth2 != null) vstSynth2.randomizeAllParams();
+		if(p.key == 'p' && vstSynth != null) {
+			vstSynth.playRandomNote(300);
+			trigger.setTarget(0).setCurrent(1);
+		}
 	}
 
 }
