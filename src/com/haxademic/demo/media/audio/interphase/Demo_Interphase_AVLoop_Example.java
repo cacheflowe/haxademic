@@ -228,7 +228,7 @@ implements IAppStoreListener {
 //		if(key.equals(Interphase.BEAT)) {
 		if(key.equals(Interphase.CUR_STEP)) {
 		}
-		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
+		if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
 			// add delay - signals happen before audio is audible
 			int vizTriggerDelay = 120;
 			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {

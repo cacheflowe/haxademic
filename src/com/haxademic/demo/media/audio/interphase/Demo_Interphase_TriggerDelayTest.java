@@ -135,7 +135,7 @@ implements IAppStoreListener {
 //		if(key.equals(Interphase.BEAT)) {
 		if(key.equals(Interphase.CUR_STEP)) {
 		}
-		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
+		if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
 			sequencerTriggers[val.intValue()].setCurrent(1).setTarget(0);
 		}
 	}

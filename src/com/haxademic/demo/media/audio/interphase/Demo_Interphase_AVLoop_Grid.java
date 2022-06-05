@@ -125,7 +125,7 @@ implements IAppStoreListener {
 			if(val.intValue() == 2) audioTexture.newLineMode();
 			if(val.intValue() == 5) audioTexture.updateTiming();
 		}
-		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
+		if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
 			if(P.store.getInt(Interphase.CUR_STEP) % 2 == 0) audioTexture.updateTiming();
 			
 			if(val.intValue() == 0) audioTexture.newLineMode();

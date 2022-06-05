@@ -22,6 +22,7 @@ import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
 
+import beads.AudioContext;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONArray;
@@ -43,7 +44,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public static final String BEAT = "BEAT";
 	public static final String CUR_STEP = "CUR_STEP";
 	public static final String BPM = "BPM";
-	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER";
+	public static final String SEQUENCER_TRIGGER_VISUAL = "SEQUENCER_TRIGGER";
+	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER_IMMEDIATE";
 
 	// state
 	
@@ -114,6 +116,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		P.store.setNumber(BPM, 90);
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
+		P.store.setNumber(SEQUENCER_TRIGGER_VISUAL, 0);
 		P.store.setNumber(SEQUENCER_TRIGGER, 0);
 		P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, false);
 		P.store.addListener(this);
@@ -247,6 +250,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	/////////////////////////////////
 	// GETTERS
 	/////////////////////////////////
+	
+	public AudioContext ac() {
+		return Metronome.ac;
+	}
 	
 	public Sequencer[] sequencers() {
 		return sequencers;
@@ -512,7 +519,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		DebugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
 		DebugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
 		DebugView.setValue("INTERPHASE :: GLOBAL_PATTERNS_EVLOVE", P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
-		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
+		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER_VISUAL));
 		DebugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
 	

@@ -441,13 +441,13 @@ implements IAppStoreListener {
 		if(chordMode) player2 = playSampleWithNote(player2, pitchRatioFromIndex(pitchIndex2));
 		
 		// let the app know
+		P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
 		if(TRIGGER_DELAY == 0) {
-			P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
+			P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
 		} else {
 			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {
-				P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
+				P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
 			}}, TRIGGER_DELAY);
-
 		}
 					
 		// reset play trigger flag

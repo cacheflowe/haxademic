@@ -241,7 +241,7 @@ implements IAppStoreListener {
 //			if(val.intValue() == 0) audioTexture.newMode();
 //			if(val.intValue() == 2) audioTexture.newLineMode();
 		}
-		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
+		if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
 //			if(val.intValue() == 0) audioTexture.newLineMode();
 //			if(val.intValue() == 1) audioTexture.newMode();
 		}
