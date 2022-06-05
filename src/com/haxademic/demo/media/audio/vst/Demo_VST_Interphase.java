@@ -12,6 +12,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
+import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
@@ -71,6 +72,16 @@ implements IAppStoreListener {
 		// keep loop synced
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
 		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 4f);
+		
+		// draw sound?
+		player.drawWav(p.g, beat1);
+		
+		// add reverb
+		for (int i = 0; i < interphase.numChannels(); i++) {
+			Sequencer seq = interphase.sequencerAt(i);
+			seq.reverb(1.0f, 1.5f);
+			if(i == 0) seq.reverb(0.01f, 0.9f);
+		}
 	}
 	
 
