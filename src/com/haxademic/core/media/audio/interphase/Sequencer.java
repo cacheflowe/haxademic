@@ -11,9 +11,11 @@ import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternUtil;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
 
@@ -89,10 +91,12 @@ implements IAppStoreListener {
 	protected String[] filenames;
 	protected boolean useASDR = true;
 	
-	// helps with syncing visual triggers with audio sample start time
-	public static int TRIGGER_DELAY = 130;
+	// draw waveform
+	protected PGraphics waveformPG;
+	protected boolean waveformDirty = false;
 
 	// draw object
+	public static int TRIGGER_DELAY = 130; // helps with syncing visual triggers with audio sample start time
 	protected ISequencerDrawable drawable;
 	
 	// local audio analysis
@@ -106,6 +110,7 @@ implements IAppStoreListener {
 		this.sequencerPatterns = config.patterns;
 		this.inter = inter;
 		getAudiofiles(audioDir);
+		buildWaveformBuffer();
 		loadNextSound();
 		initStepValues();
 		updateChangeSoundCount();
@@ -278,7 +283,7 @@ implements IAppStoreListener {
 	
 	public Sequencer setSampleByIndex(int index) {
 		sampleIndex = index;
-		curSample = samples[sampleIndex % samples.length]; // safe access
+		setSample(samples[sampleIndex % samples.length]); // safe access
 		return this;
 	}
 	
@@ -296,7 +301,7 @@ implements IAppStoreListener {
 	}
 	
 	public void setSampleByPath(String samplePath) {
-		curSample = SampleManager.sample(samplePath); // samples[curSampleIndex];
+		setSample(SampleManager.sample(samplePath)); // samples[curSampleIndex];
 		// check if exists in current sample collection
 		// otherwise, note that we loaded outside of collection
 	}
@@ -327,7 +332,17 @@ implements IAppStoreListener {
 				DebugView.setTexture("Audio Input " + index, audioIn.debugBuffer());
 			}
 		}
-		if(drawable != null) drawable.update(steps, curStep); 
+		if(drawable != null) drawable.update(steps, curStep);
+		if(waveformDirty) {
+			waveformDirty = false;
+			waveformPG.beginDraw();
+			waveformPG.background(0);
+			waveformPG.fill(255);
+			PG.setDrawCenter(waveformPG);
+			waveformPG.translate(0, waveformPG.height / 2);
+			WavPlayer.drawWav(waveformPG, curSample);
+			waveformPG.endDraw();
+		}
 	}
 	
 	public void setDrawable(ISequencerDrawable drawable) {
@@ -412,6 +427,12 @@ implements IAppStoreListener {
 	// AUDIO
 	/////////////////////////////////////
 	
+	protected void buildWaveformBuffer() {
+		waveformPG = PG.newPG2DFast(512, 32);
+		DebugView.setTexture("Sequencer.waveformPG_"+index, waveformPG);
+
+	}
+	
 	protected void getAudiofiles(String audioDir) {
 		String absAudioPath = audioDir;// FileUtil.getFile(audioDir);
 		P.out(absAudioPath);
@@ -426,7 +447,12 @@ implements IAppStoreListener {
 		}
 		
 		sampleIndex = MathUtil.randRange(0, samples.length - 1);
-		curSample = samples[sampleIndex];
+		setSample(samples[sampleIndex]);
+	}
+	
+	protected void setSample(Sample newSample) {
+		curSample = newSample;
+		waveformDirty = true;
 	}
 	
 	public void playSample() {
@@ -586,7 +612,7 @@ implements IAppStoreListener {
 	public void loadNextSound() {
 		sampleIndex++;
 		if(sampleIndex >= samples.length) sampleIndex = 0;
-		curSample = samples[sampleIndex];
+		setSample(samples[sampleIndex]);
 		sampleLength = (float) curSample.getLength();
 		DebugView.setValue("Sequencer.curSample_"+index, FileUtil.fileNameFromPath(curSample.getFileName()));
 	}

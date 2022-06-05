@@ -4,11 +4,10 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
-import beads.Bead;
-import beads.DelayTrigger;
 import beads.Envelope;
 import beads.Gain;
 import beads.Glide;
@@ -17,6 +16,7 @@ import beads.Panner;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
+import processing.core.PGraphics;
 
 public class WavPlayer {
 
@@ -77,7 +77,6 @@ public class WavPlayer {
 		curContext.out.setGain(vol);
 	}
 	
-	
 	// play triggers
 	
 	public boolean playWav(String filePath) {
@@ -104,11 +103,36 @@ public class WavPlayer {
 			players.put(id, player);
 			player.setKillOnEnd(true);
 			
+			
+			// experimenting with pan LFO
+			Panner panner;
+			boolean autoPan = false;
+			if(autoPan) {
+				// Initialize the LFO at a frequency of 0.33Hz.
+				// create a custom frequency modulation function
+//				Function frequencyModulation = new Function(new WavePlayer(curContext, 0.33f, Buffer.SINE)) {
+//					public float calculate() {
+//						// return x[0], scaled into an appropriate frequency
+//						// range
+//						return (x[0] * 100.0f) + Mouse.y;
+//					}
+//				};
+//				WavePlayer panLFO = new WavePlayer(curContext, frequencyModulation, Buffer.SINE);
+//				WavePlayer panLFO = new WavePlayer(curContext, 0.33f, Buffer.SINE);
+				Envelope panEnvelope = new Envelope(curContext, 0.0f);
+				for(int i=0; i < 10; i++) {
+					panEnvelope.addSegment(1f, 150);
+					panEnvelope.addSegment(-1f, 150);
+				}
+				panEnvelope.addSegment(0, 150);
+				panner = new Panner(curContext, panEnvelope);	// panLFO  // panEnvelope
+			} else {
+				panner = new Panner(curContext, panAmp);
+			}
 			// pan it! 
-			Panner panner = new Panner(curContext, panAmp);
 			panner.setKillListener(player);
+			panner.addInput(player);
 			panners.put(id, panner);
-			panners.get(id).addInput(player);
 			
 			// set pitch if needed
 			int glideTime = 0;
@@ -139,14 +163,16 @@ public class WavPlayer {
 				ampEnv.addSegment(volume, attackTime, fadeCurve);
 				ampEnv.addSegment(endGain, releaseTime, 1f/fadeCurve, new KillTrigger(gain));			// attack & release envelope segments
 			} else {
+				ampEnv.addSegment(volume, 0, 1f);
 			}
 			// need a KillTrigger if we're not using the on in the Envelope
 			// otherwise players don't clear out!
 			// clean up panner too!
 			player.setKillListener(new KillTrigger(gain)); 	
-			panner.setKillListener(new KillTrigger(gain)); 	
+			panner.setKillListener(new KillTrigger(gain));
 			
 			// add Gain
+			ampEnvs.put(id, ampEnv);		
 			gains.put(id, gain);		
 			gain.addInput(panner);
 			
@@ -154,21 +180,36 @@ public class WavPlayer {
 			curContext.out.addInput(gain);		// to test SamplePlayer without audio chain: addInput(player);
 				
 			// play it, with delay or without
-			Bead myBead = new Bead() {
-				protected void messageReceived(Bead b) {
-					// play from sample start - this un-pauses
-					player.start(sampleStart);
-					
-					// trigger as loop or one-shot
-					if(loops) {
-						player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
-//							player.setLoopCrossFade(200);
-					}
-					else player.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
-				}
-			};
-			DelayTrigger dt = new DelayTrigger(curContext, delay, myBead, null);
-			curContext.out.addDependent(dt);
+//			Bead myBead = new Bead() {
+//				protected void messageReceived(Bead b) {
+//					// play from sample start - this un-pauses
+//					player.start(sampleStart);
+//					
+//					// trigger as loop or one-shot
+//					if(loops) {
+//						player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+////							player.setLoopCrossFade(200);
+//					}
+//					else player.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+//				}
+//			};
+//			
+//			// attempt to delay... having issues, so just call .start();
+//			DelayTrigger dt = new DelayTrigger(curContext, delay, myBead, null);
+//			curContext.out.addDependent(dt);
+			
+
+			// PLAY NORMALLY - no delay
+			// play from sample start - this un-pauses
+			player.start(sampleStart);
+			
+			// trigger as loop or one-shot
+			if(loops) {
+				player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+//					player.setLoopCrossFade(200);
+			}
+			else player.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+
 			
 			success = true;
 		} else {
@@ -204,7 +245,9 @@ public class WavPlayer {
 	public void seekToProgress(String id, float progress) {
 		if(getPlayer(id) != null) {
 //			getPlayer(id).start(duration(id) * progress);
-			getPlayer(id).setPosition(duration(id) * progress);
+			float playTimeMS = duration(id) * progress;
+			P.out(playTimeMS);
+			getPlayer(id).setPosition(playTimeMS);
 		}
 	}
 	
@@ -235,7 +278,7 @@ public class WavPlayer {
 	
 	public WavPlayer fadeOut(String id) {
 		if(getPlayer(id) != null) {
-			P.out("FASE", ampEnvs.get(id));
+			P.out("FADE", ampEnvs.get(id));
 			float fadeCurve = 2f;
 //			ampEnvs.get(id).addSegment(1, 0, fadeCurve);
 //			ampEnvs.get(id).addSegment(fadeCurve, fadeCurve, fadeCurve, null)
@@ -296,6 +339,34 @@ public class WavPlayer {
 			getPlayer(id).setRate(glides.get(id));
 		}
 		return this;
+	}
+	
+	public void drawWav(PGraphics pg, String id) {
+		SamplePlayer sp = getPlayer(id);
+		if(sp == null) return;
+		Sample sample = sp.getSample();
+		if(sample == null) return;
+		
+		WavPlayer.drawWav(pg, sample);
+	}
+	
+	public static void drawWav(PGraphics pg, Sample sample) {
+		if(sample == null) return;
+		
+		long sampleFrames = sample.getNumFrames();
+		if(sampleFrames == 0 || sample.getLength() == 0) return;
+		
+		int numChannels = sample.getNumChannels();
+		float[][] SampleFrames = new float[numChannels][(int)sampleFrames]; // (int)sampleFrames
+		sample.getFrames(0, SampleFrames);
+		float skipFrames = SampleFrames[0].length / 512f;
+		int x = 0;
+		int h = 512;
+		for (float i = 0; i < SampleFrames[0].length; i+=skipFrames) {
+			pg.fill(255);
+			pg.rect(x, 0, 1, h * SampleFrames[0][P.floor(i)]);
+			x++;
+		}
 	}
 	
 }
