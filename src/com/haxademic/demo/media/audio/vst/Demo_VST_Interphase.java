@@ -16,7 +16,7 @@ import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
-import com.haxademic.core.media.audio.vst.devices.synth.SynthCharlatan;
+import com.haxademic.core.media.audio.vst.devices.synth.SynthDolphin;
 import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
@@ -55,7 +55,7 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 		
 		// load VSTs
-		vstSynth = new SynthCharlatan(true, true);
+		vstSynth = new SynthDolphin(true, true);
 		
 		// beat loop
 		AudioContext acInterphase = Metronome.ac;
@@ -74,7 +74,7 @@ implements IAppStoreListener {
 		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 4f);
 		
 		// draw sound?
-		player.drawWav(p.g, beat1);
+//		player.drawWav(p.g, beat1);
 		
 		// add reverb
 		for (int i = 0; i < interphase.numChannels(); i++) {
@@ -85,14 +85,17 @@ implements IAppStoreListener {
 	}
 	
 
-	protected void triggerLoop(int beat) {
+	protected void triggerLoop(float progress) {
 		// set loop to global bpm
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
 		// chop it up on the beat!
 		player.stop(beat1);
 		player.playWav(beat1);
-		player.seekToProgress(beat1, MathUtil.randRange(0, 3) * 0.25f);
-//		player.seekToProgress(beat1, 0);
+		if(progress < 0) {
+			player.seekToProgress(beat1, MathUtil.randRange(0, 3) * 0.25f);	
+		} else {
+			player.seekToProgress(beat1, progress);	
+		}
 		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 4f);
 	}
 	
@@ -115,15 +118,15 @@ implements IAppStoreListener {
 				if(P.store.getInt(Interphase.CUR_STEP) <= 1) vstSynth.randomizeAllParams();
 				int curSequencerNote = interphase.sequencerAt(bassChannelIndex).pitchIndex1();
 //				vstSynth.playRandomNote(200);
-				vstSynth.playMidiNote(24 + curSequencerNote, 300);
+				vstSynth.playMidiNote(36 + curSequencerNote, 100);
 			}
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
 			// breakbeat chop on the kick!
 			int sequencerIndex = val.intValue();
-			if(sequencerIndex == 0) {
-				triggerLoop(-1);
-			}
+			if(sequencerIndex == 0) triggerLoop(0); 
+			if(sequencerIndex == 1) triggerLoop(0.25f); 
+			if(sequencerIndex == 2) triggerLoop(0.25f * 1.5f); 
 		}
 	}
 	public void updatedString(String key, String val) {

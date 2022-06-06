@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
@@ -524,6 +525,49 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	protected void drawSequencer(PGraphics pg) {
+		float boxSize = pg.width / NUM_STEPS;
+		float drawW = (boxSize * sequencers.length);
+		float startY =  drawW/ -2f - boxSize / 2;
+		float startX = (boxSize * NUM_STEPS) / -2f;
+		if(pg != P.p.g) pg.beginDraw();
+		if(pg != P.p.g) pg.background(0);
+		PG.setCenterScreen(pg);
+		PG.setDrawCorner(pg);
+		
+		pg.translate(startX, startY);
+		
+		// draw grid
+		pg.blendMode(PBlendModes.LIGHTEST);
+		for (int y = 0; y < NUM_CHANNELS; y++) {
+			for (int x = 0; x < NUM_STEPS; x++) {
+				boolean isOn = (sequencers[y].stepActive(x)); 
+				pg.push();
+				pg.translate(x * boxSize, y * boxSize);
+				int cellColor = 10;
+				if(x % 4 == 0) cellColor = P.p.color(0, 87, 167);
+				if(isOn) cellColor = P.p.color(0, 127, 0);
+				pg.fill(cellColor);
+				pg.stroke(100);
+				pg.rect(0, 0, boxSize, boxSize);
+				if(isOn) pg.image(sequencers[y].waveformPG, 0, 0, sequencers[y].waveformPG.width, boxSize);
+				pg.pop();
+			}
+		}
+		pg.blendMode(PBlendModes.BLEND);
+		
+		// track current beat
+		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
+		pg.push();
+		pg.stroke(255);
+		pg.stroke(0, 255, 0);
+		pg.fill(255, 50);
+		pg.rect(curBeat * boxSize, 0, boxSize, boxSize * NUM_CHANNELS);
+		pg.popMatrix();	
+		
+		if(pg != P.p.g) pg.endDraw();
+	}
+
+	protected void drawSequencer3D(PGraphics pg) {
 		float spacing = 40;
 		float boxSize = 25;
 		float startx = (spacing * sequencers.length) / -2f + boxSize/2;
@@ -569,7 +613,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		
 		pg.endDraw();
 	}
-
+	
 	/////////////////////////////////
 	// LAUNCHPAD CALLBACK
 	/////////////////////////////////

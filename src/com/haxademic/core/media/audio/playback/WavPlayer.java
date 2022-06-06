@@ -361,7 +361,7 @@ public class WavPlayer {
 		sample.getFrames(0, SampleFrames);
 		float skipFrames = SampleFrames[0].length / 512f;
 		int x = 0;
-		int h = 512;
+		int h = pg.height;
 		for (float i = 0; i < SampleFrames[0].length; i+=skipFrames) {
 			pg.fill(255);
 			pg.rect(x, 0, 1, h * SampleFrames[0][P.floor(i)]);
