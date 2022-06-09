@@ -253,6 +253,13 @@ Look into using a package manager or automated installer if you need to set up m
 * [Chocolatey](https://chocolatey.org/)
 * [Ninite](https://ninite.com/)
 
+## Make sure your app is using the graphics card
+
+Windows doesn't necesaarily respect NVIDIA settings, when you want to specify that your app should use the dicrete GPU. Go to: 
+
+* (WIN + "Graphics") System -> Display -> Graphics
+* Click "Browse" and find your app. If you're using a system Java installation, find the JDK directory, then select `/bin/java` and `/bin/javaw`, and select your high performance graphics card from the menu, and save the setting
+
 ## Additional steps
 
   * BIOS settings to resume after power loss!!!
