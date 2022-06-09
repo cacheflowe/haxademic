@@ -48,7 +48,7 @@
 * Turn off notifications:
   * (WIN + "Notifications") Settings -> System -> Notifications & actions
   * (WIN + "Notifications privacy") Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications" and other checkbox
-  * (WIN + "Windows Security" -> Settings) Settings -> Network & Internet -> Windows Firewall -> Firewall notification settings
+  * (WIN + "Firewall" -> Settings) Settings -> Firewall & network protection -> Firewall notification settings
     * Uncheck all "Notify me" boxes
   * (WIN + "Security & Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
     * Uncheck all boxes
@@ -87,8 +87,8 @@
 ## Windows settings
 
 * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
-* (WIN + "Taskbar") Settings -> Personalization -> Taskbar -> Hide the taskbar in desktop mode
-* (WIN + "Customize the Taskbar") Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
+* (WIN + "Taskbar") Settings -> Personalization -> Taskbar -> Turn off Taskbar items
+* (WIN + "Taskbar") Settings -> Personalization -> Taskbar behavriors -> Hide the taskbar in desktop mode, remove badges, don't show on all displays
 * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
 * (WIN + "Developer") Set to Developer mode:
   * Settings -> Update & Security -> For developers -> Developer Mode option
