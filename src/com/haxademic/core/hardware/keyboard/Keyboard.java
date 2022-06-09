@@ -66,6 +66,14 @@ public class Keyboard {
 		keyRelease(KeyEvent.VK_CONTROL);
 	}
 	
+	public static void keyCommandMinimizeWindowWinKey() {
+		keyPress(KeyEvent.VK_WINDOWS);
+		keyPress(KeyEvent.VK_DOWN);
+		keyRelease(KeyEvent.VK_DOWN);
+		keyRelease(KeyEvent.VK_WINDOWS);
+
+	}
+	
 	public static void keyCommandMinimizeWindow() {
 		keyPress(KeyEvent.VK_ALT);
 		keyPress(KeyEvent.VK_SPACE);
@@ -73,6 +81,20 @@ public class Keyboard {
 		keyRelease(KeyEvent.VK_ALT);
 		keyRelease(KeyEvent.VK_SPACE);
 		keyRelease(KeyEvent.VK_N);
+		
+//		ActionListener keyPressMinimizeDevPanel1 = new ActionListener() {public void actionPerformed(ActionEvent e) {
+//			Keyboard.keyPress(KeyEvent.VK_ALT);
+//			Keyboard.keyPress(KeyEvent.VK_SPACE);
+//		}};
+//		ActionListener keyPressMinimizeDevPanel2 = new ActionListener() {public void actionPerformed(ActionEvent e) {
+//			Keyboard.keyPress(KeyEvent.VK_N);
+//			Keyboard.keyRelease(KeyEvent.VK_ALT);
+//			Keyboard.keyRelease(KeyEvent.VK_SPACE);
+//			Keyboard.keyRelease(KeyEvent.VK_N);
+//		}};
+//
+//		SystemUtil.setTimeout(keyPressMinimizeDevPanel1, 500);
+//		SystemUtil.setTimeout(keyPressMinimizeDevPanel2, 1000);
 	}
 	
 }
