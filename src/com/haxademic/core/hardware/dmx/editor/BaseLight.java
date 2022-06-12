@@ -48,7 +48,7 @@ public class BaseLight {
 		
 		// lerp towards map color
 		dmxFixture.color().setTargetInt(color);
-		dmxFixture.color().setTargetA(P.p.brightness(color));
+//		dmxFixture.color().setTargetA(P.p.brightness(color));
 		dmxFixture.color().update();
 	}
 
