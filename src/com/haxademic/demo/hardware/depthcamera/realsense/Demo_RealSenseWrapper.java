@@ -31,8 +31,12 @@ extends PAppletHax {
 		p.background(0);
 		p.noStroke();
 		realSenseWrapper.update();
-		p.image(realSenseWrapper.getRgbImage(), 0, 0);
-		p.image(realSenseWrapper.getDepthImage(), 0, realSenseWrapper.getRgbImage().height);
+		if(realSenseWrapper.getRgbImage() != null) {
+			p.image(realSenseWrapper.getRgbImage(), 0, 0);
+			p.image(realSenseWrapper.getDepthImage(), 0, realSenseWrapper.getRgbImage().height);
+		} else {
+			p.image(realSenseWrapper.getDepthImage(), 0, 0);
+		}
 		p.blendMode(PBlendModes.ADD);
 		PG.setPImageAlpha(p, 0.25f);
 		p.image(realSenseWrapper.getDepthImage(), 0, 0);
