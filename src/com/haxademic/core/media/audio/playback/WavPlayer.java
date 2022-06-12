@@ -246,7 +246,6 @@ public class WavPlayer {
 		if(getPlayer(id) != null) {
 //			getPlayer(id).start(duration(id) * progress);
 			float playTimeMS = duration(id) * progress;
-			P.out(playTimeMS);
 			getPlayer(id).setPosition(playTimeMS);
 		}
 	}
