@@ -131,20 +131,20 @@ public class Metronome {
 		return bpmToIntervalMS(bpm, 1);	// default to one bar length, four in a loop
 	}
 	
-	public static float bpmToIntervalMS(float bpm, int measureDivider) {
+	public static float bpmToIntervalMS(float bpm, float measureDivider) {
 		// one minute divided by bpm
 		return 60000f / bpm * measureDivider;
 	}
 	
-	public static void shiftPitchToMatchBpm(WavPlayer player, String id, float bpm, int measureDivider) {
+	public static void shiftPitchToMatchBpm(WavPlayer player, String id, float bpm, float measureDivider) {
 		// formula from https://math.stackexchange.com/a/1205895
 		float bpmToMs = Metronome.bpmToIntervalMS(bpm, measureDivider); // times 4 because they're only 1 bar loops
 		float syncRatio = (bpmToMs) / player.duration(id);
-		float pitchShift = P.log(syncRatio) / P.log(2f);
+		float pitchShift = P.log(syncRatio) / P.log(2f); // * 1.1f;
 		player.setPitch(id, -pitchShift * 12f);
 	}
 	
-	public static void shiftPitchToMatchBpm(SamplePlayer player, Glide glide, float bpm, int measureDivider) {
+	public static void shiftPitchToMatchBpm(SamplePlayer player, Glide glide, float bpm, float measureDivider) {
 		// formula from https://math.stackexchange.com/a/1205895
 		float bpmToMs = Metronome.bpmToIntervalMS(bpm, measureDivider); // times 4 because they're only 1 bar loops
 		float syncRatio = (bpmToMs) / (float) player.getSample().getLength();
