@@ -1,11 +1,13 @@
 package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.data.constants.PShapeTypes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
@@ -13,6 +15,7 @@ public class DepthCameraRegion
 extends BaseJoystick
 implements IJoystickControl {
 	
+	// region props
 	protected int left = 0;
 	protected int right = 0;
 	protected int near = 0;
@@ -24,6 +27,49 @@ implements IJoystickControl {
 	
 	protected int debugColor = -1;
 	protected int pixelCount = 0;
+	
+	// ui
+	protected String uiID = null;
+	protected boolean hasUI = false;
+	protected String CAMERA_LEFT = "CAMERA_LEFT";
+	protected String CAMERA_RIGHT = "CAMERA_RIGHT";
+	protected String CAMERA_NEAR = "CAMERA_NEAR";
+	protected String CAMERA_FAR = "CAMERA_FAR";
+	protected String CAMERA_TOP = "CAMERA_TOP";
+	protected String CAMERA_BOTTOM = "CAMERA_BOTTOM";
+	protected String CAMERA_PIXEL_SKIP = "CAMERA_PIXEL_SKIP";
+	protected String CAMERA_MIN_PIXELS = "CAMERA_MIN_PIXELS";
+
+	
+	public DepthCameraRegion(String uiID, boolean savesUI) {
+		this(0, 0, 0, 0, 0, 0, 0, 0, 0xff00ff00);
+
+		// set UI keys to be unique in case of multiple cameras. needs testing
+		CAMERA_LEFT += "_" + uiID;
+		CAMERA_RIGHT += "_" + uiID;
+		CAMERA_NEAR += "_" + uiID;
+		CAMERA_FAR += "_" + uiID;
+		CAMERA_TOP += "_" + uiID;
+		CAMERA_BOTTOM += "_" + uiID;
+		CAMERA_PIXEL_SKIP += "_" + uiID;
+		CAMERA_MIN_PIXELS += "_" + uiID;
+		
+		// if nothing passed in, we create UI controls
+		UI.addTitle("DepthCamera Config");
+		UI.addSlider(CAMERA_LEFT, 0, 0, DepthCameraSize.WIDTH, 1, savesUI);
+		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, savesUI);
+		UI.addSlider(CAMERA_NEAR, 500, 0, 20000, 1, savesUI);
+		UI.addSlider(CAMERA_FAR, 1200, 0, 20000, 1, savesUI);
+		UI.addSlider(CAMERA_TOP, 0, 0, DepthCameraSize.HEIGHT, 1, savesUI);
+		UI.addSlider(CAMERA_BOTTOM, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, savesUI);
+		UI.addSlider(CAMERA_PIXEL_SKIP, 20, 1, 30, 1, savesUI);
+		UI.addSlider(CAMERA_MIN_PIXELS, 20, 1, 200, 1, savesUI);
+		
+		// use default UI props & note that we have a UI
+		updatePropsFromUI();
+		this.uiID = uiID;
+		hasUI = true;
+	}
 	
 	public DepthCameraRegion(int left, int right, int near, int far, int top, int bottom, int pixelSkip, int minPixels, int debugColor) {
 		this.left = left;
@@ -65,6 +111,28 @@ implements IJoystickControl {
 //		debugGraphics.rect(left, near, right - left, far - near);
 	}
 	
+	public void updatePropsFromUI() {
+		// set ui params
+		left(UI.valueInt(CAMERA_LEFT));
+		right(UI.valueInt(CAMERA_RIGHT));
+		near(UI.valueInt(CAMERA_NEAR));
+		far(UI.valueInt(CAMERA_FAR));
+		top(UI.valueInt(CAMERA_TOP));
+		bottom(UI.valueInt(CAMERA_BOTTOM));
+		pixelSkip(UI.valueInt(CAMERA_PIXEL_SKIP));
+		minPixels(UI.valueInt(CAMERA_MIN_PIXELS));
+	}
+	
+	public void debugLogPropsFromUI() {
+		// debug info
+		DebugView.setValue("Region "+uiID+" isActive", isActive());
+		DebugView.setValue("pixelCount", pixelCount());
+		DebugView.setValue("minPixels", minPixels());
+		DebugView.setValue("controlX", controlX());
+		DebugView.setValue("controlY", controlY());
+		DebugView.setValue("controlZ", controlZ());
+	}
+	
 	public void update() {
 		update(null);
 	}
@@ -75,6 +143,7 @@ implements IJoystickControl {
 	
 	public void update(PGraphics debugGraphics, boolean is3d) {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		if(hasUI) updatePropsFromUI();
 		
 		// draw 3d "floor"
 		float depthDivider = 0.3f;
@@ -179,9 +248,13 @@ implements IJoystickControl {
     	debugGraphics.strokeWeight(4);
     	debugGraphics.noFill();
     	debugGraphics.rect(left, top, right - left, bottom - top);
-
 		
 		debugGraphics.endDraw();
 	}
+	
+	////////////////////////////////////////////////////////////////////
+	// UI controls
+	////////////////////////////////////////////////////////////////////
+	
 	
 }
