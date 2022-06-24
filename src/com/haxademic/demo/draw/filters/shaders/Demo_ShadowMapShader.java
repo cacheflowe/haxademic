@@ -154,7 +154,7 @@ extends PAppletHax {
 	public void renderLandscape(PGraphics canvas) {
 		switch(landscape) {
 		case 1: {
-			canvas.sphereDetail(9);
+			canvas.sphereDetail(20);
 			float offset = -frameCount * 0.01f;
 			for(int z = -5; z < 6; ++z)
 				for(int x = -5; x < 6; ++x) {
