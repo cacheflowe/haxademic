@@ -63,7 +63,7 @@ extends PAppletHax {
 		AudioIn.instance(AudioInputLibrary.ESS);
 		
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM8", 115200);
+		dmx = new DMXWrapper("COM6", 115200);
 		dmxDebug = new DMXDebug();
 		DebugView.setTexture("dmxData", dmxDebug.buffer());
 		
@@ -175,11 +175,11 @@ extends PAppletHax {
 				debugInfo += "Channels 1 - " + dmx.universeSize() + "\n";
 				break;
 			case AUDIOREACTIVE:
-				int eqSpread = 5;
+				int eqSpread = 1;
 				for (int i = 1; i < 512; i+=3) {
-					valueR = P.round(AudioIn.audioFreq(i*eqSpread+0) * 255 * 2f);
-					valueG = P.round(AudioIn.audioFreq(i*eqSpread+1) * 255 * 2f);
-					valueB = P.round(AudioIn.audioFreq(i*eqSpread+2) * 255 * 2f);
+					valueR = P.round(AudioIn.audioFreq(i*eqSpread+0) * 255 * 5f);
+					valueG = P.round(AudioIn.audioFreq(i*eqSpread+10) * 255 * 5f);
+					valueB = P.round(AudioIn.audioFreq(i*eqSpread+20) * 255 * 5f);
 					dmx.setValue(i+0, valueR);
 					dmx.setValue(i+1, valueG);
 					dmx.setValue(i+2, valueB);
