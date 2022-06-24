@@ -81,10 +81,10 @@ extends PAppletHax {
 				for(int i=0; i < 10; i++) {
 					Particle2d particle = particles.launchParticle(pg, 0, 0);
 					particle
-						.setGravity(0, 0, 0, 0)
-						.setLifespan(10, 30)
-						.setSize(10, 50)
-						.setSpeed(-0.5f, 0.5f, 0, 0)
+						.setGravityRange(0, 0, 0, 0)
+						.setLifespanRange(10, 30)
+						.setSizeRange(10, 50)
+						.setSpeedRange(-0.5f, 0.5f, 0, 0)
 						.setColor(p.color(P.p.random(255), P.p.random(255), P.p.random(255)))
 						.launch(pg, P.p.random(0, numPixels), 0);	// .launch() to set params properly
 				}
