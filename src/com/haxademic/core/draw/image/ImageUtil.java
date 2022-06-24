@@ -336,6 +336,7 @@ public class ImageUtil {
 	}
 	
 	public static void copyImageFlipH(PImage src, PImage dest) {
+		if(src == null || dest == null) return;
 		dest.copy(src, 0, 0, src.width, src.height, dest.width, 0, -dest.width, dest.height);
 	}
 	
