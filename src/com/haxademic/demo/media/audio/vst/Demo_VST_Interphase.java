@@ -32,7 +32,10 @@ implements IAppStoreListener {
 	
 	protected VSTPlugin vstSynth;
 	
-	protected String beat1 = "data/audio/breakbeats/dnb_loop006.wav";
+	// break loop!
+	protected String UI_BREAK_DIVIDER = "UI_BREAK_DIVIDER";
+//	protected String beat1 = "data/audio/breakbeats/dnb_loop006.wav";
+	protected String beat1 = "data/audio/breakbeats/fish-loop.wav";
 	protected WavPlayer player;
 
 	
@@ -43,7 +46,7 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
-//		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
+		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.initLaunchpads(6, 9, 8, 11);
@@ -60,6 +63,7 @@ implements IAppStoreListener {
 		// beat loop
 		AudioContext acInterphase = Metronome.ac;
 		player = new WavPlayer(acInterphase);
+		UI.addSlider(UI_BREAK_DIVIDER, 4, 1, 16, 1, false);
 	}
 	
 	protected void drawApp() {
@@ -71,7 +75,7 @@ implements IAppStoreListener {
 		
 		// keep loop synced
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
-		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 4f);
+		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
 		
 		// draw sound?
 //		player.drawWav(p.g, beat1);
@@ -79,8 +83,8 @@ implements IAppStoreListener {
 		// add reverb
 		for (int i = 0; i < interphase.numChannels(); i++) {
 			Sequencer seq = interphase.sequencerAt(i);
-			seq.reverb(1.0f, 1.5f);
-			if(i == 0) seq.reverb(0.01f, 0.9f);
+			seq.reverb(10.0f, 0.75f);
+			if(i == 0) seq.reverb(5f, 0.9f);
 		}
 	}
 	
@@ -96,7 +100,7 @@ implements IAppStoreListener {
 		} else {
 			player.seekToProgress(beat1, progress);	
 		}
-		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 4f);
+		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
 	}
 	
 	/////////////////////////////////////////////////////////////////

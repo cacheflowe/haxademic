@@ -16,6 +16,7 @@ import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.hardware.midi.devices.UC33;
 import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -60,10 +61,10 @@ implements IAppStoreListener {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 //		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		SequencerConfig.setAbsolutePath();
-		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
+		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase.initUI();
-		interphase.initGlobalControlsUI(UC33.KNOB_ROW1_01, UC33.KNOB_ROW2_01);
-		interphase.initLaunchpads("4- Launchpad", "5- Launchpad");
+		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+		interphase.initLaunchpads(6, 9, 8, 11);
 		interphase.initAudioAnalysisPerChannel();
 		
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
@@ -172,6 +173,7 @@ implements IAppStoreListener {
 		for (int i = 0; i < numSequencers; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
 			seq.notesByStep(true);
+			DebugView.setValue("evolves_"+i, seq.evolves());
 		}
 		
 		if(UI.valueToggle(USE_OVERRIDES)) {
@@ -186,14 +188,14 @@ implements IAppStoreListener {
 			UI.setValue("SAMPLE_8", 6);
 			
 			// override sequences!
-			interphase.sequencerAt(0).setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0}).noteOffset(0);
-			interphase.sequencerAt(1).setPatternByInts(new int[] {0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0}).noteOffset(0);
-			interphase.sequencerAt(2).setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,1,0,0,1,0}).noteOffset(0);
-			interphase.sequencerAt(3).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1}).noteOffset(0);
-			interphase.sequencerAt(4).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0}).noteOffset(0);
-			interphase.sequencerAt(5).setPatternByInts(new int[] {0,0,1,0,1,0,1,0,0,0,0,0,1,0,0,1}).noteOffset(8);
-			interphase.sequencerAt(6).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0}).noteOffset(4);
-			interphase.sequencerAt(7).setPatternByInts(new int[] {0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0}).noteOffset(1);
+//			interphase.sequencerAt(0).setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0}).noteOffset(0);
+//			interphase.sequencerAt(1).setPatternByInts(new int[] {0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0}).noteOffset(0);
+//			interphase.sequencerAt(2).setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,1,0,0,1,0}).noteOffset(0);
+//			interphase.sequencerAt(3).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1}).noteOffset(0);
+//			interphase.sequencerAt(4).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0}).noteOffset(0);
+//			interphase.sequencerAt(5).setPatternByInts(new int[] {0,0,1,0,1,0,1,0,0,0,0,0,1,0,0,1}).noteOffset(8);
+//			interphase.sequencerAt(6).setPatternByInts(new int[] {0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0}).noteOffset(4);
+//			interphase.sequencerAt(7).setPatternByInts(new int[] {0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0}).noteOffset(1);
 		}
 		
 		// update Interphase object every frame

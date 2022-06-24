@@ -44,6 +44,9 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
+		// viz
+		audioTexture = new TextureGridInnerShapes(p.width, p.height);
+		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsTones());
 		interphase.initUI();
@@ -52,9 +55,6 @@ implements IAppStoreListener {
 		
 		P.out("WebServer.DEBUG", WebServer.DEBUG);
 		HttpInputState.DEBUG = false;
-		
-		// viz
-		audioTexture = new TextureGridInnerShapes(p.width, p.height);
 		
 		// Interphase UI
 		UI.addTitle("Interphase");
@@ -86,14 +86,14 @@ implements IAppStoreListener {
 		}
 		
 		// override sequences on some channels
-		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0});
-		interphase.sequencers()[1].setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,0,1,0,0,1});
-		interphase.sequencers()[2].setPatternByInts(new int[] {0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0});
-		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0});
-		interphase.sequencers()[0].setSampleByIndex( 3); 	// 3, 26, 30, 36, 38, 48, 52
-		interphase.sequencers()[1].setSampleByIndex(19);	// 2, 5, 9, 18, 19, 27, 29
-		interphase.sequencers()[2].setSampleByIndex(23);	// 0, 6, 15, 20, 23, 25, 26, 28, 
-		interphase.sequencers()[3].setSampleByIndex( 5);	// 2, 5, 9, 18, 19, 27, 29
+//		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0});
+//		interphase.sequencers()[1].setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,0,1,0,0,1});
+//		interphase.sequencers()[2].setPatternByInts(new int[] {0,0,1,0,1,0,0,1,0,1,0,0,0,0,0,0});
+//		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0});
+//		interphase.sequencers()[0].setSampleByIndex( 3); 	// 3, 26, 30, 36, 38, 48, 52
+//		interphase.sequencers()[1].setSampleByIndex(19);	// 2, 5, 9, 18, 19, 27, 29
+//		interphase.sequencers()[2].setSampleByIndex(23);	// 0, 6, 15, 20, 23, 25, 26, 28, 
+//		interphase.sequencers()[3].setSampleByIndex( 5);	// 2, 5, 9, 18, 19, 27, 29
 		
 		// update Interphase object every frame
 		interphase.update(null);
