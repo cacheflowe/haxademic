@@ -58,6 +58,7 @@ public class ScriptRunner {
 		
 		P.out("Running shell command:");
 		P.out(scriptPath + " " + Arrays.toString(args));
+		P.out(String.join(" ", command));
 		
 		// run script
 		try {
