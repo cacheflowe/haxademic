@@ -390,6 +390,16 @@ public class MathUtil {
 		return y * width + x;
 	}
 	
+	public static float mapCoordToCircular(float x, float y, float boundsW, float boundsH) {
+		float unitY = P.map(y, 0, boundsH, -1, 1);
+		float unitX = P.map(x, 0, boundsW, -1, 1);
+		unitY = P.constrain(unitY, -1, 1);	// we can get NaN if we don't constrain here
+		float xAmp = P.cos(P.asin(unitY));	// pinch amp at poles
+		float halfW = boundsW / 2f;
+		float xRemapped = halfW + (halfW * unitX * xAmp);
+		return xRemapped; 
+	}
+	
 	public static float saw(float rads) {
 	    rads = rads / P.TWO_PI + P.PI / 4f; // add quarter PI to sync with sin()
 	    rads = fract(rads); 
