@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -135,6 +136,16 @@ public class FileUtil {
 		} else {
 			return "";
 		}
+	}
+	
+	public static String[] getPathComponents(String path) {
+		path = path.replace(FileUtil.SEPARATOR, "/");	// solves windows path replacement on `\\`
+		return path.split("/");
+	}
+	
+	public static String getPathComponent(String path, int indexFromEnd) {
+		String[] components = getPathComponents(path);
+		return components[components.length - indexFromEnd];
 	}
 	
 	// CHECK FILE EXISTENCE
@@ -366,6 +377,23 @@ public class FileUtil {
 		Path dest = Paths.get(destPath);
 	    Files.walk(src)
 	        .forEach(source -> copy(source, dest.resolve(src.relativize(source))));
+	}
+	
+	public static void copyDirContents(String src, String dest, boolean overwrite) {
+	    try {
+	        Files.walk(Paths.get(src)).forEach(a -> {
+	            Path b = Paths.get(dest, a.toString().substring(src.length()));
+	            try {
+	                if (!a.toString().equals(src))
+	                    Files.copy(a, b, overwrite ? new CopyOption[]{StandardCopyOption.REPLACE_EXISTING} : new CopyOption[]{});
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        });
+	    } catch (IOException e) {
+	        //permission issue
+	        e.printStackTrace();
+	    }
 	}
 	
 	public static void copy(Path source, Path dest) {
