@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.filters.shaders;
+package com.haxademic.demo.draw.shadow;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -10,12 +10,14 @@ import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeOpaquePixelsFilter;
+import com.haxademic.core.draw.filters.pshader.SubtractOpacityFromMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 
-public class Demo_ShadowLayer2D
+public class Demo_ShadowLayerOuterGlow
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -91,6 +93,18 @@ extends PAppletHax {
 		BlurProcessingFilter.instance(p).setSigma(10);
 		for (int i = 0; i < 7; i++) {
 			BlurProcessingFilter.instance(p).applyTo(shadowLayer);
+		}
+		
+		// knock out original pixels from map
+		if(Mouse.xNorm > 0.5f) {
+			// knock out original 
+			SubtractOpacityFromMapFilter.instance(p).setMap(pg);
+			SubtractOpacityFromMapFilter.instance(p).applyTo(shadowLayer);
+			
+			// then blur again
+			for (int i = 0; i < 1; i++) {
+				BlurProcessingFilter.instance(p).applyTo(shadowLayer);
+			}
 		}
 
 		p.perspective();

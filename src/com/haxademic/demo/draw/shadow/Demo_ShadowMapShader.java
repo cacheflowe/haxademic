@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.filters.shaders;
+package com.haxademic.demo.draw.shadow;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -7,6 +7,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PMatrix3D;
@@ -39,7 +40,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
-		p.translate(0,0,400);
+		p.translate(0,50,500);
 		p.rotateX(-0.7f);
 		PG.basicCameraFromMouse(p.g);
 
@@ -153,45 +154,52 @@ extends PAppletHax {
 
 	public void renderLandscape(PGraphics canvas) {
 		switch(landscape) {
-		case 1: {
-			canvas.sphereDetail(20);
-			float offset = -frameCount * 0.01f;
-			for(int z = -5; z < 6; ++z)
-				for(int x = -5; x < 6; ++x) {
-					canvas.fill(ColorsHax.PRIDE[((int)(z + x) + 20) % ColorsHax.PRIDE.length]);
+			case 1: {
+				canvas.sphereDetail(20);
+				float offset = -frameCount * 0.01f;
+				for(int z = -5; z < 6; ++z)
+					for(int x = -5; x < 6; ++x) {
+						canvas.fill(ColorsHax.PRIDE[((int)(z + x) + 20) % ColorsHax.PRIDE.length]);
+						canvas.pushMatrix();
+						canvas.translate(x * 12, -45 + sin(offset + x) * 20 + cos(offset + z) * 20, z * 12);
+						canvas.sphere(5);
+						canvas.popMatrix();
+					}
+			} break;
+			case 2: {
+				float angle = -frameCount * 0.0015f, rotation = TWO_PI / 20;
+				canvas.fill(0xffff5500);
+				for(int n = 0; n < 20; ++n, angle += rotation) {
 					canvas.pushMatrix();
-					canvas.translate(x * 12, -45 + sin(offset + x) * 20 + cos(offset + z) * 20, z * 12);
-					canvas.sphere(5);
+					canvas.translate(sin(angle) * 70, cos(angle * 4) * 10, cos(angle) * 70);
+					canvas.box(10, 100, 10);
 					canvas.popMatrix();
 				}
-		} break;
-		case 2: {
-			float angle = -frameCount * 0.0015f, rotation = TWO_PI / 20;
-			canvas.fill(0xffff5500);
-			for(int n = 0; n < 20; ++n, angle += rotation) {
-				canvas.pushMatrix();
-				canvas.translate(sin(angle) * 70, cos(angle * 4) * 10, cos(angle) * 70);
-				canvas.box(10, 100, 10);
-				canvas.popMatrix();
+				canvas.fill(0xff0055ff);
+				canvas.sphere(50);
+			} break;
+			case 3: {
+				float angle = -frameCount * 0.0015f, rotation = TWO_PI / 20;
+				canvas.fill(0xffff5500);
+				for(int n = 0; n < 20; ++n, angle += rotation) {
+					canvas.pushMatrix();
+					canvas.translate(sin(angle) * 70, cos(angle) * 70, 0);
+					canvas.box(10, 10, 100);
+					canvas.popMatrix();
+				}
+				canvas.fill(0xff00ff55);
+				canvas.sphere(50);
 			}
-			canvas.fill(0xff0055ff);
-			canvas.sphere(50);
-		} break;
-		case 3: {
-			float angle = -frameCount * 0.0015f, rotation = TWO_PI / 20;
-			canvas.fill(0xffff5500);
-			for(int n = 0; n < 20; ++n, angle += rotation) {
-				canvas.pushMatrix();
-				canvas.translate(sin(angle) * 70, cos(angle) * 70, 0);
-				canvas.box(10, 10, 100);
-				canvas.popMatrix();
-			}
-			canvas.fill(0xff00ff55);
-			canvas.sphere(50);
-		}
 		}
 		canvas.fill(0xff333333);
 		canvas.box(360, 5, 360);
+		canvas.fill(0xff999999);
+		canvas.box(50, 50, 50);
+		
+		canvas.push();
+		canvas.scale(10);
+		canvas.shape(DemoAssets.objSkullRealistic());
+		canvas.pop();
 	}
 
 }
