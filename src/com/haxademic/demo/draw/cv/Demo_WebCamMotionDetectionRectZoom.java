@@ -1,4 +1,4 @@
-package com.haxademic.demo.hardware.webcam;
+package com.haxademic.demo.draw.cv;
 
 import java.awt.Rectangle;
 

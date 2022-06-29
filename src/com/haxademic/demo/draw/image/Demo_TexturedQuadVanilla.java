@@ -7,7 +7,7 @@ import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
 
-public class Demo_TexturedQuad 
+public class Demo_TexturedQuadVanilla 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

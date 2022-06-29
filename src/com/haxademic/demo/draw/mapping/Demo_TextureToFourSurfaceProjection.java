@@ -16,7 +16,7 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
-public class Demo_CubeMap
+public class Demo_TextureToFourSurfaceProjection
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
