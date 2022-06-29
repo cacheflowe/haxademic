@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.cv;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.image.ColorObjectDetection;
+import com.haxademic.core.draw.cv.ColorObjectDetection;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.ui.UI;

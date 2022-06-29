@@ -5,7 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.image.BufferFrameDifference;
+import com.haxademic.core.draw.cv.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;

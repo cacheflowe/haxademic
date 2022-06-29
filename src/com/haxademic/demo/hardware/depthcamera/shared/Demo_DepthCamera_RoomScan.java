@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.image.BufferThresholdMonitor;
+import com.haxademic.core.draw.cv.BufferThresholdMonitor;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.DepthCameraRoomScanDiff;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;

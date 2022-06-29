@@ -5,9 +5,9 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
-import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PConstants;

@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.draw.cv.OpticalFlow;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.mouse.Mouse;

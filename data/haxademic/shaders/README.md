@@ -1,5 +1,9 @@
 # Processing built-in PShader uniforms
 
+Processing's built-in shaders are here:
+
+* https://github.com/processing/processing4/blob/master/core/src/processing/opengl/shaders/
+
 Fragment shaders:
 
 * `uniform sampler2D texture` - The texture (PGraphics) that the shader is being applied to

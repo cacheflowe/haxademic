@@ -2,7 +2,7 @@ package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ColorObjectDetection;
+import com.haxademic.core.draw.cv.ColorObjectDetection;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 

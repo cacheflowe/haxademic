@@ -1,8 +1,9 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.draw.cv;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 
 import blobDetection.Blob;
 import blobDetection.BlobDetection;

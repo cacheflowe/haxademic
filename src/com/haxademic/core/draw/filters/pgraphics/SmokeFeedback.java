@@ -4,13 +4,13 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
-import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 

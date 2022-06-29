@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.BufferMotionDetectionMap;
+import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;

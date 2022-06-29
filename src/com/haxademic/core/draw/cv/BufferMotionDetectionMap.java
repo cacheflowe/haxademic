@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.draw.cv;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;

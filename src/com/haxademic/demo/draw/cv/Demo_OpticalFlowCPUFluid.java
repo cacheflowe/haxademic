@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.cv.OpticalFlowCPU;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
-import com.haxademic.core.draw.image.OpticalFlowCPU;
 import com.haxademic.core.draw.textures.Fluid;
 
 import processing.core.PGraphics;

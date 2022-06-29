@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.draw.cv;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 

@@ -2,8 +2,8 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.cv.OpticalFlowCPU;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
-import com.haxademic.core.draw.image.OpticalFlowCPU;
 
 import processing.core.PImage;
 

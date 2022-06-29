@@ -3,8 +3,8 @@ package com.haxademic.demo.draw.cv;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.cv.OpticalFlowCPU;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.OpticalFlowCPU;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
