@@ -18,6 +18,7 @@ attribute vec3 normal;
 uniform sampler2D texture;
 uniform sampler2D randomMap;
 uniform sampler2D positionMap;
+uniform sampler2D flowMap;
 uniform float width = 1000.;
 uniform float height = 1000.;
 uniform float rotateAmp = 1.;
