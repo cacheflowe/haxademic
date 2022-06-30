@@ -62,7 +62,7 @@
       window.addEventListener('online', function() { console.log('online'); });
       setTimeout(function() {
         if(window.navigator.onLine) {
-          window.location.href = window.location.origin + window.location.pathname;
+          window.location.href = window.location.origin + window.location.pathname + `?r=${Math.round(Math.random() * 99999)}`;
         }
       }, 60 * 1000);
 
