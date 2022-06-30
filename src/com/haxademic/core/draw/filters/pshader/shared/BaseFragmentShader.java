@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.pshader.shared;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
 
@@ -17,7 +19,7 @@ public class BaseFragmentShader {
 	public BaseFragmentShader(PApplet p, String shaderFilePath) {
 		if(shaderFilePath != null) {
 			this.shaderFilePath = FileUtil.getPath(shaderFilePath);
-			shader = p.loadShader(this.shaderFilePath);
+			shader = P.p.loadShader(this.shaderFilePath);
 		}
 		setTime(0);
 	}
@@ -27,6 +29,7 @@ public class BaseFragmentShader {
 			shaderHotSwap = new PShaderHotSwap(this.shaderFilePath);
 		}
 		shaderHotSwap.update();
+		DebugView.setValue(FileUtil.fileNameFromPath(shaderFilePath), shaderHotSwap.isValid());
 		shader = shaderHotSwap.shader(); 
 		return shaderHotSwap;
 	}
