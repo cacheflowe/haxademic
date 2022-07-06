@@ -291,6 +291,8 @@ Some web development that requires hardware access (real-time camera, accelerome
 
 * If all goes well, you should be able to make requests like `https://localhost` or `https://your.ip.address` from other devices. You might have to manually allow the self-signed certificate in any given browser.
 
+* Here's [another set of instructions](https://gist.github.com/jitheshkt/7f578e3f450af9d0e8a248545d2662d7) for enabling SSL on WSL Apache
+
 #### Fix a WSL warning message on Apache start
 
 If you get an error like the following:

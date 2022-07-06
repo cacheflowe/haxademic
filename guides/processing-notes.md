@@ -40,7 +40,6 @@ This is helpful for any non-drawing code that you need to run that might slow do
 new Thread(new Runnable() { public void run() {
 	myMovie.play();
 }}).start();
-
 ```
 
 It's also a good idea to communicate with hardware on a Thread, as this can also slow down your app's framerate. You can pick up results in your `draw()` loop from the Thread by setting a "isBusy" boolean, and setting it to true when done. This ensures that your threaded operation takes as much time as it needs, while your graphics continue running fast.

@@ -1,8 +1,12 @@
 # Set up Windows 10 for installations
 
 * Set up Windows normally during blue setup screens, but: 
-  * Don't attach the machine to a network or wifi!
-  * Turn off non-essential services (but keep location services)
+  * Don't attach the machine to a network or wifi! Click "I don't have Internet" instead of connecting to Wifi/Ethernet. If you connect, it will force you to create a Microsoft online account
+    * Newer Windows installations don't give you this option, so do the following when confronted with internet-only setup
+    * Hit `Shift + F10` to launch a cmd prompt
+    * Run this command: `OOBE\BYPASSNRO`
+    * When it restarts, you should now have an "I don't have Internet" button, followed by a "Continue with a limited setup" button, and can continue setup without a Microsoft account
+  * Turn off non-essential services (but keep location services for clock-syncing)
 
 ## Uninstall non-essential apps & bloatware
 
@@ -135,6 +139,8 @@ Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howt
   * Go to "Extras -> Options"
     * General 
       * Incoming LAN connections: "Accept"
+      * For Windows, make sure both Private & Public networks are checked in the firewall settings!
+        * Control Panel\System and Security\Windows Defender Firewall\Allowed apps
     * Security
       * Windows Logon: Set to "All Users"
     * Remote Control
