@@ -411,6 +411,8 @@ public class PShapeUtil {
 	
 	///////////////////////////
 	// SVG getTesselation() fix
+	// PShape.getTesselation() seems to leave off the last triangle, so we can put one back :-D 
+	// https://github.com/processing/processing/blob/master/core/src/processing/opengl/PShapeOpenGL.java
 	///////////////////////////
 	
 	public static void repairMissingSVGVertex(PShape shape) {
