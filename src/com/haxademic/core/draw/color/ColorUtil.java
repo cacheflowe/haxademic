@@ -44,6 +44,15 @@ public class ColorUtil {
 		return P.constrain(color, 0f, 255f);
 	}
 
+	public final static void printColor(int c) {
+		P.out(
+				"RGBA: " +
+				redFromColorInt(c) + ", " +
+				greenFromColorInt(c) + ", " +
+				blueFromColorInt(c) + ", " +
+				alphaFromColorInt(c)
+		);
+	}
 	
 	public final static int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }
 	public final static int redFromColorInt( int c ) { return (c >> 16) & 0xFF;	}
