@@ -3,12 +3,16 @@ package com.haxademic.core.draw.shapes;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.Triangle3d;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
@@ -18,10 +22,12 @@ import geomerative.RPoint;
 import geomerative.RShape;
 import processing.core.PApplet;
 import processing.core.PConstants;
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
+import processing.opengl.PShapeOpenGL;
 
 public class PShapeUtil {
 	
