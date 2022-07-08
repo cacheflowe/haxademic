@@ -38,6 +38,29 @@ public class PShapeUtil {
 	}
 	
 	///////////////////////////
+	// DEBUG VERTICES
+	///////////////////////////
+	
+	public static void debugVertices(PGraphics pg, PShape shape) {
+		pg.push();
+		int numVertices = shape.getVertexCount();
+		for (int i = 0; i < numVertices; i++) {
+			float x = shape.getVertex(i).x;
+			float y = shape.getVertex(i).y;
+			pg.fill(255);
+			pg.stroke(255);
+			pg.ellipse(x, y, 5, 5);
+			
+			String fontFile = DemoAssets.fontOpenSansPath;
+			PFont font = FontCacher.getFont(fontFile, 12);
+			FontCacher.setFontOnContext(pg, font, 0xffffffff, 1f, PTextAlign.LEFT, PTextAlign.TOP);
+			pg.text("["+i+"]" + P.round(x) + "," + P.round(y), x + 10, y - 5);
+
+		}
+		pg.pop();
+	}
+	
+	///////////////////////////
 	// CREATE
 	///////////////////////////
 	
