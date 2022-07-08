@@ -215,6 +215,23 @@ public class ImageUtil {
 		return pg;
 	}  
 	
+	public static PGraphics shapeToGraphicsJittered(PShape shape, float scale) {
+		// expand the texture a bit in the case of matching the svg mesh 
+		// to the bitmap texture generated from the same svg
+		PGraphics pg = shapeToGraphics(shape, scale, -999);
+		pg.beginDraw();
+		float radStep = P.TWO_PI / 16f;
+		for (int i = 0; i < 32; i++) {
+			float radius = i * 0.1f;
+			float x = P.cos(i * radStep) * radius;
+			float y = P.sin(i * radStep) * radius;
+			pg.shape(shape, x, y, pg.width, pg.height);
+		}
+		pg.shape(shape, 0, 0, pg.width, pg.height);
+		pg.endDraw();
+		return pg;
+	}  
+	
 	public static PGraphics imageToGraphicsWithPadding(PImage img, float fillAmount) {
 		PGraphics image = ImageUtil.imageToGraphics(img);
 		image.beginDraw();
