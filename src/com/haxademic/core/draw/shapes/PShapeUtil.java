@@ -149,7 +149,41 @@ public class PShapeUtil {
 		
 		return newShape;
 	}
+	
+	/////////////////////////////////
+	// Load Models w/higher performance 
+	// by loading the texture separately. 
+	// Need to file a bug w/Processing 
+	/////////////////////////////////
+	
+	public static PShape loadModelAndTexture(String modelPath, String texturePath, float height) {
+		return loadModelAndTexture(P.p.g, modelPath, texturePath, height);
+	}
+	
+	public static PShape loadModelAndTexture(PGraphics pg, String modelPath, String texturePath, float height) {
+		P.outInit("---- Loading .obj -------------");
+		int processTime = P.p.millis();
+		// load .obj to graphics context
+		PShape obj = pg.loadShape(FileUtil.getPath(modelPath));
+		
+		// manually load texture
+		if(texturePath != null) {
+			PImage tex = ImageCacher.get(texturePath);
+			P.p.textureMode(P.NORMAL);
+			obj = (PShapeOpenGL) obj.getTessellation();
+			obj.setTextureMode(P.NORMAL);
+			obj.setTexture(tex);
+		}
+		PShapeUtil.scaleShapeToHeight(obj, height);
+		
+		// log load time
+		P.out("-- texture load", texturePath);
+		P.out("-- .obj load", modelPath, P.p.millis() - processTime, "ms");
+		P.out("-- Vertices: ", PShapeUtil.vertexCount(obj));
+		P.out("-- Children: ", obj.getChildCount());
 
+		return obj;
+	}
 	
 	///////////////////////////
 	// CLONE A FLATTENED COPY
