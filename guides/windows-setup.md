@@ -10,43 +10,41 @@
 
 ## Uninstall non-essential apps & bloatware
 
-* Right-click Start Menu -> Control Panel -> Programs / Uninstall a program
-* Delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers)
-* Settings -> System -> Apps & Features
-  * Microsoft OneDrive
-* Settings -> System -> Default Apps
-  * Set Web Browser to Firefox
+* Uninstall from Settings and Control Panel
+  * (WIN + "Add or Remove Programs") 
+  * `Control Panel\Programs\Programs and Features`
+* If you clearly have bloatware, delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers). Some PCs come pretty stripped-down these days
 
 ## Run Windows system updates
 
-* Settings -> Update & Security -> Windows Update -> Check for Updates
+* (WIN + "Check for updates") Settings -> Update & Security -> Windows Update -> Check for Updates
 * Restart/Repeat until there are really no more updates
 * Update video card drivers
 
 ## Clean up Windows UI
 
-* System Taskbar
+* Taskbar
   * Unpin apps
-  * Hide Cortana
+* (WIN + "Taskbar Settings") System Taskbar settings
+  * Check Automatically hide the taskbar
+  * Uncheck Show Badges
+  * Turn off Taskbar items
 * Click notification icon in taskbar and "clear all notifications" at bottom
-* Start menu
-  * Unpin live tiles and collapse width of start menu
 * Change background image
 
 ## Prevent interruptions
 
 * Energy preferences:
-  * (WIN + "Power") Settings -> System -> Power & Sleep
+  * (WIN + "Power Settings") Settings -> System -> Power & Sleep
     * When plugged in, turn off screen & PC sleep: Never
     * (WIN + "Edit Power Plan") Click Additional Power settings button:
       * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
         * Select "High Performance" from dropdown
         * USB settings -> Selective suspend -> Plugged in -> Disabled
-  * (WIN + "Lid") Control Panel -> Hardware and Sound -> Power Options -> System Settings
+  * `Control Panel\Hardware and Sound\Power Options\System Settings`
     * Power button should shut down
     * Laptop should do nothing on lid close
 * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
-* (WIN + "Start menu") Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
 * Turn off system sounds:
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
 * Turn off notifications:
@@ -61,7 +59,7 @@
     * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
 * Turn off power management for wifi connection:
   * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
-* Turn off blue screen after bas power cuts: "Automatic Repair couldn�t repair your PC"
+* Only if you see bad blue screen startup after testing cutting power: Turn off blue screen after bad power cuts: "Automatic Repair couldn't repair your PC"
   * Open Command Prompt as Administrator
     * `bcdedit /set recoveryenabled NO`
     * `bcdedit /set {default} recoveryenabled No`
@@ -91,8 +89,6 @@
 ## Windows settings
 
 * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
-* (WIN + "Taskbar") Settings -> Personalization -> Taskbar -> Turn off Taskbar items
-* (WIN + "Taskbar") Settings -> Personalization -> Taskbar behavriors -> Hide the taskbar in desktop mode, remove badges, don't show on all displays
 * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
 * (WIN + "Developer") Set to Developer mode:
   * Settings -> Update & Security -> For developers -> Developer Mode option
@@ -103,7 +99,8 @@
   * Windows button + "R" -> "netplwiz" + Run
     * Uncheck "Users must enter..." -> Apply -> Type password twice
     * If you're using Windows 10 Pro or don't see this checkbox, in which case, you need to edit the registry:
-      * regedit -> HKEY_LOCAL_MACHINE -> Software -> Microsoft -> Windows NT -> CurrentVersion -> Passwordless -> Device -> Change DevicePasswordLessBuildVersion to 0
+      * `Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device`
+      * Change DevicePasswordLessBuildVersion to 0
 
 ## Disable Java updates (If you installed Oracle Java)
 
@@ -161,7 +158,20 @@ Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howt
       * Uncheck "Play computer sounds and music"
     * Advanced
       * "Lock remote computer": Never
-      
+
+## Enable remote restarts
+
+On top of Teamviewer, you might want to enable remote restart in the case that you have access to one machine, but not another, and they're on the same network. Use the following command to restart another machine:
+
+`shutdown /r /m \\machine-name`
+
+And you'll need to enable permissions to allow this in the registry:
+
+`Computer\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System`
+
+Add new DWORD (32-bit) key `LocalAccountTokenFilterPolicy`, and set the value to `1`
+
+And make sure `Remote Shutdown` is enabled in Windows Defender firewall
 
 ## Disable Windows update notifications
 	
@@ -210,6 +220,27 @@ Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howt
   $ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA6mvfhC48oKJzihaAvZouPr7D1Uhxc4eWSaa5qE8RRU your@email.com
   ```
 
+## Download essential apps & pin to taskbar
+
+* Latest GeForce drivers
+* TeamViewer
+* VSCode
+* Git Bash (download from Git website)
+* Github Desktop
+* Java latest version (Eclipse Adoptium, not Oracle)
+* Eclipse
+* Branded desktop background image
+* Optional
+  * Microsoft Kinect SDK or Realsense Viewer
+  * Processing
+  * Advatek Assistant
+  * VLC
+
+Look into using a package manager or automated installer if you need to set up multiple machines:
+
+* [Chocolatey](https://chocolatey.org/)
+* [Ninite](https://ninite.com/)
+
 ### Add ssh key to each machine
 
 * Add key to Windows w/Git Bash:
@@ -236,28 +267,6 @@ Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howt
   ```
   $ cd C:\Users\your_user\Documents\workspace\github-repo
   ```
-
-## Download essential apps & pin to taskbar
-
-* Latest GeForce drivers
-* TeamViewer
-* Chrome
-* VSCode
-* Git Bash (download from Git website)
-* Github Desktop
-* Java latest version (Eclipse Adoptium, not Oracle)
-* Eclipse
-* Branded desktop background image
-* Optional
-  * Microsoft Kinect SDK or Realsense Viewer
-  * Processing
-  * Advatek Assistant
-  * VLC
-
-Look into using a package manager or automated installer if you need to set up multiple machines:
-
-* [Chocolatey](https://chocolatey.org/)
-* [Ninite](https://ninite.com/)
 
 ## Make sure your app is using the graphics card
 
