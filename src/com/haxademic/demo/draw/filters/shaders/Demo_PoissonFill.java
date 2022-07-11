@@ -5,13 +5,10 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.PoissonFill;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
-
-import processing.video.Movie;
 
 public class Demo_PoissonFill
 extends PAppletHax {
@@ -76,13 +73,13 @@ extends PAppletHax {
 		pg.push();
 		pg.stroke(255,0,255);
 		pg.strokeWeight(14f);
-		pg.line(50, 0, 500, FrameLoop.osc(0.03f,  -200,  200));
+		pg.line(50, 0, 500, FrameLoop.osc(0.1f,  -200,  200));
 		pg.pop();
 
 		// line 2
 		pg.push();
 		pg.fill(255);
-		pg.rect(0, FrameLoop.osc(0.02f,  -400,  400), 200, 5);
+		pg.rect(0, FrameLoop.osc(0.08f,  -400,  400), 200, 5);
 		pg.pop();
 
 		// circle
@@ -90,7 +87,7 @@ extends PAppletHax {
 		pg.fill(255,255,0);
 		pg.stroke(0);
 		pg.strokeWeight(10);
-		pg.circle(-350, FrameLoop.osc(0.04f,  -100,  100), 100);
+		pg.circle(-350, FrameLoop.osc(0.15f,  -100,  100), 100);
 		pg.pop();
 		
 		pg.pop();
