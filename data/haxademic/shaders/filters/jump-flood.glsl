@@ -24,10 +24,6 @@ float luma(vec3 color) {
     return dot(color, vec3(0.299, 0.587, 0.114));
 }
 
-vec2 fixUV(vec2 uv) {
-    return (uv - 0.5) * vec2(texOffset.y / texOffset.x, 1.0);
-}
-
 void main() {
     // aliases
     float aspect = (texOffset.y / texOffset.x);
@@ -48,6 +44,7 @@ void main() {
         // JFA step (for up to 4096x4096)
         // goes to 13 because the first step is used for encoding
         // with each step, the kernel sampling gets smaller
+        // TODO: calc max kernel needed and remove extraneous passes
         float level = clamp(iter - 1.0, 0.0, 12.0);
         float stepKernelSize = pow(2., 12.0 - level); // 2^12 is 4096
         vec2 texelSize = texOffset; // helps us translate to actual pixels  via the stepKernelSize
