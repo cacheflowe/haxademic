@@ -30,23 +30,15 @@ extends PAppletHax {
 	protected PGraphics regionFlatDebug;
 	protected PGraphics joystickDebug;
 	
-	// ui
-	protected String CAMERA_LEFT = "CAMERA_LEFT";
-	protected String CAMERA_RIGHT = "CAMERA_RIGHT";
-	protected String CAMERA_near = "CAMERA_near";
-	protected String CAMERA_far = "CAMERA_far";
-	protected String CAMERA_top = "CAMERA_top";
-	protected String CAMERA_bottom = "CAMERA_bottom";
-	protected String CAMERA_pixelSkip = "CAMERA_pixelSkip";
-	protected String CAMERA_minPixels = "CAMERA_minPixels";
-	protected String CAMERA_debug = "CAMERA_debug";
-	protected String CAMERA_debug_flat = "CAMERA_debug_flat";
-	
 	// smoothed output
 	protected EasingBoolean userActive = new EasingBoolean(false, 60);
 	protected EasingFloat userX = new EasingFloat(0, 0.1f);
 	protected EasingFloat userY = new EasingFloat(0, 0.1f);
 	protected EasingFloat userZ = new EasingFloat(0, 0.1f);
+
+	// UI
+	protected String CAMERA_debug = "CAMERA_debug";
+	protected String CAMERA_debug_flat = "CAMERA_debug_flat";
 
 	
 	protected void config() {
@@ -58,58 +50,17 @@ extends PAppletHax {
 		DepthCamera.instance(DepthCameraType.Realsense);
 		
 		// add ui sliders to tweak at runtime
-		UI.addTitle("DepthCamera Config");
-		UI.addSlider(CAMERA_LEFT, 0, 0, DepthCameraSize.WIDTH, 1, false);
-		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
-		UI.addSlider(CAMERA_near, 500, 0, 20000, 1, false);
-		UI.addSlider(CAMERA_far, 1200, 0, 20000, 1, false);
-		UI.addSlider(CAMERA_top, 0, 0, DepthCameraSize.HEIGHT, 1, false);
-		UI.addSlider(CAMERA_bottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
-		UI.addSlider(CAMERA_pixelSkip, 20, 1, 30, 1, false);
-		UI.addSlider(CAMERA_minPixels, 20, 1, 200, 1, false);
+		UI.addTitle("DepthCamera Debug");
 		UI.addToggle(CAMERA_debug, false, false);
 		UI.addToggle(CAMERA_debug_flat, true, false);
-		
+
 		// build CAMERA region and debug buffer
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		regionFlatDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		joystickDebug = PG.newPG(200, 200);
-		region = new DepthCameraRegion(
-				UI.valueInt(CAMERA_LEFT), 
-				UI.valueInt(CAMERA_RIGHT), 
-				UI.valueInt(CAMERA_near), 
-				UI.valueInt(CAMERA_far), 
-				UI.valueInt(CAMERA_top),
-				UI.valueInt(CAMERA_bottom), 
-				UI.valueInt(CAMERA_pixelSkip), 
-				UI.valueInt(CAMERA_minPixels), 
-				0xff00ff00);
+		region = new DepthCameraRegion("cam1", false);
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-	}
-	
-	protected void updateCameraProps() {
-		// set ui params
-		region.left(UI.valueInt(CAMERA_LEFT));
-		region.right(UI.valueInt(CAMERA_RIGHT));
-		region.near(UI.valueInt(CAMERA_near));
-		region.far(UI.valueInt(CAMERA_far));
-		region.top(UI.valueInt(CAMERA_top));
-		region.bottom(UI.valueInt(CAMERA_bottom));
-		region.pixelSkip(UI.valueInt(CAMERA_pixelSkip));
-		region.minPixels(UI.valueInt(CAMERA_minPixels));
-
-		// debug info
-		DebugView.setValue("region.isActive", region.isActive());
-		DebugView.setValue("region.pixelCount", region.pixelCount());
-		DebugView.setValue("region.minPixels", region.minPixels());
-		DebugView.setValue("region.controlX", region.controlX());
-		DebugView.setValue("region.controlY", region.controlY());
-		DebugView.setValue("region.controlZ", region.controlZ());
-	}
-
 	protected void updateDepthRegion() {
 		PGraphics debugPG = UI.valueToggle(CAMERA_debug) ? regionDebug : null;
 		// update depth data
@@ -128,7 +79,7 @@ extends PAppletHax {
 			region.drawDebugFlat(regionFlatDebug);
 		}
 		// draw x/y coords grid debug view
-		BaseJoystick.drawDebugCoords(joystickDebug, userX.value(), userY.value(), userActive.value());
+		DepthCameraRegion.drawDebugCoords(joystickDebug, userX.value(), userY.value(), userActive.value());
 	}
 	
 	protected void updateSmoothedJoystickResults() {
@@ -171,7 +122,6 @@ extends PAppletHax {
 		// check depth camera stability
 		if(FrameLoop.frameModMinutes(10)) P.out("Still running:", DebugView.uptimeStr());
 		p.background(30);
-		updateCameraProps();
 		updateDepthRegion();
 		updateSmoothedJoystickResults();
 		addDebugTextures();

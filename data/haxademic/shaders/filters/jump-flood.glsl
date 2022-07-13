@@ -1,5 +1,20 @@
-// https://www.shadertoy.com/view/4syGWK
-// https://www.shadertoy.com/view/7ttSzr
+// Ported from: https://www.shadertoy.com/view/4syGWK
+// And more info on the technique(s):
+// - https://prideout.net/blog/distance_fields/
+// - https://prideout.net/blog/distance_fields/distance.txt
+// - https://www.shadertoy.com/view/4syGWK - jump flooding
+// - https://www.shadertoy.com/results?query=tag=jfa
+// - https://shaderbits.com/blog/various-distance-field-generation-techniques
+// - https://blog.demofox.org/2016/02/29/fast-voronoi-diagrams-and-distance-dield-textures-on-the-gpu-with-the-jump-flooding-algorithm/
+// - https://bgolus.medium.com/the-quest-for-very-wide-outlines-ba82ed442cd9
+// - https://www.youtube.com/watch?v=A0pxY9QsgJE
+// - https://www.youtube.com/watch?v=AT0jTugdi0M
+// - https://www.shadertoy.com/view/4dK3WK
+// - https://www.shadertoy.com/view/Mdy3DK
+// - https://www.shadertoy.com/view/lsKGDV
+// - https://www.shadertoy.com/view/7ttSzr
+// - https://blog.demofox.org/2016/03/02/actually-making-signed-distance-field-textures-with-jfa/
+
 
 #ifdef GL_ES
 precision mediump float;
