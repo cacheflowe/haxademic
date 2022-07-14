@@ -59,9 +59,9 @@ public class OpenGLUtil {
 	}
 	
 	public static void listAvailableProfiles() {
-		String blah[] = GLProfile.GL_PROFILE_LIST_ALL;
-		for (int i = 0; i < blah.length; i++) {
-			P.println("Profile ", i, blah[i], GLProfile.isAvailable(blah[i]));
+		String profiles[] = GLProfile.GL_PROFILE_LIST_ALL;
+		for (int i = 0; i < profiles.length; i++) {
+			P.println("Profile ", i, profiles[i], GLProfile.isAvailable(profiles[i]));
 		}
 	}
 	
