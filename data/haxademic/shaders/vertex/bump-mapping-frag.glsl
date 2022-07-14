@@ -1,8 +1,13 @@
 uniform sampler2D texMap;
 uniform sampler2D bumpMap;
 uniform sampler2D specularMap;
+uniform sampler2D alphaMap;
+uniform sampler2D aoMap;
 
-uniform float bumpScale;
+uniform float bumpScale = 0.01;
+uniform bool useAlphaMap = false;
+uniform bool useAoMap = false;
+uniform float aoAmp = 0.5;
 
 varying vec3 ecPosition;
 varying vec3 ecNormal;
@@ -59,5 +64,18 @@ void main() {
   
   vec4 specularColor = specularStrength * blinnPhongFactor(lightDir, ecPosition, ecNormal, vertShininess) * vertSpecular;
 
-  gl_FragColor = diffuseColor + vec4(specularColor.rgb, 0);
+  vec4 finalColor = diffuseColor + vec4(specularColor.rgb, 0);
+
+  // use ambient occlusion map if set
+  // lower brightness via darker areas. this is probably not the right way to do it.
+  if(useAoMap == true) {
+    finalColor.rgb -= (1. - texture2D(aoMap, st).r) * aoAmp;
+  }
+
+  // use alpha map if set
+  if(useAlphaMap == true) {
+    finalColor.a = texture2D(alphaMap, st).r;
+  }
+
+  gl_FragColor = finalColor;
 }

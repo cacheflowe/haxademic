@@ -18,7 +18,7 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_Sphere_BumpMap
+public class Demo_BumpMap_Sphere
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -38,27 +38,26 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// load textures
-		texture = P.getImage("images/textures/space/moon-layers/color.jpg"); // DemoAssets.textureJupiter();
+		texture = P.getImage("images/textures/space/moon-layers/color.jpg");
 		bumpMap = ImageUtil.imageToGraphics(P.getImage("images/textures/space/moon-layers/displacement.jpg"));
 		ImageUtil.flipV(bumpMap);
 		specMap = ImageUtil.imageToGraphics(bumpMap);
 		
-		// adjust texture, since we're reusing the texture map for alternate purposes
-		BlurProcessingFilter.instance(p).setBlurSize(2);
-		BlurProcessingFilter.instance(p).setSigma(1);
-//		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(bumpMap);
-		DebugView.setTexture("bumpMap", bumpMap);
-		
+		// reuse bump map for specular map
 		ImageUtil.copyImage(bumpMap, specMap);
 		BrightnessFilter.instance(p).setBrightness(0.25f);
 		BrightnessFilter.instance(p).applyTo(specMap);
 		for(int i=0; i < 2; i++) BlurProcessingFilter.instance(p).applyTo(specMap);
+
+		// show in debug
+		DebugView.setTexture("bumpMap", bumpMap);
+		DebugView.setTexture("specMap", specMap);
 		
 		// load shader
 		bumpMapShader = loadShader(
-				FileUtil.getPath("haxademic/shaders/vertex/bump-mapping-frag.glsl"), 
-				FileUtil.getPath("haxademic/shaders/vertex/bump-mapping-vert.glsl")
-				);
+			FileUtil.getPath("haxademic/shaders/vertex/bump-mapping-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/bump-mapping-vert.glsl")
+		);
 		bumpMapShader.set("texMap", texture);
 		bumpMapShader.set("bumpMap", bumpMap);
 		bumpMapShader.set("specularMap", specMap);
@@ -82,7 +81,7 @@ extends PAppletHax {
 		p.pointLight(255, 255, 255, P.map(Mouse.xNorm, 0, 1, 1500, -1500), 0, 500);
 		
 		// update shader
-		bumpMapShader.set("bumpScale", Mouse.yNorm * 0.1f);
+		bumpMapShader.set("bumpScale", Mouse.yNorm * 0.02f);
 		
 		// draw from center
 		p.shader(bumpMapShader);
