@@ -64,7 +64,13 @@ extends PApplet {
 		return P.p.getSurface();
 	}
 	
-	// image loading 
+	// quick relative paths to project/data
+	
+	public static String path(String path) {
+		return FileUtil.getPath(path);
+	}
+
+	// image loading
 	
 	public static PImage getImage(String file) {
 		return P.p.loadImage(FileUtil.getPath(file));
