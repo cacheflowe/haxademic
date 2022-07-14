@@ -26,10 +26,18 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.core.PShapeOBJ;
 import processing.core.PVector;
+import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PShapeOpenGL;
 
 public class PShapeUtil {
+	
+	// PShape types, noted by the PShape.getFamily() function
+	public static int GROUP = P.GROUP;					// 0
+	public static int PRIMITIVE =  PShape.PRIMITIVE;	// 101
+	public static int PATH =  PShape.PATH;				// 102
+	public static int GEOMETRY =  PShape.GEOMETRY;		// 103
 	
 	///////////////////////////
 	// VERTEX COUNT
@@ -196,16 +204,66 @@ public class PShapeUtil {
 	///////////////////////////
 	
 	public static PShape clonePShape(PApplet p, PShape tesselation) {
+		// copy triangles
 		PShape newShape = p.createShape();
 		newShape.beginShape(P.TRIANGLES);
 		for (int i = 0; i < tesselation.getVertexCount(); i++) {
 			PVector v = tesselation.getVertex(i);
-			newShape.vertex(v.x, v.y);
+			newShape.vertex(v.x, v.y, v.z);
 		}
 		newShape.endShape(P.CLOSE);
+		// copy props
+		for (int i = 0; i < tesselation.getVertexCount(); i++) {
+			newShape.setFill(i, tesselation.getFill(i));
+		}
+
 		newShape.setStroke(false);
 		return newShape;
 	}
+	
+	///////////////////////////
+	// Load an .obj with 3 color components per vertex
+	// File format explained here: http://paulbourke.net/dataformats/obj/colour.html
+	///////////////////////////
+	
+	public static PShape loadObjCustomVertexColors(PGraphics pg, String filename) {
+		// ported from PGraphics3D.java, line  
+		PShape obj = new PShapeOBJVertColors(pg.parent, filename);
+		int prevTextureMode = pg.textureMode;
+		pg.textureMode = P.NORMAL;
+		PShapeOpenGL p3d = PShapeOpenGL.createShape((PGraphicsOpenGL)pg, obj);
+		pg.textureMode = prevTextureMode;
+		return p3d;
+	}
+	
+	///////////////////////////
+	// COPY MESH (only works on basic shapes, it seems)
+	// Overrides the hidden code in PShape...
+	// from: https://discourse.processing.org/t/copying-a-pshape/1081/8
+	// use: PShapeCopy.copyShape(shape);
+	///////////////////////////
+
+	public static class PShapeCopy extends PShape {
+		public static PShape copyShape(PShape shape) {
+			return createShape(P.p, shape);
+		}
+		public static PShape copyGroup(PShape shape) {
+			PShape dest = P.p.g.createShape(P.GROUP);
+		    copyMatrix(shape, dest);
+		    copyStyles(shape, dest);
+		    copyImage(shape, dest);
+		    for (int i = 0; i < shape.getChildCount(); i++) {
+		      PShape c = PShape.createShape(P.p, shape.getChild(i));
+		      dest.addChild(c);
+		    }
+		    return dest;
+		}
+		public static PShape copyGeo(PShape shape) {
+			PShape dest = P.p.g.createShape();
+			copyGeometry(shape, dest);
+			return dest;
+		}
+	}	
 	
 	///////////////////////////
 	// ADD UV COORDINATES
@@ -433,6 +491,35 @@ public class PShapeUtil {
 		shape.vertex(v2.x, v2.y, v2.z);
 		shape.vertex(v3.x, v3.y, v3.z);
 		shape.endShape();
+	}
+	
+	///////////////////////////
+	// GROUP
+	///////////////////////////
+	
+	public static PShape addShapesToGroup(Object ...args) {
+		PShape group = P.p.createShape(P.GROUP);
+		for (int i = 0; i < args.length; i++) {
+			PShape shape = (PShape) args[i];
+			group.addChild(shape);
+		}
+		return group;
+	}
+
+	public static PShape addShapesToGroup(ArrayList<PShape> shapes) {
+		PShape group = P.p.createShape(P.GROUP);
+		for (int i = 0; i < shapes.size(); i++) {
+			group.addChild(shapes.get(i));
+		}
+		return group;
+	}
+	
+	public static PShape addShapesToGroup(PShape[] shapes) {
+		PShape group = P.p.createShape(P.GROUP);
+		for (int i = 0; i < shapes.length; i++) {
+			group.addChild(shapes[i]);
+		}
+		return group;
 	}
 	
 	///////////////////////////
@@ -1369,14 +1456,4 @@ public class PShapeUtil {
 		return shape;
 	}
 	
-	///////////////////////////
-	// COPY MESH (only works on basic shapes, it seems)
-	// from: https://discourse.processing.org/t/copying-a-pshape/1081/8
-	///////////////////////////
-
-	public static class PShapeCopy extends PShape {
-		public static PShape copyShape(PShape shape) {
-			return createShape(P.p, shape);
-		}
-	}
 }
