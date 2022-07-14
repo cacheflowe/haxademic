@@ -190,14 +190,18 @@ public class ImageUtil {
 	}
 	
 	public static PGraphics imageToGraphics(PImage img) {
-		PGraphics pg = PG.newPG(img.width, img.height);
+		return imageToGraphics(img, 1);
+	}  
+
+	public static PGraphics imageToGraphics(PImage img, float scale) {
+		PGraphics pg = PG.newPG(P.round(img.width * scale), P.round(img.height * scale));
 		pg.beginDraw();
 		pg.background(0, 0);
-		pg.image(img, 0, 0);
+		pg.image(img, 0, 0, pg.width, pg.height);
 		pg.endDraw();
 		return pg;
 	}  
-
+	
 	public static PGraphics shapeToGraphics(PShape shape) {
 		return shapeToGraphics(shape, 1f);
 	}  
