@@ -232,8 +232,12 @@ public class PG {
 	}
 	
 	public static void basicCameraFromMouse(PGraphics pg, float amp) {
-		pg.rotateX(P.map(Mouse.yEasedNorm, 0, 1, P.PI * amp, -P.PI * amp));
-		pg.rotateY(P.map(Mouse.xEasedNorm, 0, 1, -P.PI * amp, P.PI * amp));
+		basicCameraFromMouse(pg, amp, amp);
+	}
+	
+	public static void basicCameraFromMouse(PGraphics pg, float ampY, float ampX) {
+		pg.rotateX(P.map(Mouse.yEasedNorm, 0, 1, P.PI * ampX, -P.PI * ampX));
+		pg.rotateY(P.map(Mouse.xEasedNorm, 0, 1, -P.PI * ampY, P.PI * ampY));
 	}
 	
 	public static PMatrix3D getModelviewInv(PGraphics pg) {

@@ -14,7 +14,6 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.render.FrameLoop;
-import com.jogamp.opengl.GL;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -59,13 +58,8 @@ extends PAppletHax {
 		specMap = ImageUtil.imageToGraphics(P.getImage("haxademic/images/bumpmap/jersey_stitch_Ambient_Occlusion.jpg"));
 		alphaMap = ImageUtil.imageToGraphics(P.getImage("haxademic/images/bumpmap/jersey_stitch_Opacity.jpg"));
 		aoMap = ImageUtil.imageToGraphics(P.getImage("haxademic/images/bumpmap/jersey_stitch_Ambient_Occlusion.jpg"));
-		OpenGLUtil.setTextureQualityLow(texture);
-		OpenGLUtil.setTextureQualityLow(bumpMap);
-		OpenGLUtil.setTextureQualityLow(specMap);
-		OpenGLUtil.setTextureQualityLow(alphaMap);
-		OpenGLUtil.setTextureQualityLow(aoMap);
 		
-		BrightnessFilter.instance(p).setBrightness(1.25f);
+		BrightnessFilter.instance(p).setBrightness(1.5f);
 		BrightnessFilter.instance(p).applyTo(texture);
 
 		// show in debug
@@ -154,7 +148,7 @@ extends PAppletHax {
 		background(0, 0, FrameLoop.osc(0.04f, 0, 50));
 		PG.setDrawCorner(p);
 		PG.setCenterScreen(p);
-		PG.basicCameraFromMouse(p.g, 0.1f);
+		PG.basicCameraFromMouse(p.g, 0.1f, 0.025f);
 		
 		// light source emitting from the right of the camera
 		p.pointLight(255, 255, 255, 
@@ -165,7 +159,7 @@ extends PAppletHax {
 		
 		// update shader
 		bumpMapShader.set("bumpScale", Mouse.yNorm * 0.01f);
-		bumpMapShader.set("bumpScale", 0.007f);
+		bumpMapShader.set("bumpScale", 0.001f);
 		bumpMapShader.set("aoAmp", Mouse.yNorm);
 		bumpMapShader.set("aoAmp", 0.2f);
 		bumpMapShader.set("useAlphaMap", true);
