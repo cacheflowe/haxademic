@@ -44,11 +44,11 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		// test anisotropy levels
+		// test anisotropy levels?
 		// the walls are super moire artifacty
 		// Helpful info: https://forum.unity.com/threads/interference-moire-pattern-with-bumped-shaders.508496/
 		OpenGLUtil.setTextureQualityLow(p.g);
-		PGraphicsOpenGL.maxAnisoAmount = 0;// GL.GL_TEXTURE_MAX_ANISOTROPY_EXT;
+//		PGraphicsOpenGL.maxAnisoAmount = 0;// GL.GL_TEXTURE_MAX_ANISOTROPY_EXT;
 //		OpenGLUtil.listAvailableProfiles();
 
 		
