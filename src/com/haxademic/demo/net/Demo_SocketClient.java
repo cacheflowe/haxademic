@@ -1,11 +1,15 @@
 package com.haxademic.demo.net;
 
+import java.util.UUID;
+
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.ISocketClientDelegate;
@@ -22,7 +26,7 @@ implements ISocketClientDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SocketClient socketClient;
-	protected boolean isServerLocalhost = true;
+	protected boolean isServerLocalhost = false;
 	protected String serverAddress;
 	protected StringBufferLog socketLog = new StringBufferLog(30);
 	
@@ -32,10 +36,27 @@ implements ISocketClientDelegate {
 	}
 	
 	protected void firstFrame() {
+//		buildSocketClient();
+		buildSocketClientPlusSix();
+	}
+	
+	protected void buildSocketClient() {
+		// works with Java SocketServer demos *or* ?room-id is used with Node ws-chatroom.js
 //		SocketServer.PORT = 1337;
 		serverAddress = (isServerLocalhost) ?
 				"ws://" + IPAddress.getIP() + ":" + SocketServer.PORT + "?roomId=987654321" :
-				"ws://10.0.1.27:8080";
+				"wss://192.168.1.154:3001";
+		P.out(serverAddress);
+		socketClient = new SocketClient(serverAddress, this, true);
+	}
+	
+	protected void buildSocketClientPlusSix() {
+		// works with PlusSix socket server w/authentication and auto-cycling QR codes & room IDs 
+		String accId = "e448b1bb-a0db-4db9-90c8-55db9c7ec568";
+		String accKey = "da71f60a-bacb-4666-aa26-4b7d36d4eed3";
+		String roomId = UUID.randomUUID().toString();
+		serverAddress = "ws://localhost:3001/ws?roomId="+roomId+"&clientType=kiosk&accountId="+accId+"&accountKey="+accKey;
+		P.out(serverAddress);
 		socketClient = new SocketClient(serverAddress, this, true);
 	}
 	
@@ -51,6 +72,12 @@ implements ISocketClientDelegate {
 
 		// send a simple message to clients
 		if(p.mouseX != p.pmouseX || p.mouseY != p.pmouseY) sendTestMessage(); 
+		
+		// test shutting down & recreating the socket client
+		if(KeyboardState.keyTriggered(' ')) {
+			socketClient.disconnect();
+			buildSocketClientPlusSix();
+		}
 	}
 	
 	protected void drawServerLocation() {

@@ -71,6 +71,7 @@ public class SocketClient {
 				}
 			};
 			client.connect();
+			client.addHeader(serverAddress, serverAddress);
 		} catch (URISyntaxException e) { e.printStackTrace(); }
 	}
 	
@@ -115,4 +116,8 @@ public class SocketClient {
 		}
 	}
 	
+	public void disconnect() {
+		P.p.unregisterMethod("pre", this);
+		client.close();
+	}
 }
