@@ -505,6 +505,28 @@ public class PG {
 		pg.rect(0, pg.height - padd, pg.width, padd);
 		pg.rect(pg.width - padd, 0, padd, pg.height);
 		pg.pop();
+	}
 
+	public static void drawProgressBar(PGraphics pg, int x, int y, int barW, int barH, int colorOutline, int colorBg, int colorBar, float progress) {
+		pg.push();
+		PG.setDrawCorner(pg);
+		pg.translate(x, y);
+
+		// outer bar & background
+		pg.push();
+		pg.fill(colorBg);
+		pg.stroke(colorOutline);
+		pg.strokeWeight(2);
+		pg.rect(0, 0, barW, barH);
+		pg.pop();
+
+		// progress bar
+		pg.push();
+		pg.fill(colorBar);
+		pg.noStroke();
+		pg.rect(0, 0, barW * progress, barH);
+		pg.pop();
+
+		pg.pop();
 	}
 }
