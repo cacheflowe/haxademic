@@ -91,11 +91,13 @@ implements ISocketClientDelegate, IAppStoreListener {
 	
 	// TODO
 	// - Web UI: Add event log on web frontend
+	// - Web UI: Why isn't it working on mobile?? Try mobile error alerts
 	// - Web UI: Add timeout progress indicator
 	// - Web UI: Add session timeout view
 	// - Java: Add session & user timeout progress indicator
 	// - Turn PlusSix into core object
 	// - Test Node code on AWS server
+	// - Hide the QR code if the kiosk isn't connected to the ws:// server
 	
 	// WebSockets & QR code config
 	protected SocketClient socketClient;
@@ -232,7 +234,10 @@ implements ISocketClientDelegate, IAppStoreListener {
 		
 		// show session progress bar
 		pg.push();
-		PG.drawProgressBar(pg, pg.width - 220, pg.height - 290, 200, 30, 0xffffffff, 0xff000000, 0xff00ff00, sessionProgress);
+		int barColor = 0xff555555;
+		if(touchpadIsActive()) barColor = 0xff00bb00;
+		if(sessionTimeoutWarning) barColor = 0xffffff00;
+		PG.drawProgressBar(pg, pg.width - 220, pg.height - 290, 184, 30, 0xffffffff, 0xff000000, barColor, sessionProgress);
 		pg.pop();
 		
 		pg.endDraw();
@@ -302,6 +307,7 @@ implements ISocketClientDelegate, IAppStoreListener {
 	}
 	
 	protected boolean canResetSessionTimeout = false;
+	protected boolean sessionTimeoutWarning = false;
 	protected int sessionMaxEndTime = 0;
 	protected int lastSessionBroadcastTime = 0;
 	protected int sessionTimeoutStartTime = 0;
@@ -351,8 +357,8 @@ implements ISocketClientDelegate, IAppStoreListener {
 //		qrTimerEl.style.setProperty('width', `${100 - (sessionProgress * 100)}%`);
 
 		// have we crossed the warning threshold?
-		boolean showWarning = (prevSessionTimeLeft >= sessionWarningTime && sessionTimeLeft < sessionWarningTime);
-		if(showWarning) {
+		sessionTimeoutWarning = (prevSessionTimeLeft >= sessionWarningTime && sessionTimeLeft < sessionWarningTime);
+		if(sessionTimeoutWarning) {
 			setTimeoutWarningStyles();
 //			emit('widgetSessionTimeoutWarning', {
 //				maxSessionDuration: !canResetSessionTimeout,
