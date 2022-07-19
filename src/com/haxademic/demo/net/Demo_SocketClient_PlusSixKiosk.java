@@ -54,8 +54,10 @@ implements ISocketClientDelegate, IAppStoreListener {
 	protected final String CMD_HEARTBEAT = "heartbeat"; 
 	// internal / outgoing
 	protected final String CMD_KIOSK_SESSION_UPDATED = "widgetSessionUpdated";
+	protected final String CMD_KIOSK_ROOM_IS_CLOSING = "CMD_KIOSK_ROOM_IS_CLOSING";
 	// internal state
 	protected final String TOUCHPAD_IS_CONNECTED = "TOUCHPAD_IS_CONNECTED"; 
+	protected final String ROOM_HAD_TOUCHPAD = "ROOM_HAD_TOUCHPAD"; 
 
 
 	// KEY FEATURES
@@ -90,11 +92,9 @@ implements ISocketClientDelegate, IAppStoreListener {
 	//   keeps interacting
 	
 	// TODO
-	// - Web UI: Add event log on web frontend
-	// - Web UI: Why isn't it working on mobile?? Try mobile error alerts
 	// - Web UI: Add timeout progress indicator
 	// - Web UI: Add session timeout view
-	// - Java: Add session & user timeout progress indicator
+	// - Kiosk bug - don't restart timer if user refreshes the page!!!
 	// - Turn PlusSix into core object
 	// - Test Node code on AWS server
 	// - Hide the QR code if the kiosk isn't connected to the ws:// server
@@ -107,11 +107,31 @@ implements ISocketClientDelegate, IAppStoreListener {
 	protected StringBufferLog socketLog = new StringBufferLog(30);
 	
 	// Room/session config
-	protected int sessionRecycleInterval =      60 * 1000;
+	protected int roomRecycleInterval =      	60 * 1000;
 	protected int sessionUserTimeout =          30 * 1000;
 	protected int sessionMaxLength =            120 * 1000;
 	protected int sessionWarningTime =          10 * 1000;
+	protected int sessionClosingTime =          3 * 1000;
+
+	// session state & timers
+	protected boolean sessionTimeoutWarningFrame = false;
+	protected boolean sessionTimeoutWarning = false;
+	protected boolean sessionIsClosingFrame = false;
+	protected boolean sessionIsClosing = false;
+	protected int sessionAbsStartTime = 0;
+	protected int sessionAbsEndTime = 0;
+	protected int sessionAbsCurTime = 0;
+	protected int sessionAbsCurTimeDown = 0;
+	protected int lastSessionBroadcastTime = 0;
+	protected int sessionWindowStartTime = 0;
+	protected int sessionWindowEndTime = 0;
+	protected int sessionWindowCurDuration = 0;
+	protected int sessionTimeLeft = 0;
+	protected float sessionWindowProgress = 0;
+	protected float sessionAbsProgress = 0;
+	protected int sessionWindowCurTime = 0;
 	
+
 	
 	protected void config() {
 		Config.setAppSize(1280, 720);
@@ -119,21 +139,45 @@ implements ISocketClientDelegate, IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
-//		buildSocketClientPlusSix();
-		recycleSocketRoom();
+		newSocketRoom();
 	}
 	
-	protected void buildSocketClientPlusSix() {
+	protected void drawApp() {
+		background(0);
+		updateKioskPre();
+		p.image(pg, 0, 0);
+	}
+	
+	protected void updateKioskPre() {
+		// update kioskstate
+		updateSessionState();
+		drawKioskDebug();
+		
+		// send a simple message to clients
+		// if the touchpad is active, the session timer messages server as a heartbeat
+		if(touchpadIsActive() == false && FrameLoop.frameModSeconds(3)) sendHeartBeat(); 
+		
+		// test shutting down & recreating the socket client
+		if(KeyboardState.keyTriggered(' ')) newSocketRoom();
+		if(KeyboardState.keyTriggered('l')) SystemUtil.openWebPage(uiAddress);
+	}
+	
+	protected void newSocketRoom() {
+		// close old room
+		if(socketClient != null) socketClient.disconnect();
+		
 		// set initial state
 		P.store.setBoolean(TOUCHPAD_IS_CONNECTED, false);
+		P.store.setBoolean(ROOM_HAD_TOUCHPAD, false);
+		
+		// works with PlusSix socket server w/authentication and auto-cycling QR codes & room IDs 
+		// create new room ID and reset session timeouts
+		roomId = UUID.randomUUID().toString();
+		sessionNewRoom();
 		
 		// replace localhost with IP address
 		if(BASE_URL_WS.contains("localhost")) BASE_URL_WS = BASE_URL_WS.replace("localhost", IPAddress.getIP());
 		if(BASE_URL_UI.contains("localhost")) BASE_URL_UI = BASE_URL_UI.replace("localhost", IPAddress.getIP());
-		
-		// works with PlusSix socket server w/authentication and auto-cycling QR codes & room IDs 
-		// create new room ID
-		roomId = UUID.randomUUID().toString();
 		
 		// build WebSocket address for the kiosk to create a new room
 		serverAddress = BASE_URL_WS + "/ws?roomId="+roomId+"&clientType=kiosk&accountId="+accId+"&accountKey="+accKey;
@@ -144,40 +188,12 @@ implements ISocketClientDelegate, IAppStoreListener {
 		uiAddress = BASE_URL_UI + "?t="+DateUtil.epochTime()+"#roomId="+roomId+"&debug=true";
 		qr.updateQRCode(uiAddress, 256, 256, p.color(0), p.color( 0, 255, 0));
 		
+		// log addresses for testing
 		P.out(serverAddress);
 		P.out(uiAddress);
 	}
 	
-	protected void recycleSocketRoom() {
-		if(socketClient != null) socketClient.disconnect();
-		buildSocketClientPlusSix();
-		sessionNewRoom();
-	}
-	
-	protected void drawApp() {
-		background(0);
-		updateSessionState();
-		drawDebug();
-		
-		// draw qr code (with icon in center to test)
-		p.push();
-		p.translate(p.width - qr.image().width, p.height - qr.image().height);
-		p.image(qr.image(), 0, 0);
-		// icon
-		p.noStroke();
-		p.rect(qr.image().width/2 - 16, qr.image().height/2 - 16, 32, 32);
-		p.image(DemoAssets.smallTexture(), qr.image().width/2 - 16, qr.image().height/2 - 16, 32, 32);
-		p.pop();
-
-		// send a simple message to clients
-		if(FrameLoop.frameModSeconds(1)) sendHeartBeat(); 
-		
-		// test shutting down & recreating the socket client
-		if(KeyboardState.keyTriggered(' ')) recycleSocketRoom();
-		if(KeyboardState.keyTriggered('l')) SystemUtil.openWebPage(uiAddress);
-	}
-	
-	protected void drawDebug() {
+	protected void drawKioskDebug() {
 		pg.beginDraw();
 		pg.background(0);
 		
@@ -200,36 +216,43 @@ implements ISocketClientDelegate, IAppStoreListener {
 		pg.pop();
 		
 		// show session info
-		if(touchpadIsActive()) {
+//		if(touchpadIsActive()) {
 			FontCacher.setFontOnContext(pg, fontSm, p.color(255, 255, 0), 1f, PTextAlign.RIGHT, PTextAlign.TOP);
 			pg.text(
-					"sessionMaxEndTime: " + msToS(sessionMaxEndTime) + FileUtil.NEWLINE + 
+					"sessionAbsStartTime: " + msToS(sessionAbsStartTime) + FileUtil.NEWLINE + 
+					"sessionAbsEndTime: " + msToS(sessionAbsEndTime) + FileUtil.NEWLINE + 
+					"sessionAbsCurTime: " + DateUtil.timeFromMilliseconds(sessionAbsCurTime, false) + FileUtil.NEWLINE + 
+					"sessionAbsCurTimeDown: " + DateUtil.timeFromMilliseconds(sessionAbsCurTimeDown, false) + FileUtil.NEWLINE + 
 					"lastSessionBroadcastTime: " + msToS(lastSessionBroadcastTime) + FileUtil.NEWLINE + 
-					"sessionTimeoutStartTime: " + msToS(sessionTimeoutStartTime) + FileUtil.NEWLINE + 
-					"sessionTimeoutEndTime: " + msToS(sessionTimeoutEndTime) + FileUtil.NEWLINE + 
-					"sessionDuration: " + msToS(sessionDuration) + FileUtil.NEWLINE + 
-					"sessionTimeLeft: " + msToS(sessionTimeLeft) + FileUtil.NEWLINE + 
-					"sessionProgress: " + MathUtil.roundToPrecision(sessionProgress, 2) + FileUtil.NEWLINE +
-					"sessionCurDuration: " + msToS(sessionCurDuration) + FileUtil.NEWLINE 
-					, p.width - 20, 170);
-		}
+					"sessionTimeoutStartTime: " + msToS(sessionWindowStartTime) + FileUtil.NEWLINE + 
+					"sessionTimeoutEndTime: " + msToS(sessionWindowEndTime) + FileUtil.NEWLINE + 
+					"sessionTimeLeft: " + DateUtil.timeFromMilliseconds(sessionTimeLeft, false) + FileUtil.NEWLINE + 
+					"sessionProgress: " + MathUtil.roundToPrecision(sessionWindowProgress, 2) + FileUtil.NEWLINE +
+					"sessionAbsProgress: " + MathUtil.roundToPrecision(sessionAbsProgress, 2) + FileUtil.NEWLINE +
+					"sessionIsClosing: " + sessionIsClosing + FileUtil.NEWLINE +
+					"sessionDuration: " + DateUtil.timeFromMilliseconds(sessionWindowCurDuration, false) + FileUtil.NEWLINE + 
+					"sessionCurDuration: " + DateUtil.timeFromMilliseconds(sessionWindowCurTime, false) + FileUtil.NEWLINE + 
+//					"sessionCurDuration: " + DateUtil.timeFromMilliseconds(sessionCurDuration, false) + FileUtil.NEWLINE + 
+					""
+					, pg.width - 20, 170);
+//		}
 		
 		// websockets connected label
 		if(socketClient.isConnected()) {
 			FontCacher.setFontOnContext(pg, fontSm, p.color(0, 255, 0), 1f, PTextAlign.RIGHT, PTextAlign.TOP);
-			pg.text("WebSocket Connected", p.width - 20, 110);
+			pg.text("WebSocket Connected", pg.width - 20, 110);
 		} else {
 			FontCacher.setFontOnContext(pg, fontSm, p.color(255, 0, 0), 1f, PTextAlign.RIGHT, PTextAlign.TOP);
-			pg.text("WebSocket Disconnected", p.width - 20, 110);
+			pg.text("WebSocket Disconnected", pg.width - 20, 110);
 		}
 		
 		// touchpad connected label
 		if(touchpadIsActive()) {
 			FontCacher.setFontOnContext(pg, fontSm, p.color(0, 255, 0), 1f, PTextAlign.RIGHT, PTextAlign.TOP);
-			pg.text("Touchpad Connected", p.width - 20, 140);
+			pg.text("Touchpad Connected", pg.width - 20, 140);
 		} else {
 			FontCacher.setFontOnContext(pg, fontSm, p.color(255, 0, 0), 1f, PTextAlign.RIGHT, PTextAlign.TOP);
-			pg.text("Touchpad Disconnected", p.width - 20, 140);
+			pg.text("Touchpad Disconnected", pg.width - 20, 140);
 		}
 		
 		// show session progress bar
@@ -237,11 +260,22 @@ implements ISocketClientDelegate, IAppStoreListener {
 		int barColor = 0xff555555;
 		if(touchpadIsActive()) barColor = 0xff00bb00;
 		if(sessionTimeoutWarning) barColor = 0xffffff00;
-		PG.drawProgressBar(pg, pg.width - 220, pg.height - 290, 184, 30, 0xffffffff, 0xff000000, barColor, sessionProgress);
+		if(sessionIsClosing) barColor = 0xffff0000;
+		PG.drawProgressBar(pg, pg.width - 220, pg.height - 290, 184, 30, 0xffffffff, 0xff000000, barColor, sessionWindowProgress);
+		pg.pop();
+		
+		// draw qr code (with icon in center to test)
+		pg.push();
+		PG.setPImageAlpha(pg, (touchpadIsActive()) ? 0.2f : 1f);
+		pg.translate(pg.width - qr.image().width, pg.height - qr.image().height);
+		pg.image(qr.image(), 0, 0);
+		// icon
+		pg.noStroke();
+		pg.rect(qr.image().width/2 - 16, qr.image().height/2 - 16, 32, 32);
+		pg.image(DemoAssets.smallTexture(), qr.image().width/2 - 16, qr.image().height/2 - 16, 32, 32);
 		pg.pop();
 		
 		pg.endDraw();
-		p.image(pg, 0, 0);
 	}
 	
 	protected int msToS(float ms) {
@@ -281,7 +315,7 @@ implements ISocketClientDelegate, IAppStoreListener {
 				DebugView.setValue("CMD", cmd);
 				// perform actions based on cmd
 				if(cmd.equals(CMD_TOUCHPAD_CONNECTED))    touchpadConnected();
-				if(cmd.equals(CMD_TOUCHPAD_DISCONNECTED)) touchpadDisconnected();
+				if(cmd.equals(CMD_TOUCHPAD_DISCONNECTED)) newSocketRoom();
 				if(cmd.equals(CMD_TOUCHPAD_INTERACTED))   resetUserInteractionTimeout();
 			}
 		}
@@ -296,83 +330,75 @@ implements ISocketClientDelegate, IAppStoreListener {
 	}
 
 	////////////////////////////////////////////
-	// PlusSix logic
+	// PlusSix session logic
 	////////////////////////////////////////////
 
 	protected void touchpadConnected() {
 		P.store.setBoolean(TOUCHPAD_IS_CONNECTED, true);
-		P.out("Send config to touchpad app: current state, session timeout, etc");
-	    touchpadSessionStarted();
-	    resetUserInteractionTimeout();
+		if(P.store.getBoolean(ROOM_HAD_TOUCHPAD) == false) {
+			touchpadSessionStarted();	// don't restart session if a user refreshes and continues a session they already started
+		}
+	    updateSessionState();
+	    P.store.setBoolean(ROOM_HAD_TOUCHPAD, true);
 	}
 	
-	protected boolean canResetSessionTimeout = false;
-	protected boolean sessionTimeoutWarning = false;
-	protected int sessionMaxEndTime = 0;
-	protected int lastSessionBroadcastTime = 0;
-	protected int sessionTimeoutStartTime = 0;
-	protected int sessionTimeoutEndTime = 0;
-	protected int sessionDuration = 0;
-	protected int sessionTimeLeft = 0;
-	protected float sessionProgress = 0;
-	protected int sessionCurDuration = 0;
-	
 	protected void sessionNewRoom() {
-		lastSessionBroadcastTime = P.p.millis();
-		sessionTimeoutStartTime = P.p.millis();
-		sessionTimeoutEndTime = sessionTimeoutStartTime + sessionRecycleInterval;
-		sessionDuration = sessionRecycleInterval;
-		sessionTimeLeft = sessionRecycleInterval;
+		P.store.setBoolean(ROOM_HAD_TOUCHPAD, false);
+		int now = P.p.millis();
+		lastSessionBroadcastTime = now;
+		sessionWindowStartTime = now;
+		sessionWindowEndTime = sessionWindowStartTime + roomRecycleInterval;
+		sessionWindowCurDuration = roomRecycleInterval;
+		sessionTimeLeft = roomRecycleInterval;
 	}
 
 	protected void touchpadSessionStarted() {
-		resetTimeoutWarning();
+		int now = P.p.millis();
+		sessionAbsStartTime = now;
+		sessionAbsEndTime = now + sessionMaxLength;
 		resetUserInteractionTimeout();
-		sessionMaxEndTime = P.p.millis() + sessionMaxLength;
-		canResetSessionTimeout = true;
 	}
 
 	protected void resetUserInteractionTimeout() {
 		int now = P.p.millis();
-		if(now < sessionMaxEndTime - sessionUserTimeout) {
-			sessionTimeoutStartTime = now;
-			sessionTimeoutEndTime = sessionTimeoutStartTime + sessionUserTimeout;
-			sessionDuration = sessionUserTimeout;
+		if(now < sessionAbsEndTime - sessionUserTimeout) {
+			sessionWindowStartTime = now;
+			sessionWindowEndTime = sessionWindowStartTime + sessionUserTimeout;
+			sessionWindowCurDuration = sessionUserTimeout;
 			sessionTimeLeft = sessionUserTimeout;
-			resetTimeoutWarning();
-		} else {
-			canResetSessionTimeout = false;
 		}
 	}
 
 	protected void updateSessionState() {
 		// how long has the room been open?
-		sessionCurDuration = P.p.millis() - sessionTimeoutStartTime;
-		sessionProgress = (float) sessionCurDuration / sessionDuration;
+		int now = P.p.millis();
+		
+		// total max session length timer
+		sessionAbsCurTime = now - sessionAbsStartTime;
+		sessionAbsCurTimeDown = sessionAbsEndTime - now;
+		sessionAbsProgress = (float) (sessionAbsCurTime) / (sessionAbsEndTime - sessionAbsStartTime);
+
+		// user timeout session time
+		sessionWindowCurTime = now - sessionWindowStartTime;
+		sessionWindowProgress = (float) sessionWindowCurTime / sessionWindowCurDuration;
 		int prevSessionTimeLeft = sessionTimeLeft;
-		sessionTimeLeft = sessionTimeoutEndTime - P.p.millis();
-		broadcastSessionClock();
-
-		// update progress bar
-//		qrTimerEl.style.setProperty('width', `${100 - (sessionProgress * 100)}%`);
-
-		// have we crossed the warning threshold?
-		sessionTimeoutWarning = (prevSessionTimeLeft >= sessionWarningTime && sessionTimeLeft < sessionWarningTime);
-		if(sessionTimeoutWarning) {
-			setTimeoutWarningStyles();
-//			emit('widgetSessionTimeoutWarning', {
-//				maxSessionDuration: !canResetSessionTimeout,
-//			});
+		sessionTimeLeft = sessionWindowEndTime - now;
+		
+		// send state to touchpad client
+		if(touchpadIsActive()) {
+			broadcastSessionClock();
 		}
 
+		// have we crossed the warning threshold?
+		sessionTimeoutWarningFrame = (prevSessionTimeLeft >= sessionWarningTime && sessionTimeLeft < sessionWarningTime);
+		sessionTimeoutWarning = (sessionTimeLeft < sessionWarningTime);
 		// are we about to close the room?
-		boolean closing = (prevSessionTimeLeft >= 500 && sessionTimeLeft < 500);
-		if(closing) setRoomClosingStyles();
+		sessionIsClosingFrame = (prevSessionTimeLeft >= sessionClosingTime && sessionTimeLeft < sessionClosingTime);
+		sessionIsClosing = (sessionTimeLeft < sessionClosingTime);
 
 		// when time's up, move to a new room
-		if(sessionProgress >= 1) {
-			resetTimeoutWarning();
-			recycleSocketRoom();
+		if(sessionWindowProgress >= 1) {
+			newSocketRoom();
 		}
 	}
 
@@ -384,43 +410,18 @@ implements ISocketClientDelegate, IAppStoreListener {
 		// send session state to touchpad client
 	    JSONObject jsonOut = new JSONObject();
 	    jsonOut.setString(KEY_CMD, CMD_KIOSK_SESSION_UPDATED);
-	    jsonOut.setInt("sessionCurDuration", sessionCurDuration);
-	    jsonOut.setInt("sessionTimeoutStartTime", sessionTimeoutStartTime);
-	    jsonOut.setInt("sessionMaxEndTime", sessionMaxEndTime);
-	    jsonOut.setInt("sessionTimeoutEndTime", sessionTimeoutEndTime);
-	    jsonOut.setInt("sessionDuration", sessionDuration);
+	    jsonOut.setInt("sessionCurDuration", sessionWindowCurTime);
+	    jsonOut.setInt("sessionTimeoutStartTime", sessionWindowStartTime);
+	    jsonOut.setInt("sessionTimeoutEndTime", sessionWindowEndTime);
+	    jsonOut.setInt("sessionWindowCurDuration", sessionWindowCurDuration);
 	    jsonOut.setInt("sessionTimeLeft", sessionTimeLeft);
-	    jsonOut.setFloat("sessionProgress", sessionProgress);
+	    jsonOut.setFloat("sessionWindowProgress", sessionWindowProgress);
+	    jsonOut.setFloat("sessionAbsProgress", sessionAbsProgress);
+	    jsonOut.setInt("sessionAbsEndTime", sessionAbsEndTime);
+	    jsonOut.setInt("sessionAbsStartTime", sessionAbsStartTime);
+	    jsonOut.setFloat("sessionAbsCurTime", sessionAbsCurTime);
 	    sendJSON(jsonOut);
 	}
-
-	protected void setTimeoutWarningStyles() {
-		P.out("setTimeoutWarningStyles");
-//		qrWidgetEl.classList.add('room-almost-closed');
-	}
-
-	protected void setRoomClosingStyles() {
-//		qrWidgetEl.classList.remove('room-almost-closed');
-//		qrWidgetEl.classList.add('room-closing');
-	}
-
-	protected void resetTimeoutWarning() {
-		P.out("resetTimeoutWarning");
-//		qrWidgetEl.classList.remove('room-almost-closed');
-//		qrWidgetEl.classList.remove('room-closing');
-	}
-
-
-	protected void sessionResetTimeout() {
-		this.resetUserInteractionTimeout();
-	}
-
-
-	
-	protected void touchpadDisconnected() {
-		P.store.setBoolean(TOUCHPAD_IS_CONNECTED, false);
-	}
-
 
 	///////////////////////////////////////////
 	// IAppStoreListener callbacks
