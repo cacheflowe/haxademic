@@ -94,7 +94,6 @@ implements ISocketClientDelegate, IAppStoreListener {
 	// TODO
 	// - Web UI: Add timeout progress indicator
 	// - Web UI: Add session timeout view
-	// - Kiosk bug - don't restart timer if user refreshes the page!!!
 	// - Turn PlusSix into core object
 	// - Test Node code on AWS server
 	// - Hide the QR code if the kiosk isn't connected to the ws:// server
@@ -432,55 +431,4 @@ implements ISocketClientDelegate, IAppStoreListener {
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
-	
-	/*
-  
-
-  socketClose(e) {
-    this.triggerWidgetDisconnected();
-  }
-
-  socketError(e) {
-    this.triggerWidgetDisconnected();
-  }
-
-  triggerWidgetDisconnected() {
-    // socket is disconnected
-    this.emit('widgetDisconnected', {});
-    this.touchpadDisconnected({});  // normally this comes from the server
-    delete this.heartbeatTime;
-
-    // // send as JSON so the native side picks it up. this should hide the cursor
-    // this.sendCmdToNative({
-    //   "cmd": "widgetDisconnected",
-    // });
-  }
-
-	  
-  /////////////////////////////////////
-  // QR CODE & Room re-creation
-  /////////////////////////////////////
-
-
-  qrCodeRegenerate() {
-    // make sure touchpad is disconnected
-    this.triggerWidgetDisconnected();
-    this.touchpadIsActive = false;
-    // send message to kill old room (this only happens after the 2nd call to this function, since the first time is the first room)
-    if(this.roomId) this.sendJSON('closeRoom', {roomId: this.roomId});
-    // create new room
-    this.roomId = uuid.v4();
-    this.touchpadURL = `${PlusSixURLs.TOUCHPAD_URL_BASE}?t=${Date.now()}#roomId=${this.roomId}&debug=true`;
-    if(!!window.location.href.match(/-src/)) this.touchpadURL = this.touchpadURL.replace('/touchpad', '/touchpad-src'); // point to dev touchpad if we're widget dev
-    this.webSocketURL = `${PlusSixURLs.WS_SERVER_URL}?roomId=${this.roomId}&clientType=kiosk&accountId=${this.accountId}&accountKey=${this.accountKey}`;
-    if(this.solidSocket) this.solidSocket.setURL(this.webSocketURL);
-    this.generateNewQrImage();
-    this.qrCodeEl.setAttribute('href', this.touchpadURL);
-    // restart timer
-    this.sessionNewRoom();
-    // emit
-    this.emit('widgetQrRegenerated', {touchpadURL: this.touchpadURL});
-  }
-	  
-	*/
 }
