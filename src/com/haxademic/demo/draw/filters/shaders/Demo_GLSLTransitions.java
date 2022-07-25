@@ -36,7 +36,8 @@ extends PAppletHax {
 //		transitionShader.set("interpolationPower", 2f);
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/polka-dots-curtain.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/fly-eye.glsl"));
-		transitionShader = p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/circle-open.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/circle-open.glsl"));
+		transitionShader = p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/horizontal-cut.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/color-lerp.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/warp-fade.glsl"));
