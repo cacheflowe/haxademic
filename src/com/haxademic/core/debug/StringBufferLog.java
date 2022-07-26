@@ -35,8 +35,14 @@ public class StringBufferLog {
 	}
 	
 	public void printToScreen(PGraphics pg, float x, float y) {
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, fontSize);
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		printToScreen(pg, x, y, true);
+	}
+
+	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont) {
+		if(useDefaultFont) {
+			PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, fontSize);
+			FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		}
 		
 		String outputStr = "";
 		for (int i = 0; i < lines.length; i++) {
