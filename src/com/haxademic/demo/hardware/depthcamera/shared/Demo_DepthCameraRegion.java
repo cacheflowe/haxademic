@@ -12,7 +12,6 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraRegion;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
-import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.render.FrameLoop;
@@ -26,9 +25,9 @@ extends PAppletHax {
 	
 	// base components
 	protected DepthCameraRegion region;
-	protected PGraphics regionDebug;
-	protected PGraphics regionFlatDebug;
-	protected PGraphics joystickDebug;
+	protected PGraphics regionDebug;		// updated by the `region` object
+	protected PGraphics regionFlatDebug;	// updated by the `region` object
+	protected PGraphics joystickDebug;		// updated by the `region`
 	
 	// smoothed output
 	protected EasingBoolean userActive = new EasingBoolean(false, 60);
@@ -96,8 +95,8 @@ extends PAppletHax {
 	protected void addDebugTextures() {
 		if(DepthCamera.instance().camera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", DepthCamera.instance().camera.getRgbImage());
 		if(DepthCamera.instance().camera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", DepthCamera.instance().camera.getDepthImage());
-		if(UI.valueToggle(CAMERA_debug)) DebugView.setTexture("DepthCameraRegion.debugImage", regionDebug);
-		if(UI.valueToggle(CAMERA_debug_flat)) DebugView.setTexture("DepthCameraRegion.debugImage", regionFlatDebug);
+		if(UI.valueToggle(CAMERA_debug)) DebugView.setTexture("regionDebug", regionDebug);
+		if(UI.valueToggle(CAMERA_debug_flat)) DebugView.setTexture("regionFlatDebug", regionFlatDebug);
 		if(UI.valueToggle(CAMERA_debug)) DebugView.setTexture("joystickDebug", joystickDebug);
 	}
 	
