@@ -8,24 +8,16 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
-import com.haxademic.core.draw.filters.pshader.BloomFilter;
-import com.haxademic.core.draw.filters.pshader.ContrastFilter;
-import com.haxademic.core.draw.filters.pshader.GrainFilter;
-import com.haxademic.core.draw.filters.pshader.SaturationFilter;
-import com.haxademic.core.draw.filters.pshader.ToneMappingFilter;
-import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PShape;
 import processing.data.JSONObject;
-import processing.opengl.PGraphicsOpenGL;
 
 public class Demo_VertexShader_GPUParticlesMoveShapes_CubeOfCubes
 extends PAppletHax {

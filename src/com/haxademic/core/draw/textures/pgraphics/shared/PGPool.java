@@ -2,7 +2,6 @@ package com.haxademic.core.draw.textures.pgraphics.shared;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
 
 import processing.core.PGraphics;

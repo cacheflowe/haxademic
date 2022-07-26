@@ -1,11 +1,12 @@
 package com.haxademic.core.hardware.dmx.artnet;
 
-import ch.bildspur.artnet.ArtNetClient;
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.image.ImageUtil;
+
+import ch.bildspur.artnet.ArtNetClient;
 import processing.core.PGraphics;
 import processing.core.PImage;
 

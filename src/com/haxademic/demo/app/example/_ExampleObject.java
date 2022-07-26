@@ -13,8 +13,6 @@ implements IAppStoreListener {
 	protected ExampleApp p;
 	protected PGraphics pg;
 	
-	protected PImage skeletonBg;
-			
 	public _ExampleObject() {
 		p = (ExampleApp) P.p;
 		pg = p.pg;
@@ -41,7 +39,5 @@ implements IAppStoreListener {
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
-
-
 
 }
