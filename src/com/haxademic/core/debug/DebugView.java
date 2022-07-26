@@ -14,8 +14,10 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -36,6 +38,7 @@ implements IAppStoreListener {
 	
 	protected PApplet p;
 	protected static PFont debugFont;	
+	protected static PFont debugFontLg;	
 	protected static LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
 	protected static LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
 	protected static LinkedHashMap<String, PImage> textures = new LinkedHashMap<String, PImage>();
@@ -44,6 +47,7 @@ implements IAppStoreListener {
 	protected static float MAX_PANEL_WIDTH = 500;
 	protected static float helpPanelW = 0;
 	protected static int fontSize = 11;
+	protected static int fontSizeLg = 36;
 	protected static boolean active = false;
 	
 	protected static int MODE_DEBUG = 0;
@@ -308,25 +312,48 @@ implements IAppStoreListener {
 	protected void drawHighlightedValue() {
 		if(highlightedText != null) {
 			PGraphics pg = P.p.g;
+			pg.push();
+			PG.setCenterScreen(pg);
 
+			// get text width
+			FontCacher.setFontOnContext(P.p.g, debugFontLg, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
+			float textW = pg.textWidth(highlightedText);
+			if(textW > pg.width * 0.8f) textW = pg.width * 0.8f;
+			
 			// draw bg rect
-			int fill = P.p.color(0, 100, 0);
-			PG.drawStrokedRect(pg, pg.width, controlH, 1, fill, ColorsHax.BUTTON_OUTLINE);
+			PG.setDrawCenter(pg);
+			PG.drawStrokedRect(pg, textW + 40, debugFontLg.getSize() * 2f, 2, P.p.color(0, 0, 0), ColorsHax.BUTTON_OUTLINE);
 
 			// text label
-			pg.fill(ColorsHax.BUTTON_TEXT);
-			pg.text(highlightedText, IUIControl.TEXT_INDENT, 1f); // , IUIControl.controlW, controlH
+			pg.text(highlightedText, 0, debugFontLg.getSize() * 0.35f);
+			
+			pg.pop();
 		}
 	}
 	
 	protected void drawHighlightedImage() {
 		if(highlightedImage != null) {
 			PGraphics pg = P.p.g;
+		
+			pg.push();
+			
+			float padding2 = padding * 2;
+			float totalW = highlightedImage.width + padding2;
+			float totalH = highlightedImage.height + padding2;
+			if((totalW < pg.width && totalH < pg.height) || P.p.mousePressed) {
+				PG.setCenterScreen(pg);
+				PG.setDrawCenter(pg);
+				PG.drawStrokedRect(pg, totalW, totalH, 1, P.p.color(0, 0, 0), ColorsHax.BUTTON_OUTLINE);
+				p.image(highlightedImage, 0, 0);
+			}  else {
+				PG.setDrawCorner(pg);
+				ImageUtil.drawImageCropFill(highlightedImage, p.g, false);
+			}
 			
 			// draw bg rect
-			PG.drawStrokedRect(pg, highlightedImage.width + padding * 2, highlightedImage.height + padding * 2, 1, P.p.color(0, 100, 0), ColorsHax.BUTTON_OUTLINE);
 			// draw image
-			p.image(highlightedImage, padding, padding);
+			
+			pg.pop();
 		}
 	}
 	
@@ -339,6 +366,7 @@ implements IAppStoreListener {
 		if(P.p.frameCount == 1) {
 			new Thread(new Runnable() { public void run() {
 				debugFont = DemoAssets.fontInter(fontSize);
+				debugFontLg = P.p.createFont( FileUtil.getPath(DemoAssets.fontInterPath), fontSizeLg );
 				ipAddress = IPAddress.getLocalAddress();
 			}}).start();
 		}
