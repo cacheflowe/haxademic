@@ -110,6 +110,7 @@ implements IDepthCamera {
 	///////////////////////////
 
 	public void update() {
+		if(camera.isRunning() == false) return;
 		if(threaded) {
 			if(threadBusy == false) {
 				new Thread(new Runnable() { public void run() {
