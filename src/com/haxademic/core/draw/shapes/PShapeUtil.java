@@ -170,6 +170,10 @@ public class PShapeUtil {
 	// Need to file a bug w/Processing 
 	/////////////////////////////////
 	
+	public static PShape loadModelAndTexture(String modelPath, String texturePath) {
+		return loadModelAndTexture(P.p.g, modelPath, texturePath, 0);
+	}
+	
 	public static PShape loadModelAndTexture(String modelPath, String texturePath, float height) {
 		return loadModelAndTexture(P.p.g, modelPath, texturePath, height);
 	}
@@ -188,7 +192,9 @@ public class PShapeUtil {
 			obj.setTextureMode(P.NORMAL);
 			obj.setTexture(tex);
 		}
-		PShapeUtil.scaleShapeToHeight(obj, height);
+		if(height != 0) {
+			PShapeUtil.scaleShapeToHeight(obj, height);
+		}
 		
 		// log load time
 		P.out("-- texture load", texturePath);
