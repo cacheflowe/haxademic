@@ -208,7 +208,7 @@ public class ArObjectBase
 		KJoint spineShoulderJoint = joints2d[KinectPV2.JointType_SpineShoulder];
 		KJoint spineMidJoint = joints2d[KinectPV2.JointType_SpineMid];
 		float imgRot =  -P.HALF_PI + MathUtil.getRadiansToTarget(spineShoulderJoint.getX(), spineShoulderJoint.getY(), spineMidJoint.getX(), spineMidJoint.getY());
-		float rotY = (this instanceof ArElementObj) ? attitudeX * 0.5f : 0;
+		float rotY = (this instanceof ArElementObj) ? attitudeX * 0.5f : 0;	// only rotate on y-axis is it's a 3d model
 		float rotZAmp = 1.f;
 		
 		// set position
@@ -235,7 +235,6 @@ public class ArObjectBase
 		float attitudeX = (float) Math.asin(-2.0 * (q1x*q1z - q1y*q1w)/(sqx + sqy + sqz + sqw));
 		
 		// scale based on spine-should to spine-mid
-//		KJoint headJoint = joints2d[KinectPV2.JointType_Head];
 		float imgRot =  -P.HALF_PI + MathUtil.getRadiansToTarget(spineShoulderJoint.getX(), spineShoulderJoint.getY(), spineBaseJoint.getX(), spineBaseJoint.getY());
 		float rotY = (this instanceof ArElementObj) ? attitudeX * 0.5f : 0;
 		float rotZAmp = 1.f;
