@@ -1,6 +1,5 @@
 package com.haxademic.demo.draw.shapes;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -24,7 +23,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setup()	{
+	protected void firstFrame()	{
 
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);
 		String fontFile = FileUtil.getPath("fonts/HelloDenverDisplay-Regular.ttf");
@@ -38,8 +37,7 @@ extends PAppletHax {
 		PG.setBetterLights(p);
 		background(0);
 		translate(width/2,height/4,-600);
-		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));
-		rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
+		PG.basicCameraFromMouse(p.g);
 
 		// draw word
 		word3d.disableStyle();
