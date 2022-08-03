@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.depthcamera.ar;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.math.MathUtil;
@@ -182,7 +183,7 @@ public class ArObjectBase
 	}
 	
 	protected void setRotationOnContext(PGraphics pg) {
-		pg.rotateZ(rotation.x);
+		pg.rotateX(rotation.x);
 		pg.rotateY(rotation.y);
 		pg.rotateZ(rotation.z);
 	}
@@ -201,19 +202,22 @@ public class ArObjectBase
 		double sqz = q1z*q1z;
 		float attitudeX = (float) Math.asin(-2.0 * (q1x*q1z - q1y*q1w)/(sqx + sqy + sqz + sqw));
 		// float headingY = (float) Math.atan2(2.0 * (q1x*q1y + q1z*q1w),(sqx - sqy - sqz + sqw));
-		// float bankZ = (float) Math.atan2(2.0 * (q1y*q1z + q1x*q1w),(-sqx - sqy + sqz + sqw));
-		
+		float bankZ = (float) Math.atan2(2.0 * (q1y*q1z + q1x*q1w),(-sqx - sqy + sqz + sqw));
+		bankZ = (bankZ + P.PI); // wraps around -HALF_PI when standing straight up, but base is HALF_PI< so rotate a lil more
+		if(bankZ > P.PI) bankZ = bankZ - P.TWO_PI;
+		DebugView.setValue("bankZ", bankZ);
 		// scale based on spine-should to spine-mid
 		KJoint headJoint = joints2d[KinectPV2.JointType_Head];
 		KJoint spineShoulderJoint = joints2d[KinectPV2.JointType_SpineShoulder];
 		KJoint spineMidJoint = joints2d[KinectPV2.JointType_SpineMid];
 		float imgRot =  -P.HALF_PI + MathUtil.getRadiansToTarget(spineShoulderJoint.getX(), spineShoulderJoint.getY(), spineMidJoint.getX(), spineMidJoint.getY());
 		float rotY = (this instanceof ArElementObj) ? attitudeX * 0.5f : 0;	// only rotate on y-axis is it's a 3d model
+		float rotX = (this instanceof ArElementObj) ? bankZ * -0.5f : 0;	    // only rotate on x-axis is it's a 3d model
 		float rotZAmp = 1.f;
 		
 		// set position
 		setPosition(headJoint.getX(), headJoint.getY(), headJoint.getZ());
-		setRotation(0, rotY, imgRot * rotZAmp);
+		setRotation(rotX, rotY, imgRot * rotZAmp);
 	}
 
 	protected void setPositionWaist(KJoint[] joints2d, KJoint[] joints3d) {
