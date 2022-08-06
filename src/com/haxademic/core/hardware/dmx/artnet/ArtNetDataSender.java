@@ -91,8 +91,8 @@ public class ArtNetDataSender {
 		int numPixelsPerMatrix = matrixSize * matrixSize;
 		for(int i=0; i < numPixelsPerMatrix; i++) {
 			// get texture pixel color components
-			int x = MathUtil.gridColFromIndex(i, matrixSize);
-			int y = MathUtil.gridRowFromIndex(i, matrixSize);
+			int x = MathUtil.gridXFromIndex(i, matrixSize);
+			int y = MathUtil.gridYFromIndex(i, matrixSize);
 			int pixelColor = ImageUtil.getPixelColor(texture, offsetX + x, offsetY + y);
 			float r = ColorUtil.redFromColorInt(pixelColor);
 			float g = ColorUtil.greenFromColorInt(pixelColor);
