@@ -18,8 +18,9 @@ extends PAppletHax {
 		p.stroke(40, 255, 40);
 		
 		mouseVec.set(p.mouseX, p.mouseY);
-		if(trail == null) trail = new LineTrail(10);
+		if(trail == null) trail = new LineTrail(100);
 		trail.update(p.g, mouseVec, p.color(255), p.color(255, 0));
+		trail.smoothLine();
 	}
 	
 	public void keyPressed() {

@@ -50,4 +50,21 @@ public class LineTrail {
 		}
 	}
 	
+	protected PVector utilVec = new PVector(); 
+	public void smoothLine() {
+		for (int i = 1; i < size - 2; i++) {
+			// get each point's prev/next segments
+			PVector prevSegment = trail[i-1]; 
+			PVector curSegment = trail[i];
+			PVector nexSegment = trail[i+1];
+			
+			// find midpoint between segments
+			utilVec.set(prevSegment);
+			utilVec.lerp(nexSegment, 0.5f);
+			
+			// lerp towards midpoint by some factor
+			float smoothAmp = 0.02f * (1f - (i / size)); // reduce smoothing towards end of line
+			curSegment.lerp(utilVec, smoothAmp);
+		}
+	}
 }
