@@ -16,6 +16,7 @@ extends PAppletHax {
 		p.background(0);
 		p.noFill();
 		p.stroke(40, 255, 40);
+		p.strokeWeight(20);
 		
 		mouseVec.set(p.mouseX, p.mouseY);
 		if(trail == null) trail = new LineTrail(100);

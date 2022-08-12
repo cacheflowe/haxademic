@@ -37,6 +37,7 @@ public class LineTrail {
 		trail[0].set(newPos);
 		
 		// render
+		pg.beginShape();
 		for (int i = 0; i < size - 1; i++) {
 			PVector curSegment = trail[i]; 
 			PVector nexSegment = trail[i+1]; 
@@ -45,9 +46,10 @@ public class LineTrail {
 					float progress = (float) i / (float) size;
 					pg.stroke(P.p.lerpColor(colorStart, colorEnd, progress));
 				}
-				pg.line(curSegment.x, curSegment.y,  curSegment.z, nexSegment.x, nexSegment.y, nexSegment.z);
+				pg.vertex(curSegment.x, curSegment.y,  curSegment.z);
 			}
 		}
+		pg.endShape();
 	}
 	
 	protected PVector utilVec = new PVector(); 
@@ -63,7 +65,7 @@ public class LineTrail {
 			utilVec.lerp(nexSegment, 0.5f);
 			
 			// lerp towards midpoint by some factor
-			float smoothAmp = 0.02f * (1f - (i / size)); // reduce smoothing towards end of line
+			float smoothAmp = 0.03f * (1f - (i / size)); // reduce smoothing towards end of line
 			curSegment.lerp(utilVec, smoothAmp);
 		}
 	}
