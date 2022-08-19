@@ -92,11 +92,7 @@
 	<classpathentry kind="lib" path="lib/processing-4/libraries/pdf/library/itext.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/pdf/library/pdf.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/serial/library/jssc.jar"/>
-	<classpathentry kind="lib" path="lib/processing-4/libraries/serial/library/serial.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-4/libraries/serial/library/windows64"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="lib/processing-4/libraries/serial/library/serial.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/javamp3-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/jsyn-20171016.jar"/>
 	<classpathentry kind="lib" path="lib/processing-4/libraries/sound/library/sound.jar"/>

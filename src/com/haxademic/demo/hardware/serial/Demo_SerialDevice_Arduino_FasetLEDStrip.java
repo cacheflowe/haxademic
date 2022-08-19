@@ -35,7 +35,7 @@ implements ISerialDeviceDelegate {
 
 	protected void firstFrame() {
 		SerialDevice.printDevices();
-		serialDevice = new SerialDevice(this, 0, 115200); 
+		serialDevice = new SerialDevice(this, 4, 115200); 
 		
 		noiseTexture = new SimplexNoise3dTexture(p.width, p.height);
 		textureShader = new TextureShader(TextureShader.cacheflowe_liquid_moire_camo_alt);
