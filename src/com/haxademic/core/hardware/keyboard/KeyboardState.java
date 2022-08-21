@@ -64,6 +64,10 @@ public class KeyboardState {
 		return KeyboardState.instance().isKeyOn(KeyCodes.keyCodeFromChar(key));
 	}
 	
+	public static boolean keyOn(int keyCode) {
+		return KeyboardState.instance().isKeyOn(keyCode);
+	}
+	
 	public boolean isKeyOn(int key) {
 		return (keyboardButtons.containsKey(key) && (keyboardButtons.get(key) == InputState.TRIGGER || keyboardButtons.get(key) == InputState.ON));
 	}
