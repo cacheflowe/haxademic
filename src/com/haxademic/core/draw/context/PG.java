@@ -398,6 +398,23 @@ public class PG {
 		if(openContext) pg.endDraw();
 	}
 	
+	public static void drawGridCircles(PGraphics pg, int bgColor, int strokeColor, float rings, float strokeSize, boolean openContext) {
+		// update texture
+		if(openContext) {
+			pg.beginDraw();
+			pg.background(bgColor);
+		}
+		pg.push();
+		pg.noFill();
+		pg.stroke(strokeColor);
+		float ringSpacing = (float) pg.height / (float) rings * 2;
+		for (float ringSize = 0; ringSize <= pg.height * 2; ringSize += ringSpacing) {
+			pg.ellipse(pg.width/2 - ringSize/2, pg.height/2 - ringSize/2, ringSize, ringSize);
+		}
+		pg.pop();
+		if(openContext) pg.endDraw();
+	}
+	
 	public static void drawRainbow(PGraphics pg) {
 		int colors[] = ColorsHax.PRIDE;
 		pg.beginDraw();
