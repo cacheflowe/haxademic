@@ -63,6 +63,8 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/LeapMotionForProcessing/library/windows64"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/metadata-extractor/metadata-extractor-2.18.0.jar"/>
+	<classpathentry kind="lib" path="lib/metadata-extractor/xmpcore-6.1.11.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.5.jar"/>
