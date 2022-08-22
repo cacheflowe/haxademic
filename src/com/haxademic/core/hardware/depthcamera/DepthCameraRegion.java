@@ -222,7 +222,7 @@ implements IJoystickControl {
 
 		// set up debug canvas
 		debugGraphics.beginDraw();
-		debugGraphics.background(0);
+		debugGraphics.background(0, 0);
 		debugGraphics.noStroke();
 		
 		// check grid
@@ -234,7 +234,8 @@ implements IJoystickControl {
 				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
 			        if(debugGraphics != null) {
-			        	debugGraphics.fill(debugColor, 127);
+			        	debugGraphics.fill(debugColor, 255);
+			        	debugGraphics.stroke(0);
 			        	debugGraphics.rect(x, y, pixelSkip - 1, pixelSkip - 1);
 					}
 					// add up for calculations
