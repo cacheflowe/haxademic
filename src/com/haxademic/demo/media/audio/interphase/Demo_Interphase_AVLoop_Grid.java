@@ -48,6 +48,7 @@ implements IAppStoreListener {
 		audioTexture = new TextureGridInnerShapes(p.width, p.height);
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
+		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsTones());
 		interphase.initUI();
 		interphase.autoPlay();
