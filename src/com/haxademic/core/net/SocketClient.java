@@ -38,6 +38,10 @@ public class SocketClient {
 		}}).start();	
 	}
 	
+	public void setDelegate(ISocketClientDelegate delegate) {
+		this.delegate = delegate;
+	}
+	
 	protected void buildSocketClient() {		
 		lastConnectAttemptTime = P.p.millis();
 		

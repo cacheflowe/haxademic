@@ -49,6 +49,11 @@ implements ISocketClientDelegate {
 		}
 	}
 	
+	public void start(SocketClient client) {
+		this.client = client;
+		this.client.setDelegate(this);
+	}
+	
 	protected void startServer() {
 		// only one server or client should exist --------------------------------
 		if(client == null && server == null) buildSocketServer();

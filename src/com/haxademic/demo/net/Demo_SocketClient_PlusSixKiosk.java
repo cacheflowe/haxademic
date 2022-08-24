@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
@@ -14,6 +15,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
@@ -41,23 +43,26 @@ implements ISocketClientDelegate, IAppStoreListener {
 	protected String BASE_URL_UI = "http://localhost:3000";
 	protected String accId = "e448b1bb-a0db-4db9-90c8-55db9c7ec568";
 	protected String accKey = "da71f60a-bacb-4666-aa26-4b7d36d4eed3";
+	
+	// internal
+	protected String systemChannelId = "system";
 	protected String roomId;
 	protected QRCode qr;
 	protected boolean touchpadActive;
 	
 	// WebSocket command constants
-	protected final String KEY_CMD = "cmd"; 
+	public static final String KEY_CMD = "cmd"; 
 	// incoming
-	protected final String CMD_TOUCHPAD_CONNECTED = "touchpadConnected"; 
-	protected final String CMD_TOUCHPAD_DISCONNECTED = "touchpadDisconnected"; 
-	protected final String CMD_TOUCHPAD_INTERACTED = "touchpadInteracted"; 
-	protected final String CMD_HEARTBEAT = "heartbeat"; 
+	public static final String CMD_TOUCHPAD_CONNECTED = "touchpadConnected"; 
+	public static final String CMD_TOUCHPAD_DISCONNECTED = "touchpadDisconnected"; 
+	public static final String CMD_TOUCHPAD_INTERACTED = "touchpadInteracted"; 
+	public static final String CMD_HEARTBEAT = "heartbeat"; 
 	// internal / outgoing
-	protected final String CMD_KIOSK_SESSION_UPDATED = "widgetSessionUpdated";
-	protected final String CMD_KIOSK_ROOM_IS_CLOSING = "CMD_KIOSK_ROOM_IS_CLOSING";
+	public static final String CMD_KIOSK_SESSION_UPDATED = "widgetSessionUpdated";
+	public static final String CMD_KIOSK_ROOM_IS_CLOSING = "CMD_KIOSK_ROOM_IS_CLOSING";
 	// internal state
-	protected final String TOUCHPAD_IS_CONNECTED = "TOUCHPAD_IS_CONNECTED"; 
-	protected final String ROOM_HAD_TOUCHPAD = "ROOM_HAD_TOUCHPAD"; 
+	public static final String TOUCHPAD_IS_CONNECTED = "TOUCHPAD_IS_CONNECTED"; 
+	public static final String ROOM_HAD_TOUCHPAD = "ROOM_HAD_TOUCHPAD"; 
 
 
 	// KEY FEATURES
@@ -92,10 +97,9 @@ implements ISocketClientDelegate, IAppStoreListener {
 	//   keeps interacting
 	
 	// TODO
+	// - Turn PlusSix into core object
 	// - Web UI: Add timeout progress indicator
 	// - Web UI: Add session timeout view
-	// - Turn PlusSix into core object
-	// - Test Node code on AWS server
 	// - Hide the QR code if the kiosk isn't connected to the ws:// server
 	
 	// WebSockets & QR code config
@@ -138,6 +142,14 @@ implements ISocketClientDelegate, IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
+		// replace localhost with IP address so other machines can use the URL
+		if(BASE_URL_WS.contains("localhost")) BASE_URL_WS = BASE_URL_WS.replace("localhost", IPAddress.getIP());
+		if(BASE_URL_UI.contains("localhost")) BASE_URL_UI = BASE_URL_UI.replace("localhost", IPAddress.getIP());
+		
+		// build persistent connection to system channel
+		connectToSystemChannel();
+		
+		// init first cycling socket connection as kiosk host
 		newSocketRoom();
 	}
 	
@@ -145,6 +157,10 @@ implements ISocketClientDelegate, IAppStoreListener {
 		background(0);
 		updateKioskPre();
 		p.image(pg, 0, 0);
+		if(KeyboardState.keyTriggered('q')) {
+			P.storeDistributed.setNumber("mouseX", Mouse.x);
+		}
+		P.store.showStoreValuesInDebugView();
 	}
 	
 	protected void updateKioskPre() {
@@ -161,6 +177,14 @@ implements ISocketClientDelegate, IAppStoreListener {
 		if(KeyboardState.keyTriggered('l')) SystemUtil.openWebPage(uiAddress);
 	}
 	
+	protected void connectToSystemChannel() {
+		// for syncing with other machines, we'll do that with AppStoreDistributed
+		String systemWsAddress = BASE_URL_WS + "/ws?roomId="+systemChannelId+"&clientType=kiosk&accountId="+accId+"&accountKey="+accKey;
+		SocketClient socketSystem = new SocketClient(systemWsAddress, null, true);
+		P.storeDistributed = AppStoreDistributed.instance();
+		P.storeDistributed.start(socketSystem);
+	}
+	
 	protected void newSocketRoom() {
 		// close old room
 		if(socketClient != null) socketClient.disconnect();
@@ -173,10 +197,6 @@ implements ISocketClientDelegate, IAppStoreListener {
 		// create new room ID and reset session timeouts
 		roomId = UUID.randomUUID().toString();
 		sessionNewRoom();
-		
-		// replace localhost with IP address
-		if(BASE_URL_WS.contains("localhost")) BASE_URL_WS = BASE_URL_WS.replace("localhost", IPAddress.getIP());
-		if(BASE_URL_UI.contains("localhost")) BASE_URL_UI = BASE_URL_UI.replace("localhost", IPAddress.getIP());
 		
 		// build WebSocket address for the kiosk to create a new room
 		serverAddress = BASE_URL_WS + "/ws?roomId="+roomId+"&clientType=kiosk&accountId="+accId+"&accountKey="+accKey;
@@ -312,7 +332,7 @@ implements ISocketClientDelegate, IAppStoreListener {
 			if(jsonData.hasKey(KEY_CMD)) {
 				String cmd = jsonData.getString(KEY_CMD);
 				DebugView.setValue("CMD", cmd);
-				// perform actions based on cmd
+				// perform actions based on cmd from touchpad
 				if(cmd.equals(CMD_TOUCHPAD_CONNECTED))    touchpadConnected();
 				if(cmd.equals(CMD_TOUCHPAD_DISCONNECTED)) newSocketRoom();
 				if(cmd.equals(CMD_TOUCHPAD_INTERACTED))   resetUserInteractionTimeout();
