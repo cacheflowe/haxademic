@@ -25,8 +25,6 @@ implements IAppStoreListener {
 	// TODO: Add switches for testing locally
 	protected String urlWs = "ws://localhost:3001";
 	protected String urlUi = "http://localhost:3000";
-//	protected String urlWs = "wss://theconnectedcanvas.com";
-//	protected String urlUi = "https://theconnectedcanvas.com";
 	protected String accId = "e448b1bb-a0db-4db9-90c8-55db9c7ec568";
 	protected String accKey = "da71f60a-bacb-4666-aa26-4b7d36d4eed3";
 
