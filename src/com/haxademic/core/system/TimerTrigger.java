@@ -38,4 +38,8 @@ public class TimerTrigger {
 		return progress;
 	}
 	
+	public float timeLeft() {
+		return endTime - P.p.millis();
+	}
+	
 }
