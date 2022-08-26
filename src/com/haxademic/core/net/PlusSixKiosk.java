@@ -164,6 +164,10 @@ implements ISocketClientDelegate, IAppStoreListener {
 		return P.store.getBoolean(TOUCHPAD_IS_CONNECTED);
 	}
 	
+	public boolean socketIsConnected() {
+		return socketClient.isConnected();
+	}
+	
 	public PImage qrImage() {
 		return qr.image();
 	}
@@ -215,8 +219,8 @@ implements ISocketClientDelegate, IAppStoreListener {
 		qr.updateQRCode(uiAddress, 256, 256, qrBgColor, qrFgColor);
 		
 		// log addresses for testing
-		P.out(serverAddress);
-		P.out(uiAddress);
+		// P.out(serverAddress);
+		// P.out(uiAddress);
 	}
 	
 	public void drawKioskDebug(PGraphics pg) {

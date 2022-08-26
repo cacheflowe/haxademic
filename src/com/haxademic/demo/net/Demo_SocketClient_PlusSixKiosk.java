@@ -62,7 +62,9 @@ implements IAppStoreListener {
 	protected void drawApp() {
 		background(0);
 		updatePlusSix();
-//		p.image(pg, 0, 0);
+		if(!plusSixKiosk.touchpadIsActive() && plusSixKiosk.socketIsConnected()) {
+			p.image(plusSixKiosk.qrImage(), 0, p.height - plusSixKiosk.qrImage().height);
+		}
 		
 		// test sync between machines
 		if(KeyboardState.keyTriggered('q')) {
