@@ -25,7 +25,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// paths
-	protected String imagesPath = "D:\\workspace\\haxademic.js\\server\\downloads";
+	protected String imagesPath = "D:\\workspace\\haxademic.js\\server\\downloads-nike";
 	protected String outputPathSuffix = "\\_export"; 
 	protected String imagesOutputPath = imagesPath + outputPathSuffix; 
 	
@@ -83,6 +83,7 @@ extends PAppletHax {
 		curImage().setActive();
 		resetControls();
 		showGrid = true;
+		customFit();
 	}
 	
 	protected void resetControls() {
@@ -127,6 +128,8 @@ extends PAppletHax {
 		if(KeyboardState.keyOn('z')) imageScale -= 0.0025f * keyScale;
 		if(KeyboardState.keyOn('c')) imageScale += 0.0025f * keyScale;
 		if(KeyboardState.keyTriggered('g')) showGrid = !showGrid;
+		
+		customKeyCommands();
 	}
 	
 	protected void drawApp() {
@@ -150,6 +153,7 @@ extends PAppletHax {
 			PG.setDrawCorner(drawBuffer);
 			PG.drawGrid(drawBuffer, 0x00000000, 0x66ffffff, 20, 20, 1, false);
 			PG.drawGridCircles(drawBuffer, 0x00000000, 0x66ffffff, 20, 1, false);
+			customGrid();
 		}
 		// end
 		drawBuffer.endDraw();
@@ -181,8 +185,37 @@ extends PAppletHax {
 	protected void drawTextStatus(String str) {
 		String fontFile = DemoAssets.fontOpenSansPath;
 		PFont font = FontCacher.getFont(fontFile, 24);
-		FontCacher.setFontOnContext(p.g, font, p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		FontCacher.setFontOnContext(p.g, font, p.color(127), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		p.text(str, 20, 20);
+	}
+	
+	
+	///////////////////////////////////
+	// Custom per dataset prep
+	///////////////////////////////////
+	
+	protected void customFit() {
+		// fit to width rather than height
+		imageScale = MathUtil.scaleToTarget(curImage().image().width, drawBuffer.width);
+		// move up to anchor at bottom
+		float imgH = drawBuffer.height * imageScale;
+		offsetY = (imgH - drawBuffer.height) / 2;
+	}
+	
+	protected void customGrid() {
+		// red line under sneaker
+		drawBuffer.push();
+		drawBuffer.fill(255,0,0);
+		drawBuffer.rect(0, 874, drawBuffer.width, 4);
+		drawBuffer.pop();
+	}
+	
+	protected void customKeyCommands() {
+		if(KeyboardState.keyTriggered('3')) {
+			imageScale = MathUtil.scaleToTarget(curImage().image().width, drawBuffer.width);
+			float imgH = drawBuffer.height * imageScale;
+			offsetY = -50;// (imgH - drawBuffer.height) * -0.005f;
+		}	
 	}
 	
 	///////////////////////////////////
@@ -203,7 +236,8 @@ extends PAppletHax {
 		public LoadedImage(String path) {
 			this.path = path;
 			fileName = FileUtil.fileNameFromPath(path); 
-			this.pathExport = imagesOutputPath + FileUtil.SEPARATOR + fileName.replace("png", "jpg").replace("jpeg", "jpg");
+//			this.pathExport = imagesOutputPath + FileUtil.SEPARATOR + fileName.replace("png", "jpg").replace("jpeg", "jpg");
+			this.pathExport = imagesOutputPath + FileUtil.SEPARATOR + fileName.replace("jpg", "png").replace("jpeg", "png");
 			if(FileUtil.fileOrPathExists(pathExport)) exported = true;
 			
 		}
