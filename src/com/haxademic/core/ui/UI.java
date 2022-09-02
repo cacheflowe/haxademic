@@ -293,8 +293,16 @@ implements IAppStoreListener {
 	////////////////////////
 	
 	public void pre() {
-		// update control values whether UI is showing or not 
-		for (IUIControl control : controls.values()) control.update();
+		// update control values (whether UI is showing or not) 
+		DebugView.setHighlightedText(null);
+		for (IUIControl control : controls.values()) {
+			control.update();
+			
+			// add DebugView highlight text on hover of a UI control
+			if(control.hovered()) {
+				DebugView.setHighlightedText(control.id() + ": " + MathUtil.roundToPrecision(control.value(), 4));
+			}
+		}
 	}
 	
 	public void post() {

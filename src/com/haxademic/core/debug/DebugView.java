@@ -61,6 +61,7 @@ implements IAppStoreListener {
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
 	protected static String highlightedText = null;
+	protected static String highlightedTextExternal = null;
 	protected static PImage highlightedImage = null;
 	
 	public static int controlX = 0;
@@ -140,6 +141,12 @@ implements IAppStoreListener {
 	
 	public static void setHelpLine(String key, String val) {
 		helpLines.put(key, val);
+	}
+	
+	public static void setHighlightedText(String val) {
+		highlightedTextExternal = val;
+		// shouldn't do this, but here we are, to match debug lines
+		if(highlightedTextExternal != null) highlightedTextExternal += "\n";
 	}
 	
 	public static float debugPanelW() {
@@ -310,14 +317,17 @@ implements IAppStoreListener {
 	}
 	
 	protected void drawHighlightedValue() {
-		if(highlightedText != null) {
+		String highlightText = (highlightedTextExternal != null) ? highlightedTextExternal : highlightedText;
+
+		if(highlightText != null) {
 			PGraphics pg = P.p.g;
 			pg.push();
-			PG.setCenterScreen(pg);
+			pg.translate(pg.width/2, pg.height - 70);
 
 			// get text width
 			FontCacher.setFontOnContext(P.p.g, debugFontLg, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
-			float textW = pg.textWidth(highlightedText);
+			float textW = pg.textWidth(highlightText);
+			textW = P.ceil(textW / 100) * 100; // round up to the nearest 100px width
 			if(textW > pg.width * 0.8f) textW = pg.width * 0.8f;
 			
 			// draw bg rect
@@ -325,7 +335,7 @@ implements IAppStoreListener {
 			PG.drawStrokedRect(pg, textW + 40, debugFontLg.getSize() * 2f, 2, P.p.color(0, 0, 0), ColorsHax.BUTTON_OUTLINE);
 
 			// text label
-			pg.text(highlightedText, 0, debugFontLg.getSize() * 0.35f);
+			pg.text(highlightText, 0, debugFontLg.getSize() * 0.35f);
 			
 			pg.pop();
 		}
@@ -380,8 +390,7 @@ implements IAppStoreListener {
 		// update core app stats
 		updateAppInfo();
 		
-		p.pushMatrix();
-		p.pushStyle();
+		p.push();
 		p.noLights();
 		
 		// set up flat drawing
@@ -389,6 +398,7 @@ implements IAppStoreListener {
 		PG.setDrawFlat2d(p, true);
 		p.blendMode(PBlendModes.BLEND);
 		
+		p.push();
 		// draw info boxes!
 		// check to see if UI is already drawn on screen, and start from there
 		highlightedText = null;
@@ -401,13 +411,13 @@ implements IAppStoreListener {
 		} else {
 			drawValuesFromHashMap(helpLines); 
 		}
+		p.pop();
 		drawHighlightedValue();
 		drawHighlightedImage();
 		
 		// reset context
 		PG.setDrawFlat2d(p, false);
-		p.popStyle();
-		p.popMatrix();
+		p.pop();
 	}
 	
 	/////////////////////////////

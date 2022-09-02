@@ -136,6 +136,10 @@ implements IUIControl {
 		// no-op
 	}
 	
+	public boolean hovered() {
+		return mouseHovered;
+	}
+	
 	public void setEasingFactor(float easeFactor) {
 		valueEased.setEaseFactor(easeFactor);
 	}

@@ -22,8 +22,8 @@ implements IUIControl {
 	protected String id;
 	protected String label;
 	protected Rectangle rect;
-	protected boolean over;
-	protected boolean pressed;
+	protected boolean mouseHovered;
+	protected boolean mousePressed;
 	protected boolean toggles = false;
 	protected float value = 0;
 	protected float layoutW = 1;
@@ -42,8 +42,8 @@ implements IUIControl {
 		this.toggles = toggles;
 		this.midiNote = midiNote;
 		layoutW = 1;
-		over = false;
-		pressed = false;
+		mouseHovered = false;
+		mousePressed = false;
 		P.p.registerMethod(PRegisterableMethods.mouseEvent, this); // add mouse listeners
 	}
 	
@@ -128,6 +128,10 @@ implements IUIControl {
 		// no-op
 	}
 	
+	public boolean hovered() {
+		return mouseHovered;
+	}
+	
 	public void update() {
 		// check midi
 		if(midiNote != -1 && MidiState.instance().isMidiNoteTriggered(midiNote)) {
@@ -141,13 +145,13 @@ implements IUIControl {
 
 		// outline
 		pg.noStroke();
-		if(over || pressed) pg.fill(ColorsHax.BUTTON_OUTLINE_HOVER);
+		if(mouseHovered || mousePressed) pg.fill(ColorsHax.BUTTON_OUTLINE_HOVER);
 		else pg.fill(ColorsHax.BUTTON_OUTLINE);
 		pg.rect(rect.x, rect.y, rect.width, rect.height);
 
 		// background
-		if(over && value == 0 && !pressed) pg.fill(ColorsHax.BUTTON_BG_HOVER);
-		else if(pressed) pg.fill(ColorsHax.BUTTON_BG_PRESS);
+		if(mouseHovered && value == 0 && !mousePressed) pg.fill(ColorsHax.BUTTON_BG_HOVER);
+		else if(mousePressed) pg.fill(ColorsHax.BUTTON_BG_PRESS);
 		else if(toggles && value == 1) pg.fill(ColorsHax.WHITE);
 		else pg.fill(ColorsHax.BUTTON_BG);
 		pg.rect(rect.x+1, rect.y+1, rect.width-2, rect.height-2);
@@ -182,17 +186,17 @@ implements IUIControl {
 
 		switch (event.getAction()) {
 			case MouseEvent.PRESS:
-				pressed = rect.contains(mouseX, mouseY);
+				mousePressed = rect.contains(mouseX, mouseY);
 				break;
 			case MouseEvent.RELEASE:
-				if(pressed && over) click();
-				pressed = false;
+				if(mousePressed && mouseHovered) click();
+				mousePressed = false;
 				break;
 			case MouseEvent.MOVE:
-				over = rect.contains(mouseX, mouseY);
+				mouseHovered = rect.contains(mouseX, mouseY);
 				break;
 			case MouseEvent.DRAG:
-				over = rect.contains(mouseX, mouseY);
+				mouseHovered = rect.contains(mouseX, mouseY);
 				break;
 		}
 	}

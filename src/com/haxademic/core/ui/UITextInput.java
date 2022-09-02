@@ -26,8 +26,8 @@ implements IUIControl {
 	protected String id;
 	protected Rectangle rect;
 	protected int align;
-	protected boolean over;
-	protected boolean pressed;
+	protected boolean mouseHovered;
+	protected boolean mousePressed;
 	protected boolean active = true;
 	protected String value;
 	protected String fontFile;
@@ -54,8 +54,8 @@ implements IUIControl {
 		cursorPadding = Math.round( fontSize / 6f ); 
 		rect = new Rectangle(x, y, w, h);
 		textY = rect.y + rect.height * 0.5f - fontSize * 0.3f;
-		over = false;
-		pressed = false;
+		mouseHovered = false;
+		mousePressed = false;
 		focused = false;
 		this.saves = saves;
 		P.p.registerMethod(PRegisterableMethods.mouseEvent, this);
@@ -77,6 +77,10 @@ implements IUIControl {
 	public void set(String newText) {
 		value = newText;
 		updateStore();
+	}
+	
+	public boolean hovered() {
+		return mouseHovered;
 	}
 	
 	public void blur() {
@@ -126,9 +130,9 @@ implements IUIControl {
 		pg.rect(rect.x, rect.y, rect.width, rect.height);
 
 		// draw input background
-		if( pressed == true || focused == true ) {
+		if( mousePressed == true || focused == true ) {
 			pg.fill(ColorsHax.BUTTON_BG_PRESS);
-		} else if( over == true ) {
+		} else if( mouseHovered == true ) {
 			pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		} else {
 			pg.fill(ColorsHax.BUTTON_BG);
@@ -182,11 +186,11 @@ implements IUIControl {
 		
 		switch (event.getAction()) {
 		case MouseEvent.PRESS:
-			pressed = rect.contains(mouseX,  mouseY);
+			mousePressed = rect.contains(mouseX,  mouseY);
 			// if no textinputs are clicked, clear out ACTIVE_INPUT
 			break;
 		case MouseEvent.RELEASE:
-			pressed = false;
+			mousePressed = false;
 			focused = rect.contains(mouseX, mouseY);
 			ACTIVE_INPUT = null;
 			if(focused) {
@@ -197,9 +201,9 @@ implements IUIControl {
 			break;
 		case MouseEvent.MOVE:
 			boolean currentlyHovered = rect.contains(mouseX,  mouseY);
-			if(over == true && currentlyHovered == false) P.p.cursor(P.ARROW);	// mouse out
-			over = currentlyHovered;
-			if(over) P.p.cursor(P.TEXT);										// mouse over
+			if(mouseHovered == true && currentlyHovered == false) P.p.cursor(P.ARROW);	// mouse out
+			mouseHovered = currentlyHovered;
+			if(mouseHovered) P.p.cursor(P.TEXT);										// mouse over
 			break;
 		case MouseEvent.DRAG:
 			break;

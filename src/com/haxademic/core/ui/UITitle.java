@@ -83,6 +83,10 @@ implements IUIControl {
 		// no-op
 	}
 	
+	public boolean hovered() {
+		return false;
+	}
+	
 	public void update() {
 		
 	}

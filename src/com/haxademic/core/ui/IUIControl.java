@@ -28,6 +28,7 @@ public interface IUIControl {
 	public String id();
 	public void set(float val);
 	public void set(String val);
+	public boolean hovered();
 	public float value();
 	public float valueEased();
 	public String valueString();
