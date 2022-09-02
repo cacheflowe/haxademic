@@ -283,6 +283,15 @@ public class FileUtil {
 		return images;
 	}
 	
+	public static PImage[] loadImagesArrFromDir(String directory, String formats) {
+		ArrayList<PImage> imgsArr = loadImagesFromDir(directory, formats);
+		PImage[] particleImages = new PImage[imgsArr.size()];
+		for (int i = 0; i < imgsArr.size(); i++) {
+			particleImages[i] = imgsArr.get(i);
+		}
+		return particleImages;
+	}
+	
 	public static String[] getFilesAndDirsInDir( String directory ) {
 		File dir = new File( directory );
 		FileFilter fileFilter = new FileFilter() {
