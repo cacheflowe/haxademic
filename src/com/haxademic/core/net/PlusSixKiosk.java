@@ -48,13 +48,16 @@ implements ISocketClientDelegate, IAppStoreListener {
 	public static final String CMD_TOUCHPAD_CONNECTED = "touchpadConnected"; 
 	public static final String CMD_TOUCHPAD_DISCONNECTED = "touchpadDisconnected"; 
 	public static final String CMD_TOUCHPAD_INTERACTED = "touchpadInteracted"; 
-	public static final String CMD_HEARTBEAT = "heartbeat"; 
+	public static final String CMD_TOUCHPAD_CUSTOM = "touchpadCustom"; 
 	// internal / outgoing
+	public static final String CMD_HEARTBEAT = "heartbeat"; 
 	public static final String CMD_KIOSK_SESSION_UPDATED = "kioskSessionUpdated";
 	public static final String CMD_KIOSK_SESSION_CONFIG = "kioskSessionConfig";
-	// internal state
+	// internal AppStore state
 	public static final String TOUCHPAD_IS_CONNECTED = "TOUCHPAD_IS_CONNECTED"; 
 	public static final String ROOM_HAD_TOUCHPAD = "ROOM_HAD_TOUCHPAD"; 
+	public static final String INCOMING_JSON_DATA = "INCOMING_JSON_DATA"; 
+	public static final String INCOMING_JSON_CMD = "INCOMING_JSON_CMD"; 
 
 
 	// KEY FEATURES
@@ -338,8 +341,12 @@ implements ISocketClientDelegate, IAppStoreListener {
 				DebugView.setValue("CMD", cmd);
 				// perform actions based on cmd from touchpad
 				if(cmd.equals(CMD_TOUCHPAD_CONNECTED))    touchpadConnected();
-				if(cmd.equals(CMD_TOUCHPAD_DISCONNECTED)) newSocketRoom();
-				if(cmd.equals(CMD_TOUCHPAD_INTERACTED))   resetUserInteractionTimeout();
+				else if(cmd.equals(CMD_TOUCHPAD_DISCONNECTED)) newSocketRoom();
+				else if(cmd.equals(CMD_TOUCHPAD_INTERACTED))   resetUserInteractionTimeout();
+				else {
+					P.store.setString(INCOMING_JSON_DATA, message);
+					P.store.setString(INCOMING_JSON_CMD, cmd);
+				}
 			}
 		}
 	}
