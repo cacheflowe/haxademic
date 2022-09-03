@@ -2,16 +2,20 @@ package com.haxademic.demo.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.particle.ParticleSystemCustom;
-import com.haxademic.core.draw.particle.ParticleSystemCustom.ParticleCustom;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.particle.Particle;
+import com.haxademic.core.draw.particle.ParticleFactory;
+import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.ui.UI;
 
+import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class Demo_ParticleSystem_Custom 
@@ -21,13 +25,12 @@ extends PAppletHax {
 	protected ParticleSystemCustom particles;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1200 );
-		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setAppSize(1024, 1024);
 	}
 
 	protected void firstFrame() {
 		particles = new ParticleSystemCustom(new PImage[] { DemoAssets.particle() });
-//		particles.enableUI("PARTICLES_", false);
+		particles.enableUI("PARTICLES_", false);
 	}
 	
 	protected void drawApp() {
@@ -35,29 +38,131 @@ extends PAppletHax {
 		
 		// draw image/map base
 		pg.beginDraw();
-//		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255);
-//		BrightnessStepFilter.instance(p).applyTo(pg);
 		pg.background(0);
+		PG.setDrawFlat2d(pg, true);
 //		launchFromMouse();
-		particles.launchParticle(pg, FrameLoop.osc(0.05f, pg.width * 0.3f, pg.width * 0.7f), pg.height * 0.7f);
-		particles.drawParticles(pg, PBlendModes.BLEND);
+		particles.launchParticle(FrameLoop.osc(0.05f, pg.width * 0.3f, pg.width * 0.7f), pg.height * 0.7f, 0);
+		particles.drawParticles(pg, PBlendModes.ADD);
 		pg.endDraw();
 		
-		DebugView.setValue("particles.poolSize()", particles.poolSize());
-		
+		// draw to screen
 		p.image(pg, 0, 0);
+		
+		// debug info
+		DebugView.setValue("particles.poolSize()", particles.poolSize());
+		DebugView.setValue("particles.poolActiveSize()", particles.poolActiveSize());
 	}
 	
 	protected void launchFromMouse() {
 		if(P.abs(Mouse.xSpeed) > 0 && P.abs(Mouse.ySpeed) > 0) {
 			for(int i=0; i < 3; i++) {
-				ParticleCustom parti = (ParticleCustom) particles.launchParticle(pg, Mouse.x, Mouse.y);
-				float speedDivisor = 2f + 4f * parti.sizeNorm();
-				parti	.setSpeed(Mouse.xSpeed / speedDivisor, Mouse.ySpeed / speedDivisor)
-						.setGravity(0, 0)
+				ParticleCustom particle = (ParticleCustom) particles.launchParticle(Mouse.x, Mouse.y, 0);
+				float speedDivisor = 2f + 4f * particle.sizeNorm();
+				if(particle != null) 
+					particle
+						.setSpeed(Mouse.xSpeed / speedDivisor, Mouse.ySpeed / speedDivisor, 0)
+						.setGravity(0, 0, 0)
 						.setAcceleration(0.97f);
 			}
 		}
 	}
 	
+	//////////////////////////////////////
+	// Custom particle system
+	//////////////////////////////////////
+
+	public class ParticleFactoryCustom
+	extends ParticleFactory {
+		
+		public ParticleFactoryCustom(PImage[] particleImages) {
+			super(particleImages);
+		}
+		
+		public Particle initNewParticle() {
+			return new ParticleCustom();
+		}
+		
+	}
+
+	public class ParticleSystemCustom
+	extends ParticleSystem {
+
+		public ParticleSystemCustom(PImage[] particleImages) {
+			super(new ParticleFactoryCustom(particleImages));
+		}
+		
+		protected void launch(Particle particle, float x, float y, float z) {
+			if(usingUI) {
+				particle
+					.setSpeedRange(UI.valueX(SPEED_MIN), UI.valueX(SPEED_MAX), UI.valueY(SPEED_MIN), UI.valueY(SPEED_MAX), UI.valueZ(SPEED_MIN), UI.valueZ(SPEED_MAX))
+					.setAcceleration(UI.valueX(ACCELERATION), UI.valueY(ACCELERATION), UI.valueZ(ACCELERATION))
+					.setGravityRange(UI.valueX(GRAVITY_MIN), UI.valueX(GRAVITY_MAX), UI.valueY(GRAVITY_MIN), UI.valueY(GRAVITY_MAX), UI.valueZ(GRAVITY_MIN), UI.valueZ(GRAVITY_MAX))
+					.setRotationRange(UI.valueX(ROTATION_MIN), UI.valueX(ROTATION_MAX), UI.valueY(ROTATION_MIN), UI.valueY(ROTATION_MAX), UI.valueZ(ROTATION_MIN), UI.valueZ(ROTATION_MAX))
+					.setLifespanRange(UI.value(LIFESPAN_MIN), UI.value(LIFESPAN_MAX))
+					.setSizeRange(UI.value(SIZE_MIN), UI.value(SIZE_MAX))
+					.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)));
+			} else {
+				particle
+					.setSpeed(0, 0, 0)
+					.setAcceleration(1)
+					.setGravity(0, -0.1f, 0)
+					.setRotationRange(0, 0, 0, 0, -1, 1)
+					.setLifespanRange(30, 70)
+					.setSizeRange(20, 60)
+					.setColor(P.p.color(P.p.random(0, 255), P.p.random(0, 255), P.p.random(0, 255)));
+			}
+			// shared launch config & call
+			particleFactory
+				.randomize(particle)
+				.launch(x, y, z);
+		}
+		
+	}
+	
+	//////////////////////////////////////
+	// Custom particle
+	//////////////////////////////////////
+	
+	public class ParticleCustom
+	extends Particle {
+		
+		public ParticleCustom() {}
+		
+		public float sizeNorm() {
+			return P.map(size, sizeMin, sizeMax, 0, 1);
+		}
+		
+		protected void drawParticle(PGraphics pg) {
+			// size tweaks based on lifespan progress...
+			// scale up, but alpha fade out instead of scale down
+			boolean scalingUp = (lifespanProgress.target() == 1);
+			float curSize = (scalingUp) ?
+					size * Penner.easeOutExpo(lifespanProgress.value()) :
+					size;
+			curSize = size * Penner.easeOutCirc(lifespanProgress.value());
+			float alpha = (lifespanProgress.target() == 1) ? 255 : 255 * lifespanProgress.value();
+			float sizeNorm = sizeNorm();
+			
+			// draw different types of shapes
+			if(sizeNorm > 0.7f) {
+				pg.tint(color, alpha);
+				pg.image(image, 0, 0, curSize, curSize);
+				pg.tint(255);
+			} else if(sizeNorm > 0.3f) {
+				pg.noFill();
+				pg.stroke(color, alpha);
+				pg.strokeWeight(size * 0.1f);
+				pg.ellipse(0, 0, curSize, curSize);
+			} else {
+				pg.noStroke();
+				pg.fill(color, alpha);
+				pg.strokeWeight(size * 0.1f);
+				pg.rect(0, 0, curSize, curSize);
+			}
+			
+			// debug
+			// pg.text(speed.y, 10, 10);
+		}		
+		
+	}
 }
