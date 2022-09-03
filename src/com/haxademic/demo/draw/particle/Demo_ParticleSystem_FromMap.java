@@ -68,9 +68,12 @@ extends PAppletHax {
 		background(0);
 		PG.setCenterScreen(p);
 		PG.setDrawCenter(p);
-		PG.basicCameraFromMouse(p.g, 0.2f);
-		if(!is3d) PG.setDrawFlat2d(p.g, true);
-		p.g.lights();
+		PG.basicCameraFromMouse(p.g, 0.5f);
+		if(!is3d) {
+			PG.setDrawFlat2d(p.g, true);
+			PG.setDrawCenter(p.g);
+		}
+		else      PG.setBetterLights(p.g);
 		
 		// update map & launch particles
 		// responsive scale if map is different size than destination
@@ -135,7 +138,9 @@ extends PAppletHax {
 		map.loadPixels();
 	}
 	
-	
+	///////////////////////////////////
+	// Simplest custom 3d particle overrides
+	///////////////////////////////////
 	
 	
 	public class ParticleFactoryBasic3d
@@ -158,6 +163,7 @@ extends PAppletHax {
 			if(isCube) {
 				newShape = PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0));
 			} else {
+				p.sphereDetail(8);
 				newShape = PShapeUtil.createSphere(1, p.color(180, 180, 0));
 			}
 			return new Particle(newShape);

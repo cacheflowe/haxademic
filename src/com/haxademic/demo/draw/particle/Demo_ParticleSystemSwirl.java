@@ -2,8 +2,8 @@ package com.haxademic.demo.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.Particle;
 import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
@@ -21,8 +21,7 @@ extends PAppletHax {
 	protected ParticleSystemSwirl particles;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1200 );
-		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setAppSize(1024, 1024);
 	}
 
 	protected void firstFrame() {
@@ -36,6 +35,8 @@ extends PAppletHax {
 		// draw image/map base
 		pg.beginDraw();
 		pg.background(0);
+		PG.setDrawFlat2d(pg, true);
+		PG.setDrawCenter(pg);
 		particles.launchParticles(pg);
 		particles.drawParticles(pg);
 		pg.endDraw();
@@ -127,7 +128,7 @@ extends PAppletHax {
 			pos.set(
 					pg.width/2 + P.cos(radians) * radius, 
 					pg.height/2 + P.sin(radians) * radius, 
-					0
+					pos.z + speed.z
 					);
 			
 			rotation.add(rotationSpeed);

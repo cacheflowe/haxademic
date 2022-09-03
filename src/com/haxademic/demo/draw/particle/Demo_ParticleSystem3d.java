@@ -13,8 +13,11 @@ import com.haxademic.core.draw.particle.IParticleFactory;
 import com.haxademic.core.draw.particle.Particle;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.TextToPShape;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
@@ -48,37 +51,7 @@ extends PAppletHax {
 		particleFactory = new ParticleFactoryBasic3d();
 		particles = new ParticleSystem(particleFactory);
 		particles.enableUI("Parti3d", false);
-		
-		// custom shape
-//		PShape shapeTess = DemoAssets.shapeX().getTessellation();
-//		PShapeUtil.repairMissingSVGVertex(shapeTess);
-//		shape = PShapeUtil.createExtrudedShape(shapeTess, 100);
-//		if(shape != null) {
-//			PShapeUtil.centerShape(shape);
-//			PShapeUtil.scaleShapeToHeight(shape, 300f);
-//			shape.disableStyle();
-//		}
-//		
-//		// more custom shapes
-//		TextToPShape textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
-//		String fontFile = FileUtil.getPath(DemoAssets.fontDSEG7Path);
-//		shapes = new PShape[] {
-//				textToPShape.stringToShape3d("0", 10, fontFile),
-//				textToPShape.stringToShape3d("1", 10, fontFile),
-//				textToPShape.stringToShape3d("2", 10, fontFile),
-//				textToPShape.stringToShape3d("3", 10, fontFile),
-//				textToPShape.stringToShape3d("4", 10, fontFile),
-//				textToPShape.stringToShape3d("5", 10, fontFile),
-//				textToPShape.stringToShape3d("6", 10, fontFile),
-//				textToPShape.stringToShape3d("7", 10, fontFile),
-//				textToPShape.stringToShape3d("8", 10, fontFile),
-//				textToPShape.stringToShape3d("9", 10, fontFile),
-//		};
-//		for (int i = 0; i < shapes.length; i++) {
-//			PShapeUtil.scaleShapeToHeight(shapes[i], 300f);
-//			shapes[i].disableStyle();
-//		}
-		
+				
 		// build UI
 		UI.addTitle("ParticleSystem3d Controls");
 		UI.addSlider(FRAME_LAUNCH_INTERVAL, 1, 1, 60, 1, false);
@@ -90,11 +63,7 @@ extends PAppletHax {
 		UI.addWebInterface(false);
 	}
 	
-	protected void drawApp() {
-		// background
-		p.background(0);
-		
-		// launch particle
+	protected void launchParticles() {
 		if(FrameLoop.frameModLooped(UI.valueInt(FRAME_LAUNCH_INTERVAL))) {
 			for (int i = 0; i < UI.valueInt(LAUNCHES_PER_FRAME); i++) {
 				
@@ -106,27 +75,36 @@ extends PAppletHax {
 				
 				// launch!
 				Particle particle = particles.launchParticle(0, 0, 0);
-				particleFactory.setColor(particle, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)][MathUtil.randRange(0, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)].length - 1)]);
+				// particleFactory.setColor(particle, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)][MathUtil.randRange(0, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)].length - 1)]);
 				particle
+					.setColor(ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)][MathUtil.randRange(0, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)].length - 1)])
 					.setSpeedRange(speedX, speedX, UI.value(SPEED_Y) - 1, UI.value(SPEED_Y) + 1, speedZ, speedZ)
 					.launch(0, 0, 0);
 			}
-		}
+		}	
+	}
+	
+	protected void drawApp() {
+		launchParticles();
 		
-		// draw image/map base
+		// background
+		p.background(0);
+				
+		// set context
 		pg.beginDraw();
 		pg.background(0);
 		pg.noFill();
-//		pg.ortho();
 		PG.setBetterLights(pg);
 		PG.setCenterScreen(pg);
 		PG.setDrawCorner(pg);
 		PG.basicCameraFromMouse(pg, 0.4f);
-//		pg.rotateY(FrameLoop.osc(0.01f, -0.5f, 0.5f));
-//		pg.rotateX(FrameLoop.osc(0.005f, -0.5f, 0.5f));
+		
+		// draw outer sphere
 		pg.stroke(100);
 		pg.sphere(1000);
 		pg.noStroke();
+		
+		// draw particles
 		particles.drawParticles(pg, PBlendModes.BLEND);
 		pg.endDraw();
 		
@@ -145,11 +123,18 @@ extends PAppletHax {
 		DebugView.setValue("particles.poolActiveSize()", particles.poolActiveSize());
 	}
 	
+	////////////////////////////////////
+	// Custom particle system
+	////////////////////////////////////
 	
 	public class ParticleFactoryBasic3d
 	implements IParticleFactory {
 		
-		public ParticleFactoryBasic3d() {}
+		protected TextToPShape textToPShape;
+		
+		public ParticleFactoryBasic3d() {
+			textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
+		}
 		
 		public Particle randomize(Particle particle) {
 			return particle;
@@ -165,12 +150,30 @@ extends PAppletHax {
 			boolean isCube = MathUtil.randBoolean();
 			if(isCube) {
 				newShape = PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0));
+			} else if(MathUtil.randBoolean()) {
+				PShape shapeTess = DemoAssets.shapeX().getTessellation();
+				PShapeUtil.repairMissingSVGVertex(shapeTess);
+				PShapeUtil.centerShape(shapeTess);
+				PShapeUtil.scaleShapeToHeight(shapeTess, 1);
+				shapeTess.disableStyle();
+				newShape = PShapeUtil.createExtrudedShape(shapeTess, 1);
+			} else if(MathUtil.randBoolean()) {
+				newShape = newNumber(MathUtil.randRange(0, 9) + "");
 			} else {
+				p.sphereDetail(8);
 				newShape = PShapeUtil.createSphere(1, p.color(180, 180, 0));
 			}
 			return new Particle(newShape);
 		}
 
+		public PShape newNumber(String number) {
+			String fontFile = FileUtil.getPath(DemoAssets.fontDSEG7Path);
+			PShape shape = textToPShape.stringToShape3d(number, 25, fontFile);	// 100 is the unfortunate text font default size
+			PShapeUtil.centerShape(shape);
+			PShapeUtil.scaleShapeToHeight(shape, 1);
+			return shape;
+		}
+		
 	}
 
 }

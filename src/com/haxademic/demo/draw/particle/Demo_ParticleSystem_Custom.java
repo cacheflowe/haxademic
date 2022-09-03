@@ -40,6 +40,7 @@ extends PAppletHax {
 		pg.beginDraw();
 		pg.background(0);
 		PG.setDrawFlat2d(pg, true);
+		PG.setDrawCenter(pg);
 //		launchFromMouse();
 		particles.launchParticle(FrameLoop.osc(0.05f, pg.width * 0.3f, pg.width * 0.7f), pg.height * 0.7f, 0);
 		particles.drawParticles(pg, PBlendModes.ADD);

@@ -72,7 +72,6 @@ extends PAppletHax {
 		shared.add(innerSphere);
 	}
 	
-	
 	protected PShape lastShape() {
 		return shapes.get(shapes.size() - 1);
 	}

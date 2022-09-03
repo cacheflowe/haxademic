@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.ui.UI;
@@ -16,20 +15,22 @@ public class ParticleSystem {
 
 	// INFO
 	// - By default, particles will launch with a random image texture
-	//   - Extend/override Particle & `launch()` to draw custom particles
-	//   - This also requires overriding the Particle System. There are multiple demos
+	//   - You can extend/override ParticleSystem, Particle & ParticleLauncher to draw custom particles
+	//   - There are multiple demos for this
 	
 	// TODO
-	// - Fix 3d particles demo - how to extend for 3d and pass in PShape?
 	// - Test existing ATT particles - make sure they're still good
 	// - Load into Numbers experience & continue building there
 	//   - Add dynamic mask for number/text
-	//   - Add floor with Bryce's pattern
+	//   - Add floor with jersey pattern
 	//   - Spotlight/shadow
 	// - Later:
+	//   - Multiple ParticleLaunchers within a ParticleSystem? This is problematic for recycling different types of particles...
+	//   - Should all of the randomized launch params be in ParticleLauncher, and not ParticleSystem... Probably!
 	//   - Billboard shader?
 	//   - Cached geometry? move particles with PShape.translate() ? Or vertex shader attributes?
-	//   - Fix ParticleSystemCustom & ParticleSystemSwirl - especially the case of not using a UI, but also rotation speed is bad
+	//   - Look at making looping particle launches easy - WashYourHands demo has the code
+	
 	
 	// particles & source textures
 	protected ArrayList<Particle> particles = new ArrayList<Particle>();
@@ -102,10 +103,10 @@ public class ParticleSystem {
 		UI.addSlider(SIZE_MIN, 10, 1, 40, 0.1f, saves);
 		UI.addSlider(SIZE_MAX, 40, 10, 200, 0.1f, saves);
 		UI.addSliderVector(ACCELERATION, 1, 0.8f, 1.2f, 0.001f, false);
-		UI.addSliderVector(SPEED_MIN, -1, -5, 5, 0.01f, false);
-		UI.addSliderVector(SPEED_MAX,  1, -5, 5, 0.01f, false);
-		UI.addSliderVector(GRAVITY_MIN, -0.01f, -0.5f, 0.5f, 0.001f, false);
-		UI.addSliderVector(GRAVITY_MAX,  0.01f, -0.5f, 0.5f, 0.001f, false);
+		UI.addSliderVector(SPEED_MIN, 0, -5, 5, 0.01f, false);
+		UI.addSliderVector(SPEED_MAX,  0, -5, 5, 0.01f, false);
+		UI.addSliderVector(GRAVITY_MIN, 0, -0.5f, 0.5f, 0.001f, false);
+		UI.addSliderVector(GRAVITY_MAX,  0, -0.5f, 0.5f, 0.001f, false);
 		UI.addSliderVector(ROTATION_MIN, 0, -P.PI, P.PI, 0.01f, false);
 		UI.addSliderVector(ROTATION_MAX, 0, -P.PI, P.PI, 0.01f, false);
 		UI.addSliderVector(ROTATION_SPEED_MIN, 0, -0.1f, 0.1f, 0.001f, false);
@@ -120,20 +121,23 @@ public class ParticleSystem {
 		return activeParticles;
 	}
 	
+	public ParticleSystem setParticleFactory(IParticleFactory particleFactory) {
+		this.particleFactory = particleFactory;
+		return this;
+	}
+	
 	public void drawParticles(PGraphics pg) {
 		drawParticles(pg, PBlendModes.ADD);
 	}
 	
 	public void drawParticles(PGraphics pg, int blendMode) {
 		activeParticles = 0;
-		PG.setDrawCenter(pg);
 		pg.blendMode(blendMode);
 		for (int i = 0; i < particles.size(); i++) {
 			particles.get(i).update(pg);
 			if(particles.get(i).available() == false) activeParticles++;
 		}
 		pg.blendMode(PBlendModes.BLEND);
-		PG.setDrawCorner(pg);
 	}
 
 	public void launchParticlesFromMap(PGraphics pg) {
@@ -186,7 +190,7 @@ public class ParticleSystem {
 				.setLifespanRange(UI.value(LIFESPAN_MIN), UI.value(LIFESPAN_MAX))
 				.setLifespanSustainRange(UI.value(LIFESPAN_SUSTAIN_MIN), UI.value(LIFESPAN_SUSTAIN_MAX))
 				.setSizeRange(UI.value(SIZE_MIN), UI.value(SIZE_MAX))
-				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
+				.setColor(P.p.color(P.p.random(100, 255), P.p.random(100, 255), P.p.random(100, 255)))
 				.launch(x, y, z);
 		} else {
 			particle
@@ -198,7 +202,7 @@ public class ParticleSystem {
 				.setLifespanRange(10, 50)
 				.setLifespanSustain(0)
 				.setSizeRange(10, 40)
-				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
+				.setColor(P.p.color(P.p.random(100, 255), P.p.random(100, 255), P.p.random(100, 255)))
 				.launch(x, y, z);
 		}
 	}
