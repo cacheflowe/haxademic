@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
@@ -143,7 +144,8 @@ public class Mouse {
 	}
 	
 	public static Point systemMouseLocation() {
-		return MouseInfo.getPointerInfo().getLocation();
+		PointerInfo info = MouseInfo.getPointerInfo();
+		return (info != null) ? info.getLocation() : new Point(0, 0);
 	}
 	
 	// alternate method
