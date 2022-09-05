@@ -38,7 +38,7 @@ extends PAppletHax {
 		PG.setDrawFlat2d(pg, true);
 		PG.setDrawCenter(pg);
 		particles.launchParticles(pg);
-		particles.drawParticles(pg);
+		particles.updateAndDrawParticles(pg);
 		pg.endDraw();
 		
 		p.image(pg, 0, 0);

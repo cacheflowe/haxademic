@@ -19,17 +19,11 @@ public class ParticleSystem {
 	//   - There are multiple demos for this
 	
 	// TODO
-	// - Test existing ATT particles - make sure they're still good
-	// - Load into Numbers experience & continue building there
-	//   - Add dynamic mask for number/text
-	//   - Add floor with jersey pattern
-	//   - Spotlight/shadow
-	// - Later:
-	//   - Multiple ParticleLaunchers within a ParticleSystem? This is problematic for recycling different types of particles...
-	//   - Should all of the randomized launch params be in ParticleLauncher, and not ParticleSystem... Probably!
-	//   - Billboard shader?
-	//   - Cached geometry? move particles with PShape.translate() ? Or vertex shader attributes?
-	//   - Look at making looping particle launches easy - WashYourHands demo has the code
+	// - Multiple ParticleLaunchers within a ParticleSystem? This is problematic for recycling different types of particles...
+	// - Should all of the randomized launch params be in ParticleLauncher, and not ParticleSystem... Probably!
+	// - Billboard shader?
+	// - Cached geometry? move particles with PShape.translate() ? Or vertex shader attributes?
+	// - Look at making looping particle launches easy - WashYourHands demo has the code
 	
 	
 	// particles & source textures
@@ -40,7 +34,6 @@ public class ParticleSystem {
 	// config
 	protected int MAX_MAP_ATTEMPTS_PER_FRAME = 2000;
 	protected int MAX_LAUNCHES_PER_FRAME = 10;
-	protected int PARTICLE_POOL_MAX_SIZE = 10000;
 	protected boolean screenBlendMode = false;
 
 	// ui
@@ -102,15 +95,15 @@ public class ParticleSystem {
 		UI.addSlider(LIFESPAN_SUSTAIN_MAX, 0, 0, 500, 1, saves);
 		UI.addSlider(SIZE_MIN, 10, 1, 40, 0.1f, saves);
 		UI.addSlider(SIZE_MAX, 40, 10, 200, 0.1f, saves);
-		UI.addSliderVector(ACCELERATION, 1, 0.8f, 1.2f, 0.001f, false);
-		UI.addSliderVector(SPEED_MIN, 0, -5, 5, 0.01f, false);
-		UI.addSliderVector(SPEED_MAX,  0, -5, 5, 0.01f, false);
-		UI.addSliderVector(GRAVITY_MIN, 0, -0.5f, 0.5f, 0.001f, false);
-		UI.addSliderVector(GRAVITY_MAX,  0, -0.5f, 0.5f, 0.001f, false);
-		UI.addSliderVector(ROTATION_MIN, 0, -P.PI, P.PI, 0.01f, false);
-		UI.addSliderVector(ROTATION_MAX, 0, -P.PI, P.PI, 0.01f, false);
-		UI.addSliderVector(ROTATION_SPEED_MIN, 0, -0.1f, 0.1f, 0.001f, false);
-		UI.addSliderVector(ROTATION_SPEED_MAX, 0, -0.1f, 0.1f, 0.001f, false);
+		UI.addSliderVector(ACCELERATION, 1, 0.8f, 1.2f, 0.001f, saves);
+		UI.addSliderVector(SPEED_MIN, -1, -5, 5, 0.01f, saves);
+		UI.addSliderVector(SPEED_MAX,  1, -5, 5, 0.01f, saves);
+		UI.addSliderVector(GRAVITY_MIN, 0, -0.5f, 0.5f, 0.001f, saves);
+		UI.addSliderVector(GRAVITY_MAX,  0, -0.5f, 0.5f, 0.001f, saves);
+		UI.addSliderVector(ROTATION_MIN, 0, -P.PI, P.PI, 0.01f, saves);
+		UI.addSliderVector(ROTATION_MAX, 0, -P.PI, P.PI, 0.01f, saves);
+		UI.addSliderVector(ROTATION_SPEED_MIN, 0, -0.1f, 0.1f, 0.001f, saves);
+		UI.addSliderVector(ROTATION_SPEED_MAX, 0, -0.1f, 0.1f, 0.001f, saves);
 	}
 	
 	public int poolSize() {
@@ -121,25 +114,83 @@ public class ParticleSystem {
 		return activeParticles;
 	}
 	
+	// particle factory
+	
 	public ParticleSystem setParticleFactory(IParticleFactory particleFactory) {
 		this.particleFactory = particleFactory;
 		return this;
 	}
 	
+	/////////////////////////////////////////////////////////////
+	// update & draw
+	/////////////////////////////////////////////////////////////
+	
+	// update and draw independently so we can update once and draw to multiple buffers
+	
+	public void updateParticles() {
+		activeParticles = 0;
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).update();
+			if(particles.get(i).available() == false) activeParticles++;
+		}
+	}
+	
 	public void drawParticles(PGraphics pg) {
-		drawParticles(pg, PBlendModes.ADD);
+		drawParticles(pg, PBlendModes.BLEND);
 	}
 	
 	public void drawParticles(PGraphics pg, int blendMode) {
-		activeParticles = 0;
 		pg.blendMode(blendMode);
 		for (int i = 0; i < particles.size(); i++) {
-			particles.get(i).update(pg);
-			if(particles.get(i).available() == false) activeParticles++;
+			particles.get(i).draw(pg);
 		}
 		pg.blendMode(PBlendModes.BLEND);
 	}
 
+	// both update and draw if we're only using a single buffer for output
+	
+	public void updateAndDrawParticles(PGraphics pg) {
+		updateAndDrawParticles(pg, PBlendModes.BLEND);
+	}
+	
+	public void updateAndDrawParticles(PGraphics pg, int blendMode) {
+		activeParticles = 0;
+		pg.blendMode(blendMode);
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).updateAndDraw(pg);
+			if(particles.get(i).available() == false) activeParticles++;
+		}
+		pg.blendMode(PBlendModes.BLEND);
+	}
+	
+	/////////////////////////////////////////////////////////////
+	// Init/recycle particles from the pool, and launch them! 
+	/////////////////////////////////////////////////////////////
+
+	public Particle launchParticle(float x, float y, float z) {
+		// look for an available shape
+		for (int i = 0; i < particles.size(); i++) {
+			if(particles.get(i).available()) {
+				Particle particle = particles.get(i);
+				randomize(particle);
+				particle.launch(x, y, z);
+				return particle;
+			}
+		}
+		// didn't find one
+		Particle particle = particleFactory.initNewParticle();
+		randomize(particle);
+		particle.launch(x, y, z);
+		particles.add(particle);
+		return particle;
+	}
+	
+	/////////////////////////////////////////////////////////////
+	// Launch partciles from a map
+	// TODO:
+	// - Lazy-init UI controls *if* we use the map-launching functions?
+	/////////////////////////////////////////////////////////////
+	
 	public void launchParticlesFromMap(PGraphics pg) {
 		launchParticlesFromMap(pg, 1f);
 	}
@@ -159,27 +210,14 @@ public class ParticleSystem {
 			}
 		}
 	}
-
-	public Particle launchParticle(float x, float y, float z) {
-		// look for an available shape
-		for (int i = 0; i < particles.size(); i++) {
-			if(particles.get(i).available()) {
-				launch(particles.get(i), x, y, z);
-				return particles.get(i);
-			}
-		}
-		// didn't find one
-		int maxPoolSize = (usingUI) ? UI.valueInt(POOL_MAX_SIZE) : PARTICLE_POOL_MAX_SIZE;
-		if(particles.size() < maxPoolSize) {
-			Particle particle = particleFactory.initNewParticle();
-			launch(particle, x, y, z);
-			particles.add(particle);
-			return particle;
-		}
-		return null;
-	}
 	
-	protected void launch(Particle particle, float x, float y, float z) {
+	protected void randomize(Particle particle) {
+		// randomize anything on the ParticleFactory side,
+		// like distributing a collection of media to each particle
+		// that was loaded in the factory
+		particleFactory.randomize(particle);
+		
+		// then randomize any other params per launch
 		if(usingUI) {
 			particle
 				.setSpeedRange(UI.valueX(SPEED_MIN), UI.valueX(SPEED_MAX), UI.valueY(SPEED_MIN), UI.valueY(SPEED_MAX), UI.valueZ(SPEED_MIN), UI.valueZ(SPEED_MAX))
@@ -190,8 +228,7 @@ public class ParticleSystem {
 				.setLifespanRange(UI.value(LIFESPAN_MIN), UI.value(LIFESPAN_MAX))
 				.setLifespanSustainRange(UI.value(LIFESPAN_SUSTAIN_MIN), UI.value(LIFESPAN_SUSTAIN_MAX))
 				.setSizeRange(UI.value(SIZE_MIN), UI.value(SIZE_MAX))
-				.setColor(P.p.color(P.p.random(100, 255), P.p.random(100, 255), P.p.random(100, 255)))
-				.launch(x, y, z);
+				.setColor(P.p.color(P.p.random(100, 255), P.p.random(100, 255), P.p.random(100, 255)));
 		} else {
 			particle
 				.setSpeedRange(-1f, 1f, -1f, 0.5f, -1f, 1f)
@@ -202,8 +239,7 @@ public class ParticleSystem {
 				.setLifespanRange(10, 50)
 				.setLifespanSustain(0)
 				.setSizeRange(10, 40)
-				.setColor(P.p.color(P.p.random(100, 255), P.p.random(100, 255), P.p.random(100, 255)))
-				.launch(x, y, z);
+				.setColor(P.p.color(P.p.random(100, 255), P.p.random(100, 255), P.p.random(100, 255)));
 		}
 	}
 

@@ -30,8 +30,6 @@ extends PAppletHax {
 	// particle system
 	protected ParticleFactoryBasic3d particleFactory;
 	protected ParticleSystem particles;
-	protected PShape shape;
-	protected PShape[] shapes;
 	
 	// ui
 	protected String FRAME_LAUNCH_INTERVAL = "FRAME_LAUNCH_INTERVAL";
@@ -66,16 +64,18 @@ extends PAppletHax {
 	protected void launchParticles() {
 		if(FrameLoop.frameModLooped(UI.valueInt(FRAME_LAUNCH_INTERVAL))) {
 			for (int i = 0; i < UI.valueInt(LAUNCHES_PER_FRAME); i++) {
+				// launch! let the particle system init.randomize an available particle 
+				Particle particle = particles.launchParticle(0, 0, 0);
 				
-				// circular launch props
+				// Add extra partcle setters/behavior based on local controls outside of ParticleSystem
+				// here we've overridden the speed range to launch radially. This is slightly inefficient
+				// because we're regenerating random number a 2nd time, but it does allow for outside overriding.
+				// This should be done within a custom Particle subclass or ParticleFactory.randomize(),
+				// but here are some circular launch props:
 				float radialSpeed = MathUtil.randRangeDecimal(UI.value(SPEED_RADIAL) - 1f, UI.value(SPEED_RADIAL) + 1f);
 				float rot = MathUtil.randRangeDecimal(0, P.TWO_PI);
 				float speedX = P.cos(rot) * radialSpeed;
 				float speedZ = P.sin(rot) * radialSpeed;
-				
-				// launch!
-				Particle particle = particles.launchParticle(0, 0, 0);
-				// particleFactory.setColor(particle, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)][MathUtil.randRange(0, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)].length - 1)]);
 				particle
 					.setColor(ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)][MathUtil.randRange(0, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)].length - 1)])
 					.setSpeedRange(speedX, speedX, UI.value(SPEED_Y) - 1, UI.value(SPEED_Y) + 1, speedZ, speedZ)
@@ -105,7 +105,7 @@ extends PAppletHax {
 		pg.noStroke();
 		
 		// draw particles
-		particles.drawParticles(pg, PBlendModes.BLEND);
+		particles.updateAndDrawParticles(pg, PBlendModes.BLEND);
 		pg.endDraw();
 		
 		// post-process

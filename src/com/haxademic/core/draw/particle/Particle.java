@@ -255,10 +255,20 @@ public class Particle {
 		pg.rotateZ(rotation.z);
 	}
 	
-	public void update(PGraphics pg) {
+	public void updateAndDraw(PGraphics pg) {
+		update();
+		draw(pg);
+	}
+	
+	// allow for separation of update vs draw, so we could draw to multiple buffers
+	public void update() {
 		if(available()) return;
 		updatePosition();
 		updateLifespan();
+	}
+	
+	public void draw(PGraphics pg) {
+		if(available()) return;
 		pg.push();
 		setContext(pg);
 		drawParticle(pg);

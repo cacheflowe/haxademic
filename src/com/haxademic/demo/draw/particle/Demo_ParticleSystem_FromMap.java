@@ -73,7 +73,7 @@ extends PAppletHax {
 			PG.setDrawFlat2d(p.g, true);
 			PG.setDrawCenter(p.g);
 		}
-		else      PG.setBetterLights(p.g);
+		else PG.setBetterLights(p.g);
 		
 		// update map & launch particles
 		// responsive scale if map is different size than destination
@@ -90,7 +90,7 @@ extends PAppletHax {
 		
 		// draw particles
 		p.translate(-p.height/2, -p.height/2);	//  <- use height for both for responsive map/dest calc
-		particles.drawParticles(p.g, PBlendModes.BLEND);
+		particles.updateAndDrawParticles(p.g, PBlendModes.BLEND);
 		
 		// post-process
 		GodRays.instance(p).setDecay(0.8f);

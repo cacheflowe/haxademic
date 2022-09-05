@@ -43,7 +43,7 @@ extends PAppletHax {
 		PG.setDrawCenter(pg);
 //		launchFromMouse();
 		particles.launchParticle(FrameLoop.osc(0.05f, pg.width * 0.3f, pg.width * 0.7f), pg.height * 0.7f, 0);
-		particles.drawParticles(pg, PBlendModes.ADD);
+		particles.updateAndDrawParticles(pg, PBlendModes.ADD);
 		pg.endDraw();
 		
 		// draw to screen
@@ -92,7 +92,7 @@ extends PAppletHax {
 			super(new ParticleFactoryCustom(particleImages));
 		}
 		
-		protected void launch(Particle particle, float x, float y, float z) {
+		protected void randomize(Particle particle, float x, float y, float z) {
 			if(usingUI) {
 				particle
 					.setSpeedRange(UI.valueX(SPEED_MIN), UI.valueX(SPEED_MAX), UI.valueY(SPEED_MIN), UI.valueY(SPEED_MAX), UI.valueZ(SPEED_MIN), UI.valueZ(SPEED_MAX))
