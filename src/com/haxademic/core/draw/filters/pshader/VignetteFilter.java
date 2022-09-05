@@ -21,12 +21,14 @@ extends BaseFragmentShader {
 		return instance;
 	}
 	
-	public void setDarkness(float darkness) {
+	public VignetteFilter setDarkness(float darkness) {
 		shader.set("darkness", darkness);
+		return instance;
 	}
 	
-	public void setSpread(float spread) {
+	public VignetteFilter setSpread(float spread) {
 		shader.set("spread", spread);
+		return instance;
 	}
 	
 }
