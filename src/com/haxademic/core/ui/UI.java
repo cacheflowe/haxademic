@@ -357,7 +357,7 @@ implements IAppStoreListener {
 	}
 	
 	public static String valuesToJSON() {
-		return valuesToJSON(new String[] {}, false);
+		return valuesToJSON(new String[] {}, true);
 	}
 	
 	public static String valuesToJSON(String[] filters, boolean singleLine) {

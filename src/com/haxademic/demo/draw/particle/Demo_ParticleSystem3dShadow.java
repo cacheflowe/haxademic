@@ -17,7 +17,7 @@ import com.haxademic.core.draw.particle.IParticleFactory;
 import com.haxademic.core.draw.particle.Particle;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.shapes.TextToPShape;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -158,8 +158,6 @@ extends PAppletHax {
 		
 		pg.pop();
 		
-
-		
 		pg.endDraw();
 		
 		// draw to screen
@@ -171,7 +169,7 @@ extends PAppletHax {
 		DebugView.setValue("particles.poolActiveSize()", particles.poolActiveSize());
 		
 		// key commands
-//		if(KeyboardState.keyTriggered(' ')) P.out(JsonUtil.jsonToSingleLine(UI.valuesToJSON()));
+		if(KeyboardState.keyTriggered(' ')) P.out(UI.valuesToJSON());
 	}
 	
 	////////////////////////////////////
@@ -181,11 +179,8 @@ extends PAppletHax {
 	public class ParticleFactoryBasic3d
 	implements IParticleFactory {
 		
-		protected TextToPShape textToPShape;
 		
-		public ParticleFactoryBasic3d() {
-			textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
-		}
+		public ParticleFactoryBasic3d() {}
 		
 		public Particle randomize(Particle particle) {
 			setColor(particle, ColorUtil.randomColor());
