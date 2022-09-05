@@ -199,7 +199,7 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			String jsonOutput = UI.valuesToJSON(new String[] {"PATTERN_"});
+			String jsonOutput = UI.valuesToJSON(new String[] {"PATTERN_"}, true);
 			jsonOutput = UI.valuesToJSON();
 			P.out(jsonOutput);
 		}

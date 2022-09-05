@@ -357,10 +357,10 @@ implements IAppStoreListener {
 	}
 	
 	public static String valuesToJSON() {
-		return valuesToJSON(new String[] {});
+		return valuesToJSON(new String[] {}, false);
 	}
 	
-	public static String valuesToJSON(String[] filters) {
+	public static String valuesToJSON(String[] filters, boolean singleLine) {
 		// get sorted key list
         Set<String> names = controls.keySet(); 
 //        System.out.println("HashSet before sorting : " + names); 
@@ -400,7 +400,11 @@ implements IAppStoreListener {
 		// remove last comma
 		jsonOutput = jsonOutput.substring(0, jsonOutput.length() - 3) + FileUtil.NEWLINE;
 		jsonOutput += "}" + FileUtil.NEWLINE;
-		return jsonOutput;
+		if(singleLine) {
+			return JsonUtil.jsonToSingleLine(jsonOutput);
+		} else {
+			return jsonOutput;
+		}
 //		return String.join("\n", sortedLines);
 	}
 	

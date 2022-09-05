@@ -43,6 +43,7 @@ extends PAppletHax {
 		particleFactory = new ParticleFactoryBasic3d();
 		particles = new ParticleSystem(particleFactory);
 		particles.enableUI("Parti3d", false);
+		UI.loadValuesFromJSON("{ \"Parti3dMAX_ATTEMPTS\": 2000.0, \"Parti3dMAX_LAUNCHES\": 10.0, \"Parti3dPOOL_MAX_SIZE\": 10000.0, \"Parti3dLIFESPAN_MIN\": 10.0, \"Parti3dLIFESPAN_MAX\": 22.0, \"Parti3dLIFESPAN_SUSTAIN_MIN\": 0.0, \"Parti3dLIFESPAN_SUSTAIN_MAX\": 42.0, \"Parti3dSIZE_MIN\": 26.7, \"Parti3dSIZE_MAX\": 80.7, \"Parti3dACCELERATION_X\": 1.0, \"Parti3dACCELERATION_Y\": 1.0, \"Parti3dACCELERATION_Z\": 1.0, \"Parti3dSPEED_MIN_X\": -1.9999993, \"Parti3dSPEED_MIN_Y\": -1.999999, \"Parti3dSPEED_MIN_Z\": -1.999999, \"Parti3dSPEED_MAX_X\": 1.9999993, \"Parti3dSPEED_MAX_Y\": 1.2999997, \"Parti3dSPEED_MAX_Z\": 1.999999, \"Parti3dGRAVITY_MIN_X\": 0.0, \"Parti3dGRAVITY_MIN_Y\": 0.0, \"Parti3dGRAVITY_MIN_Z\": 0.0, \"Parti3dGRAVITY_MAX_X\": 0.0, \"Parti3dGRAVITY_MAX_Y\": 0.0, \"Parti3dGRAVITY_MAX_Z\": 0.0, \"Parti3dROTATION_MIN_X\": -3.1415927, \"Parti3dROTATION_MIN_Y\": 0.0, \"Parti3dROTATION_MIN_Z\": -3.0399997, \"Parti3dROTATION_MAX_X\": 3.1415927, \"Parti3dROTATION_MAX_Y\": 0.0, \"Parti3dROTATION_MAX_Z\": 2.03, \"Parti3dROTATION_SPEED_MIN_X\": -0.012000001, \"Parti3dROTATION_SPEED_MIN_Y\": -0.020000003, \"Parti3dROTATION_SPEED_MIN_Z\": -0.006, \"Parti3dROTATION_SPEED_MAX_X\": 0.016, \"Parti3dROTATION_SPEED_MAX_Y\": 0.04299999, \"Parti3dROTATION_SPEED_MAX_Z\": 0.008 }");
 		UI.addWebInterface(false);
 		
 		// extra environment elements
@@ -81,22 +82,10 @@ extends PAppletHax {
 		ColorizeOpaquePixelsFilter.instance(p).applyTo(shadowBuffer);
 		BlurHFilter.instance(p).setBlurByPercent(2f, shadowBuffer.width);
 		BlurVFilter.instance(p).setBlurByPercent(2f, shadowBuffer.height);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).applyTo(shadowBuffer);
-		BlurVFilter.instance(p).applyTo(shadowBuffer);
+		for(int i=0; i < 7; i++) {
+			BlurHFilter.instance(p).applyTo(shadowBuffer);
+			BlurVFilter.instance(p).applyTo(shadowBuffer);
+		}
 		
 		// draw ground plane
 		float radialGradScale = 1.4f;
@@ -180,6 +169,9 @@ extends PAppletHax {
 		// debug
 		DebugView.setValue("particles.poolSize()", particles.poolSize());
 		DebugView.setValue("particles.poolActiveSize()", particles.poolActiveSize());
+		
+		// key commands
+//		if(KeyboardState.keyTriggered(' ')) P.out(JsonUtil.jsonToSingleLine(UI.valuesToJSON()));
 	}
 	
 	////////////////////////////////////
