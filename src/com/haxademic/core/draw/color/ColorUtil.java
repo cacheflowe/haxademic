@@ -37,6 +37,10 @@ public class ColorUtil {
         return "#ff"+ String.format("%06x", nextInt);	// leading #ff for alpha value
 	}
 	
+	public static int randomColor() {
+		return random.nextInt(256*256*256);
+	}
+	
 	// concept from: http://dev.thi.ng/gradients/
 	// returns 0-255 w/default params: gradientComponent(0, 255f, 1f, 0, rads);
 	public static float gradientComponent(float dcOffset, float amp, float freq, float phase, float position) {
