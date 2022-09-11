@@ -37,15 +37,12 @@ extends BaseTexture {
 
 	public TextureFractalPolygons( int width, int height ) {
 		super(width, height);
-
-		
 		
 		// set some defaults
 		_curRotation = 0;
 		_rotationTarget = 0;
 		_curRotX = 0;
 		_rotXTarget = 0;
-		
 		
 		// polygon setup
 		generateVars();
@@ -115,11 +112,11 @@ extends BaseTexture {
 	}	
 
 	protected void generateVars() {
-		_baseRadiusEased.setTarget( MathUtil.randRange( 200, 250 ) );
+		_baseRadiusEased.setTarget( MathUtil.randRange( 100, 200 ) );
 		_strokeWidth.setTarget( MathUtil.randRangeDecimal( 0.5f, 5f ) );
 		_numArms.setTarget( MathUtil.randRange( 3, 8 ) );
 //		_levels.setTarget( MathUtil.randRange( 2, 4 ) );
-		_levels.setTarget( MathUtil.randRange( 2, P.map(_numArms.target(), 3, 8, 5, 2) ) ); // the higher the arms, the fewer the levels. make it responsive
+		_levels.setTarget( MathUtil.randRange( 2, P.map(_numArms.target(), 3, 8, 4, 2) ) ); // the higher the arms, the fewer the levels. make it responsive
 		_shouldBeFurther = false; // MathUtil.randBoolean();
 		_drawsLinesOut = MathUtil.randBoolean();
 		_nextLevelPushesOut = MathUtil.randBoolean();
@@ -129,7 +126,8 @@ extends BaseTexture {
 		_everyOtherPolyVerts = MathUtil.randBoolean();
 		if(_drawsLinesOut == true) _everyOtherPoly = false;
 		_everyOtherCircle = MathUtil.randBoolean();
-		_recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(1, 8) );
+//		_recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(1, 8) );
+		_recursiveDivisor.setTarget( 0.125f * P.map(_baseRadiusEased.target(), 100, 200, 8, 1) ); // longer children for smaller starting point
 	}
 		
 	public void drawShapes() {
@@ -149,7 +147,7 @@ extends BaseTexture {
 		if(_baseRadiusEased.value() > 0) {
 			new ClusterPolygon( 0, 0, 0, _baseRadiusEased.value(), 0, P.round(_numArms.value()) );
 		}		
-		_baseRadiusEased.setTarget( width - _furthestPoint );
+		_baseRadiusEased.setTarget( width - _furthestPoint * 1.1f );
 	}
 
 	public class ClusterPolygon {
