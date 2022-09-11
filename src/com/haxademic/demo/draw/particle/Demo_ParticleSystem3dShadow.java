@@ -130,7 +130,7 @@ extends PAppletHax {
 		
 		// draw particles
 		PG.basicCameraFromMouse(pg, 0.4f, 0);
-		PG.setBetterLights(pg);
+		PG.setBetterLightsAbove(pg);
 		particles.drawParticles(pg, PBlendModes.BLEND);
 		pg.noLights();
 		
