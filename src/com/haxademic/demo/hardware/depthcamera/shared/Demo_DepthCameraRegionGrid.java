@@ -1,6 +1,7 @@
 package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -19,6 +20,7 @@ extends PAppletHax {
 	
 	public void config() {
 		Config.setAppSize(1280, 720);
+		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, false);
 	}
 	
 	protected void firstFrame() {
@@ -58,7 +60,7 @@ extends PAppletHax {
 		DebugView.setValue("kinectRegionGrid(0).controlX()", kinectRegionGrid.getRegion(0).controlX());
 		
 		// debug textures
-		if(depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());
+//		if(depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());
 		if(depthCamera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
 		if(kinectRegionGrid.debugImage() != null) DebugView.setTexture("kinectRegionGrid.debugImage", kinectRegionGrid.debugImage());
 	}

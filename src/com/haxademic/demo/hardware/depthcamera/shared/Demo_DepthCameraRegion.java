@@ -42,7 +42,8 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setAppSize(1024, 1024);
-		Config.setProperty( AppSettings.SHOW_UI, true );
+		Config.setProperty(AppSettings.SHOW_UI, true);
+		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, true);
 	}
 	
 	protected void firstFrame() {

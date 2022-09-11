@@ -48,7 +48,7 @@ extends PAppletHax {
 	
 	protected void drawDepthPixels() {
 		p.pushMatrix();
-		p.translate(realSenseWrapper.getRgbImage().width, 0);
+		p.translate(realSenseWrapper.getDepthImage().width, 0);
 		
 		int numPixelsProcessed = 0;
 		int pixelSize = 6;

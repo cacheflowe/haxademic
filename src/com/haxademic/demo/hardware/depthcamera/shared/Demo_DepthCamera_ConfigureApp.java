@@ -32,6 +32,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 840 );
 		Config.setProperty(AppSettings.SHOW_UI, true);
 		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
+		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, false);
 	}
 	
 	protected void firstFrame() {
@@ -55,7 +56,7 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
-		DebugView.setTexture("rgb", DepthCamera.instance().camera.getRgbImage());
+//		DebugView.setTexture("rgb", DepthCamera.instance().camera.getRgbImage());
 		background(0);
 		PG.setDrawCorner(p);
 
