@@ -55,7 +55,7 @@ implements IAppStoreListener {
 		sequencerAmps = new FloatBuffer[interphase.numChannels()];
 		sequencerTriggers = new LinearFloat[interphase.numChannels()];
 		for (int i = 0; i < sequencerAmps.length; i++) {
-			sequencerAmps[i] = new FloatBuffer(3);
+			sequencerAmps[i] = new FloatBuffer(6);
 			sequencerTriggers[i] = new LinearFloat(0, 0.025f);
 		}
 

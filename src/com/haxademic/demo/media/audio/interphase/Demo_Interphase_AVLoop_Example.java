@@ -1,7 +1,6 @@
 package com.haxademic.demo.media.audio.interphase;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -14,10 +13,12 @@ import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.dmx.DMXFixture;
+import com.haxademic.core.hardware.dmx.DMXUniverse;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
-import com.haxademic.core.hardware.midi.devices.UC33;
 import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.interphase.Interphase;
@@ -42,7 +43,8 @@ implements IAppStoreListener {
 	protected int numSequencers;
 	protected LinearFloat[] sequencerHits;
 	protected FloatBuffer[] sequencerAmps;
-	protected MidiDevice uc33;
+	protected MidiDevice knobs;
+	protected ArrayList<DMXFixture> fixture;
 	
 	protected String USE_OVERRIDES = "USE_OVERRIDES";
 	
@@ -56,7 +58,7 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 		// init UC33 for UI knobs MIDI input
-		uc33 = new MidiDevice(UC33.deviceName, null);
+		knobs = new MidiDevice(LaunchControlXL.deviceName, null);
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 //		interphase = new Interphase(SequencerConfig.interphaseChannels());
@@ -64,16 +66,21 @@ implements IAppStoreListener {
 		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase.initUI();
 		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		interphase.initLaunchpads(6, 9, 8, 11);
+		interphase.initLaunchpads(4, 7, 8, 11);
 		interphase.initAudioAnalysisPerChannel();
 		
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);
 		numSequencers = interphase.sequencers().length;
 
+		// add DMX output
+		DMXUniverse.instanceInit("COM8", 9600);
+		fixture = new ArrayList<DMXFixture>(); 
+		
 		// add drawable sequencers
 		for (int i = 0; i < numSequencers; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
 			seq.setDrawable(new SequencerTexture(i));
+			fixture.add((new DMXFixture(1 + i * 3)).setEaseFactor(0.25f));
 		}
 		
 		// create local easing objects for each track
@@ -81,7 +88,7 @@ implements IAppStoreListener {
 		sequencerAmps = new FloatBuffer[numSequencers];
 		for (int i = 0; i < sequencerHits.length; i++) {
 			sequencerHits[i] = new LinearFloat(0, 0.05f);
-			sequencerAmps[i] = new FloatBuffer(3);
+			sequencerAmps[i] = new FloatBuffer(6);
 		}
 		
 		P.store.addListener(this);
@@ -142,7 +149,19 @@ implements IAppStoreListener {
 			// amp scale
 			circleSize = pg.width * 0.05f;
 			circleSize *= 1f + sequencerAmps[i].average();
-			pg.ellipse(x, y + 50, circleSize, circleSize);
+			pg.ellipse(x, y + 150, circleSize, circleSize);
+			
+			// dmx colors from amp scale
+			// use the oldest value in the buffer, because the FFT values are a little ahead of the sound
+			// this would likely need adjustment on different machines
+			int lightColor = p.color(
+				sequencerAmps[i].oldestValue() * (127 + 127f * P.sin(i+0)),
+				sequencerAmps[i].oldestValue() * (127 + 127f * P.sin(i+1)),
+				sequencerAmps[i].oldestValue() * (127 + 127f * P.sin(i+2))
+			);
+			fixture.get(i)
+				.color().setTargetInt(lightColor)
+				.setEaseFactor(0.75f);
 		}
 		
 		// kick 
@@ -174,6 +193,14 @@ implements IAppStoreListener {
 			Sequencer seq = interphase.sequencerAt(i);
 			seq.notesByStep(true);
 			DebugView.setValue("evolves_"+i, seq.evolves());
+		}
+		
+		// update audio effects
+		for (int i = 0; i < sequencerAmps.length; i++) {
+			Sequencer seq = interphase.sequencerAt(i);
+			seq.reverb(0.5f, 1.5f);
+			if(i == 0) seq.reverb(0.01f, 0.9f);
+			seq.attack(0).release(0);
 		}
 		
 		if(UI.valueToggle(USE_OVERRIDES)) {
@@ -232,10 +259,7 @@ implements IAppStoreListener {
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
 			// add delay - signals happen before audio is audible
-			int vizTriggerDelay = 120;
-			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {
-				sequencerHits[val.intValue()].setCurrent(1).setTarget(0);
-			}}, vizTriggerDelay);
+			sequencerHits[val.intValue()].setCurrent(1).setTarget(0);
 		}
 	}
 	public void updatedString(String key, String val) {

@@ -292,19 +292,15 @@ implements IAppStoreListener {
 		if(key.equals(Interphase.CUR_STEP)) {
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
-			// add delay - signals happen before audio is audible, so we delay slightly
-			int vizTriggerDelay = 90;
-			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {
-				int seqIndex = val.intValue();
-				int curPitch = interphase.sequencerAt(seqIndex).pitchIndex1();
-				if(seqIndex == 5 || seqIndex == 7) {
-					sequencerHits[seqIndex].setTarget(curPitch);
-					sequencerHits[seqIndex].setInc(0.75f);
-				} else {
-					sequencerHits[seqIndex].setInc(0.025f);
-					sequencerHits[seqIndex].setCurrent(1).setTarget(0);
-				}
-			}}, vizTriggerDelay);
+			int seqIndex = val.intValue();
+			int curPitch = interphase.sequencerAt(seqIndex).pitchIndex1();
+			if(seqIndex == 5 || seqIndex == 7) {
+				sequencerHits[seqIndex].setTarget(curPitch);
+				sequencerHits[seqIndex].setInc(0.75f);
+			} else {
+				sequencerHits[seqIndex].setInc(0.025f);
+				sequencerHits[seqIndex].setCurrent(1).setTarget(0);
+			}
 		}
 	}
 	public void updatedString(String key, String val) {
