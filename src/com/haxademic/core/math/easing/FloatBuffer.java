@@ -53,6 +53,19 @@ public class FloatBuffer {
 	};
 	
 	/**
+	 * Returns a sum of the buffer values, but the older half
+	 * @return		A sum of the values in the buffer
+	 */
+	public float sumOldHalf() {
+		float sum = 0;
+		for( int i=0; i < size/2; i++ ) {
+			int indexLoopedFromOldest = (sampleIndex + 1 + i) % size;
+			sum += buffer[indexLoopedFromOldest];
+		}
+		return sum;
+	};
+	
+	/**
 	 * Returns a sum of the positive buffer values
 	 * @return		A sum of the positive values in the buffer
 	 */
@@ -130,6 +143,23 @@ public class FloatBuffer {
 	 */
 	public float average() {
 		return sum() / size;
+	};
+	
+	/**
+	 * Returns the average value of the buffer, but the older half
+	 * @return		The average value of the buffer
+	 */
+	public float averageOldHalf() {
+		return sumOldHalf() / (size / 2);
+	};
+	
+	/**
+	 * Returns the oldest value in the buffer
+	 * @return		The average value of the buffer
+	 */
+	public float oldestValue() {
+		int indexOldest = (sampleIndex + 1) % size;
+		return buffer[indexOldest];
 	};
 	
 	/**
