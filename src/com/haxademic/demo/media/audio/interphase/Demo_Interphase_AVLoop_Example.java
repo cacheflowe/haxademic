@@ -21,6 +21,7 @@ import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Sequencer;
@@ -57,7 +58,7 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
-		// init UC33 for UI knobs MIDI input
+		// init device for UI knobs MIDI input
 		knobs = new MidiDevice(LaunchControlXL.deviceName, null);
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
@@ -164,12 +165,6 @@ implements IAppStoreListener {
 				.setEaseFactor(0.75f);
 		}
 		
-		// kick 
-//		float kickSize = pg.width * 0.05f;
-//		kickSize *= (1f + Penner.easeOutQuad(sequencerHits[0].value()));
-//		pg.fill(ColorsHax.COLOR_GROUPS[0][0]);
-//		pg.rect(200, 200, kickSize, kickSize);
-		
 		pg.endDraw();
 		
 		// postprocessing
@@ -198,7 +193,7 @@ implements IAppStoreListener {
 		// update audio effects
 		for (int i = 0; i < sequencerAmps.length; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
-			seq.reverb(0.5f, 1.5f);
+			seq.reverb(1.5f, 1.5f);
 			if(i == 0) seq.reverb(0.01f, 0.9f);
 			seq.attack(0).release(0);
 		}
@@ -226,7 +221,7 @@ implements IAppStoreListener {
 		}
 		
 		// update Interphase object every frame
-		interphase.update(null);
+		interphase.update();
 	}
 	
 	protected void outputConfig() {
@@ -263,10 +258,13 @@ implements IAppStoreListener {
 		}
 	}
 	public void updatedString(String key, String val) {
-		if(key == PEvents.KEY_PRESSED && val.equals("b")) {
-			SystemUtil.openWebPage("http://localhost:8080/ui");
+		if(key.equals(PEvents.KEY_PRESSED)) {
+			if(val.equals("o")) outputConfig();
+			if(val.equals("b")) SystemUtil.openWebPage("http://localhost:8080/ui");
+			if(p.key == '6') AudioUtil.buildRecorder(Metronome.ac, 1500);
+			if(p.key == '7') AudioUtil.finishRecording();
 		}
-		if(key == PEvents.KEY_PRESSED && val.equals("o")) outputConfig(); 
+
 	}
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}

@@ -19,7 +19,7 @@ extends VSTPlugin {
 	public void randomizeAllParams() {
 		super.randomizeAllParams();
 		// randomize some params that should stay within a specific range
-		vst.setParameter(1, 1.0f);					// tune ()
+		vst.setParameter(1, 1f);					// tune ()
 		vst.setParameter(2, P.p.random(0.2f, 1));	// cutoff (%)
 	}
 	

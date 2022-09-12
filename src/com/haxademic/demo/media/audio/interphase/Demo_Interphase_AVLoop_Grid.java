@@ -97,7 +97,7 @@ implements IAppStoreListener {
 //		interphase.sequencers()[3].setSampleByIndex( 5);	// 2, 5, 9, 18, 19, 27, 29
 		
 		// update Interphase object every frame
-		interphase.update(null);
+		interphase.update();
 		
 		// update viz (disabled for the moment
 		audioTexture.update();

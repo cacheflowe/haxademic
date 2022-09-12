@@ -96,7 +96,7 @@ implements IAppStoreListener {
 		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,1,0,0,0,0,0,0,1,0,0});
 		
 		// update Interphase object every frame
-		interphase.update(null);
+		interphase.update();
 		
 		// update viz (disabled for the moment
 		audioTexture.update();

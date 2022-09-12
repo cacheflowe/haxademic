@@ -291,7 +291,7 @@ implements IAppStoreListener {
 		}
 				
 		// update Interphase object every frame
-		interphase.update(null);
+		interphase.update();
 	}
 	
 	/////////////////////////////////////////////////////////////////

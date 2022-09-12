@@ -1,4 +1,4 @@
-package com.haxademic.demo.media.audio.vst;
+package com.haxademic.demo.media.audio.interphase;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -37,6 +37,7 @@ implements IAppStoreListener {
 //	protected String beat1 = "data/audio/breakbeats/dnb_loop006.wav";
 	protected String beat1 = "data/audio/breakbeats/fish-loop.wav";
 	protected WavPlayer player;
+	protected MidiDevice knobs;
 
 	
 	protected void config() {
@@ -46,12 +47,14 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
+		// init device for UI knobs MIDI input
+		knobs = new MidiDevice(LaunchControlXL.deviceName, null);
+
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initLaunchpads(6, 9, 8, 11);
-		MidiDevice.init(3, 6);
 		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+		interphase.initLaunchpads(4, 7, 8, 11);
 //		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 		UI.launchWebUIWindow();
@@ -75,7 +78,7 @@ implements IAppStoreListener {
 		
 		// keep loop synced
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
-		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
+		Metronome.shiftPitchToMatchBpm(player, beat1, bpm/2f, UI.valueInt(UI_BREAK_DIVIDER));
 		
 		// draw sound?
 //		player.drawWav(p.g, beat1);
@@ -100,7 +103,7 @@ implements IAppStoreListener {
 		} else {
 			player.seekToProgress(beat1, progress);	
 		}
-		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
+		Metronome.shiftPitchToMatchBpm(player, beat1, bpm/2f, UI.valueInt(UI_BREAK_DIVIDER));
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -121,7 +124,6 @@ implements IAppStoreListener {
 			if(sequencerIndex == bassChannelIndex) {
 				if(P.store.getInt(Interphase.CUR_STEP) <= 1) vstSynth.randomizeAllParams();
 				int curSequencerNote = interphase.sequencerAt(bassChannelIndex).pitchIndex1();
-//				vstSynth.playRandomNote(200);
 				vstSynth.playMidiNote(36 + curSequencerNote, 100);
 			}
 		}
