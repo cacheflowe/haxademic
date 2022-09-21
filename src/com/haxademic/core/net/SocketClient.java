@@ -122,6 +122,6 @@ public class SocketClient {
 	
 	public void disconnect() {
 		P.p.unregisterMethod("pre", this);
-		client.close();
+		if(isConnected()) client.close();
 	}
 }
