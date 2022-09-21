@@ -15,7 +15,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 import processing.data.StringList;
 
-public class Demo_SocketClient_PlusSixKiosk
+public class Demo_PlusSixKiosk
 extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -71,6 +71,10 @@ implements IAppStoreListener {
 			P.storeDistributed.setNumber("mouseX", Mouse.x);
 		}
 		P.store.showStoreValuesInDebugView();
+		
+		// test shutting down & recreating the socket client
+		if(KeyboardState.keyTriggered(' ')) plusSixKiosk.newSocketRoom();
+		if(KeyboardState.keyTriggered('l')) plusSixKiosk.launchWebBrowser();
 	}
 	
 	protected void updatePlusSix() {

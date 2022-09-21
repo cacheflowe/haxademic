@@ -11,7 +11,6 @@ import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
@@ -175,6 +174,14 @@ implements ISocketClientDelegate, IAppStoreListener {
 		return qr.image();
 	}
 	
+	public void launchWebBrowser() {
+		SystemUtil.openWebPage(uiAddress);
+	}
+	
+	public String touchpadAddress() {
+		return uiAddress;
+	}
+	
 	public void update() {
 		// update kiosk state
 		// should happen in `pre` since we're drawing
@@ -183,10 +190,6 @@ implements ISocketClientDelegate, IAppStoreListener {
 		// send a simple message to clients
 		// if the touchpad is active, the session timer messages server as a heartbeat
 		if(touchpadIsActive() == false && FrameLoop.frameModSeconds(3)) sendHeartBeat();
-		
-		// test shutting down & recreating the socket client
-		if(KeyboardState.keyTriggered(' ')) newSocketRoom();
-		if(KeyboardState.keyTriggered('l')) SystemUtil.openWebPage(uiAddress);
 	}
 	
 	public void connectToSystemChannel() {
@@ -197,7 +200,7 @@ implements ISocketClientDelegate, IAppStoreListener {
 		P.storeDistributed.start(socketSystem);
 	}
 	
-	protected void newSocketRoom() {
+	public void newSocketRoom() {
 		// close old room
 		if(socketClient != null) socketClient.disconnect();
 		
