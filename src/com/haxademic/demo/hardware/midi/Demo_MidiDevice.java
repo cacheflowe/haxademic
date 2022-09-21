@@ -21,6 +21,7 @@ implements SimpleMidiListener {
 	protected StringBufferLog logOut = new StringBufferLog(40);
 	protected MidiDevice device1;
 	protected MidiDevice device2;
+	protected MidiDevice device3;
 
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
@@ -31,7 +32,8 @@ implements SimpleMidiListener {
 		AudioIn.instance();
 		// init 2 devices
 		device1 = MidiDevice.init(3, 6, this);	// basic singleton initialization in case there's only one device
-//		device2 = new MidiDevice(2, 5, this);	// a 2nd device, with normal constructor
+		device2 = new MidiDevice(11, 14, this);	// a 2nd device, with normal constructor
+//		device3 = new MidiDevice(12, 15, this);	// a 2nd device, with normal constructor
 	}
 	
 	protected void drawApp() {

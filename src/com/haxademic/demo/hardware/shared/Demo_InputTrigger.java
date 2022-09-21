@@ -35,7 +35,7 @@ implements IAppStoreListener {
 	protected void firstFrame() {
 		// KeyboardState is auto-initialized in `P`
 		KeyboardState.instance();	// ...but we can put it here for fun & uniformity
-		MidiDevice.init(0, 3);
+		MidiDevice.init(3, 6);
 		HttpInputState.instance();
 		GamepadState.instance();
 		OscState.instance();
