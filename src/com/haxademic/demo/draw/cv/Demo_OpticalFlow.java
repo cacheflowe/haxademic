@@ -19,7 +19,6 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 
