@@ -47,6 +47,8 @@ extends PAppletHax {
 	 * - Add ability to tune a sample to C
 	 * - Add ability to chop out a segment & save
 	 * - More efficient wave drawing - divide samples by width
+	 * Notes:
+	 * - http://www.labbookpages.co.uk/audio/javaWavFiles.html
 	 * - https://processing.org/reference/libraries/sound/index.html
 	 * - http://www.labbookpages.co.uk/audio/javaWavFiles.html
 	 */
@@ -73,7 +75,7 @@ extends PAppletHax {
 		// search for sounds in directory
 		P.out("####################### ", soundsPath);
 		sounds = new ArrayList<SoundFile>();
-		soundPaths = FileUtil.getFilesInDirOfTypes(soundsPath, "wav,WAV,mp3,MP3,aif,AIF,aiff");
+		soundPaths = FileUtil.getFilesInDirOfTypes(soundsPath, "wav,WAV,mp3,MP3,aif,AIF,aiff", true);
 		for (int j = 0; j < soundPaths.size(); j++) {
 //			String filePath = soundPaths.get(j);
 //			P.out(filePath);
@@ -95,11 +97,24 @@ extends PAppletHax {
 		String filePath = soundPaths.get(playlistIndex);
 		soundFileName = FileUtil.fileNameFromPath(filePath);
 		if(sounds.get(playlistIndex) == null) {	// lazy load sounds
-			sounds.set(playlistIndex, new SoundFile(this, filePath));
+			try {
+				SoundFile newSound = new SoundFile(this, filePath);
+				sounds.set(playlistIndex, newSound);
+			} catch(ArrayIndexOutOfBoundsException e) {
+				P.error("Couldn't load sound!", filePath);
+			} catch(NullPointerException e) {
+				P.error("Couldn't load sound! NPE", filePath);
+			}
 		}
-		curSound = sounds.get(playlistIndex);
-		if(curSound.duration() > 0) {
-			fft.input(curSound);
+		
+		try {
+			// activate current sound
+			curSound = sounds.get(playlistIndex);
+			if(curSound != null && curSound.duration() > 0) {
+				fft.input(curSound);
+			}
+		} catch(NullPointerException e) {
+			P.error("Couldn't load sound! NPE", filePath);
 		}
 		
 		// play it!
@@ -147,8 +162,16 @@ extends PAppletHax {
 	}
 
 	protected void playSound() {
-		curSound.stop();
-		curSound.play();
+		if(curSound == null) return;
+		try {
+			if(curSound.duration() > 0) {
+				curSound.stop();
+				curSound.play();
+			}
+		} catch(NullPointerException e) {
+			P.error("Couldn't play sound! NPE");
+			curSound = null;
+		}
 	}
 
 	protected void drawApp() {
@@ -197,14 +220,23 @@ extends PAppletHax {
 		String fontFile = DemoAssets.fontOpenSansPath;
 		PFont font = FontCacher.getFont(fontFile, 32);
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
-		p.text(
-				playlistIndex+1 + " of " + soundPaths.size() + FileUtil.NEWLINE + 
-				"File = " + soundFileName + FileUtil.NEWLINE + 
-				"Channels = " + curSound.channels() + FileUtil.NEWLINE + 
-				"SampleRate = " + curSound.sampleRate() + " Hz" + FileUtil.NEWLINE + 
-				"Samples = " + curSound.frames() + " samples" + " Hz" + FileUtil.NEWLINE +
-				"Duration = " + curSound.duration() + " seconds" + FileUtil.NEWLINE
-				, 300, 100);
+
+		if(curSound == null) {
+			p.text(
+					playlistIndex+1 + " of " + soundPaths.size() + FileUtil.NEWLINE + 
+					"File = " + soundFileName + FileUtil.NEWLINE + 
+					"BAD!"
+					, 300, 100);
+		} else {
+			p.text(
+					playlistIndex+1 + " of " + soundPaths.size() + FileUtil.NEWLINE + 
+					"File = " + soundFileName + FileUtil.NEWLINE + 
+					"Channels = " + curSound.channels() + FileUtil.NEWLINE + 
+					"SampleRate = " + curSound.sampleRate() + " Hz" + FileUtil.NEWLINE + 
+					"Samples = " + curSound.frames() + " samples" + " Hz" + FileUtil.NEWLINE +
+					"Duration = " + curSound.duration() + " seconds" + FileUtil.NEWLINE
+					, 300, 100);
+		}
 	}
 
 }

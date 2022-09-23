@@ -187,25 +187,45 @@ public class FileUtil {
 	}
 	
 	public static ArrayList<String> getFilesInDirOfTypes( String directory, String formats ) {
+		return getFilesInDirOfTypes(directory, formats, false, null);
+	}
+	
+	public static ArrayList<String> getFilesInDirOfTypes( String directory, String formats, boolean recursive ) {
+		return getFilesInDirOfTypes(directory, formats, recursive, null);
+	}
+	
+	public static ArrayList<String> getFilesInDirOfTypes(String directory, String formats, boolean recursive, ArrayList<String> filesOfType) {
 		File dir = new File( directory );
-		String[] children = dir.list();
-		ArrayList<String> filesOfType = new ArrayList<String>();
-		if (children == null) {
+		String[] childPaths = dir.list();
+		if(filesOfType == null) filesOfType = new ArrayList<String>();
+		if (childPaths == null) {
 			P.println("FileUtil error: couldn't find file or directory");
 		} else {
 			String[] extensions = formats.split(",");
-		    for (int i=0; i < children.length; i++) {
-		        String filename = children[i];
-		        boolean added = false;
-		        for( int j=0; j < extensions.length; j++ ) {
-			        if( filename.indexOf( "." + extensions[j] ) != -1 && added == false) {	
-			        	filesOfType.add( directory + FileUtil.SEPARATOR + filename );
-			        	added = true;
-			        }
+		    for (int i=0; i < childPaths.length; i++) {
+		        String filename = childPaths[i];
+	        	File curFile = new File(directory + FileUtil.SEPARATOR + filename);
+	        	String fileExtension = getPathExtension(filename);
+		        if(extensionIsInArray(fileExtension, extensions)) {	
+		        	filesOfType.add(curFile.getAbsolutePath());
+		        }
+		        
+		        // check for recursive folders
+		        if(recursive == true && curFile.isDirectory()) {
+		        	getFilesInDirOfTypes(curFile.getAbsolutePath(), formats, recursive, filesOfType);
 		        }
 		    }
 		}
 		return filesOfType;		
+	}
+	
+	public static boolean extensionIsInArray(String extension, String[] extArray) {
+		for (int i = 0; i < extArray.length; i++) {
+			if(extArray[i].equals(extension)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static void shuffleFileList( ArrayList<String> files ) {
