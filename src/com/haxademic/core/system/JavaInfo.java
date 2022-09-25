@@ -509,10 +509,10 @@ public class JavaInfo {
         if (!usingGStreamerSystemInstall && (PApplet.platform == P.WINDOWS || PApplet.platform == P.LINUX)) {
           // Pre-loading base GStreamer libraries on Windows and Linux,
           // otherwise dynamic dependencies cannot be resolved.
-          LibraryLoader loader = LibraryLoader.getInstance();
-          if (loader == null) {
-            System.err.println("Cannot load GStreamer libraries.");
-          }
+//          LibraryLoader loader = LibraryLoader.getInstance();
+//          if (loader == null) {
+//            System.err.println("Cannot load GStreamer libraries.");
+//          }
         }
 
         String[] args = { "" };
