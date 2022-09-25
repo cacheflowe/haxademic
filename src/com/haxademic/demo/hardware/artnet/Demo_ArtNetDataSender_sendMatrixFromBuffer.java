@@ -17,14 +17,16 @@ import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -35,11 +37,17 @@ extends PAppletHax {
 
 	protected ArtNetDataSender artNetDataSender;
 	protected PGraphics ledTexture;
-	protected int matrixSize = 16;
-	protected int numPixels = matrixSize * matrixSize;
+//	protected int matrixSize = 16;
+	protected int numPixels;
 
 	protected BaseTexture texture;
 	protected SimplexNoise3dTexture noise3d;
+	protected PGraphics verticalPG;
+	
+	protected String BRIGHTNESS = "BRIGHTNESS";
+	protected String FLIP_H = "FLIP_H";
+	protected String FLIP_V = "FLIP_V";
+	protected String ROT_180 = "ROT_180";
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);
@@ -47,15 +55,29 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// prepare ArtNetSender & matrix texture
-		artNetDataSender = new ArtNetDataSender("192.168.1.101", 4, numPixels);
-		ledTexture = PG.newPG2DFast(matrixSize, matrixSize);
+		ledTexture = PG.newPG(48, 12);
+		numPixels = ledTexture.width * ledTexture.height;
 		DebugView.setTexture("ledTexture", ledTexture);
+		artNetDataSender = new ArtNetDataSender("192.168.1.101", 6, numPixels);
 
 		// build textures
-		texture = new TextureEQConcentricCircles(256, 256);
+		texture = new TextureEQBandDistribute(256, 256);
+//		texture = new TextureAudioTube(256, 256);
+		texture.setActive(true);
 		AudioIn.instance(AudioInputLibrary.Minim);
 		// alt texture
-		noise3d = new SimplexNoise3dTexture(256, 256);
+		noise3d = new SimplexNoise3dTexture(ledTexture.width, ledTexture.height);
+		// video
+//		DemoAssets.movieTestPattern().loop();
+		// vertical texture, to be rotated
+		verticalPG = PG.newPG(12, 48);
+		
+		// Add UI
+		UI.addTitle("LED Config");
+		UI.addSlider(BRIGHTNESS, 0.2f, 0, 1, 0.01f, false);
+		UI.addToggle(FLIP_H, false, false);
+		UI.addToggle(FLIP_V, false, false);
+		UI.addToggle(ROT_180, false, false);
 	}
 
 	protected void drawApp() {
@@ -64,8 +86,24 @@ extends PAppletHax {
 		// update texture
 		PGraphics curTexture;
 		if(Mouse.xNorm < 0.5f) {
+			// audioreactive texture
 			texture.update();
 			curTexture = texture.texture();
+			// video override
+//			ImageUtil.cropFillCopyImage(DemoAssets.movieTestPattern(), curTexture, true);
+			// numbers
+			if(p.frameCount % 5 == 0) {
+				verticalPG.copy(0, 0, 16, 48, 0, 16, 16, 48);
+				verticalPG.beginDraw();
+				verticalPG.fill(0);
+				verticalPG.rect(0, 0, 16, 16);
+				verticalPG.noStroke();
+				FontCacher.setFontOnContext(verticalPG, FontCacher.getFont(DemoAssets.fontDSEG7Path, 15), p.color(255, 0, 127), 1.8f, PTextAlign.LEFT, PTextAlign.TOP);
+				verticalPG.text(P.round(p.frameCount/10 % 10) + "", 0, 0, 16, 16);
+				verticalPG.endDraw();
+				DebugView.setTexture("verticalPG", verticalPG);
+			}
+			ImageUtil.drawImageCropFillRotated90deg(verticalPG, ledTexture, true, false, true);
 		} else {
 			updateNoiseTexture();
 			curTexture = noise3d.texture();
@@ -73,12 +111,18 @@ extends PAppletHax {
 		if(Mouse.yNorm > 0.5f) overlayNumberOnTexture(curTexture);
 		
 		// copy to tiny texture, reduce brightness & send!
-		ImageUtil.copyImage(curTexture, ledTexture);
-		BrightnessFilter.instance(p).setBrightness(0.1f);
+//		ImageUtil.copyImage(curTexture, ledTexture);
+//		ImageUtil.cropFillCopyImage(curTexture, ledTexture, true);
+		BrightnessFilter.instance(p).setBrightness(UI.value(BRIGHTNESS));
 		BrightnessFilter.instance(p).applyTo(ledTexture);
 		
+		// prep rotation
+		if(UI.valueToggle(FLIP_H)) ImageUtil.flipH(ledTexture);
+		if(UI.valueToggle(FLIP_V)) ImageUtil.flipV(ledTexture);
+		if(UI.valueToggle(ROT_180)) ImageUtil.rotate180(ledTexture);
+		
 		// send it!
-		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize);
+		artNetDataSender.sendMatrixFromBuffer(ledTexture);
 		
 		// show original texture on screen
 		ImageUtil.cropFillCopyImage(curTexture, p.g, false);

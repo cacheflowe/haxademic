@@ -79,9 +79,9 @@ extends PAppletHax {
 		
 		// send it!
 		ledTexture.loadPixels();
-		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, pixelsPerMatrix * 0, matrixSize * 0, 0, false, false);
-		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, pixelsPerMatrix * 1, matrixSize * 1, 0, false, false);
-		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, pixelsPerMatrix * 2, matrixSize * 2, 0, false, false);
+		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, matrixSize, pixelsPerMatrix * 0, matrixSize * 0, 0, false, false);
+		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, matrixSize, pixelsPerMatrix * 1, matrixSize * 1, 0, false, false);
+		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, matrixSize, pixelsPerMatrix * 2, matrixSize * 2, 0, false, false);
 		artNetDataSender.send();
 		
 		// show original texture on screen
