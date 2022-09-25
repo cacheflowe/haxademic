@@ -369,6 +369,10 @@ public class ImageUtil {
 		img.copy(0, 0, img.width, img.height, 0, img.height, img.width, -img.height);
 	}
 	
+	public static void rotate180(PImage img) {
+		img.copy(0, 0, img.width, img.height, img.width, img.height, -img.width, -img.height);
+	}
+	
 	protected static HashMap<String, PImage> rescaleBlurImgs = new HashMap<String, PImage>();
 	public static void blurByRescale(PGraphics img, float scaleBlur) {
 		// lazy init image per scale, store in hash
