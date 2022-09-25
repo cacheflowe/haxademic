@@ -49,8 +49,14 @@ public class ArtNetDataSender {
 	public int numPixels() { return numPixels; }
 	
 	public void setColorAtIndex(int pixelIndex, float r, float g, float b) {
+		// assuming RGB LEDs, map dmx channels to pixel index
+//		pixelIndex *= 3; 
+		// prevent out of range errors... why is it doing this?
+		if(pixelIndex >= dmxData.length) {
+			P.out("Bad pixelIndex in ArtNetDataSender.setColorAtIndex()");
+			return;
+		}
 		// https://processing.org/reference/byte.html
-		pixelIndex *= 3; // assuming RGB LEDs
 		dmxData[pixelIndex + 0] = P.parseByte(r);
 		dmxData[pixelIndex + 1] = P.parseByte(g);
 		dmxData[pixelIndex + 2] = P.parseByte(b);
@@ -80,38 +86,47 @@ public class ArtNetDataSender {
 		}
 	}
 
-	public void sendMatrixFromBuffer(PImage texture, int matrixSize) {
-		sendMatrixFromBuffer(texture, matrixSize, 0, 0, 0, true, true);
+	public void sendMatrixFromBuffer(PImage texture) {
+		sendMatrixFromBuffer(texture, texture.width, texture.height, 0, 0, 0, true, true);
 	}
 	
-	public void sendMatrixFromBuffer(PImage texture, int matrixSize, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend) {
+	public void sendMatrixFromBuffer(PImage texture, int matrixSize) {
+		sendMatrixFromBuffer(texture, matrixSize, matrixSize, 0, 0, 0, true, true);
+	}
+	
+	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH) {
+		sendMatrixFromBuffer(texture, matrixW, matrixH, 0, 0, 0, true, true);
+	}
+	
+	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend) {
 		if(shouldLoadPixels) texture.loadPixels();
 		
 		// build entire LED data, to loop through afterwards
-		int numPixelsPerMatrix = matrixSize * matrixSize;
+		int numPixelsPerMatrix = matrixW * matrixH;
 		for(int i=0; i < numPixelsPerMatrix; i++) {
+			
 			// get texture pixel color components
-			int x = MathUtil.gridXFromIndex(i, matrixSize);
-			int y = MathUtil.gridYFromIndex(i, matrixSize);
+			int x = MathUtil.gridXFromIndex(i, matrixW);
+			int y = MathUtil.gridYFromIndex(i, matrixW);
 			int pixelColor = ImageUtil.getPixelColor(texture, offsetX + x, offsetY + y);
 			float r = ColorUtil.redFromColorInt(pixelColor);
 			float g = ColorUtil.greenFromColorInt(pixelColor);
 			float b = ColorUtil.blueFromColorInt(pixelColor);
 			
-			// pixel index, stepping through single-row sequential layout, 1 by 1
+			// calculate pixel index, stepping through single-row sequential layout, 1 by 1
 			// zigzag remap
 			int pixelIndex = i * 3;
-			int rowStartI = P.floor(i / matrixSize) * matrixSize;
-			int twoRowIndex = i % (matrixSize * 2);
-			int zigZagRevIndex = matrixSize - 1 - (i % matrixSize);
-			if(twoRowIndex < matrixSize) {
+			int rowStartI = P.floor(i / matrixW) * matrixW;
+			int twoRowIndex = i % (matrixW * 2);
+			int zigZagRevIndex = matrixW - 1 - (i % matrixW);
+			if(twoRowIndex < matrixW) {
 				pixelIndex = (rowStartI + zigZagRevIndex) * 3;
 			}
 			
 			// set data
-			int pixIndex = (pixelIndexStart * 3) + pixelIndex;
-			if(pixIndex <= dmxData.length - 3) setColorAtIndex(pixIndex, r, g, b);
-			else P.out("ERROR: ArtNet data index is past array length: ", pixIndex);
+			int artNetPixelIndex = (pixelIndexStart * 3) + pixelIndex;
+			if(artNetPixelIndex <= dmxData.length - 3) setColorAtIndex(artNetPixelIndex, r, g, b);
+			else P.out("ERROR: ArtNet data index is past array length: ", artNetPixelIndex);
 		}
 		if(shouldSend) send();
 	}
