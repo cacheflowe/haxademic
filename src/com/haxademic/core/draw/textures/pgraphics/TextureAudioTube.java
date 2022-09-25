@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
@@ -67,11 +68,10 @@ extends BaseTexture {
 		_texture.ambient(50, 50, 50);
 		_texture.shininess(20.0f);
 		
-		
 //		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
-		
+		DebugView.setValue("_radius", _radius.value());
 		_radius.update();
 		_spacing.update();
 		updateRotation();

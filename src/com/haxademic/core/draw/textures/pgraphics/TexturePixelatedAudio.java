@@ -87,7 +87,7 @@ extends BaseTexture {
 		noiseRot.setTarget(noiseRot.target() + MathUtil.randRangeDecimal(-0.6f, 0.6f));
 		noiseOffsetX.setTarget(noiseOffsetX.target() + MathUtil.randRangeDecimal(-0.6f, 0.6f));
 		noiseOffsetY.setTarget(noiseOffsetY.target() + MathUtil.randRangeDecimal(-0.6f, 0.6f));
-		noiseZoom.setTarget(MathUtil.randRangeDecimal(0.5f, 1.1f));
+		noiseZoom.setTarget(MathUtil.randRangeDecimal(0.25f, 1.5f));
 	}
 	
 	public void preDraw() {

@@ -3,10 +3,12 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
@@ -39,6 +41,7 @@ extends BaseTexture {
 		float spectrumInterval = ( 512f / _numParticles );
 		
 		_texture.noStroke();
+		_texture.blendMode(PBlendModes.ADD);
 		PG.setDrawCenter(_texture);
 
 		for( int i=0; i < _particles.size(); i++ ) {
@@ -90,7 +93,8 @@ extends BaseTexture {
 //			_texture.fill(255, 255f * _amp);
 			_texture.fill(255);
 //			_texture.rect(_pos.x, _pos.y, curSize, curSize);
-			_texture.ellipse(_pos.x, _pos.y, curSize, curSize);
+//			_texture.ellipse(_pos.x, _pos.y, curSize, curSize);
+			_texture.image(DemoAssets.particle(), _pos.x, _pos.y, curSize, curSize);
 			
 			_amp *= _ampDecay;
 		}
