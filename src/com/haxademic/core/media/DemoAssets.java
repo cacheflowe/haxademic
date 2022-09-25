@@ -104,9 +104,16 @@ public class DemoAssets {
 		return movieKinectSilhouette;
 	}
 
+	public static Movie movieTestPattern = null;
+	public static Movie movieTestPattern() {
+		if(movieTestPattern == null) movieTestPattern = new Movie(P.p, FileUtil.getPath("haxademic/video/test-pattern.mp4"));
+		return movieTestPattern;
+	}
+	
 	// AUDIO
 	
 	public static String audioBiggerLoop = "haxademic/audio/cacheflowe_bigger_loop.wav";
+	public static String audioBrimBeat = "haxademic/audio/brim-beat-4.wav";
 
 	// FONTS
 	
