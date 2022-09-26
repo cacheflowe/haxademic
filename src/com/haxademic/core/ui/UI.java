@@ -100,19 +100,26 @@ implements IAppStoreListener {
 	// ADD controls
 	////////////////////////
 	
+	public static void showDuplicateKeyError(String duplicateKey) {
+		P.error("UI Error: Duplicate key: " + duplicateKey);
+	}
+	
 	public static void addTitle(String title) {
+		if(controls.containsKey(title)) { showDuplicateKeyError(title); return; }
 		controls.put(title, new UITitle(title, controlX, controlY, IUIControl.controlW, IUIControl.controlH));
 		controlY += IUIControl.controlSpacing;
 		if(controlY > P.p.height - IUIControl.controlH) nextCol();
 	}
 	
 	public static void addTextfield(String key, String value, boolean saves) {
+		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		controls.put(key, new UITextInput(key, value, DemoAssets.fontOpenSansPath, PTextAlign.LEFT, controlX, controlY, IUIControl.controlW, IUIControl.controlH, saves));
 		controlY += IUIControl.controlSpacing;
 		if(controlY > P.p.height - IUIControl.controlH) nextCol();
 	}
 	
 	public static void addToggle(String key, boolean value, boolean saves) {
+		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		int valInt = (value == true) ? 1 : 0; 
 		addSlider(key, valInt, 0, 1, 1, saves);
 	}
@@ -126,6 +133,7 @@ implements IAppStoreListener {
 	}
 	
 	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote) {
+		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, IUIControl.controlW, IUIControl.controlH, saves, midiCCNote));
 		controlY += IUIControl.controlSpacing;
 		if(controlY > P.p.height - IUIControl.controlH) nextCol();
@@ -136,6 +144,7 @@ implements IAppStoreListener {
 	}
 	
 	public static void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote1, int midiCCNote2, int midiCCNote3) {
+		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		float controlWidthDivided = (float) IUIControl.controlW / 3f;
 		int controlHStack = P.round(IUIControl.controlH * 1.6f);
 		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.ceil(controlX + 0 * controlWidthDivided), controlY, P.ceil(controlWidthDivided)-1, controlHStack, saves, midiCCNote1));
@@ -166,6 +175,7 @@ implements IAppStoreListener {
 	}
 	
 	public static void addButton(String key, boolean toggles, int midiNote) {
+		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		controls.put(key, new UIButton(null, key, controlX, controlY, IUIControl.controlW, IUIControl.controlH, toggles, midiNote));
 		controlY += IUIControl.controlSpacing;
 	}
@@ -178,6 +188,7 @@ implements IAppStoreListener {
 		float layoutW = 1f / keys.length;
 		float controlWidthDivided = IUIControl.controlW / keys.length;
 		for (int i = 0; i < keys.length; i++) {
+			if(controls.containsKey(keys[i])) { showDuplicateKeyError(keys[i]); return; }
 			int buttonX = P.round(controlX + i * controlWidthDivided);
 			int midiNote = (midiNotes != null && midiNotes.length > i) ? midiNotes[i] : -1;
 			UIButton newButton = new UIButton(null, keys[i], buttonX, controlY, P.round(controlWidthDivided), IUIControl.controlH, toggles, midiNote);

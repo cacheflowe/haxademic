@@ -19,7 +19,6 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
