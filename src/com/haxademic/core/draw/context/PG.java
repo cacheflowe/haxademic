@@ -94,6 +94,11 @@ public class PG {
 	// CONTEXT HELPERS
 	//////////////////////////////
 	
+	public static void setNearestNeighborScaling( PGraphics pg ) {
+		pg.noSmooth();
+	    ((PGraphicsOpenGL)pg).textureSampling(2);
+	}
+	
 	public static void resetGlobalProps( PApplet p ) {
 		resetGlobalProps(p.g);
 	}
