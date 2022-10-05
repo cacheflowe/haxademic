@@ -76,6 +76,29 @@ public class MathUtil {
 		return (float) Math.random() * (max - min) + min;
 	}
 
+	public static PVector circleCoord = new PVector();
+	public static PVector randCircleCoordinate() {
+		return randCircleCoordinate(1f, 0.5f);
+	}
+	public static PVector randCircleCoordinate(float scale) {
+		return randCircleCoordinate(scale, 0.5f);
+	}
+	public static PVector randCircleCoordinate(float scale, float weight) {
+		// Weight can make points closer to edge (0) or center (>1)
+		// random radians
+		float randRads = randRangeDecimal(0, P.TWO_PI);
+		// https://twitter.com/incre_ment/status/1453728837829681155
+		// float radius = P.sqrt(P.p.random(1));
+		// from: https://codepen.io/bit-101/pen/mQBJgM?editors=0010
+		float randRadius = P.pow(P.p.random(1), weight);
+		circleCoord.set(
+			P.cos(randRads) * randRadius * scale, 
+			P.sin(randRads) * randRadius * scale,
+			randRads		// bonus radians value passed along
+		);
+		return circleCoord;
+	}
+	
 	/**
 	 *  Returns a percentage of a value in between 2 other numbers.
 	 *  @param  bottomRange   low end of the range.
