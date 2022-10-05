@@ -18,7 +18,9 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		P.out("testArg =", Config.getArgValue("testArg"));	// need to pass in command line arg of `testArg=HELLO`
+		// need to pass in command line arg of `testArg=HELLO`
+		// or in Eclipse, add in "Run Configurations" -> Program arguments
+		P.out("testArg =", Config.getArgValue("testArg", "none"));
 	}
 	
 	protected void drawApp() {

@@ -33,13 +33,17 @@ public class Config {
 	}
 	
 	public static String getArgValue(String arg) {
+		return getArgValue(arg, null);
+	}
+	
+	public static String getArgValue(String arg, String defaultVal) {
 		String[] arguments = PAppletHax.arguments; 
 		for (String string : arguments) {
 			if(string.indexOf(arg+"=") != -1) {
 				return string.split("=")[1];
 			}
 		}
-		return null;
+		return defaultVal;
 	}
 	
 	/////////////////////////
