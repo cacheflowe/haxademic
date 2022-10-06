@@ -64,13 +64,15 @@ extends PAppletHax {
 			for (int j = 0; j < buff.length; j++) {
 				float buffProg = (float)j / (float)buff.length;
 				float noiseVal = -1f + 2f * p.noise(p.frameCount * 0.01f + buffProg * 3f);
-				float sinVal = P.sin(p.frameCount * 0.01f + buffProg * P.TWO_PI * 1f);
-				float sinVal2 = MathUtil.saw(p.frameCount * 0.03f + buffProg * P.TWO_PI * 3f);
+				float sinVal = P.sin(p.frameCount * 0.02f + buffProg * P.TWO_PI * 1f);
+				float sinVal2 = P.sin(p.frameCount * 0.04f + buffProg * P.TWO_PI * 3f);
 //				float sinVal3 = Math.signum(P.sin(p.frameCount * 0.03f + buffProg * P.TWO_PI * 1f)) / 2f;
-				float sinVal3 = MathUtil.saw(p.frameCount * 0.03f + buffProg * P.TWO_PI * 6f);
+				float sinVal3 = P.sin(p.frameCount * 0.03f + buffProg * P.TWO_PI * 4f);
 				buff[j] = P.lerp(noiseVal, sinVal, 0.7f);
 				buff[j] = P.lerp(buff[j], sinVal2, 0.27f);
 				buff[j] = P.lerp(buff[j], sinVal3, 0.39f);
+				
+				// fade out at ends
 				if(j < 500) buff[j] = P.lerp(0, buff[j], j / 500f);
 				if(j >= buff.length - 1500) buff[j] = P.lerp(buff[j], 0, P.map(j, buff.length - 1500, buff.length - 1, 0, 1));
 			}
