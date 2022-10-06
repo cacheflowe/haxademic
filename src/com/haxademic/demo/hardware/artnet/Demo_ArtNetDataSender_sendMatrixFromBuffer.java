@@ -67,7 +67,7 @@ extends PAppletHax {
 		// alt texture
 		noise3d = new SimplexNoise3dTexture(ledTexture.width, ledTexture.height);
 		// video
-//		DemoAssets.movieTestPattern().loop();
+		DemoAssets.movieTestPattern().loop();
 		// vertical texture, to be rotated
 		verticalPG = PG.newPG(12, 48);
 		
@@ -88,8 +88,6 @@ extends PAppletHax {
 			// audioreactive texture
 			texture.update();
 			curTexture = texture.texture();
-			// video override
-//			ImageUtil.cropFillCopyImage(DemoAssets.movieTestPattern(), curTexture, true);
 			// numbers
 			if(p.frameCount % 5 == 0) {
 				verticalPG.copy(0, 0, 16, 48, 0, 16, 16, 48);
@@ -103,6 +101,10 @@ extends PAppletHax {
 				DebugView.setTexture("verticalPG", verticalPG);
 			}
 			ImageUtil.drawImageCropFillRotated90deg(verticalPG, ledTexture, true, false, true);
+			// video override
+//			ImageUtil.drawImageCropFillRotated90deg(DemoAssets.movieTestPattern(), ledTexture, false, false, true);
+			ImageUtil.copyImage(DemoAssets.movieTestPattern(), ledTexture);
+			DebugView.setTexture("movieTestPattern", DemoAssets.movieTestPattern());
 		} else {
 			updateNoiseTexture();
 			curTexture = noise3d.texture();
