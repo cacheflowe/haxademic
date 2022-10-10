@@ -241,9 +241,16 @@ Look into using a package manager or automated installer if you need to set up m
 * [Chocolatey](https://chocolatey.org/)
 * [Ninite](https://ninite.com/)
 
+### Optionally create a read-only Deploy Key
+
+* Generate a project-specific (and potentially password-less) key via Git Bash
+  * `ssh-keygen -t rsa -b 4096 -C "user@domain.com"`
+* Go to the project page on GitHub, click **Settings**, then **Deploy Keys**, then **Add New**
+  * Paste your public key (.pub file) into the **Key** textfield
+
 ### Add ssh key to each machine
 
-* Add key to Windows w/Git Bash:
+* Add key to Windows w/Git Bash
 * Copy ssh key files into `C:\Users\your_user\.ssh`
   ```
   $ eval `ssh-agent -s`

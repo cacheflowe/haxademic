@@ -33,9 +33,10 @@ extends PAppletHax {
 		p.rect(rect1.x, rect1.y, rect1.width, rect1.height);
 		
 		p.fill(255);
-		ImageUtil.cropFillCopyImage(DemoAssets.justin(), p.g, rect1.x, rect1.y, rect1.width, rect1.height, cropFill);
+		Rectangle destRect = ImageUtil.cropFillCopyImage(DemoAssets.justin(), p.g, rect1.x, rect1.y, rect1.width, rect1.height, cropFill);
+		p.text(destRect.toString(), destRect.x, destRect.y - 20);
 
-		// specific rectangle
+		// specific rectangle #2
 		// bg frame
 		p.fill(255);
 		p.rect(rect2.x - 2, rect2.y - 2, rect2.width + 4, rect2.height + 4);
@@ -43,6 +44,8 @@ extends PAppletHax {
 		p.rect(rect2.x, rect2.y, rect2.width, rect2.height);
 		
 		p.fill(255);
-		ImageUtil.cropFillCopyImage(DemoAssets.justin(), p.g, rect2.x, rect2.y, rect2.width, rect2.height, cropFill);
+		destRect = ImageUtil.cropFillCopyImage(DemoAssets.justin(), p.g, rect2.x, rect2.y, rect2.width, rect2.height, cropFill);
+		p.text(destRect.toString(), destRect.x, destRect.y - 20);
+
 	}
 }

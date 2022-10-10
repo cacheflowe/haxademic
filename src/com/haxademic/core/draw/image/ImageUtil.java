@@ -273,7 +273,8 @@ public class ImageUtil {
 		dest.copy(src, 0, 0, src.width, src.height, 0, 0, dest.width, dest.height);
 	}
 	
-	public static void cropFillCopyImage( PImage src, PImage dest, boolean cropFill ) {
+	protected static Rectangle cropFillRect = new Rectangle();
+	public static Rectangle cropFillCopyImage( PImage src, PImage dest, boolean cropFill ) {
 		float containerW = dest.width;
 		float containerH = dest.height;
 		float imageW = src.width;
@@ -288,11 +289,13 @@ public class ImageUtil {
 		float offsetX = (float)Math.ceil((containerW - resizedW) * 0.5f);
 		float offsetY = (float)Math.ceil((containerH - resizedH) * 0.5f);
 		
-		dest.copy( src, 0, 0, (int) imageW, (int) imageH, (int) offsetX, (int) offsetY, (int) resizedW, (int) resizedH );
+		cropFillRect.setFrame(offsetX, offsetY, resizedW, resizedH);
+		dest.copy(src, 0, 0, (int) imageW, (int) imageH, cropFillRect.x, cropFillRect.y, cropFillRect.width, cropFillRect.height);
+	    return cropFillRect;
 	}
 	
 	// fills a specific rectangle without depending on offsetting off an entire buffer/canvas like the other version of this method
-	public static void cropFillCopyImage(PImage src, PImage dest, int destX, int destY, int destW, int destH, boolean cropFill) {
+	public static Rectangle cropFillCopyImage(PImage src, PImage dest, int destX, int destY, int destW, int destH, boolean cropFill) {
 		int imageW = src.width;
 		int imageH = src.height;
 		float ratioW = (float) destW / imageW;
@@ -305,15 +308,18 @@ public class ImageUtil {
 			int srcY = cropFill ? P.round(imageH/2 - scaledDestH/2) : 0;
 			int srcW = cropFill ? P.round(scaledDestW) : 0;
 			int srcH = cropFill ? P.round(scaledDestH) : 0;
-			dest.copy(src, srcX, srcY, srcW, srcH, destX, destY, destW, destH);
+		    cropFillRect.setFrame(destX, destY, destW, destH);
+			dest.copy(src, srcX, srcY, srcW, srcH, cropFillRect.x, cropFillRect.y, cropFillRect.width, cropFillRect.height);
 		} else {
 			float letterboxRatio = ratioW > ratioH ? ratioH : ratioW;
 			int resizedW = P.ceil(imageW * letterboxRatio);
 			int resizedH = P.ceil(imageH * letterboxRatio);
 			int offsetX = P.ceil((destW - resizedW) * 0.5f);
 			int offsetY = P.ceil((destH - resizedH) * 0.5f);
-			dest.copy(src, 0, 0, imageW, imageH, destX + offsetX, destY + offsetY, resizedW, resizedH);
+			cropFillRect.setFrame(destX + offsetX, destY + offsetY, resizedW, resizedH);
+			dest.copy(src, 0, 0, imageW, imageH, cropFillRect.x, cropFillRect.y, cropFillRect.width, cropFillRect.height);
 		}
+		return cropFillRect;
 	}
 	
 	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill) {
