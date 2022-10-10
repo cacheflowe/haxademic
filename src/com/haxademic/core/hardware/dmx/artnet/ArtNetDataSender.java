@@ -101,6 +101,9 @@ public class ArtNetDataSender {
 	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend) {
 		if(shouldLoadPixels) texture.loadPixels();
 		
+		// check for out of bound color setting
+		int oobIndex = -1;
+		
 		// build entire LED data, to loop through afterwards
 		int numPixelsPerMatrix = matrixW * matrixH;
 		for(int i=0; i < numPixelsPerMatrix; i++) {
@@ -126,9 +129,16 @@ public class ArtNetDataSender {
 			// set data
 			int artNetPixelIndex = (pixelIndexStart * 3) + pixelIndex;
 			if(artNetPixelIndex <= dmxData.length - 3) setColorAtIndex(artNetPixelIndex, r, g, b);
-			else P.out("ERROR: ArtNet data index is past array length: ", artNetPixelIndex);
+			else {
+			  oobIndex = artNetPixelIndex;
+			}
 		}
 		if(shouldSend) send();
+		
+		// announce any out of bounds errors
+		if(oobIndex > -1 && P.p.frameCount % 60 == 1) {
+            P.out("ERROR: ArtNet data index is past array length in sendMatrixFromBuffer(): ", oobIndex);
+		}
 	}
 	
 	public void drawDebug(PGraphics pg) {
