@@ -23,9 +23,7 @@ public class SocketClient {
 	protected int lastConnectAttemptTime = -1;
 	protected int _userCaptureFoundTime = -1;
 	protected int _curCountdownSecs = -1;
-	protected int COUNTDOWN_TIME = 5;
-	protected int SLOW_THROTTLE = 60;
-	protected int FAST_THROTTLE = 5;
+	public static int RECONNECT_TIME = 1000 * 60;
 	
 	public SocketClient(String serverAddress, ISocketClientDelegate delegate, boolean debug) {
 		SocketClient.DEBUG = debug;
@@ -102,7 +100,7 @@ public class SocketClient {
 	
 	protected void checkConnection() {
 		if(isConnected() == false) {
-			if(P.p.millis() - lastConnectAttemptTime > 5000) {
+			if(P.p.millis() - lastConnectAttemptTime > RECONNECT_TIME) {
 				if(SOCKET_DEBUG == true) P.println("Attempting to reconnect to Websocket");
 				new Thread(new Runnable() { public void run() {
 					if(client != null) {
