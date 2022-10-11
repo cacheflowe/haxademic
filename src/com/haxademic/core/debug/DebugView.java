@@ -1,5 +1,6 @@
 package com.haxademic.core.debug;
 
+import java.util.ConcurrentModificationException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -221,31 +222,34 @@ implements IAppStoreListener {
 	}
 	
 	protected void drawValuesFromHashMap(LinkedHashMap<String, String> hashMap) {
-		// build string by iterating over LinkedHashMap
-		for (Map.Entry<String, String> item : hashMap.entrySet()) {
-			String key = item.getKey();
-			String value = item.getValue();
-			if(value != null && value.length() > 100) value = value.substring(0, 99);	// limit long strings
-			if(key != null && value != null) {
-				String textLine = (value.length() > 0) ?
-						key + ": " + value + "\n" :
-						key + "\n";
-				boolean isTitle = textLine.indexOf(TITLE_PREFIX) == 0; 
-				if(isTitle) textLine = textLine.substring(TITLE_PREFIX.length()).trim();
-				drawTextLine(textLine, isTitle);
-			}
-		}
-		
-		if(mode == MODE_DEBUG) {
-			for (Map.Entry<String, PImage> item : textures.entrySet()) {
-			    String imageName = item.getKey();
-			    PImage image = item.getValue();
-			    if(imageName != null && image != null) {
-					drawImage(imageName, image);
-			    }
-			}
-		}
-
+	    try {
+    		// build string by iterating over LinkedHashMap
+    		for (Map.Entry<String, String> item : hashMap.entrySet()) {
+    			String key = item.getKey();
+    			String value = item.getValue();
+    			if(value != null && value.length() > 100) value = value.substring(0, 99);	// limit long strings
+    			if(key != null && value != null) {
+    				String textLine = (value.length() > 0) ?
+    						key + ": " + value + "\n" :
+    						key + "\n";
+    				boolean isTitle = textLine.indexOf(TITLE_PREFIX) == 0; 
+    				if(isTitle) textLine = textLine.substring(TITLE_PREFIX.length()).trim();
+    				drawTextLine(textLine, isTitle);
+    			}
+    		}
+    		
+    		if(mode == MODE_DEBUG) {
+    			for (Map.Entry<String, PImage> item : textures.entrySet()) {
+    			    String imageName = item.getKey();
+    			    PImage image = item.getValue();
+    			    if(imageName != null && image != null) {
+    					drawImage(imageName, image);
+    			    }
+    			}
+    		}
+	    } catch(ConcurrentModificationException e) {
+	        P.error("DebugView.drawValuesFromHashMap() error :: ConcurrentModificationException");
+	    }
 	}
 	
 	protected void drawTextLine(String textLine, boolean isTitle) {
