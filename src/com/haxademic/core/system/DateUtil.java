@@ -24,6 +24,8 @@ public class DateUtil {
 	public static int secondsToMS(float seconds) { return P.round(seconds * secondInMS); }
 	public static int minutesToMS(float minutes) { return P.round(minutes * minuteInMS); }
 	public static int hoursToMS(float hours) { return P.round(hours * hourInMS); }
+	public static int minutesToSeconds(float minutes) { return P.round(minutes * minuteInSeconds); }
+	public static int hoursToSeconds(float hours) { return P.round(hours * hourInSeconds); }
 	
 	// TIME
 

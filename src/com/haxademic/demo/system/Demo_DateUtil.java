@@ -44,6 +44,8 @@ extends PAppletHax {
 				"secondsToMS(1) :: " + DateUtil.secondsToMS(1) + FileUtil.NEWLINE +
 				"minutesToMS(1) :: " + DateUtil.minutesToMS(1) + FileUtil.NEWLINE +
 				"hoursToMS(1) :: " + DateUtil.hoursToMS(1) + FileUtil.NEWLINE +
+				"minutesToSeconds(1) :: " + DateUtil.minutesToSeconds(1) + FileUtil.NEWLINE +
+				"hoursToSeconds(1) :: " + DateUtil.hoursToSeconds(1) + FileUtil.NEWLINE +
 				""
 		, 40, 40);
 	}
