@@ -402,7 +402,11 @@ public class MathUtil {
 	}
 
 	public static int gridYFromIndex(int index, int detail) {
-		return P.floor((index / detail) % detail);
+		return P.floor(index / detail);
+	}
+	
+	public static int gridYFromIndexLooped(int index, int detail) {
+	  return P.floor((index / detail) % detail);
 	}
 	
 	public static int gridZFromIndex(int index, float detail) {
