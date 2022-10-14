@@ -81,10 +81,11 @@ void updatePiezos() {
   lastPiezoTime = now;
 
   // get oscillation values
-  time1 += sensorMM; // millis() / 5;
-  time2 += sensorMM * 2; // millis() / 2;
-  while(time1 > 5000) time1 -= 1000;
-  while(time2 > 5000) time2 -= 1000;
+  int distToBuzzTime = constrain(sensorMM, 0, 300);
+  time1 += distToBuzzTime; // millis() / 5;
+  time2 += distToBuzzTime * 2; // millis() / 2;
+  while(time1 > 1000) time1 -= 1000;
+  while(time2 > 1000) time2 -= 1000;
 
   // turn on or off!
   onOffMode++;
