@@ -1,6 +1,5 @@
-/* Arduino tutorial - Buzzer / Piezo Speaker
-   More info and circuit: http://www.ardumotive.com/how-to-use-a-buzzer-en.html
-   Dev: Michalis Vasilakis // Date: 9/6/2015 // www.ardumotive.com */
+/* Original code from: http://www.ardumotive.com/how-to-use-a-buzzer-en.html
+   Modified by @cacheflowe */
 
 const int buzzer1 = 9; // buzzer to arduino pin 9
 const int ledPin = 13; // on-board LED
