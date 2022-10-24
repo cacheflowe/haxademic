@@ -10,6 +10,8 @@ import processing.core.PGraphics;
 import processing.event.KeyEvent;
 
 public class AudioIn {
+  
+    // A global audio input data structure & buffers
 	
 	public enum AudioInputLibrary {
 		Beads,
