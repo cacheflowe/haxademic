@@ -42,9 +42,10 @@ implements IAudioInput {
 	public void update() {
 		// analyze input
 		fft.analyze(spectrum);
-		for (int i = 0; i < spectrum.length; i++) spectrum[i] *= 10f;
+		for (int i = 0; i < spectrum.length; i++) spectrum[i] *= 255f;
 		waveform.analyze();
-		float curAmp = rms.analyze() * 2f;
+		float curAmp = rms.analyze() * 10f;
+		for (int i = 0; i < waveform.data.length; i++) waveform.data[i] *= 20f;
 		
 		// update audio data object
 		audioStreamData.setFFTFrequencies(spectrum);

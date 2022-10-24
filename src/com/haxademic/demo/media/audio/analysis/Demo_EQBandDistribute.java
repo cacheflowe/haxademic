@@ -14,20 +14,20 @@ extends PAppletHax {
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
 //		AudioIn.instance(AudioInputLibrary.Beads);
-		AudioIn.instance(AudioInputLibrary.ESS);
+//		AudioIn.instance(AudioInputLibrary.ESS);
 //		AudioIn.instance(AudioInputLibrary.Minim);
+		AudioIn.instance(AudioInputLibrary.Processing);
+		
+		AudioIn.drawDebugBuffer();
+		AudioIn.drawBufferFFT();
+		AudioIn.drawBufferWaveform();
 	}
 	
 	protected void drawApp() {
 		// update audio textures/buffers
-//		AudioIn.drawDebugBuffer();
-//		AudioIn.drawBufferFFT();
-//		AudioIn.drawBufferWaveform();
 //		DebugView.setTexture("AudioIn.bufferDebug", AudioIn.bufferDebug());
 //		DebugView.setTexture("AudioIn.bufferFFT", AudioIn.bufferFFT());
 //		DebugView.setTexture("AudioIn.bufferWaveform", AudioIn.bufferWaveform());
-
-		
 		
 		p.background(0);
 		p.noStroke();

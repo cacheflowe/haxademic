@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.audio.analysis.AudioInputMinim;
+import com.haxademic.core.media.audio.analysis.AudioInputProcessing;
 import com.haxademic.core.media.audio.analysis.IAudioInput;
 import com.haxademic.core.system.JavaInfo;
 
@@ -24,9 +25,9 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		JavaInfo.printAudioInfo();
 		
 //	    audioInput = new AudioInputESS();
-		audioInput = new AudioInputMinim();
+//		audioInput = new AudioInputMinim();
 //		audioInput = new AudioInputBeads();
-//		audioInput = new AudioInputProcessing();
+		audioInput = new AudioInputProcessing();
 	}
 	
 	protected void drawApp() {

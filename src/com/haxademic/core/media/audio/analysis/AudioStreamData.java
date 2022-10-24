@@ -244,7 +244,7 @@ public class AudioStreamData {
 	// audio data buffers -----------------------------------
 	
 	public void drawBufferFFT() {
-	    float[] freqs = freqsDampened;
+	    float[] freqs = frequencies; // freqsDampened;
 	  
 		// lazy init buffer
 		if(bufferFFT == null) bufferFFT = PG.newPG(freqs.length, 2, false, false);
