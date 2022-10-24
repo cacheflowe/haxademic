@@ -30,6 +30,8 @@ public class ArtNetDataSender {
 	protected int numPixels = 0;
 	protected byte[] dmxData;
 	protected byte[] dmxDataCurUniverse = new byte[universeSize];	// data per universe is copied into this array and sent out, one universe at a time in sequence
+	
+	public static boolean DEBUG = true;
 
 	public ArtNetDataSender(String controllerAddress, int universeStart, int numPixels) {
 		this.controllerAddress = controllerAddress;
@@ -53,7 +55,7 @@ public class ArtNetDataSender {
 //		pixelIndex *= 3; 
 		// prevent out of range errors... why is it doing this?
 		if(pixelIndex >= dmxData.length) {
-			P.out("Bad pixelIndex in ArtNetDataSender.setColorAtIndex()");
+			if(DEBUG) P.out("Bad pixelIndex in ArtNetDataSender.setColorAtIndex()");
 			return;
 		}
 		// https://processing.org/reference/byte.html
@@ -137,7 +139,7 @@ public class ArtNetDataSender {
 		
 		// announce any out of bounds errors
 		if(oobIndex > -1 && P.p.frameCount % 60 == 1) {
-            P.out("ERROR: ArtNet data index is past array length in sendMatrixFromBuffer(): ", oobIndex);
+		    if(DEBUG) P.out("ERROR: ArtNet data index is past array length in sendMatrixFromBuffer(): ", oobIndex);
 		}
 	}
 	
@@ -156,7 +158,6 @@ public class ArtNetDataSender {
 		int x = 0;
 		int y = 0;
 		// need to properly convert byte back to int, because of weird byte value range without conversion
-		DebugView.setValue("dmxData[0]", P.parseInt(dmxData[0]) + ", " + P.parseInt(dmxData[1]) + ", " + P.parseInt(dmxData[2]));
 		for(int i=0; i < dmxData.length/3; i+=3) {
 			pg.fill(P.parseInt(dmxData[i + 0]), P.parseInt(dmxData[i + 1]), P.parseInt(dmxData[i + 2]));
 			pg.rect(x, y, pixSize, pixSize);
