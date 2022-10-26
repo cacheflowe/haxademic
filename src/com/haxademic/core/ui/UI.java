@@ -306,7 +306,8 @@ implements IAppStoreListener {
 	public void pre() {
 		// update control values (whether UI is showing or not) 
 		DebugView.setHighlightedText(null);
-		for (IUIControl control : controls.values()) {
+		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+		    IUIControl control = entry.getValue();
 			control.update();
 			
 			// add DebugView highlight text on hover of a UI control
@@ -321,7 +322,8 @@ implements IAppStoreListener {
 		if(active && P.renderer != PRenderers.PDF) {
 			PG.setDrawFlat2d(P.p.g, true);
 			P.p.g.noLights();
-			for (IUIControl control : controls.values()) {
+	        for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+	            IUIControl control = entry.getValue();
 				control.draw(P.p.g);
 			}
 			PG.setDrawFlat2d(P.p.g, false);
@@ -382,7 +384,8 @@ implements IAppStoreListener {
         // loop through keys
 //		JSONObject json = new JSONObject();
 		String jsonOutput = "{" + FileUtil.NEWLINE;
-		for (IUIControl control : controls.values()) {
+        for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+            IUIControl control = entry.getValue();
 //		for (String hashKey : tempList) {
 			// get key/val
 //			IUIControl control = controls.get(hashKey);

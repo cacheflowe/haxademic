@@ -117,6 +117,24 @@ for (Iterator<Entry<Rectangle, PGraphics>> iterator = screenSources.entrySet().i
 
 Switch from `HashMap` to a `LinkedHashMap` if you want the keys to come out in the order they were created!
 
+If you run into a `ConcurrentModificationException` when looping over a HashMap, switch from this style of loop:
+
+```java
+for (IUIControl control : controls.values()) {
+    control.update();
+}
+```
+
+To the following safe option. More info [here](https://stackoverflow.com/questions/16180568/concurrentmodificationexception-with-linkedhashmap).
+
+```java
+for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+    String key = entry.getKey();
+    IUIControl control = entry.getValue();
+    control.update();
+}
+```
+
 #### Build an array of HashMap keys
 
 ```java

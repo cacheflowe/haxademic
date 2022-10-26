@@ -12,7 +12,7 @@ extends PAppletHax {
 	protected boolean debugMode = true;
 	protected HashMap<String, UISlider> sliders;
 	
-	protected void firstFrame () {
+	protected void firstFrame() {
 		int sliderX = 10;
 		int sliderY = 10;
 		int sliderW = 300;
@@ -33,7 +33,8 @@ extends PAppletHax {
 		p.background(sliders.get("r").value(), sliders.get("g").value(), sliders.get("b").value());
 		// show sliders in debug mode
 		if(debugMode) {
-			for (UISlider prefSlider : sliders.values()) {
+	        for (HashMap.Entry<String, UISlider> entry : sliders.entrySet()) {
+	            UISlider prefSlider = entry.getValue();
 				prefSlider.draw(p.g);
 			}
 		}
