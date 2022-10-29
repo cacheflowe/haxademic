@@ -239,6 +239,7 @@ And make sure `Remote Shutdown` is enabled in Windows Defender firewall
 Look into using a package manager or automated installer if you need to set up multiple machines:
 
 * [Chocolatey](https://chocolatey.org/)
+* [Scoop](https://scoop.sh/)
 * [Ninite](https://ninite.com/)
 
 ### Optionally create a read-only Deploy Key
