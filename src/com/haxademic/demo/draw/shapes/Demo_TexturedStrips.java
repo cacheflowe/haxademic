@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.image;
+package com.haxademic.demo.draw.shapes;
 
 import java.util.ArrayList;
 

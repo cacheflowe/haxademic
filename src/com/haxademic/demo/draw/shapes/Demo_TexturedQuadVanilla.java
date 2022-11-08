@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.image;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.OpenGLUtil;
