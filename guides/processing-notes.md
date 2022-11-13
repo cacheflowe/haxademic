@@ -144,6 +144,16 @@ int index = 0;
 for(String element : keys) keysArray[index++] = element;
 ```
 
+#### Loop through the keys of a JSONObject
+
+```java
+Iterator<String> itr = curNumberData.keys().iterator();
+while(itr.hasNext()){
+    String key = itr.next();
+    P.out(curNumberData.getInt(key));
+}
+```
+
 #### Pick a random enum
 
 ```java
@@ -181,7 +191,7 @@ drawMode = randomDrawMode();
 * Upgrade the Processing video library to this beta version for far better performance and more supported codecs
 	* https://github.com/processing/processing-video/releases/tag/r3-v2.0-beta1
 	* It seems like using `jna.jar` from the current-release video library is helpful for stability...
-* I also heard that uncompressed video could perform better because compressed codec decoding is slow. ProRes videos performed terribly, even with several different encoding methods.
+* I also heard that uncompressed video could perform better because compressed codec decoding is slow. However, ProRes videos performed terribly, even with several different encoding methods.
 
 #### Add multiple identical webcams on Windows
 
@@ -213,8 +223,8 @@ Code will hot-reload when running an app in Debug mode. If it's not, make sure `
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
-* `-Xmx2048M`
-* `-Xms1024M`
+* `-Xmx4096M`
+* `-Xms2048M`
 
 or
 
