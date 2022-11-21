@@ -19,6 +19,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -58,6 +59,7 @@ implements IAppStoreListener {
 	protected static int frameOpened = 0;
 	protected static int hideFrames = 60 * 60;
 	protected static String uptimeStr = "";
+	protected static String pixelVal = "";
 	protected static boolean autoHide = false;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
@@ -175,6 +177,7 @@ implements IAppStoreListener {
 		setValue("alwaysOnTop", ""+AppWindow.instance().alwaysOnTop());
 		setValue("width", ""+P.p.width);
 		setValue("height", ""+P.p.height);
+		setValue("pixelVal", pixelVal);
 		setValue(TITLE_PREFIX + " PERFORMANCE", "");
 		setValue("FPS", ""+P.round(p.frameRate));
 		setValue("Memory Allocated", StringUtil.formattedInteger(DebugUtil.memoryAllocated()));
@@ -371,6 +374,35 @@ implements IAppStoreListener {
 		}
 	}
 	
+	protected void drawCrosshair() {
+	    PGraphics pg = P.p.g;
+	    pg.push();
+	    PG.setDrawCorner(pg);
+	    if(KeyboardState.keyOn('l')) {
+	        int w = pg.width * 2;
+	        int h = pg.height * 2;
+	        pg.push();
+	        pg.fill(255);
+	        pg.rect(Mouse.x - w/2, Mouse.y, w, 1);
+	        pg.rect(Mouse.x, Mouse.y - h/2, 1, h);
+	        pg.stroke(255);
+	        pg.text(Mouse.x+", "+Mouse.y, 20,  -20);
+	        pg.pop();
+	    }
+	    pg.pop();
+	}
+	
+	protected void drawPixelValue() {
+	    PGraphics pg = P.p.g;
+	    pg.push();
+	    PG.setDrawCorner(pg);
+	    if(KeyboardState.keyOn('p')) {
+	        int col = pg.get(Mouse.x, Mouse.y);
+	        pixelVal = "[" + Mouse.x + ", " + Mouse.y + "]: " + P.hex(col);
+	    }
+	    pg.pop();
+	}
+	
 	protected static void nextCol() {
 		controlY = 0;
 		controlX += IUIControl.controlW - 1;
@@ -384,6 +416,7 @@ implements IAppStoreListener {
 				ipAddress = IPAddress.getLocalAddress();
 			}}).start();
 		}
+		drawPixelValue();
 	}
 	
 	public void post() {
@@ -418,6 +451,8 @@ implements IAppStoreListener {
 		p.pop();
 		drawHighlightedValue();
 		drawHighlightedImage();
+		drawCrosshair();
+		
 		
 		// reset context
 		PG.setDrawFlat2d(p, false);
