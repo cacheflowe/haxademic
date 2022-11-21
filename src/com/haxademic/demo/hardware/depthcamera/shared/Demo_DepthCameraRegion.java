@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraRegion;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -43,10 +44,11 @@ extends PAppletHax {
 	protected void config() {
 		Config.setAppSize(1024, 1024);
 		Config.setProperty(AppSettings.SHOW_UI, true);
-		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, true);
+		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, false);
 	}
 	
 	protected void firstFrame() {
+		RealSenseWrapper.setTinyStream();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		
 		// add ui sliders to tweak at runtime
@@ -71,7 +73,7 @@ extends PAppletHax {
 			region.update(regionDebug);
 			regionDebug.endDraw();
 		} else {
-			region.update();			
+			region.update();
 		}
 		// draw newer flat depth data debug view
 		// good for overhead views & laying on top of RGB stream
