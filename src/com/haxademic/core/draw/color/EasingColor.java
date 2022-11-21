@@ -50,6 +50,14 @@ public class EasingColor {
 		return P.p.color(r.target(), g.target(), b.target(), a.target());
 	}
 	
+	public EasingColor setDelay(int delay) {
+	    this.r.setDelay(delay);
+	    this.g.setDelay(delay);
+	    this.b.setDelay(delay);
+	    this.a.setDelay(delay);
+	    return this;
+	}
+	
 	public EasingColor setTargetEasingColor( EasingColor color ) {
 		this.r.setTarget( color.r() );
 		this.g.setTarget( color.g() );
