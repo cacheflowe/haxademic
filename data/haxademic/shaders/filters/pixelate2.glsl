@@ -16,7 +16,7 @@ uniform float divider = 0.2;
 void main() {
     vec2 uv = vertTexCoord.xy;
     vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);
-    vec3 tex = texture2D(texture, uv).rgg;
+    vec3 tex = texture2D(texture, uv).rgb;
     float granularity = floor(divider * 10. + 5.);
     if (mod(granularity, 2.) > 0.) {
         granularity += 1.;
@@ -26,7 +26,7 @@ void main() {
         float dy = granularity / resolution.y;
         uv = vec2(dx*(floor(uv.x/dx) + 0.5),
                   dy*(floor(uv.y/dy) + 0.5));
-		    gl_FragColor = vec4(texture2D(texture, uv).rgg, 1.);
+		    gl_FragColor = vec4(texture2D(texture, uv).rgb, 1.);
     } else {
     	  gl_FragColor = vec4(tex,1.);
     }
