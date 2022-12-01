@@ -1,7 +1,7 @@
 package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -48,10 +48,15 @@ public class DepthSilhouetteSmoothed {
 		this.pixelSkip = pixelSkip;
 		DEPTH_NEAR = depthNear;
 		DEPTH_FAR = depthFar;
-		
-		depthBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
-		avgBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
-		postBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P3D);
+		buildBuffers();
+	}
+	
+	protected void buildBuffers() {
+        int bufferW = DepthCameraSize.WIDTH / pixelSkip;
+        int bufferH = DepthCameraSize.HEIGHT / pixelSkip;
+        depthBuffer = PG.newPG2DFast(bufferW, bufferH);
+        avgBuffer = PG.newPG2DFast(bufferW, bufferH);
+        postBuffer = PG.newPG2DFast(bufferW, bufferH);
 	}
 	
 	public void buildUI(boolean saveValues) {
@@ -122,20 +127,19 @@ public class DepthSilhouetteSmoothed {
 		depthBuffer.beginDraw();
 		depthBuffer.noStroke();
 		depthBuffer.background(0);
-		depthBuffer.fill(255);
-		float pixelDepth;
-		pixelsActive = 0;
-		for ( int x = 0; x < depthBuffer.width; x++ ) {
-			for ( int y = 0; y < depthBuffer.height; y++ ) {
-				pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
-				if( pixelDepth != 0 && pixelDepth > DEPTH_NEAR && pixelDepth < DEPTH_FAR ) {
-					depthBuffer.pushMatrix();
-					depthBuffer.rect(x, y, 1, 1);
-					depthBuffer.popMatrix();
-					pixelsActive++;
-				}
-			}
-		}
+	    depthBuffer.loadPixels();
+	    pixelsActive = 0;
+	    float pixelDepth;
+	    for ( int x = 0; x < depthBuffer.width; x++ ) {
+            for ( int y = 0; y < depthBuffer.height; y++ ) {
+                pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
+                if( pixelDepth != 0 && pixelDepth > DEPTH_NEAR && pixelDepth < DEPTH_FAR ) {
+                    ImageUtil.setPixelColor(depthBuffer, x, y, 0xffffffff);
+                    pixelsActive++;
+                }
+            }
+        }
+	    depthBuffer.updatePixels();
 		depthBuffer.endDraw();
 		
 		// if we don't want a smoothed result, we can just do the depth buffer

@@ -24,9 +24,10 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// init depth cam
+//	    RealSenseWrapper.setSmallStream();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
-		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 10);
+		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 2);
 		depthSilhouetteSmoothed.buildUI(false);
 		
 		// add camera images to debugview
@@ -38,6 +39,8 @@ extends PAppletHax {
 	protected void drawApp() {
 		p.background(0);
 		depthSilhouetteSmoothed.update();
+		depthSilhouetteSmoothed.update();
+		DebugView.setValue("pixelsActive()", depthSilhouetteSmoothed.pixelsActive());
 		ImageUtil.cropFillCopyImage(depthSilhouetteSmoothed.image(), p.g, false);
 	}
 	
