@@ -2,7 +2,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
-import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageFramesHistory;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PImage;
@@ -10,14 +10,14 @@ import processing.core.PImage;
 public class RadialHistory
 extends BaseVideoFilter {
 	
-	protected ImageSequenceRecorder recorder;
+	protected ImageFramesHistory recorder;
 	protected int numFrames = 20;
 	protected int spacing = 15;
 
 	public RadialHistory(int width, int height) {
 		super(width, height);
 		
-		recorder = new ImageSequenceRecorder(width, height, numFrames);
+		recorder = new ImageFramesHistory(width, height, numFrames);
 	}
 
 	public void newFrame(PImage frame) {

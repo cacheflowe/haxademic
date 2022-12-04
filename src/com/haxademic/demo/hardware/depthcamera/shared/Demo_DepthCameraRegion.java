@@ -14,6 +14,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingBoolean;
+import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
@@ -21,7 +22,8 @@ import com.haxademic.core.ui.UI;
 import processing.core.PGraphics;
 
 public class Demo_DepthCameraRegion
-extends PAppletHax {
+extends PAppletHax
+implements IEasingBooleanCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// base components
@@ -31,7 +33,7 @@ extends PAppletHax {
 	protected PGraphics joystickDebug;		// updated by the `region`
 	
 	// smoothed output
-	protected EasingBoolean userActive = new EasingBoolean(false, 60);
+	protected EasingBoolean userActive;
 	protected EasingFloat userX = new EasingFloat(0, 0.1f);
 	protected EasingFloat userY = new EasingFloat(0, 0.1f);
 	protected EasingFloat userZ = new EasingFloat(0, 0.1f);
@@ -61,6 +63,7 @@ extends PAppletHax {
 		regionFlatDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		joystickDebug = PG.newPG(200, 200);
 		region = new DepthCameraRegion("cam1", false);
+		userActive = new EasingBoolean(false, 20, this);
 	}
 	
 	protected void updateDepthRegion() {
@@ -129,5 +132,11 @@ extends PAppletHax {
 		addDebugTextures();
 		drawDebugToScreen();
 	}
+
+    // IEasingBooleanCallback methods 
+	
+    public void booleanSwitched(EasingBoolean booleanSwitch, boolean value) {
+       // override this 
+    }
 		
 }

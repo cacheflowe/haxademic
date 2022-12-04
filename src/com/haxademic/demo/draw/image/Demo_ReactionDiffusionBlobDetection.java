@@ -13,7 +13,7 @@ import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.compound.ReactionDiffusionStepFilter;
-import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageFramesHistory;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.ui.UI;
 
@@ -37,7 +37,7 @@ extends PAppletHax {
 
 	protected BlobFinder blobFinder;
 	
-	protected ImageSequenceRecorder recorder;
+	protected ImageFramesHistory recorder;
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 960 );
@@ -64,7 +64,7 @@ extends PAppletHax {
 		blobFinder = new BlobFinder(pg, 0.4f);
 		
 		// init PGraphics array
-		recorder = new ImageSequenceRecorder(pg.width, pg.height, 32);
+		recorder = new ImageFramesHistory(pg.width, pg.height, 32);
 	}
 
 	public void drawOuterEnclosure(PGraphics pg, int color) {

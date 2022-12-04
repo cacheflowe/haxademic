@@ -9,7 +9,7 @@ import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
-import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageFramesHistory;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
@@ -24,7 +24,7 @@ extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ImageSequenceRecorder recorder;
+	protected ImageFramesHistory recorder;
 	protected PGraphics camBuffer;
 	protected PGraphics noiseBuffer;
 	protected PGraphics slitscanOutputBuffer;
@@ -48,7 +48,7 @@ implements IWebCamCallback {
 		slitscanOutputBuffer = PG.newPG32(640, 480, false, true);
 		slitscanLerpedBuffer = PG.newPG32(640, 480, false, true);
 		DebugView.setTexture("slitscanLerpedBuffer", slitscanLerpedBuffer);
-		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
+		recorder = new ImageFramesHistory(camBuffer.width, camBuffer.height, numFrames);
 		slitscanShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/slitscan-texture-map.glsl"));	
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 		WebCam.instance().setDelegate(this);

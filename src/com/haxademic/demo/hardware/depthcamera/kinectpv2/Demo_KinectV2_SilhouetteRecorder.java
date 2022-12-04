@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageFramesHistory;
 
 import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
@@ -16,7 +16,7 @@ extends PAppletHax {
 	
 	protected KinectPV2 kinect;
 	protected PGraphics buffer;
-	protected ImageSequenceRecorder recorder;
+	protected ImageFramesHistory recorder;
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
@@ -35,7 +35,7 @@ extends PAppletHax {
 		kinect.enableInfraredImg(true);
 		kinect.init();
 		
-		recorder = new ImageSequenceRecorder(640, 480, 30);
+		recorder = new ImageFramesHistory(640, 480, 30);
 	}
 	
 	protected void drawApp() {

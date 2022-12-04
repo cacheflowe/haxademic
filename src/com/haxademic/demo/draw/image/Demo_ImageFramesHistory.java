@@ -5,22 +5,22 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
-import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageFramesHistory;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_ImageSequenceRecorder 
+public class Demo_ImageFramesHistory 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ImageSequenceRecorder recorder;
+	protected ImageFramesHistory recorder;
 	protected PGraphics camBuffer;
 	
 	protected void config() {
@@ -29,19 +29,20 @@ implements IWebCamCallback {
 		
 	protected void firstFrame () {
 		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, 20);
+		recorder = new ImageFramesHistory(camBuffer.width, camBuffer.height, 20);
 		WebCam.instance().setDelegate(this);
 	}
 
 	protected void drawApp() {
-	    // reset recording
-	    if(KeyboardState.keyTriggered(' ')) recorder.reset();
-
-	    // draw camera & recording, side-by-side
-		ImageUtil.cropFillCopyImage(camBuffer, p.g, 0, 0, p.width/2, p.height, true);
-		ImageUtil.cropFillCopyImage(recorder.imageAtFrame(p.frameCount/4), p.g, p.width/2, 0, p.width/2, p.height, true);
+		p.background( 0 );
+				
+		p.pushMatrix();
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		p.image(camBuffer, 0, 0);
+		p.popMatrix();
 		
-		// draw recorder debug
+		PG.setDrawCorner(p);
 		recorder.drawDebug(p.g);
 	}
 

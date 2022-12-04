@@ -7,7 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageFramesHistory;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
@@ -45,7 +45,7 @@ implements IEasingBooleanCallback {
 	
 	protected int recordFrames = 120;
 	protected int recordFrame = 999;
-	protected ImageSequenceRecorder recorder;
+	protected ImageFramesHistory recorder;
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -69,7 +69,7 @@ implements IEasingBooleanCallback {
 		UI.addSlider(pixelDrawSize, 0.8f, 0, 1, 0.01f, false);
 		
 		isRecording = new EasingBoolean(false, 300, this);
-		recorder = new ImageSequenceRecorder(depthCamera.getRgbImage().width, depthCamera.getRgbImage().height, recordFrames);
+		recorder = new ImageFramesHistory(depthCamera.getRgbImage().width, depthCamera.getRgbImage().height, recordFrames);
 	}
 
 	protected void drawApp() {
