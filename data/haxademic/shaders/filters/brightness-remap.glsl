@@ -14,10 +14,14 @@ varying vec4 vertTexCoord;
 uniform float low = 0.;
 uniform float high = 1.;
 
+float remap(float value, float low1, float high1, float low2, float high2) {
+   return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
+}
+
 void main() {
   vec4 color = texture2D(texture, vertTexCoord.xy);
-  color.r = max(min(color.r, high), low);
-  color.g = max(min(color.g, high), low);
-  color.b = max(min(color.b, high), low);
+  color.r = remap(color.r, 0., 1., low, high);
+  color.g = remap(color.g, 0., 1., low, high);
+  color.b = remap(color.b, 0., 1., low, high);
   gl_FragColor = color;
 }
