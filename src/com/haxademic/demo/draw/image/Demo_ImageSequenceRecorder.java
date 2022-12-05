@@ -4,8 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -26,12 +26,11 @@ implements IWebCamCallback {
 	protected boolean shouldRecord = false;
 	
 	protected void config() {
-		Config.setProperty(AppSettings.SHOW_DEBUG, true );
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
 	}
 		
 	protected void firstFrame () {
-		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		// recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, 20);
+		camBuffer = PG.newPG(640, 480);
 		recorder = new ImageSequenceRecorder(p.width/2, p.height, 60);
 		WebCam.instance().setDelegate(this);
 	}
