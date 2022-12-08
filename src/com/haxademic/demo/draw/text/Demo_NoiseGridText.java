@@ -49,6 +49,7 @@ extends PAppletHax {
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
 		
 		// draw grid
+		PG.setDrawCenter(p.g);
 		int cols = word.length();
 		int rows = 8;
 		float spacing = 80;
@@ -61,7 +62,8 @@ extends PAppletHax {
 				// get pixel position
 				float progressX = x / (float) cols;
 				float progressY = y / (float) rows;
-				int pixelColor = ImageUtil.getPixelColor(noiseTexture.texture(), Math.round(progressX * noiseW), Math.round(progressY * noiseH));
+//				int pixelColor = ImageUtil.getPixelColor(noiseTexture.texture(), Math.round(progressX * noiseW), Math.round(progressY * noiseH));
+				int pixelColor = ImageUtil.getPixelColorNorm(noiseTexture.texture(), progressX, progressY);
 				float letterScale = P.map(p.brightness(pixelColor), 0, 255, 0.0f, 1.3f);
 				// place letter
 				float curX = centerX + offsetX + x * spacing;

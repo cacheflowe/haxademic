@@ -46,12 +46,9 @@ public class ImageUtil {
 		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
 		return image.pixels[ getPixelIndex( image, x, y ) ];
 	}
-	public static int getPixelColor( PGraphics image, int x, int y ) {
-		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
-		return image.pixels[ getPixelIndex( image, x, y ) ];
-	}
-	public static int getPixelColor( PApplet image, int x, int y ) {
-		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
+	public static int getPixelColorNorm( PImage image, float xNorm, float yNorm ) {
+		int x = P.floor(image.width * xNorm);
+		int y = P.floor(image.height * yNorm);
 		return image.pixels[ getPixelIndex( image, x, y ) ];
 	}
 	
