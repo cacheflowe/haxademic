@@ -9,7 +9,6 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.ui.UI;
 
 import processing.core.PFont;
 
@@ -36,8 +35,6 @@ extends PAppletHax {
 		// update perlin texture
 		noiseTexture.update(1, 0, 0, 0, p.frameCount * 0.01f, false, false);
 		noiseTexture.texture().loadPixels();
-		int noiseW = noiseTexture.texture().width;
-		int noiseH = noiseTexture.texture().height;
 		// draw to screen
 		PG.setPImageAlpha(p.g, 0.2f);
 		p.image(noiseTexture.texture(), 0, 0, p.width, p.height);  
@@ -62,7 +59,6 @@ extends PAppletHax {
 				// get pixel position
 				float progressX = x / (float) cols;
 				float progressY = y / (float) rows;
-//				int pixelColor = ImageUtil.getPixelColor(noiseTexture.texture(), Math.round(progressX * noiseW), Math.round(progressY * noiseH));
 				int pixelColor = ImageUtil.getPixelColorNorm(noiseTexture.texture(), progressX, progressY);
 				float letterScale = P.map(p.brightness(pixelColor), 0, 255, 0.0f, 1.3f);
 				// place letter
