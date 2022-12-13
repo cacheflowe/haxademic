@@ -8,22 +8,29 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
+import com.haxademic.core.draw.image.ImageSequenceRecorder.IImageSequenceRecorderDelegate;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.system.shell.IScriptCallback;
+import com.haxademic.core.system.shell.ScriptRunner;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class Demo_ImageSequenceRecorder 
 extends PAppletHax
-implements IWebCamCallback {
+implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ImageSequenceRecorder recorder;
 	protected PGraphics camBuffer;
+	protected PGraphics camBufferDesaturated;
 	protected boolean shouldRecord = false;
+	
+	protected ScriptRunner scriptRunner;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, false );
@@ -31,7 +38,9 @@ implements IWebCamCallback {
 		
 	protected void firstFrame () {
 		camBuffer = PG.newPG(640, 480);
-		recorder = new ImageSequenceRecorder(p.width/2, p.height, 60);
+		camBufferDesaturated = PG.newPG(640, 480);
+//		recorder = new ImageSequenceRecorder(p.width/2, p.height, 60, this);
+		recorder = new ImageSequenceRecorder(720, 1280, 60, this);
 		WebCam.instance().setDelegate(this);
 	}
 
@@ -43,10 +52,20 @@ implements IWebCamCallback {
 	        recorder.reset();
 	        shouldRecord = true;
 	    }
+	    if(KeyboardState.keyTriggered('r')) {
+	        recorder.saveToDisk();
+	    }
+
+	    // record frames on some interval
+	    int recordFrameSkip = 1; // 1=60fps, 2=30fps, etc
+	    if(shouldRecord && FrameLoop.frameModLooped(recordFrameSkip)) { 
+	        recorder.addFrame(camBufferDesaturated);
+	    }
 
 	    // draw camera & recording, side-by-side
 		ImageUtil.cropFillCopyImage(camBuffer, p.g, 0, 0, p.width/2, p.height, true);
-		ImageUtil.cropFillCopyImage(recorder.imageAtFrame(p.frameCount/2), p.g, p.width/2, 0, p.width/2, p.height, true);
+		ImageUtil.cropFillCopyImage(recorder.imageAtFrame(p.frameCount/recordFrameSkip), p.g, p.width/2, 0, p.width/2, p.height, true);
+		recorder.updateSave();
 		
 		// draw recording indicator
 		if(recorder.isRecording()) {
@@ -59,21 +78,51 @@ implements IWebCamCallback {
 		
 		// draw recorder debug
 		recorder.drawDebug(p.g);
+		DebugView.setValue("recorder.recordProgress()", recorder.recordProgress());
+		DebugView.setValue("recorder.saveProgress()", recorder.saveProgress());
 	}
 
-	@Override
+	///////////////////////////////////////////
+	// IWebCamCallback
+	///////////////////////////////////////////
+
 	public void newFrame(PImage frame) {
 		// set recorder frame - use buffer as intermediary to fix aspect ratio
 		ImageUtil.copyImageFlipH(frame, camBuffer);
 		DebugView.setValue("Last WebCam frame", p.frameCount);
 		
-		// record if we've triggered it
-		if(shouldRecord) { 
-    		recorder.addFrame(camBuffer);
-    		// do some post-processing
-    		SaturationFilter.instance(p).setSaturation(0);
-    		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
-		}
+		// add desaturated copy
+		ImageUtil.copyImageFlipH(frame, camBufferDesaturated);
+		SaturationFilter.instance(p).setSaturation(0);
+		SaturationFilter.instance(p).applyTo(camBufferDesaturated);
 	}
+
+	///////////////////////////////////////////
+	// IImageSequenceRecorderDelegate
+	///////////////////////////////////////////
+	
+    public void recordingComplete(ImageSequenceRecorder recorder) {
+        P.out("RECORDING COMPLETE");
+    }
+
+    public void savedToDisk(ImageSequenceRecorder recorder) {
+        P.out("SAVING COMPLETE to", recorder.savePath());
+        
+        // compile video
+        final IScriptCallback self = this;
+        new Thread(new Runnable() { public void run() {
+            scriptRunner = new ScriptRunner("image-sequence-to-video-tga", self);
+            scriptRunner.runWithParams(recorder.savePath());
+        }}).start();
+    }
+
+    ///////////////////////////////////////////
+    // IScriptCallback
+    ///////////////////////////////////////////
+
+    public void scriptComplete() {
+        P.out("Script complete!");
+    }
+
 
 }
