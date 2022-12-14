@@ -14,12 +14,38 @@ There are [multiple ways](https://blogs.msdn.microsoft.com/commandline/2017/11/2
 * Type `Windows key + R`, type `wsl` and hit Enter
 * Open a Windows Command Prompt window, type `bash` and hit Enter
 
+## Upgrading WSL
+
 Be sure to update your Ubuntu installation using the following commands:
 
 ```
 sudo apt-get update
 sudo apt-get dist-upgrade
 ```
+
+For larger updates:
+
+Info: 
+
+* https://askubuntu.com/questions/1428423/upgrade-ubuntu-in-wsl2-from-20-04-to-22-04
+
+Try to set WSL2 if you're not already on it... This could be destructive, so be careful...
+
+* `wsl --terminate Ubuntu-20.04`
+* `wsl --update`
+* `wsl --set-default-version 2`
+
+Check your version in Powershell w/admin access:
+
+* `wsl --version`
+* `wsl -l --verbose`
+* `wsl --status`
+* `wsl cat /proc/version`
+
+Check your version in wsl:
+
+* `cat /etc/os-release`
+* `lsb_release -a`
 
 ## Navigating the WSL shell
 
@@ -36,11 +62,26 @@ sudo apt-get dist-upgrade
 
 I mostly use the Bash shell for processing media files, so tools like `imagemagick` and `ffmpeg` are essential to my workflow. With Ubuntu, the common way of installing these tools is with the `apt` (Advanced Packaging Tool) package manager. For example:
 
-`sudo apt install ffmpeg`
+* `sudo apt install ffmpeg`
+* `sudo apt install imagemagick`
 
-If you're coming from OS X, you might be used to Homebrew, which is a widely-used package manager for Macs. There's a fork for Linux called [Linuxbrew](http://linuxbrew.sh/), but it didn't seem to work as seamlessly as `apt-get`. If you want to give that a try, run:
+### Other tools
 
-`sudo apt install linuxbrew-wrapper`
+[Node.js](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl):
+
+* `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash`
+* `. ~/.bashrc` - reload shell
+* `command -v nvm` - confirms install
+* `nvm install --lts` - install the current LTS version of Node
+* `node --version`
+
+## Install NVIDIA drivers
+
+Info:
+
+* https://docs.nvidia.com/cuda/wsl-user-guide/index.html
+
+Try running `nvidia-smi`. It should either list your GPUs or show you some commands to install the NVIDIA toolkit.
 
 ## Running bash scripts
 
@@ -74,12 +115,18 @@ More Git config for WSL here: [https://peteoshea.co.uk/setup-git-in-wsl/](https:
 If you've cloned a repo with Github Desktop but want to use WSL git with ssh access, you might need to do this:
 `git remote set-url origin git@github.com:Username/repo-here.git
 
+Add these lines to ~/.bashrc to show the current git branch
+
+```
+parse_git_branch() {
+   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\[\033[33m\]$(parse_git_branch)\[\033[00m\]\$ '
+```
+
 ## Customizing the WSL shell
 
-There are a bunch of options to customize your bash shell, as with any Linux distribution. Here are a couple that I found:
-
-* https://github.com/Bash-it/bash-it#install-options
-* https://github.com/goreliu/wsl-terminal
+There are a bunch of options to customize your bash shell, as with any Linux distribution. Though with the latest WSL versions I've not had a good time customizing without breaking things.
 
 If you want to reload your bash shell with any changes you might have made to your [dotfiles](https://www.quora.com/What-are-dotfiles), call:
 
@@ -87,7 +134,9 @@ If you want to reload your bash shell with any changes you might have made to yo
 
 You can customize Bash to a great extent by modifying dot files in your user directory, which is located at `/home/username` or with the shortcut `~/`.
 
-Here's my `/home/cacheflowe/.bash_profile`, which provides me with lots of useful shortcuts. Some of these are relate to running Apache, which I describe below.
+Here's my `/home/cacheflowe/.bash_profile`, which provides me with lots of useful shortcuts. Some of these are relate to running Apache, which I describe below. To launch this in VSCode, you can run this command:
+
+* `code /home/cacheflowe/.bash_profile`
 
 ```
 ##########################################
@@ -134,10 +183,6 @@ reload
 workspace
 ```
 
-## Install Node.js on WSL / Ubuntu
-
-* https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl
-
 ## Install Apache on WSL / Ubuntu
 
 I use Apache as a basic web server, and also use php as a quick & easy web server scripting language. Below you'll find some helpful info to get these set up quickly.
@@ -147,6 +192,32 @@ Here are some helpful articles on getting the LAMP stack running:
 * https://medium.com/@fiqriismail/how-to-setup-apache-mysql-and-php-in-linux-subsystem-for-windows-10-e03e67afe6ee
 * https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-16-04
 * https://www.nextofwindows.com/allow-server-running-inside-wsl-to-be-accessible-outside-windows-10-host
+
+Install commands:
+
+Apache: 
+
+* `sudo apt install apache2`
+* `sudo a2enmod rewrite` - enable [mod_rewrite](https://www.digitalocean.com/community/tutorials/how-to-rewrite-urls-with-mod_rewrite-for-apache-on-ubuntu-16-04)
+* `sudo a2enmod ssl` - enable SSL for vhosts
+* `sudo a2enmod headers` - enable [headers](https://stackoverflow.com/a/5758551)
+
+php :
+
+Be sure to check for the latest version when you install. I've also included the php-xml lib for my own purposes
+
+```
+sudo apt install php8.1-common php8.1-cli -y
+sudo apt install php8.1-{bz2,curl,intl,mysql,readline,xml} -y
+sudo apt install libapache2-mod-php8.1 -y
+sudo apt-get install php-xml
+service apache2 reload 
+```
+
+Edit php.ini
+
+* `sudo nano /etc/php/8.1/apache2/php.ini`
+* Update: `upload_max_filesize = 200M`
 
 Start Apache with:
 
@@ -221,6 +292,13 @@ Working in tandem with vhost configurations, you need to edit your hosts file fo
 
 * `C:/Windows/System32/drivers/etc/hosts`
 
+In new version of APache & WSL, you'll need [2 entries per vhost](https://github.com/microsoft/WSL/issues/4347) like so:
+
+```
+127.0.0.1       localhost.cacheflowe.com
+::1             localhost.cacheflowe.com
+```
+
 #### Enable SSL for local development
 
 Some web development that requires hardware access (real-time camera, accelerometer) require a web server that has SSL enabled. I've adapted the setup from [this guide](https://creativelogic.biz/blog/https-ssl-local-dev-with-windows), but their setup seems to be running Apache on Windows, not on Ubuntu. So, here are the steps to create an SSL certificate and allow your machine and others to make https requests to your Ubuntu Apache server. Be sure to enter a real passphrase when prompted, and write it down:
@@ -285,10 +363,6 @@ Some web development that requires hardware access (real-time camera, accelerome
   </VirtualHost>
 ```
 
-* If Apache doesn't already have ssl enabled, you'll get an error message on Apache restart like this: `Invalid command 'SSLEngine'`. To fix this, run this command:
-
-* `sudo a2enmod ssl`
-
 * If all goes well, you should be able to make requests like `https://localhost` or `https://your.ip.address` from other devices. You might have to manually allow the self-signed certificate in any given browser.
 
 * Here's [another set of instructions](https://gist.github.com/jitheshkt/7f578e3f450af9d0e8a248545d2662d7) for enabling SSL on WSL Apache
@@ -303,17 +377,6 @@ Add this to the end of /etc/apache2/apache2.conf:
 
 `AcceptFilter http none`
 
-### Enable mod_rewrite & headers for Apache
-
-`sudo a2enmod rewrite`
-`sudo a2enmod headers`
-
-* From: https://stackoverflow.com/a/5758551
-
-### More php configuration
-
-Install the php xml package (there may be others you'll want, and make sure you're targeting the php version you're using)
-`sudo apt-get install php-xml`
 
 ### Install & use mysql
 
@@ -332,7 +395,7 @@ Install the php xml package (there may be others you'll want, and make sure you'
 * https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 * https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
 
-## Set up Java
+## Set up Java... but maybe don't do this.
 
 https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
 
