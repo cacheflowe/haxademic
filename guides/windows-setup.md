@@ -4,7 +4,9 @@
   * Don't attach the machine to a network or wifi! Click "I don't have Internet" instead of connecting to Wifi/Ethernet. If you connect, it will force you to create a Microsoft online account
     * Newer Windows installations don't give you this option, so do the following when confronted with internet-only setup
     * Hit `Shift + F10` to launch a cmd prompt
-    * Run this command: `OOBE\BYPASSNRO`
+    * Run this command: 
+      * `taskkill /F /IM oobenetworkconnectionflow.exe` (this should let you continue without restarting)
+      * or `OOBE\BYPASSNRO` (this will erstart the machine)
     * When it restarts, you should now have an "I don't have Internet" button, followed by a "Continue with a limited setup" button, and can continue setup without a Microsoft account
   * Turn off non-essential services (but keep location services for clock-syncing)
 
