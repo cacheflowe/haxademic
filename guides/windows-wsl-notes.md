@@ -42,6 +42,10 @@ Check your version in Powershell w/admin access:
 * `wsl --status`
 * `wsl cat /proc/version`
 
+Set default install
+
+* `wsl --setdefault INSTALL_NAME`
+
 Check your version in wsl:
 
 * `cat /etc/os-release`
