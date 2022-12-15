@@ -8,11 +8,11 @@ While shaders were built to draw real-time graphics, they're now used for many m
 
 Shader programs are fast and efficient at manipulating collections of _pixel_ and _3d mesh_ data, because they run in _parallel_ at large scale. However, this performance comes at a cost of complexity for people new to the language and tools. I consider GLSL to be a bit like Functional Programming: it's very powerful, but very terse, making it less approachable than more [imperative](https://www.youtube.com/watch?v=E7Fbf7R3x6I) programming. 
 
+> Please see: [Shaders visual explanation](https://typefully.com/DanHollick/gpnhhud) by [@DanHollick](https://twitter.com/DanHollick/status/1603370500306018304)
+
 ## Why learn shaders?
 
 Once you gain your footing, shaders can become a powerful and indispensible tool for creating high-performance and portable graphics operations that can travel with you across frameworks, programming languages and operating systems.
-
-
 
 ## Use cases
 
