@@ -14,6 +14,25 @@ There are [multiple ways](https://blogs.msdn.microsoft.com/commandline/2017/11/2
 * Type `Windows key + R`, type `wsl` and hit Enter
 * Open a Windows Command Prompt window, type `bash` and hit Enter
 
+## Check the status of your WSL install(s)
+
+Check your version in Powershell w/admin access:
+
+* `wsl --version`
+* `wsl -l --verbose`
+* `wsl --status`
+* `wsl cat /proc/version`
+
+Set default install
+
+* `wsl --setdefault INSTALL_NAME`
+
+Check your version in wsl:
+
+* `cat /etc/os-release`
+* `lsb_release -a`
+
+
 ## Upgrading WSL
 
 Be sure to update your Ubuntu installation using the following commands:
@@ -35,21 +54,6 @@ Try to set WSL2 if you're not already on it... This could be destructive, so be 
 * `wsl --update`
 * `wsl --set-default-version 2`
 
-Check your version in Powershell w/admin access:
-
-* `wsl --version`
-* `wsl -l --verbose`
-* `wsl --status`
-* `wsl cat /proc/version`
-
-Set default install
-
-* `wsl --setdefault INSTALL_NAME`
-
-Check your version in wsl:
-
-* `cat /etc/os-release`
-* `lsb_release -a`
 
 ## Navigating the WSL shell
 
