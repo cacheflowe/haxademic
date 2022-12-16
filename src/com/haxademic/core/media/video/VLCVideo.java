@@ -1,6 +1,7 @@
 package com.haxademic.core.media.video;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.file.FileUtil;
 
 import VLCJVideo.VLCJVideo;
 import processing.core.PApplet;
@@ -20,6 +21,7 @@ extends VLCJVideo {
     
     public void open(String videoPath) {
         this.videoPath = videoPath;
+        if(!FileUtil.fileExists(videoPath)) P.error("Couldn't find video file: " + videoPath);
         super.open(videoPath);
     }
 
