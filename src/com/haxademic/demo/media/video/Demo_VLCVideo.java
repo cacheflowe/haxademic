@@ -3,27 +3,23 @@ package com.haxademic.demo.media.video;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.video.VLCVideo;
 
-import VLCJVideo.VLCJVideo;
-import uk.co.caprica.vlcj.player.base.State;
-
-public class Demo_VLCJVideo_Scrub 
+public class Demo_VLCVideo 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected VLCJVideo video;
-	protected int videoStartTime;
-	protected boolean videoPlaying = false;
+	protected VLCVideo video;
 	
 	protected void firstFrame() {
 		// HAP video:
 		// ffmpeg -i yourSourceFile.mov -c:v hap outputName.mov
 		// https://hap.video/using-hap.html
 		// https://gist.github.com/dlublin/e4585b872dd136ae88b2aa51a6a89aac
-		video = new VLCJVideo(p);
-		video.open("D:\\workspace\\dbg-sci-py\\www\\apps\\_uploads\\pylon-2\\2Ageastrum-shortloop.mp4.crop.x642.y0.w762.h1080.mp4");
+		video = new VLCVideo(p);
+		video.open(FileUtil.getPath(DemoAssets.movieFractalCubePath));
 	}
 	
 	public void keyPressed() {
@@ -35,8 +31,6 @@ extends PAppletHax {
 			video.play();
 			video.setRepeat(true);
 			video.setVolume(-20);
-			videoStartTime = p.millis();
-			videoPlaying = true;
 		} else if(p.key == '2') {
 			video.pause();
 		} else if(p.key == '3') {
@@ -51,17 +45,10 @@ extends PAppletHax {
 		p.background(0);
 		p.noStroke();
 		
-		// scrub while key is pressed
-		if(p.keyPressed && p.key == ' ') {
-			video.setTime((long)(Mouse.xNorm * video.duration()));
-		}
-		
 		// check finished time
-		boolean videoHasFinished = video.position() > 0.95f || p.millis() > (videoStartTime + video.duration());
-		videoHasFinished = video.state() == State.ENDED || video.state() == State.STOPPED;
-		if(videoPlaying && videoHasFinished) {
-			p.background(255, 0, 0);
-		}
+		if(video.isFinished()) {
+            p.background(255, 0, 0);
+        }
 		
 		// show video
 		ImageUtil.drawImageCropFill(video, p.g, false);
@@ -87,5 +74,5 @@ extends PAppletHax {
 				"Size: " + video.width + " x " + video.height
 				, 10, 20);
 	}
-	
+		
 }
