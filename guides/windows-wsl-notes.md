@@ -395,6 +395,14 @@ Add this to the end of /etc/apache2/apache2.conf:
 * Start the mysql service: `sudo service mysql start`
 * Run the mysql terminal: `/usr/bin/mysql -u root -p`
 
+## Forward ports between WSL & Windows
+
+As of WSL2, ports are different between the Linux installation and the Windows machine. To make requests to your machines IP address and have that resolve to web servers that you're running in WSL, you need to do the following workaround:
+
+Run the following script in Powershell with admin persmission. Be sure to edit the ports that you want to forward. After testing, add the script to run on startup (with admin permission) with Task Scheduler.
+
+* https://github.com/microsoft/WSL/issues/4150#issuecomment-504209723
+
 ## Install Git
 
 `sudo apt install git`
