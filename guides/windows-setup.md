@@ -62,22 +62,6 @@
     * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
 * Turn off power management for wifi connection:
   * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
-* Only if you see bad blue screen startup after testing cutting power: Turn off blue screen after bad power cuts: "Automatic Repair couldn't repair your PC"
-  * Open Command Prompt as Administrator
-    * `bcdedit /set recoveryenabled NO`
-    * `bcdedit /set {default} recoveryenabled No`
-    * `bcdedit /set {current} recoveryenabled No`
-    * `bcdedit /set {default} bootstatuspolicy ignoreallfailures`
-    * `bcdedit /set {current} bootstatuspolicy ignoreallfailures`
-    * Info from: https://www.thewindowsclub.com/automatic-repair-couldnt-repair-pc
-    * And: https://www.itechpost.com/articles/103531/20200814/4-solutions-to-fix-boot-critical-file-is-corrupt-error.htm
-  * If a blue screen Automatic Repair screen happens, run these commans in an elevated command prompt:
-    * `chkdsk /r c:` - then restart
-  * If you end up on the recovery screens, try the following:
-    * https://support.microsoft.com/en-us/topic/use-bootrec-exe-in-the-windows-re-to-troubleshoot-startup-issues-902ebb04-daa3-4f90-579f-0fbf51f7dd5d
-    * `bootrec.exe /rebuildbcd`
-    * `bootrec.exe /fixmbr`
-    * `bootrec.exe /fixboot`
 
 ## Performance boost
 
@@ -106,12 +90,6 @@
       * `Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device`
       * Change DevicePasswordLessBuildVersion to 0
 
-## Disable Java updates (If you installed Oracle Java)
-
-* Find the Java icon in the system taskbar from the up arrow on the right and disable (might not be a thing anymore)
-* Open Java app from Start Menu and disable from there
-* (WIN + "Startup Apps") Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
-
 ## Networking
 
 * Enable network sharing
@@ -120,16 +98,6 @@
 * Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
 * Allow WebSockets messages to go through on a specific port (3001 is default in Haxademic)
   * Open `Windows Firewall with Advanced Security` and add an incoming and outgoing rule for port 3001, and allow on all networks
-
-## Networking vulnerability scans
-
-* Turn off Remote Desktop Connection in Windows 10 Pro if you want to lock the computer down from vulnerabilities
-  * (WIN + "Remote Desktop Settings") Uncheck "Enable Remote Desktop"
-    * If the option to enable/disable RDP is greyed out, we might have to change the group policy for the computer. 
-      * WIN + R -> `gpedit.msc`
-        * Int the tree, find `Computer configuration\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session\Connections\Allow users to connect remotely...` and make its status is "Not Configured" instead of "Enabled".
-* Get Nessus and run a scan on your IP range:
-  * https://www.tenable.com/downloads/nessus
 
 ## Teamviewer settings
 
@@ -163,6 +131,13 @@ Be sure to remove Windows' "[Fast User Switching](https://www.howtogeek.com/howt
     * Advanced
       * "Lock remote computer": Never
 
+## Make sure your app is using the graphics card
+
+Windows doesn't necesaarily respect NVIDIA settings, when you want to specify that your app should use the dicrete GPU. Go to: 
+
+* (WIN + "Graphics") System -> Display -> Graphics
+* Click "Browse" and find your app. If you're using a system Java installation, find the JDK directory, then select `/bin/java` and `/bin/javaw`, and select your high performance graphics card from the menu, and save the setting
+
 ## Enable remote restarts
 
 On top of Teamviewer, you might want to enable remote restart in the case that you have access to one machine, but not another, and they're on the same network. Use the following command to restart another machine:
@@ -181,6 +156,40 @@ And make sure `Remote Shutdown` is enabled in Windows Defender firewall
 	
 * Download [WUB (Windows Update Blocker)](https://www.sordum.org/9470/windows-update-blocker-v1-7/)
 
+## Disable Java updates (If you installed Oracle Java)
+
+* Find the Java icon in the system taskbar from the up arrow on the right and disable (might not be a thing anymore)
+* Open Java app from Start Menu and disable from there
+* (WIN + "Startup Apps") Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
+
+## Startup Blue Screen issues
+
+* Only if you see bad blue screen startup after testing cutting power: Turn off blue screen after bad power cuts: "Automatic Repair couldn't repair your PC"
+  * Open Command Prompt as Administrator
+    * `bcdedit /set recoveryenabled NO`
+    * `bcdedit /set {default} recoveryenabled No`
+    * `bcdedit /set {current} recoveryenabled No`
+    * `bcdedit /set {default} bootstatuspolicy ignoreallfailures`
+    * `bcdedit /set {current} bootstatuspolicy ignoreallfailures`
+    * Info from: https://www.thewindowsclub.com/automatic-repair-couldnt-repair-pc
+    * And: https://www.itechpost.com/articles/103531/20200814/4-solutions-to-fix-boot-critical-file-is-corrupt-error.htm
+  * If a blue screen Automatic Repair screen happens, run these commans in an elevated command prompt:
+    * `chkdsk /r c:` - then restart
+  * If you end up on the recovery screens, try the following:
+    * https://support.microsoft.com/en-us/topic/use-bootrec-exe-in-the-windows-re-to-troubleshoot-startup-issues-902ebb04-daa3-4f90-579f-0fbf51f7dd5d
+    * `bootrec.exe /rebuildbcd`
+    * `bootrec.exe /fixmbr`
+    * `bootrec.exe /fixboot`
+
+## Networking vulnerability scans
+
+* Turn off Remote Desktop Connection in Windows 10 Pro if you want to lock the computer down from vulnerabilities
+  * (WIN + "Remote Desktop Settings") Uncheck "Enable Remote Desktop"
+    * If the option to enable/disable RDP is greyed out, we might have to change the group policy for the computer. 
+      * WIN + R -> `gpedit.msc`
+        * Int the tree, find `Computer configuration\Administrative Templates\Windows Components\Remote Desktop Services\Remote Desktop Session\Connections\Allow users to connect remotely...` and make its status is "Not Configured" instead of "Enabled".
+* Get Nessus and run a scan on your IP range:
+  * https://www.tenable.com/downloads/nessus
 
 ## Create ssh key for machines' GitHub access
 
@@ -279,13 +288,6 @@ Look into using a package manager or automated installer if you need to set up m
   ```
   $ cd C:\Users\your_user\Documents\workspace\github-repo
   ```
-
-## Make sure your app is using the graphics card
-
-Windows doesn't necesaarily respect NVIDIA settings, when you want to specify that your app should use the dicrete GPU. Go to: 
-
-* (WIN + "Graphics") System -> Display -> Graphics
-* Click "Browse" and find your app. If you're using a system Java installation, find the JDK directory, then select `/bin/java` and `/bin/javaw`, and select your high performance graphics card from the menu, and save the setting
 
 ## Additional steps
 
