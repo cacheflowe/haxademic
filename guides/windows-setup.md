@@ -33,6 +33,7 @@
   * Turn off Taskbar items
 * Click notification icon in taskbar and "clear all notifications" at bottom
 * Change background image
+* Hide Recycle Bin
 
 ## Prevent interruptions
 
@@ -90,6 +91,7 @@
 
 ## Windows settings
 
+* Sync the system clock to the correct time zone
 * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
 * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
 * (WIN + "Developer") Set to Developer mode:
