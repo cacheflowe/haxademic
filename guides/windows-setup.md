@@ -28,12 +28,15 @@
 * Taskbar
   * Unpin apps
 * (WIN + "Taskbar Settings") System Taskbar settings
-  * Check Automatically hide the taskbar
-  * Uncheck Show Badges
   * Turn off Taskbar items
+  * Taskbar Behaviors
+    * Check Automatically hide the taskbar
+    * Uncheck Show Badges
+    * Uncheck Show Flashing
+    * Uncheck Show Recent Searches
 * Click notification icon in taskbar and "clear all notifications" at bottom
 * Change background image
-* Hide Recycle Bin
+* (WIN + "Themes & Related Settings") Hide Recycle Bin -> Desktop Icon Settings
 
 ## Prevent interruptions
 
@@ -44,16 +47,18 @@
       * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
         * Select "High Performance" from dropdown
         * USB settings -> Selective suspend -> Plugged in -> Disabled
-  * `Control Panel\Hardware and Sound\Power Options\System Settings`
+  * `Control Panel\Hardware and Sound\Power Options`
     * Power button should shut down
     * Laptop should do nothing on lid close
 * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
 * Turn off system sounds:
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
 * Turn off notifications:
-  * (WIN + "Notifications") Settings -> System -> Notifications & actions
+  * (WIN + "Notifications") Settings -> System -> Uncheck "Notifications"
+    * Turn on "Do Not Disturb" for all cases
+    * Set Priority Notifications: Turn all off
   * (WIN + "Notifications privacy") Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications" and other checkbox
-  * (WIN + "Firewall" -> Settings) Settings -> Firewall & network protection -> Firewall notification settings
+  * (WIN + "Firewall & Network protection" -> Settings) Firewall notification settings
     * Uncheck all "Notify me" boxes
   * (WIN + "Security & Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
     * Uncheck all boxes
@@ -75,12 +80,14 @@
 
 ## Windows settings
 
-* Sync the system clock to the correct time zone
+* (WIN + "Time and Date Settings") 
+  * Check "Set Time Automatically"
+  * Check "Set Time Zone Automatically"
+  * Click "Sync Now"
 * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
 * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
 * (WIN + "Developer") Set to Developer mode:
-  * Settings -> Update & Security -> For developers -> Developer Mode option
-  * Click "Apply" under the "Windows Explorer", "Remote Desktop" and "Powershell" section checkboxes
+  * Settings -> Privacy & Security -> Enable Developer Mode option
 * (WIN + "About") Rename PC (requires restart):
   * Settings -> System -> About -> Rename PC
 * Remove login screen:
