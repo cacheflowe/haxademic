@@ -25,6 +25,11 @@ public class TimerTrigger {
 		armed = true;
 	}
 	
+	public void cancel() {
+	    armed = false;
+	    progress = 0;
+	}
+	
 	public void update() {
 		if(armed == false) return;
 		progress = (P.p.millis() - startTime) / (endTime - startTime);
@@ -40,6 +45,10 @@ public class TimerTrigger {
 	
 	public float timeLeft() {
 		return endTime - P.p.millis();
+	}
+	
+	public float duration() {
+	    return endTime - startTime;
 	}
 	
 }
