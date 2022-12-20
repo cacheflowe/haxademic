@@ -13,50 +13,62 @@ import processing.core.PGraphics;
 public class ColorAdjustmentFilter {
 
 	// tonemapping UI
-	public static String MODE = "ColorAdjustmentFilter.MODE";
-	public static String GAMMA = "ColorAdjustmentFilter.GAMMA";
-	public static String CROSSFADE = "ColorAdjustmentFilter.CROSSFADE";
+	public static String MODE = "ADJUST.MODE.";
+	public static String GAMMA = "ADJUST.GAMMA.";
+	public static String CROSSFADE = "ADJUST.CROSSFADE.";
 	// extra adjustments UI
-	public static String SATURATION = "ColorAdjustmentFilter.SATURATION";
-	public static String CONTRAST = "ColorAdjustmentFilter.CONTRAST";
-	public static String BRIGHTNESS = "ColorAdjustmentFilter.BRIGHTNESS";
-	public static String SHARPEN = "ColorAdjustmentFilter.SHARPEN";
-	
-	public static boolean hasUI = false;
+	public static String SATURATION = "ADJUST.SATURATION.";
+	public static String CONTRAST = "ADJUST.CONTRAST.";
+	public static String BRIGHTNESS = "ADJUST.BRIGHTNESS.";
+	public static String SHARPEN = "ADJUST.SHARPEN.";
+
+	public static final String DEFAULT_ID = "_";
 	
 	public ColorAdjustmentFilter() {}
 	
-	public static void initUI() {
-		if(hasUI) {
-			P.error("[ERROR] ColorAdjustmentFilter UI already initialized!");
+	public static void buildUI() {
+	    buildUI(DEFAULT_ID, true);
+	}
+	
+	public static void buildUI(String uiID, boolean saveValues) {
+		if(UI.has(MODE + uiID)) {
+			P.error("[ColorAdjustmentFilter ERROR] UI already initialized for this ID!");
 			return;
 		}
-		hasUI = true;
 		
 		// add tonemapping UI
-		UI.addTitle("Tonemapping");
-		UI.addSlider(MODE, 1, 0, 9, 1, true);
-		UI.addSlider(GAMMA, 2.2f, 0, 10, 0.01f, true);
-		UI.addSlider(CROSSFADE, 1, 0, 1, 0.01f, true);
+		UI.addTitle("Tonemapping | " + uiID);
+		UI.addSlider(MODE + uiID, 1, 0, 9, 1, saveValues);
+		UI.addSlider(GAMMA + uiID, 2.2f, 0, 10, 0.01f, saveValues);
+		UI.addSlider(CROSSFADE + uiID, 1, 0, 1, 0.01f, saveValues);
 		
 		// extra controls
-		UI.addTitle("Postprocessing");
-		UI.addSlider(CONTRAST, 1, 0, 3, 0.01f, true);
-		UI.addSlider(SATURATION, 1, 0, 3, 0.01f, true);
-		UI.addSlider(BRIGHTNESS, 1, 0, 3, 0.01f, true);
-		UI.addSlider(SHARPEN, 0, 0, 3, 0.01f, true);
+		UI.addTitle("Postprocessing | " + uiID);
+		UI.addSlider(CONTRAST + uiID, 1, 0, 3, 0.01f, saveValues);
+		UI.addSlider(SATURATION + uiID, 1, 0, 3, 0.01f, saveValues);
+		UI.addSlider(BRIGHTNESS + uiID, 1, 0, 3, 0.01f, saveValues);
+		UI.addSlider(SHARPEN + uiID, 0, 0, 3, 0.01f, saveValues);
 	}
 	
 	public static void applyFromUI(PGraphics pg) {
+	    applyFromUI(pg, DEFAULT_ID);
+	}
+	
+	public static void applyFromUI(PGraphics pg, String uiID) {
+	    if(!UI.has(MODE + uiID)) {
+	        P.error("[ColorAdjustmentFilter ERROR] No UI for this ID!");
+	        return;
+	    }
+
 		applyTo(
 			pg,
-			UI.valueInt(MODE),
-			UI.value(GAMMA),
-			UI.value(CROSSFADE),
-			UI.value(BRIGHTNESS),
-			UI.value(CONTRAST),
-			UI.value(SHARPEN),
-			UI.value(SATURATION)
+			UI.valueInt(MODE + uiID),
+			UI.value(GAMMA + uiID),
+			UI.value(CROSSFADE + uiID),
+			UI.value(BRIGHTNESS + uiID),
+			UI.value(CONTRAST + uiID),
+			UI.value(SHARPEN + uiID),
+			UI.value(SATURATION + uiID)
 		);
 	}
 	

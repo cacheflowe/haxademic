@@ -18,7 +18,7 @@ implements IWebCamCallback {
 
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
-		Config.setProperty(AppSettings.FILLS_SCREEN, false );
+		Config.setProperty(AppSettings.SHOW_UI, true );
 	}
 		
 	protected void firstFrame () {
@@ -26,7 +26,7 @@ implements IWebCamCallback {
 		WebCam.instance().setDelegate(this).set1080p();
 		
 		// init filter with UI controls
-		ColorAdjustmentFilter.initUI();
+		ColorAdjustmentFilter.buildUI("two", true);
 	}
 
 	protected void drawApp() {
@@ -40,7 +40,7 @@ implements IWebCamCallback {
 		p.image(webcamImg, 0, 0);
 		
 		// apply ColorAdjustmentFilter
-		ColorAdjustmentFilter.applyFromUI(p.g);
+		ColorAdjustmentFilter.applyFromUI(p.g, "two");
 	}
 
 	@Override
