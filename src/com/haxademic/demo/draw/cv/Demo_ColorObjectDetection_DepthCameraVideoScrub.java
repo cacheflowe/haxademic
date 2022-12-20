@@ -46,8 +46,8 @@ implements IEasingBooleanCallback {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 10);
 		depthSilhouetteSmoothed.buildUI(false);
-		UI.setValue(DepthSilhouetteSmoothed.SILHOUETTE_DEPTH_NEAR, 300);
-		UI.setValue(DepthSilhouetteSmoothed.SILHOUETTE_DEPTH_FAR, 1000);
+		depthSilhouetteSmoothed.setDepthNear(300);
+		depthSilhouetteSmoothed.setDepthFar(1000);
 	}
 
 	protected void drawApp() {

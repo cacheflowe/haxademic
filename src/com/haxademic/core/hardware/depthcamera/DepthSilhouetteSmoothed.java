@@ -23,31 +23,32 @@ public class DepthSilhouetteSmoothed {
 	protected float thresholdCutoff = 0.4f;
 	protected float thresholdPreBrightness = 1.25f;
 	protected float postBlur = 0;
-	public static int DEPTH_NEAR = 500;
-	public static int DEPTH_FAR = 1800;
+	protected int depthNear = 500;
+	protected int depthFar = 1800;
 
 	protected PGraphics depthBuffer;
 	protected PGraphics avgBuffer;
 	protected PGraphics postBuffer;
 	
-	public static String SILHOUETTE_DEPTH_NEAR = "SILHOUETTE_DEPTH_NEAR";
-	public static String SILHOUETTE_DEPTH_FAR = "SILHOUETTE_DEPTH_FAR";
-	public static String SILHOUETTE_FRAME_BLEND = "SILHOUETTE_FRAME_BLEND";
-	public static String SILHOUETTE_SMOOTH = "SILHOUETTE_SMOOTH";
-	public static String SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS = "SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS";
-	public static String SILHOUETTE_THRESHOLD_CUTOFF = "SILHOUETTE_THRESHOLD_CUTOFF";
-	public static String SILHOUETTE_POST_BLUR = "SILHOUETTE_POST_BLUR";
+	protected String uiID = null;
 	protected boolean hasUI = false;
+	protected String SILHOUETTE_DEPTH_NEAR = "SILHOUETTE_DEPTH_NEAR";
+	protected String SILHOUETTE_DEPTH_FAR = "SILHOUETTE_DEPTH_FAR";
+	protected String SILHOUETTE_FRAME_BLEND = "SILHOUETTE_FRAME_BLEND";
+	protected String SILHOUETTE_SMOOTH = "SILHOUETTE_SMOOTH";
+	protected String SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS = "SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS";
+	protected String SILHOUETTE_THRESHOLD_CUTOFF = "SILHOUETTE_THRESHOLD_CUTOFF";
+	protected String SILHOUETTE_POST_BLUR = "SILHOUETTE_POST_BLUR";
 
 	public DepthSilhouetteSmoothed(IDepthCamera depthCamera, int pixelSkip) {
-		this(depthCamera, pixelSkip, DEPTH_NEAR, DEPTH_FAR);
+		this(depthCamera, pixelSkip, 500, 1800);
 	}
 	
 	public DepthSilhouetteSmoothed(IDepthCamera depthCamera, int pixelSkip, int depthNear, int depthFar) {
 		this.depthCamera = depthCamera;
 		this.pixelSkip = pixelSkip;
-		DEPTH_NEAR = depthNear;
-		DEPTH_FAR = depthFar;
+		this.depthNear = depthNear;
+		this.depthFar = depthFar;
 		buildBuffers();
 	}
 	
@@ -60,21 +61,43 @@ public class DepthSilhouetteSmoothed {
 	}
 	
 	public void buildUI(boolean saveValues) {
-		UI.addTitle("DepthSilhouetteSmoothed");
-		UI.addSlider(SILHOUETTE_DEPTH_NEAR, DEPTH_NEAR, 300, 3000, 10, saveValues);
-		UI.addSlider(SILHOUETTE_DEPTH_FAR, DEPTH_FAR, 500, 6000, 10, saveValues);
+	    buildUI(null, saveValues);
+	}
+	
+	public void buildUI(String uiID, boolean saveValues) {
+	    // set UI keys to be unique in case of multiple cameras. needs testing
+	    String uiTitle = "DepthSilhouetteSmoothed";
+	    if(uiID != null) {
+            uiTitle += " | " + uiID;
+            SILHOUETTE_DEPTH_NEAR = SILHOUETTE_DEPTH_NEAR.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+            SILHOUETTE_DEPTH_FAR = SILHOUETTE_DEPTH_FAR.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+            SILHOUETTE_FRAME_BLEND = SILHOUETTE_FRAME_BLEND.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+            SILHOUETTE_SMOOTH = SILHOUETTE_SMOOTH.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+            SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS = SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+            SILHOUETTE_THRESHOLD_CUTOFF = SILHOUETTE_THRESHOLD_CUTOFF.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+            SILHOUETTE_POST_BLUR = SILHOUETTE_POST_BLUR.replace("SILHOUETTE_", "SILHOUETTE_"+uiID+"_");
+	    }
+
+	    // create UI controls
+		UI.addTitle(uiTitle);
+		UI.addSlider(SILHOUETTE_DEPTH_NEAR, depthNear, 0, 3000, 10, saveValues);
+		UI.addSlider(SILHOUETTE_DEPTH_FAR, depthFar, 0, 6000, 10, saveValues);
 		UI.addSlider(SILHOUETTE_FRAME_BLEND, 0.25f, 0, 1, 0.01f, saveValues);
 		UI.addSlider(SILHOUETTE_SMOOTH, 0.25f, 0, 2, 0.01f, saveValues);
 		UI.addSlider(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS, 1.25f, 0, 3, 0.01f, saveValues);
 		UI.addSlider(SILHOUETTE_THRESHOLD_CUTOFF, 0.4f, 0, 1, 0.01f, saveValues);
 		UI.addSlider(SILHOUETTE_POST_BLUR, 0, 0, 4, 0.01f, saveValues);
+	    this.uiID = uiID;
 		hasUI = true;
+		updatePropsFromUI();
 	}
 	
-	public void updateUI() {
+	public void updatePropsFromUI() {
+	    if(!hasUI) return; 
+	    
 		// apply UI settings to silhouette object
-		DepthSilhouetteSmoothed.DEPTH_NEAR = UI.valueInt(SILHOUETTE_DEPTH_NEAR);
-		DepthSilhouetteSmoothed.DEPTH_FAR = UI.valueInt(SILHOUETTE_DEPTH_FAR);
+	    setDepthNear(UI.valueInt(SILHOUETTE_DEPTH_NEAR));
+	    setDepthFar(UI.valueInt(SILHOUETTE_DEPTH_FAR));
 
 		// do depth processing & draw to screen
 		setFrameBlend(UI.value(SILHOUETTE_FRAME_BLEND));
@@ -84,24 +107,39 @@ public class DepthSilhouetteSmoothed {
 		setPostBlur(UI.value(SILHOUETTE_POST_BLUR));
 	}
 	
+	public void setDepthNear(int depthNear) {
+	    this.depthNear = depthNear;
+	    UI.setValue(SILHOUETTE_DEPTH_NEAR, depthNear);
+	}
+	
+	public void setDepthFar(int depthFar) {
+	    this.depthFar = depthFar;
+	    UI.setValue(SILHOUETTE_DEPTH_FAR, depthFar);
+	}
+	
 	public void setFrameBlend(float frameBlend) {
 		this.frameBlend = frameBlend;
+		UI.setValue(SILHOUETTE_FRAME_BLEND, frameBlend);
 	}
 	
 	public void setSmoothing(float smoothing) {
 		this.smoothing = smoothing;
+		UI.setValue(SILHOUETTE_SMOOTH, smoothing);
 	}
 	
 	public void setThresholdPreBrightness(float thresholdPreBrightness) {
 		this.thresholdPreBrightness = thresholdPreBrightness;
+		UI.setValue(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS, thresholdPreBrightness);
 	}
 	
 	public void setThresholdCutoff(float thresholdCutoff) {
 		this.thresholdCutoff = thresholdCutoff;
+		UI.setValue(SILHOUETTE_THRESHOLD_CUTOFF, thresholdCutoff);
 	}
 	
 	public void setPostBlur(float postBlur) {
 		this.postBlur = postBlur;
+		UI.setValue(SILHOUETTE_POST_BLUR, postBlur);
 	}
 	
 	public int pixelsActive() {
@@ -121,7 +159,7 @@ public class DepthSilhouetteSmoothed {
 	}
 	
 	public void update() {
-		if(hasUI) updateUI();
+		if(hasUI) updatePropsFromUI();
 		
 		// draw current depth to buffer
 		depthBuffer.beginDraw();
@@ -133,7 +171,7 @@ public class DepthSilhouetteSmoothed {
 	    for ( int x = 0; x < depthBuffer.width; x++ ) {
             for ( int y = 0; y < depthBuffer.height; y++ ) {
                 pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
-                if( pixelDepth != 0 && pixelDepth > DEPTH_NEAR && pixelDepth < DEPTH_FAR ) {
+                if( pixelDepth != 0 && pixelDepth > depthNear && pixelDepth < depthFar ) {
                     ImageUtil.setPixelColor(depthBuffer, x, y, 0xffffffff);
                     pixelsActive++;
                 }

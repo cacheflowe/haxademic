@@ -90,7 +90,7 @@ extends PAppletHax {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 6);
 		depthSilhouetteSmoothed.buildUI(false);
-		UI.setValue(DepthSilhouetteSmoothed.SILHOUETTE_DEPTH_FAR, 3000);
+		depthSilhouetteSmoothed.setDepthFar(3000);
 		DebugView.setTexture("depthBuffer", depthSilhouetteSmoothed.depthBuffer());
 		DebugView.setTexture("avgBuffer", depthSilhouetteSmoothed.avgBuffer());
 		DebugView.setTexture("image", depthSilhouetteSmoothed.image());

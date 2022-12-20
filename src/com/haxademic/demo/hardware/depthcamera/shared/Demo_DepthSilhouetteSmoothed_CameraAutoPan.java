@@ -39,16 +39,17 @@ extends PAppletHax {
 		
 		// cv buffer: silhouette
 		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 5);
-		depthSilhouetteSmoothed.buildUI(false);
+		depthSilhouetteSmoothed.buildUI("1", false);
 
 		// cv buffer: color detection
         float detectionScaleDown = 0.25f;
         colorObjectDetection = new ColorObjectDetection(pg, detectionScaleDown);
 
 		// add camera images to debugview
+        // we're not smoothing the silhouette, so we only need the depth buffer
 		DebugView.setTexture("depthBuffer", depthSilhouetteSmoothed.depthBuffer());
-		DebugView.setTexture("avgBuffer", depthSilhouetteSmoothed.avgBuffer());
-		DebugView.setTexture("image", depthSilhouetteSmoothed.image());
+//		DebugView.setTexture("avgBuffer", depthSilhouetteSmoothed.avgBuffer());
+//		DebugView.setTexture("image", depthSilhouetteSmoothed.image());
 		DebugView.setTexture("analysisBuffer", colorObjectDetection.analysisBuffer());
 	}
 	
