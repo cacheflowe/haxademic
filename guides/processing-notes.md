@@ -1,19 +1,17 @@
 # Processing notes
 
-#### Notes on Advanced OpenGL in Processing:
+## Notes on Advanced OpenGL in Processing:
 
 * [https://github.com/processing/processing/wiki/Advanced-OpenGL](https://github.com/processing/processing/wiki/Advanced-OpenGL)
 
-#### Use newer versions of the Processing Video library
+## Use newer versions of the Processing Video library
 
 v2.0 beta1 will play 4k videos at least 100% faster/better than the current video library release.
 
 * https://github.com/gohai/processing-video/releases/tag/v1.0.2
 * https://github.com/processing/processing-video/releases/tag/r3-v2.0-beta1
 
-#### Run an app with an undecorated window
-
-More under-the-hood code [here](https://github.com/praxis-live/praxis/blob/master/praxis.video.pgl/src/net/neilcsmith/praxis/video/pgl/PGLPlayer.java#L251)
+## Run an app with an undecorated window
 
 ```java
 public void settings() {
@@ -32,7 +30,7 @@ public void draw() {
 }
 ```
 
-#### Run a thread inline
+## Run a thread inline
 
 This is helpful for any non-drawing code that you need to run that might slow down the UI thread. One example is calling `play()` on a Movie object, which can freeze the UI thread, as seen below.
 
@@ -68,7 +66,7 @@ public void startLongProcess() {
 }
 ```
 
-#### Sort an array
+## Sort an array
 
 ```java
 Arrays.sort(myArray, compare);
@@ -81,7 +79,7 @@ public static Comparator<CustomObject> compare = new Comparator<CustomObject>() 
 };
 ```
 
-#### Create a HashMap literal (almost)
+## Create a HashMap literal (almost)
 
 ```java
 protected static HashMap<String, String> colors;
@@ -94,7 +92,7 @@ static
   }
 ```
 
-#### Iterate over a HashMap
+## Iterate over a HashMap
 
 ```java
 HashMap<Rectangle, PGraphics> screenBuffers = new HashMap<Rectangle, PGraphics>();
@@ -135,7 +133,7 @@ for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
 }
 ```
 
-#### Build an array of HashMap keys
+## Build an array of HashMap keys
 
 ```java
 Set<String> keys = hashMap.keySet();
@@ -144,7 +142,7 @@ int index = 0;
 for(String element : keys) keysArray[index++] = element;
 ```
 
-#### Loop through the keys of a JSONObject
+## Loop through the keys of a JSONObject
 
 ```java
 Iterator<String> itr = curNumberData.keys().iterator();
@@ -154,7 +152,7 @@ while(itr.hasNext()){
 }
 ```
 
-#### Pick a random enum
+## Pick a random enum
 
 ```java
 enum DrawMode {
@@ -175,7 +173,30 @@ public static DrawMode randomDrawMode()  {
 drawMode = randomDrawMode();
 ```
 
-#### Play a 4k video (or just play videos faster)
+## Add a site's SSL cert for secure http/ws connections
+
+If you see an error that looks like the following, try [this solution](https://stackoverflow.com/a/36427118).
+
+```
+javax.net.ssl.SSLHandshakeException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+```
+
+* Step 1: Download the .crt file from the website
+  * Visit the CMS in Chrome
+  * Click the padlock to the left of the URL
+  * Click "Connection is Secure"
+  * Click "Certificate is valid"
+  * Click the "Details" tab
+  * Click "Export" and save the file
+* Step 2: Add the certificate to the Java jre
+  * Run the following command in an elevated command promt with administrative access. Make sure to use the correct paths to the Java keytool, the Java keystore, and the cert that you downloaded!
+  * "C:\Program Files\Java\jdk17.xxx\bin\keytool.exe" -import -alias example -keystore "C:\Program Files\Java\jdk17.xxx\jre\lib\security\cacerts" -file "website.com.crt"
+  * Enter password: "changeit"
+  * You should see a message confirming that the keystore was updated
+  * Restart the entire app
+
+
+## Play a 4k video (or just play videos faster) - THIS IS NOT VALID ANYMORE!!
 
 * Use ffmpeg to compress your videos.
 * Encoding at 24fps vs 30fps gains some performance headroom.
@@ -193,7 +214,7 @@ drawMode = randomDrawMode();
 	* It seems like using `jna.jar` from the current-release video library is helpful for stability...
 * I also heard that uncompressed video could perform better because compressed codec decoding is slow. However, ProRes videos performed terribly, even with several different encoding methods.
 
-#### Add multiple identical webcams on Windows
+## Add multiple identical webcams on Windows
 
 * https://github.com/processing/processing-video/issues/68
 * In Device Manager, be sure to "show hidden devices"
@@ -208,7 +229,7 @@ drawMode = randomDrawMode();
 8. Now you can close registry and go to device manager and check if your name is changed
 NOTE:You may need to restart your PC to see the changes or Scan for hardware changes
 
-#### Errors
+## Errors
 
 ```java
 java.lang.ArrayIndexOutOfBoundsException:
@@ -217,7 +238,7 @@ java.lang.ArrayIndexOutOfBoundsException:
 
 * This is likely a result of swapping textures of different sizes. Use a PGraphics instance, and update that instead of swapping image objects for a PShape texture.
 
-#### General Eclipse/Processing Tips
+## General Eclipse/Processing Tips
 
 Code will hot-reload when running an app in Debug mode. If it's not, make sure `Project -. Build Automatically` is active
 
@@ -249,7 +270,7 @@ This will print Java environment properties, which can help while debugging:
 
 * If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean** in Eclipse afterwards.
 
-#### Publish a .jar library
+## Publish a .jar library
 
 In Eclipse:
 
@@ -269,7 +290,7 @@ $ cd haxademic/bin
 $ jar cfv ../../ohheckyeah/ohheckyeah-games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
 ```
 
-#### Other Eclipse debugging tools
+## Other Eclipse debugging tools
 
 These tools allow for deeper inspection of your Java app when building in Eclipse
 
@@ -277,7 +298,7 @@ These tools allow for deeper inspection of your Java app when building in Eclips
 * [VisualVM](https://visualvm.github.io/)
 
 
-#### Add another project's `src` 
+## Add another project's `src` 
 
 This lets you use a source folder from another project, for your core library, for example
 
@@ -286,7 +307,7 @@ This lets you use a source folder from another project, for your core library, f
   * Give it a name like "haxademic-src"
 
 
-#### Create an Uber jar with Maven
+## Create an Uber jar with Maven
 
 * Add the following xml to the .pom file, inside the closing </project> tag
 ```
