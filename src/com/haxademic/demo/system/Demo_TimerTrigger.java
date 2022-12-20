@@ -35,9 +35,6 @@ implements ITimerTriggerDelegate {
 	    bg.update();
 		p.background(bg.colorInt());
 		
-		// make sure to update timer every frame
-//		timerTrigger.update();
-		
 		// show timer progress
 		p.fill(255);
 		p.rect(0, p.height - 20, p.width * timerTrigger.progress(), 20);
