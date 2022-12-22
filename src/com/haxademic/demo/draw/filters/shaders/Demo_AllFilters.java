@@ -35,6 +35,7 @@ import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
+import com.haxademic.core.draw.filters.pshader.DenoiseSmartFilter;
 import com.haxademic.core.draw.filters.pshader.DilateFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.DitherFilter;
@@ -164,6 +165,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			CubicLensDistortionFilterOscillate.instance(p),
 //			DeformBloomFilter.instance(p),
 //			DeformTunnelFanFilter.instance(p),
+			DenoiseSmartFilter.instance(p),
 			DilateFilter.instance(p),
 			DisplacementMapFilter.instance(p),
 			DitherFilter.instance(p),
@@ -396,6 +398,11 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			CubicLensDistortionFilterOscillate.instance(p).applyTo(pg);
 //		} else if(curFilter == DeformBloomFilter.instance(p)) {
 //			DeformBloomFilter.instance(p).applyTo(pg);
+		} else if(curFilter == DenoiseSmartFilter.instance(p)) {
+		    DenoiseSmartFilter.instance(p).setSigma(P.map(p.mouseX, 0, p.width, 0, 20f));
+		    DenoiseSmartFilter.instance(p).setKSigma(P.map(p.mouseY, 0, p.height, 0, 10f));
+		    DenoiseSmartFilter.instance(p).setThreshold(P.map(p.mouseY, 0, p.height, 0, 1f));
+		    DenoiseSmartFilter.instance(p).applyTo(pg);
 		} else if(curFilter == DilateFilter.instance(p)) {
 			DilateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == DisplacementMapFilter.instance(p)) {
