@@ -43,8 +43,8 @@ extends PAppletHax {
 		camera2 = new RealSenseWrapper(p, true, true, "821312062651");
 		
 		// set size of depth/motion processing buffers
-		camW = RealSenseWrapper.CAMERA_W / 10;
-		camH = RealSenseWrapper.CAMERA_H / 10;
+		camW = RealSenseWrapper.RGB_W / 10;
+		camH = RealSenseWrapper.RGB_H / 10;
 		
 		// build buffers
 		cam1LerpedFrame = PG.newPG(camW, camH);

@@ -51,6 +51,7 @@ implements IEasingBooleanCallback {
 	
 	protected void firstFrame() {
 		RealSenseWrapper.setTinyStream();
+		RealSenseWrapper.setSmallStream();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		
 		// add ui sliders to tweak at runtime

@@ -1,6 +1,5 @@
 package com.haxademic.core.hardware.depthcamera;
 
-import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -45,6 +44,7 @@ implements IJoystickControl {
 		this(0, 0, 0, 0, 0, 0, 0, 0, 0xff00ff00);
 
 		// set UI keys to be unique in case of multiple cameras. needs testing
+		String uiTitle = "DepthCamera Config | " + uiID;
 		CAMERA_LEFT += "_" + uiID;
 		CAMERA_RIGHT += "_" + uiID;
 		CAMERA_NEAR += "_" + uiID;
@@ -55,7 +55,7 @@ implements IJoystickControl {
 		CAMERA_MIN_PIXELS += "_" + uiID;
 		
 		// if nothing passed in, we create UI controls
-		UI.addTitle("DepthCamera Config");
+		UI.addTitle(uiTitle);
 		UI.addSlider(CAMERA_LEFT, 0, 0, DepthCameraSize.WIDTH, 1, savesUI);
 		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, savesUI);
 		UI.addSlider(CAMERA_NEAR, 500, 0, 20000, 1, savesUI);
@@ -112,6 +112,13 @@ implements IJoystickControl {
 	}
 	
 	public void updatePropsFromUI() {
+	     if(!hasUI) return;
+	     
+	     // ran into a case where a different camera size had been used, and got our of bounds errors in getDepthAt()
+	     // this hopefully ensures that switching camera sizes won't blow things up
+	     if(UI.value(CAMERA_RIGHT) >= DepthCameraSize.WIDTH) UI.setValue(CAMERA_RIGHT, DepthCameraSize.WIDTH);
+	     if(UI.value(CAMERA_BOTTOM) >= DepthCameraSize.HEIGHT) UI.setValue(CAMERA_BOTTOM, DepthCameraSize.HEIGHT);
+	     
 		// set ui params
 		left(UI.valueInt(CAMERA_LEFT));
 		right(UI.valueInt(CAMERA_RIGHT));
@@ -138,17 +145,23 @@ implements IJoystickControl {
 	}
 	
 	public void update(PGraphics debugGraphics) {
-		update(debugGraphics, true);
+		update(null, debugGraphics, true);
 	}
 	
-	public void update(PGraphics debugGraphics, boolean is3d) {
-		IDepthCamera depthCamera = DepthCamera.instance().camera;
+	
+	public void update(IDepthCamera depthCamera, PGraphics debugGraphics) {
+	    update(depthCamera, debugGraphics, true);
+	}
+	
+	public void update(IDepthCamera depthCamera, PGraphics debugGraphics, boolean is3d) {
+	    depthCamera = (depthCamera != null) ? depthCamera : DepthCamera.instance().camera;
+
 		if(hasUI) updatePropsFromUI();
 		
 		// draw 3d "floor"
 		float depthDivider = 0.3f;
         if(debugGraphics != null) {
-        	debugGraphics.beginShape(PShapeTypes.QUADS);
+        	debugGraphics.beginShape();
     		debugGraphics.stroke(debugColor);
     		debugGraphics.fill( 255, pixelCount / minPixels * 10f );
         	debugGraphics.vertex(left, bottom, -near * depthDivider);
@@ -158,7 +171,7 @@ implements IJoystickControl {
         	debugGraphics.endShape();
         	debugGraphics.noStroke();
         }
-        // find kinect readings in the region
+        // find depth readings in the region
 		_isActive = false;
 		if( depthCamera != null ) {
 			pixelCount = 0;
@@ -169,20 +182,31 @@ implements IJoystickControl {
 			for ( int x = left; x < right; x += pixelSkip ) {
 				for ( int y = top; y < bottom; y += pixelSkip ) {
 					pixelDepth = depthCamera.getDepthAt( x, y );
-					if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
-				        if(debugGraphics != null) {
-				        	float debugZ = is3d ? -pixelDepth * depthDivider : 0;
-				        	debugGraphics.fill( debugColor, 127 );
-				        	debugGraphics.pushMatrix();
-				        	debugGraphics.translate(x, y, debugZ);
-				        	debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
-				        	debugGraphics.popMatrix();
-						}
-						// add up for calculations
-						pixelCount++;
-						controlXTotal += x;
-						controlYTotal += y;
-						controlZTotal += pixelDepth;
+					if( pixelDepth != 0 ) {
+					    if(pixelDepth > near && pixelDepth < far) {
+    				        if(debugGraphics != null) {
+    				        	float debugZ = is3d ? -pixelDepth * depthDivider : 0;
+    				        	debugGraphics.fill( debugColor, 127 );
+    				        	debugGraphics.pushMatrix();
+    				        	debugGraphics.translate(x, y, debugZ);
+    				        	debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
+    				        	debugGraphics.popMatrix();
+    						}
+    						// add up for calculations
+    						pixelCount++;
+    						controlXTotal += x;
+    						controlYTotal += y;
+    						controlZTotal += pixelDepth;
+					    } else {
+	                        if(debugGraphics != null) {
+                                float debugZ = is3d ? -pixelDepth * depthDivider : 0;
+                                debugGraphics.fill( 127, 127 );
+                                debugGraphics.pushMatrix();
+                                debugGraphics.translate(x, y, debugZ);
+                                debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
+                                debugGraphics.popMatrix();
+	                        }
+					    }
 					}
 				}
 			}
@@ -201,10 +225,11 @@ implements IJoystickControl {
 
 					// show debug
 			        if(debugGraphics != null) {
+			            float playerH = debugGraphics.height * 0.75f;
 						debugGraphics.fill( 255, 127 );
 						debugGraphics.pushMatrix();
-						debugGraphics.translate(avgX, bottom - 250, -avgZ * depthDivider);
-						debugGraphics.box(20, 500, 20);
+						debugGraphics.translate(avgX, bottom - playerH/2, -avgZ * depthDivider);
+						debugGraphics.box(20, playerH, 20);
 						debugGraphics.popMatrix();
 					}
 				}

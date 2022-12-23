@@ -50,8 +50,8 @@ extends PAppletHax {
 		int ROWS = 				1;
 		
 		// init camera input!
-		RealSenseWrapper.CAMERA_W = 640;
-		RealSenseWrapper.CAMERA_H = 480;
+		RealSenseWrapper.RGB_W = 640;
+		RealSenseWrapper.RGB_H = 480;
 		RealSenseWrapper.METERS_FAR_THRESH = 2;
 		DepthCamera.instance(DepthCameraType.Realsense);
 		overheadRegionGrid = new DepthCameraOverheadGrid(COLS, ROWS, DEPTH_MIN_DIST, DEPTH_MAX_DIST, DEPTH_PLAYER_GAP, DEPTH_LEFT, DEPTH_RIGHT, DEPTH_TOP, DEPTH_BOTTOM, DEPTH_PIXEL_SKIP, ACTIVE_MIN_PIXELS);

@@ -17,8 +17,10 @@ public class RealSenseWrapper
 implements IDepthCamera {
 	
 	protected RealSenseCamera camera;
-	public static int CAMERA_W = 1280;
-	public static int CAMERA_H = 720;
+	public static int RGB_W = 1280;
+	public static int RGB_H = 720;
+	public static int DEPTH_W = RGB_W;
+	public static int DEPTH_H = RGB_H;
 	protected boolean DEPTH_ACTIVE = true;
 	protected boolean RGB_ACTIVE = true;
 	protected boolean MIRROR = true;
@@ -29,24 +31,26 @@ implements IDepthCamera {
 	protected PGraphics mirrorDepth;
 	protected short[][] data;
 	public static float METERS_FAR_THRESH = 15;
+	public static float METERS_NEAR_QUEUED = -1;
+	public static float METERS_FAR_QUEUED = -1;
 	public static ColorScheme COLOR_SCHEME = ColorScheme.Cold;
 	
 	public static void setSmallStream() {
-		CAMERA_W = 640;
-		CAMERA_H = 480;
+		RGB_W = DEPTH_W = 640;
+		RGB_H = DEPTH_H = 480;
 	}
 
 	public static void setTinyStream() {
-		CAMERA_W = 424;
-		CAMERA_H = 240;
+		RGB_W = DEPTH_W = 424;
+		RGB_H = DEPTH_H = 240;
 	}
 	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
-		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, null);
+		this(p, initRGB, initDepthImage, RGB_W, RGB_H, null);
 	}
 	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, String serialNumber) {
-		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, serialNumber);
+		this(p, initRGB, initDepthImage, RGB_W, RGB_H, serialNumber);
 	}
 	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, int width, int height) {
@@ -56,15 +60,18 @@ implements IDepthCamera {
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, int width, int height, String serialNumber) {
 		RGB_ACTIVE = initRGB;
 		DEPTH_ACTIVE = initDepthImage;
-		CAMERA_W = width;
-		CAMERA_H = height;
+		RGB_W = width;
+		RGB_H = height;
+		DEPTH_W = width;
+		DEPTH_H = height;
 
-		data = new short[CAMERA_H][CAMERA_W];
-		DepthCameraSize.setSize(CAMERA_W, CAMERA_H);
+		data = new short[RGB_H][RGB_W];
+		DepthCameraSize.setSize(RGB_W, RGB_H);
 		
 		camera = new RealSenseCamera(p);
-		if(initRGB)        camera.enableColorStream(CAMERA_W, CAMERA_H);
-		if(initDepthImage) camera.enableDepthStream(CAMERA_W, CAMERA_H);
+		if(initRGB)        camera.enableColorStream(RGB_W, RGB_H);
+		if(initDepthImage) camera.enableDepthStream(DEPTH_W, DEPTH_H);
+//		camera.enableDepthStream(480, 270);
 		if(COLOR_SCHEME != null) camera.enableColorizer(COLOR_SCHEME);
 //		camera.enableIRStream(CAMERA_W, CAMERA_H, 30);
 		camera.enableAlign();
@@ -80,8 +87,8 @@ implements IDepthCamera {
 			camera.start(serialNumber);
 		}
 		
-		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
-		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
+		mirrorRGB = PG.newPG(RGB_W, RGB_H);
+		mirrorDepth = PG.newPG(DEPTH_W, DEPTH_H);
 	}
 	
 	public static void listConnectedCameras() {
@@ -139,6 +146,12 @@ implements IDepthCamera {
 			if(RGB_ACTIVE) {
 				if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
 			}
+			if(METERS_NEAR_QUEUED != -1 || METERS_FAR_QUEUED != -1) {
+				camera.clearFilters();
+				camera.addThresholdFilter(METERS_NEAR_QUEUED, METERS_FAR_QUEUED);
+				METERS_NEAR_QUEUED = -1;
+				METERS_FAR_QUEUED = -1;
+			}
 		}
 	}
 	
@@ -158,8 +171,8 @@ implements IDepthCamera {
 		return (MIRROR) ? mirrorRGB : camera.getColorImage();
 	}
 	
-	public int rgbWidth() {return CAMERA_W;};
-	public int rgbHeight() {return CAMERA_H;};
+	public int rgbWidth() {return RGB_W;};
+	public int rgbHeight() {return RGB_H;};
 	
 	public int[] getDepthData() {
 		return null;
@@ -178,7 +191,18 @@ implements IDepthCamera {
 	}
 	
 	public int getDepthAt( int x, int y ) {
-		return (MIRROR) ? data[y][CAMERA_W - 1 - x] : data[y][x];
-//		return Math.round(camera.getDistance((MIRROR) ? CAMERA_W - x : x, y) * 1000f);
+	    /*
+	    if(x < 0 || x >= data[y].length || y < 0 || y >= data[y].length) {
+	        P.out("BAD!!! getDepthAt("+x+", "+y+")");
+	        P.out("data.length: ", data.length);
+	        P.out("data[y].length: ", data[y].length);
+	        P.out("RGB_W, RGB_H: ", RGB_W, RGB_H);
+	        P.out("DEPTH_W, DEPTH_H: ", DEPTH_W, DEPTH_H);
+	        return 0;
+	    }
+	    */
+		return (MIRROR) ? 
+			data[y][DEPTH_W - 1 - x] : 
+			data[y][x];
 	}
 }

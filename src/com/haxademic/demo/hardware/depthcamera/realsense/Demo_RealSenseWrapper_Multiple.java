@@ -50,8 +50,8 @@ extends PAppletHax {
 		int numPixelsProcessed = 0;
 		int pixelSize = 6;
 		int depthFar = P.round(RealSenseWrapper.METERS_FAR_THRESH * 1000);
-		for ( int x = 0; x < RealSenseWrapper.CAMERA_W; x += pixelSize ) {
-			for ( int y = 0; y < RealSenseWrapper.CAMERA_H; y += pixelSize ) {
+		for ( int x = 0; x < RealSenseWrapper.RGB_W; x += pixelSize ) {
+			for ( int y = 0; y < RealSenseWrapper.RGB_H; y += pixelSize ) {
 			    // get intensity
 			    float pixelDepth = camera.getDepthAt(x, y);
 			    if(pixelDepth != 0 && pixelDepth < depthFar) {
