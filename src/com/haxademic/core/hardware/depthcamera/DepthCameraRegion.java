@@ -83,6 +83,8 @@ implements IJoystickControl {
 		this.debugColor = debugColor;
 	}
 	
+	// setters in case we're not using UI
+	
 	public int left() { return left; }
 	public void left( int value ) { this.left = value; }
 	public int right() { return right; }
@@ -277,10 +279,5 @@ implements IJoystickControl {
 		
 		debugGraphics.endDraw();
 	}
-	
-	////////////////////////////////////////////////////////////////////
-	// UI controls
-	////////////////////////////////////////////////////////////////////
-	
 	
 }
