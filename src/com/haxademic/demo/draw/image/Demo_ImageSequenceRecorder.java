@@ -112,7 +112,7 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
         final IScriptCallback self = this;
         new Thread(new Runnable() { public void run() {
             scriptRunner = new ScriptRunner("image-sequence-to-video-tga", self);
-            scriptRunner.runWithParams(recorder.savePath());
+            scriptRunner.runWithParams(recorder.savePath(), "60");
         }}).start();
     }
 

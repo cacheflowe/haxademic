@@ -24,6 +24,7 @@ public class ImageSequenceRecorder {
 	protected PGraphics[] images;
 	
 	protected String savePath;
+	protected boolean savingBusy;
 	protected IImageSequenceRecorderDelegate delegate;
 	
 	public ImageSequenceRecorder(int width, int height, int frames) {
@@ -113,13 +114,13 @@ public class ImageSequenceRecorder {
 
 	public String saveToDisk() {
 	    String autoSavePath = FileUtil.haxademicOutputPath() + "_image-sequence-recordings" + FileUtil.SEPARATOR + SystemUtil.getTimestamp() + FileUtil.SEPARATOR;
-	    FileUtil.createDir(autoSavePath);
 	    return saveToDisk(autoSavePath);
 	}
 
 	public String saveToDisk(String savePath) {
 	    this.savePath = savePath;
 	    if(isSaving()) return savePath;
+	    FileUtil.createDir(savePath);
 	    saveIndex = -1;
 	    return savePath;
 	}
@@ -129,11 +130,18 @@ public class ImageSequenceRecorder {
 	}
 
 	public void updateSave() {
+	    if(savingBusy == true) return;
+	    
 	    boolean wasSaving = isSaving();
 	    if(wasSaving) {
 	        saveIndex++;
+	        savingBusy = true;
 	        String filePath = savePath + StringUtil.paddedNumberString(5, saveIndex + 1) + ".tga";
-	        images[saveIndex].save(filePath);
+	        PImage img = images[saveIndex].get(); // needed for threaded saving. memory implications don't seem bad after testing
+	        new Thread(new Runnable() { public void run() {
+	            img.save(filePath);
+	            savingBusy = false;
+	        }}).start();
 	    }
 	    if(wasSaving && !isSaving() && delegate != null) delegate.savedToDisk(this);
 	}
