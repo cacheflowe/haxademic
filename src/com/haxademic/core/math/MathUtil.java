@@ -42,6 +42,11 @@ public class MathUtil {
 			return 1 - 0.5f * (float)Math.pow(2*(1 - progress), easeFactor);
 	}
 
+	public static float smoothstep(float edge0, float edge1, float x) {
+	    x = P.constrain((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+	    return x * x * (3 - 2 * x);
+	}
+	
 	public static boolean randBoolean() {
 		return ( P.p.random( 0f, 1f ) > 0.5f ) ? true : false;
 	}
