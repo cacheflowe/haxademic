@@ -9,6 +9,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.image.ImageSequenceRecorder.IImageSequenceRecorderDelegate;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -54,6 +55,7 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 	    }
 	    if(KeyboardState.keyTriggered('r')) {
 	        recorder.saveToDisk();
+//	        recorder.saveToDisk(FileUtil.haxademicOutputPath() + "frames-camera-3");
 	    }
 
 	    // record frames on some interval

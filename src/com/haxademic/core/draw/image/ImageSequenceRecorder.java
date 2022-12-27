@@ -118,11 +118,11 @@ public class ImageSequenceRecorder {
 	}
 
 	public String saveToDisk(String savePath) {
-	    this.savePath = savePath;
 	    if(isSaving()) return savePath;
-	    FileUtil.createDir(savePath);
+	    this.savePath = FileUtil.safeDirPath(savePath);
+	    FileUtil.createDir(this.savePath);
 	    saveIndex = -1;
-	    return savePath;
+	    return this.savePath;
 	}
 	
 	public String savePath() {
