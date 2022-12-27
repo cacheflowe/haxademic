@@ -1,11 +1,17 @@
 package com.haxademic.demo.media.video;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.video.VLCVideo;
+import com.haxademic.core.system.SystemUtil;
 
 public class Demo_VLCVideo 
 extends PAppletHax {
@@ -37,9 +43,20 @@ extends PAppletHax {
 			video.play();
 		} else if(p.key == '4') {
 			video.setTime(0);
+		} else if(p.key == '5') {
+		    video.pause();
+		    SystemUtil.setTimeout(resetToStart, 100);
+		} else if(p.key == '6') {
+		    video.stop();
 		}
 	}
 
+	protected ActionListener resetToStart = new ActionListener() {
+        public void actionPerformed(ActionEvent arg0) {
+            video.setTime(0);
+        }
+    };
+	
 	protected void drawApp() {
 		// clear background
 		p.background(0);
