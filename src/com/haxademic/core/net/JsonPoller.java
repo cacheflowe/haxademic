@@ -106,7 +106,6 @@ implements IJsonRequestDelegate {
 
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
 		delegate.postFailure(responseText, responseCode, requestId, responseTime, errorMessage);
-
 	}
 
 	public void aboutToRequest(JsonHttpRequest request) {

@@ -24,7 +24,8 @@ implements Runnable {
 	protected String requestId;
 	protected String responseText = null;
 	protected int responseCode = 0;
-
+	public static String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36";
+	
 	public JsonHttpRequest(String requestURL, JSONObject jsonOut, HashMap<String, String> headers, IJsonRequestDelegate delegate) {
 		this.requestURL = requestURL;
 		this.jsonOut = jsonOut;
@@ -45,7 +46,7 @@ implements Runnable {
 			// Pretend we're a web browser and let the server know we want json returned
 			httpcon.setDoOutput(true);
 			httpcon.setRequestProperty("Accept", "application/json");
-			httpcon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+			httpcon.setRequestProperty("User-Agent", userAgent);
 			// add custom headers
 			if(this.headers != null) {
 				for (HashMap.Entry<String, String> entry : this.headers.entrySet()) {
@@ -84,7 +85,7 @@ implements Runnable {
 			if(delegate != null) delegate.postSuccess(responseText, responseCode, requestId, responseTime);
 		} catch (IOException e) {
 			// fail!
-			// e.printStackTrace();
+			e.printStackTrace();
 			int responseTime = P.p.millis() - startTime;
 			if(delegate != null) delegate.postFailure(responseText, responseCode, requestId, responseTime, e.toString());
 		}
