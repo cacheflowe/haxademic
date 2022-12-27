@@ -129,6 +129,12 @@ public class FileUtil {
 		return path;
 	}
 	
+	public static String safeDirPath(String path) {
+	    path = safePath(path);
+	    if(path.lastIndexOf(File.separator) != path.length() - 1) path += File.separator;
+	    return path;
+	}
+	
 	public static String getPathExtension(String path) {
 		int i = path.lastIndexOf('.');
 		if (i > 0) {
