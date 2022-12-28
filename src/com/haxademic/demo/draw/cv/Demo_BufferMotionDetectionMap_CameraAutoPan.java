@@ -95,7 +95,6 @@ implements IWebCamCallback {
 	    // lazy init and update motion detection buffers/calcs
 	    if(motionDetectionMap == null) {
 	        motionDetectionMap = new BufferMotionDetectionMap(webcamBuffer, 0.1f);
-	        DebugView.setTexture("motionDetectionMap", motionDetectionMap.bwBuffer());
 	    }
 	    // float mouseX = Mouse.xNorm;
 	    motionDetectionMap.setBlendLerp(0.25f);
