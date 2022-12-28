@@ -15,7 +15,7 @@ import com.haxademic.core.math.MathUtil;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_WebCamBufferMotionDetectionMap 
+public class Demo_BufferMotionDetectionMap_WebCam 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
