@@ -40,8 +40,7 @@ implements IWebCamCallback {
         webcamBuffer = PG.newPG(640, 480);
 		
 		// cv buffer: color detection
-        float detectionScaleDown = 0.1f;
-        colorObjectDetection = new ColorObjectDetection(pg, detectionScaleDown);
+        colorObjectDetection = new ColorObjectDetection(pg, 64, 64);
         DebugView.setTexture("analysisBuffer", colorObjectDetection.analysisBuffer());
 	}
 	
@@ -55,7 +54,7 @@ implements IWebCamCallback {
 	    if(motionDetectionMap == null) return;
 	    
         colorObjectDetection.setColorCompare(1, 1, 1);
-        colorObjectDetection.minPointsThreshold(100);
+        colorObjectDetection.minPointsThreshold(70);
         colorObjectDetection.debugging(true);
         colorObjectDetection.update(motionDetectionMap.bwBuffer());
         

@@ -5,7 +5,6 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
-import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -25,19 +24,18 @@ public class ColorObjectDetection {
 	protected int minPointsThreshold = 10;
 	protected float totalCounted = 0;
 	protected float totalChecked = 0;
-	protected int bufferW;
-	protected int bufferH;
 	protected boolean debugging = false;
 	protected PShader colorDistanceFilter;
 	protected EasingFloat x = new EasingFloat(0.5f, 0.5f);
 	protected EasingFloat y = new EasingFloat(0.5f, 0.5f);
 
 	public ColorObjectDetection(PImage sourceImg, float scale) {
-		this.scale = scale;
-		bufferW = P.round(scale * sourceImg.width);
-		bufferH = P.round(scale * sourceImg.height);
-		source = PG.newPG2DFast(bufferW, bufferH);
-		analysisBuffer = PG.newPG2DFast(bufferW, bufferH);
+	    this(sourceImg, P.round(scale * sourceImg.width), P.round(scale * sourceImg.height));
+	}
+	
+	public ColorObjectDetection(PImage sourceImg, int w, int h) {
+		source = PG.newPG2DFast(w, h);
+		analysisBuffer = PG.newPG2DFast(w, h);
 		colorDistanceFilter = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
 	}
@@ -117,8 +115,6 @@ public class ColorObjectDetection {
 		
 		// copy webcam to current buffer
 		ImageUtil.copyImage(newFrame, source);
-		SaturationFilter.instance(P.p).setSaturation(2f);
-		SaturationFilter.instance(P.p).applyTo(source);
 
 		// run color distance shader and post-process to map color closeness to white
 		// should this use a shader posterize effect?
