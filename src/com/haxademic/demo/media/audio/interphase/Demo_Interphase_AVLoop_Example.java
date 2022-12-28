@@ -13,7 +13,6 @@ import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
 import com.haxademic.core.hardware.http.HttpInputState;

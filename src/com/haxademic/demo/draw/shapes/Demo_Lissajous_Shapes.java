@@ -7,9 +7,7 @@ import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.OrientationUtil;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 

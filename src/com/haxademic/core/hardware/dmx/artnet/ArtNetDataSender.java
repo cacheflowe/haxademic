@@ -1,7 +1,6 @@
 package com.haxademic.core.hardware.dmx.artnet;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;

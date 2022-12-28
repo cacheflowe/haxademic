@@ -47,7 +47,7 @@ implements Runnable {
 			httpcon.setDoOutput(true);
 			httpcon.setRequestProperty("Accept", "application/json");
 			httpcon.setRequestProperty("User-Agent", userAgent);
-			// add custom headers
+			// add custom headers 
 			if(this.headers != null) {
 				for (HashMap.Entry<String, String> entry : this.headers.entrySet()) {
 					String key = entry.getKey();

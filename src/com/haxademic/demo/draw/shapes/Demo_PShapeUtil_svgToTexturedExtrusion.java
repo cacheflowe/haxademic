@@ -4,16 +4,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.render.FrameLoop;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
