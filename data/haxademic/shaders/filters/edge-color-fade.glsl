@@ -47,7 +47,7 @@ void main() {
 	// this is lame, but looks better
 	float finalEdgeAmp = mix(edgeAmp, edgeAmp2, edgeAmp2);
 	// finalEdgeAmp = edgeAmp2;
-	
+
   /*
 	// ----------------------------------------------------
 	// TODO - a better solutionwould be to translate coordinates:
@@ -65,5 +65,5 @@ void main() {
 	*/
 	
 	gl_FragColor = mix(color, replaceColor, finalEdgeAmp *  crossfade);
-	gl_FragColor = vec4(finalEdgeAmp);
+	// gl_FragColor = vec4(finalEdgeAmp);
 }
