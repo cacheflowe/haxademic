@@ -13,7 +13,8 @@ extends BaseFragmentShader {
 		super(p, "haxademic/shaders/filters/edge-color-fade.glsl");
 		setSpreadX(0.05f);
 		setSpreadY(0.05f);
-		setEdgeColor(255f, 255f, 255f);
+		setEdgeColor(1f, 1f, 1f);
+		setCrossfade(1f);
 	}
 	
 	public static EdgeColorFadeFilter instance(PApplet p) {
@@ -29,9 +30,13 @@ extends BaseFragmentShader {
 	public void setSpreadY(float spreadY) {
 		shader.set("spreadY", spreadY);
 	}
-
+	
 	public void setEdgeColor(float colorR, float colorG, float colorB) {
-		shader.set("edgeColor", colorR/255f, colorG/255f, colorB/255f);
+		shader.set("edgeColor", colorR, colorG, colorB);
 	}
 
+	public void setCrossfade(float crossfade) {
+		shader.set("crossfade", crossfade);
+	}
+	
 }
