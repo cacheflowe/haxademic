@@ -27,17 +27,27 @@ public class StringBufferLog {
 		}
 	}
 	
+	public String itemAt(int index) {
+	    int localIndex = curIndex + index;
+	    while(localIndex < 0) localIndex += lines.length;
+	    localIndex = localIndex % lines.length;
+	    return lines[localIndex];
+	}
+	
 	public void update(String newStr) {
 		lines[curIndex] = newStr;
-		
 		curIndex++;
 		if(curIndex >= lines.length) curIndex = 0;
 	}
 	
 	public void printToScreen(PGraphics pg, float x, float y) {
-		printToScreen(pg, x, y, true, 0);
+		printToScreen(pg, x, y, true);
 	}
 
+	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont) {
+        printToScreen(pg, x, y, true, 0);
+	}
+	
 	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont, float maxW) {
 		if(useDefaultFont) {
 			PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, fontSize);
