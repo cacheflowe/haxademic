@@ -14,6 +14,7 @@ extends PAppletHax {
 		background(0);
 		if(MathUtil.randBooleanWeighted(0.05f)) logOut.update("Frame " + p.frameCount);
 		logOut.printToScreen(p.g, 20, 20);
+//		logOut.printToScreen(p.g, 20, 20, true, 40);
 	}
 
 	public void keyPressed() {

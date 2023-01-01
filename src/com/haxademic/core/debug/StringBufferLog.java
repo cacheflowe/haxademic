@@ -35,10 +35,10 @@ public class StringBufferLog {
 	}
 	
 	public void printToScreen(PGraphics pg, float x, float y) {
-		printToScreen(pg, x, y, true);
+		printToScreen(pg, x, y, true, 0);
 	}
 
-	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont) {
+	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont, float maxW) {
 		if(useDefaultFont) {
 			PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, fontSize);
 			FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
@@ -50,6 +50,10 @@ public class StringBufferLog {
 			outputStr += lines[loopedIndx] + "\n";
 		}
 		
-		pg.text(outputStr, x, y);
+		if(maxW > 0) {
+		    pg.text(outputStr, x, y, maxW, 9999);
+		} else {
+		    pg.text(outputStr, x, y);
+		}
 	}
 }
