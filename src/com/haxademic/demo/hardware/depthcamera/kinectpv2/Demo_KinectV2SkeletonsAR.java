@@ -39,7 +39,7 @@ implements IKinectV2SkeletonsARDelegate {
 	protected void firstFrame() {
 		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, buildArPool(), true);
 		kinectSkeletonsAR.setDelegate(this);
-		ColorAdjustmentFilter.initUI();
+		ColorAdjustmentFilter.buildUI();
 	}
 	
 	protected ArElementPool buildArPool() {
