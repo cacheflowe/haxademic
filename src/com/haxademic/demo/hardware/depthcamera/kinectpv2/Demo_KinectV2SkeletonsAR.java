@@ -5,11 +5,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.compound.ColorAdjustmentFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR.IKinectV2SkeletonsARDelegate;
-import com.haxademic.core.hardware.depthcamera.ar.ArElementCompound;
-import com.haxademic.core.hardware.depthcamera.ar.ArElementCustom;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementImage;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementObj;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementPool;
@@ -38,39 +35,51 @@ implements IKinectV2SkeletonsARDelegate {
 	
 	protected void firstFrame() {
 		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, buildArPool(), true);
+//		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, buildArPoolNew(), true);
 		kinectSkeletonsAR.setDelegate(this);
 		ColorAdjustmentFilter.buildUI();
 	}
 	
 	protected ArElementPool buildArPool() {
 		arPool = new ArElementPool();
-			{
-				ArElementImage arAsset = new ArElementImage(DemoAssets.smallTexture(), 0.15f, BodyTrackType.HEAD);
-				arPool.addElement(arAsset);
-			}
-			{
-				ArElementCompound arAsset = new ArElementCompound();
-				arPool.addElement(arAsset);
-			}
-			{
-				ArElementCustom arAsset = new ArElementCustom(0.1f);
-				arAsset.setPositionOffset(0, -1, 0);
-				arPool.addElement(arAsset);
-			}
+//			{
+//				ArElementImage arAsset = new ArElementImage(DemoAssets.smallTexture(), 0.15f, BodyTrackType.HEAD);
+//				arPool.addElement(arAsset);
+//			}
 			{
 				ArElementImage arAsset = new ArElementImage(DemoAssets.arrow(), 0.1f, BodyTrackType.HAND_POINT_RIGHT);
-				arAsset.setRotationOffset(0, 0, -P.HALF_PI);
+				arAsset.setRotationOffset(0, 0, 0);
 				arAsset.setPositionOffset(0.5f, 0, 0);
 				arPool.addElement(arAsset);
 			}
+//			{
+//				ArElementCompound arAsset = new ArElementCompound();
+//				arPool.addElement(arAsset);
+//			}
+//			{
+//				ArElementCustom arAsset = new ArElementCustom(0.1f);
+//				arAsset.setPositionOffset(0, -1, 0);
+//				arPool.addElement(arAsset);
+//			}
+//			{
+//				ArElementImage arAsset = new ArElementImage("haxademic/images/floaty-blob.anim/", 0.17f, BodyTrackType.HEAD, 24);
+//				arAsset.setPositionOffset(0, -1f, 0);
+//				arPool.addElement(arAsset);
+//			}
 			{
-				ArElementImage arAsset = new ArElementImage("haxademic/images/floaty-blob.anim/", 0.1f, BodyTrackType.HEAD, 24);
-				arAsset.setPositionOffset(0, -1f, 0);
+				ArElementImage arAsset = new ArElementImage("images/_sketch/falcons/FreddieFalcon/", 0.21f, BodyTrackType.HEAD, 24);
+//				arAsset.setPositionOffset(0, -1f, 0);
+				arPool.addElement(arAsset);
+			}
+			{
+				ArElementImage arAsset = new ArElementImage("images/_sketch/falcons/falcons-headset/", 0.14f, BodyTrackType.HEAD, 24);
+//				arAsset.setPositionOffset(0, -1f, 0);
 				arPool.addElement(arAsset);
 			}
 			{
 				// add skull helmet
-				PShape shape = P.p.loadShape(FileUtil.getPath(DemoAssets.objSkullRealisticPath));
+//				PShape shape = P.p.loadShape(FileUtil.getPath(DemoAssets.objSkullRealisticPath));
+				PShape shape = PShapeUtil.loadModelAndTexture("models/Helmet_Hole/ATL_Helmet_hole_03.obj", "models/Helmet_Hole/helmet_v2_default_BaseColor.1001-rework.png");
 				PShapeUtil.centerShape(shape);
 				PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
 				// PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Y);
@@ -78,8 +87,24 @@ implements IKinectV2SkeletonsARDelegate {
 				// float modelW = PShapeUtil.getWidth(shape);
 				// float modelH = PShapeUtil.getHeight(shape);
 				// PShapeUtil.offsetShapeVertices(shape, modelW * 0.75f, modelH * -0.75f, 0);
-				ArElementObj arAsset = new ArElementObj(shape, 0.17f, BodyTrackType.HEAD);
-				arAsset.setPositionOffset(0, 0, 0);
+				ArElementObj arAsset = new ArElementObj(shape, 0.11f, BodyTrackType.HEAD);
+				arAsset.setPositionOffset(0, -0.1f, 0);
+				arAsset.setRotationOffset(-0.2f, 0, 0);
+				arPool.addElement(arAsset);
+			}
+			{
+				// add headset
+//				PShape shape = P.p.loadShape(FileUtil.getPath(DemoAssets.objSkullRealisticPath));
+				PShape shape = PShapeUtil.loadModelAndTexture("models/Helmet_Hole/amfam-falcons-headset-test01.obj", "models/Helmet_Hole/helmet_v2_default_BaseColor.1001-rework.png");
+				PShapeUtil.centerShape(shape);
+				PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
+				// PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Y);
+				// PShapeUtil.meshFlipOnAxis(shape, P.Y);
+				// float modelW = PShapeUtil.getWidth(shape);
+				// float modelH = PShapeUtil.getHeight(shape);
+				// PShapeUtil.offsetShapeVertices(shape, modelW * 0.75f, modelH * -0.75f, 0);
+				ArElementObj arAsset = new ArElementObj(shape, 0.11f, BodyTrackType.HEAD);
+				arAsset.setPositionOffset(0, -0.1f, 0);
 				arPool.addElement(arAsset);
 			}
 			return arPool;
@@ -95,11 +120,18 @@ implements IKinectV2SkeletonsARDelegate {
 		
 		
 		// adjust ar element on the fly
-//		arPool.elementAt(2).setPositionOffset(0, 0.075f, 0f);
-//		arPool.elementAt(3).setPositionOffset(0, 0f, 0f);
-//		arPool.elementAt(3).setBaseScale(0.65f);
+//		arPool.elementAt(0).setRotationOffset(0, 0, P.HALF_PI);
+//		arPool.elementAt(2).setPositionOffset(0, -1.6f, 0f);
+//		arPool.elementAt(3).setPositionOffset(0, -0.6f, 0f).setBaseScale(0.06f);
+//		arPool.elementAt(4).setPositionOffset(0.43f, -0.5f, 0);
+//		arPool.elementAt(5).setPositionOffset(0.7f, -0.45f, 0f);
+//		arPool.elementAt(3).setRotationOffset(-0.2f, 0, 0);
+//		arPool.elementAt(0).setBaseScale(0.35f);
 //		arPool.elementAt(1).setPivotOffset(0, 0.1f, 0);
-//		arPool.elementAt(2).setRotationOffset(0, 0, -P.HALF_PI);
+//		arPool.elementAt(2).setPositionOffset(0, -1.6f, 0f);
+//		arPool.elementAt(3).setPositionOffset(0, -0.6f, 0f).setBaseScale(0.06f);
+//		arPool.elementAt(4).setPositionOffset(0.43f, -0.5f, 0);
+//		arPool.elementAt(5).setPositionOffset(0.7f, -0.45f, 0f);
 	}
 
 	//////////////////////////////////////////
