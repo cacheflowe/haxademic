@@ -276,7 +276,10 @@ public class Particle {
 	}
 
 	public void kill() {
-	    lifespanProgress.setCurrent(0).setTarget(0);
+	    lifespanProgress
+	        .setDelay(0)
+	        .setCurrent(0)
+	        .setTarget(0);
 	}
 	
 	///////////////////////////////
