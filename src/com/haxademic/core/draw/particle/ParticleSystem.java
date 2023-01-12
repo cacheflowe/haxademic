@@ -163,6 +163,14 @@ public class ParticleSystem {
 		pg.blendMode(PBlendModes.BLEND);
 	}
 	
+	// special actions
+	
+	public void killAll() {
+        for (int i = 0; i < particles.size(); i++) {
+            particles.get(i).kill();
+        }
+	}
+	
 	/////////////////////////////////////////////////////////////
 	// Init/recycle particles from the pool, and launch them! 
 	/////////////////////////////////////////////////////////////

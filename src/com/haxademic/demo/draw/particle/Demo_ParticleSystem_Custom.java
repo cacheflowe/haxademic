@@ -9,6 +9,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.Particle;
 import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
@@ -35,6 +36,9 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		background(0);
+		
+		// allow a reset
+		if(KeyboardState.keyTriggered(' ')) particles.killAll();
 		
 		// draw image/map base
 		pg.beginDraw();

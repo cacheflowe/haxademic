@@ -275,6 +275,10 @@ public class Particle {
 		pg.pop();
 	}
 
+	public void kill() {
+	    lifespanProgress.setCurrent(0).setTarget(0);
+	}
+	
 	///////////////////////////////
 	// draw
 	///////////////////////////////
