@@ -31,6 +31,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		background(0);
 		
+		// update elastic params from sliders
 		_elasticX.setFriction(UI.value(fric));
 		_elasticY.setFriction(UI.value(fric));
 		_elasticBottom.setFriction(UI.value(fric));
@@ -38,20 +39,24 @@ extends PAppletHax {
 		_elasticY.setAccel(UI.value(accel));
 		_elasticBottom.setAccel(UI.value(accel));
 		
+		// move mouse circle
 		_elasticX.setTarget(p.mouseX);
 		_elasticY.setTarget(p.mouseY);
+		
+		// move automatic bottom circle
 		int bottomVal = P.round(p.frameCount * 0.01f) % 2;
 		_elasticBottom.setTarget((bottomVal % 2) * p.width);
 		
+		// update all elactic floats
 		_elasticX.update();
 		_elasticY.update();
 		_elasticBottom.update();
 		
+		// draw both
 		PG.setDrawCenter(p);
 		p.fill(255);
 		p.ellipse(_elasticX.value(), _elasticY.value(), 40, 40);
 		p.ellipse(_elasticBottom.value(), p.height - 20, 40, 40);
-
 	}
 
 }

@@ -3,6 +3,7 @@ package com.haxademic.core.math.easing;
 public class ElasticFloat
 implements IEasingValue {
 	
+    // Hooke's law: F = -kx
 	// .75/.40 = bouncy elastic
 	// .50/.90 = short elastic
 	// .50/.50 = smooth elastic
