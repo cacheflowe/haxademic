@@ -2,7 +2,6 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.shell.IScriptCallback;
 import com.haxademic.core.system.shell.ScriptRunner;
 

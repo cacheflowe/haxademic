@@ -17,7 +17,6 @@ extends PAppletHax {
 	protected ActionListener callback;
 	
 	protected void firstFrame() {
-
 		buildCallbacks();
 	}
 	
