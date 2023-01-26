@@ -68,7 +68,7 @@ public class SocketClient {
 
 				@Override
 				public void onError( Exception ex ) {
-					if(SOCKET_DEBUG == true) P.println( "connection error" );
+					if(SOCKET_DEBUG == true) P.println( "connection error", ex.getMessage() );
 					ex.printStackTrace();
 				}
 			};
