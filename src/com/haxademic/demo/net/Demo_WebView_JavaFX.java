@@ -104,6 +104,8 @@ implements IWebViewDelegate {
 			// receive streaming number from webview
 			float red = P.store.hasNumber("time") ? P.store.getFloat("time") * 30f : 255;
 			p.background(0, red % 255, 0);
+			
+			DebugView.setTexture("webView.getImage()", webView.getImage());
 		} else {
 			p.background(255,0,0);
 		}

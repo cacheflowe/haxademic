@@ -1,9 +1,12 @@
 package com.haxademic.core.net;
 
 
+import java.awt.image.BufferedImage;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
 import javafx.application.Application;
@@ -12,11 +15,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
@@ -27,6 +32,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import netscape.javascript.JSException;
 import netscape.javascript.JSObject;
+import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class WebViewWindow 
@@ -80,6 +86,30 @@ extends Application {
 		return this;
 	}
 		
+	///////////////////////////////////////////////
+	// JavaFX Image getter - saves the webview as an image
+	///////////////////////////////////////////////
+	
+	WritableImage img;
+	BufferedImage bImg;
+	PImage pimg;
+	
+	public PImage getImage() {
+	    Platform.runLater(() -> {
+    	    if(img == null) img = new WritableImage((int)stage.getWidth(), (int)stage.getHeight());
+            Image image = stage.getScene().snapshot(img);
+            
+            bImg = SwingFXUtils.fromFXImage(img, bImg);
+            
+            if(pimg == null) {
+                pimg = ImageUtil.bufferedToPImage(bImg);
+            } else {
+                ImageUtil.copyBufferedToPImagePixels(bImg, pimg);
+            }
+	    });
+        return pimg;
+	}
+	
 	///////////////////////////////////////////////
 	// JavaFX Application overrides
 	///////////////////////////////////////////////
