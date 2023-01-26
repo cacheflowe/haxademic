@@ -56,6 +56,7 @@ extends Application {
 	///////////////////////////////////////////////
 	
 	public static int numWebViews = 0;
+	public static boolean launched = false;
 
 	public static void launchWebView(String url) {
 		launchWebView(url, null);
@@ -73,8 +74,10 @@ extends Application {
 		};
 		
 		// subsequent window launches need to be called slightly differently
-		if(numWebViews == 0) {
+//		if(numWebViews == 0) {
+		if(!launched) {
 			Platform.startup(webViewThread);
+			launched = true;
 		} else {
 			Platform.runLater(webViewThread);
 		}
@@ -97,7 +100,7 @@ extends Application {
 	public PImage getImage() {
 	    Platform.runLater(() -> {
     	    if(img == null) img = new WritableImage((int)stage.getWidth(), (int)stage.getHeight());
-            Image image = stage.getScene().snapshot(img);
+            stage.getScene().snapshot(img); // Image image = 
             
             bImg = SwingFXUtils.fromFXImage(img, bImg);
             

@@ -21,7 +21,12 @@ implements IWebViewDelegate {
 	// - What's up with JFXPanel from VirtualCursor? Does this help us?
 	// Hopeful:
 	// - Can we get an image of the current frame of execution? Use a webview as a texture?
-	// - WebView - how to support WebGL??
+	// - WebView - how to support WebGL?? (can't for now...)
+	
+	// Setup:
+    // Need to add this to the VM arguments!
+    // --module-path "D:\workspace\haxademic\lib\processing-4\libraries\javafx\library\windows-amd64\modules" --add-modules=javafx.controls,javafx.web,javafx.media
+
 	
 	protected WebViewWindow webView;
 	protected WebServer webServer;
@@ -54,7 +59,7 @@ implements IWebViewDelegate {
 	public void webViewCreated(WebViewWindow webView) {
 		this.webView = webView;
 		webView.setWindowTitle("WebViewWindow test title!");
-		webView.setSize(200, 200);
+		webView.setSize(600, 600);
 		webView.setLocation(10, 10);
 		webView.hide();
 	}
@@ -92,6 +97,7 @@ implements IWebViewDelegate {
 		if(p.key == '-') webView.hide();
 		if(p.key == '+') webView.loadURL("http://localhost:" + WebServer.PORT + "/webview-ga-demo/");
 		if(p.key == '=') webView.loadURL("http://localhost:" + WebServer.PORT + "/webview-ga-demo/no-track.html");
+		if(p.key == 'i') DebugView.setTexture("webView.getImage()", webView.getImage());
 	}
 	
 	protected void drawApp() {
