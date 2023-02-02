@@ -75,6 +75,16 @@ public class SystemUtil {
 		}
 	}
 	
+	public static void killAllJavaWindows() {
+	    try {
+	        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "taskkill /f /im javaw.exe && taskkill /f /im java.exe");
+	        builder.start();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	}
+	
 	public static void printRunningProcesses() {
 	    try {
 	        String line;
