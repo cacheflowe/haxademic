@@ -16,6 +16,8 @@ public class ImageSequenceRecorder {
         public void savedToDisk(ImageSequenceRecorder recorder);
     }
 
+    public static boolean DEBUG = false;
+    
 	protected int width;
 	protected int height;
 	protected int numFrames;
@@ -140,6 +142,7 @@ public class ImageSequenceRecorder {
 	        PImage img = images[saveIndex].get(); // needed for threaded saving. memory implications don't seem bad after testing
 	        new Thread(new Runnable() { public void run() {
 	            img.save(filePath);
+	            if(DEBUG) P.out("saved:", filePath);
 	            savingBusy = false;
 	        }}).start();
 	    }
