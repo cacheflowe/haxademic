@@ -33,11 +33,16 @@ public class Metronome {
 	protected LinearFloat bpmEased = new LinearFloat(0, Interphase.TEMPO_EASE_FACTOR);
 
 	public Metronome() {
+	    this(false);
+	}
+	
+	public Metronome(boolean autoPlay) {
 		P.store.setBoolean(Interphase.SYSTEM_MUTED, false);
 		initAudioContext();
 		initTempos();
 		initClock();
 		P.p.registerMethod(PRegisterableMethods.pre, this);
+		if(autoPlay) togglePlay();
 	}
 	
 	public void pre() {
