@@ -19,6 +19,7 @@ implements ISocketClientDelegate {
 	public static AppStoreDistributed instance;
 	public static int MODE_SERVER = 0;
 	public static int MODE_CLIENT = 1;
+	public static boolean setLocalAuto = true; // if the ws:// server is external (ex: Node), we don't want to store immediately, but wait for the bounce-back, like the .js version 
 	protected SocketServer server;
 	protected SocketClient client;
 	
@@ -92,7 +93,7 @@ implements ISocketClientDelegate {
 	
 	public void setNumber(String storeKey, Number val) {
 		// pass along to AppStore
-		P.store.setNumber(storeKey, val);
+		if(setLocalAuto) P.store.setNumber(storeKey, val);
 		// send to other machines
 	    JSONObject jsonOut = new JSONObject();
 	    jsonOut.setBoolean(STORE_KEY, true);
@@ -105,7 +106,7 @@ implements ISocketClientDelegate {
 	
 	public void setString(String storeKey, String val) {
 		// pass along to AppStore
-		P.store.setString(storeKey, val);
+	    if(setLocalAuto) P.store.setString(storeKey, val);
 		// send to other machines
 	    JSONObject jsonOut = new JSONObject();
 	    jsonOut.setBoolean(STORE_KEY, true);
@@ -118,7 +119,7 @@ implements ISocketClientDelegate {
 	
 	public void setBoolean(String storeKey, Boolean val) {
 		// pass along to AppStore
-		P.store.setBoolean(storeKey, val);
+	    if(setLocalAuto) P.store.setBoolean(storeKey, val);
 		// send to other machines
 	    JSONObject jsonOut = new JSONObject();
 	    jsonOut.setBoolean(STORE_KEY, true);
