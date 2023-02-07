@@ -31,7 +31,7 @@ implements IAppStoreListener {
 
 	protected Metronome metronome;
 	protected Sample sample;
-	protected SamplePlayer sp;
+	protected SamplePlayer samplePlayer;
 	protected float sampleQuarter;
 	protected Glide glide;
 
@@ -45,8 +45,7 @@ implements IAppStoreListener {
 		AudioUtil.setPrimaryMixer();
 
 		// build metronome
-		metronome = new Metronome();
-		metronome.togglePlay();
+		metronome = new Metronome(true);
 		P.store.setNumber(Interphase.BPM, 96);
 		Interphase.TEMPO_MOUSE_CONTROL = true;
 		
@@ -70,26 +69,26 @@ implements IAppStoreListener {
 		/*
 		 * Choose a loop type.
 		 */
-		sp = new SamplePlayer(ac, sample);
-		sp.setLoopType(LoopType.LOOP_FORWARDS);
+		samplePlayer = new SamplePlayer(ac, sample);
+		samplePlayer.setLoopType(LoopType.LOOP_FORWARDS);
 //		sp.setLoopCrossFade(100);
-		sp.getLoopStartUGen().setValue(sampleQuarter * 1);
-		sp.getLoopEndUGen().setValue(sampleQuarter * 4);
+		samplePlayer.getLoopStartUGen().setValue(sampleQuarter * 1);
+		samplePlayer.getLoopEndUGen().setValue(sampleQuarter * 4);
 		
 		
 		// set pitch if needed
 		int glideTime = 0;
 		float pitchOffset = WavPlayer.pitchRatioFromIndex(0);
 		glide = new Glide(ac, pitchOffset);
-		glide.setKillListener(sp);
+		glide.setKillListener(samplePlayer);
 		glide.setGlideTime(glideTime);
 		
 		// set pitch
-		sp.setRate(glide);
+		samplePlayer.setRate(glide);
 		
 		// // get sample output going
-		ac.out.addInput(sp);
-		sp.start();
+		ac.out.addInput(samplePlayer);
+		samplePlayer.start();
 
 		P.store.addListener(this);
 	}
@@ -101,30 +100,30 @@ implements IAppStoreListener {
 		
 		// repitch based on current bpm
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
-		Metronome.shiftPitchToMatchBpm(sp, glide, bpm * 2, 8);
+		Metronome.shiftPitchToMatchBpm(samplePlayer, glide, bpm * 2, 8);
 
 	}
 
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == '4') {
-			sp.start();
+			samplePlayer.start();
 		}
 		if(p.key == '5') {
-			sp.getLoopStartUGen().setValue(sampleQuarter * 2);
-			sp.getLoopEndUGen().setValue(sampleQuarter * 3);
+			samplePlayer.getLoopStartUGen().setValue(sampleQuarter * 2);
+			samplePlayer.getLoopEndUGen().setValue(sampleQuarter * 3);
 		}
 		if(p.key == '6') {
-			sp.getLoopStartUGen().setValue(sampleQuarter * 3);
-			sp.getLoopEndUGen().setValue(sampleQuarter * 4);
+			samplePlayer.getLoopStartUGen().setValue(sampleQuarter * 3);
+			samplePlayer.getLoopEndUGen().setValue(sampleQuarter * 4);
 		}
 		if(p.key == '7') {
-			sp.getLoopStartUGen().setValue(sampleQuarter * 0);
-			sp.getLoopEndUGen().setValue(sampleQuarter * 1);
+			samplePlayer.getLoopStartUGen().setValue(sampleQuarter * 0);
+			samplePlayer.getLoopEndUGen().setValue(sampleQuarter * 1);
 		}
 		if(p.key == '8') {
-			sp.getLoopStartUGen().setValue(sampleQuarter * 0);
-			sp.getLoopEndUGen().setValue(sampleQuarter * 2);
+			samplePlayer.getLoopStartUGen().setValue(sampleQuarter * 0);
+			samplePlayer.getLoopEndUGen().setValue(sampleQuarter * 2);
 		}
 		
 	}
@@ -140,9 +139,9 @@ implements IAppStoreListener {
 				// chop it up on the beat!
 				sampleQuarter = (float) sample.getLength() / 4f;
 				float startTime = sampleQuarter * MathUtil.randRange(0, 2);
-				sp.getLoopStartUGen().setValue(startTime);
-				sp.getLoopEndUGen().setValue(startTime + sampleQuarter);
-				sp.setPosition(startTime);
+				samplePlayer.getLoopStartUGen().setValue(startTime);
+				samplePlayer.getLoopEndUGen().setValue(startTime + sampleQuarter);
+				samplePlayer.setPosition(startTime);
 			}
 		}
 	}

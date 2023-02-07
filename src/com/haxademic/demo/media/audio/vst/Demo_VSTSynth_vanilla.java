@@ -38,7 +38,9 @@ implements JVstHostListener {
 		new Thread(new Runnable() { public void run() {
 			// these are happy
 //			String vstFile = FileUtil.getPath("vst/synth/Zebra2(x64).dll");
-			String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
+//			String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
+//			String vstFile = FileUtil.getPath("vst/synth/xhip_8_64bit.dll");
+			String vstFile = FileUtil.getPath("vst/synth/Dolphin-x64.dll");
 //			String vstFile = FileUtil.getPath("vst/synth/Charlatan.dll");
 //			String vstFile = FileUtil.getPath("vst/synth/YoozBL303_x64.dll");
 			// these ones don't like their window opened, or at least opened automatically:
@@ -80,15 +82,15 @@ implements JVstHostListener {
 			if(FrameLoop.frameMod(60) == 49) stopMidiNote();
 			
 			// extract & draw waveform
-			vst.processReplacing(vstOutput, vstOutput, BLOCK_SIZE);
-			p.fill(0);
-			p.stroke(255);
-			for (int i = 0; i < vstOutput[0].length; i++) {
-				p.point(i, p.height / 2 + vstOutput[0][i] * 300f);
-			}
-			for (int i = 0; i < vstOutput[1].length; i++) {
-				p.point(i, p.height / 2 + vstOutput[1][i] * 300f);
-			}
+//			vst.processReplacing(vstOutput, vstOutput, BLOCK_SIZE);
+//			p.fill(0);
+//			p.stroke(255);
+//			for (int i = 0; i < vstOutput[0].length; i++) {
+//				p.point(i, p.height / 2 + vstOutput[0][i] * 300f);
+//			}
+//			for (int i = 0; i < vstOutput[1].length; i++) {
+//				p.point(i, p.height / 2 + vstOutput[1][i] * 300f);
+//			}
 		}
 		if(Mouse.xNorm > 0.9f) oscAllParams();
 		

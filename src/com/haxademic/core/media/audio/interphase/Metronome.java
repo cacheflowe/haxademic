@@ -56,7 +56,6 @@ public class Metronome {
 	}
 	
 	public void initTempos() {
-		// helpers to calculate stopping points if user interaction with each wall "excites" the bpm
 		float tempoSpread = tempoMax - tempoMin;
 		float tempoIncrement = tempoSpread / Interphase.NUM_CHANNELS; 
 		for (int i = 0; i < TEMPOS.length; i++) {
@@ -96,6 +95,7 @@ public class Metronome {
 		paused = !paused;
 		if(paused == false) clock.reset();
 		clock.pause(paused);
+		DebugView.setValue("METRONOME :: paused", paused);
 	}
 	
 	protected void updateBpm(Clock c) {
