@@ -32,7 +32,7 @@ public class PG {
 	public static PGraphics newPG2DFast(int w, int h) {
 		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P2D);
 //		newPG.noSmooth();
-	    ((PGraphicsOpenGL)newPG).textureSampling(2);
+			((PGraphicsOpenGL)newPG).textureSampling(2);
 		newPG.beginDraw();
 		newPG.background(0, 0);
 		newPG.noStroke();
@@ -49,7 +49,7 @@ public class PG {
 //		PGraphics newPG = P.p.createGraphics(w, h, P.P32);
 		PGraphics newPG = PGraphics32.createGraphics(P.p, w, h);
 		newPG.noSmooth();
-	    ((PGraphicsOpenGL)newPG).textureSampling(2);
+			((PGraphicsOpenGL)newPG).textureSampling(2);
 		newPG.beginDraw();
 //		newPG.hint(P.DISABLE_TEXTURE_MIPMAPS);
 		newPG.hint(PConstants.DISABLE_DEPTH_SORT);
@@ -96,7 +96,7 @@ public class PG {
 	
 	public static void setNearestNeighborScaling( PGraphics pg ) {
 		pg.noSmooth();
-	    ((PGraphicsOpenGL)pg).textureSampling(2);
+		((PGraphicsOpenGL)pg).textureSampling(2);
 	}
 	
 	public static void resetGlobalProps( PApplet p ) {
