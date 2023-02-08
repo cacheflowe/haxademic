@@ -44,7 +44,7 @@ REM ======== Pause command to keep script window open if java program quits [REM
 REM pause
 
 REM ======== Try restarting if the program quits
-REM taskkill /f /im javaw.exe
+REM taskkill /f /t /im javaw.exe
 timeout 15
 echo Restarting at %DATE%,%TIME%
 goto :restart

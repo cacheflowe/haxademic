@@ -1,6 +1,7 @@
 REM from: https://stackoverflow.com/questions/27649264/run-chrome-in-fullscreen-mode-on-windows
 REM also: https://stackoverflow.com/questions/13436855/launch-google-chrome-from-the-command-line-with-specific-window-coordinates/19789383
 REM note: get the top version w/codecs: http://chromium.woolyss.com/
+REM more flags and Node launcher: https://github.com/GoogleChrome/chrome-launcher/blob/master/src/flags.ts
 
 @echo off
 
@@ -14,7 +15,7 @@ echo Step 3 of 5: Waiting a few seconds before killing the browser task...
 "C:\windows\system32\ping" -n 11 -w 1000 127.0.0.1 >NUL
 
 echo Step 4 of 5: Killing the browser task gracefully to avoid session restore...
-Taskkill /IM chrome.exe
+Taskkill /F /T /IM chrome.exe
 
 echo Step 5 of 5: Waiting a few seconds before restarting the browser...
 "C:\windows\system32\ping" -n 11 -w 1000 127.0.0.1 >NUL

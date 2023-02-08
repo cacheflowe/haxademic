@@ -1,3 +1,3 @@
 echo Killing the browser task
-taskkill /F /IM chrome.exe /T
+taskkill /F /T /IM chrome.exe
 exit
