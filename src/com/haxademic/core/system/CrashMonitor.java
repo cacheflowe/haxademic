@@ -52,7 +52,7 @@ public class CrashMonitor {
 		public int timeout;
 		public int updateTime;
 		public int lastUpdateTime;
-		public boolean attemptRestart = false;
+		public boolean hasAttemptedRestart = false;
 
 		public CrashMonitorWindow(PAppletHax p) {
 			this(p, 3000, false);
@@ -94,12 +94,13 @@ public class CrashMonitor {
 				}
 			} else {
 				background(127, 0, 0);
-				if(attemptRestart == false) {
-					attemptRestart = true;
+				if(hasAttemptedRestart == false) {
+					hasAttemptedRestart = true;
 					if(restarts) {
 						AppRestart.restart(p);
 					} else {
-						AppRestart.quit(p);
+						// AppRestart.quit(p);
+						SystemUtil.killAllJavaWindowsScript();
 					}
 				}
 			}
