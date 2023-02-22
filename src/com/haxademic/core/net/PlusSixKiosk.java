@@ -126,6 +126,8 @@ implements ISocketClientDelegate, IAppStoreListener {
 	protected float activityTimeoutProgress = 0;
 	protected float sessionProgress = 0;
 	protected int activityWindowCurTime = 0;
+	protected int lastTimeoutWarning = 0;
+	protected int timeSinceLastWarning = 0;
 	
 	
 	public PlusSixKiosk(String accId, String accKey, String urlWs, String urlUi) {
@@ -157,6 +159,12 @@ implements ISocketClientDelegate, IAppStoreListener {
 		qrFgColor = fg;
 		newSocketRoom(); // needs to regenerate QR code 
 	}
+
+	public void setRoomRecycleIntervalSeconds(int seconds) { roomRecycleInterval = seconds * 1000; }
+	public void setSessionUserTimeoutSeconds(int seconds) { sessionUserTimeout = seconds * 1000; }
+	public void setSessionMaxLengthSeconds(int seconds) { sessionMaxLength = seconds * 1000; }
+	public void setSessionWarningTimeSeconds(int seconds) { sessionWarningTime = seconds * 1000; }
+	public void setSessionClosingTimeSeconds(int seconds) { sessionClosingTime = seconds * 1000; }
 	
 	public JSONObject getSessionConfigJson() {
 		return jsonConfig;
@@ -268,6 +276,7 @@ implements ISocketClientDelegate, IAppStoreListener {
 					"sessionIsClosing: " + sessionIsClosing + FileUtil.NEWLINE +
 					"sessionElapsedTime: " + DateUtil.timeFromMilliseconds(sessionWindowCurDuration, false) + FileUtil.NEWLINE + 
 					"activityWindowCurTime: " + DateUtil.timeFromMilliseconds(activityWindowCurTime, false) + FileUtil.NEWLINE + 
+					"timeSinceLastWarning: " + timeSinceLastWarning + FileUtil.NEWLINE + 
 					""
 					, pg.width - 20, 170);
 //		}
@@ -424,8 +433,12 @@ implements ISocketClientDelegate, IAppStoreListener {
 		}
 
 		// have we crossed the warning threshold?
+	    timeSinceLastWarning = P.p.millis() - lastTimeoutWarning;
 		sessionTimeoutWarningFrame = (prevSessionTimeLeft >= sessionWarningTime && activityTimeoutCountdown < sessionWarningTime);
-		isTimeoutWarning = (activityTimeoutCountdown < sessionWarningTime);
+		isTimeoutWarning = (activityTimeoutCountdown < sessionWarningTime) && timeSinceLastWarning > (sessionWarningTime - 1000);
+		if(isTimeoutWarning) {
+		    lastTimeoutWarning = P.p.millis();
+		}
 		// are we about to close the room?
 		sessionIsClosingFrame = (prevSessionTimeLeft >= sessionClosingTime && activityTimeoutCountdown < sessionClosingTime);
 		sessionIsClosing = (activityTimeoutCountdown < sessionClosingTime);
