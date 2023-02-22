@@ -1,7 +1,14 @@
+@REM INFO ------------------------------------------------------------------------------
 REM from: https://stackoverflow.com/questions/27649264/run-chrome-in-fullscreen-mode-on-windows
 REM also: https://stackoverflow.com/questions/13436855/launch-google-chrome-from-the-command-line-with-specific-window-coordinates/19789383
 REM note: get the top version w/codecs: http://chromium.woolyss.com/
 REM more flags and Node launcher: https://github.com/GoogleChrome/chrome-launcher/blob/master/src/flags.ts
+
+@REM INFO ------------------------------------------------------------------------------
+@REM https://codefodder.github.io/chrome-chromium-startup-flags/
+@REM https://peter.sh/experiments/chromium-command-line-switches/
+@REM https://kapeli.com/cheat_sheets/Chromium_Command_Line_Switches.docset/Contents/Resources/Documents/index
+
 
 @echo off
 
