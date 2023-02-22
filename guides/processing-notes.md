@@ -190,7 +190,7 @@ javax.net.ssl.SSLHandshakeException: PKIX path building failed: sun.security.pro
   * Click "Export" and save the file
 * Step 2: Add the certificate to the Java jre
   * Run the following command in an elevated command promt with administrative access. Make sure to use the correct paths to the Java keytool, the Java keystore, and the cert that you downloaded!
-  * "C:\Program Files\Java\jdk17.xxx\bin\keytool.exe" -import -alias example -keystore "C:\Program Files\Java\jdk17.xxx\jre\lib\security\cacerts" -file "website.com.crt"
+  * "C:\Program Files\Java\jdk17.xxx\bin\keytool.exe" -import -alias example -keystore "C:\Program Files\Java\jdk17.xxx\lib\security\cacerts" -file "website.com.crt"
   * Enter password: "changeit"
   * You should see a message confirming that the keystore was updated
   * Restart the entire app
@@ -306,6 +306,29 @@ This lets you use a source folder from another project, for your core library, f
 * For "Linked folder location", browse to your other project's `src` directory
   * Give it a name like "haxademic-src"
 
+
+## Deal with Java ssl cert issues
+
+###  the CMS cert for Java apps
+
+If the Java apps stop checking in to the CMS dashboard, an SSL cert could be the problem. Java might need you to add it to the Java keystore.
+
+For background, in late 2022 when the CMS SSL certificate was updated, the Java apps were blocked from posting JSON to the dashboard. This solved the issue:
+
+* Step 1: Download the .crt file from the CMS website (<a href="https://stackoverflow.com/a/36427118" target="_blank">more info here</a>)
+  * Visit the CMS in Chrome
+  * Click the padlock to the left of the URL
+  * Click "Connection is Secure"
+  * Click "Certificate is valid"
+  * Click the "Details" tab
+  * Click "Export" and save the file
+* Step 2: Add the certificate to the Java jre
+  * Run the following command in an elevated command promt with administrative access. Make sure to use the correct paths to the Java keytool, the Java keystore, and the cert that you downloaded!
+  * `"C:\Program Files\Java\jdk1.8.0_231\bin\keytool.exe" -import -alias example -keystore "C:\Program Files\Java\jdk1.8.0_231\jre\lib\security\cacerts" -file "C:\Users\cacheflowe\Downloads\_.website.com.crt"`
+  * Enter password: `changeit`
+  * You should see a message confirming that the keystore was updated
+  * Restart the entire app
+  
 
 ## Create an Uber jar with Maven
 
