@@ -1,5 +1,7 @@
 # Set up Windows 10 for installations
 
+* Check out this [other guide](https://tomsepe.com/sepeblog/2020/11/08/show-machine-setup-for-permanent-and-temporary-art-installations-windows-10/) too!
+
 * Set up Windows normally during blue setup screens, but: 
   * Don't attach the machine to a network or wifi! Click "I don't have Internet" instead of connecting to Wifi/Ethernet. If you connect, it will force you to create a Microsoft online account
     * Newer Windows installations don't give you this option, so do the following when confronted with internet-only setup
@@ -262,7 +264,27 @@ Look into using a package manager or automated installer if you need to set up m
 * [Scoop](https://scoop.sh/)
 * [Ninite](https://ninite.com/)
 
-### Optionally create a read-only Deploy Key
+Here's a list of commands to install Chocolatey and install some essentials from an admin-elevated Powershell:
+
+```
+# Install Chocolatey
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+# Install apps
+choco install eclipse
+choco install vscode
+choco install github-desktop
+choco install git
+choco install teamviewer
+choco install vlc
+choco install googlechrome
+choco install nodejs-lts
+choco install rustdesk
+choco install quicklook
+choco install ffmpeg
+```
+
+### Optionally create a read-only Deploy Key for safe Git pulls
 
 * Generate a project-specific (and potentially password-less) key via Git Bash
   * `ssh-keygen -t rsa -b 4096 -C "user@domain.com"`
@@ -298,6 +320,8 @@ Look into using a package manager or automated installer if you need to set up m
 
 ## Additional steps
 
+  * https://github.com/farag2/Sophia-Script-for-Windows
+  * https://github.com/Fahim732/Windows-10-optimize-script
   * BIOS settings to resume after power loss!!!
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
   * https://github.com/morphogencc/ofxWindowsSetup
@@ -310,14 +334,18 @@ Look into using a package manager or automated installer if you need to set up m
   * Reference User directory: `C:%HOMEPATH%\Documents\`
   * Remove Apple files from current dir: `del /s /q *.DS_Store`
   * List running tasks: `tasklist`
-  * Kill a task by .exe: `Taskkill /IM javaw.exe /F`
-  * Kill a task by id: `Taskkill /PID 26356 /F`
+  * Kill a task by .exe: `Taskkill /IM javaw.exe /F /T`
+  * Kill a task by id: `Taskkill /PID 26356 /F /T`
   * Add script to system startup:
     * Windows Key + R
     * `shell:startup`
     * Copy alias into Startup folder
   * Add custom icon to script:
     * Make a shortcut -> right-click -> Properties -> Change Icon...
+  * Pin a script to Start menu
+    * Right-click the shortcut, and make the *Target* look like this: 
+    * cmd /c "C:\Users\you\Documents/startup.cmd"
+    * Now you can right-click and have more options
 
 * Setup scripts
   * https://www.ghacks.net/2016/11/08/improve-windows-10-with-one-click-batch-files/
