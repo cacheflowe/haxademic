@@ -567,12 +567,17 @@ implements IAppStoreListener {
 			}
 			
 			// got reverb?
-			boolean hasReverb = reverbSize > 0;
+			boolean hasReverb = reverbSize > 0.1f;
 			Reverb rb = null;
 			if(hasReverb) {
+			    P.out("reverbSize", reverbSize);
 		        rb = new Reverb(ac, 2);
 		        rb.setSize(reverbSize);	
 		        rb.setDamping(reverbDamping);
+//		        rb.setValue(reverbSize);
+//		        rb.setLateReverbLevel(reverbSize * 0.1f);
+		        rb.setLateReverbLevel(reverbSize * 0.02f);
+		        rb.setEarlyReflectionsLevel(reverbSize * 0.01f);
 			}
 			
 			Compressor comp = null;

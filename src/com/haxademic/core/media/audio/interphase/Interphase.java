@@ -70,6 +70,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public static final String UI_SAMPLE_ = "UI_SAMPLE_";
 	public static final String UI_VOLUME_ = "UI_VOLUME_";
 	public static final String UI_PITCH_ = "UI_PITCH_";
+	
+	public static final String UI_REVERB_ = "UI_REVERB_";
+    public static final String UI_MUTE_ = "UI_MUTE_";
+    public static final String UI_TRIGGER_ = "UI_MUTE_";
 
 	
 	//////////////////////////////////////////
@@ -173,10 +177,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	public Interphase initGlobalControlsUI() {
-		return initGlobalControlsUI(null, null, null);
+		return initGlobalControlsUI(null, null, null, null);
 	}
 	
-	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int volumeCC, int pitchCC) {
+	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int volumeCC, int pitchCC, int reverbCC) {
 		// create sequential MIDI CC notes
 		int[] samplePickerMidiCCArray = new int[sequencers.length];
 		for (int i = 0; i < samplePickerMidiCCArray.length; i++) samplePickerMidiCCArray[i] = samplePickerMidiCC + i;
@@ -184,11 +188,13 @@ implements IAppStoreListener, ILaunchpadCallback {
 		for (int i = 0; i < midiCCSequenceArray.length; i++) midiCCSequenceArray[i] = volumeCC + i;
 		int[] pitchCCSequenceArray = new int[sequencers.length];
 		for (int i = 0; i < pitchCCSequenceArray.length; i++) pitchCCSequenceArray[i] = pitchCC + i;
+		int[] reverbCCSequenceArray = new int[sequencers.length];
+		for (int i = 0; i < reverbCCSequenceArray.length; i++) reverbCCSequenceArray[i] = reverbCC + i;
 		// pass to constructor
-		return initGlobalControlsUI(samplePickerMidiCCArray, midiCCSequenceArray, pitchCCSequenceArray);
+		return initGlobalControlsUI(samplePickerMidiCCArray, midiCCSequenceArray, pitchCCSequenceArray, reverbCCSequenceArray);
 	}
 	
-	public Interphase initGlobalControlsUI(int[] samplePickerMidiCC, int[] volumeMidiCC, int[] pitchMidiCC) {
+	public Interphase initGlobalControlsUI(int[] samplePickerMidiCC, int[] volumeMidiCC, int[] pitchMidiCC, int[] reverbMidiCC) {
 		UI.addTitle("Interphase");
 		UI.addSlider(UI_GLOBAL_BPM, P.store.getInt(BPM), 30, 200, 1, false);
 		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
@@ -199,11 +205,13 @@ implements IAppStoreListener, ILaunchpadCallback {
 			int midiCCSample = (samplePickerMidiCC != null) ? samplePickerMidiCC[i] : -1;
 			int midiCCVolume = (volumeMidiCC != null) ? volumeMidiCC[i] : -1;
 			int midiCCPitch = (pitchMidiCC != null) ? pitchMidiCC[i] : -1;
+			int midiCCReverb = (reverbMidiCC != null) ? reverbMidiCC[i] : -1;
 			// add sliders for each sequencer
 			Sequencer seq = sequencerAt(i);
 			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
 			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
-			UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
+            UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
+            UI.addSlider(UI_REVERB_+(i+1), 0, 0, 1, 0.005f, false, midiCCReverb);
 		}
 		return this;
 	}
@@ -397,9 +405,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 			String uiSampleKey = UI_SAMPLE_+(i+1);
 			String uiVolumeKey = UI_VOLUME_+(i+1);
 			String uiPitchKey = UI_PITCH_+(i+1);
+			String uiReverbKey = UI_REVERB_+(i+1);
 			if(UI.has(uiSampleKey)) UI.setValue(UI_SAMPLE_+(i+1), seq.sampleIndex());
 			if(UI.has(uiVolumeKey)) UI.setValue(UI_VOLUME_+(i+1), seq.volume());
 			if(UI.has(uiPitchKey)) UI.setValue(UI_PITCH_+(i+1), seq.pitchShift());
+			if(UI.has(uiReverbKey)) UI.setValue(UI_REVERB_+(i+1), seq.reverbSize());
 		}
 	}
 
@@ -676,7 +686,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			sequencerAt(sequencerIndex).setSampleByIndex(val.intValue());
 		}
 		if(key.indexOf(UI_VOLUME_) == 0) {
-			String sequencerNum = key.substring(UI_SAMPLE_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
+			String sequencerNum = key.substring(UI_VOLUME_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
 			sequencerAt(sequencerIndex).volume(val.floatValue());
 		}
@@ -684,6 +694,22 @@ implements IAppStoreListener, ILaunchpadCallback {
 			String sequencerNum = key.substring(UI_PITCH_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
 			sequencerAt(sequencerIndex).pitchShift(val.floatValue());
+		}
+		if(key.indexOf(UI_REVERB_) == 0) {
+		    String sequencerNum = key.substring(UI_REVERB_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
+		    int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
+		    float amp = val.floatValue();
+		    if(amp < 0.1f) amp = 0;
+		    float reverbSize = amp * 40f;
+		    float reverbDampening = amp * 0.5f;
+		    if(sequencerIndex == 0) {
+		        reverbSize *= 0.5f;
+		        reverbDampening *= 0.5f;
+		    }
+//		    reverbSize = 1.0f;
+//		    reverbDampening = 1.5f;
+		    P.out(reverbSize, reverbDampening);
+		    sequencerAt(sequencerIndex).reverb(reverbSize, reverbDampening);
 		}
 	}
 	public void updatedString(String key, String val) {

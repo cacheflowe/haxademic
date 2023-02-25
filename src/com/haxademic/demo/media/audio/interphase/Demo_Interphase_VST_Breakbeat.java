@@ -23,7 +23,7 @@ import beads.AudioContext;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_VST_Interphase
+public class Demo_Interphase_VST_Breakbeat
 extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -53,7 +53,7 @@ implements IAppStoreListener {
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+        interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
 		interphase.initLaunchpads(4, 7, 8, 11);
 //		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
@@ -78,7 +78,7 @@ implements IAppStoreListener {
 		
 		// keep loop synced
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
-		Metronome.shiftPitchToMatchBpm(player, beat1, bpm/2f, UI.valueInt(UI_BREAK_DIVIDER));
+		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
 		
 		// draw sound?
 //		player.drawWav(p.g, beat1);
@@ -103,7 +103,7 @@ implements IAppStoreListener {
 		} else {
 			player.seekToProgress(beat1, progress);	
 		}
-		Metronome.shiftPitchToMatchBpm(player, beat1, bpm/2f, UI.valueInt(UI_BREAK_DIVIDER));
+		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -122,9 +122,9 @@ implements IAppStoreListener {
 			// vst bass mirroring
 			int bassChannelIndex = 5;
 			if(sequencerIndex == bassChannelIndex) {
-				if(P.store.getInt(Interphase.CUR_STEP) <= 1) vstSynth.randomizeAllParams();
+				// if(P.store.getInt(Interphase.CUR_STEP) <= 1) vstSynth.randomizeAllParams();
 				int curSequencerNote = interphase.sequencerAt(bassChannelIndex).pitchIndex1();
-				vstSynth.playMidiNote(36 + curSequencerNote, 100);
+				vstSynth.playMidiNote(36 + curSequencerNote, 300);
 			}
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {

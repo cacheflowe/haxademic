@@ -43,12 +43,13 @@ implements IAppStoreListener {
 	protected void firstFrame() {
 		// load interphase
 		SequencerConfig.setAbsolutePath();
-		interphase = new Interphase(new SequencerConfig[] {
-				new SequencerConfig(0, "audio/interphase/01-kick", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),
-				new SequencerConfig(1, "audio/interphase/02-snare", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),
-				new SequencerConfig(2, "audio/interphase/03-hats", SequencerConfig.buildHatPatterns(), 1f, false, false, false, false, false),
-				new SequencerConfig(3, "audio/interphase/04-perc", SequencerConfig.buildHatPatterns(), 1f, false, false, false, false, false),
-		});
+//		interphase = new Interphase(new SequencerConfig[] {
+//				new SequencerConfig(0, "audio/samples2/01-kick", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),
+//				new SequencerConfig(1, "audio/interphase/02-snare", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),
+//				new SequencerConfig(2, "audio/interphase/03-hats", SequencerConfig.buildHatPatterns(), 1f, false, false, false, false, false),
+//				new SequencerConfig(3, "audio/interphase/04-perc", SequencerConfig.buildHatPatterns(), 1f, false, false, false, false, false),
+//		});
+		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.initLaunchpads(2, 5, 4, 7);
 		interphase.initGlobalControlsUI();
@@ -95,8 +96,8 @@ implements IAppStoreListener {
 		// update audio effects
 		for (int i = 0; i < sequencerAmps.length; i++) {
 			Sequencer seq = interphase.sequencerAt(i);
-			seq.reverb(1.0f, 1.5f);
-			if(i == 0) seq.reverb(0.01f, 0.9f);
+			seq.reverb(20.0f, 4.5f);
+//			if(i == 0) seq.reverb(0.01f, 0.9f);
 			seq.attack(0).release(0);
 		}
 		

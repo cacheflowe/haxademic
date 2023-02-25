@@ -65,7 +65,7 @@ implements IAppStoreListener {
 //		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
 //		interphase.initLaunchpads(4, 7, 8, 11);
 		interphase.initLaunchpads(2, 5, 4, 7);
 		interphase.initAudioAnalysisPerChannel();
@@ -191,12 +191,12 @@ implements IAppStoreListener {
 		}
 		
 		// update audio effects
-		for (int i = 0; i < sequencerAmps.length; i++) {
-			Sequencer seq = interphase.sequencerAt(i);
-			seq.reverb(1.5f, 1.5f);
-			if(i == 0) seq.reverb(0.01f, 0.9f);
-			seq.attack(0).release(0);
-		}
+//		for (int i = 0; i < sequencerAmps.length; i++) {
+//			Sequencer seq = interphase.sequencerAt(i);
+//			seq.reverb(1.5f, 1.5f);
+//			if(i == 0) seq.reverb(0.01f, 0.9f);
+//			seq.attack(0).release(0);
+//		}
 		
 		if(UI.valueToggle(USE_OVERRIDES)) {
 			// override current instruments sample selection by setting UI, then reading from UI

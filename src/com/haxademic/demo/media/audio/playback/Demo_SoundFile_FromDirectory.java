@@ -28,7 +28,6 @@ extends PAppletHax {
 	protected ArrayList<SoundFile> sounds;
 
 	// paths
-//	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\Om Unit - Ambient Breakbeat Sample Pack";
 	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\new york house samples";
 	protected String outputPathInterphase = "D:\\workspace\\interphase\\data\\audio\\samples2";
 	protected String[] outputDirs;
@@ -45,7 +44,6 @@ extends PAppletHax {
 	
 	/*
 	 * TODO:
-	 * - Add keys to save to Interphase directories, 1-8
 	 * - Add ability to tune a sample to C
 	 * - Add ability to chop out a segment & save
 	 * - More efficient wave drawing - divide samples by width
