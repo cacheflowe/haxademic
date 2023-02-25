@@ -61,12 +61,13 @@ implements IAppStoreListener {
 		knobs = new MidiDevice(LaunchControlXL.deviceName, null);
 		
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-//		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		SequencerConfig.setAbsolutePath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels());
+//		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		interphase.initLaunchpads(4, 7, 8, 11);
+//		interphase.initLaunchpads(4, 7, 8, 11);
+		interphase.initLaunchpads(2, 5, 4, 7);
 		interphase.initAudioAnalysisPerChannel();
 		
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), hasUI, hasMidi);

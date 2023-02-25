@@ -1,6 +1,7 @@
 package com.haxademic.demo.media.audio.playback;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
@@ -29,9 +30,10 @@ extends PAppletHax {
 	// paths
 //	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\Om Unit - Ambient Breakbeat Sample Pack";
 	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\new york house samples";
-	protected String outputPathSuffix = "\\_export"; 
-	protected String soundsOutputPath = soundsPath + outputPathSuffix;
+	protected String outputPathInterphase = "D:\\workspace\\interphase\\data\\audio\\samples2";
+	protected String[] outputDirs;
 	protected ArrayList<String> soundPaths;
+	protected String curFilePath;
 	protected int playlistIndex = 0;
 	
 	protected FFT fft;
@@ -61,6 +63,11 @@ extends PAppletHax {
 		fft = new FFT(this, bands);
 		loadSounds();
 		setIndex(0);
+		getOutputDirs();
+	}
+	
+	protected void getOutputDirs() {
+	    outputDirs = FileUtil.getDirsInDir(outputPathInterphase);
 	}
 
 	public void folderSelected(File selection) {
@@ -68,6 +75,8 @@ extends PAppletHax {
 			println("Window was closed or the user hit cancel.");
 		} else {
 			println("User selected " + selection.getAbsolutePath());
+			soundsPath = selection.getAbsolutePath();
+            loadSounds();
 		}
 	}
 
@@ -94,16 +103,16 @@ extends PAppletHax {
 		}
 		
 		// load file or pull from cache
-		String filePath = soundPaths.get(playlistIndex);
-		soundFileName = FileUtil.fileNameFromPath(filePath);
+		curFilePath = soundPaths.get(playlistIndex);
+		soundFileName = FileUtil.fileNameFromPath(curFilePath);
 		if(sounds.get(playlistIndex) == null) {	// lazy load sounds
 			try {
-				SoundFile newSound = new SoundFile(this, filePath);
+				SoundFile newSound = new SoundFile(this, curFilePath);
 				sounds.set(playlistIndex, newSound);
 			} catch(ArrayIndexOutOfBoundsException e) {
-				P.error("Couldn't load sound!", filePath);
+				P.error("Couldn't load sound!", curFilePath);
 			} catch(NullPointerException e) {
-				P.error("Couldn't load sound! NPE", filePath);
+				P.error("Couldn't load sound! NPE", curFilePath);
 			}
 		}
 		
@@ -114,7 +123,7 @@ extends PAppletHax {
 				fft.input(curSound);
 			}
 		} catch(NullPointerException e) {
-			P.error("Couldn't load sound! NPE", filePath);
+			P.error("Couldn't load sound! NPE", curFilePath);
 		}
 		
 		// play it!
@@ -123,6 +132,8 @@ extends PAppletHax {
 
 	public void keyPressed() {
 		super.keyPressed();
+		
+		// CTRL + V to paste a path
 		if(p.keyCode == 86 && KeyboardState.instance().isKeyOn(17)) {
 			String clipboard = SystemUtil.getClipboardContents();
 			if(FileUtil.fileOrPathExists(clipboard)) {
@@ -133,22 +144,28 @@ extends PAppletHax {
 	}
 
 	protected void runKeyCommands() {
+	    // is shift down?
 		float keyScale = (KeyboardState.keyOn(16)) ? 10 : 1;
-		if(KeyboardState.keyTriggered('1')) {
+		// PREV
+		if(KeyboardState.keyTriggered('q')) {
 			int newIndex = (playlistIndex - P.round(1 * keyScale)) % sounds.size();
 			if(newIndex < 0) newIndex = sounds.size() - 1;
 			setIndex(newIndex);
 		}
-		if(KeyboardState.keyTriggered('2')) {
+		// NEXT
+		if(KeyboardState.keyTriggered('w')) {
 			int newIndex = (playlistIndex + P.round(1 * keyScale)) % sounds.size();
 			setIndex(newIndex);
 		}
-		if(KeyboardState.keyTriggered('4')) {
+		// PLAY
+		if(KeyboardState.keyTriggered('e')) {
+		    playSound();
+		}
+		// STOP
+		if(KeyboardState.keyTriggered('r')) {
 			if(curSound.isPlaying()) curSound.stop();
 		}
-		if(KeyboardState.keyTriggered('3')) {
-			playSound();
-		}
+		// Not working...
 		if(KeyboardState.keyTriggered('c')) {
 			curSound.resize(curSound.frames() / 2);
 		}
@@ -156,9 +173,25 @@ extends PAppletHax {
 //			WavFileReaderWriter readerWriter = new WavFileReaderWriter();
 //			readerWriter.writeAudioFile(null, outputPathSuffix, null, null);
 		}
+		// choose folder
 		if(KeyboardState.keyTriggered('o')) {
 			p.selectFolder("Select a folder", "folderSelected");
 		}
+		// copy to output folders
+		try {
+		    if(KeyboardState.keyTriggered('1')) { FileUtil.copyFile(curFilePath, outputDirs[0] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('2')) { FileUtil.copyFile(curFilePath, outputDirs[1] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('3')) { FileUtil.copyFile(curFilePath, outputDirs[2] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('4')) { FileUtil.copyFile(curFilePath, outputDirs[3] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('5')) { FileUtil.copyFile(curFilePath, outputDirs[4] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('6')) { FileUtil.copyFile(curFilePath, outputDirs[5] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('7')) { FileUtil.copyFile(curFilePath, outputDirs[6] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		    if(KeyboardState.keyTriggered('8')) { FileUtil.copyFile(curFilePath, outputDirs[7] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_")); }
+		} catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		} 
+
 	}
 
 	protected void playSound() {

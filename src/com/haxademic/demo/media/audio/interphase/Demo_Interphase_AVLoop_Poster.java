@@ -1,8 +1,5 @@
 package com.haxademic.demo.media.audio.interphase;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -13,6 +10,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -54,6 +52,7 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
+		SequencerConfig.setAbsolutePath();
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase.initUI().initLaunchpads(1, 4, 2, 5);
