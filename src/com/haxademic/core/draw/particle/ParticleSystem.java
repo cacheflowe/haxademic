@@ -194,7 +194,7 @@ public class ParticleSystem {
 	}
 	
 	/////////////////////////////////////////////////////////////
-	// Launch partciles from a map
+	// Launch particles from a map
 	// TODO:
 	// - Lazy-init UI controls *if* we use the map-launching functions?
 	/////////////////////////////////////////////////////////////

@@ -96,7 +96,7 @@ extends PAppletHax {
 			super(new ParticleFactoryCustom(particleImages));
 		}
 		
-		protected void randomize(Particle particle, float x, float y, float z) {
+		protected void randomize(Particle particle) {
 			if(usingUI) {
 				particle
 					.setSpeedRange(UI.valueX(SPEED_MIN), UI.valueX(SPEED_MAX), UI.valueY(SPEED_MIN), UI.valueY(SPEED_MAX), UI.valueZ(SPEED_MIN), UI.valueZ(SPEED_MAX))
@@ -117,9 +117,7 @@ extends PAppletHax {
 					.setColor(P.p.color(P.p.random(0, 255), P.p.random(0, 255), P.p.random(0, 255)));
 			}
 			// shared launch config & call
-			particleFactory
-				.randomize(particle)
-				.launch(x, y, z);
+			particleFactory.randomize(particle);
 		}
 		
 	}
