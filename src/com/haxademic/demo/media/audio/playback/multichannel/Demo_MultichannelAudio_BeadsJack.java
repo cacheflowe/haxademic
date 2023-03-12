@@ -10,6 +10,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
 import beads.AudioServerIO;
@@ -26,6 +27,31 @@ public class Demo_MultichannelAudio_BeadsJack
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	// NOTES:
+	// ======================================
+	// - Install the sound card drivers for ASIO support
+	//   - For Behringer UMC1820, it was the older version 4.59. The newer version (5.x) didn't install properly
+	// - Install JACK and run qjackctl.exe
+	//   - https://jackaudio.org/downloads/
+	// - Go to "Setup..." Jack in GUI
+	//   - Select the ASIO driver to expose multiple outputs to Beads/Jack
+	//   - Select a sample rate and frames value. These are what must be entered below when creating the AudioContext!
+	//   - Jack app must be "Start"ed (but the transport controls don't need to be "Play"ing) for multiple outputs to be available
+	// - Graph & Connections windows should show the full list of outputs. Otherwise, the audio card ASIO driver probably isn't properly set up as ASIO
+	
+	// RESEARCH:
+	// ======================================
+	// - Beads forum thread on multichannel audio
+	//   - https://groups.google.com/g/beadsproject/c/dSvxUM1l9S0
+	// needs https://github.com/jaudiolibs/jnajack/releases
+	// need to update a beads library to talk to JNAJack properly
+	// - https://groups.google.com/d/msg/beadsproject/4E_73DZMTMg/31RJD02WWegJ
+	// - https://code.google.com/archive/p/java-audio-utils/downloads
+	// - "Unexpected audio configuration" errors is called because you need to set the samplerate and buffersize of the AudioContext in Beads to the same as Jack.
+	// JACK help
+	// - https://www.kvraudio.com/forum/viewtopic.php?t=463381
+	// - https://ccrma.stanford.edu/docs/common/JACK.html
+	
 	protected SpatialSound[] sounds;
 	protected SoundStage stage;
 	
@@ -36,30 +62,21 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		// NOTES:
-		// Jack app must be running!
-		
-		int outputs = 4;
-		
-		// beads
-		// needs https://github.com/jaudiolibs/jnajack/releases
-		// need to update a beads library to talk to JNAJack properly
-		// - https://groups.google.com/d/msg/beadsproject/4E_73DZMTMg/31RJD02WWegJ
-		// - https://code.google.com/archive/p/java-audio-utils/downloads
-//		audioContext = new AudioContext();
-		AudioContext audioContext = new AudioContext(new AudioServerIO.Jack(), 1024, new IOAudioFormat(44100, 16, 2, outputs));	// 2 inputs, 4 outputs. match sample & bit rates & buffer size to current soundcard settings
+	    // Init soundcard/Jack interface
+		int outputs = 8;
+		AudioUtil.printMixerInfo();
+		AudioContext audioContext = new AudioContext(new AudioServerIO.Jack(), 512, new IOAudioFormat(44100, 24, 2, outputs));	// 2 inputs, 8 outputs. match sample & bit rates & buffer size to current soundcard settings
 		audioContext.postAudioFormatInfo();
 		audioContext.start();
-		P.out("audioContext.out.getOuts()", audioContext.out.getOuts());
 		
-		// build sounds
+		// Build sounds
 		sounds = new SpatialSound[] {
 			new SpatialSound(audioContext, FileUtil.getPath("audio/kit808/kick.wav"), outputs),
 			new SpatialSound(audioContext, FileUtil.getPath("audio/communichords/cacheflowe/low-synth.wav"), outputs),
-			new SpatialSound(audioContext, FileUtil.getPath("audio/communichords/cacheflowe/mid-synth.wav"), outputs),
+//			new SpatialSound(audioContext, FileUtil.getPath("audio/communichords/cacheflowe/mid-synth.wav"), outputs),
 		};
 		
-		// build mapped sound stage
+		// Build spatial mapped sound stage
 		stage = new SoundStage(200, outputs);
 	}
 
@@ -67,16 +84,18 @@ extends PAppletHax {
 		p.background(0);
 		
 		// auto trigger
-		if (p.frameCount % 60 == 0) {
+		if (p.frameCount % 20 == 0) {
 			// playAll();	
 			sounds[0].play(false);
+	        sounds[0].updatePosition(p.random(-stage.radius(), stage.radius()), p.random(-stage.radius(), stage.radius())); // random position
 		}
 		
 		// update sounds' position
 		for (int i = 0; i < sounds.length; i++) {
-			float soundRads = p.frameCount * 0.05f * (i+1);
-			sounds[i].updatePosition(P.cos(soundRads) * stage.radius() * (1-(i+1)*0.1f), P.sin(soundRads) * stage.radius() * (1-(i+1)*0.1f));
-			if(i == 0) sounds[i].updatePosition(p.mouseX - p.width/2, p.mouseY - p.height/2); // mouse control
+			float soundRads = p.frameCount * 0.01f * (i+1);
+			float soundRadius = stage.radius() * 1.8f;
+			if(i != 0) sounds[i].updatePosition(P.cos(soundRads) * soundRadius, P.sin(soundRads) * soundRadius);
+//			if(i == 0) sounds[i].updatePosition(p.mouseX - p.width/2, p.mouseY - p.height/2); // mouse control
 			sounds[i].update(p.g);
 		}
 		
@@ -164,7 +183,7 @@ extends PAppletHax {
 				// get dist to speaker
 				PVector speakerPos = stage.getSpeaker(i).position();
 				float dist = speakerPos.dist(position);
-				float distToGain = P.map(dist, 0, stage.radius() * 2, 1, 0);
+				float distToGain = P.map(dist, 0, stage.radius() * 2f, 1, 0);
 				distToGain = P.constrain(distToGain, 0, 1);
 				gains[i].setGain(distToGain);
 				
@@ -201,7 +220,7 @@ extends PAppletHax {
 				float rads = segmentRads * i;
 				float speakX = P.cos(rads) * radius;
 				float speakY = P.sin(rads) * radius;
-				speakers[i] = new Speaker(speakX, speakY);
+				speakers[i] = new Speaker(i, speakX, speakY);
 			}
 		}
 		
@@ -231,9 +250,11 @@ extends PAppletHax {
 	}	
 	public class Speaker {
 		
+	    protected int index;
 		protected PVector position;
 		
-		public Speaker(float x, float y) {
+		public Speaker(int index, float x, float y) {
+		    this.index = index;
 			position = new PVector(x, y);
 		}
 		
@@ -249,6 +270,7 @@ extends PAppletHax {
 			PG.setDrawCenter(pg);
 			PG.setCenterScreen(pg);
 			pg.ellipse(position.x, position.y, 30, 30);
+            pg.text("[" + (index + 1) + "]", position.x + 10, position.y + 10);
 			pg.pop();
 		}
 	}

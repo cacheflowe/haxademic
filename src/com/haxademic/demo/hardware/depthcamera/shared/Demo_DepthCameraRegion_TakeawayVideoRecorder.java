@@ -14,7 +14,7 @@ import com.haxademic.core.math.easing.EasingBoolean;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_DepthCameraRegion_ActiveUserRecorder
+public class Demo_DepthCameraRegion_TakeawayVideoRecorder
 extends Demo_DepthCameraRegion {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
