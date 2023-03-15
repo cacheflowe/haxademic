@@ -67,7 +67,7 @@ extends PAppletHax {
 		// create buffer & font
 		textBuffer = PG.newPG(p.width, p.height);
 		fontBig = DemoAssets.fontHelloDenver(textBuffer.height * 0.5f);
-		textCropped = p.createImage(100, 100, P.ARGB);
+		textCropped = ImageUtil.newImage(16, 16);
 		
 		// draw text
 		textBuffer.beginDraw();
@@ -88,7 +88,7 @@ extends PAppletHax {
 	}
 
 	protected void drawApp() {
-		p.pushMatrix();
+		p.push();
 		
 		// update displacement noise
 		noiseTexture.update(0.07f, 0, P.cos(FrameLoop.progressRads()) * 0.2f, P.sin(FrameLoop.progressRads()) * 0.2f);
@@ -123,10 +123,7 @@ extends PAppletHax {
 		MeshDeformAndTextureFilter.instance(p).applyTo(p.g);
 		// draw shape
 		if(nativeTriangles == false) {
-	
 			p.shape(shape);
-			
-			p.resetShader();
 		} else {
 			// draw strip
 			shape.disableStyle();
@@ -135,7 +132,8 @@ extends PAppletHax {
 			PShapeUtil.drawTriangles(p.g, shape, texture, 1f);
 		}
 		
-		p.popMatrix();
+		p.resetShader();
+		p.pop();
 	}
 
 }

@@ -2,6 +2,7 @@ package com.haxademic.core.draw.filters.pgraphics.archive;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
@@ -21,8 +22,8 @@ public class ReflectionFilter {
 		p = (PAppletHax) P.p;
 		_width = width;
 		_height = height;
-		_pg = p.createGraphics( _width, _height, P.P3D );
-		_image = p.createImage( _width, _height, P.ARGB );
+		_pg = PG.newPG(_width, _height);
+		_image = ImageUtil.newImage(_width, _height);
 	}
 	
 	public PImage pg() {

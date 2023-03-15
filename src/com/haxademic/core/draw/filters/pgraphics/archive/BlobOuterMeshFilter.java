@@ -3,6 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics.archive;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -37,9 +38,9 @@ public class BlobOuterMeshFilter {
 	}
 	
 	protected void initBlobDetection() {
-		_pg = p.createGraphics( _width, _height, P.P3D );
+		_pg = PG.newPG(_width, _height);
 		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_image = p.createImage( _width, _height, P.ARGB );
+		_image = ImageUtil.newImage(_width, _height);
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);

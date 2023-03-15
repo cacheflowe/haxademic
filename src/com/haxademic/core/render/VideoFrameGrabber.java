@@ -2,6 +2,8 @@ package com.haxademic.core.render;
 
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -38,8 +40,8 @@ public class VideoFrameGrabber {
 //		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P2D );
 //		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
 
-		_curFrameBuffer = p.createGraphics( p.width, p.height, P.P2D );
-		_curFrameImage = p.createImage( p.width, p.height, P.ARGB );
+		_curFrameBuffer = PG.newPG(p.width, p.height);
+		_curFrameImage = ImageUtil.newImage(p.width, p.height);
 	}
 	
 	protected void initMovie() {

@@ -19,7 +19,7 @@ public class SecondScreenViewer {
 	public SecondScreenViewer(PGraphics buffer, float scale) {
 		srcBuffer = buffer;
 		windowScale = scale;
-		scaledBuffer = P.p.createImage(P.round(buffer.width * windowScale), P.round(buffer.height * windowScale), P.ARGB);
+		scaledBuffer = ImageUtil.newImage(P.round(buffer.width * windowScale), P.round(buffer.height * windowScale));
 		P.p.registerMethod("post", this);	 // update texture to 2nd window after main draw() execution
 	}
 	

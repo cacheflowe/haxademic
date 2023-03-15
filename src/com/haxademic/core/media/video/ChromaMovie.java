@@ -2,6 +2,7 @@ package com.haxademic.core.media.video;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -9,7 +10,6 @@ import processing.video.Movie;
 
 public class ChromaMovie {
 
-	static public PImage BLANK_IMAGE;
 
 	Movie movie;
 	PGraphics buffer;
@@ -37,7 +37,6 @@ public class ChromaMovie {
 
 	public ChromaMovie(String videoPath, float fps, boolean loadAsync) {
 		this.fps = fps;
-		if(BLANK_IMAGE == null) BLANK_IMAGE = P.p.createImage(32, 32, P.ARGB);
 		loadVideo(videoPath, loadAsync);
 	}
 	
@@ -107,7 +106,7 @@ public class ChromaMovie {
 	
 	public PImage image() {
 		if(isLoaded() == false || isPlaying == false) {
-			return BLANK_IMAGE;
+			return ImageUtil.blankImage();
 		} else {
 			return buffer;
 		}
