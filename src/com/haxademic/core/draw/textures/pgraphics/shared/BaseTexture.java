@@ -182,6 +182,14 @@ public class BaseTexture {
 		// override with subclass
 	}
 	
+	public void randomizeAll() {
+		updateTiming();
+		updateTimingSection();
+		newMode();
+		newLineMode();
+		newRotation();
+	}
+	
 	public void updateTiming() {
 		if( _brightMode > -1 ) updateBrightnessTiming();
 		
