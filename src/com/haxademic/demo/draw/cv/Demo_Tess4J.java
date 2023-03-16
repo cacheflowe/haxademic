@@ -57,6 +57,7 @@ implements IWebCamCallback {
     
     protected PGraphics webcamBuffer;
     protected PGraphics bwBuffer;
+    protected PImage ocrInputImg;
     
     protected String UI_SHOW_DEBUG = "UI_SHOW_DEBUG";
     protected String UI_BRIGHTNESS = "UI_BRIGHTNESS";
@@ -78,7 +79,10 @@ implements IWebCamCallback {
 
         webcamBuffer = PG.newPG(640, 480);
         bwBuffer = PG.newPG(640, 480);
+        ocrInputImg = ImageUtil.newImage(webcamBuffer.width, webcamBuffer.height);
         rectangle = new Rectangle(0, 0, webcamBuffer.width, webcamBuffer.height);
+        
+        DebugView.setTexture("ocrInputImg", ocrInputImg);
 
         initOCR();
         initUI();
@@ -126,7 +130,8 @@ implements IWebCamCallback {
         ThresholdFilter.instance(p).applyTo(bwBuffer);
 
         // need to copy the buffered image on the main thread
-        imgBuff = ImageUtil.pImageToBuffered(bwBuffer);
+        ImageUtil.copyImage(bwBuffer, ocrInputImg);
+        imgBuff = ImageUtil.pImageToBuffered(ocrInputImg);
     }
     
     protected void doOCR() {
@@ -165,6 +170,7 @@ implements IWebCamCallback {
     protected void drawApp() {
         // set up context
         p.background( 0 );
+        DebugView.logUptime();
 
         // test single image
         // ImageUtil.copyImage(ImageCacher.get("haxademic/images/no-signal.png"), bwBuffer);
