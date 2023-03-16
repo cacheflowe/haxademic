@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -29,7 +28,7 @@ extends BaseVideoFilter {
 		super(width, height);
 		
 		// load & set texture
-		displacementMap = P.p.createGraphics(width, height, PRenderers.P2D);
+		displacementMap = PG.newPG(width, height);
 //		colorMap = webcamBuffer;//DemoAssets.textureNebula();  // p.loadImage(FileUtil.getFile("images/_sketch/logo.png"));
 
 		// count vertices for debugView

@@ -1,9 +1,9 @@
 package com.haxademic.core.draw.cv;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
@@ -42,10 +42,10 @@ public class BufferMotionDetectionMap {
 	}
 	
 	protected void buildBuffers() {
-		backplate = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
-		newFrameBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
-		differenceBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
-		bwBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
+		backplate = PG.newPG(bufferW, bufferH);
+		newFrameBuffer = PG.newPG(bufferW, bufferH);
+		differenceBuffer = PG.newPG(bufferW, bufferH);
+		bwBuffer = PG.newPG(bufferW, bufferH);
 		
 		backplate.noSmooth();
 		OpenGLUtil.setTextureQualityLow(backplate);

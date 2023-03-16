@@ -31,7 +31,6 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-//		shape = DemoAssets.objHumanoid();
 		shape = p.loadShape(FileUtil.getPath("svg/eight.svg"));
 		texture = ImageUtil.shapeToGraphicsJittered(shape, 20);
 		

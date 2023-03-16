@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -52,9 +51,9 @@ extends BaseVideoFilter {
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.15f);
-			blurredMotion = P.p.createGraphics(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height, PRenderers.P3D);
-			blendedSpread = P.p.createGraphics(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height, PRenderers.P3D);
-			colorizedTrail = P.p.createGraphics(sourceBuffer.width, sourceBuffer.height, PRenderers.P3D);
+			blurredMotion = PG.newPG(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height);
+			blendedSpread = PG.newPG(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height);
+			colorizedTrail = PG.newPG(sourceBuffer.width, sourceBuffer.height);
 		}
 
 		// run motion detection

@@ -36,7 +36,7 @@ extends PAppletHax {
 
     protected void firstFrame() {
         // create buffer & font
-        textBuffer = p.createGraphics(p.width, p.height);	// NOTE: new version of Processing can't use `PRenderers.P3D` - leave it out
+        textBuffer = PG.newPG(p.width, p.height);
         fontBig = DemoAssets.fontHelloDenver(200);
         textCropped = ImageUtil.newImage(128, 128);
 

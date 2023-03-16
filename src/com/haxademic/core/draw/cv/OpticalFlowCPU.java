@@ -1,7 +1,6 @@
 package com.haxademic.core.draw.cv;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
@@ -67,7 +66,7 @@ public class OpticalFlowCPU {
 		scaleUp = 1f / scale;
 		analyzeW = P.round(scale * sourceImg.width);
 		analyzeH = P.round(scale * sourceImg.height);
-		source = P.p.createGraphics(analyzeW, analyzeH, PRenderers.P2D);
+		source = PG.newPG(analyzeW, analyzeH, false, false);
 		source.noSmooth();
 
 		// screen size

@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -30,7 +29,7 @@ extends BaseVideoFilter {
 
 		// build final draw buffer
 		renderedParticles = PG.newPG(width, height);
-		motionBuffer = P.p.createGraphics(width / 4, height / 4, PRenderers.P3D);
+		motionBuffer = PG.newPG(width / 4, height / 4);
 		
 		// build particle launcher
 		particleLaunchers = new ParticleLauncherGPU(512);
