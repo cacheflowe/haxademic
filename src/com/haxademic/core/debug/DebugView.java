@@ -24,6 +24,7 @@ import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.text.StringUtil;
 import com.haxademic.core.ui.IUIControl;
@@ -98,6 +99,10 @@ implements IAppStoreListener {
 	public static void switchToManual() {
 		// if we want to draw in the normal drawApp frame, call this once, and call post() directly
 		P.p.unregisterMethod(PRegisterableMethods.post, instance);
+	}
+	
+	public static void logUptime() {
+	    if(FrameLoop.frameModMinutes(10)) P.out("Uptime:", DebugView.uptimeStr());
 	}
 	
 	public static boolean active() {
