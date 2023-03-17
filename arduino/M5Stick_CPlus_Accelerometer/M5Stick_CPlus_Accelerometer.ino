@@ -369,6 +369,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
 void networkLoop() {
   // only update on a reasonable interval
+  // but make it quick, because if messages get queued too much, the app will crash!
   if(!updateAllowed(lastNetworkPollTime, networkPollTimeInterval)) return;
 
   // let the websockets client check for incoming messages
