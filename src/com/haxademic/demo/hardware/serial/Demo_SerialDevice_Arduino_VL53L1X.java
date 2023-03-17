@@ -5,12 +5,18 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.draw.text.StrokeText;
 import com.haxademic.core.hardware.serial.SerialDevice;
 import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.FloatBuffer;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
+
+import processing.core.PFont;
 import processing.serial.Serial;
 
 public class Demo_SerialDevice_Arduino_VL53L1X
@@ -51,6 +57,12 @@ implements ISerialDeviceDelegate {
 		p.fill(255);
 		float barH = P.map(lidarVal.value(), UI.value(DIST_MIN), UI.value(DIST_MAX), 0, p.height);
 		p.rect(0, p.height, p.width, -barH);
+		
+		// draw number
+        PFont font = FontCacher.getFont(DemoAssets.fontInterPath, 40);
+        FontCacher.setFontOnContext(p.g, font, p.color(255), 1.4f, PTextAlign.LEFT, PTextAlign.TOP);
+        StrokeText.draw(p.g, (int) lidarAvg.average()+"mm", 30, p.height - 70, p.color(255), p.color(0), 2, 16);
+
 	}
 
 
