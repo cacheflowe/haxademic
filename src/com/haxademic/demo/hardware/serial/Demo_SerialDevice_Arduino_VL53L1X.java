@@ -62,9 +62,7 @@ implements ISerialDeviceDelegate {
         PFont font = FontCacher.getFont(DemoAssets.fontInterPath, 40);
         FontCacher.setFontOnContext(p.g, font, p.color(255), 1.4f, PTextAlign.LEFT, PTextAlign.TOP);
         StrokeText.draw(p.g, (int) lidarAvg.average()+"mm", 30, p.height - 70, p.color(255), p.color(0), 2, 16);
-
 	}
-
 
 	@Override
 	public void newDataAvailable(Serial serialDevice) {

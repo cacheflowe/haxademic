@@ -67,6 +67,7 @@ WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
 bool wsConnected = false;
 long lastNetworkPollTime = 0;
+int networkPollTimeInterval = 20;
 
 ////////////////////////////////////////////////////
 // force reboot helper
@@ -108,6 +109,7 @@ int swingThreshold = swingMax / 2;
 int swingTimeout = 1000;
 int swingTime = 0;
 long lastSendTime = 0;
+int sendReadingsInterval = 30;
 
 ////////////////////////////////////////////////////
 // bat position
@@ -199,7 +201,8 @@ void checkPosition() {
     position = UP;
     webSocket.sendTXT("{\"position\": \"up\"}");
   } else if(motionTotal < 1500) {
-    // if bat is not swinging, check for other orientations
+    // if bat is not swinging, check for other orientations..
+    // remove for now, since these extra positions get in the way of having UP, which means ready to a swing detection
     /*
     if(position != FLAT && abs(yPos) < 0.3) {
       position = FLAT;
@@ -237,7 +240,7 @@ void checkMotion() {
 }
 
 void sendReadings() {
-  if(!updateAllowed(lastSendTime, 250)) return;
+  if(!updateAllowed(lastSendTime, sendReadingsInterval)) return;
   webSocket.sendTXT("{\"motionTotal\":" + String(motionTotal) + "}");
 }
 
@@ -357,7 +360,8 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
       Serial.printf("[WSc] get text: %s\n", payload);
       break;
     case WStype_ERROR:	
-      wsConnected = false;		
+      Serial.printf("[WSc] ERROR: %s\n", payload);
+      wsConnected = false;
       break;
   }
 }
@@ -365,7 +369,7 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
 void networkLoop() {
   // only update on a reasonable interval
-  if(!updateAllowed(lastNetworkPollTime, 200)) return;
+  if(!updateAllowed(lastNetworkPollTime, networkPollTimeInterval)) return;
 
   // let the websockets client check for incoming messages
   webSocket.loop();
