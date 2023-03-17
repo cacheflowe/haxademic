@@ -35,7 +35,10 @@ Links:
 ======================================================================================================
 */
 
+////////////////////////////////////////////////////
 // includes
+////////////////////////////////////////////////////
+
 #include <Arduino.h>
 #include <M5StickCPlus.h>
 #include <Smoothed.h>
@@ -43,10 +46,38 @@ Links:
 #include <WiFi.h>
 #include <WiFiMulti.h>
 
+////////////////////////////////////////////////////
+// network config
+////////////////////////////////////////////////////
+
+// - Wifi auth
+const char* ssid = "TechHouse";
+const char* password = "birdmagnet";
+
+// - ws:// server 
+const char* websockets_server_host = "192.168.1.155";
+const uint16_t websockets_server_port = 8080;
+const char* websockets_server_path = "/ws";
+
+////////////////////////////////////////////////////
+// network objects
+////////////////////////////////////////////////////
+
+WiFiMulti WiFiMulti;
+WebSocketsClient webSocket;
+bool wsConnected = false;
+long lastNetworkPollTime = 0;
+
+////////////////////////////////////////////////////
 // force reboot helper
+////////////////////////////////////////////////////
+
 void(* Reboot)(void) = 0;
 
+////////////////////////////////////////////////////
 // sensor values & smoothed values
+////////////////////////////////////////////////////
+
 float accX = 0;
 float accY = 0;
 float accZ = 0;
@@ -64,14 +95,24 @@ Smoothed <float> gyroZ_;
 float temp = 0;
 Smoothed <float> temp_;
 
+////////////////////////////////////////////////////
+// swing detection
+////////////////////////////////////////////////////
+
 float motionTotal = 0;
 const int motionBufferSize = 15;
 float motionBuffer[motionBufferSize] = { 0 };
 int motionIndex = 0;
-int swingThreshold = 5000;
+int swingMax = 12000;
+int swingThreshold = swingMax / 2;
+int swingTimeout = 1000;
 int swingTime = 0;
+long lastSendTime = 0;
 
+////////////////////////////////////////////////////
 // bat position
+////////////////////////////////////////////////////
+
 enum Position {
   UP, 
   FLAT, 
@@ -80,30 +121,17 @@ enum Position {
 };
 Position position = FLAT;
 
+////////////////////////////////////////////////////
 // LCD screen refresh interval
+////////////////////////////////////////////////////
+
 long lastDrawTime = 0;
 
+////////////////////////////////////////////////////
 // device active/inactive - toggle with large button
+////////////////////////////////////////////////////
+
 bool active = true;
-
-// network config
-// - Wifi auth
-const char* ssid = "TechHouse";
-const char* password = "birdmagnet";
-
-// - ws:// server 
-const char* websockets_server_host = "192.168.1.155";
-const uint16_t websockets_server_port = 8080;
-const char* websockets_server_path = "/ws";
-
-// network objects
-// using namespace websockets;
-// WebsocketsClient client;
-WiFiMulti WiFiMulti;
-WebSocketsClient webSocket;
-bool wsConnected = false;
-long lastNetworkPollTime = 0;
-
 
 
 void setup() {
@@ -135,7 +163,8 @@ void loop() {
   if(active) {
     updateSensors();
     checkPosition();
-    checkMotion();    
+    checkMotion();
+    sendReadings();
     drawReadings();
     // soundTest();
   }
@@ -165,15 +194,21 @@ void updateSensors() {
 void checkPosition() {
   // y axis is the simple way to figure out bat orientation (up/flat/down)
   float yPos = accY_.get();
-  if(position != UP && yPos > 0.7 && millis() > swingTime + 2000) {
+  if(position != UP && yPos > 0.7 && millis() > swingTime + swingTimeout) {
+    // reset bat for next swing by pointing it up
     position = UP;
     webSocket.sendTXT("{\"position\": \"up\"}");
-  } else if(position != FLAT && abs(yPos) < 0.3) {
-    position = FLAT;
-    webSocket.sendTXT("{\"position\": \"flat\"}");
-  } else if(position != DOWN && yPos < -0.6) {
-    position = DOWN;
-    webSocket.sendTXT("{\"position\": \"down\"}");
+  } else if(motionTotal < 1500) {
+    // if bat is not swinging, check for other orientations
+    /*
+    if(position != FLAT && abs(yPos) < 0.3) {
+      position = FLAT;
+      webSocket.sendTXT("{\"position\": \"flat\"}");
+    } else if(position != DOWN && yPos < -0.6) {
+      position = DOWN;
+      webSocket.sendTXT("{\"position\": \"down\"}");
+    }
+    */
   }
 }
 
@@ -194,9 +229,16 @@ void checkMotion() {
     if(motionTotal > swingThreshold) {
       position = SWING;
       swingTime = millis();
-      webSocket.sendTXT("{\"cmd\":\"swing\",\"sender\":\"client\",\"data\":{\"velocity\":" + String(motionTotal / 6000.) + "}}");
+      float normalizedSwingAmp = motionTotal / (float) swingMax;
+      String msg = "{\"cmd\":\"swing\",\"sender\":\"client\",\"data\":{\"velocity\":" + String(normalizedSwingAmp) + "}}";
+      webSocket.sendTXT(msg);
     }
   }
+}
+
+void sendReadings() {
+  if(!updateAllowed(lastSendTime, 250)) return;
+  webSocket.sendTXT("{\"motionTotal\":" + String(motionTotal) + "}");
 }
 
 void drawReadings() {
