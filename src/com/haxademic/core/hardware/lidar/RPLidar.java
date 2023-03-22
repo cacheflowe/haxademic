@@ -11,6 +11,8 @@ public class RPLidar {
 	// Code & info from: https://vimeo.com/344316345
 	///// CODE EDITED BY OWEN LOWERY - WWW.OWENLOWERY.COM //////////
 	///// ORIGINAL CODE BY ADAM CREEN - INFORMATION BELOW /////////
+    ///// Customized by @cacheflowe
+    // More info: https://github.com/ev3dev-lang-java/RPLidar4J
 
 	/*  Copyright (C) 2014  Adam Green (https://github.com/adamgreen)
 
@@ -41,7 +43,7 @@ public class RPLidar {
     GNU General Public License for more details.
 	 */
 	/* Processing code to interface with RoboPeak's RPLIDAR and display
-   the scan results on the screen. */
+    the scan results on the screen. */
 
 	
 	protected static final byte cmdSyncByte = (byte)0xA5;

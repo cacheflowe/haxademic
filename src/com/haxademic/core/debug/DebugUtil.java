@@ -9,7 +9,7 @@ public class DebugUtil {
 		  
 		long maxMemory = runtime.maxMemory();  
 		long allocatedMemory = runtime.totalMemory();  
-		long freeMemory = runtime.freeMemory();  
+		long freeMemory = runtime.freeMemory();
 		   
 		System.out.println("-- MEMORY USAGE -----------------");  
 		System.out.println("-- free memory: " + freeMemory / 1024);  

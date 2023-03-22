@@ -1,7 +1,6 @@
 package com.haxademic.core.math;
 
 import java.awt.Point;
-import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -234,26 +233,17 @@ public class MathUtil {
 	}
 
 	/**
-	 * Rounds a number to a (generally) smaller number of decmiel places. Useful for making smaller floating point number to transmit.
+	 * Rounds a number to a (generally) smaller number of decimal places. Useful for making smaller floating point number to transmit.
 	 * @param 	value				The number to round
-	 * @param 	numDecimalPlaces	The number of decmiel places to round to
+	 * @param 	numDecimalPlaces	The number of decimal places to round to
 	 * @return
 	 * @use    	{@code var floatNum = MathUtil.roundToPrecision( 0.5555555555, 3 );}
 	 */
+
 	public static float roundToPrecision(float value, int numDecimalPlaces) {
-		float multiplyFactor = (float) Math.pow(10f, numDecimalPlaces);
+	    float multiplyFactor = (float) Math.pow(10f, numDecimalPlaces);
 	    float valueMultiplied = value * multiplyFactor;
 	    return (float) Math.round(valueMultiplied) / multiplyFactor;
-	}
-	
-	public static String roundToPrecision2(float value, int numDecimalPlaces) {
-		String decimalPlaces = "";
-		for (int i = 0; i < numDecimalPlaces; i++) decimalPlaces += "#";
-		DecimalFormat df = new DecimalFormat("#."+decimalPlaces);
-		String output = df.format(value);
-		if(output.length() < numDecimalPlaces + 2) output += ".0";
-		while(output.length() < numDecimalPlaces + 2) output += "0";
-		return output;
 	}
 
 	/**

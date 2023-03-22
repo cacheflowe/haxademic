@@ -5,11 +5,9 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.lidar.RPLidar;
 import com.haxademic.core.hardware.lidar.RPLidar.LidarMeasurement;
 import com.haxademic.core.hardware.lidar.RPLidar.LidarScan;
-import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.ui.UI;
 
 public class Demo_RPLidar
@@ -25,7 +23,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		RPLidar.DEBUG = true;
-		lidarRP = new RPLidar("COM5");
+		lidarRP = new RPLidar("COM7");
 		
 		UI.addTitle("RPLidar");
 		UI.addSlider(UI_ROTATION_OFFSET, 0, -P.TWO_PI, P.TWO_PI, 0.01f, false);

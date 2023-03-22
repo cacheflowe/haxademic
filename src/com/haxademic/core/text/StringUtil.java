@@ -1,10 +1,12 @@
 package com.haxademic.core.text;
 
 import java.io.UnsupportedEncodingException;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Arrays;
 
 import com.haxademic.core.app.P;
 
@@ -18,18 +20,41 @@ public class StringUtil {
 		return formatter.format(amount);
 	}
 
-	public String roundToPrecision(float value, int numDecimalPlaces) {
-		String decimalPlaces = "";
-		for (int i = 0; i < numDecimalPlaces; i++) decimalPlaces += "#";
-		DecimalFormat df = new DecimalFormat("#."+decimalPlaces);
-		String output = df.format(value);
-		if(output.length() < numDecimalPlaces + 2) output += ".0";
-		while(output.length() < numDecimalPlaces + 2) output += "0";
-		return output;
+	public static String roundToPrecision(float value, int numDecimalPlaces) {
+	    return roundToPrecision(value, numDecimalPlaces, false);
 	}
+
+    public static String roundToPrecision(float value, int numDecimalPlaces, boolean padRight) {
+        String decimalPlaces = stringOfLengthWithChar(numDecimalPlaces, '#');
+        DecimalFormat df = new DecimalFormat(" #."+decimalPlaces+";-#"); // https://stackoverflow.com/a/5243412
+        df.setRoundingMode(RoundingMode.FLOOR);
+        String output = df.format(value);
+        // always fill to padded size
+        if(padRight) {
+            if(output.contains(".") == false) {
+                output += "." + stringOfLengthWithChar(numDecimalPlaces, '0');
+            } else {
+                int curDecimalPlaces = output.length() - output.indexOf(".") - 1;
+                int numZerosToFill = numDecimalPlaces - curDecimalPlaces;
+                if(numZerosToFill > 0) {
+                    output += stringOfLengthWithChar(numZerosToFill, '0');
+                }
+            }
+        }
+        return output;
+    }
 
 	public static String formattedInteger(int number) {
 		return NumberFormat.getInstance().format(number);
+	}
+	
+	public static String stringOfLengthWithChar(int length, char charToFill) {
+	    if (length > 0) {
+	        char[] array = new char[length];
+	        Arrays.fill(array, charToFill);
+	        return new String(array);
+	    }
+	    return "";
 	}
 	
 	public static String safeString(String str) {

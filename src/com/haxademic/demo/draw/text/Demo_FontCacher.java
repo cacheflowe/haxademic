@@ -20,7 +20,7 @@ extends PAppletHax {
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		p.text(fontFile, 20, 20);
 		
-		String fontFile2 = DemoAssets.fontDSEG7Path;
+		String fontFile2 = DemoAssets.fontMonospacePath;
 		font = FontCacher.getFont(fontFile2, 18);
 		FontCacher.setFontOnContext(p.g, font, p.color(0, 255, 0), 1.8f, PTextAlign.LEFT, PTextAlign.TOP);
 		p.text(fontFile2 + FileUtil.NEWLINE + fontFile2, 20, 100);
