@@ -31,10 +31,10 @@ extends PAppletHax {
 		
 		// draw can, either as PShape, or by drawing triangles with an arbitrary texture
 		if(p.frameCount % 300 < 150) {
-			MeshDeformAndTextureFilter.instance(p).setDisplacementMap(DemoAssets.justin());
-			MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(FrameLoop.osc(0.03f, 0, 0.3f));
-			MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
-			MeshDeformAndTextureFilter.instance(p).applyTo(p);
+			MeshDeformAndTextureFilter.instance().setDisplacementMap(DemoAssets.justin());
+			MeshDeformAndTextureFilter.instance().setDisplaceAmp(FrameLoop.osc(0.03f, 0, 0.3f));
+			MeshDeformAndTextureFilter.instance().setSheetMode(false);
+			MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 			p.shape(shape);
 			

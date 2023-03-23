@@ -74,21 +74,21 @@ extends PAppletHax {
 		basicMap.endDraw();
 
 		// replace basic map with another image?
-		BlendTowardsTexture.instance(p).setSourceTexture(ImageCacher.get("images/_sketch/kamala.jpg"));
-		BlendTowardsTexture.instance(p).setFlipY(true);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.995f);
-//		BlendTowardsTexture.instance(p).applyTo(basicMap);
+		BlendTowardsTexture.instance().setSourceTexture(ImageCacher.get("images/_sketch/kamala.jpg"));
+		BlendTowardsTexture.instance().setFlipY(true);
+		BlendTowardsTexture.instance().setBlendLerp(0.995f);
+//		BlendTowardsTexture.instance().applyTo(basicMap);
 		ImageUtil.cropFillCopyImage(ImageCacher.get("images/_sketch/kamala.jpg"), basicMap, true);
-		InvertFilter.instance(p).applyTo(basicMap);
-		ContrastFilter.instance(p).setContrast(3.f);
-		ContrastFilter.instance(p).applyTo(basicMap);
+		InvertFilter.instance().applyTo(basicMap);
+		ContrastFilter.instance().setContrast(3.f);
+		ContrastFilter.instance().applyTo(basicMap);
 		
 		// blur basic map circle
-		BlurHFilter.instance(p).setBlurByPercent(1f, basicMap.width);
-		BlurVFilter.instance(p).setBlurByPercent(1f, basicMap.height);
+		BlurHFilter.instance().setBlurByPercent(1f, basicMap.width);
+		BlurVFilter.instance().setBlurByPercent(1f, basicMap.height);
 		for (int i = 0; i < 10; i++) {
-//			BlurHFilter.instance(p).applyTo(basicMap);
-//			BlurVFilter.instance(p).applyTo(basicMap);
+//			BlurHFilter.instance().applyTo(basicMap);
+//			BlurVFilter.instance().applyTo(basicMap);
 		}
 		
 		///////////////////////
@@ -103,8 +103,8 @@ extends PAppletHax {
 				false,								// fractal mode
 				false								// xRepeat mode
 		);
-		ContrastFilter.instance(p).setContrast(3.f);
-		ContrastFilter.instance(p).applyTo(noiseTexture.texture());
+		ContrastFilter.instance().setContrast(3.f);
+		ContrastFilter.instance().applyTo(noiseTexture.texture());
 		
 		// Draw seed
 		pg.beginDraw();
@@ -129,56 +129,56 @@ extends PAppletHax {
 		///////////////////////
 		// set R/D uniforms
 		///////////////////////
-		GrainFilter.instance(p).setCrossfade(0.1f);
-		GrainFilter.instance(p).setTime(p.frameCount);
+		GrainFilter.instance().setCrossfade(0.1f);
+		GrainFilter.instance().setTime(p.frameCount);
 
 		PGraphics rdMap = (Mouse.yNorm > 0.5f) ? basicMap : noiseTexture.texture();
 		rdMap = basicMap;
-		BlurHMapFilter.instance(p).setMap(rdMap);
-		BlurHMapFilter.instance(p).setAmpMin(0.4f);
-		BlurHMapFilter.instance(p).setAmpMax(1.25f);
-		BlurVMapFilter.instance(p).setMap(rdMap);
-		BlurVMapFilter.instance(p).setAmpMin(0.6f);
-		BlurVMapFilter.instance(p).setAmpMax(1.25f);
-		SharpenMapFilter.instance(p).setMap(rdMap);
-		SharpenMapFilter.instance(p).setAmpMin(2f);
-		SharpenMapFilter.instance(p).setAmpMax(4f);
+		BlurHMapFilter.instance().setMap(rdMap);
+		BlurHMapFilter.instance().setAmpMin(0.4f);
+		BlurHMapFilter.instance().setAmpMax(1.25f);
+		BlurVMapFilter.instance().setMap(rdMap);
+		BlurVMapFilter.instance().setAmpMin(0.6f);
+		BlurVMapFilter.instance().setAmpMax(1.25f);
+		SharpenMapFilter.instance().setMap(rdMap);
+		SharpenMapFilter.instance().setAmpMin(2f);
+		SharpenMapFilter.instance().setAmpMax(4f);
 		
-		DisplacementMapFilter.instance(p).setMap(noiseTexture.texture());
-		DisplacementMapFilter.instance(p).setMode(3);
-		DisplacementMapFilter.instance(p).setRotRange(P.TWO_PI * 2f);
-		DisplacementMapFilter.instance(p).setAmp(0.0001f);
+		DisplacementMapFilter.instance().setMap(noiseTexture.texture());
+		DisplacementMapFilter.instance().setMode(3);
+		DisplacementMapFilter.instance().setRotRange(P.TWO_PI * 2f);
+		DisplacementMapFilter.instance().setAmp(0.0001f);
 		
-		RotateFilter.instance(p).setRotation(0);
-		RotateFilter.instance(p).setZoom(0.9998f);
-		RotateFilter.instance(p).setOffset(0.0003f, 0.00001f);
+		RotateFilter.instance().setRotation(0);
+		RotateFilter.instance().setZoom(0.9998f);
+		RotateFilter.instance().setOffset(0.0003f, 0.00001f);
 
-		BrightnessStepFilter.instance(p).setBrightnessStep((-255f * Mouse.xNorm)/255f);
+		BrightnessStepFilter.instance().setBrightnessStep((-255f * Mouse.xNorm)/255f);
 
 		///////////////////////
 		// auto loop
 		///////////////////////
-//		BrightnessStepFilter.instance(p).setBrightnessStep(FrameLoop.osc(0.003f, -200, -40)/255f);
-//		DisplacementMapFilter.instance(p).setAmp(FrameLoop.osc(0.003f, 0f, 0.004f));
+//		BrightnessStepFilter.instance().setBrightnessStep(FrameLoop.osc(0.003f, -200, -40)/255f);
+//		DisplacementMapFilter.instance().setAmp(FrameLoop.osc(0.003f, 0f, 0.004f));
 		
 		///////////////////////
 		// Do R/D
 		///////////////////////
 		for (int i = 0; i < 5; i++) {
-			BrightnessStepFilter.instance(p).applyTo(pg);
-			RotateFilter.instance(p).applyTo(pg);
-			DisplacementMapFilter.instance(p).applyTo(pg);
-			GrainFilter.instance(p).applyTo(pg);	// add jitter. not sure if this helps. might prevent from going full black or white
-			BlurHMapFilter.instance(p).applyTo(pg);
-			BlurVMapFilter.instance(p).applyTo(pg);
-			BlurHMapFilter.instance(p).applyTo(pg);
-			BlurVMapFilter.instance(p).applyTo(pg);
-			SharpenMapFilter.instance(p).applyTo(pg);
+			BrightnessStepFilter.instance().applyTo(pg);
+			RotateFilter.instance().applyTo(pg);
+			DisplacementMapFilter.instance().applyTo(pg);
+			GrainFilter.instance().applyTo(pg);	// add jitter. not sure if this helps. might prevent from going full black or white
+			BlurHMapFilter.instance().applyTo(pg);
+			BlurVMapFilter.instance().applyTo(pg);
+			BlurHMapFilter.instance().applyTo(pg);
+			BlurVMapFilter.instance().applyTo(pg);
+			SharpenMapFilter.instance().applyTo(pg);
 		}
 		
-//		SaturationFilter.instance(p).setSaturation(0f);
-//		SaturationFilter.instance(p).applyTo(pg);
-//		ThresholdFilter.instance(p).applyTo(pg);
+//		SaturationFilter.instance().setSaturation(0f);
+//		SaturationFilter.instance().applyTo(pg);
+//		ThresholdFilter.instance().applyTo(pg);
 		pg.endDraw();
 		
 		///////////////////////
@@ -189,9 +189,9 @@ extends PAppletHax {
 		///////////////////////
 		// Post processing
 		///////////////////////
-//		FakeLightingFilter.instance(p).applyTo(p.g);
-//		EdgesFilter.instance(p).applyTo(p.g);
-//		FXAAFilter.instance(p).applyTo(p.g);
+//		FakeLightingFilter.instance().applyTo(p.g);
+//		EdgesFilter.instance().applyTo(p.g);
+//		FXAAFilter.instance().applyTo(p.g);
 	}
 
 }

@@ -68,10 +68,10 @@ extends PAppletHax {
 
 		// deform mesh
 		displaceTexture.offsetX(p.frameCount * 0.01f);
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displaceTexture.texture());
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(200f);
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(displaceTexture.texture());
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(200f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 		// draw mesh
 		p.scale(0.5f);

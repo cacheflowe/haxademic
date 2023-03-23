@@ -142,28 +142,28 @@ extends BaseVideoFilter {
 		
 		// blur to smooth clocky motion detection
 		float blurAmp = UI.value(UI_BLUR_SMOOTH_AMP);
-		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, blurPG.width);
-		BlurHFilter.instance(P.p).applyTo(blurPG);
-		BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, blurPG.height);
-		BlurVFilter.instance(P.p).applyTo(blurPG);
+		BlurHFilter.instance().setBlurByPercent(blurAmp, blurPG.width);
+		BlurHFilter.instance().applyTo(blurPG);
+		BlurVFilter.instance().setBlurByPercent(blurAmp, blurPG.height);
+		BlurVFilter.instance().applyTo(blurPG);
 	}
 	
 	
 	protected void fadeAndScrollLastFrame() {
 		// fade down
-		BrightnessStepFilter.instance(P.p).setBrightnessStep(-UI.value(UI_DARKEN)/255);
-		BrightnessStepFilter.instance(P.p).applyTo(fadePG);
+		BrightnessStepFilter.instance().setBrightnessStep(-UI.value(UI_DARKEN)/255);
+		BrightnessStepFilter.instance().applyTo(fadePG);
 		
 		// scroll
-		RotateFilter.instance(P.p).setRotation(0.0f);// + 0.01f * P.sin(p.frameCount * 0.1f));
-//		RotateFilter.instance(P.p).setRotation(0);
-		RotateFilter.instance(P.p).setZoom(UI.value(UI_SCROLL_ZOOM));
-		RotateFilter.instance(P.p).setOffset(0f, -UI.value(UI_SCROLL_UP));
-		RotateFilter.instance(P.p).applyTo(fadePG);
+		RotateFilter.instance().setRotation(0.0f);// + 0.01f * P.sin(p.frameCount * 0.1f));
+//		RotateFilter.instance().setRotation(0);
+		RotateFilter.instance().setZoom(UI.value(UI_SCROLL_ZOOM));
+		RotateFilter.instance().setOffset(0f, -UI.value(UI_SCROLL_UP));
+		RotateFilter.instance().applyTo(fadePG);
 		
 		// draw bottom bar
-		EdgeColorDarkenFilter.instance(P.p).setSpreadY(0.01f);
-		EdgeColorDarkenFilter.instance(P.p).applyTo(fadePG);
+		EdgeColorDarkenFilter.instance().setSpreadY(0.01f);
+		EdgeColorDarkenFilter.instance().applyTo(fadePG);
 	}
 	
 	protected void addBlendBlurredAndSpread() {
@@ -189,10 +189,10 @@ extends BaseVideoFilter {
 		float blurAmp = 1f;
 		if(blurSpreadIters > 0) {
 			for (int i = 0; i < blurSpreadIters; i++) {
-				BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, fadePG.width);
-				BlurHFilter.instance(P.p).applyTo(fadePG);
-				BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, fadePG.height);
-				BlurVFilter.instance(P.p).applyTo(fadePG);
+				BlurHFilter.instance().setBlurByPercent(blurAmp, fadePG.width);
+				BlurHFilter.instance().applyTo(fadePG);
+				BlurVFilter.instance().setBlurByPercent(blurAmp, fadePG.height);
+				BlurVFilter.instance().applyTo(fadePG);
 			}
 		}
 	}
@@ -205,16 +205,16 @@ extends BaseVideoFilter {
 				-P.p.frameCount * 0.05f
 		);
 		
-		BrightnessFilter.instance(P.p).setBrightness(UI.value(UI_NOISE_BRIGHTNESS));
-		BrightnessFilter.instance(P.p).applyTo(noiseTexture.texture());
+		BrightnessFilter.instance().setBrightness(UI.value(UI_NOISE_BRIGHTNESS));
+		BrightnessFilter.instance().applyTo(noiseTexture.texture());
 		
 		DebugView.setTexture("noiseTexture", noiseTexture.texture());
 		
 		float blurAmp = UI.value(UI_BLUR_DISPLACER_AMP);
-		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, noiseTexture.texture().width);
-		BlurHFilter.instance(P.p).applyTo(noiseTexture.texture());
-		BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, noiseTexture.texture().height);
-		BlurVFilter.instance(P.p).applyTo(noiseTexture.texture());
+		BlurHFilter.instance().setBlurByPercent(blurAmp, noiseTexture.texture().width);
+		BlurHFilter.instance().applyTo(noiseTexture.texture());
+		BlurVFilter.instance().setBlurByPercent(blurAmp, noiseTexture.texture().height);
+		BlurVFilter.instance().applyTo(noiseTexture.texture());
 	}
 
 	protected void applyFeedbackShaderTo(PGraphics pgToFeedback) {
@@ -244,8 +244,8 @@ extends BaseVideoFilter {
 	}
 	
 	protected void applyGradient() {
-		ColorizeFromTexture.instance(P.p).setTexture(gradientPG);
-		ColorizeFromTexture.instance(P.p).applyTo(firePG);
+		ColorizeFromTexture.instance().setTexture(gradientPG);
+		ColorizeFromTexture.instance().applyTo(firePG);
 	}
 	
 }

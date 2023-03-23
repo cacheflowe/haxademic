@@ -84,16 +84,16 @@ implements IWebCamCallback {
 			
 			ImageUtil.cropFillCopyImage(flippedCamera, p.g, true);
 			
-			ContrastFilter.instance(p).setContrast(3f);
-//			ContrastFilter.instance(p).applyTo(p);
-			BrightnessFilter.instance(p).setBrightness(1.7f);
-			BrightnessFilter.instance(p).applyTo(p);
+			ContrastFilter.instance().setContrast(3f);
+//			ContrastFilter.instance().applyTo(p);
+			BrightnessFilter.instance().setBrightness(1.7f);
+			BrightnessFilter.instance().setOnContext(p);
 			
-			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
-			ColorizeFromTexture.instance(p).setLumaMult(Mouse.xNorm > 0.5f);
-			ColorizeFromTexture.instance(p).setCrossfade(Mouse.yNorm);
-			ColorizeFromTexture.instance(p).setOffset(FrameLoop.count(0.005f));
-			ColorizeFromTexture.instance(p).applyTo(p);
+			ColorizeFromTexture.instance().setTexture(imageGradient.texture());
+			ColorizeFromTexture.instance().setLumaMult(Mouse.xNorm > 0.5f);
+			ColorizeFromTexture.instance().setCrossfade(Mouse.yNorm);
+			ColorizeFromTexture.instance().setOffset(FrameLoop.count(0.005f));
+			ColorizeFromTexture.instance().setOnContext(p);
 		}
 	}
 

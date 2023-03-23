@@ -159,7 +159,7 @@ implements IWebCamCallback {
 			p.g.noStroke();
 			p.g.image(webcamBuffer, 0, 0, debugW, debugH);
 			
-			LeaveWhiteFilter.instance(p).applyTo(motionDetectionMap.bwBuffer());
+			LeaveWhiteFilter.instance().applyTo(motionDetectionMap.bwBuffer());
 			p.blendMode(PBlendModes.EXCLUSION);
 			p.g.image(motionDetectionMap.bwBuffer(), 0, 0, debugW, debugH);
 			p.blendMode(PBlendModes.BLEND);

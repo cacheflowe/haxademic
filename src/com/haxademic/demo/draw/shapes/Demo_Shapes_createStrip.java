@@ -116,11 +116,11 @@ extends PAppletHax {
 		PG.basicCameraFromMouse(p.g);
 		
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(noiseTexture.texture());
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(texture.height * 2.5f);
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).setYAxisOnly(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p.g);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(noiseTexture.texture());
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(texture.height * 2.5f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setYAxisOnly(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(p.g);
 		// draw shape
 		if(nativeTriangles == false) {
 			p.shape(shape);

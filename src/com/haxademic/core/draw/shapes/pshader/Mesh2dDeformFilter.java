@@ -3,7 +3,6 @@ package com.haxademic.core.draw.shapes.pshader;
 import com.haxademic.core.draw.shapes.pshader.shared.BaseVertexShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Mesh2dDeformFilter
@@ -11,8 +10,8 @@ extends BaseVertexShader {
 
 	public static Mesh2dDeformFilter instance;
 		
-	public Mesh2dDeformFilter(PApplet p) {
-		super(p, 
+	public Mesh2dDeformFilter() {
+		super(
 			"haxademic/shaders/vertex/mesh-2d-deform-frag.glsl", 
 			"haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"
 		);
@@ -21,9 +20,9 @@ extends BaseVertexShader {
 		setSheetMode(true);
 	}
 	
-	public static Mesh2dDeformFilter instance(PApplet p) {
+	public static Mesh2dDeformFilter instance() {
 		if(instance != null) return instance;
-		instance = new Mesh2dDeformFilter(p);
+		instance = new Mesh2dDeformFilter();
 		return instance;
 	}
 	

@@ -69,7 +69,7 @@ extends PAppletHax {
 
 		background(0);
 		PG.setCenterScreen(p.g);
-		if(p.key != ' ') PG.basicCameraFromMouse(p.g, 0.3f);
+		if(p.key != ' ') PG.basicCameraFromMouse(p.g, 0.1f);
 		
 		// update mapped texture
 		tex.beginDraw();
@@ -87,10 +87,10 @@ extends PAppletHax {
 		DebugView.setTexture("texDisplace", texDisplace);
 		
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texDisplace);
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(UI.value(displaceAmp));
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p.g);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(texDisplace);
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(UI.value(displaceAmp));
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(p.g);
 
 		// draw mesh
 		p.scale(UI.value(meshScale));

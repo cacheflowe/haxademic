@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class BrightnessToAlphaFilter
 extends BaseFragmentShader {
 
 	public static BrightnessToAlphaFilter instance;
 	
-	public BrightnessToAlphaFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/brightness-to-alpha.glsl");
+	public BrightnessToAlphaFilter() {
+		super("haxademic/shaders/filters/brightness-to-alpha.glsl");
 		setFlip(false);
 	}
 	
-	public static BrightnessToAlphaFilter instance(PApplet p) {
+	public static BrightnessToAlphaFilter instance() {
 		if(instance != null) return instance;
-		instance = new BrightnessToAlphaFilter(p);
+		instance = new BrightnessToAlphaFilter();
 		return instance;
 	}
 	

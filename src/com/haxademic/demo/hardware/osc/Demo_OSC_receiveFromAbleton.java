@@ -67,8 +67,8 @@ extends PAppletHax {
 		
 		// fade out
 		if(kickQueued) {
-			BrightnessStepFilter.instance(p).setBrightnessStep(-25f/255f);
-			BrightnessStepFilter.instance(p).applyTo(pg);
+			BrightnessStepFilter.instance().setBrightnessStep(-25f/255f);
+			BrightnessStepFilter.instance().setOnContext(pg);
 		}
 		
 		// feedback
@@ -76,10 +76,10 @@ extends PAppletHax {
 		rot.update();
 		offsetX.update();
 		offsetY.update();
-		RotateFilter.instance(p).setZoom(zoom.value());
-		RotateFilter.instance(p).setOffset(offsetX.value(), offsetY.value());
-		RotateFilter.instance(p).setRotation(rot.value());
-		RotateFilter.instance(p).applyTo(pg);
+		RotateFilter.instance().setZoom(zoom.value());
+		RotateFilter.instance().setOffset(offsetX.value(), offsetY.value());
+		RotateFilter.instance().setRotation(rot.value());
+		RotateFilter.instance().setOnContext(pg);
 		
 		// draw shapes
 		PG.setCenterScreen(pg);

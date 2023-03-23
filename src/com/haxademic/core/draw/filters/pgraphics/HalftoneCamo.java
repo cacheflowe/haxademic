@@ -15,10 +15,10 @@ extends BaseVideoFilter {
 	public void update() {
 		ImageUtil.copyImage(sourceBuffer, destBuffer);
 		float osc = P.sin(P.p.frameCount * 0.01f);
-//		ContrastFilter.instance(p).setContrast(1.4f);
-//		ContrastFilter.instance(p).applyTo(p);
-		HalftoneCamoFilter.instance(P.p).setTime(P.PI + osc);
-		HalftoneCamoFilter.instance(P.p).setScale(1.5f + 0.5f * osc);
-		HalftoneCamoFilter.instance(P.p).applyTo(destBuffer);
+//		ContrastFilter.instance().setContrast(1.4f);
+//		ContrastFilter.instance().applyTo(p);
+		HalftoneCamoFilter.instance().setTime(P.PI + osc);
+		HalftoneCamoFilter.instance().setScale(1.5f + 0.5f * osc);
+		HalftoneCamoFilter.instance().applyTo(destBuffer);
 	}
 }

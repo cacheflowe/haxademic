@@ -165,22 +165,22 @@ implements IWebCamCallback {
 	protected void applyFlow(PGraphics pg) {
 		// copy camera rgb to buffer and mix it slightly into the displaced buffer
 //		ImageUtil.cropFillCopyImage(realSenseWrapper.getRgbImage(), curRgbFrame, true);
-//		BlendTowardsTexture.instance(p).setSourceTexture(curRgbFrame);
-//		BlendTowardsTexture.instance(p).setBlendLerp(UI.value(cameraLerp));
-//		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
+//		BlendTowardsTexture.instance().setSourceTexture(curRgbFrame);
+//		BlendTowardsTexture.instance().setBlendLerp(UI.value(cameraLerp));
+//		BlendTowardsTexture.instance().applyTo(camDisplaced);
 		
 		// flow the displaced camera buffer
 		PGraphics opFlowResult = opticalFlow.resultBuffer();
-		DisplacementMapFilter.instance(P.p).setMap(opFlowResult);
-		DisplacementMapFilter.instance(P.p).setMode(10);
-		DisplacementMapFilter.instance(P.p).setAmp(UI.value(cameraDisplaceAmp));
+		DisplacementMapFilter.instance().setMap(opFlowResult);
+		DisplacementMapFilter.instance().setMode(10);
+		DisplacementMapFilter.instance().setAmp(UI.value(cameraDisplaceAmp));
 		for (int i = 0; i < UI.valueInt(cameraDisplaceIters); i++) {
 			DisplacementMapFilter.instance.applyTo(pg);	
 		}
 		
 		
-		BrightnessStepFilter.instance(p).setBrightnessStep(-1/255f);
-		BrightnessStepFilter.instance(p).applyTo(pg);
+		BrightnessStepFilter.instance().setBrightnessStep(-1/255f);
+		BrightnessStepFilter.instance().applyTo(pg);
 	}
 	
 	@Override
@@ -202,10 +202,10 @@ implements IWebCamCallback {
 		
 		// copy to diff buffer smoothed version
 		ImageUtil.copyImageFlipH(bufferFrameDifference.differenceBuffer(), diffBufferSmoothed);
-		ThresholdFilter.instance(p).setCutoff(UI.value(diffSmoothThresh));
-		ThresholdFilter.instance(p).applyTo(diffBufferSmoothed);
-		BlurProcessingFilter.instance(p).setBlurSize(10);
-		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(diffBufferSmoothed);
+		ThresholdFilter.instance().setCutoff(UI.value(diffSmoothThresh));
+		ThresholdFilter.instance().applyTo(diffBufferSmoothed);
+		BlurProcessingFilter.instance().setBlurSize(10);
+		for(int i=0; i < 5; i++) BlurProcessingFilter.instance().applyTo(diffBufferSmoothed);
 		
 		// debug webcam view
 		DebugView.setTexture("webcam", frame);

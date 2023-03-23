@@ -106,13 +106,13 @@ implements IWebCamCallback {
 		DebugView.setTexture("simplexNoise.texture()", simplexNoise.texture());
 
 		// apply feedback shader
-		FeedbackMapFilter.instance(P.p).setMap(simplexNoise.texture());
-		FeedbackMapFilter.instance(p).setAmp(UI.value(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(UI.value(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/20f); // UI.value(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
-		for (int i = 0; i < UI.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(pg);
+		FeedbackMapFilter.instance().setMap(simplexNoise.texture());
+		FeedbackMapFilter.instance().setAmp(UI.value(feedbackAmp));
+		FeedbackMapFilter.instance().setBrightnessStep(UI.value(feedbackBrightStep));
+		FeedbackMapFilter.instance().setAlphaStep(UI.value(feedbackAlphaStep));
+		FeedbackMapFilter.instance().setRadiansStart(p.frameCount/20f); // UI.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance().setRadiansRange(UI.value(feedbackRadiansRange));
+		for (int i = 0; i < UI.valueInt(feedbackIters); i++) FeedbackMapFilter.instance().applyTo(pg);
 	}
 
 	@Override
@@ -135,10 +135,10 @@ implements IWebCamCallback {
 		
 		// copy to diff buffer smoothed version
 		ImageUtil.copyImageFlipH(bufferFrameDifference.differenceBuffer(), diffBufferSmoothed);
-		ThresholdFilter.instance(p).setCutoff(UI.value(diffSmoothThresh));
-		ThresholdFilter.instance(p).applyTo(diffBufferSmoothed);
-		BlurProcessingFilter.instance(p).setBlurSize(10);
-		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(diffBufferSmoothed);
+		ThresholdFilter.instance().setCutoff(UI.value(diffSmoothThresh));
+		ThresholdFilter.instance().applyTo(diffBufferSmoothed);
+		BlurProcessingFilter.instance().setBlurSize(10);
+		for(int i=0; i < 5; i++) BlurProcessingFilter.instance().applyTo(diffBufferSmoothed);
 		
 		// debug webcam view
 		DebugView.setTexture("webcam", frame);

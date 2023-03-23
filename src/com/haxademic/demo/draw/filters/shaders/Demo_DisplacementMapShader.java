@@ -43,9 +43,9 @@ extends PAppletHax {
 
 		// set displace shader params & apply
 		mode = P.round(Mouse.yNorm * 7);
-		DisplacementMapFilter.instance(p).setMap(map);
-		DisplacementMapFilter.instance(p).setMode(mode);
-		DisplacementMapFilter.instance(p).setAmp(Mouse.xNorm/10f);
+		DisplacementMapFilter.instance().setMap(map);
+		DisplacementMapFilter.instance().setMode(mode);
+		DisplacementMapFilter.instance().setAmp(Mouse.xNorm/10f);
 		DisplacementMapFilter.instance.applyTo(p.g);
 		
 		// debug

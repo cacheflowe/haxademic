@@ -1,7 +1,5 @@
 package com.haxademic.demo.hardware.depthcamera.kinectpv2;
 
-import java.util.Iterator;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -72,7 +70,7 @@ extends PAppletHax {
         // do masking
         ImageUtil.cropFillCopyImage(rgb, bufferRgb, true);
         ImageUtil.cropFillCopyImage(silhouette, bufferMask, true);
-        InvertFilter.instance(p).applyTo(bufferMask);
+        InvertFilter.instance().setOnContext(bufferMask);
         bufferRgb.mask(bufferMask);
         DebugView.setTexture("bufferRgb", bufferRgb);
         

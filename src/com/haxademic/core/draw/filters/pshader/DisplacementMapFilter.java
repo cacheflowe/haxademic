@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class DisplacementMapFilter
@@ -12,8 +11,8 @@ extends BaseFragmentShader {
 
 	public static DisplacementMapFilter instance;
 	
-	public DisplacementMapFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/displacement-map.glsl");
+	public DisplacementMapFilter() {
+		super("haxademic/shaders/filters/displacement-map.glsl");
 		setMap(DemoAssets.smallTexture());
 		setAmp(0.1f);
 		setMode(1);
@@ -21,9 +20,9 @@ extends BaseFragmentShader {
 		setDivider(4f);
 	}
 	
-	public static DisplacementMapFilter instance(PApplet p) {
+	public static DisplacementMapFilter instance() {
 		if(instance != null) return instance;
-		instance = new DisplacementMapFilter(p);
+		instance = new DisplacementMapFilter();
 		return instance;
 	}
 	

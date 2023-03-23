@@ -270,12 +270,12 @@ extends PAppletHax {
 		DebugView.setValue("numLightsShown", numLightsShown);
 		
 		// post process
-		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
-		BrightnessStepFilter.instance(p).applyTo(p.g);
-		BloomFilter.instance(p).setStrength(1.5f);
-		BloomFilter.instance(p).setBlurIterations(3);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance(p).applyTo(p.g);
+		BrightnessStepFilter.instance().setBrightnessStep(-1f/255f);
+		BrightnessStepFilter.instance().applyTo(p.g);
+		BloomFilter.instance().setStrength(1.5f);
+		BloomFilter.instance().setBlurIterations(3);
+		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+		BloomFilter.instance().applyTo(p.g);
 		
 		// draw current letter
 		p.pop();

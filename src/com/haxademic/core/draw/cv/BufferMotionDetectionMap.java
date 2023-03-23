@@ -100,12 +100,12 @@ public class BufferMotionDetectionMap {
 
 		// post-process difference buffer w/ threshold of black & white falloff, w/ blur to help smooth
 		ImageUtil.cropFillCopyImage(differenceBuffer, bwBuffer, true);
-		BlurHFilter.instance(P.p).setBlurByPercent(blur, (float) bwBuffer.width);
-		BlurHFilter.instance(P.p).applyTo(bwBuffer);
-		BlurVFilter.instance(P.p).setBlurByPercent(blur, (float) bwBuffer.height);
-		BlurVFilter.instance(P.p).applyTo(bwBuffer);
-		ThresholdFilter.instance(P.p).setCutoff(thresholdCutoff);
-		ThresholdFilter.instance(P.p).applyTo(bwBuffer);
+		BlurHFilter.instance().setBlurByPercent(blur, (float) bwBuffer.width);
+		BlurHFilter.instance().applyTo(bwBuffer);
+		BlurVFilter.instance().setBlurByPercent(blur, (float) bwBuffer.height);
+		BlurVFilter.instance().applyTo(bwBuffer);
+		ThresholdFilter.instance().setCutoff(thresholdCutoff);
+		ThresholdFilter.instance().applyTo(bwBuffer);
 	}
 }
 

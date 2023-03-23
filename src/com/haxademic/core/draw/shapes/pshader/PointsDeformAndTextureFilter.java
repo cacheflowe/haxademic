@@ -3,7 +3,6 @@ package com.haxademic.core.draw.shapes.pshader;
 import com.haxademic.core.draw.shapes.pshader.shared.BaseVertexShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class PointsDeformAndTextureFilter
@@ -14,8 +13,8 @@ extends BaseVertexShader {
 	// prerequisites:
 	// Set UV coords on mesh (you can use PShapeUtil methods or do it manually)
 	
-	public PointsDeformAndTextureFilter(PApplet p) {
-		super(p, 
+	public PointsDeformAndTextureFilter() {
+		super( 
 			"haxademic/shaders/point/points-default-frag.glsl", 
 			"haxademic/shaders/point/points-deform-and-texture-vert.glsl"
 		);
@@ -28,9 +27,9 @@ extends BaseVertexShader {
 		setColorPointSizeMode(true);
 	}
 	
-	public static PointsDeformAndTextureFilter instance(PApplet p) {
+	public static PointsDeformAndTextureFilter instance() {
 		if(instance != null) return instance;
-		instance = new PointsDeformAndTextureFilter(p);
+		instance = new PointsDeformAndTextureFilter();
 		return instance;
 	}
 	

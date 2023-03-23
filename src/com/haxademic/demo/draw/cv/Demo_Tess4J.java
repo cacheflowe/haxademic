@@ -40,10 +40,13 @@ implements IWebCamCallback {
     // Tess4J docs: 
     // https://javadoc.io/static/net.sourceforge.tess4j/tess4j/5.3.0/net/sourceforge/tess4j/ITesseract.html
     
-    // Potential problem: 
+    // Potential problem - seems to happen when I'm doing other things with my computer: 
     // - !w_it.cycled_list():Error:Assert failed:in file C:\Projects\github\tesseract-ocr\src\ccstruct\pageres.cpp, line 1408
     // - Only in Multithreaded situation
     //   - https://github.com/nguyenq/tess4j/issues/143
+    
+    // OCR help: 
+    // - https://towardsdatascience.com/pre-processing-in-ocr-fc231c6035a7
     
     protected Tesseract tesseract;
     protected boolean ocrBusy = false;
@@ -119,15 +122,15 @@ implements IWebCamCallback {
         // post-process buffer w/ threshold 
         ImageUtil.cropFillCopyImage(webcamBuffer, bwBuffer, true);
         // pre-process effects
-        SaturationFilter.instance(p).setSaturation(0);
-        SaturationFilter.instance(p).applyTo(bwBuffer);
-        BrightnessFilter.instance(p).setBrightness(UI.value(UI_BRIGHTNESS));
-        BrightnessFilter.instance(p).applyTo(bwBuffer);
-        ContrastFilter.instance(p).setContrast(UI.value(UI_CONTRAST));
-        ContrastFilter.instance(p).applyTo(bwBuffer);
-        ThresholdFilter.instance(p).setCutoff(UI.value(UI_THRESH_CUTOFF));
-        ThresholdFilter.instance(p).setCrossfade(UI.value(UI_THRESH_MIX));
-        ThresholdFilter.instance(p).applyTo(bwBuffer);
+        SaturationFilter.instance().setSaturation(0);
+        SaturationFilter.instance().applyTo(bwBuffer);
+        BrightnessFilter.instance().setBrightness(UI.value(UI_BRIGHTNESS));
+        BrightnessFilter.instance().applyTo(bwBuffer);
+        ContrastFilter.instance().setContrast(UI.value(UI_CONTRAST));
+        ContrastFilter.instance().applyTo(bwBuffer);
+        ThresholdFilter.instance().setCutoff(UI.value(UI_THRESH_CUTOFF));
+        ThresholdFilter.instance().setCrossfade(UI.value(UI_THRESH_MIX));
+        ThresholdFilter.instance().applyTo(bwBuffer);
 
         // need to copy the buffered image on the main thread
         ImageUtil.copyImage(bwBuffer, ocrInputImg);

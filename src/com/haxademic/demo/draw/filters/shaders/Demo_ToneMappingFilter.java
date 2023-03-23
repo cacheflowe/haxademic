@@ -1,6 +1,5 @@
 package com.haxademic.demo.draw.filters.shaders;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -71,16 +70,16 @@ implements IWebCamCallback {
 	
 	protected void doToneMapping() {
 		if(UI.valueToggle(ACTIVE)) {
-			ToneMappingFilter.instance(P.p).setMode(UI.valueInt(MODE));
-			ToneMappingFilter.instance(P.p).setGamma(UI.value(GAMMA));
-			ToneMappingFilter.instance(P.p).setCrossfade(UI.value(CROSSFADE));
-			ToneMappingFilter.instance(P.p).applyTo(p.g);
+			ToneMappingFilter.instance().setMode(UI.valueInt(MODE));
+			ToneMappingFilter.instance().setGamma(UI.value(GAMMA));
+			ToneMappingFilter.instance().setCrossfade(UI.value(CROSSFADE));
+			ToneMappingFilter.instance().applyTo(p.g);
 			
 			// add some saturation back in
-			SaturationFilter.instance(p).setSaturation(UI.value(SATURATION));
-			SaturationFilter.instance(p).applyTo(p.g);
-			ContrastFilter.instance(p).setContrast(UI.value(CONTRAST));
-			ContrastFilter.instance(p).applyTo(p.g);
+			SaturationFilter.instance().setSaturation(UI.value(SATURATION));
+			SaturationFilter.instance().applyTo(p.g);
+			ContrastFilter.instance().setContrast(UI.value(CONTRAST));
+			ContrastFilter.instance().applyTo(p.g);
 		}
 	}
 	

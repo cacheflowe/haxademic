@@ -37,16 +37,16 @@ extends PAppletHax {
 		pg.endDraw();
 
 		if(FrameLoop.frameMod(120) < 60) {
-			DitherColorBands.instance(p).setNoiseAmp(7f);
-			DitherColorBands.instance(p).applyTo(pg);
+			DitherColorBands.instance().setNoiseAmp(7f);
+			DitherColorBands.instance().applyTo(pg);
 			DebugView.setValue("running shader", true);
 		} else {
 			DebugView.setValue("running shader", false);
 		}
 		
 		if(Mouse.xNorm > 0.75f) {
-			ContrastFilter.instance(p).setContrast(2.15f);
-			ContrastFilter.instance(p).applyTo(pg);
+			ContrastFilter.instance().setContrast(2.15f);
+			ContrastFilter.instance().applyTo(pg);
 		}
 		
 		// draw buffer to screen

@@ -226,63 +226,63 @@ extends PAppletHax {
 	
 	protected void darkenCanvas() {
 		if(UI.valueInt(RD_ITERATIONS) > 0 && UI.valueEased(DARKEN_AMP) != 0) {
-			BrightnessStepFilter.instance(p).setBrightnessStep(UI.valueEased(DARKEN_AMP)/255f);
-			BrightnessStepFilter.instance(p).applyTo(pg);
+			BrightnessStepFilter.instance().setBrightnessStep(UI.valueEased(DARKEN_AMP)/255f);
+			BrightnessStepFilter.instance().applyTo(pg);
 		}
 	}
 
 	protected void setFakeLighting() {
 		if(UI.valueToggle(FAKE_LIGHT_ACTIVE) == false) return;
-		FakeLightingFilter.instance(p).setAmbient(UI.value(FAKE_LIGHT_AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(UI.value(FAKE_LIGHT_GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(UI.value(FAKE_LIGHT_GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(UI.value(FAKE_LIGHT_SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(UI.value(FAKE_LIGHT_DIFF_DARK));
-		FakeLightingFilter.instance(p).setMap(pgPost);
-		FakeLightingFilter.instance(p).applyTo(pgPost);
+		FakeLightingFilter.instance().setAmbient(UI.value(FAKE_LIGHT_AMBIENT));
+		FakeLightingFilter.instance().setGradAmp(UI.value(FAKE_LIGHT_GRAD_AMP));
+		FakeLightingFilter.instance().setGradBlur(UI.value(FAKE_LIGHT_GRAD_BLUR));
+		FakeLightingFilter.instance().setSpecAmp(UI.value(FAKE_LIGHT_SPEC_AMP));
+		FakeLightingFilter.instance().setDiffDark(UI.value(FAKE_LIGHT_DIFF_DARK));
+		FakeLightingFilter.instance().setMap(pgPost);
+		FakeLightingFilter.instance().applyTo(pgPost);
 	}
 	
 	protected void setColorize() {
-		ColorizeTwoColorsFilter.instance(p).setColor1(1f,  1f,  1f);
-		ColorizeTwoColorsFilter.instance(p).setColor2(0f,  0f,  0f);
-		ColorizeTwoColorsFilter.instance(p).applyTo(pgPost);
+		ColorizeTwoColorsFilter.instance().setColor1(1f,  1f,  1f);
+		ColorizeTwoColorsFilter.instance().setColor2(0f,  0f,  0f);
+		ColorizeTwoColorsFilter.instance().applyTo(pgPost);
 	}
 	
 	protected void applyZoomRotate() {
-		RotateFilter.instance(p).setRotation(UI.valueEased(FEEDBACK_ROTATE));
-		RotateFilter.instance(p).setZoom(UI.valueEased(FEEDBACK_AMP));
-		RotateFilter.instance(p).setOffset(UI.valueEased(FEEDBACK_OFFSET_X), UI.valueEased(FEEDBACK_OFFSET_Y));
-		RotateFilter.instance(p).applyTo(pg);
+		RotateFilter.instance().setRotation(UI.valueEased(FEEDBACK_ROTATE));
+		RotateFilter.instance().setZoom(UI.valueEased(FEEDBACK_AMP));
+		RotateFilter.instance().setOffset(UI.valueEased(FEEDBACK_OFFSET_X), UI.valueEased(FEEDBACK_OFFSET_Y));
+		RotateFilter.instance().applyTo(pg);
 	}
 	
 	protected void applyRD() {
 		for (int i = 0; i < UI.valueInt(RD_ITERATIONS); i++) {
-			BlurHFilter.instance(p).setBlurByPercent(UI.valueEased(RD_BLUR_AMP_X), pg.width);
-			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(UI.valueEased(RD_BLUR_AMP_Y), pg.height);
-			BlurVFilter.instance(p).applyTo(pg);
+			BlurHFilter.instance().setBlurByPercent(UI.valueEased(RD_BLUR_AMP_X), pg.width);
+			BlurHFilter.instance().applyTo(pg);
+			BlurVFilter.instance().setBlurByPercent(UI.valueEased(RD_BLUR_AMP_Y), pg.height);
+			BlurVFilter.instance().applyTo(pg);
 			
-			SharpenFilter.instance(p).setSharpness(UI.valueEased(RD_SHARPEN_AMP));
-			SharpenFilter.instance(p).applyTo(pg);
+			SharpenFilter.instance().setSharpness(UI.valueEased(RD_SHARPEN_AMP));
+			SharpenFilter.instance().applyTo(pg);
 
-//			BlurHMapFilter.instance(p).setMap(map2);
-//			BlurHMapFilter.instance(p).setBlurByPercent(UI.valueEased(RD_BLUR_AMP_MAP_X), pg.width);
-//			BlurHMapFilter.instance(p).applyTo(pg);
-//			BlurVMapFilter.instance(p).setMap(map2);
-//			BlurVMapFilter.instance(p).setBlurByPercent(UI.valueEased(RD_BLUR_AMP_MAP_Y), pg.width);
-//			BlurVMapFilter.instance(p).applyTo(pg);
+//			BlurHMapFilter.instance().setMap(map2);
+//			BlurHMapFilter.instance().setBlurByPercent(UI.valueEased(RD_BLUR_AMP_MAP_X), pg.width);
+//			BlurHMapFilter.instance().applyTo(pg);
+//			BlurVMapFilter.instance().setMap(map2);
+//			BlurVMapFilter.instance().setBlurByPercent(UI.valueEased(RD_BLUR_AMP_MAP_Y), pg.width);
+//			BlurVMapFilter.instance().applyTo(pg);
 			
-//			SharpenMapFilter.instance(p).setMap(map);
-//			SharpenMapFilter.instance(p).setSharpnessMax(UI.valueEased(RD_SHARPEN_MAP_AMP));
-//			SharpenMapFilter.instance(p).setSharpnessMin(UI.valueEased(RD_SHARPEN_MAP_MIN_AMP));
-//			SharpenMapFilter.instance(p).applyTo(pg);
+//			SharpenMapFilter.instance().setMap(map);
+//			SharpenMapFilter.instance().setSharpnessMax(UI.valueEased(RD_SHARPEN_MAP_AMP));
+//			SharpenMapFilter.instance().setSharpnessMin(UI.valueEased(RD_SHARPEN_MAP_MIN_AMP));
+//			SharpenMapFilter.instance().applyTo(pg);
 		}
 	}
 	
 	protected void applyThreshold() {
 		if(UI.valueToggle(THRESHOLD_ACTIVE) == false) return;
-		ThresholdFilter.instance(p).setCrossfade(UI.valueEased(THRESHOLD_MIX));
-		ThresholdFilter.instance(p).applyTo(pg);
+		ThresholdFilter.instance().setCrossfade(UI.valueEased(THRESHOLD_MIX));
+		ThresholdFilter.instance().applyTo(pg);
 	}
 	
 	protected void updateFeedbackMapNoise() {
@@ -293,35 +293,35 @@ extends PAppletHax {
 	}
 
 	protected void applyMapFeedback() {
-		FeedbackMapFilter.instance(p).setMap(map);
-		FeedbackMapFilter.instance(p).setAmp(UI.valueEased(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(0);//UI.valueEased(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(0);//UI.valueEased(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(UI.valueEased(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(UI.valueEased(feedbackRadiansRange));
-		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
+		FeedbackMapFilter.instance().setMap(map);
+		FeedbackMapFilter.instance().setAmp(UI.valueEased(feedbackAmp));
+		FeedbackMapFilter.instance().setBrightnessStep(0);//UI.valueEased(feedbackBrightStep));
+		FeedbackMapFilter.instance().setAlphaStep(0);//UI.valueEased(feedbackAlphaStep));
+		FeedbackMapFilter.instance().setRadiansStart(UI.valueEased(feedbackRadiansStart));
+		FeedbackMapFilter.instance().setRadiansRange(UI.valueEased(feedbackRadiansRange));
+		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance().applyTo(pg);
 		
 		// blur & threshold if R/D isn't going to do that for us
 		if(UI.valueInt(RD_ITERATIONS) == 0) {
-			BlurHFilter.instance(p).setBlurByPercent(UI.valueEased(RD_BLUR_AMP_X), pg.width);
-			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(UI.valueEased(RD_BLUR_AMP_Y), pg.height);
-			BlurVFilter.instance(p).applyTo(pg);
+			BlurHFilter.instance().setBlurByPercent(UI.valueEased(RD_BLUR_AMP_X), pg.width);
+			BlurHFilter.instance().applyTo(pg);
+			BlurVFilter.instance().setBlurByPercent(UI.valueEased(RD_BLUR_AMP_Y), pg.height);
+			BlurVFilter.instance().applyTo(pg);
 			// does a similar thing to R/D
-			ThresholdFilter.instance(p).applyTo(pg);
+			ThresholdFilter.instance().applyTo(pg);
 		}
 	}
 	
 	protected void applyRadialFeedback() {
-		FeedbackRadialFilter.instance(P.p).setAmp(UI.value(feedbackRadialAmp));
-		FeedbackRadialFilter.instance(P.p).setMultX(UI.value(feedbackMultX));
-		FeedbackRadialFilter.instance(P.p).setMultY(UI.value(feedbackMultY));
-//		FeedbackRadialFilter.instance(P.p).setSampleMult(UI.value(feedbackBrightMult));
-		FeedbackRadialFilter.instance(P.p).setWaveAmp(UI.value(feedbackWaveAmp));
-		FeedbackRadialFilter.instance(P.p).setWaveFreq(UI.value(feedbackWaveFreq));
-		FeedbackRadialFilter.instance(P.p).setWaveStart(p.frameCount * UI.value(feedbackWaveStartMult));
-//		FeedbackRadialFilter.instance(P.p).setAlphaMult(UI.value(feedbackAlphaMult));
-		FeedbackRadialFilter.instance(P.p).applyTo(pg);
+		FeedbackRadialFilter.instance().setAmp(UI.value(feedbackRadialAmp));
+		FeedbackRadialFilter.instance().setMultX(UI.value(feedbackMultX));
+		FeedbackRadialFilter.instance().setMultY(UI.value(feedbackMultY));
+//		FeedbackRadialFilter.instance().setSampleMult(UI.value(feedbackBrightMult));
+		FeedbackRadialFilter.instance().setWaveAmp(UI.value(feedbackWaveAmp));
+		FeedbackRadialFilter.instance().setWaveFreq(UI.value(feedbackWaveFreq));
+		FeedbackRadialFilter.instance().setWaveStart(p.frameCount * UI.value(feedbackWaveStartMult));
+//		FeedbackRadialFilter.instance().setAlphaMult(UI.value(feedbackAlphaMult));
+		FeedbackRadialFilter.instance().applyTo(pg);
 	}
 	
 	protected void addBitmapSeed() {
@@ -334,18 +334,18 @@ extends PAppletHax {
 			pg.blendMode(PBlendModes.BLEND);
 			
 			// desaturate completely
-			SaturationFilter.instance(p).setSaturation(0);
-			SaturationFilter.instance(p).applyTo(pg);
+			SaturationFilter.instance().setSaturation(0);
+			SaturationFilter.instance().applyTo(pg);
 		}
 		seedQueue = false;
 	}
 	
 	protected void mixTexture() {
 		if(UI.valueEased(TEXTURE_BLEND) == 0) return;
-		BlendTowardsTexture.instance(p).setSourceTexture(linesTexture);
-//		BlendTowardsTexture.instance(p).setSourceTexture(map);
-		BlendTowardsTexture.instance(p).setBlendLerp(UI.valueEased(TEXTURE_BLEND));
-		BlendTowardsTexture.instance(p).applyTo(pg);
+		BlendTowardsTexture.instance().setSourceTexture(linesTexture);
+//		BlendTowardsTexture.instance().setSourceTexture(map);
+		BlendTowardsTexture.instance().setBlendLerp(UI.valueEased(TEXTURE_BLEND));
+		BlendTowardsTexture.instance().applyTo(pg);
 	}
 	
 	protected void updateLinesTexture() {
@@ -393,7 +393,7 @@ extends PAppletHax {
 		// copy to postFX buffer
 		ImageUtil.copyImage(pg, pgPost);		// copy to 2nd buffer for postprocessing
 		setColorize();
-		if(UI.valueToggle(FXAA_ACTIVE) == true) FXAAFilter.instance(p).applyTo(pgPost);
+		if(UI.valueToggle(FXAA_ACTIVE) == true) FXAAFilter.instance().applyTo(pgPost);
 		setFakeLighting();
 		
 		// draw post to screen

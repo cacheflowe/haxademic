@@ -57,10 +57,10 @@ implements IWebCamCallback {
 		bufferFrameDifference.update(bufferBg, bufferCamera);
 		
 		// blur to smooth out displacement
-//		BlurHFilter.instance(p).setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().width);
-//		BlurHFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
-//		BlurVFilter.instance(p).setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().height);
-//		BlurVFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
+//		BlurHFilter.instance().setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().width);
+//		BlurHFilter.instance().applyTo(bufferFrameDifference.differenceBuffer());
+//		BlurVFilter.instance().setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().height);
+//		BlurVFilter.instance().applyTo(bufferFrameDifference.differenceBuffer());
 		
 		// debug view
 		DebugView.setTexture("bufferCamera", bufferCamera);

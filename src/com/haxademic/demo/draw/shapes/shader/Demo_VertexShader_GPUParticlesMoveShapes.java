@@ -162,9 +162,9 @@ extends PAppletHax {
 		noiseTexture.update();
 		
 		// lerp proper 32-bit texture for displacement
-		BlendTowardsTexture.instance(p).setBlendLerp(0.5f);
-		BlendTowardsTexture.instance(p).setSourceTexture(noiseTexture.texture());
-		BlendTowardsTexture.instance(p).applyTo(displaceTexture);
+		BlendTowardsTexture.instance().setBlendLerp(0.5f);
+		BlendTowardsTexture.instance().setSourceTexture(noiseTexture.texture());
+		BlendTowardsTexture.instance().applyTo(displaceTexture);
 		
 		// draw & generate shapes
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!

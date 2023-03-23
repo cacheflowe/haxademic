@@ -53,8 +53,8 @@ extends PAppletHax {
 				false,								// fractal mode
 				false								// xRepeat mode
 		);
-		ContrastFilter.instance(p).setContrast(1.5f);
-		ContrastFilter.instance(p).applyTo(noiseTexture.texture());
+		ContrastFilter.instance().setContrast(1.5f);
+		ContrastFilter.instance().applyTo(noiseTexture.texture());
 		
 		// draw to pg
 		pg.beginDraw();
@@ -67,8 +67,8 @@ extends PAppletHax {
 			PG.resetPImageAlpha(pg);
 		}
 		
-		GrainFilter.instance(p).setCrossfade(0.1f);
-		GrainFilter.instance(p).setTime(p.frameCount);
+		GrainFilter.instance().setCrossfade(0.1f);
+		GrainFilter.instance().setTime(p.frameCount);
 
 		
 		// update shaders & apply to screen
@@ -85,15 +85,15 @@ extends PAppletHax {
 		shaderS.shader().set("ampMap", noiseTexture.texture());
 		shaderS.update();
 		
-		DisplacementMapFilter.instance(p).setMap(noiseTexture.texture());
-		DisplacementMapFilter.instance(p).setMode(3);
-		DisplacementMapFilter.instance(p).setRotRange(P.TWO_PI * 2f);
-		DisplacementMapFilter.instance(p).setAmp(0.002f);
+		DisplacementMapFilter.instance().setMap(noiseTexture.texture());
+		DisplacementMapFilter.instance().setMode(3);
+		DisplacementMapFilter.instance().setRotRange(P.TWO_PI * 2f);
+		DisplacementMapFilter.instance().setAmp(0.002f);
 
-		BrightnessStepFilter.instance(p).setBrightnessStep(-70f/255f);
+		BrightnessStepFilter.instance().setBrightnessStep(-70f/255f);
 		
 		for (int i = 0; i < 1; i++) {
-			BrightnessStepFilter.instance(p).applyTo(pg);
+			BrightnessStepFilter.instance().applyTo(pg);
 			DisplacementMapFilter.instance.applyTo(pg);
 			GrainFilter.instance.applyTo(pg);	// add jitter
 			pg.filter(shaderH.shader());
@@ -105,8 +105,8 @@ extends PAppletHax {
 		
 		DisplacementMapFilter.instance.applyTo(pg);
 		
-		SaturationFilter.instance(p).setSaturation(0f);
-		SaturationFilter.instance(p).applyTo(pg);
+		SaturationFilter.instance().setSaturation(0f);
+		SaturationFilter.instance().applyTo(pg);
 		pg.endDraw();
 		
 		p.image(pg, 0, 0);

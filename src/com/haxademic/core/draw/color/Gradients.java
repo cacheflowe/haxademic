@@ -108,9 +108,9 @@ public class Gradients {
 		
 		// blur it!
 		for (int i = 0; i < 10; i++) {
-			BlurProcessingFilter.instance(P.p).setBlurSize(20);
-			BlurProcessingFilter.instance(P.p).setSigma(10);
-			BlurProcessingFilter.instance(P.p).applyTo(pg);
+			BlurProcessingFilter.instance().setBlurSize(20);
+			BlurProcessingFilter.instance().setSigma(10);
+			BlurProcessingFilter.instance().applyTo(pg);
 		}
 		
 		// return it

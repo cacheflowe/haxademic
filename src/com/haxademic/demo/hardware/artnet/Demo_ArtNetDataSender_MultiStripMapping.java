@@ -76,10 +76,10 @@ extends PAppletHax {
 		noise3d.update(6f, 0, FrameLoop.count(0.005f), 0, FrameLoop.count(0.001f), false, false);
 		
 		// post-process noise map
-//		ContrastFilter.instance(p).setContrast(3f);
-		ContrastFilter.instance(p).applyTo(noise3d.texture());
-		ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
-		ColorizeFromTexture.instance(p).applyTo(noise3d.texture());
+//		ContrastFilter.instance().setContrast(3f);
+		ContrastFilter.instance().setOnContext(noise3d.texture());
+		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
+		ColorizeFromTexture.instance().setOnContext(noise3d.texture());
 		
 		// overdraw circles
 		PGraphics map = noise3d.texture();
@@ -126,8 +126,8 @@ extends PAppletHax {
 		*/
 		
 		// bring brightness down because voltage problems
-		BrightnessFilter.instance(p).setBrightness(0.1f);
-//		BrightnessFilter.instance(p).applyTo(map);
+		BrightnessFilter.instance().setBrightness(0.1f);
+//		BrightnessFilter.instance().applyTo(map);
 	}
 	
 	// animate lights!

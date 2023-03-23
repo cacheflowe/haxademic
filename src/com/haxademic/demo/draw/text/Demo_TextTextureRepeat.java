@@ -147,7 +147,7 @@ extends PAppletHax {
 		p.popMatrix();
 		
 		// post process
-		VignetteFilter.instance(p).applyTo(p);
+		VignetteFilter.instance().applyTo(p);
 	}
 
 }

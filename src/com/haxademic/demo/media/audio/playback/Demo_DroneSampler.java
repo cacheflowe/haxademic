@@ -156,22 +156,22 @@ extends PAppletHax {
 		}
 		waveformTexture.endDraw();
 		
-		BlurProcessingFilter.instance(p).setBlurSize(20);
-		BlurProcessingFilter.instance(p).setSigma(20f);
-		BlurProcessingFilter.instance(p).applyTo(waveformTexture);
-		BlurProcessingFilter.instance(p).applyTo(waveformTexture);
-		BlurProcessingFilter.instance(p).applyTo(waveformTexture);
+		BlurProcessingFilter.instance().setBlurSize(20);
+		BlurProcessingFilter.instance().setSigma(20f);
+		BlurProcessingFilter.instance().setOnContext(waveformTexture);
+		BlurProcessingFilter.instance().setOnContext(waveformTexture);
+		BlurProcessingFilter.instance().setOnContext(waveformTexture);
 		
 		// lerp towards 2nd texture to further smooth displacement
-		BlendTowardsTexture.instance(p).setSourceTexture(waveformTexture);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.25f);
-		BlendTowardsTexture.instance(p).applyTo(waveformTextureSmoothed);
+		BlendTowardsTexture.instance().setSourceTexture(waveformTexture);
+		BlendTowardsTexture.instance().setBlendLerp(0.25f);
+		BlendTowardsTexture.instance().setOnContext(waveformTextureSmoothed);
 		
 		// blur final result
-//		BlurHFilter.instance(p).setBlurByPercent(0.99f, waveformTextureSmoothed.width);
-//		BlurHFilter.instance(p).applyTo(waveformTextureSmoothed);
-//		BlurHFilter.instance(p).applyTo(waveformTextureSmoothed);
-//		BlurHFilter.instance(p).applyTo(waveformTextureSmoothed);
+//		BlurHFilter.instance().setBlurByPercent(0.99f, waveformTextureSmoothed.width);
+//		BlurHFilter.instance().applyTo(waveformTextureSmoothed);
+//		BlurHFilter.instance().applyTo(waveformTextureSmoothed);
+//		BlurHFilter.instance().applyTo(waveformTextureSmoothed);
 	}
 
 	protected void drawShader() {
@@ -191,14 +191,14 @@ extends PAppletHax {
 		waveformShaderTexture.filter(waveformShader.shader());
 		
 		// post-process
-		FakeLightingFilter.instance(p).setAmbient(10f);
-		FakeLightingFilter.instance(p).setGradAmp(0.4f);
-		FakeLightingFilter.instance(p).setGradBlur(0.1f);
-		FakeLightingFilter.instance(p).setSpecAmp(0.2f);
-		FakeLightingFilter.instance(p).setDiffDark(0.8f);
-		FakeLightingFilter.instance(p).setMap(pg);
-		FakeLightingFilter.instance(p).applyTo(waveformShaderTexture);
-		FXAAFilter.instance(p).applyTo(waveformShaderTexture);
+		FakeLightingFilter.instance().setAmbient(10f);
+		FakeLightingFilter.instance().setGradAmp(0.4f);
+		FakeLightingFilter.instance().setGradBlur(0.1f);
+		FakeLightingFilter.instance().setSpecAmp(0.2f);
+		FakeLightingFilter.instance().setDiffDark(0.8f);
+		FakeLightingFilter.instance().setMap(pg);
+		FakeLightingFilter.instance().setOnContext(waveformShaderTexture);
+		FXAAFilter.instance().setOnContext(waveformShaderTexture);
 	}
 	
 	public void keyPressed() {

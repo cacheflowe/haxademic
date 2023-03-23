@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ToneMappingFilter
 extends BaseFragmentShader {
 
 	public static ToneMappingFilter instance;
 	
-	public ToneMappingFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/tone-mapping.glsl");
+	public ToneMappingFilter() {
+		super("haxademic/shaders/filters/tone-mapping.glsl");
 		setMode(1);
 		setGamma(2.2f);
 		setCrossfade(1f);
 	}
 	
-	public static ToneMappingFilter instance(PApplet p) {
+	public static ToneMappingFilter instance() {
 		if(instance != null) return instance;
-		instance = new ToneMappingFilter(p);
+		instance = new ToneMappingFilter();
 		return instance;
 	}
 	

@@ -36,15 +36,15 @@ extends PAppletHax {
 //		drawBasicGrid();
 		
 		
-		WobbleFilter.instance(p).setTime(p.frameCount * 0.01f);
-		WobbleFilter.instance(p).setSpeed(2f); // Mouse.xNorm * 3f);
-		WobbleFilter.instance(p).setStrength(Mouse.xNorm);
-		WobbleFilter.instance(p).setSize(Mouse.yNorm * 5f);
-//		WobbleFilter.instance(p).applyTo(p.g);
+		WobbleFilter.instance().setTime(p.frameCount * 0.01f);
+		WobbleFilter.instance().setSpeed(2f); // Mouse.xNorm * 3f);
+		WobbleFilter.instance().setStrength(Mouse.xNorm);
+		WobbleFilter.instance().setSize(Mouse.yNorm * 5f);
+//		WobbleFilter.instance().applyTo(p.g);
 		
-		RadialRipplesFilter.instance(p).setTime(p.frameCount * 0.01f);// * Mouse.yNorm);
-		RadialRipplesFilter.instance(p).setAmplitude(Mouse.xNorm * 4f);
-		RadialRipplesFilter.instance(p).applyTo(p.g);
+		RadialRipplesFilter.instance().setTime(p.frameCount * 0.01f);// * Mouse.yNorm);
+		RadialRipplesFilter.instance().setAmplitude(Mouse.xNorm * 4f);
+		RadialRipplesFilter.instance().applyTo(p.g);
 	}
 
 	protected void drawZoomGrid() {

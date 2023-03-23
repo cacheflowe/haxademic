@@ -26,10 +26,10 @@ extends PAppletHax {
 		ImageUtil.blurByRescale(pg, Mouse.xNorm);
 
 		// extra blur to smooth edges
-		BlurHFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, pg.width);
-		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, pg.height);
-		BlurVFilter.instance(p).applyTo(pg);
+		BlurHFilter.instance().setBlurByPercent(Mouse.yNorm * 2f, pg.width);
+		BlurHFilter.instance().applyTo(pg);
+		BlurVFilter.instance().setBlurByPercent(Mouse.yNorm * 2f, pg.height);
+		BlurVFilter.instance().applyTo(pg);
 		
 		p.image(pg, 0, 0);
 	}

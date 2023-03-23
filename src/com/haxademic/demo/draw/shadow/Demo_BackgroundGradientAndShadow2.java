@@ -76,9 +76,9 @@ extends PAppletHax {
 		Gradients.linear(p, p.width, p.height, p.color(5), p.color(190, 70, 120));
 		p.popMatrix();
 
-		BlurProcessingFilter.instance(p).setBlurSize(10);
-		BlurProcessingFilter.instance(p).setSigma(10);
-		BlurProcessingFilter.instance(p).applyTo(p.g);
+		BlurProcessingFilter.instance().setBlurSize(10);
+		BlurProcessingFilter.instance().setSigma(10);
+		BlurProcessingFilter.instance().applyTo(p.g);
 	}
 
 	protected void drawShadowBuffer() {
@@ -119,23 +119,23 @@ extends PAppletHax {
 		applyBlur(depthMap);
 		applyBlur(depthMap);
 		
-		BlurHMapFilter.instance(p).setMap(depthMap);
-		BlurHMapFilter.instance(p).setAmpMin(0.0f);
-		BlurHMapFilter.instance(p).setAmpMax(3.25f);
-		BlurVMapFilter.instance(p).setMap(depthMap);
-		BlurVMapFilter.instance(p).setAmpMin(0.0f);
-		BlurVMapFilter.instance(p).setAmpMax(3.25f);
+		BlurHMapFilter.instance().setMap(depthMap);
+		BlurHMapFilter.instance().setAmpMin(0.0f);
+		BlurHMapFilter.instance().setAmpMax(3.25f);
+		BlurVMapFilter.instance().setMap(depthMap);
+		BlurVMapFilter.instance().setAmpMin(0.0f);
+		BlurVMapFilter.instance().setAmpMax(3.25f);
 		
-		BlurHMapFilter.instance(p).applyTo(shadowMap);
-		BlurVMapFilter.instance(p).applyTo(shadowMap);
-		BlurHMapFilter.instance(p).applyTo(shadowMap);
-		BlurVMapFilter.instance(p).applyTo(shadowMap);
-		BlurHMapFilter.instance(p).applyTo(shadowMap);
-		BlurVMapFilter.instance(p).applyTo(shadowMap);
-		BlurHMapFilter.instance(p).applyTo(shadowMap);
-		BlurVMapFilter.instance(p).applyTo(shadowMap);
-		BlurHMapFilter.instance(p).applyTo(shadowMap);
-		BlurVMapFilter.instance(p).applyTo(shadowMap);
+		BlurHMapFilter.instance().applyTo(shadowMap);
+		BlurVMapFilter.instance().applyTo(shadowMap);
+		BlurHMapFilter.instance().applyTo(shadowMap);
+		BlurVMapFilter.instance().applyTo(shadowMap);
+		BlurHMapFilter.instance().applyTo(shadowMap);
+		BlurVMapFilter.instance().applyTo(shadowMap);
+		BlurHMapFilter.instance().applyTo(shadowMap);
+		BlurVMapFilter.instance().applyTo(shadowMap);
+		BlurHMapFilter.instance().applyTo(shadowMap);
+		BlurVMapFilter.instance().applyTo(shadowMap);
 	}
 	
 	protected void drawShadowToStage() {
@@ -228,36 +228,36 @@ extends PAppletHax {
 	}
 	
 	protected void applyBlur(PGraphics pg) {
-//		BlurHFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.width);
-		BlurHFilter.instance(p).setBlurByPercent(2f, pg.width);
-		BlurHFilter.instance(p).applyTo(pg);
-//		BlurVFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.height);
-		BlurVFilter.instance(p).setBlurByPercent(2f, pg.height);
-		BlurVFilter.instance(p).applyTo(pg);
+//		BlurHFilter.instance().setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.width);
+		BlurHFilter.instance().setBlurByPercent(2f, pg.width);
+		BlurHFilter.instance().applyTo(pg);
+//		BlurVFilter.instance().setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.height);
+		BlurVFilter.instance().setBlurByPercent(2f, pg.height);
+		BlurVFilter.instance().applyTo(pg);
 	}
 	
 	protected void postProcessStage() {
-		ToneMappingFilter.instance(P.p).setMode(1);
-		ToneMappingFilter.instance(P.p).setGamma(1.75f);
-		ToneMappingFilter.instance(P.p).setCrossfade(1f);
-		ToneMappingFilter.instance(P.p).applyTo(p.g);
+		ToneMappingFilter.instance().setMode(1);
+		ToneMappingFilter.instance().setGamma(1.75f);
+		ToneMappingFilter.instance().setCrossfade(1f);
+		ToneMappingFilter.instance().applyTo(p.g);
 		
 		// add some saturation back in
-		SaturationFilter.instance(p).setSaturation(1.1f);
-		SaturationFilter.instance(p).applyTo(p.g);
-		ContrastFilter.instance(p).setContrast(1.1f);
-		ContrastFilter.instance(p).applyTo(p.g);
+		SaturationFilter.instance().setSaturation(1.1f);
+		SaturationFilter.instance().applyTo(p.g);
+		ContrastFilter.instance().setContrast(1.1f);
+		ContrastFilter.instance().applyTo(p.g);
 		
 		int bloomBlendMode = 2; // P.round(p.frameCount / 200f) % 3;
-		BloomFilter.instance(p).setStrength(1);
-		BloomFilter.instance(p).setBlurIterations(1);
-		BloomFilter.instance(p).setBlendMode(bloomBlendMode);
-//		BloomFilter.instance(p).applyTo(p.g);
+		BloomFilter.instance().setStrength(1);
+		BloomFilter.instance().setBlurIterations(1);
+		BloomFilter.instance().setBlendMode(bloomBlendMode);
+//		BloomFilter.instance().applyTo(p.g);
 
 		
-		VignetteFilter.instance(p).setDarkness(0.5f);
-		VignetteFilter.instance(p).applyTo(p.g);
-//		VignetteAltFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.5f);
+		VignetteFilter.instance().applyTo(p.g);
+//		VignetteAltFilter.instance().applyTo(p.g);
 	}
 
 }

@@ -56,7 +56,7 @@ implements ILaunchpadCallback {
 		
 		// copy texture to 2 launchpads, inverting the 2nd
 		launchpad1.setTextureFromTexture(pg);
-		InvertFilter.instance(p).applyTo(pg);
+		InvertFilter.instance().setOnContext(pg);
 		launchpad2.setTextureFromTexture(pg);
 
 		// draw to screen

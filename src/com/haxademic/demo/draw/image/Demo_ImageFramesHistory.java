@@ -52,8 +52,8 @@ implements IWebCamCallback {
 		ImageUtil.copyImageFlipH(frame, camBuffer);
 		recorder.addFrame(camBuffer);
 		// do some post-processing
-		SaturationFilter.instance(p).setSaturation(0);
-		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
+		SaturationFilter.instance().setSaturation(0);
+		SaturationFilter.instance().applyTo(recorder.getCurFrame());
 		// set debug staus
 		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}

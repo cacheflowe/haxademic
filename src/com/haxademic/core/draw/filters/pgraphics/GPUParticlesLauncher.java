@@ -58,10 +58,10 @@ extends BaseVideoFilter {
 		
 		// pre-process motion buffer for smoother launch blobs
 		ImageUtil.copyImage(sourceBuffer, motionBuffer);
-		BlurHFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.width);
-		BlurHFilter.instance(P.p).applyTo(motionBuffer);
-		BlurVFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.height);
-		BlurVFilter.instance(P.p).applyTo(motionBuffer);
+		BlurHFilter.instance().setBlurByPercent(0.5f, motionBuffer.width);
+		BlurHFilter.instance().applyTo(motionBuffer);
+		BlurVFilter.instance().setBlurByPercent(0.5f, motionBuffer.height);
+		BlurVFilter.instance().applyTo(motionBuffer);
 
 		// run motion detection
 		motionDetectionMap.updateSource(motionBuffer);
@@ -121,7 +121,7 @@ extends BaseVideoFilter {
 		
 		destBuffer.endDraw();
 		// desaturate
-//		SaturationFilter.instance(p).setSaturation(0);
-//		SaturationFilter.instance(p).applyTo(p);	}
+//		SaturationFilter.instance().setSaturation(0);
+//		SaturationFilter.instance().applyTo(p);	}
 	}
 }

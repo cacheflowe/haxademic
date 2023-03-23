@@ -74,8 +74,8 @@ extends PAppletHax {
 			drawX += letterW + 2;
 		}
 		
-		ThresholdFilter.instance(p).setCrossfade(0.5f);
-		ThresholdFilter.instance(p).applyTo(p);
+		ThresholdFilter.instance().setCrossfade(0.5f);
+		ThresholdFilter.instance().applyTo(p);
 	}
 	
 	protected void newWord() {

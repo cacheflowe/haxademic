@@ -158,18 +158,18 @@ extends PAppletHax {
 		pg.endDraw();
 
 		// post process
-//		BloomFilter.instance(p).setStrength(0.2f);
-//		BloomFilter.instance(p).setBlurIterations(6);
-//		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-//		BloomFilter.instance(p).applyTo(pg);
-////		BloomFilter.instance(p).applyTo(pg);
+//		BloomFilter.instance().setStrength(0.2f);
+//		BloomFilter.instance().setBlurIterations(6);
+//		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+//		BloomFilter.instance().applyTo(pg);
+////		BloomFilter.instance().applyTo(pg);
 		
-		VignetteFilter.instance(p).setDarkness(0.65f);
-		VignetteFilter.instance(p).applyTo(pg);
+		VignetteFilter.instance().setDarkness(0.65f);
+		VignetteFilter.instance().applyTo(pg);
 		
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.07f);
-		GrainFilter.instance(p).applyTo(pg);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.07f);
+		GrainFilter.instance().applyTo(pg);
 		
 		// draw result to screen
 		p.image(pg, 0, 0);

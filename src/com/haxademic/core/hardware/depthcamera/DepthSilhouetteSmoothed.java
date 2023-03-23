@@ -184,30 +184,30 @@ public class DepthSilhouetteSmoothed {
 		if(smoothing > 0) {
 			
 			// lerp texture
-			BlendTowardsTexture.instance(P.p).setBlendLerp(frameBlend);
-			BlendTowardsTexture.instance(P.p).setSourceTexture(depthBuffer);
-			BlendTowardsTexture.instance(P.p).applyTo(avgBuffer);
+			BlendTowardsTexture.instance().setBlendLerp(frameBlend);
+			BlendTowardsTexture.instance().setSourceTexture(depthBuffer);
+			BlendTowardsTexture.instance().applyTo(avgBuffer);
 	
 			// blur averaged buffer pre-threshold
-			BlurHFilter.instance(P.p).setBlurByPercent(smoothing, avgBuffer.width);
-			BlurHFilter.instance(P.p).applyTo(avgBuffer);
-			BlurVFilter.instance(P.p).setBlurByPercent(smoothing, avgBuffer.height);
-			BlurVFilter.instance(P.p).applyTo(avgBuffer);
+			BlurHFilter.instance().setBlurByPercent(smoothing, avgBuffer.width);
+			BlurHFilter.instance().applyTo(avgBuffer);
+			BlurVFilter.instance().setBlurByPercent(smoothing, avgBuffer.height);
+			BlurVFilter.instance().applyTo(avgBuffer);
 			
 			// clean up post copy blobs
 			ImageUtil.copyImage(avgBuffer, postBuffer);
-			BrightnessFilter.instance(P.p).setBrightness(thresholdPreBrightness);
-			BrightnessFilter.instance(P.p).applyTo(postBuffer);
-			ThresholdFilter.instance(P.p).setCutoff(thresholdCutoff);
-			ThresholdFilter.instance(P.p).applyTo(postBuffer);
+			BrightnessFilter.instance().setBrightness(thresholdPreBrightness);
+			BrightnessFilter.instance().applyTo(postBuffer);
+			ThresholdFilter.instance().setCutoff(thresholdCutoff);
+			ThresholdFilter.instance().applyTo(postBuffer);
 			
 			// do post blur if applicable
 			if(postBlur > 0) {
 				// blur averaged buffer pre-threshold
-				BlurHFilter.instance(P.p).setBlurByPercent(postBlur, postBuffer.width);
-				BlurHFilter.instance(P.p).applyTo(postBuffer);
-				BlurVFilter.instance(P.p).setBlurByPercent(postBlur, postBuffer.height);
-				BlurVFilter.instance(P.p).applyTo(postBuffer);
+				BlurHFilter.instance().setBlurByPercent(postBlur, postBuffer.width);
+				BlurHFilter.instance().applyTo(postBuffer);
+				BlurVFilter.instance().setBlurByPercent(postBlur, postBuffer.height);
+				BlurVFilter.instance().applyTo(postBuffer);
 			}
 		}
 	}

@@ -132,21 +132,21 @@ extends PAppletHax {
 		int transition = 40;
 		PG.setDrawCorner(p);
 		if(p.frameCount <= transitionIn) {
-			VignetteAltFilter.instance(p).setDarkness(P.map(p.frameCount, 1f, transitionIn, -7f, -1.75f));
-			VignetteAltFilter.instance(p).setSpread(P.map(p.frameCount, 1f, transitionIn, -3f, -1.25f));
-			VignetteAltFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance().setDarkness(P.map(p.frameCount, 1f, transitionIn, -7f, -1.75f));
+			VignetteAltFilter.instance().setSpread(P.map(p.frameCount, 1f, transitionIn, -3f, -1.25f));
+			VignetteAltFilter.instance().applyTo(p);
 			p.fill(255, P.map(p.frameCount, 1f, transition, 255f, 0));
 			p.rect(0,0,p.width, p.height);
 		} else if(p.frameCount >= frames - transition) {
-			VignetteAltFilter.instance(p).setDarkness(P.map(p.frameCount, frames - transition, frames, -1.75f, -7f));
-			VignetteAltFilter.instance(p).setSpread(P.map(p.frameCount, frames - transition, frames, -1.25f, -3f));
-			VignetteAltFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance().setDarkness(P.map(p.frameCount, frames - transition, frames, -1.75f, -7f));
+			VignetteAltFilter.instance().setSpread(P.map(p.frameCount, frames - transition, frames, -1.25f, -3f));
+			VignetteAltFilter.instance().applyTo(p);
 			p.fill(255, P.map(p.frameCount, frames - transition, frames, 0, 255f));
 			p.rect(0,0,p.width, p.height);
 		} else {
-			VignetteAltFilter.instance(p).setDarkness(-1.75f);
-			VignetteAltFilter.instance(p).setSpread(-1.25f);
-			VignetteAltFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance().setDarkness(-1.75f);
+			VignetteAltFilter.instance().setSpread(-1.25f);
+			VignetteAltFilter.instance().applyTo(p);
 		}
 	}
 	

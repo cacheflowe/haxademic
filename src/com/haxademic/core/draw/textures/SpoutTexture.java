@@ -54,7 +54,7 @@ public class SpoutTexture {
 		}
 		if(flipY) {
 			ImageUtil.copyImage(texture, textureFlipped);
-			FlipVFilter.instance(P.p).applyTo(textureFlipped);
+			FlipVFilter.instance().applyTo(textureFlipped);
 		}
 	}
 }

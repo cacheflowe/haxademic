@@ -12,8 +12,8 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
-import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 

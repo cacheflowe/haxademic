@@ -114,10 +114,10 @@ extends BaseTexture {
 		_texture.noLights();
 		_texture.popMatrix();
 		// post-process
-		DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
-		DisplacementMapFilter.instance(P.p).setAmp(2f);
-		DisplacementMapFilter.instance(P.p).setMode(3);
-		DisplacementMapFilter.instance(P.p).applyTo(_texture);
+		DisplacementMapFilter.instance().setMap(audioTexture.texture());
+		DisplacementMapFilter.instance().setAmp(2f);
+		DisplacementMapFilter.instance().setMode(3);
+		DisplacementMapFilter.instance().applyTo(_texture);
 	}
 	
 }

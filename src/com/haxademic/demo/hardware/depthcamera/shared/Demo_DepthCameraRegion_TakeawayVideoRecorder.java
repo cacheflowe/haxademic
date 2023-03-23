@@ -37,8 +37,8 @@ extends Demo_DepthCameraRegion {
 	    PImage camRGB = DepthCamera.instance().camera.getRgbImage();
 		// add recorder frame
         recorder.addFrame(camRGB);
-        SaturationFilter.instance(p).setSaturation(0);
-        SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
+        SaturationFilter.instance().setSaturation(0);
+        SaturationFilter.instance().setOnContext(recorder.getCurFrame());
 	}
 	
 	protected void drawApp() {

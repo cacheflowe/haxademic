@@ -3,21 +3,19 @@ package com.haxademic.core.draw.filters.pshader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class HueFilter
 extends BaseFragmentShader {
 
 	public static HueFilter instance;
 	
-	public HueFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/hue.glsl");
+	public HueFilter() {
+		super("haxademic/shaders/filters/hue.glsl");
 		setHue(90f);
 	}
 	
-	public static HueFilter instance(PApplet p) {
+	public static HueFilter instance() {
 		if(instance != null) return instance;
-		instance = new HueFilter(p);
+		instance = new HueFilter();
 		return instance;
 	}
 	

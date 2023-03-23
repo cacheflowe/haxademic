@@ -58,10 +58,10 @@ extends PAppletHax {
 //			PG.setTextureRepeat(movieBuffer.buffer, true);
 			
 			// apply audio texture to displacement shader on video buffer
-			DisplacementMapFilter.instance(P.p).setMode(6);
-			DisplacementMapFilter.instance(P.p).setAmp(0.01f);
-			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
-			DisplacementMapFilter.instance(P.p).applyTo(movieBuffer.buffer);
+			DisplacementMapFilter.instance().setMode(6);
+			DisplacementMapFilter.instance().setAmp(0.01f);
+			DisplacementMapFilter.instance().setMap(audioTexture.texture());
+			DisplacementMapFilter.instance().applyTo(movieBuffer.buffer);
 			
 			// draw to screen, letterboxed
 			ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);

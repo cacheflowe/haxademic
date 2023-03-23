@@ -51,9 +51,9 @@ extends PAppletHax {
 	protected InputTrigger _lineModeTrigger = new InputTrigger().addKeyCodes(new char[]{'l'}).addOscMessages(new String[]{TouchOscPads.PAD_08}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
 
 	protected WavPlayer player;
-	protected String audioTrack = "audio/jets-play.mp3";
+//	protected String audioTrack = "audio/jets-play.mp3";
 //	protected String audioTrack = "audio/false-reeds.mp3";
-//	protected String audioTrack = "audio/kit808/bass.wav";
+	protected String audioTrack = "audio/kit808/bass.wav";
 	
 	// TODO:
 	// * Toggle audio vs. frame-based testing
@@ -152,25 +152,25 @@ extends PAppletHax {
 		// apply post fx
 		// heavy blur on fx layer for displacement smoothness
 		float blurPercent = 2f; // Mouse.xNorm * 10f;
-		BlurHFilter.instance(p).setBlurByPercent(blurPercent, fxCurTexture().texture().width);
-		BlurVFilter.instance(p).setBlurByPercent(blurPercent, fxCurTexture().texture().height);
-		BlurHFilter.instance(p).applyTo(fxCurTexture().texture());
-		BlurVFilter.instance(p).applyTo(fxCurTexture().texture());
-		BlurHFilter.instance(p).applyTo(fxCurTexture().texture());
-		BlurVFilter.instance(p).applyTo(fxCurTexture().texture());
+		BlurHFilter.instance().setBlurByPercent(blurPercent, fxCurTexture().texture().width);
+		BlurVFilter.instance().setBlurByPercent(blurPercent, fxCurTexture().texture().height);
+		BlurHFilter.instance().applyTo(fxCurTexture().texture());
+		BlurVFilter.instance().applyTo(fxCurTexture().texture());
+		BlurHFilter.instance().applyTo(fxCurTexture().texture());
+		BlurVFilter.instance().applyTo(fxCurTexture().texture());
 
 		
 		// displace the fg layer
-		DisplacementMapFilter.instance(p).setMap(fxCurTexture().texture());
-		DisplacementMapFilter.instance(p).setMode(3);
-		DisplacementMapFilter.instance(p).setAmp(AudioIn.audioFreq(20) * 0.2f);
-		DisplacementMapFilter.instance(p).applyTo(fgCurTexture().texture());
+		DisplacementMapFilter.instance().setMap(fxCurTexture().texture());
+		DisplacementMapFilter.instance().setMode(3);
+		DisplacementMapFilter.instance().setAmp(AudioIn.audioFreq(20) * 0.2f);
+		DisplacementMapFilter.instance().applyTo(fgCurTexture().texture());
 		
 		// knock out black background on fg layer
-		ChromaColorFilter.instance(P.p).setColorToReplace(0f, 0f, 0f);
-		ChromaColorFilter.instance(P.p).setThresholdSensitivity(0.2f);
-		ChromaColorFilter.instance(P.p).setSmoothing(0.25f);
-		ChromaColorFilter.instance(P.p).applyTo(fgCurTexture().texture());
+		ChromaColorFilter.instance().setColorToReplace(0f, 0f, 0f);
+		ChromaColorFilter.instance().setThresholdSensitivity(0.2f);
+		ChromaColorFilter.instance().setSmoothing(0.25f);
+		ChromaColorFilter.instance().applyTo(fgCurTexture().texture());
 		
 		// draw
 		p.image(bgCurTexture().texture(), 0, 0);

@@ -2,24 +2,22 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class RadialFlareFilter
 extends BaseFragmentShader {
 
 	public static RadialFlareFilter instance;
 	
-	public RadialFlareFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/radial-flare.glsl");
+	public RadialFlareFilter() {
+		super("haxademic/shaders/filters/radial-flare.glsl");
 		setRadialLength(0.95f);
 		setImageBrightness(9f);
 		setFlareBrightness(9f);
 		setIters(100f);
 	}
 	
-	public static RadialFlareFilter instance(PApplet p) {
+	public static RadialFlareFilter instance() {
 		if(instance != null) return instance;
-		instance = new RadialFlareFilter(p);
+		instance = new RadialFlareFilter();
 		return instance;
 	}
 	

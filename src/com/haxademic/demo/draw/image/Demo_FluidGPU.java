@@ -126,10 +126,10 @@ extends PAppletHax {
 		}
 		
 		// blur velocity
-		BlurHFilter.instance(p).applyTo(pgVelocity);
-		BlurHFilter.instance(p).setBlurByPercent(1f, pgVelocity.width);
-		BlurVFilter.instance(p).applyTo(pgVelocity);
-		BlurVFilter.instance(p).setBlurByPercent(1f, pgVelocity.height);
+		BlurHFilter.instance().applyTo(pgVelocity);
+		BlurHFilter.instance().setBlurByPercent(1f, pgVelocity.width);
+		BlurVFilter.instance().applyTo(pgVelocity);
+		BlurVFilter.instance().setBlurByPercent(1f, pgVelocity.height);
 		
 		// update curl texture from velocity
 		curlShader.shader().set("uVelocity", pgVelocity);
@@ -152,8 +152,8 @@ extends PAppletHax {
 		pgDivergence.filter(divergenceShader.shader());
 		
 		// lerp pressure down
-		BrightnessStepFilter.instance(p).setBrightnessStep(-UI.value(PRESSURE)/255f);
-		BrightnessStepFilter.instance(p).applyTo(pgPressure);
+		BrightnessStepFilter.instance().setBrightnessStep(-UI.value(PRESSURE)/255f);
+		BrightnessStepFilter.instance().applyTo(pgPressure);
 		
 		// step pressure
 		pressureShader.shader().set("uDivergence", pgDivergence);

@@ -35,10 +35,10 @@ extends PAppletHax {
 		// copy w/shader
 		// loser!
 		int startTime = p.millis();
-		CopyImage.instance(p).setSourceTexture(sourceTexture);
-		CopyImage.instance(p).setFlipY(true);
+		CopyImage.instance().setSourceTexture(sourceTexture);
+		CopyImage.instance().setFlipY(true);
 		for(int i = 0; i < 100; i++) {
-			CopyImage.instance(p).applyTo(dest1);
+			CopyImage.instance().applyTo(dest1);
 		}
 		int copyTime = p.millis() - startTime;
 		

@@ -105,23 +105,23 @@ implements IAppStoreListener {
 		pg.endDraw();
 		
 		// postprocessing
-//		RadialFlareFilter.instance(p).setImageBrightness(0f + Mouse.yNorm * 10f);
-//		RadialFlareFilter.instance(p).setFlareBrightness(0f + Mouse.yNorm * 10f);
-//		RadialFlareFilter.instance(p).setRadialLength(0.5f + Mouse.xNorm * 0.5f);
-//		RadialFlareFilter.instance(p).setIters(100f + Mouse.xNorm * 3000f);
-//		RadialFlareFilter.instance(p).applyTo(pg);
+//		RadialFlareFilter.instance().setImageBrightness(0f + Mouse.yNorm * 10f);
+//		RadialFlareFilter.instance().setFlareBrightness(0f + Mouse.yNorm * 10f);
+//		RadialFlareFilter.instance().setRadialLength(0.5f + Mouse.xNorm * 0.5f);
+//		RadialFlareFilter.instance().setIters(100f + Mouse.xNorm * 3000f);
+//		RadialFlareFilter.instance().applyTo(pg);
 		
-		BloomFilter.instance(p).setStrength(9f);
-		BloomFilter.instance(p).setBlurIterations(12);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance(p).applyTo(pg);
+		BloomFilter.instance().setStrength(9f);
+		BloomFilter.instance().setBlurIterations(12);
+		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+		BloomFilter.instance().setOnContext(pg);
 		
-		VignetteFilter.instance(p).setDarkness(0.5f);
-		VignetteFilter.instance(p).applyTo(pg);
+		VignetteFilter.instance().setDarkness(0.5f);
+		VignetteFilter.instance().setOnContext(pg);
 		
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.11f);
-		GrainFilter.instance(p).applyTo(pg);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.11f);
+		GrainFilter.instance().setOnContext(pg);
 
 		
 		// draw to screen

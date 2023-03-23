@@ -10,15 +10,15 @@ extends BaseFragmentShader {
 
 	public static BlurProcessingFilter instance;
 	
-	public BlurProcessingFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/blur-processing.glsl");
+	public BlurProcessingFilter() {
+		super("haxademic/shaders/filters/blur-processing.glsl");
 		setBlurSize(2);
 		setSigma(2f);
 	}
 	
-	public static BlurProcessingFilter instance(PApplet p) {
+	public static BlurProcessingFilter instance() {
 		if(instance != null) return instance;
-		instance = new BlurProcessingFilter(p);
+		instance = new BlurProcessingFilter();
 		return instance;
 	}
 	

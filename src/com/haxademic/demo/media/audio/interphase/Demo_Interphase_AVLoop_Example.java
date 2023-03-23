@@ -168,14 +168,14 @@ implements IAppStoreListener {
 		pg.endDraw();
 		
 		// postprocessing
-		BloomFilter.instance(p).setStrength(9f);
-		BloomFilter.instance(p).setBlurIterations(12);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance(p).applyTo(pg);
+		BloomFilter.instance().setStrength(9f);
+		BloomFilter.instance().setBlurIterations(12);
+		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+		BloomFilter.instance().setOnContext(pg);
 		
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.11f);
-		GrainFilter.instance(p).applyTo(pg);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.11f);
+		GrainFilter.instance().setOnContext(pg);
 
 		// draw to screen
 		p.image(pg, 0, 0);

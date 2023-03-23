@@ -10,15 +10,15 @@ extends BaseFragmentShader {
 
 	public static RepeatFilter instance;
 	
-	public RepeatFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/repeat.glsl");
+	public RepeatFilter() {
+		super("haxademic/shaders/filters/repeat.glsl");
 		setZoom(1f);
 		setOffset(0f, 0f);
 	}
 	
-	public static RepeatFilter instance(PApplet p) {
+	public static RepeatFilter instance() {
 		if(instance != null) return instance;
-		instance = new RepeatFilter(p);
+		instance = new RepeatFilter();
 		return instance;
 	}
 	

@@ -70,12 +70,12 @@ extends PAppletHax {
 		// blurAmp = 0.5f;
 		// sharpAmp = 1f;
 		for (int i = 0; i < RD_ITERATIONS; i++) {			
-			BlurHFilter.instance(p).setBlurByPercent(blurAmp, p.width);
-			BlurHFilter.instance(p).applyTo(p);
-			BlurVFilter.instance(p).setBlurByPercent(blurAmp, p.height);
-			BlurVFilter.instance(p).applyTo(p);
-			SharpenFilter.instance(p).setSharpness(sharpAmp);
-			SharpenFilter.instance(p).applyTo(p);
+			BlurHFilter.instance().setBlurByPercent(blurAmp, p.width);
+			BlurHFilter.instance().applyTo(p);
+			BlurVFilter.instance().setBlurByPercent(blurAmp, p.height);
+			BlurVFilter.instance().applyTo(p);
+			SharpenFilter.instance().setSharpness(sharpAmp);
+			SharpenFilter.instance().applyTo(p);
 		}
 	}
 

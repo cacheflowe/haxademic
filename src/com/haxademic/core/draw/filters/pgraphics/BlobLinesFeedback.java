@@ -37,8 +37,8 @@ extends BaseVideoFilter {
 		
 		// set up blur shader for blob pre-processing
 		float shaderBlurAmount = 1f;
-		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blurImgW);
-		BlurVFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blurImgH);
+		BlurHFilter.instance().setBlurByPercent(shaderBlurAmount, blurImgW);
+		BlurVFilter.instance().setBlurByPercent(shaderBlurAmount, blurImgH);
 
 		// init blob detection object
 		blobDetection = new BlobDetection(blurImgW, blurImgH);
@@ -72,13 +72,13 @@ extends BaseVideoFilter {
 		ImageUtil.copyImage(motionDetectionMap.bwBuffer(), blobSourceBuffer);
 		
 		// darken the edges to help with blob cleanliness
-		EdgeColorDarkenFilter.instance(P.p).setSpreadX(0.05f);
-		EdgeColorDarkenFilter.instance(P.p).setSpreadY(0.05f);
-		EdgeColorDarkenFilter.instance(P.p).applyTo(blobSourceBuffer);
+		EdgeColorDarkenFilter.instance().setSpreadX(0.05f);
+		EdgeColorDarkenFilter.instance().setSpreadY(0.05f);
+		EdgeColorDarkenFilter.instance().applyTo(blobSourceBuffer);
 		
 		// blur for blob computation smoothness
-		BlurHFilter.instance(P.p).applyTo(blobSourceBuffer);
-		BlurVFilter.instance(P.p).applyTo(blobSourceBuffer);
+		BlurHFilter.instance().applyTo(blobSourceBuffer);
+		BlurVFilter.instance().applyTo(blobSourceBuffer);
 		
 		// load pixels and pass to blob detection object
 		blobSourceBuffer.loadPixels();

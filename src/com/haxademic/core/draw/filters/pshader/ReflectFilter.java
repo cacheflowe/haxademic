@@ -2,22 +2,20 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ReflectFilter
 extends BaseFragmentShader {
 
 	public static ReflectFilter instance;
 	
-	public ReflectFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/reflect.glsl");
+	public ReflectFilter() {
+		super("haxademic/shaders/filters/reflect.glsl");
 		setHorizontal(true);
 		setReflectPosition(0.5f);
 	}
 	
-	public static ReflectFilter instance(PApplet p) {
+	public static ReflectFilter instance() {
 		if(instance != null) return instance;
-		instance = new ReflectFilter(p);
+		instance = new ReflectFilter();
 		return instance;
 	}
 

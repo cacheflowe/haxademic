@@ -86,7 +86,7 @@ extends PAppletHax {
 		// update displacement texture
 		// perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
 		audioTexture.update();
-		ReflectFilter.instance(p).applyTo(audioTexture.texture());
+		ReflectFilter.instance().applyTo(audioTexture.texture());
 
 		shape.disableStyle();
 //		shape.enableStyle();

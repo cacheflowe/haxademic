@@ -71,20 +71,20 @@ extends PAppletHax {
 		PG.basicCameraFromMouse(p.g);
 
 		// draw shader-displaced mesh
-		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(perlin.texture());
-		LinesDeformAndTextureFilter.instance(p).setColorMap(DemoAssets.textureNebula());
-		LinesDeformAndTextureFilter.instance(p).setWeight(Mouse.xNorm * 20f);
-		LinesDeformAndTextureFilter.instance(p).setModelMaxExtent(shapeExtent * 2f);
-		LinesDeformAndTextureFilter.instance(p).setColorThicknessMode((Mouse.yNorm > 0.5f));
+		LinesDeformAndTextureFilter.instance().setDisplacementMap(perlin.texture());
+		LinesDeformAndTextureFilter.instance().setColorMap(DemoAssets.textureNebula());
+		LinesDeformAndTextureFilter.instance().setWeight(Mouse.xNorm * 20f);
+		LinesDeformAndTextureFilter.instance().setModelMaxExtent(shapeExtent * 2f);
+		LinesDeformAndTextureFilter.instance().setColorThicknessMode((Mouse.yNorm > 0.5f));
 		if(Mouse.xNorm > 0.5f) {
-			LinesDeformAndTextureFilter.instance(p).setSheetMode(true);
-			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(Mouse.yNorm * pg.height * 0.7f);
+			LinesDeformAndTextureFilter.instance().setSheetMode(true);
+			LinesDeformAndTextureFilter.instance().setDisplaceAmp(Mouse.yNorm * pg.height * 0.7f);
 		} else {
-			LinesDeformAndTextureFilter.instance(p).setSheetMode(false);
-			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(Mouse.yNorm * pg.height * 0.01f);
+			LinesDeformAndTextureFilter.instance().setSheetMode(false);
+			LinesDeformAndTextureFilter.instance().setDisplaceAmp(Mouse.yNorm * pg.height * 0.01f);
 		}
 		//		p.shader(displacementShader, P.LINES);
-		LinesDeformAndTextureFilter.instance(p).applyTo(p);
+		LinesDeformAndTextureFilter.instance().setOnContext(p);
 
 		p.stroke(255);
 		p.shape(shape);

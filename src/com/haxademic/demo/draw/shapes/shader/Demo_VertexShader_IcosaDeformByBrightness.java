@@ -50,10 +50,10 @@ extends PAppletHax {
 		p.rotateZ(0.05f + 0.05f * P.sin(-P.PI/2f + FrameLoop.progressRads()));
 		
 		// apply vertex shader & draw icosahedron
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.3f + 0.3f * P.sin(-P.PI/2f + FrameLoop.progressRads()));
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(texture);
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(0.3f + 0.3f * P.sin(-P.PI/2f + FrameLoop.progressRads()));
+		MeshDeformAndTextureFilter.instance().setSheetMode(false);
+		MeshDeformAndTextureFilter.instance().setOnContext(p);
 		// set texture using PShape method
 		shapeIcos.setTexture(texture);
 		

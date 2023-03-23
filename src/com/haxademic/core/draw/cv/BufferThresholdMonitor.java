@@ -45,8 +45,8 @@ public class BufferThresholdMonitor {
 		thresholdBuffer.copy(newFrame, 0, 0, newFrame.width, newFrame.height, 0, 0, thresholdBuffer.width, thresholdBuffer.height);
 
 		// run threshold filter
-		ThresholdFilter.instance(P.p).setCutoff(cutoff);
-		ThresholdFilter.instance(P.p).applyTo(thresholdBuffer);
+		ThresholdFilter.instance().setCutoff(cutoff);
+		ThresholdFilter.instance().applyTo(thresholdBuffer);
 		
 		// analyze diff pixels
 		float numPixels = thresholdBuffer.width * thresholdBuffer.height;

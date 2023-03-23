@@ -46,10 +46,10 @@ extends PAppletHax {
 		PG.setCenterScreen(pg);
 		PG.basicCameraFromMouse(pg);
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(100f);
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(pg);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(texture);
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(100f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(pg);
 		// set texture using PShape method
 		shape.setTexture(DemoAssets.textureNebula());
 

@@ -2,22 +2,20 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class KaleidoFilter
 extends BaseFragmentShader {
 
 	public static KaleidoFilter instance;
 	
-	public KaleidoFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/kaleido.glsl");
+	public KaleidoFilter() {
+		super("haxademic/shaders/filters/kaleido.glsl");
 		setSides(6f);
 		setAngle(0);
 	}
 	
-	public static KaleidoFilter instance(PApplet p) {
+	public static KaleidoFilter instance() {
 		if(instance != null) return instance;
-		instance = new KaleidoFilter(p);
+		instance = new KaleidoFilter();
 		return instance;
 	}
 	

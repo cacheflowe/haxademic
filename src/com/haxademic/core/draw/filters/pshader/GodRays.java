@@ -2,15 +2,13 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class GodRays
 extends BaseFragmentShader {
 
 	public static GodRays instance;
 	
-	public GodRays(PApplet p) {
-		super(p, "haxademic/shaders/filters/godrays.glsl");
+	public GodRays() {
+		super("haxademic/shaders/filters/godrays.glsl");
 		setDecay(0.97f);
 		setDensity(0.5f);
 		setWeight(0.1f);
@@ -18,9 +16,9 @@ extends BaseFragmentShader {
 		setAmp(1f);
 	}
 	
-	public static GodRays instance(PApplet p) {
+	public static GodRays instance() {
 		if(instance != null) return instance;
-		instance = new GodRays(p);
+		instance = new GodRays();
 		return instance;
 	}
 	

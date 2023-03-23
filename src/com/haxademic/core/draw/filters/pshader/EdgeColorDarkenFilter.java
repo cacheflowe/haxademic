@@ -2,22 +2,20 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class EdgeColorDarkenFilter
 extends BaseFragmentShader {
 
 	public static EdgeColorDarkenFilter instance;
 	
-	public EdgeColorDarkenFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/edge-color-darken.glsl");
+	public EdgeColorDarkenFilter() {
+		super("haxademic/shaders/filters/edge-color-darken.glsl");
 		setSpreadX(0.05f);
 		setSpreadY(0.05f);
 	}
 	
-	public static EdgeColorDarkenFilter instance(PApplet p) {
+	public static EdgeColorDarkenFilter instance() {
 		if(instance != null) return instance;
-		instance = new EdgeColorDarkenFilter(p);
+		instance = new EdgeColorDarkenFilter();
 		return instance;
 	}
 	

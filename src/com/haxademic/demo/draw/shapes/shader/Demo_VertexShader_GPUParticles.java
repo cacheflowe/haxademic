@@ -130,9 +130,9 @@ extends PAppletHax {
 		directionGenerator.set("zoom", 3f + 2f * P.sin(p.frameCount * 0.01f));
 		directionGenerator.set("offset", p.frameCount * 0.003f, p.frameCount * 0.003f);
 		bufferDirection.filter(directionGenerator);				// noise to change directions
-		ContrastFilter.instance(p).setContrast(1.5f);
-		ContrastFilter.instance(p).applyTo(bufferDirection);
-//		EdgeColorDarkenFilter.instance(p).applyTo(bufferDirection);
+		ContrastFilter.instance().setContrast(1.5f);
+		ContrastFilter.instance().applyTo(bufferDirection);
+//		EdgeColorDarkenFilter.instance().applyTo(bufferDirection);
 
 		// update amp texture
 		ampGenerator.set("zoom", 1f);

@@ -36,10 +36,10 @@ extends PAppletHax {
 //		p.strokeWeight(2);
 		if(p.frameCount % 100 < 50) {
 			// deform mesh
-			MeshDeformAndTextureFilter.instance(p).setDisplacementMap(DemoAssets.textureNebula());
-			MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(100f * P.sin(p.frameCount * 0.03f));
-			MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
-			MeshDeformAndTextureFilter.instance(p).applyTo(p);
+			MeshDeformAndTextureFilter.instance().setDisplacementMap(DemoAssets.textureNebula());
+			MeshDeformAndTextureFilter.instance().setDisplaceAmp(100f * P.sin(p.frameCount * 0.03f));
+			MeshDeformAndTextureFilter.instance().setSheetMode(false);
+			MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 			// draw mesh
 			p.shape(shape);

@@ -36,16 +36,16 @@ extends PAppletHax {
 		// begin draw & preprocess fx
 		pg.beginDraw();
 		if(p.frameCount == 1) pg.background(0);
-		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
-		BrightnessStepFilter.instance(p).applyTo(pg);
-//		RepeatFilter.instance(p).setOffset(0, -0.001f);
-		RepeatFilter.instance(p).setZoom(1.03f);
-		RepeatFilter.instance(p).setOffset(0f, 0f);
-		RepeatFilter.instance(p).applyTo(pg);
-		FeedbackRadialFilter.instance(p).setAmp(0.009f);
-		FeedbackRadialFilter.instance(p).setWaveAmp(1f);
-		FeedbackRadialFilter.instance(p).setWaveFreq(1f);
-		FeedbackRadialFilter.instance(p).applyTo(pg);
+		BrightnessStepFilter.instance().setBrightnessStep(-1f/255f);
+		BrightnessStepFilter.instance().setOnContext(pg);
+//		RepeatFilter.instance().setOffset(0, -0.001f);
+		RepeatFilter.instance().setZoom(1.03f);
+		RepeatFilter.instance().setOffset(0f, 0f);
+		RepeatFilter.instance().setOnContext(pg);
+		FeedbackRadialFilter.instance().setAmp(0.009f);
+		FeedbackRadialFilter.instance().setWaveAmp(1f);
+		FeedbackRadialFilter.instance().setWaveFreq(1f);
+		FeedbackRadialFilter.instance().setOnContext(pg);
 		PG.setDrawCenter(pg);
 		PG.setCenterScreen(pg);
 		pg.noStroke();
@@ -63,13 +63,13 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// postprocess
-//		Pixelate2Filter.instance(p).applyTo(pg);
-//		ThresholdFilter.instance(p).applyTo(pg);
+//		Pixelate2Filter.instance().applyTo(pg);
+//		ThresholdFilter.instance().applyTo(pg);
 		
 		// draw to screen
 		p.image(pg, 0, 0);
 		
-//		InvertFilter.instance(p).applyTo(p);
+//		InvertFilter.instance().applyTo(p);
 	}
 
 }

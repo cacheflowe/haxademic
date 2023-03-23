@@ -83,14 +83,14 @@ extends PAppletHax {
 		ampBuffer.update(audioAmp);
 
 		// post fx
-		RotateFilter.instance(p).setZoom(1f - 0.6f * ampBuffer.average());
-		RotateFilter.instance(p).applyTo(pg);
+		RotateFilter.instance().setZoom(1f - 0.6f * ampBuffer.average());
+		RotateFilter.instance().setOnContext(pg);
 		
 		ReactionDiffusionStepFilter.applyTo(pg, 2, 3, 0.3f, 0.3f, 0.8f);
 		
-		VignetteFilter.instance(p).setDarkness(0.9f - 2f * ampBuffer.average());
-		VignetteFilter.instance(p).setSpread(0.15f + 2f * ampBuffer.average());
-		VignetteFilter.instance(p).applyTo(pg);
+		VignetteFilter.instance().setDarkness(0.9f - 2f * ampBuffer.average());
+		VignetteFilter.instance().setSpread(0.15f + 2f * ampBuffer.average());
+		VignetteFilter.instance().setOnContext(pg);
 		
 		pg.endDraw();
 		

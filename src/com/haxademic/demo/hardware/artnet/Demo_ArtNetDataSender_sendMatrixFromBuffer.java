@@ -114,8 +114,8 @@ extends PAppletHax {
 		// copy to tiny texture, reduce brightness & send!
 //		ImageUtil.copyImage(curTexture, ledTexture);
 //		ImageUtil.cropFillCopyImage(curTexture, ledTexture, true);
-		BrightnessFilter.instance(p).setBrightness(UI.value(BRIGHTNESS));
-		BrightnessFilter.instance(p).applyTo(ledTexture);
+		BrightnessFilter.instance().setBrightness(UI.value(BRIGHTNESS));
+		BrightnessFilter.instance().setOnContext(ledTexture);
 		
 		// prep rotation
 		if(UI.valueToggle(FLIP_H)) ImageUtil.flipH(ledTexture);
@@ -144,21 +144,21 @@ extends PAppletHax {
 		noise3d.update(1.8f, 0, 0, -FrameLoop.count(0.01f), FrameLoop.count(0.0075f), false, false);
 
 		// post-process noise map
-		ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
-		ColorizeFromTexture.instance(p).setTexture(ImageGradient.SPARKS_FLAMES());
-		ColorizeFromTexture.instance(p).applyTo(noise3d.texture());
-		SaturationFilter.instance(p).setSaturation(3f);
-		SaturationFilter.instance(p).applyTo(noise3d.texture());
-		BrightnessFilter.instance(p).setBrightness(0.5f);
-		BrightnessFilter.instance(p).applyTo(noise3d.texture());
-		ContrastFilter.instance(p).setContrast(2f);
-		ContrastFilter.instance(p).applyTo(noise3d.texture());
+		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
+		ColorizeFromTexture.instance().setTexture(ImageGradient.SPARKS_FLAMES());
+		ColorizeFromTexture.instance().setOnContext(noise3d.texture());
+		SaturationFilter.instance().setSaturation(3f);
+		SaturationFilter.instance().setOnContext(noise3d.texture());
+		BrightnessFilter.instance().setBrightness(0.5f);
+		BrightnessFilter.instance().setOnContext(noise3d.texture());
+		ContrastFilter.instance().setContrast(2f);
+		ContrastFilter.instance().setOnContext(noise3d.texture());
 		
-		BlurHFilter.instance(p).setBlurByPercent(1f, noise3d.texture().width);
-		BlurVFilter.instance(p).setBlurByPercent(1f, noise3d.texture().height);
+		BlurHFilter.instance().setBlurByPercent(1f, noise3d.texture().width);
+		BlurVFilter.instance().setBlurByPercent(1f, noise3d.texture().height);
 		for (int i = 0; i < 10; i++) {
-			BlurHFilter.instance(p).applyTo(noise3d.texture());
-			BlurVFilter.instance(p).applyTo(noise3d.texture());
+			BlurHFilter.instance().setOnContext(noise3d.texture());
+			BlurVFilter.instance().setOnContext(noise3d.texture());
 		}
 	}
 }

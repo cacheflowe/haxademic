@@ -113,7 +113,7 @@ extends BaseTexture {
 		tiledImg.update();
 		tiledImg.draw(_texture, width, height);
 		
-		InvertFilter.instance(P.p).applyTo(_texture);
+		InvertFilter.instance().applyTo(_texture);
 	}
 	
 	public PImage image() {

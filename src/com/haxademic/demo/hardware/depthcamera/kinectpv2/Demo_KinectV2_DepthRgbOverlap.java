@@ -62,10 +62,10 @@ extends PAppletHax {
 		
 		if(motionDetectionMap != null) {
 			ImageUtil.cropFillCopyImage(kinectSilhouetteSmoothed.image(), motionBuffer, false);
-			BlurHFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.width);
-			BlurHFilter.instance(P.p).applyTo(motionBuffer);
-			BlurVFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.height);
-			BlurVFilter.instance(P.p).applyTo(motionBuffer);
+			BlurHFilter.instance().setBlurByPercent(0.5f, motionBuffer.width);
+			BlurHFilter.instance().applyTo(motionBuffer);
+			BlurVFilter.instance().setBlurByPercent(0.5f, motionBuffer.height);
+			BlurVFilter.instance().applyTo(motionBuffer);
 
 			
 			motionDetectionMap.setBlendLerp(0.25f);

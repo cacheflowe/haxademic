@@ -36,8 +36,8 @@ public class BrightnessBumper {
 	
 	public void applyTo(PGraphics pg) {
 		if(brightness == 1f) return;
-		BrightnessFilter.instance(P.p).setBrightness(brightness);
-		BrightnessFilter.instance(P.p).applyTo(pg);
+		BrightnessFilter.instance().setBrightness(brightness);
+		BrightnessFilter.instance().applyTo(pg);
 	}
 
 }

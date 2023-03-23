@@ -219,27 +219,27 @@ public class DepthCameraRoomScanDiff {
 		colorDistanceFilter.set("tex2", depthBuffer);
 		depthDifference.filter(colorDistanceFilter);
 		
-		ThresholdFilter.instance(P.p).setCutoff(colorDiffThresh);
-		ThresholdFilter.instance(P.p).applyTo(depthDifference);
+		ThresholdFilter.instance().setCutoff(colorDiffThresh);
+		ThresholdFilter.instance().applyTo(depthDifference);
 	}
 	
 	protected void smoothOutput() {
 		// lerp & blur to get rid of noise
-		BlendTowardsTexture.instance(P.p).setBlendLerp(smoothLerp);
-		BlendTowardsTexture.instance(P.p).setSourceTexture(depthDifference);
-		BlendTowardsTexture.instance(P.p).applyTo(resultLerped);
+		BlendTowardsTexture.instance().setBlendLerp(smoothLerp);
+		BlendTowardsTexture.instance().setSourceTexture(depthDifference);
+		BlendTowardsTexture.instance().applyTo(resultLerped);
 
-		BlurHFilter.instance(P.p).setBlurByPercent(smoothBlur, (float) resultSmoothed.width);
-		BlurHFilter.instance(P.p).applyTo(resultLerped);
-		BlurVFilter.instance(P.p).setBlurByPercent(smoothBlur, (float) resultSmoothed.height);
-		BlurVFilter.instance(P.p).applyTo(resultLerped);
+		BlurHFilter.instance().setBlurByPercent(smoothBlur, (float) resultSmoothed.width);
+		BlurHFilter.instance().applyTo(resultLerped);
+		BlurVFilter.instance().setBlurByPercent(smoothBlur, (float) resultSmoothed.height);
+		BlurVFilter.instance().applyTo(resultLerped);
 		
 		// copy lerped to smoothed
 		ImageUtil.copyImage(resultLerped, resultSmoothed);
 		
 		// bring edges back in
-		ThresholdFilter.instance(P.p).setCutoff(smoothThresh);
-		ThresholdFilter.instance(P.p).applyTo(resultSmoothed);
+		ThresholdFilter.instance().setCutoff(smoothThresh);
+		ThresholdFilter.instance().applyTo(resultSmoothed);
 	}
 
 

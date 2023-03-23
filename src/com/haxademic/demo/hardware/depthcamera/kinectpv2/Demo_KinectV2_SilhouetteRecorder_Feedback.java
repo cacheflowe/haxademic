@@ -7,7 +7,6 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
@@ -67,13 +66,13 @@ extends PAppletHax {
         DebugView.setTexture("kinect.getBodyTrackImage()", silhouette);
         ImageUtil.cropFillCopyImage(rgb, bufferRgb, true);
         ImageUtil.cropFillCopyImage(silhouette, bufferMask, true);
-        InvertFilter.instance(p).applyTo(bufferMask);
+        InvertFilter.instance().setOnContext(bufferMask);
         bufferRgb.mask(bufferMask);
         
         // for b/w mode, knock out black
-        ThresholdFilter.instance(p).applyTo(bufferMask);
-        LeaveWhiteFilter.instance(p).applyTo(bufferMask);
-        if(p.frameCount % 4 < 2) InvertFilter.instance(p).applyTo(bufferMask);
+        ThresholdFilter.instance().setOnContext(bufferMask);
+        LeaveWhiteFilter.instance().setOnContext(bufferMask);
+        if(p.frameCount % 4 < 2) InvertFilter.instance().setOnContext(bufferMask);
 
         
         // add to history
@@ -84,12 +83,12 @@ extends PAppletHax {
         pg.beginDraw();
 
         // post/pre effects
-//        BrightnessStepFilter.instance(p).setBrightnessStep(-1/255f);
-//        BrightnessStepFilter.instance(p).applyTo(pg);
+//        BrightnessStepFilter.instance().setBrightnessStep(-1/255f);
+//        BrightnessStepFilter.instance().applyTo(pg);
         
-        RotateFilter.instance(p).setRotation(FrameLoop.osc(0.025f, -0.04f, 0.04f));
-        RotateFilter.instance(p).setZoom(0.96f);
-        RotateFilter.instance(p).applyTo(pg);
+        RotateFilter.instance().setRotation(FrameLoop.osc(0.025f, -0.04f, 0.04f));
+        RotateFilter.instance().setZoom(0.96f);
+        RotateFilter.instance().setOnContext(pg);
         
         p.blendMode(PBlendModes.DIFFERENCE);
         // draw image layers from the back, scaling down

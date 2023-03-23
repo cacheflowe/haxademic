@@ -73,9 +73,9 @@ extends BaseTexture {
 	}
 	
 	public void postProcess() {
-//		SaturationFilter.instance(P.p).setSaturation(0.3f);
-//		SaturationFilter.instance(P.p).applyTo(_texture);
-//		FXAAFilter.instance(P.p).applyTo(_texture);
+//		SaturationFilter.instance().setSaturation(0.3f);
+//		SaturationFilter.instance().applyTo(_texture);
+//		FXAAFilter.instance().applyTo(_texture);
 //		super.postProcess();
 	}
 	

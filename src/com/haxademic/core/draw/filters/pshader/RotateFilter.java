@@ -10,16 +10,16 @@ extends BaseFragmentShader {
 
 	public static RotateFilter instance;
 	
-	public RotateFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/rotate.glsl");
+	public RotateFilter() {
+		super("haxademic/shaders/filters/rotate.glsl");
 		setRotation(0f);
 		setZoom(1f);
 		setOffset(0f, 0f);
 	}
 	
-	public static RotateFilter instance(PApplet p) {
+	public static RotateFilter instance() {
 		if(instance != null) return instance;
-		instance = new RotateFilter(p);
+		instance = new RotateFilter();
 		return instance;
 	}
 	

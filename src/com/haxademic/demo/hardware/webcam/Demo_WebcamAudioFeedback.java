@@ -63,11 +63,11 @@ implements IWebCamCallback {
 		int feedbackCycles = P.round(audioIn); // P.round(Mouse.xNorm * 10f)
 		feedbackCycles = 10;
 		DebugView.setValue("audioIn", audioIn);
-		FeedbackMapFilter.instance(P.p).setMap(feedbackMap);
-		FeedbackMapFilter.instance(P.p).setAmp(audioIn);
-//		FeedbackMapFilter.instance(P.p).setBrightnessStep(1f/255f);
-//		FeedbackMapFilter.instance(P.p).setAlphaStep(-3f/255f);
-		for (int i = 0; i < feedbackCycles; i++) FeedbackMapFilter.instance(P.p).applyTo(flippedCamera);
+		FeedbackMapFilter.instance().setMap(feedbackMap);
+		FeedbackMapFilter.instance().setAmp(audioIn);
+//		FeedbackMapFilter.instance().setBrightnessStep(1f/255f);
+//		FeedbackMapFilter.instance().setAlphaStep(-3f/255f);
+		for (int i = 0; i < feedbackCycles; i++) FeedbackMapFilter.instance().applyTo(flippedCamera);
 	}
 
 	protected void drawApp() {

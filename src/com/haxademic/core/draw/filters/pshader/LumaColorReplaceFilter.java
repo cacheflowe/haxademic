@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class LumaColorReplaceFilter
 extends BaseFragmentShader {
 
 	public static LumaColorReplaceFilter instance;
 	
-	public LumaColorReplaceFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/luma-color-replace.glsl");
+	public LumaColorReplaceFilter() {
+		super("haxademic/shaders/filters/luma-color-replace.glsl");
 		setTargetColor(1f, 0.274f, 0.023f, 1f);
 		setDiffRange(0.1f);
 		setLumaTarget(0.5f);
 	}
 	
-	public static LumaColorReplaceFilter instance(PApplet p) {
+	public static LumaColorReplaceFilter instance() {
 		if(instance != null) return instance;
-		instance = new LumaColorReplaceFilter(p);
+		instance = new LumaColorReplaceFilter();
 		return instance;
 	}
 	

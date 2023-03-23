@@ -78,18 +78,18 @@ extends PAppletHax {
 		p.shape(shapesCached[shapeIndex], 0, 0);
 		
 		// post process
-		BloomFilter.instance(p).setStrength(0.5f);
-		BloomFilter.instance(p).setBlurIterations(12);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-//		BloomFilter.instance(p).applyTo(p.g);
+		BloomFilter.instance().setStrength(0.5f);
+		BloomFilter.instance().setBlurIterations(12);
+		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+//		BloomFilter.instance().applyTo(p.g);
 
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.1f);
-		GrainFilter.instance(p).applyTo(p.g);
-		BloomFilter.instance(p).applyTo(p.g);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.1f);
+		GrainFilter.instance().applyTo(p.g);
+		BloomFilter.instance().applyTo(p.g);
 		
-		VignetteFilter.instance(p).setDarkness(0.7f);
-		VignetteFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.7f);
+		VignetteFilter.instance().applyTo(p.g);
 	}
 	
 	protected PShape voxelizeMesh(PShape s, float spacing, float extent) {

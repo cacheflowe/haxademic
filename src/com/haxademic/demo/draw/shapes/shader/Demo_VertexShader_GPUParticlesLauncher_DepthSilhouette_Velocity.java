@@ -131,12 +131,12 @@ extends PAppletHax {
 		// and prepare pixels data
 		depthSilhouetteSmoothed.update();
 		ImageUtil.cropFillCopyImage(depthSilhouetteSmoothed.image(), silhouetteCropped, true);
-		ThresholdFilter.instance(p).applyTo(silhouetteCropped);
+		ThresholdFilter.instance().applyTo(silhouetteCropped);
 		
 		// lerp silhouette for launch map
-		BlendTowardsTexture.instance(p).setBlendLerp(0.2f);
-		BlendTowardsTexture.instance(p).setSourceTexture(silhouetteCropped);
-		BlendTowardsTexture.instance(p).applyTo(silhouetteCroppedLerped);
+		BlendTowardsTexture.instance().setBlendLerp(0.2f);
+		BlendTowardsTexture.instance().setSourceTexture(silhouetteCropped);
+		BlendTowardsTexture.instance().applyTo(silhouetteCroppedLerped);
 		
 		// copy depth to cropped buffer
 		ImageUtil.cropFillCopyImage(DepthCamera.instance().camera.getDepthImage(), depthCropped, true);

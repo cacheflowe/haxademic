@@ -52,10 +52,10 @@ extends BaseTexture {
 	
 	public void postProcess() {
 		super.postProcess();
-		BlurHFilter.instance(P.p).setBlurByPercent(1.7f, width);
-		BlurHFilter.instance(P.p).applyTo(_texture);
-		BlurVFilter.instance(P.p).setBlurByPercent(1.7f, height);
-		BlurVFilter.instance(P.p).applyTo(_texture);
+		BlurHFilter.instance().setBlurByPercent(1.7f, width);
+		BlurHFilter.instance().applyTo(_texture);
+		BlurVFilter.instance().setBlurByPercent(1.7f, height);
+		BlurVFilter.instance().applyTo(_texture);
 	}
 	
 	public class FloatParticle {

@@ -3,7 +3,6 @@ package com.haxademic.core.draw.filters.pshader;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class SubtractOpacityFromMapFilter
@@ -11,14 +10,14 @@ extends BaseFragmentShader {
 
 	public static SubtractOpacityFromMapFilter instance;
 	
-	public SubtractOpacityFromMapFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/opaque-pixels-subtract-opacity-from-map.glsl");
+	public SubtractOpacityFromMapFilter() {
+		super("haxademic/shaders/filters/opaque-pixels-subtract-opacity-from-map.glsl");
 		setMap(DemoAssets.smallTexture());
 	}
 	
-	public static SubtractOpacityFromMapFilter instance(PApplet p) {
+	public static SubtractOpacityFromMapFilter instance() {
 		if(instance != null) return instance;
-		instance = new SubtractOpacityFromMapFilter(p);
+		instance = new SubtractOpacityFromMapFilter();
 		return instance;
 	}
 	

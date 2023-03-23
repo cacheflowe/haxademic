@@ -93,10 +93,10 @@ extends PAppletHax {
 		p.filter(feedbackShader); p.filter(feedbackShader); p.filter(feedbackShader); 
 		p.image(buffer, 0, 0);
 	
-		ContrastFilter.instance(p).setContrast(1.01f);
-		ContrastFilter.instance(p).applyTo(p);
-		VignetteFilter.instance(p).setDarkness(0.3f);
-		VignetteFilter.instance(p).applyTo(p);
+		ContrastFilter.instance().setContrast(1.01f);
+		ContrastFilter.instance().applyTo(p);
+		VignetteFilter.instance().setDarkness(0.3f);
+		VignetteFilter.instance().applyTo(p);
 	}
 		
 }

@@ -29,9 +29,9 @@ extends SerialDevice {
 	
 	public void update(PImage img, float brightness, float smoothing) {
 		// copy frame - lerp it!
-		BlendTowardsTexture.instance(P.p).setSourceTexture(img);
-		BlendTowardsTexture.instance(P.p).setBlendLerp(smoothing);
-		BlendTowardsTexture.instance(P.p).applyTo(buffer);
+		BlendTowardsTexture.instance().setSourceTexture(img);
+		BlendTowardsTexture.instance().setBlendLerp(smoothing);
+		BlendTowardsTexture.instance().applyTo(buffer);
 		buffer.loadPixels();
 		
 //		device().write('n');

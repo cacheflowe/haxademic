@@ -106,10 +106,10 @@ extends PAppletHax {
 		// deform mesh
 		displaceTexture.offsetY(p.frameCount * 0.01f);
 		displaceTexture.zoom(5f);
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displaceTexture.texture());
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(easedAmp * 190f);
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(displaceTexture.texture());
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(easedAmp * 190f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 		// draw mesh
 		p.shape(shape);
@@ -117,18 +117,18 @@ extends PAppletHax {
 		
 
 		// post effects
-//		BloomFilter.instance(p).setStrength(2.11f);
-//		BloomFilter.instance(p).setBlurIterations(1);
-//		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-//		BloomFilter.instance(p).applyTo(p);
-//		BloomFilter.instance(p).applyTo(pg);
+//		BloomFilter.instance().setStrength(2.11f);
+//		BloomFilter.instance().setBlurIterations(1);
+//		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+//		BloomFilter.instance().applyTo(p);
+//		BloomFilter.instance().applyTo(pg);
 		
-		VignetteFilter.instance(p).setDarkness(0.49f);
-		VignetteFilter.instance(p).applyTo(p);
+		VignetteFilter.instance().setDarkness(0.49f);
+		VignetteFilter.instance().applyTo(p);
 
-//		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-//		GrainFilter.instance(p).setCrossfade(0.12f);
-//		GrainFilter.instance(p).applyTo(p);
+//		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+//		GrainFilter.instance().setCrossfade(0.12f);
+//		GrainFilter.instance().applyTo(p);
 
 	}
 		

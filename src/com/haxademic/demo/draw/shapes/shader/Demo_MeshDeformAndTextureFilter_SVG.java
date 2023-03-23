@@ -58,14 +58,14 @@ extends PAppletHax {
 		PG.basicCameraFromMouse(p.g);
 
 		// post effect on displacement texture
-//		ThresholdFilter.instance(p).applyTo(displaceTexture.texture());
+//		ThresholdFilter.instance().applyTo(displaceTexture.texture());
 		
 		// deform mesh
 		displaceTexture.offsetX(p.frameCount * 0.01f);
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displaceTexture.texture());
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(200f);
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(displaceTexture.texture());
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(200f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 		// draw mesh
 		shape.disableStyle();

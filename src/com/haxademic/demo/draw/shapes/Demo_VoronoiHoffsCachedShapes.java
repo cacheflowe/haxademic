@@ -114,9 +114,9 @@ extends PAppletHax {
 		
 		// make blur map
 //		ImageUtil.copyImage(pg, blurMap);
-//		BlurProcessingFilter.instance(p).setBlurSize(4);
-//		BlurProcessingFilter.instance(p).setSigma(20);
-//		BlurProcessingFilter.instance(p).applyTo(blurMap);
+//		BlurProcessingFilter.instance().setBlurSize(4);
+//		BlurProcessingFilter.instance().setSigma(20);
+//		BlurProcessingFilter.instance().applyTo(blurMap);
 //		DebugView.setTexture("blurMap", blurMap);
 		
 		// draw to screen

@@ -2,24 +2,22 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class HalftoneFilter
 extends BaseFragmentShader {
 
 	public static HalftoneFilter instance;
 	
-	public HalftoneFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/halftone.glsl");
+	public HalftoneFilter() {
+		super("haxademic/shaders/filters/halftone.glsl");
 		setAngle(1.57f);
 		setScale(1f);
 		setCenter(0.5f, 0.5f);
 		setSizeT(256f, 256f);
 	}
 	
-	public static HalftoneFilter instance(PApplet p) {
+	public static HalftoneFilter instance() {
 		if(instance != null) return instance;
-		instance = new HalftoneFilter(p);
+		instance = new HalftoneFilter();
 		return instance;
 	}
 	

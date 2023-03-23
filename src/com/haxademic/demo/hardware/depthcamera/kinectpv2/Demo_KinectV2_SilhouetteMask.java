@@ -46,7 +46,7 @@ extends PAppletHax {
 		// crop images into buffers to match sizes
 		ImageUtil.cropFillCopyImage(kinect.getColorImage(), bufferRgb, true);
 		ImageUtil.cropFillCopyImage(kinect.getBodyTrackImage(), bufferMask, true);
-		InvertFilter.instance(p).applyTo(bufferMask);
+		InvertFilter.instance().setOnContext(bufferMask);
 		
 		// apply mask and draw to the screen
 		bufferRgb.mask(bufferMask);

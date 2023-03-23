@@ -78,39 +78,39 @@ public class GlitchSuite {
 	protected void setModeConfig() {
 		switch (glitchMode) {
 			case Pixelate2:
-				// Pixelate2Filter.instance(P.p).applyTo(buffer);
+				// Pixelate2Filter.instance().applyTo(buffer);
 				break;
 	
 			case Shake:
-				GlitchShakeFilter.instance(P.p).setGlitchSpeed(MathUtil.randRangeDecimal(0.25f, 0.65f));
-				GlitchShakeFilter.instance(P.p).setSubdivide1(64f);
-				GlitchShakeFilter.instance(P.p).setSubdivide2(64f);
+				GlitchShakeFilter.instance().setGlitchSpeed(MathUtil.randRangeDecimal(0.25f, 0.65f));
+				GlitchShakeFilter.instance().setSubdivide1(64f);
+				GlitchShakeFilter.instance().setSubdivide2(64f);
 				break;
 				
 			case ImageGlitcher:
-				GlitchImageGlitcherFilter.instance(P.p).setColorSeparation(MathUtil.randBoolean());
-				GlitchImageGlitcherFilter.instance(P.p).setBarSize(MathUtil.randRangeDecimal(0.25f, 0.75f));
-				GlitchImageGlitcherFilter.instance(P.p).setGlitchSpeed(MathUtil.randRangeDecimal(0.25f, 0.75f));
-				GlitchImageGlitcherFilter.instance(P.p).setNumSlices(MathUtil.randRangeDecimal(10, 30));
+				GlitchImageGlitcherFilter.instance().setColorSeparation(MathUtil.randBoolean());
+				GlitchImageGlitcherFilter.instance().setBarSize(MathUtil.randRangeDecimal(0.25f, 0.75f));
+				GlitchImageGlitcherFilter.instance().setGlitchSpeed(MathUtil.randRangeDecimal(0.25f, 0.75f));
+				GlitchImageGlitcherFilter.instance().setNumSlices(MathUtil.randRangeDecimal(10, 30));
 				break;
 				
 			case Repeat:
-				// RepeatFilter.instance(P.p).applyTo(buffer);
+				// RepeatFilter.instance().applyTo(buffer);
 				break;
 	
 			case Mirror:
-				ReflectFilter.instance(P.p).setHorizontal(MathUtil.randBoolean());
-				ReflectFilter.instance(P.p).setReflectPosition(MathUtil.randBoolean() ? 0.5f : MathUtil.randRangeDecimal(0.2f, 0.8f));
+				ReflectFilter.instance().setHorizontal(MathUtil.randBoolean());
+				ReflectFilter.instance().setReflectPosition(MathUtil.randBoolean() ? 0.5f : MathUtil.randRangeDecimal(0.2f, 0.8f));
 				break;
 			
 			case BadTV2:
-				BadTVLinesFilter.instance(P.p).setGrayscale(0);
-				BadTVLinesFilter.instance(P.p).setCountS(4096.0f / 4f);
+				BadTVLinesFilter.instance().setGrayscale(0);
+				BadTVLinesFilter.instance().setCountS(4096.0f / 4f);
 				break;
 				
 			case ColorSweep:
-				LumaColorReplaceFilter.instance(P.p).setTargetColor(MathUtil.randRangeDecimal(0, 1), MathUtil.randRangeDecimal(0, 1), MathUtil.randRangeDecimal(0, 1), 1f);
-				LumaColorReplaceFilter.instance(P.p).setDiffRange(MathUtil.randRangeDecimal(0.05f, 0.2f));
+				LumaColorReplaceFilter.instance().setTargetColor(MathUtil.randRangeDecimal(0, 1), MathUtil.randRangeDecimal(0, 1), MathUtil.randRangeDecimal(0, 1), 1f);
+				LumaColorReplaceFilter.instance().setDiffRange(MathUtil.randRangeDecimal(0.05f, 0.2f));
 				break;
 				
 			default:
@@ -130,87 +130,87 @@ public class GlitchSuite {
 		// apply glitchy filters to buffer 
 		switch (glitchMode) {
 			case Pixelate2:
-				Pixelate2Filter.instance(P.p).setDivider(10f * progressInverse);
-				Pixelate2Filter.instance(P.p).applyTo(buffer);
+				Pixelate2Filter.instance().setDivider(10f * progressInverse);
+				Pixelate2Filter.instance().applyTo(buffer);
 				break;
 
 			case ShaderA:
-				GlitchShaderAFilter.instance(P.p).setTime(shaderTimeStepped);
-				GlitchShaderAFilter.instance(P.p).setAmp(P.constrain(progressInverse, 0.1f, 1f));
-				GlitchShaderAFilter.instance(P.p).applyTo(buffer);
+				GlitchShaderAFilter.instance().setTime(shaderTimeStepped);
+				GlitchShaderAFilter.instance().setAmp(P.constrain(progressInverse, 0.1f, 1f));
+				GlitchShaderAFilter.instance().applyTo(buffer);
 				break;
 	
 			case PixelSorting:
-				GlitchPseudoPixelSortingFilter.instance(P.p).setThresholdThresholdsCurved(progressInverse);
-				GlitchPseudoPixelSortingFilter.instance(P.p).applyTo(buffer);
+				GlitchPseudoPixelSortingFilter.instance().setThresholdThresholdsCurved(progressInverse);
+				GlitchPseudoPixelSortingFilter.instance().applyTo(buffer);
 				break;
 				
 			case Shake:
-				GlitchShakeFilter.instance(P.p).setTime(shaderTimeStepped);
-				GlitchShakeFilter.instance(P.p).setAmp(progressInverse);
-				GlitchShakeFilter.instance(P.p).setCrossfade(1f);
-				GlitchShakeFilter.instance(P.p).applyTo(buffer);
+				GlitchShakeFilter.instance().setTime(shaderTimeStepped);
+				GlitchShakeFilter.instance().setAmp(progressInverse);
+				GlitchShakeFilter.instance().setCrossfade(1f);
+				GlitchShakeFilter.instance().applyTo(buffer);
 				break;
 				
 			case ImageGlitcher:
-				GlitchImageGlitcherFilter.instance(P.p).setTime(shaderTimeStepped);
-				GlitchImageGlitcherFilter.instance(P.p).setAmp(progressInverse);
-				GlitchImageGlitcherFilter.instance(P.p).setCrossfade(1f);
-				GlitchImageGlitcherFilter.instance(P.p).applyTo(buffer);
+				GlitchImageGlitcherFilter.instance().setTime(shaderTimeStepped);
+				GlitchImageGlitcherFilter.instance().setAmp(progressInverse);
+				GlitchImageGlitcherFilter.instance().setCrossfade(1f);
+				GlitchImageGlitcherFilter.instance().applyTo(buffer);
 				break;
 				
 			case Invert:
-				InvertFilter.instance(P.p).applyTo(buffer);
+				InvertFilter.instance().applyTo(buffer);
 				break;
 
 			case HFlip:
-				FlipHFilter.instance(P.p).applyTo(buffer);
+				FlipHFilter.instance().applyTo(buffer);
 				break;
 				
 			case Edges:
-				EdgesFilter.instance(P.p).applyTo(buffer);
+				EdgesFilter.instance().applyTo(buffer);
 				break;
 				
 			case Repeat:
 				float progressInverseEased = Penner.easeInExpo(progressInverse);
-				RepeatFilter.instance(P.p).setZoom(1f + 5f * progressInverseEased);
-				RepeatFilter.instance(P.p).applyTo(buffer);
+				RepeatFilter.instance().setZoom(1f + 5f * progressInverseEased);
+				RepeatFilter.instance().applyTo(buffer);
 				break;
 
 			case Mirror:
-				ReflectFilter.instance(P.p).applyTo(buffer);
+				ReflectFilter.instance().applyTo(buffer);
 				break;
 			
 			case ColorDistortion:
-				ColorDistortionFilter.instance(P.p).setAmplitude(progressInverse * 4f);
-				ColorDistortionFilter.instance(P.p).setTime(shaderTime * 1f);
-				ColorDistortionFilter.instance(P.p).applyTo(buffer);
+				ColorDistortionFilter.instance().setAmplitude(progressInverse * 4f);
+				ColorDistortionFilter.instance().setTime(shaderTime * 1f);
+				ColorDistortionFilter.instance().applyTo(buffer);
 				break;
 				
 			case BadTV2:
-				BadTVLinesFilter.instance(P.p).setTime(shaderTime);
-				BadTVLinesFilter.instance(P.p).setIntensityN(progressInverse);
-				BadTVLinesFilter.instance(P.p).setIntensityS(progressInverse);
-				BadTVLinesFilter.instance(P.p).applyTo(buffer);
+				BadTVLinesFilter.instance().setTime(shaderTime);
+				BadTVLinesFilter.instance().setIntensityN(progressInverse);
+				BadTVLinesFilter.instance().setIntensityS(progressInverse);
+				BadTVLinesFilter.instance().applyTo(buffer);
 				break;
 				
 			case Grain:
-				GrainFilter.instance(P.p).setTime(shaderTime);
-				GrainFilter.instance(P.p).setCrossfade(progressInverse * 0.5f);
-				GrainFilter.instance(P.p).applyTo(buffer);
+				GrainFilter.instance().setTime(shaderTime);
+				GrainFilter.instance().setCrossfade(progressInverse * 0.5f);
+				GrainFilter.instance().applyTo(buffer);
 				break;
 				
 			case Slide:
 				float xSlide = progressInverse * (-1f + 2f * P.p.noise(P.p.frameCount * 0.002f));
 				float ySlide = progressInverse * (-1f + 2f * P.p.noise((P.p.frameCount + 10000) * 0.002f));
-				RepeatFilter.instance(P.p).setOffset(xSlide, ySlide);
-				RepeatFilter.instance(P.p).applyTo(buffer);
+				RepeatFilter.instance().setOffset(xSlide, ySlide);
+				RepeatFilter.instance().applyTo(buffer);
 				break;
 				
 			case ColorSweep:
-				// LumaColorReplaceFilter.instance(P.p).setLumaTarget(3f * progressInverse - 1f);	// slide from 2 -> -1
-				LumaColorReplaceFilter.instance(P.p).setLumaTarget(progressInverse);
-				LumaColorReplaceFilter.instance(P.p).applyTo(buffer);
+				// LumaColorReplaceFilter.instance().setLumaTarget(3f * progressInverse - 1f);	// slide from 2 -> -1
+				LumaColorReplaceFilter.instance().setLumaTarget(progressInverse);
+				LumaColorReplaceFilter.instance().applyTo(buffer);
 				break;
 				
 			default:

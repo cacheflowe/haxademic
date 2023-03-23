@@ -36,8 +36,8 @@ public class DitheredDownsampledCopy {
 		ImageUtil.copyImage(sourcePG, destPG);
 		
 		// apply dither
-		DitherFilter.instance(P.p).setDitherMode8x8();
-		DitherFilter.instance(P.p).applyTo(destPG);
+		DitherFilter.instance().setDitherMode8x8();
+		DitherFilter.instance().applyTo(destPG);
 	}	
 
 }

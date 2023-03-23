@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class BlurVFilter
 extends BaseFragmentShader {
 
 	public static BlurVFilter instance;
 	
-	public BlurVFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/blur-vertical.glsl");
+	public BlurVFilter() {
+		super("haxademic/shaders/filters/blur-vertical.glsl");
 		setBlur(0f);
 	}
 	
-	public static BlurVFilter instance(PApplet p) {
+	public static BlurVFilter instance() {
 		if(instance != null) return instance;
-		instance = new BlurVFilter(p);
+		instance = new BlurVFilter();
 		return instance;
 	}
 	

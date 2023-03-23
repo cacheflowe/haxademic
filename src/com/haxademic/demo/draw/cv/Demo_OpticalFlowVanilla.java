@@ -90,12 +90,12 @@ extends PAppletHax {
 		
 		// pre-process frames before optical flow:
 		// blur for smoother optical flow results
-		BlurProcessingFilter.instance(p).setBlurSize(20);
-		BlurProcessingFilter.instance(p).setSigma(20f);
-		BlurProcessingFilter.instance(p).applyTo(lastFrame);
-		BlurProcessingFilter.instance(p).applyTo(lastFrame);
-		BlurProcessingFilter.instance(p).applyTo(curFrame);
-		BlurProcessingFilter.instance(p).applyTo(curFrame);
+		BlurProcessingFilter.instance().setBlurSize(20);
+		BlurProcessingFilter.instance().setSigma(20f);
+		BlurProcessingFilter.instance().applyTo(lastFrame);
+		BlurProcessingFilter.instance().applyTo(lastFrame);
+		BlurProcessingFilter.instance().applyTo(curFrame);
+		BlurProcessingFilter.instance().applyTo(curFrame);
 		
 		// update/draw shader
 		opFlowShader.update();
@@ -112,29 +112,29 @@ extends PAppletHax {
 	
 	protected void flowTheFlowData() {
 		// displace & blur the flow data for liquidy flow & dispersion
-//		DisplacementMapFilter.instance(p).setMap(opFlowResult);
-//		DisplacementMapFilter.instance(p).setMode(10);
-//		DisplacementMapFilter.instance(p).setAmp(0.16f);
-//		DisplacementMapFilter.instance(p).applyTo(opFlowResult);
+//		DisplacementMapFilter.instance().setMap(opFlowResult);
+//		DisplacementMapFilter.instance().setMode(10);
+//		DisplacementMapFilter.instance().setAmp(0.16f);
+//		DisplacementMapFilter.instance().applyTo(opFlowResult);
 		displaceShader.shader().set("map", opFlowResult);
 		displaceShader.shader().set("amp", Mouse.xNorm);
 		displaceShader.shader().set("mode", 10);
 		displaceShader.update();
 		opFlowResult.filter(displaceShader.shader());
 
-		BlurProcessingFilter.instance(p).setBlurSize(30);
-		BlurProcessingFilter.instance(p).setSigma(10f);
-		BlurProcessingFilter.instance(p).applyTo(opFlowResult);
+		BlurProcessingFilter.instance().setBlurSize(30);
+		BlurProcessingFilter.instance().setSigma(10f);
+		BlurProcessingFilter.instance().applyTo(opFlowResult);
 	}
 	
 	protected void applyFlowToRgbCamera() {
 		ImageUtil.cropFillCopyImage(realSenseWrapper.getRgbImage(), curRgbFrame, true);
-		BlendTowardsTexture.instance(p).setSourceTexture(curRgbFrame);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.1f);
-		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
+		BlendTowardsTexture.instance().setSourceTexture(curRgbFrame);
+		BlendTowardsTexture.instance().setBlendLerp(0.1f);
+		BlendTowardsTexture.instance().applyTo(camDisplaced);
 		
-//		DisplacementMapFilter.instance(p).setMode(10);
-//		DisplacementMapFilter.instance(p).applyTo(camDisplaced);	
+//		DisplacementMapFilter.instance().setMode(10);
+//		DisplacementMapFilter.instance().applyTo(camDisplaced);	
 		displaceShader.shader().set("map", opFlowResult);
 		displaceShader.shader().set("amp", Mouse.xNorm);
 		displaceShader.shader().set("mode", 10);

@@ -76,8 +76,8 @@ extends PAppletHax {
 		}
 		
 		if(UI.valueToggle(SCROLL_TEXTURE)) {
-			RepeatFilter.instance(p).setOffset(0, FrameLoop.count(0.0005f));
-			RepeatFilter.instance(p).applyTo(image);
+			RepeatFilter.instance().setOffset(0, FrameLoop.count(0.0005f));
+			RepeatFilter.instance().applyTo(image);
 		}
 
 		if(UI.valueInt(IMAGE_MODE) == 2) {

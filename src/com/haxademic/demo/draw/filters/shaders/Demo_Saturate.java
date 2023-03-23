@@ -25,11 +25,11 @@ extends PAppletHax {
 		// use old saturation for < 1, and HSV saturation for > 1
 		float saturate = Mouse.yNorm * 3f;
 		if(saturate < 1f) {
-			SaturationFilter.instance(p).setSaturation(saturate);
-			SaturationFilter.instance(p).applyTo(p.g);
+			SaturationFilter.instance().setSaturation(saturate);
+			SaturationFilter.instance().applyTo(p.g);
 		} else {
-			SaturateHSVFilter.instance(p).setSaturation(saturate);
-			SaturateHSVFilter.instance(p).applyTo(p.g);
+			SaturateHSVFilter.instance().setSaturation(saturate);
+			SaturateHSVFilter.instance().applyTo(p.g);
 		}
 	}
 

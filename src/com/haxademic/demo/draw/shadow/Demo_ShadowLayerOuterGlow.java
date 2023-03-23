@@ -87,23 +87,23 @@ extends PAppletHax {
 		shadowLayer.endDraw();
 		
 		// convert opaque pixels to black, then blur
-		ColorizeOpaquePixelsFilter.instance(p).setColor(0f, 0f, 0f);
-		ColorizeOpaquePixelsFilter.instance(p).applyTo(shadowLayer);
-		BlurProcessingFilter.instance(p).setBlurSize(10);
-		BlurProcessingFilter.instance(p).setSigma(10);
+		ColorizeOpaquePixelsFilter.instance().setColor(0f, 0f, 0f);
+		ColorizeOpaquePixelsFilter.instance().applyTo(shadowLayer);
+		BlurProcessingFilter.instance().setBlurSize(10);
+		BlurProcessingFilter.instance().setSigma(10);
 		for (int i = 0; i < 7; i++) {
-			BlurProcessingFilter.instance(p).applyTo(shadowLayer);
+			BlurProcessingFilter.instance().applyTo(shadowLayer);
 		}
 		
 		// knock out original pixels from map
 		if(Mouse.xNorm > 0.5f) {
 			// knock out original 
-			SubtractOpacityFromMapFilter.instance(p).setMap(pg);
-			SubtractOpacityFromMapFilter.instance(p).applyTo(shadowLayer);
+			SubtractOpacityFromMapFilter.instance().setMap(pg);
+			SubtractOpacityFromMapFilter.instance().applyTo(shadowLayer);
 			
 			// then blur again
 			for (int i = 0; i < 1; i++) {
-				BlurProcessingFilter.instance(p).applyTo(shadowLayer);
+				BlurProcessingFilter.instance().applyTo(shadowLayer);
 			}
 		}
 

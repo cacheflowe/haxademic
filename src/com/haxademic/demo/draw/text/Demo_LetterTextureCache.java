@@ -115,26 +115,26 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// post process
-//		VignetteFilter.instance(p).applyTo(pg);
-//		VignetteFilter.instance(p).setDarkness(0.9f);
-		VignetteFilter.instance(p).applyTo(pg);
+//		VignetteFilter.instance().applyTo(pg);
+//		VignetteFilter.instance().setDarkness(0.9f);
+		VignetteFilter.instance().applyTo(pg);
 		
 		// post process
-		BloomFilter.instance(p).setStrength(0.05f);
-		BloomFilter.instance(p).setBlurIterations(5);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_DARKEST);
-//		BloomFilter.instance(p).applyTo(pg);
-//		BloomFilter.instance(p).applyTo(pg);
+		BloomFilter.instance().setStrength(0.05f);
+		BloomFilter.instance().setBlurIterations(5);
+		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_DARKEST);
+//		BloomFilter.instance().applyTo(pg);
+//		BloomFilter.instance().applyTo(pg);
 		
-		GodRays.instance(p).setDecay(0.8f);
-		GodRays.instance(p).setWeight(0.5f);
-		GodRays.instance(p).setRotation(1.9f + 0.2f * P.sin(FrameLoop.progressRads() * 3f));
-		GodRays.instance(p).setAmp(0.08f);
-//		GodRays.instance(p).applyTo(pg);
+		GodRays.instance().setDecay(0.8f);
+		GodRays.instance().setWeight(0.5f);
+		GodRays.instance().setRotation(1.9f + 0.2f * P.sin(FrameLoop.progressRads() * 3f));
+		GodRays.instance().setAmp(0.08f);
+//		GodRays.instance().applyTo(pg);
 		
-		GrainFilter.instance(p).setTime(p.frameCount * 0.02f);
-		GrainFilter.instance(p).setCrossfade(0.02f);
-		GrainFilter.instance(p).applyTo(pg);
+		GrainFilter.instance().setTime(p.frameCount * 0.02f);
+		GrainFilter.instance().setCrossfade(0.02f);
+		GrainFilter.instance().applyTo(pg);
 		
 		// draw to screen
 		p.image(pg, 0, 0);

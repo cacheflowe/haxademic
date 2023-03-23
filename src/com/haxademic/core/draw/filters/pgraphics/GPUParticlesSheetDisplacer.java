@@ -82,9 +82,9 @@ extends BaseVideoFilter {
 		if(motionDetectionMap == null) return;
 
 		// update lerped motion detection buffer as the displacementMap 
-		BlendTowardsTexture.instance(P.p).setBlendLerp(0.2f);
-		BlendTowardsTexture.instance(P.p).setSourceTexture(motionDetectionMap.bwBuffer());
-		BlendTowardsTexture.instance(P.p).applyTo(displacementMap);
+		BlendTowardsTexture.instance().setBlendLerp(0.2f);
+		BlendTowardsTexture.instance().setSourceTexture(motionDetectionMap.bwBuffer());
+		BlendTowardsTexture.instance().applyTo(displacementMap);
 		DebugView.setTexture("displacementMap", displacementMap);
 
 		// clear background & move to center

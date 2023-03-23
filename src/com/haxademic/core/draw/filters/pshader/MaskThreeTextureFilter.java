@@ -3,7 +3,6 @@ package com.haxademic.core.draw.filters.pshader;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class MaskThreeTextureFilter
@@ -11,16 +10,16 @@ extends BaseFragmentShader {
 
 	public static MaskThreeTextureFilter instance;
 	
-	public MaskThreeTextureFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/three-texture-opposite-mask.glsl");
+	public MaskThreeTextureFilter() {
+		super("haxademic/shaders/filters/three-texture-opposite-mask.glsl");
 		setMask(DemoAssets.smallTexture());
 		setTexture1(DemoAssets.justin());
 		setTexture2(DemoAssets.textureNebula());
 	}
 	
-	public static MaskThreeTextureFilter instance(PApplet p) {
+	public static MaskThreeTextureFilter instance() {
 		if(instance != null) return instance;
-		instance = new MaskThreeTextureFilter(p);
+		instance = new MaskThreeTextureFilter();
 		return instance;
 	}
 	

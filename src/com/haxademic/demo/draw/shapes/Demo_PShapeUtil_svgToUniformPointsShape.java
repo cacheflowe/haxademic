@@ -35,8 +35,8 @@ extends PAppletHax {
 	protected void drawApp() {		
 		if(p.frameCount == 1) background(0);
 		for(int i=0; i < 10; i++) PG.feedback(p.g, 2f);
-		BlurProcessingFilter.instance(p).setBlurSize(6);
-		BlurProcessingFilter.instance(p).applyTo(p.g);
+		BlurProcessingFilter.instance().setBlurSize(6);
+		BlurProcessingFilter.instance().applyTo(p.g);
 		
 		// rotate
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);

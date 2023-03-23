@@ -1,10 +1,8 @@
 package com.haxademic.core.draw.filters.pshader;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.image.ImageUtil;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 
 public class GlowFilter
@@ -12,17 +10,17 @@ extends BaseFragmentShader {
 
 	public static GlowFilter instance;
 	
-	public GlowFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/glow.glsl");
+	public GlowFilter() {
+		super("haxademic/shaders/filters/glow.glsl");
 		setSize(20f);
 		setRadialSamples(64f);
 		setSampleStep(1f);
 		setGlowColor(0f, 0f, 0f, 0.5f);
 	}
 	
-	public static GlowFilter instance(PApplet p) {
+	public static GlowFilter instance() {
 		if(instance != null) return instance;
-		instance = new GlowFilter(p);
+		instance = new GlowFilter();
 		return instance;
 	}
 	
@@ -53,7 +51,7 @@ extends BaseFragmentShader {
 		shadowCopy.filter(shader);
 		// additional blur for smoothness
 		for (int i = 0; i < blurSteps; i++) {
-			BlurProcessingFilter.instance(P.p).applyTo(shadowCopy);
+			BlurProcessingFilter.instance().applyTo(shadowCopy);
 		}
 		// reset shader
 		setReplaceOriginal(false);

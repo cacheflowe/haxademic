@@ -171,10 +171,10 @@ public class ChromaMovie {
 			buffer.clear();
 			buffer.image(movie, 0, 0);
 			buffer.endDraw();
-			ChromaColorFilter.instance(P.p).presetWhiteKnockout();
-			ChromaColorFilter.instance(P.p).setThresholdSensitivity(chromaThreshold);
-			ChromaColorFilter.instance(P.p).setSmoothing(chromaSmoothing);
-			ChromaColorFilter.instance(P.p).applyTo(buffer);
+			ChromaColorFilter.instance().presetWhiteKnockout();
+			ChromaColorFilter.instance().setThresholdSensitivity(chromaThreshold);
+			ChromaColorFilter.instance().setSmoothing(chromaSmoothing);
+			ChromaColorFilter.instance().applyTo(buffer);
 			
 			// check for end
 			if(isPlaying == true && isLooping == false && movie.time() >= movie.duration() - 0.1f) {

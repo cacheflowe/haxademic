@@ -2,12 +2,10 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -23,23 +21,21 @@ extends PAppletHax {
 	protected boolean overrideColor = false;
 
 	protected void config() {
-		Config.setProperty(AppSettings.WIDTH, 768);
-		Config.setProperty(AppSettings.HEIGHT, 768);
 	}
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-		shape = DemoAssets.objHumanoid();
-//		shape = p.loadShape(FileUtil.getPath("models/cv/Virus.obj"));
+//		shape = DemoAssets.objHumanoid();
+//		shape = p.loadShape(FileUtil.getPath("models/cacheflowe-scandy-pro-2022-04-05.obj"));
 		
 		// normalize shape (scaling centers)
 		PShapeUtil.centerShape(shape);
+		PShapeUtil.meshFlipOnAxis(shape, P.Y);
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.5f);
 		PShapeUtil.setOnGround(shape);
 //		PShapeUtil.setRegistrationOffset(shape, 0, -0.5f, 0);
 //		PShapeUtil.scaleShapeToWidth(shape, p.width * 0.4f);
 //		PShapeUtil.scaleShapeToDepth(shape, p.width * 0.4f);
-//		PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
 		
 		// check size
 		modelSize = new PVector(PShapeUtil.getWidth(shape), PShapeUtil.getHeight(shape), PShapeUtil.getDepth(shape));
@@ -50,7 +46,7 @@ extends PAppletHax {
 		
 	protected void drawApp() {
 		// clear the screen
-		background(10);
+		background(0, 0, 0);
 		p.noStroke();
 		PG.setBetterLights(p.g);
 

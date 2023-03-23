@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class DenoiseSmartFilter
 extends BaseFragmentShader {
 
 	public static DenoiseSmartFilter instance;
 	
-	public DenoiseSmartFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/denoise-smart.glsl");
+	public DenoiseSmartFilter() {
+		super("haxademic/shaders/filters/denoise-smart.glsl");
 		setSigma(5f);
 		setKSigma(2f);
 		setThreshold(0.1f);
 	}
 	
-	public static DenoiseSmartFilter instance(PApplet p) {
+	public static DenoiseSmartFilter instance() {
 		if(instance != null) return instance;
-		instance = new DenoiseSmartFilter(p);
+		instance = new DenoiseSmartFilter();
 		return instance;
 	}
 	

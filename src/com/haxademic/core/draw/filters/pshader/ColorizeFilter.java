@@ -2,24 +2,22 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ColorizeFilter
 extends BaseFragmentShader {
 
 	public static ColorizeFilter instance;
 	
-	public ColorizeFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/colorize.glsl");
+	public ColorizeFilter() {
+		super("haxademic/shaders/filters/colorize.glsl");
 		setTargetR(1f);
 		setTargetG(1f);
 		setTargetB(1f);
 		setPosterSteps(1f);
 	}
 	
-	public static ColorizeFilter instance(PApplet p) {
+	public static ColorizeFilter instance() {
 		if(instance != null) return instance;
-		instance = new ColorizeFilter(p);
+		instance = new ColorizeFilter();
 		return instance;
 	}
 	

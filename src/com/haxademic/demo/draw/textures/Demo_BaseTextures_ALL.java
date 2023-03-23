@@ -11,7 +11,6 @@ import com.haxademic.core.draw.textures.pgraphics.TextureAudioBlocksDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioSheetDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
 import com.haxademic.core.draw.textures.pgraphics.TextureBarsEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlocksSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
@@ -33,16 +32,12 @@ import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
 import com.haxademic.core.draw.textures.pgraphics.TexturePolygonLerpedVertices;
 import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
-import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfBoxes;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
-import com.haxademic.core.draw.textures.pgraphics.TextureStarTrails;
-import com.haxademic.core.draw.textures.pgraphics.TextureSvg3dExtruded;
-import com.haxademic.core.draw.textures.pgraphics.TextureSvgExtruded;
 import com.haxademic.core.draw.textures.pgraphics.TextureSvgPattern;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
@@ -59,6 +54,7 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -101,9 +97,10 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// send Beads audio player analyzer to PAppletHax
+		AudioUtil.setPrimaryMixer();
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
-		player.loopWav(FileUtil.getPath(DemoAssets.audioBiggerLoop));		
+		player.loopWav(FileUtil.getPath(DemoAssets.audioBrimBeat));		
 		
 		// init textures
 		int w = p.width; 
@@ -120,7 +117,7 @@ extends PAppletHax {
 			new TextureAudioTube(w, h),
 			new TextureBarsEQ(w, h),
 //			new TextureBasicWindowShade(w, h),
-			new TextureBlobSheet(w, h),				// NEEDS Z-DEFORM FIX
+//			new TextureBlobSheet(w, h),				// NEEDS Z-DEFORM FIX
 			new TextureBlocksSheet(w, h),			// NEEDS FIX
 //			new TextureColorAudioFade(w, h),
 //			new TextureColorAudioSlide(w, h),
@@ -144,7 +141,7 @@ extends PAppletHax {
 			new TexturePixelatedAudio(w, h),
 			new TexturePolygonLerpedVertices(w, h),  // NEEDS FIXING. DOES NOTHING?
 			new TextureRadialGridPulse(w, h),
-			new TextureRotatingRings(w, h),			 // NEEDS FIXING
+//			new TextureRotatingRings(w, h),			 // NEEDS FIXING
 			new TextureRotatorShape(w, h),
 			new TextureScrollingColumns(w, h),
 //			new TextureSphereAudioTextures_HaxVisualOnly(w, h),    // 
@@ -152,9 +149,9 @@ extends PAppletHax {
 			new TextureSphereOfBoxes(w, h),			// OLD AND BUSTED
 			new TextureSphereOfCubes(w, h),
 			new TextureSphereRotate(w, h),			
-			new TextureStarTrails(w, h),			// NEEDS FIXING. DOES NOTHING?
-			new TextureSvg3dExtruded(w, h),			// NEEDS FIXING
-			new TextureSvgExtruded(w, h),			// NEEDS FIXING
+//			new TextureStarTrails(w, h),			// NEEDS FIXING. DOES NOTHING?
+//			new TextureSvg3dExtruded(w, h),			// NEEDS FIXING
+//			new TextureSvgExtruded(w, h),			// NEEDS FIXING
 			new TextureSvgPattern(w, h),			// NEEDS POOL OF SVGs
 			new TextureTwistingSquares(w, h),
 			new TextureVectorFieldEQ(w, h),
@@ -163,6 +160,7 @@ extends PAppletHax {
 			new TextureWaveformSimple(w, h),
 //			new TextureWebCam(w, h),
 			new TextureWords2d(w, h),
+			/* */
 		
 			new TextureShaderTimeStepper(w, h, TextureShader.basic_checker),
 			new TextureShaderTimeStepper(w, h, TextureShader.basic_diagonal_stripes),
@@ -267,7 +265,6 @@ extends PAppletHax {
 			new TextureShaderTimeStepper(w, h, TextureShader.wavy_3d_tubes),
 			new TextureShaderTimeStepper(w, h, TextureShader.wavy_checker_planes),
 			new TextureShaderTimeStepper(w, h, TextureShader.wobble_sin),
-			
 		};
 		
 //		for(BaseTexture tex : _textures) {

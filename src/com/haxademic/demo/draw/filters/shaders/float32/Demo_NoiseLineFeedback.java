@@ -70,10 +70,10 @@ extends PAppletHax {
 //		buffer8.endDraw();
 //		
 //		// blur line
-//		BlurHFilter.instance(p).setBlurByPercent(0.3f, buffer8.width);
-//		BlurHFilter.instance(p).applyTo(buffer8);
-//		BlurVFilter.instance(p).setBlurByPercent(0.3f, buffer8.width);
-//		BlurVFilter.instance(p).applyTo(buffer8);
+//		BlurHFilter.instance().setBlurByPercent(0.3f, buffer8.width);
+//		BlurHFilter.instance().applyTo(buffer8);
+//		BlurVFilter.instance().setBlurByPercent(0.3f, buffer8.width);
+//		BlurVFilter.instance().applyTo(buffer8);
 //		// and send to float32 copy
 //		OpenGL32Util.pGraphics2dToTexture32(buffer8, bufferCopy32);
 //

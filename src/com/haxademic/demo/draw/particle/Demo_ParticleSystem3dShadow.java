@@ -78,13 +78,13 @@ extends PAppletHax {
 		particles.drawParticles(shadowBuffer, PBlendModes.BLEND);
 		shadowBuffer.endDraw();
 		// shadow buffer post fx
-		ColorizeOpaquePixelsFilter.instance(p).setColor(0, 0, 0);
-		ColorizeOpaquePixelsFilter.instance(p).applyTo(shadowBuffer);
-		BlurHFilter.instance(p).setBlurByPercent(2f, shadowBuffer.width);
-		BlurVFilter.instance(p).setBlurByPercent(2f, shadowBuffer.height);
+		ColorizeOpaquePixelsFilter.instance().setColor(0, 0, 0);
+		ColorizeOpaquePixelsFilter.instance().applyTo(shadowBuffer);
+		BlurHFilter.instance().setBlurByPercent(2f, shadowBuffer.width);
+		BlurVFilter.instance().setBlurByPercent(2f, shadowBuffer.height);
 		for(int i=0; i < 7; i++) {
-			BlurHFilter.instance(p).applyTo(shadowBuffer);
-			BlurVFilter.instance(p).applyTo(shadowBuffer);
+			BlurHFilter.instance().applyTo(shadowBuffer);
+			BlurVFilter.instance().applyTo(shadowBuffer);
 		}
 		
 		// draw ground plane
@@ -94,9 +94,9 @@ extends PAppletHax {
 		PG.setCenterScreen(groundPlane);
 		Gradients.radial(groundPlane, groundPlane.width * radialGradScale, groundPlane.height * radialGradScale, 0xffffffff, 0xff999999, 100);
 		groundPlane.endDraw();
-		VignetteFilter.instance(p).setDarkness(0.85f).setSpread(0.15f).applyTo(groundPlane);
-		VignetteFilter.instance(p).setDarkness(0.85f).setSpread(0.15f).applyTo(groundPlane);
-		VignetteFilter.instance(p).setDarkness(0.85f).setSpread(0.15f).applyTo(groundPlane);
+		VignetteFilter.instance().setDarkness(0.85f).setSpread(0.15f).applyTo(groundPlane);
+		VignetteFilter.instance().setDarkness(0.85f).setSpread(0.15f).applyTo(groundPlane);
+		VignetteFilter.instance().setDarkness(0.85f).setSpread(0.15f).applyTo(groundPlane);
 		
 		// set context
 		pg.beginDraw();

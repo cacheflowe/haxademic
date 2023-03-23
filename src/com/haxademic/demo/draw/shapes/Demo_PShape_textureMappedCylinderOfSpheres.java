@@ -78,10 +78,10 @@ extends PAppletHax {
 		
 		// run bloom on off-screen buffer
 		int bloomBlendMode = P.round(p.frameCount / 200f) % 3;
-		BloomFilter.instance(p).setStrength(3f);
-		BloomFilter.instance(p).setBlurIterations(16);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance(p).applyTo(pg);
+		BloomFilter.instance().setStrength(3f);
+		BloomFilter.instance().setBlurIterations(16);
+		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+		BloomFilter.instance().applyTo(pg);
 		DebugView.setValue("Bloom blend mode", bloomBlendMode);
 
 		
