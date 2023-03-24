@@ -62,7 +62,6 @@ extends PAppletHax {
         p.vertex(200, 200, 1, 1); 
         p.vertex(0, 200, 0, 1);
         p.endShape();
-        Shapes.textureQuadSubdivided(pg, g, ESC, X, Y, Z, BACKSPACE, ARROW, X, Y, Z, ARGB, ARC, X, Y, Z, AMBIENT, ALT, X, Y, Z, ALPHA, ADD);
         
         p.resetShader();
         p.pop();
