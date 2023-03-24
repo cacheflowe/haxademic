@@ -6,7 +6,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
