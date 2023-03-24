@@ -75,7 +75,7 @@ extends PAppletHax {
 		// copy to tiny texture, reduce brightness & send!
 		ImageUtil.copyImage(curTexture, ledTexture);
 		BrightnessFilter.instance().setBrightness(0.2f);
-		BrightnessFilter.instance().setOnContext(ledTexture);
+		BrightnessFilter.instance().applyTo(ledTexture);
 		
 		// send it!
 		ledTexture.loadPixels();
@@ -107,13 +107,13 @@ extends PAppletHax {
 //		ContrastFilter.instance().setContrast(3f);
 //		ContrastFilter.instance().applyTo(noise3d.texture());
 		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
-		ColorizeFromTexture.instance().setOnContext(noise3d.texture());
+		ColorizeFromTexture.instance().applyTo(noise3d.texture());
 		
 		BlurHFilter.instance().setBlurByPercent(1f, noise3d.texture().width);
 		BlurVFilter.instance().setBlurByPercent(1f, noise3d.texture().height);
 		for (int i = 0; i < 10; i++) {
-			BlurHFilter.instance().setOnContext(noise3d.texture());
-			BlurVFilter.instance().setOnContext(noise3d.texture());
+			BlurHFilter.instance().applyTo(noise3d.texture());
+			BlurVFilter.instance().applyTo(noise3d.texture());
 		}
 	}
 }

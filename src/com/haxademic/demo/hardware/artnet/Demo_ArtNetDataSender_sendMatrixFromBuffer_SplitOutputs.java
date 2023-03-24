@@ -73,7 +73,7 @@ extends PAppletHax {
 		
 		// reduce brightness
 		BrightnessFilter.instance().setBrightness(UI.value(BRIGHTNESS));
-		BrightnessFilter.instance().setOnContext(ledTexture);
+		BrightnessFilter.instance().applyTo(ledTexture);
 		
 		// send it!
 		artNetDataSender1.sendMatrixFromBuffer(ledTexture);

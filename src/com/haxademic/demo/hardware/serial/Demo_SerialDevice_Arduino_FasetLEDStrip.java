@@ -55,7 +55,7 @@ implements ISerialDeviceDelegate {
 		// pixel-sampling color send
 		noiseTexture.update(4f, p.frameCount * 0.007f, 0, 0, p.frameCount * 0.01f, false, false);
 		ContrastFilter.instance().setContrast(2f);
-		ContrastFilter.instance().setOnContext(noiseTexture.texture());
+		ContrastFilter.instance().applyTo(noiseTexture.texture());
 		ImageUtil.copyImage(noiseTexture.texture(), pg);
 		// if shader mode
 		textureShader.setTime((float) p.frameCount * 0.03f);

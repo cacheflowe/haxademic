@@ -39,7 +39,7 @@ extends PAppletHax {
 		// fade 
 		if(p.frameCount == 1) background(0);
 		BrightnessStepFilter.instance().setBrightnessStep(-30/255f);
-		BrightnessStepFilter.instance().setOnContext(p);
+		BrightnessStepFilter.instance().applyTo(p);
 		PG.setDrawCorner(p);
 		p.noStroke();
 		PG.setCenterScreen(p);

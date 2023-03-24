@@ -66,13 +66,13 @@ extends PAppletHax {
         DebugView.setTexture("kinect.getBodyTrackImage()", silhouette);
         ImageUtil.cropFillCopyImage(rgb, bufferRgb, true);
         ImageUtil.cropFillCopyImage(silhouette, bufferMask, true);
-        InvertFilter.instance().setOnContext(bufferMask);
+        InvertFilter.instance().applyTo(bufferMask);
         bufferRgb.mask(bufferMask);
         
         // for b/w mode, knock out black
-        ThresholdFilter.instance().setOnContext(bufferMask);
-        LeaveWhiteFilter.instance().setOnContext(bufferMask);
-        if(p.frameCount % 4 < 2) InvertFilter.instance().setOnContext(bufferMask);
+        ThresholdFilter.instance().applyTo(bufferMask);
+        LeaveWhiteFilter.instance().applyTo(bufferMask);
+        if(p.frameCount % 4 < 2) InvertFilter.instance().applyTo(bufferMask);
 
         
         // add to history
@@ -88,7 +88,7 @@ extends PAppletHax {
         
         RotateFilter.instance().setRotation(FrameLoop.osc(0.025f, -0.04f, 0.04f));
         RotateFilter.instance().setZoom(0.96f);
-        RotateFilter.instance().setOnContext(pg);
+        RotateFilter.instance().applyTo(pg);
         
         p.blendMode(PBlendModes.DIFFERENCE);
         // draw image layers from the back, scaling down

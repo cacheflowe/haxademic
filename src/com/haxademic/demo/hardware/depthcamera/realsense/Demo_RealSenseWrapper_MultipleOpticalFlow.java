@@ -91,7 +91,7 @@ extends PAppletHax {
 		// copy depth image
 		BlendTowardsTexture.instance().setSourceTexture(camera.getDepthImage());
 		BlendTowardsTexture.instance().setBlendLerp(0.5f);
-		BlendTowardsTexture.instance().setOnContext(lerpedBuffer);
+		BlendTowardsTexture.instance().applyTo(lerpedBuffer);
 		
 		// run optical flow
 		opticalFlow.update(lerpedBuffer);

@@ -43,8 +43,8 @@ extends PAppletHax {
 		}
 		pg.endDraw();
 		BrightnessFilter.instance().setBrightness(UI.value(brightness));
-		BrightnessFilter.instance().setOnContext(pg);
-		RotateFilter.instance().setOnContext(pg);
+		BrightnessFilter.instance().applyTo(pg);
+		RotateFilter.instance().applyTo(pg);
 		
 		// draw & scroll
 		p.image(pg, 0, 0);

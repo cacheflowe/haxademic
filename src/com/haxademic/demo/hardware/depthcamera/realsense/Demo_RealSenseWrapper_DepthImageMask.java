@@ -66,13 +66,13 @@ implements IAppStoreListener {
 		
 		// preprocess
 		ChromaColorFilter.instance().presetBlackKnockout();
-		ChromaColorFilter.instance().setOnContext(pg);
+		ChromaColorFilter.instance().applyTo(pg);
 		ContrastFilter.instance().setContrast(2f);
-		ContrastFilter.instance().setOnContext(pg);
+		ContrastFilter.instance().applyTo(pg);
 		
 		// colorize
 		ColorizeFromTexture.instance().setTexture(thermalGradient);
-		ColorizeFromTexture.instance().setOnContext(pg);
+		ColorizeFromTexture.instance().applyTo(pg);
 		
 		// draw to screen
 		ImageUtil.drawImageCropFill(DemoAssets.textureNebula(), p.g, true);

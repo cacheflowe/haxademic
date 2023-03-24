@@ -38,7 +38,7 @@ extends Demo_DepthCameraRegion {
 		// add recorder frame
         recorder.addFrame(camRGB);
         SaturationFilter.instance().setSaturation(0);
-        SaturationFilter.instance().setOnContext(recorder.getCurFrame());
+        SaturationFilter.instance().applyTo(recorder.getCurFrame());
 	}
 	
 	protected void drawApp() {

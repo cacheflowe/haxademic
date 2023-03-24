@@ -158,14 +158,14 @@ extends PAppletHax {
 		
 		BlurProcessingFilter.instance().setBlurSize(20);
 		BlurProcessingFilter.instance().setSigma(20f);
-		BlurProcessingFilter.instance().setOnContext(waveformTexture);
-		BlurProcessingFilter.instance().setOnContext(waveformTexture);
-		BlurProcessingFilter.instance().setOnContext(waveformTexture);
+		BlurProcessingFilter.instance().applyTo(waveformTexture);
+		BlurProcessingFilter.instance().applyTo(waveformTexture);
+		BlurProcessingFilter.instance().applyTo(waveformTexture);
 		
 		// lerp towards 2nd texture to further smooth displacement
 		BlendTowardsTexture.instance().setSourceTexture(waveformTexture);
 		BlendTowardsTexture.instance().setBlendLerp(0.25f);
-		BlendTowardsTexture.instance().setOnContext(waveformTextureSmoothed);
+		BlendTowardsTexture.instance().applyTo(waveformTextureSmoothed);
 		
 		// blur final result
 //		BlurHFilter.instance().setBlurByPercent(0.99f, waveformTextureSmoothed.width);
@@ -197,8 +197,8 @@ extends PAppletHax {
 		FakeLightingFilter.instance().setSpecAmp(0.2f);
 		FakeLightingFilter.instance().setDiffDark(0.8f);
 		FakeLightingFilter.instance().setMap(pg);
-		FakeLightingFilter.instance().setOnContext(waveformShaderTexture);
-		FXAAFilter.instance().setOnContext(waveformShaderTexture);
+		FakeLightingFilter.instance().applyTo(waveformShaderTexture);
+		FXAAFilter.instance().applyTo(waveformShaderTexture);
 	}
 	
 	public void keyPressed() {

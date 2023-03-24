@@ -114,14 +114,14 @@ implements IAppStoreListener {
 		BloomFilter.instance().setStrength(9f);
 		BloomFilter.instance().setBlurIterations(12);
 		BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance().setOnContext(pg);
+		BloomFilter.instance().applyTo(pg);
 		
 		VignetteFilter.instance().setDarkness(0.5f);
-		VignetteFilter.instance().setOnContext(pg);
+		VignetteFilter.instance().applyTo(pg);
 		
 		GrainFilter.instance().setTime(p.frameCount * 0.01f);
 		GrainFilter.instance().setCrossfade(0.11f);
-		GrainFilter.instance().setOnContext(pg);
+		GrainFilter.instance().applyTo(pg);
 
 		
 		// draw to screen

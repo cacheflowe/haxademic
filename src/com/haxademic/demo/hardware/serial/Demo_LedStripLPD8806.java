@@ -52,7 +52,7 @@ implements ISerialDeviceDelegate {
 		
 		
 		BrightnessFilter.instance().setBrightness(Mouse.xNorm);
-		BrightnessFilter.instance().setOnContext(pg);
+		BrightnessFilter.instance().applyTo(pg);
 
 		// copy to device buffer & send to hardware
 		ledStrip.update(pg, 0.4f, 0.85f);

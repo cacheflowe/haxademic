@@ -62,7 +62,7 @@ implements IWebCamCallback {
 			ColorizeFromTexture.instance().setTexture(movie.buffer);
 			ColorizeFromTexture.instance().setLumaMult(Mouse.xNorm > 0.5f);
 			ColorizeFromTexture.instance().setCrossfade(Mouse.yNorm);
-			ColorizeFromTexture.instance().setOnContext(p);
+			ColorizeFromTexture.instance().applyTo(p);
 		}
 	}
 

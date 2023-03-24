@@ -37,15 +37,15 @@ extends PAppletHax {
 		pg.beginDraw();
 		if(p.frameCount == 1) pg.background(0);
 		BrightnessStepFilter.instance().setBrightnessStep(-1f/255f);
-		BrightnessStepFilter.instance().setOnContext(pg);
+		BrightnessStepFilter.instance().applyTo(pg);
 //		RepeatFilter.instance().setOffset(0, -0.001f);
 		RepeatFilter.instance().setZoom(1.03f);
 		RepeatFilter.instance().setOffset(0f, 0f);
-		RepeatFilter.instance().setOnContext(pg);
+		RepeatFilter.instance().applyTo(pg);
 		FeedbackRadialFilter.instance().setAmp(0.009f);
 		FeedbackRadialFilter.instance().setWaveAmp(1f);
 		FeedbackRadialFilter.instance().setWaveFreq(1f);
-		FeedbackRadialFilter.instance().setOnContext(pg);
+		FeedbackRadialFilter.instance().applyTo(pg);
 		PG.setDrawCenter(pg);
 		PG.setCenterScreen(pg);
 		pg.noStroke();

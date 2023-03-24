@@ -195,7 +195,7 @@ implements IAppStoreListener {
 		
 		GrainFilter.instance().setTime(p.frameCount * 0.01f);
 		GrainFilter.instance().setCrossfade(0.09f);
-		GrainFilter.instance().setOnContext(pg);
+		GrainFilter.instance().applyTo(pg);
 
 		// draw to screen
 		p.image(pg, 0, 0);

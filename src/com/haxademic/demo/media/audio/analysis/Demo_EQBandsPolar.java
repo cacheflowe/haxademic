@@ -84,13 +84,13 @@ extends PAppletHax {
 
 		// post fx
 		RotateFilter.instance().setZoom(1f - 0.6f * ampBuffer.average());
-		RotateFilter.instance().setOnContext(pg);
+		RotateFilter.instance().applyTo(pg);
 		
 		ReactionDiffusionStepFilter.applyTo(pg, 2, 3, 0.3f, 0.3f, 0.8f);
 		
 		VignetteFilter.instance().setDarkness(0.9f - 2f * ampBuffer.average());
 		VignetteFilter.instance().setSpread(0.15f + 2f * ampBuffer.average());
-		VignetteFilter.instance().setOnContext(pg);
+		VignetteFilter.instance().applyTo(pg);
 		
 		pg.endDraw();
 		

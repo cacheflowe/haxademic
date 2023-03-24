@@ -77,9 +77,9 @@ extends PAppletHax {
 		
 		// post-process noise map
 //		ContrastFilter.instance().setContrast(3f);
-		ContrastFilter.instance().setOnContext(noise3d.texture());
+		ContrastFilter.instance().applyTo(noise3d.texture());
 		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
-		ColorizeFromTexture.instance().setOnContext(noise3d.texture());
+		ColorizeFromTexture.instance().applyTo(noise3d.texture());
 		
 		// overdraw circles
 		PGraphics map = noise3d.texture();

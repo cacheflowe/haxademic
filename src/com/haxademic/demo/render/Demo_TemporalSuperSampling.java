@@ -126,7 +126,7 @@ extends PAppletHax {
 		
 		DitherColorBands.instance().setTime(FrameLoop.count(0.00000001f));
 		DitherColorBands.instance().setNoiseAmp(2);
-		DitherColorBands.instance().setOnContext(buff);
+		DitherColorBands.instance().applyTo(buff);
 
 	}
 

@@ -102,10 +102,10 @@ implements IWebCamCallback {
 		
 		BlendTowardsTexture.instance().setSourceTexture(webcamBuffer);
 		BlendTowardsTexture.instance().setBlendLerp(0.35f);
-		BlendTowardsTexture.instance().setOnContext(webcamLerped);
+		BlendTowardsTexture.instance().applyTo(webcamLerped);
 		
 		BrightnessFilter.instance().setBrightness(2f);
-		BrightnessFilter.instance().setOnContext(webcamBuffer);
+		BrightnessFilter.instance().applyTo(webcamBuffer);
 //		ThresholdFilter.instance().applyTo(webcamBuffer);
 				
 		// set textures for debug view

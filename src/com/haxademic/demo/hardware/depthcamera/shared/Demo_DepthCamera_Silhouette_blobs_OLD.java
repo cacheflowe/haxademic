@@ -125,9 +125,9 @@ extends PAppletHax {
 		blobBufferImg.background(0);
 		blobBufferImg.copy(source, 0, 0, source.width, source.height, 0, 0, blobBufferImg.width, blobBufferImg.height);
 		BlurHFilter.instance().setBlurByPercent(0.1f, blobBufferImg.width);
-		BlurHFilter.instance().setOnContext(blobBufferImg);
+		BlurHFilter.instance().applyTo(blobBufferImg);
 		BlurVFilter.instance().setBlurByPercent(0.1f, blobBufferImg.height);
-		BlurVFilter.instance().setOnContext(blobBufferImg);
+		BlurVFilter.instance().applyTo(blobBufferImg);
 		blobBufferImg.endDraw();
 		blobBufferImg.loadPixels();
 		theBlobDetection.computeBlobs(blobBufferImg.pixels);

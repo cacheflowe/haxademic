@@ -48,7 +48,7 @@ extends BaseFragmentShader {
 	}
 	
 	public void applyTo(PApplet p) {
-		applyTo(p.g);
+		applyTo(p);
 	}
 	
 	public void applyTo(PGraphics pg) {

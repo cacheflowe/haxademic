@@ -81,9 +81,9 @@ extends PAppletHax {
 		// post fx
 		BlurProcessingFilter.instance().setBlurSize(20);
 		BlurProcessingFilter.instance().setSigma(20);
-		BlurProcessingFilter.instance().setOnContext(pg);
+		BlurProcessingFilter.instance().applyTo(pg);
 		BrightnessStepFilter.instance().setBrightnessStep(-3/255f);
-		BrightnessStepFilter.instance().setOnContext(pg);
+		BrightnessStepFilter.instance().applyTo(pg);
 		
 		// draw camera on top
 		pg.blendMode(PBlendModes.ADD);
@@ -104,7 +104,7 @@ extends PAppletHax {
 		
 		// colorize
 		ColorizeFromTexture.instance().setTexture(ImageGradient.RAINBOWISH());
-		ColorizeFromTexture.instance().setOnContext(pgColor);
+		ColorizeFromTexture.instance().applyTo(pgColor);
 		// draw silhouette on top
 //		pgColor.push();
 //		pgColor.blendMode(PBlendModes.ADD);
@@ -117,7 +117,7 @@ extends PAppletHax {
 		Pixelate2Filter.instance().setDivider(4);
 //		Pixelate2Filter.instance().applyTo(pgColor);
 		PixelateFilter.instance().setDivider(30, pg.width, pg.height);
-		PixelateFilter.instance().setOnContext(pgColor);
+		PixelateFilter.instance().applyTo(pgColor);
 		pg.endDraw();
 		
 		

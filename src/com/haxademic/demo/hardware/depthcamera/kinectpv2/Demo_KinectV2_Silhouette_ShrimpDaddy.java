@@ -70,7 +70,7 @@ extends PAppletHax {
         // do masking
         ImageUtil.cropFillCopyImage(rgb, bufferRgb, true);
         ImageUtil.cropFillCopyImage(silhouette, bufferMask, true);
-        InvertFilter.instance().setOnContext(bufferMask);
+        InvertFilter.instance().applyTo(bufferMask);
         bufferRgb.mask(bufferMask);
         DebugView.setTexture("bufferRgb", bufferRgb);
         

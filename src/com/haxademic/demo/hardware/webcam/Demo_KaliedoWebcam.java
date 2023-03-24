@@ -76,7 +76,7 @@ implements IWebCamCallback {
 //		KaleidoFilter.instance().setSides(4f + activityMonitor.activityAmp() * 6f);
 		KaleidoFilter.instance().setSides(6f);
 		KaleidoFilter.instance().setAngle(p.frameCount * 0.0001f);
-		KaleidoFilter.instance().setOnContext(p);
+		KaleidoFilter.instance().applyTo(p);
 	}
 	
 }

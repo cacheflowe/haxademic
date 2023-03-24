@@ -87,13 +87,13 @@ implements IWebCamCallback {
 			ContrastFilter.instance().setContrast(3f);
 //			ContrastFilter.instance().applyTo(p);
 			BrightnessFilter.instance().setBrightness(1.7f);
-			BrightnessFilter.instance().setOnContext(p);
+			BrightnessFilter.instance().applyTo(p);
 			
 			ColorizeFromTexture.instance().setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance().setLumaMult(Mouse.xNorm > 0.5f);
 			ColorizeFromTexture.instance().setCrossfade(Mouse.yNorm);
 			ColorizeFromTexture.instance().setOffset(FrameLoop.count(0.005f));
-			ColorizeFromTexture.instance().setOnContext(p);
+			ColorizeFromTexture.instance().applyTo(p);
 		}
 	}
 

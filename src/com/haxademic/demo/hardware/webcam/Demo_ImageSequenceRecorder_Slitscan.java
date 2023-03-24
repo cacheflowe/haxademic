@@ -65,7 +65,7 @@ implements IWebCamCallback {
 		noiseTexture.shader().set("zoom", 2.f);
 		noiseBuffer.filter(noiseTexture.shader());
 		ContrastFilter.instance().setContrast(1.35f);	// weights the time distortion to newest/oldest
-		ContrastFilter.instance().setOnContext(noiseBuffer);
+		ContrastFilter.instance().applyTo(noiseBuffer);
 		DebugView.setTexture("noiseBuffer", noiseBuffer);
 		
 		// override map buffer
@@ -101,7 +101,7 @@ implements IWebCamCallback {
 		// lerp the slitscan to next buffer
 		BlendTowardsTexture.instance().setBlendLerp(0.45f);
 		BlendTowardsTexture.instance().setSourceTexture(slitscanOutputBuffer);
-		BlendTowardsTexture.instance().setOnContext(slitscanLerpedBuffer);
+		BlendTowardsTexture.instance().applyTo(slitscanLerpedBuffer);
 		
 		// draw live webcam
 		p.pushMatrix();

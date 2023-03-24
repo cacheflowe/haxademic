@@ -115,7 +115,7 @@ extends PAppletHax {
 //		ImageUtil.copyImage(curTexture, ledTexture);
 //		ImageUtil.cropFillCopyImage(curTexture, ledTexture, true);
 		BrightnessFilter.instance().setBrightness(UI.value(BRIGHTNESS));
-		BrightnessFilter.instance().setOnContext(ledTexture);
+		BrightnessFilter.instance().applyTo(ledTexture);
 		
 		// prep rotation
 		if(UI.valueToggle(FLIP_H)) ImageUtil.flipH(ledTexture);
@@ -146,19 +146,19 @@ extends PAppletHax {
 		// post-process noise map
 		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
 		ColorizeFromTexture.instance().setTexture(ImageGradient.SPARKS_FLAMES());
-		ColorizeFromTexture.instance().setOnContext(noise3d.texture());
+		ColorizeFromTexture.instance().applyTo(noise3d.texture());
 		SaturationFilter.instance().setSaturation(3f);
-		SaturationFilter.instance().setOnContext(noise3d.texture());
+		SaturationFilter.instance().applyTo(noise3d.texture());
 		BrightnessFilter.instance().setBrightness(0.5f);
-		BrightnessFilter.instance().setOnContext(noise3d.texture());
+		BrightnessFilter.instance().applyTo(noise3d.texture());
 		ContrastFilter.instance().setContrast(2f);
-		ContrastFilter.instance().setOnContext(noise3d.texture());
+		ContrastFilter.instance().applyTo(noise3d.texture());
 		
 		BlurHFilter.instance().setBlurByPercent(1f, noise3d.texture().width);
 		BlurVFilter.instance().setBlurByPercent(1f, noise3d.texture().height);
 		for (int i = 0; i < 10; i++) {
-			BlurHFilter.instance().setOnContext(noise3d.texture());
-			BlurVFilter.instance().setOnContext(noise3d.texture());
+			BlurHFilter.instance().applyTo(noise3d.texture());
+			BlurVFilter.instance().applyTo(noise3d.texture());
 		}
 	}
 }

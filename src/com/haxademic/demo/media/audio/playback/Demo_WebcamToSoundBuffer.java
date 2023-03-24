@@ -85,16 +85,16 @@ implements IWebCamCallback {
 		
 		for (int i = 0; i < 5; i++) {			
 			BlurHFilter.instance().setBlurByPercent(Mouse.xNorm * 1f, pg.width);
-			BlurHFilter.instance().setOnContext(audioBufferPG);
+			BlurHFilter.instance().applyTo(audioBufferPG);
 			BlurVFilter.instance().setBlurByPercent(Mouse.yNorm * 1f, pg.height);
-			BlurVFilter.instance().setOnContext(audioBufferPG);
+			BlurVFilter.instance().applyTo(audioBufferPG);
 		}
 		ContrastFilter.instance().setContrast(1.9f);
-		ContrastFilter.instance().setOnContext(audioBufferPG);
+		ContrastFilter.instance().applyTo(audioBufferPG);
 
 		BlendTowardsTexture.instance().setSourceTexture(audioBufferPG);
 		BlendTowardsTexture.instance().setBlendLerp(0.2f);
-		BlendTowardsTexture.instance().setOnContext(audioBufferLerped);
+		BlendTowardsTexture.instance().applyTo(audioBufferLerped);
 		DebugView.setTexture("audioBufferPG", audioBufferPG);
 		DebugView.setTexture("audioBufferLerped", audioBufferLerped);
 		
