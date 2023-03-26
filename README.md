@@ -356,6 +356,21 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[UI](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UI.java)__ - A collection of `IUIControl` objects, auto-initialized with a PAppletHax app via `P`. Press `\` to toggle paneL, and add new sliders/buttons with static methods on `UI`.
 
+## Run on Mac M1/M2
+
+* `brew install --cask eclipse-java`
+* In .classpath, set `CLASSPATH_ATTR_LIBRARY_PATH_ENTRY` to `macos-aarch64`
+* Add native library reference to jogl-all.jar
+  ```
+	<classpathentry kind="lib" path="lib/processing-4/core/library/jogl-all.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-4/core/library/macos-aarch64"/>
+		</attributes>
+	</classpathentry>
+  ```
+* Remove .classpath jna.jar entires that aren't the processing/video version
+
+
 
 ## Dependencies
 
