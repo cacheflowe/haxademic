@@ -173,15 +173,15 @@ extends PAppletHax {
 	}
 	
 	protected void postProcess() {
-		FakeLightingFilter.instance(p).setAmbient(UI.value(AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(UI.value(GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(UI.value(GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(UI.value(SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(UI.value(DIFF_DARK));
-		FakeLightingFilter.instance(p).setMap(pg);
+		FakeLightingFilter.instance().setAmbient(UI.value(AMBIENT));
+		FakeLightingFilter.instance().setGradAmp(UI.value(GRAD_AMP));
+		FakeLightingFilter.instance().setGradBlur(UI.value(GRAD_BLUR));
+		FakeLightingFilter.instance().setSpecAmp(UI.value(SPEC_AMP));
+		FakeLightingFilter.instance().setDiffDark(UI.value(DIFF_DARK));
+		FakeLightingFilter.instance().setMap(pg);
 		
 		if(UI.value(FILTER_ACTIVE) > 0.5f) {
-			FakeLightingFilter.instance(p).applyTo(pg);
+			FakeLightingFilter.instance().applyTo(pg);
 		}
 	}
 	
@@ -245,8 +245,8 @@ extends PAppletHax {
 		// apply polygons shader
 		pg.shader(polygonShader.shader());  
 
-		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
-		BrightnessStepFilter.instance(p).applyTo(pg);
+		BrightnessStepFilter.instance().setBrightnessStep(-1f/255f);
+		BrightnessStepFilter.instance().applyTo(pg);
 		if(clearsBg) pg.background(255);
 		if(p.frameCount % RESET_FRAME_INTERVAL == 0) newSeedPolygon();
 		movePolygons();

@@ -32,8 +32,8 @@ extends BaseTexture {
 		feedbackDist.update();
 		feedbackDarken.update();
 		PG.feedback(_texture, (int) feedbackDist.value());
-		BrightnessStepFilter.instance(P.p).setBrightnessStep(-feedbackDarken.value()/255f);
-		BrightnessStepFilter.instance(P.p).applyTo(_texture);
+		BrightnessStepFilter.instance().setBrightnessStep(-feedbackDarken.value()/255f);
+		BrightnessStepFilter.instance().applyTo(_texture);
 
 		// set line weight
 		_texture.noFill();

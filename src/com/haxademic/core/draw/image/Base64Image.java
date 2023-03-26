@@ -79,7 +79,7 @@ public class Base64Image {
 			bImageFromConvert = ImageIO.read(in);
 			BufferedImage convertedImg = new BufferedImage(bImageFromConvert.getWidth(), bImageFromConvert.getHeight(), BufferedImage.TYPE_INT_ARGB);
 			convertedImg.getGraphics().drawImage(bImageFromConvert, 0, 0, null);
-			result = new PImage(convertedImg);
+			result = ImageUtil.bufferedToPImage(convertedImg);
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();

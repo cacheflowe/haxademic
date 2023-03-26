@@ -93,11 +93,11 @@ extends PAppletHax {
 		particles.updateAndDrawParticles(p.g, PBlendModes.BLEND);
 		
 		// post-process
-		GodRays.instance(p).setDecay(0.8f);
-		GodRays.instance(p).setWeight(0.3f);
-		GodRays.instance(p).setRotation(Mouse.xEasedNorm * -3f);
-		GodRays.instance(p).setAmp(0.2f);
-		GodRays.instance(p).applyTo(p.g);
+		GodRays.instance().setDecay(0.8f);
+		GodRays.instance().setWeight(0.3f);
+		GodRays.instance().setRotation(Mouse.xEasedNorm * -3f);
+		GodRays.instance().setAmp(0.2f);
+		GodRays.instance().applyTo(p.g);
 		
 		// debug info
 		DebugView.setValue("particles.poolSize()", particles.poolSize());

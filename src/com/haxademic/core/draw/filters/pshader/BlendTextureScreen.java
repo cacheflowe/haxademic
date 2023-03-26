@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class BlendTextureScreen
@@ -10,13 +9,13 @@ extends BaseFragmentShader {
 
 	public static BlendTextureScreen instance;
 	
-	public BlendTextureScreen(PApplet p) {
-		super(p, "haxademic/shaders/filters/blend-texture-screen.glsl");
+	public BlendTextureScreen() {
+		super("haxademic/shaders/filters/blend-texture-screen.glsl");
 	}
 	
-	public static BlendTextureScreen instance(PApplet p) {
+	public static BlendTextureScreen instance() {
 		if(instance != null) return instance;
-		instance = new BlendTextureScreen(p);
+		instance = new BlendTextureScreen();
 		return instance;
 	}
 	

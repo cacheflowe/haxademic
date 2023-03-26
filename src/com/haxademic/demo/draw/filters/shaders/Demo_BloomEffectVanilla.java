@@ -40,13 +40,13 @@ extends PAppletHax {
 		
 		// copy image & create glow version
 		ImageUtil.copyImage(pg, glowBuffer);
-		LeaveWhiteFilter.instance(p).setCrossfade(0.3f);
-		LeaveWhiteFilter.instance(p).applyTo(glowBuffer);
-		BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 5f, glowBuffer.width);
-		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 5f, glowBuffer.height);
+		LeaveWhiteFilter.instance().setCrossfade(0.3f);
+		LeaveWhiteFilter.instance().applyTo(glowBuffer);
+		BlurHFilter.instance().setBlurByPercent(Mouse.xNorm * 5f, glowBuffer.width);
+		BlurVFilter.instance().setBlurByPercent(Mouse.yNorm * 5f, glowBuffer.height);
 		for (int i = 0; i < 10; i++) {
-			BlurHFilter.instance(p).applyTo(glowBuffer);
-			BlurVFilter.instance(p).applyTo(glowBuffer);
+			BlurHFilter.instance().applyTo(glowBuffer);
+			BlurVFilter.instance().applyTo(glowBuffer);
 		}
 
 		// debug display
@@ -71,8 +71,8 @@ extends PAppletHax {
 
 		
 		// post 
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.03f);
-		GrainFilter.instance(p).applyTo(p);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.03f);
+		GrainFilter.instance().applyTo(p);
 	}
 }

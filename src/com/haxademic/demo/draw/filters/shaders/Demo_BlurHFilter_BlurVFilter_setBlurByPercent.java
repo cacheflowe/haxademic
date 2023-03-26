@@ -48,10 +48,10 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// apply blur
-		BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 2f, img.width);
-		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, img.height);
-		BlurVFilter.instance(p).applyTo(pg);
+		BlurHFilter.instance().setBlurByPercent(Mouse.xNorm * 2f, img.width);
+		BlurHFilter.instance().applyTo(pg);
+		BlurVFilter.instance().setBlurByPercent(Mouse.yNorm * 2f, img.height);
+		BlurVFilter.instance().applyTo(pg);
 		
 		// draw result to screen
 		PG.setDrawCorner(p);

@@ -215,7 +215,7 @@ extends PAppletHax {
 		// and prepare pixels data
 		depthSilhouetteSmoothed.update();
 		ImageUtil.cropFillCopyImage(depthSilhouetteSmoothed.image(), silhouetteCropped, true);
-		ThresholdFilter.instance(p).applyTo(silhouetteCropped);
+		ThresholdFilter.instance().applyTo(silhouetteCropped);
 
 		//////////////////////////////////////////////////////////
 		// update camer optical flow
@@ -248,10 +248,10 @@ extends PAppletHax {
 		silhouetteShadow.endDraw();
 		
 		// blur it
-		BlurProcessingFilter.instance(p).setBlurSize(UI.valueInt(UI_OUTLINE_BLUR_SIZE));
-		BlurProcessingFilter.instance(p).setSigma(UI.valueInt(UI_OUTLINE_BLUR_SIGMA));
+		BlurProcessingFilter.instance().setBlurSize(UI.valueInt(UI_OUTLINE_BLUR_SIZE));
+		BlurProcessingFilter.instance().setSigma(UI.valueInt(UI_OUTLINE_BLUR_SIGMA));
 		for (int i = 0; i < UI.valueInt(UI_OUTLINE_BLUR_ITERS); i++) {
-			BlurProcessingFilter.instance(p).applyTo(silhouetteShadow);
+			BlurProcessingFilter.instance().applyTo(silhouetteShadow);
 		}
 
 		//////////////////////////////////////////////////////////
@@ -262,10 +262,10 @@ extends PAppletHax {
 		drawBlobs(silhouetteFill, p.color(0), false);
 		silhouetteFill.endDraw();
 		
-		BlurProcessingFilter.instance(p).setBlurSize(UI.valueInt(UI_SILHOUETTE_FILL_BLUR));
-		BlurProcessingFilter.instance(p).setSigma(UI.valueInt(UI_SILHOUETTE_FILL_BLUR));
+		BlurProcessingFilter.instance().setBlurSize(UI.valueInt(UI_SILHOUETTE_FILL_BLUR));
+		BlurProcessingFilter.instance().setSigma(UI.valueInt(UI_SILHOUETTE_FILL_BLUR));
 		for (int i = 0; i < 1; i++) {
-			BlurProcessingFilter.instance(p).applyTo(silhouetteFill);
+			BlurProcessingFilter.instance().applyTo(silhouetteFill);
 		}
 		
 		//////////////////////////////////////////////////////////

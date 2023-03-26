@@ -2,15 +2,13 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class GlitchShakeFilter
 extends BaseFragmentShader {
 
 	public static GlitchShakeFilter instance;
 	
-	public GlitchShakeFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/glitch-shake.glsl");
+	public GlitchShakeFilter() {
+		super("haxademic/shaders/filters/glitch-shake.glsl");
 		setAmp(1f);
 		setGlitchSpeed(0.16f);
 		setCrossfade(1f);
@@ -18,9 +16,9 @@ extends BaseFragmentShader {
 		setSubdivide2(64f);
 	}
 	
-	public static GlitchShakeFilter instance(PApplet p) {
+	public static GlitchShakeFilter instance() {
 		if(instance != null) return instance;
-		instance = new GlitchShakeFilter(p);
+		instance = new GlitchShakeFilter();
 		return instance;
 	}
 	

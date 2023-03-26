@@ -53,10 +53,10 @@ extends PAppletHax {
 		shadow.beginDraw();
 		shadow.clear();
 		shadow.image(shadowOrig, shadow.width/2, shadow.height/2);
-		BlurProcessingFilter.instance(p).setBlurSize(UI.valueInt(BLUR_SIZE));
-		BlurProcessingFilter.instance(p).setSigma(UI.value(BLUR_SIGMA));
+		BlurProcessingFilter.instance().setBlurSize(UI.valueInt(BLUR_SIZE));
+		BlurProcessingFilter.instance().setSigma(UI.value(BLUR_SIGMA));
 		for (int i = 0; i < (UI.valueInt(BLUR_STEPS)); i++) {
-			BlurProcessingFilter.instance(p).applyTo(shadow);
+			BlurProcessingFilter.instance().applyTo(shadow);
 		}
 		if(shadowSolidColor) {
 			colorTransformShader.set("color", 0f, 0f, 0f);

@@ -124,9 +124,9 @@ extends PAppletHax {
 
 		buff.endDraw();
 		
-		DitherColorBands.instance(p).setTime(FrameLoop.count(0.00000001f));
-		DitherColorBands.instance(p).setNoiseAmp(2);
-		DitherColorBands.instance(p).applyTo(buff);
+		DitherColorBands.instance().setTime(FrameLoop.count(0.00000001f));
+		DitherColorBands.instance().setNoiseAmp(2);
+		DitherColorBands.instance().applyTo(buff);
 
 	}
 

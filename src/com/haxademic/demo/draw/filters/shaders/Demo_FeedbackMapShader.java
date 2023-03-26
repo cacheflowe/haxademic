@@ -120,7 +120,7 @@ extends PAppletHax {
 
 	protected void updateMapAudio() {
 		audioTexture.update();
-		ReflectFilter.instance(p).applyTo(audioTexture.texture());
+		ReflectFilter.instance().applyTo(audioTexture.texture());
 		map = audioTexture.texture();
 	}
 
@@ -146,19 +146,19 @@ extends PAppletHax {
 	}
 
 	protected void applyFeedbackToBuffer() {
-		FeedbackMapFilter.instance(p).setMap(map);
-		FeedbackMapFilter.instance(p).setAmp(UI.value(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(UI.value(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(UI.value(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
-		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
+		FeedbackMapFilter.instance().setMap(map);
+		FeedbackMapFilter.instance().setAmp(UI.value(feedbackAmp));
+		FeedbackMapFilter.instance().setBrightnessStep(UI.value(feedbackBrightStep));
+		FeedbackMapFilter.instance().setAlphaStep(UI.value(feedbackAlphaStep));
+		FeedbackMapFilter.instance().setRadiansStart(UI.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance().setRadiansRange(UI.value(feedbackRadiansRange));
+		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance().applyTo(pg);
 	}
 
 	protected void blurMap() {
-		BlurProcessingFilter.instance(p).setBlurSize(10);
-		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(map);
-//		MirrorFilter.instance(p).applyTo(map);
+		BlurProcessingFilter.instance().setBlurSize(10);
+		for(int i=0; i < 5; i++) BlurProcessingFilter.instance().applyTo(map);
+//		MirrorFilter.instance().applyTo(map);
 	}
 
 	protected void drawApp() {

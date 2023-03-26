@@ -70,20 +70,20 @@ implements IWebCamCallback {
 		PG.basicCameraFromMouse(p.g, 0.1f);
 
 		// draw shader-displaced mesh
-		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(webcamLerped);
-		LinesDeformAndTextureFilter.instance(p).setColorMap(webcamLerped);
-		LinesDeformAndTextureFilter.instance(p).setWeight(Mouse.xNorm * 10f);
-		LinesDeformAndTextureFilter.instance(p).setModelMaxExtent(shapeExtent * 2.1f);
-		LinesDeformAndTextureFilter.instance(p).setColorThicknessMode((Mouse.yNorm > 0.5f));
+		LinesDeformAndTextureFilter.instance().setDisplacementMap(webcamLerped);
+		LinesDeformAndTextureFilter.instance().setColorMap(webcamLerped);
+		LinesDeformAndTextureFilter.instance().setWeight(Mouse.xNorm * 10f);
+		LinesDeformAndTextureFilter.instance().setModelMaxExtent(shapeExtent * 2.1f);
+		LinesDeformAndTextureFilter.instance().setColorThicknessMode((Mouse.yNorm > 0.5f));
 		if(Mouse.xNorm > 0.5f) {
-			LinesDeformAndTextureFilter.instance(p).setSheetMode(true);
-			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(Mouse.yNorm * pg.height * 0.7f);
+			LinesDeformAndTextureFilter.instance().setSheetMode(true);
+			LinesDeformAndTextureFilter.instance().setDisplaceAmp(Mouse.yNorm * pg.height * 0.7f);
 		} else {
-			LinesDeformAndTextureFilter.instance(p).setSheetMode(false);
-			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(Mouse.yNorm * pg.height * 0.01f);
+			LinesDeformAndTextureFilter.instance().setSheetMode(false);
+			LinesDeformAndTextureFilter.instance().setDisplaceAmp(Mouse.yNorm * pg.height * 0.01f);
 		}
 		//		p.shader(displacementShader, P.LINES);
-		LinesDeformAndTextureFilter.instance(p).applyTo(p);
+		LinesDeformAndTextureFilter.instance().setOnContext(p);
 
 		// draw shape
 		p.stroke(255);
@@ -98,15 +98,15 @@ implements IWebCamCallback {
 		ImageUtil.flipH(webcamBuffer);
 		ImageUtil.flipV(webcamBuffer);
 		
-//		InvertFilter.instance(p).applyTo(webcamBuffer);
+//		InvertFilter.instance().applyTo(webcamBuffer);
 		
-		BlendTowardsTexture.instance(p).setSourceTexture(webcamBuffer);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.35f);
-		BlendTowardsTexture.instance(p).applyTo(webcamLerped);
+		BlendTowardsTexture.instance().setSourceTexture(webcamBuffer);
+		BlendTowardsTexture.instance().setBlendLerp(0.35f);
+		BlendTowardsTexture.instance().applyTo(webcamLerped);
 		
-		BrightnessFilter.instance(p).setBrightness(2f);
-		BrightnessFilter.instance(p).applyTo(webcamBuffer);
-//		ThresholdFilter.instance(p).applyTo(webcamBuffer);
+		BrightnessFilter.instance().setBrightness(2f);
+		BrightnessFilter.instance().applyTo(webcamBuffer);
+//		ThresholdFilter.instance().applyTo(webcamBuffer);
 				
 		// set textures for debug view
 		DebugView.setTexture("webcam", frame);

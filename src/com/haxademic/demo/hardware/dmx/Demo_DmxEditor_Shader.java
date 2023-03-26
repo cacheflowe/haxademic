@@ -55,8 +55,8 @@ extends PAppletHax {
 		// update & draw shader
 		textureShader.setTime((float) p.frameCount * 0.01f);
 		pg.filter(textureShader.shader());
-		ContrastFilter.instance(p).setContrast(2f);
-		ContrastFilter.instance(p).applyTo(pg);
+		ContrastFilter.instance().setContrast(2f);
+		ContrastFilter.instance().applyTo(pg);
 		// copy lights animation to DMXEditor buffer 
 		ImageUtil.cropFillCopyImage(pg, textureMap, true); 
 		// update & send lights to DMX hardware

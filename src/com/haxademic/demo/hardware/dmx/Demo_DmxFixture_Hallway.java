@@ -105,10 +105,10 @@ extends PAppletHax {
 
         // toggle alternate textures
         if(Mouse.xNorm < 0.25f) {
-            RotateFilter.instance(p).setOffset(p.frameCount * (0.001f * UI.value(speed)), 0);
-            RotateFilter.instance(p).applyTo(pg);
-            BrightnessFilter.instance(p).setBrightness(UI.value(brightness));
-            BrightnessFilter.instance(p).applyTo(pg);
+            RotateFilter.instance().setOffset(p.frameCount * (0.001f * UI.value(speed)), 0);
+            RotateFilter.instance().applyTo(pg);
+            BrightnessFilter.instance().setBrightness(UI.value(brightness));
+            BrightnessFilter.instance().applyTo(pg);
         } else if(Mouse.xNorm > 0.25f && Mouse.xNorm < 0.5f) {
             noiseTexture.update(
                     1f,  // zoom
@@ -119,23 +119,23 @@ extends PAppletHax {
                     false,  // fractal mode
                     false // x repeat mode
                     );
-            BrightnessFilter.instance(p).setBrightness(1.f);
-            BrightnessFilter.instance(p).applyTo(noiseTexture.texture());
-            ContrastFilter.instance(p).setContrast(2.5f);
-            ContrastFilter.instance(p).applyTo(noiseTexture.texture());
+            BrightnessFilter.instance().setBrightness(1.f);
+            BrightnessFilter.instance().applyTo(noiseTexture.texture());
+            ContrastFilter.instance().setContrast(2.5f);
+            ContrastFilter.instance().applyTo(noiseTexture.texture());
             ImageUtil.copyImage(noiseTexture.texture(), pg);
             
-            ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
-            ColorizeFromTexture.instance(p).setLumaMult(true);
-            ColorizeFromTexture.instance(p).setCrossfade(1);
-            ColorizeFromTexture.instance(p).applyTo(pg);
+            ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
+            ColorizeFromTexture.instance().setLumaMult(true);
+            ColorizeFromTexture.instance().setCrossfade(1);
+            ColorizeFromTexture.instance().applyTo(pg);
 
         } else if(Mouse.xNorm > 0.5f && Mouse.xNorm < 0.75f) {
             shaderTexture1.setActive(true);
             shaderTexture1.updateDrawWithTime(p.frameCount * 0.01f);
             ImageUtil.copyImage(shaderTexture1.texture(), pg);
-            RotateFilter.instance(p).setOffset(0, 0.02f);
-            RotateFilter.instance(p).applyTo(pg);
+            RotateFilter.instance().setOffset(0, 0.02f);
+            RotateFilter.instance().applyTo(pg);
         } else if(Mouse.xNorm > 0.75f) {
             shaderTexture2.setActive(true);
             shaderTexture2.updateDrawWithTime(p.frameCount * 0.01f);
@@ -155,11 +155,11 @@ extends PAppletHax {
         DebugView.setTexture("ledBuffer", ledBuffer);
 
         // blur glow
-        BlurProcessingFilter.instance(p).setBlurSize(20);
-        BlurProcessingFilter.instance(p).setSigma(10);
-        BlurProcessingFilter.instance(p).applyTo(ledBufferGlow);
-        BlurProcessingFilter.instance(p).applyTo(ledBufferGlow);
-        BlurProcessingFilter.instance(p).applyTo(ledBufferGlow);
+        BlurProcessingFilter.instance().setBlurSize(20);
+        BlurProcessingFilter.instance().setSigma(10);
+        BlurProcessingFilter.instance().applyTo(ledBufferGlow);
+        BlurProcessingFilter.instance().applyTo(ledBufferGlow);
+        BlurProcessingFilter.instance().applyTo(ledBufferGlow);
         DebugView.setTexture("ledBufferGlow", ledBufferGlow);
 
         // apply to walls
@@ -176,11 +176,11 @@ extends PAppletHax {
         DebugView.setTexture("ledBufferWall", ledBufferWall);
         
         // diffuse the floor a bit more
-        BlurProcessingFilter.instance(p).setBlurSize(10);
-        BlurProcessingFilter.instance(p).setSigma(30);
-        BlurProcessingFilter.instance(p).applyTo(ledBufferGlow);
-        BlurProcessingFilter.instance(p).applyTo(ledBufferGlow);
-        BlurProcessingFilter.instance(p).applyTo(ledBufferGlow);
+        BlurProcessingFilter.instance().setBlurSize(10);
+        BlurProcessingFilter.instance().setSigma(30);
+        BlurProcessingFilter.instance().applyTo(ledBufferGlow);
+        BlurProcessingFilter.instance().applyTo(ledBufferGlow);
+        BlurProcessingFilter.instance().applyTo(ledBufferGlow);
 
     }
 
@@ -318,15 +318,15 @@ extends PAppletHax {
         simBuffer.endDraw();
 
         // post fx
-        ToneMappingFilter.instance(P.p).setMode(0);
-        ToneMappingFilter.instance(P.p).setGamma(1.25f);
-        ToneMappingFilter.instance(P.p).setCrossfade(1f);
-        ToneMappingFilter.instance(P.p).applyTo(simBuffer);
+        ToneMappingFilter.instance().setMode(0);
+        ToneMappingFilter.instance().setGamma(1.25f);
+        ToneMappingFilter.instance().setCrossfade(1f);
+        ToneMappingFilter.instance().applyTo(simBuffer);
 
-        BloomFilter.instance(p).setStrength(1.5f);
-        BloomFilter.instance(p).setBlurIterations(6);
-        BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-        BloomFilter.instance(p).applyTo(simBuffer);
+        BloomFilter.instance().setStrength(1.5f);
+        BloomFilter.instance().setBlurIterations(6);
+        BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
+        BloomFilter.instance().applyTo(simBuffer);
     }
 }
 

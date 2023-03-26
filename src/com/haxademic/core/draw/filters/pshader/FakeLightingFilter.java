@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class FakeLightingFilter
@@ -10,8 +9,8 @@ extends BaseFragmentShader {
 
 	public static FakeLightingFilter instance;
 	
-	public FakeLightingFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/fake-lighting.glsl");
+	public FakeLightingFilter() {
+		super("haxademic/shaders/filters/fake-lighting.glsl");
 		setAmbient(4.0f);
 		setGradAmp(1.0f);
 		setGradBlur(1.0f);
@@ -20,9 +19,9 @@ extends BaseFragmentShader {
 		setMap(null);
 	}
 	
-	public static FakeLightingFilter instance(PApplet p) {
+	public static FakeLightingFilter instance() {
 		if(instance != null) return instance;
-		instance = new FakeLightingFilter(p);
+		instance = new FakeLightingFilter();
 		return instance;
 	}
 	

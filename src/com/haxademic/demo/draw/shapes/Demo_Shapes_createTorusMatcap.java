@@ -108,26 +108,26 @@ extends PAppletHax {
 		DebugView.setTexture("scaleDown", scaleDown);
 		
 		// postprocessing
-		VignetteFilter.instance(p).setDarkness(0.5f);
-		VignetteFilter.instance(p).setSpread(0.2f);
-//		VignetteFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.5f);
+		VignetteFilter.instance().setSpread(0.2f);
+//		VignetteFilter.instance().applyTo(p.g);
 		
-		CubicLensDistortionFilter.instance(p).setAmplitude(-1f);
-//		CubicLensDistortionFilter.instance(p).applyTo(p.g);
+		CubicLensDistortionFilter.instance().setAmplitude(-1f);
+//		CubicLensDistortionFilter.instance().applyTo(p.g);
 		
-		SaturationFilter.instance(p).setSaturation(1.4f);
-		SaturationFilter.instance(p).applyTo(scaleDown);
+		SaturationFilter.instance().setSaturation(1.4f);
+		SaturationFilter.instance().applyTo(scaleDown);
 		
-		GrainFilter.instance(p).setTime(p.frameCount * 0.02f);
-		GrainFilter.instance(p).setCrossfade(0.05f);
-//		GrainFilter.instance(p).applyTo(scaleDown);
+		GrainFilter.instance().setTime(p.frameCount * 0.02f);
+		GrainFilter.instance().setCrossfade(0.05f);
+//		GrainFilter.instance().applyTo(scaleDown);
 		
-		RadialFlareFilter.instance(p).setImageBrightness(12f);
-		RadialFlareFilter.instance(p).setFlareBrightness(2f);
-		RadialFlareFilter.instance(p).applyTo(scaleDown);
+		RadialFlareFilter.instance().setImageBrightness(12f);
+		RadialFlareFilter.instance().setFlareBrightness(2f);
+		RadialFlareFilter.instance().applyTo(scaleDown);
 		
-		DitherFilter.instance(P.p).setDitherMode8x8();
-		DitherFilter.instance(P.p).applyTo(scaleDown);
+		DitherFilter.instance().setDitherMode8x8();
+		DitherFilter.instance().applyTo(scaleDown);
 		
 		// draw scaled back up
 		ImageUtil.copyImage(scaleDown, p.g);

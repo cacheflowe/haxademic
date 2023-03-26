@@ -64,25 +64,25 @@ implements IWebCamCallback {
 			colorCopy.tint(FrameLoop.osc(0.1f, 127, 255), FrameLoop.osc(0.17f, 100, 255), FrameLoop.osc(0.15f, 100, 255));
 			colorCopy.image(bufferFrameDifference.differenceBuffer(), 0, 0);
 			colorCopy.endDraw();
-			ColorRotateFilter.instance(p).setRotate(FrameLoop.count(0.01f) % 1f);
-			ColorRotateFilter.instance(p).applyTo(colorCopy);
+			ColorRotateFilter.instance().setRotate(FrameLoop.count(0.01f) % 1f);
+			ColorRotateFilter.instance().applyTo(colorCopy);
 			
 			// pre-blur flattened before copying new frame
-			BlurProcessingFilter.instance(P.p).setBlurSize(10);
-			BlurProcessingFilter.instance(P.p).setSigma(10);
-			BlurProcessingFilter.instance(P.p).applyTo(flattenPg);
+			BlurProcessingFilter.instance().setBlurSize(10);
+			BlurProcessingFilter.instance().setSigma(10);
+			BlurProcessingFilter.instance().applyTo(flattenPg);
 
 			// copy color frame on top of composite
 			flattenPg.beginDraw();
 			flattenPg.blendMode(PBlendModes.LIGHTEST);
 			flattenPg.image(colorCopy, 0, 0);
 			flattenPg.endDraw();
-			BrightnessStepFilter.instance(P.p).setBrightnessStep(-3f/255f);
-			BrightnessStepFilter.instance(P.p).applyTo(flattenPg);
+			BrightnessStepFilter.instance().setBrightnessStep(-3f/255f);
+			BrightnessStepFilter.instance().applyTo(flattenPg);
 			
 			// zoom feedback
-			RotateFilter.instance(P.p).setZoom(0.99f);
-			RotateFilter.instance(P.p).applyTo(flattenPg);
+			RotateFilter.instance().setZoom(0.99f);
+			RotateFilter.instance().applyTo(flattenPg);
 			
 			p.image(WebCam.instance().image(), 0, 0);
 			p.blendMode(PBlendModes.ADD);

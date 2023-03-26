@@ -153,8 +153,8 @@ extends PAppletHax {
 		
 		// update contrasted version
 		ImageUtil.copyImage(curSourceFrame, curSourceFrameContrasted);
-		ContrastFilter.instance(p).setContrast(2.5f);
-		ContrastFilter.instance(p).applyTo(curSourceFrameContrasted);
+		ContrastFilter.instance().setContrast(2.5f);
+		ContrastFilter.instance().applyTo(curSourceFrameContrasted);
 	}
 	
 	protected void buildFlowParticles() {
@@ -218,15 +218,15 @@ extends PAppletHax {
 	
 	protected void applyFlowToRgbsource() {
 		// copy source rgb to buffer and mix it slightly into the displaced buffer
-		BlendTowardsTexture.instance(p).setSourceTexture(curRgbFrame);
-		BlendTowardsTexture.instance(p).setBlendLerp(UI.value(sourceLerp));
-		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
+		BlendTowardsTexture.instance().setSourceTexture(curRgbFrame);
+		BlendTowardsTexture.instance().setBlendLerp(UI.value(sourceLerp));
+		BlendTowardsTexture.instance().applyTo(camDisplaced);
 		
 		// flow the displaced source buffer
 		PGraphics opFlowResult = opticalFlow.resultBuffer();
-		DisplacementMapFilter.instance(P.p).setMap(opFlowResult);
-		DisplacementMapFilter.instance(P.p).setMode(10);
-		DisplacementMapFilter.instance(P.p).setAmp(UI.value(sourceDisplaceAmp));
+		DisplacementMapFilter.instance().setMap(opFlowResult);
+		DisplacementMapFilter.instance().setMode(10);
+		DisplacementMapFilter.instance().setAmp(UI.value(sourceDisplaceAmp));
 		for (int i = 0; i < UI.valueInt(sourceDisplaceIters); i++) {
 			DisplacementMapFilter.instance.applyTo(camDisplaced);	
 		}

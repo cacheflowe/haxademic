@@ -54,8 +54,8 @@ extends PAppletHax {
 		}
 		
 		// apply blur
-		BlurHFilter.instance(p).setBlurByPercent(0.15f, gradientImg.width);
-		for (int i = 0; i < 10; i++) BlurHFilter.instance(p).applyTo(gradientImg);
+		BlurHFilter.instance().setBlurByPercent(0.15f, gradientImg.width);
+		for (int i = 0; i < 10; i++) BlurHFilter.instance().applyTo(gradientImg);
 		
 		gradientImg.endDraw();
 		

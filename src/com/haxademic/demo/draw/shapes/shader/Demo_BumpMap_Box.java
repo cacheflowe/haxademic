@@ -59,8 +59,8 @@ extends PAppletHax {
 		alphaMap = ImageUtil.imageToGraphics(P.getImage("haxademic/images/bumpmap/jersey_stitch_Opacity.jpg"));
 		aoMap = ImageUtil.imageToGraphics(P.getImage("haxademic/images/bumpmap/jersey_stitch_Ambient_Occlusion.jpg"));
 		
-		BrightnessFilter.instance(p).setBrightness(1.5f);
-		BrightnessFilter.instance(p).applyTo(texture);
+		BrightnessFilter.instance().setBrightness(1.5f);
+		BrightnessFilter.instance().applyTo(texture);
 
 		// show in debug
 		DebugView.setTexture("bumpMap", bumpMap);

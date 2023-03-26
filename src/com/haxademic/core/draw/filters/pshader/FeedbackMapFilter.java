@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class FeedbackMapFilter
@@ -12,8 +11,8 @@ extends BaseFragmentShader {
 
 	public static FeedbackMapFilter instance;
 	
-	public FeedbackMapFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/feedback-map.glsl");
+	public FeedbackMapFilter() {
+		super("haxademic/shaders/filters/feedback-map.glsl");
 		setMap(DemoAssets.smallTexture());
 		setAmp(0.1f);
 		setBrightnessStep(-1f/255f);
@@ -22,9 +21,9 @@ extends BaseFragmentShader {
 		setRadiansRange(P.TWO_PI * 3f);
 	}
 	
-	public static FeedbackMapFilter instance(PApplet p) {
+	public static FeedbackMapFilter instance() {
 		if(instance != null) return instance;
-		instance = new FeedbackMapFilter(p);
+		instance = new FeedbackMapFilter();
 		return instance;
 	}
 	

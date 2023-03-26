@@ -3,21 +3,19 @@ package com.haxademic.core.draw.filters.pshader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class PixelateFilter
 extends BaseFragmentShader {
 
 	public static PixelateFilter instance;
 	
-	public PixelateFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/pixelate.glsl");
-		setDivider(20f, p.width, p.height);
+	public PixelateFilter() {
+		super("haxademic/shaders/filters/pixelate.glsl");
+		setDivider(20f, P.p.width, P.p.height);
 	}
 	
-	public static PixelateFilter instance(PApplet p) {
+	public static PixelateFilter instance() {
 		if(instance != null) return instance;
-		instance = new PixelateFilter(p);
+		instance = new PixelateFilter();
 		return instance;
 	}
 	

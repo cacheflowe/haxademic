@@ -63,12 +63,12 @@ extends BaseVideoFilter {
 		
 		// copy noise to buffer, post-process noise map, & remove black
 		ImageUtil.copyImage(motionDetectionMap.bwBuffer(), feedbackSeedBuffer);
-		BlurHFilter.instance(P.p).setBlurByPercent(1f, feedbackSeedBuffer.width);
-		BlurHFilter.instance(P.p).applyTo(feedbackSeedBuffer);
-		BlurVFilter.instance(P.p).setBlurByPercent(1f, feedbackSeedBuffer.height);
-		BlurVFilter.instance(P.p).applyTo(feedbackSeedBuffer);
-		ThresholdFilter.instance(P.p).applyTo(feedbackSeedBuffer);
-		LeaveWhiteFilter.instance(P.p).applyTo(feedbackSeedBuffer);
+		BlurHFilter.instance().setBlurByPercent(1f, feedbackSeedBuffer.width);
+		BlurHFilter.instance().applyTo(feedbackSeedBuffer);
+		BlurVFilter.instance().setBlurByPercent(1f, feedbackSeedBuffer.height);
+		BlurVFilter.instance().applyTo(feedbackSeedBuffer);
+		ThresholdFilter.instance().applyTo(feedbackSeedBuffer);
+		LeaveWhiteFilter.instance().applyTo(feedbackSeedBuffer);
 		
 		// draw white noise on top of feedback buffer
 		feedbackFinalBuffer.beginDraw();
@@ -77,11 +77,11 @@ extends BaseVideoFilter {
 		feedbackFinalBuffer.endDraw();
 
 		// apply feedback texture to main buffer
-		FeedbackMapFilter.instance(P.p).setMap(noiseTexture.texture());
-		FeedbackMapFilter.instance(P.p).setAmp(0.001f);
-		FeedbackMapFilter.instance(P.p).setBrightnessStep(-4f/255f);
-		FeedbackMapFilter.instance(P.p).setAlphaStep(-2f/255f);
-		for (int i = 0; i < 2; i++) FeedbackMapFilter.instance(P.p).applyTo(feedbackFinalBuffer);
+		FeedbackMapFilter.instance().setMap(noiseTexture.texture());
+		FeedbackMapFilter.instance().setAmp(0.001f);
+		FeedbackMapFilter.instance().setBrightnessStep(-4f/255f);
+		FeedbackMapFilter.instance().setAlphaStep(-2f/255f);
+		for (int i = 0; i < 2; i++) FeedbackMapFilter.instance().applyTo(feedbackFinalBuffer);
 		
 		// draw composite to output buffer
 		destBuffer.beginDraw();

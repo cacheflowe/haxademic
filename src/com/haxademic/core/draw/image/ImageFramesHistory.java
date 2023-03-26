@@ -47,7 +47,17 @@ public class ImageFramesHistory {
 	}
 	
 	public int addFrame(PImage img) {
-	    ImageUtil.cropFillCopyImage(img, getNextBuffer(), true);
+	    return addFrame(img, false);
+	}
+	
+	public int addFrame(PImage img, boolean resetBuffer) {
+	    PGraphics nextBuff = (PGraphics) getNextBuffer();
+	    if(resetBuffer) {
+	        nextBuff.beginDraw();
+	        nextBuff.clear();
+	        nextBuff.endDraw();
+	    }
+	    ImageUtil.cropFillCopyImage(img, nextBuff, true);
 		return frameIndex;
 	}
 	

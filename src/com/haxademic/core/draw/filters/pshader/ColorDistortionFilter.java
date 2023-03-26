@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ColorDistortionFilter
 extends BaseFragmentShader {
 
 	public static ColorDistortionFilter instance;
 	
-	public ColorDistortionFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/color-distortion.glsl");
+	public ColorDistortionFilter() {
+		super("haxademic/shaders/filters/color-distortion.glsl");
 		setAmplitude(1f);
 	}
 	
-	public static ColorDistortionFilter instance(PApplet p) {
+	public static ColorDistortionFilter instance() {
 		if(instance != null) return instance;
-		instance = new ColorDistortionFilter(p);
+		instance = new ColorDistortionFilter();
 		return instance;
 	}
 	

@@ -114,10 +114,10 @@ extends PAppletHax {
 				);
 
 		// zoom/rotate
-		RotateFilter.instance(p).setZoom(1f);
-		RotateFilter.instance(p).setRotation(0.004f);
-		RotateFilter.instance(p).setOffset(0, 0.0f);
-		RotateFilter.instance(p).applyTo(pg);
+		RotateFilter.instance().setZoom(1f);
+		RotateFilter.instance().setRotation(0.004f);
+		RotateFilter.instance().setOffset(0, 0.0f);
+		RotateFilter.instance().applyTo(pg);
 
 		pg.endDraw();
 
@@ -130,10 +130,10 @@ extends PAppletHax {
 		// update buffer array
 		recorder.addFrame(pg);
 		// do some post-processing
-		InvertFilter.instance(p).applyTo(recorder.getCurFrame());
-		EdgesFilter.instance(p).applyTo(recorder.getCurFrame());
-		LeaveWhiteFilter.instance(p).setCrossfade(0.95f);
-		LeaveWhiteFilter.instance(p).applyTo(recorder.getCurFrame());
+		InvertFilter.instance().applyTo(recorder.getCurFrame());
+		EdgesFilter.instance().applyTo(recorder.getCurFrame());
+		LeaveWhiteFilter.instance().setCrossfade(0.95f);
+		LeaveWhiteFilter.instance().applyTo(recorder.getCurFrame());
 		
 		// show debug frames
 		DebugView.setTexture("recorder", recorder.getCurFrame());

@@ -47,7 +47,7 @@ extends PAppletHax {
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-mapped-shader.txt") );
 		
 		// load a shader
-		textureShader = new TextureShader(TextureShader.cacheflowe_concentric_plasma);
+		textureShader = new TextureShader(TextureShader.cacheflowe_squound_tunnel);
 	}
 	
 	protected void drawApp() {

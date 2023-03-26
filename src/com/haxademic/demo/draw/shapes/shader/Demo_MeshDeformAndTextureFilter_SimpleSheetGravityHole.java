@@ -61,10 +61,10 @@ extends PAppletHax {
 		for (float i = 0; i < iter; i++) {
 			// radial gradient
 			Gradients.radial(displaceTexture, displaceTexture.width * 1/iter * i, displaceTexture.height * 1/iter * i, p.color(50), p.color(0), 100);
-			BlurVFilter.instance(p).setBlurByPercent(1, displaceTexture.width);
-			BlurVFilter.instance(p).applyTo(displaceTexture);
-			BlurHFilter.instance(p).setBlurByPercent(1, displaceTexture.width);
-			BlurHFilter.instance(p).applyTo(displaceTexture);
+			BlurVFilter.instance().setBlurByPercent(1, displaceTexture.width);
+			BlurVFilter.instance().applyTo(displaceTexture);
+			BlurHFilter.instance().setBlurByPercent(1, displaceTexture.width);
+			BlurHFilter.instance().applyTo(displaceTexture);
 		}
 		iter = 60f;
 		for (float i = 0; i < iter; i++) {
@@ -82,10 +82,10 @@ extends PAppletHax {
 		PG.basicCameraFromMouse(p.g);
 
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displaceTexture);
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(300f + 300f * P.sin(p.frameCount * 0.05f));
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(displaceTexture);
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(300f + 300f * P.sin(p.frameCount * 0.05f));
+		MeshDeformAndTextureFilter.instance().setSheetMode(true);
+		MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 		// draw mesh
 		p.shape(shape);

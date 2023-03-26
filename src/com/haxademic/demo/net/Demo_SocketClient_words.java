@@ -106,12 +106,12 @@ extends Demo_SocketClient {
 	
 	protected void drawPattern() {
 //		PG.feedback(pg, -1);
-		BrightnessStepFilter.instance(p).setBrightnessStep(-0.005f);
-		BrightnessStepFilter.instance(p).applyTo(pg);
+		BrightnessStepFilter.instance().setBrightnessStep(-0.005f);
+		BrightnessStepFilter.instance().applyTo(pg);
 		
 		// do feedback
-		FeedbackRadialFilter.instance(p).setAmp(feedbackAmpLerp.value());
-		FeedbackRadialFilter.instance(p).applyTo(pg);
+		FeedbackRadialFilter.instance().setAmp(feedbackAmpLerp.value());
+		FeedbackRadialFilter.instance().applyTo(pg);
 
 		// remove non-letter characters if they're not in our pattern database
 		while(letterQueue.length() > 0 && charCodes.containsKey(letterQueue.substring(0, 1)) == false) {
@@ -171,18 +171,18 @@ extends Demo_SocketClient {
 	
 	protected void drawText() {
 		// do feedback
-		FeedbackRadialFilter.instance(p).setAmp(0.1f);
-		FeedbackRadialFilter.instance(p).applyTo(pg);
-//		FeedbackMapFilter.instance(p).setMap(simplexNoise.texture());
-//		FeedbackMapFilter.instance(p).setAmp(0.001f);
-//		FeedbackMapFilter.instance(p).setBrightnessStep(-0.001f);
-////		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
-////		FeedbackMapFilter.instance(p).setRadiansStart(UI.value(feedbackRadiansStart));
-////		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
-//		FeedbackMapFilter.instance(p).applyTo(pg);
+		FeedbackRadialFilter.instance().setAmp(0.1f);
+		FeedbackRadialFilter.instance().applyTo(pg);
+//		FeedbackMapFilter.instance().setMap(simplexNoise.texture());
+//		FeedbackMapFilter.instance().setAmp(0.001f);
+//		FeedbackMapFilter.instance().setBrightnessStep(-0.001f);
+////		FeedbackMapFilter.instance().setAlphaStep(UI.value(feedbackAlphaStep));
+////		FeedbackMapFilter.instance().setRadiansStart(UI.value(feedbackRadiansStart));
+////		FeedbackMapFilter.instance().setRadiansRange(UI.value(feedbackRadiansRange));
+//		FeedbackMapFilter.instance().applyTo(pg);
 		
-		BrightnessStepFilter.instance(p).setBrightnessStep(-0.001f);
-		BrightnessStepFilter.instance(p).applyTo(pg);
+		BrightnessStepFilter.instance().setBrightnessStep(-0.001f);
+		BrightnessStepFilter.instance().applyTo(pg);
 		
 		// only draw words one frame at a time
 		if(curWord == null) return;

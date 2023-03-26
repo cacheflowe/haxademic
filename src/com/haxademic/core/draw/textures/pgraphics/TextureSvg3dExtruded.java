@@ -143,9 +143,9 @@ extends BaseTexture {
 		float scaleToTex = MathUtil.scaleToTarget(svg.height, shapeHeight);
 		PGraphics shapeTextureTemp = ImageUtil.shapeToGraphics(svg, scaleToTex);
 		PGraphics shapeTexture = ImageUtil.shapeToGraphics(svg, scaleToTex);
-		BlurProcessingFilter.instance(P.p).setBlurSize(4);
-		BlurProcessingFilter.instance(P.p).setSigma(3);
-		BlurProcessingFilter.instance(P.p).applyTo(shapeTexture);
+		BlurProcessingFilter.instance().setBlurSize(4);
+		BlurProcessingFilter.instance().setSigma(3);
+		BlurProcessingFilter.instance().applyTo(shapeTexture);
 		shapeTexture.beginDraw();
 		shapeTexture.background(255);
 		shapeTexture.image(shapeTextureTemp, 0, 0);
@@ -186,19 +186,19 @@ extends BaseTexture {
 //		case AudioTriangles:
 			audioTexture.update();
 			// add slight bit of original texture
-			BlendTowardsTexture.instance(P.p).setBlendLerp(0.5f);
-			BlendTowardsTexture.instance(P.p).setSourceTexture(curMeshTexture);
-			BlendTowardsTexture.instance(P.p).applyTo(audioTexture.texture());
+			BlendTowardsTexture.instance().setBlendLerp(0.5f);
+			BlendTowardsTexture.instance().setSourceTexture(curMeshTexture);
+			BlendTowardsTexture.instance().applyTo(audioTexture.texture());
 			break;
 		case Points:
 		case Displacement2d:
 			audioTexture.update();
 			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.025f);
 			audioTexture.texture().filter(noiseTexture.shader());
-			ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());
-			ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
-			ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
-			ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
+			ColorizeFilter.instance().setTargetR(_colorEase.rNorm());
+			ColorizeFilter.instance().setTargetG(_colorEase.gNorm());
+			ColorizeFilter.instance().setTargetB(_colorEase.bNorm());
+			ColorizeFilter.instance().applyTo(audioTexture.texture());
 			break;
 		default:
 			break;
@@ -273,10 +273,10 @@ extends BaseTexture {
 			_texture.shape(logo3d);
 //			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
 			// post-process wobble
-			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
-			DisplacementMapFilter.instance(P.p).setAmp(0.15f * AudioIn.audioFreq(100));
-			DisplacementMapFilter.instance(P.p).setMode(3);
-			DisplacementMapFilter.instance(P.p).applyTo(_texture);
+			DisplacementMapFilter.instance().setMap(audioTexture.texture());
+			DisplacementMapFilter.instance().setAmp(0.15f * AudioIn.audioFreq(100));
+			DisplacementMapFilter.instance().setMode(3);
+			DisplacementMapFilter.instance().applyTo(_texture);
 			break;
 		case Points:
 //			P.println("Switch displacement to vertex shader");
@@ -285,14 +285,14 @@ extends BaseTexture {
 			
 			// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
 			// apply points deform/texture shader
-			PointsDeformAndTextureFilter.instance(P.p).setColorMap(meshTextures[0]);
-			PointsDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
-			PointsDeformAndTextureFilter.instance(P.p).setMaxPointSize(1.f);
-			PointsDeformAndTextureFilter.instance(P.p).setModelMaxExtent(logoPointsExtent * 2.01f);	// texture mapping UV
-			PointsDeformAndTextureFilter.instance(P.p).setDisplaceAmp(50f);			// multiplied by obj extent
-			PointsDeformAndTextureFilter.instance(P.p).setSheetMode(true);
-//			PointsDeformAndTextureFilter.instance(P.p).setSheetMode(false);
-			PointsDeformAndTextureFilter.instance(P.p).setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
+			PointsDeformAndTextureFilter.instance().setColorMap(meshTextures[0]);
+			PointsDeformAndTextureFilter.instance().setDisplacementMap(audioTexture.texture());
+			PointsDeformAndTextureFilter.instance().setMaxPointSize(1.f);
+			PointsDeformAndTextureFilter.instance().setModelMaxExtent(logoPointsExtent * 2.01f);	// texture mapping UV
+			PointsDeformAndTextureFilter.instance().setDisplaceAmp(50f);			// multiplied by obj extent
+			PointsDeformAndTextureFilter.instance().setSheetMode(true);
+//			PointsDeformAndTextureFilter.instance().setSheetMode(false);
+			PointsDeformAndTextureFilter.instance().setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
 			_texture.noLights();
 //			logoPoints.setTexture(audioTexture.texture());
 //			_texture.shape(obj);
@@ -305,17 +305,17 @@ extends BaseTexture {
 				_texture.pushMatrix();
 				_texture.strokeWeight(2f - thickSpacing * i);
 				_texture.translate(0, 0, numLayers/2f * spacing - spacing * i);
-				PointsDeformAndTextureFilter.instance(P.p).applyTo(_texture);
+				PointsDeformAndTextureFilter.instance().setOnContext(_texture);
 				_texture.shape(logoPoints);
 				_texture.resetShader();
 				_texture.popMatrix();
 			}
 			
 			// post-process wobble
-//			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
-//			DisplacementMapFilter.instance(P.p).setAmp(0.15f * AudioIn.audioFreq(100));
-//			DisplacementMapFilter.instance(P.p).setMode(3);
-//			DisplacementMapFilter.instance(P.p).applyTo(_texture);
+//			DisplacementMapFilter.instance().setMap(audioTexture.texture());
+//			DisplacementMapFilter.instance().setAmp(0.15f * AudioIn.audioFreq(100));
+//			DisplacementMapFilter.instance().setMode(3);
+//			DisplacementMapFilter.instance().applyTo(_texture);
 
 			break;
 //		case TextureRepeat:
@@ -346,9 +346,9 @@ extends BaseTexture {
 		// post-processing
 		rotateZoom.update(true);
 		rotateRot.update(true);
-		RotateFilter.instance(P.p).setZoom(rotateZoom.value());
-		RotateFilter.instance(P.p).setRotation(rotateRot.value());
-		RotateFilter.instance(P.p).applyTo(_texture);
+		RotateFilter.instance().setZoom(rotateZoom.value());
+		RotateFilter.instance().setRotation(rotateRot.value());
+		RotateFilter.instance().applyTo(_texture);
 		
 		// black to transparent
 		if(drawMode == DrawMode.Displacement2d) {

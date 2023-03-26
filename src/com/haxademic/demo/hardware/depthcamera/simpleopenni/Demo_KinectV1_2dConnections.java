@@ -211,7 +211,7 @@ extends PAppletHax {
 		
 		// draw triangles
 		Triangle3D tri = new Triangle3D(point1, point2, point3); 
-		Toxiclibs.instance(p).toxi.triangle( tri );
+		Toxiclibs.instance(P.p).toxi.triangle( tri );
 
 		// draw mesh
 //		WETriangleMesh mesh = new WETriangleMesh();

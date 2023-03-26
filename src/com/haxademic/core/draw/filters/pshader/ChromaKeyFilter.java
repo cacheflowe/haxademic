@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ChromaKeyFilter
 extends BaseFragmentShader {
 
 	public static ChromaKeyFilter instance;
 	
-	public ChromaKeyFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/chroma-gpu.glsl");
+	public ChromaKeyFilter() {
+		super("haxademic/shaders/filters/chroma-gpu.glsl");
 		setSpeed(1f);
 		setStrength(0.001f);
 		setSize(100f);
 	}
 	
-	public static ChromaKeyFilter instance(PApplet p) {
+	public static ChromaKeyFilter instance() {
 		if(instance != null) return instance;
-		instance = new ChromaKeyFilter(p);
+		instance = new ChromaKeyFilter();
 		return instance;
 	}
 	

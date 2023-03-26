@@ -1,8 +1,7 @@
 package com.haxademic.core.draw.filters.pgraphics.shared;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
@@ -24,8 +23,8 @@ public class BaseVideoFilter {
 	public BaseVideoFilter(int width, int height, PGraphics sourceBuffer) {
 		this.width = width;
 		this.height = height;
-		this.sourceBuffer = (sourceBuffer != null) ? sourceBuffer : P.p.createGraphics(width, height, PRenderers.P3D);
-		destBuffer = P.p.createGraphics(width, height, PRenderers.P3D);
+		this.sourceBuffer = (sourceBuffer != null) ? sourceBuffer : PG.newPG(width, height);
+		destBuffer = PG.newPG(width, height);
 	}
 	
 	public PGraphics image() {

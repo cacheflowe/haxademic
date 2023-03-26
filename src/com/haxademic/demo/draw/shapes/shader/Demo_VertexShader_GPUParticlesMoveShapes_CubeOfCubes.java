@@ -158,23 +158,23 @@ extends PAppletHax {
 		// post fx
 
 		/*
-		ToneMappingFilter.instance(P.p).setMode(1);
-		ToneMappingFilter.instance(P.p).setGamma(1.75f);
-		ToneMappingFilter.instance(P.p).setCrossfade(1f);
-		ToneMappingFilter.instance(P.p).applyTo(p.g);
+		ToneMappingFilter.instance().setMode(1);
+		ToneMappingFilter.instance().setGamma(1.75f);
+		ToneMappingFilter.instance().setCrossfade(1f);
+		ToneMappingFilter.instance().applyTo(p.g);
 		
 		// add some saturation back in
-		SaturationFilter.instance(p).setSaturation(1.1f);
-		SaturationFilter.instance(p).applyTo(p.g);
-		ContrastFilter.instance(p).setContrast(1.1f);
-		ContrastFilter.instance(p).applyTo(p.g);
+		SaturationFilter.instance().setSaturation(1.1f);
+		SaturationFilter.instance().applyTo(p.g);
+		ContrastFilter.instance().setContrast(1.1f);
+		ContrastFilter.instance().applyTo(p.g);
 		
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.12f);
-		GrainFilter.instance(p).applyTo(p.g);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.12f);
+		GrainFilter.instance().applyTo(p.g);
 
-		VignetteFilter.instance(p).setDarkness(0.5f);
-		VignetteFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.5f);
+		VignetteFilter.instance().applyTo(p.g);
 		 */
 	}
 	

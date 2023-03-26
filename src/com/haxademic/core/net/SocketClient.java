@@ -8,13 +8,13 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 
 import processing.data.JSONObject;
 
 //create a separate thread for the server not to freeze/interfere with Processing's default animation thread
 public class SocketClient {
 		
-	public static boolean DEBUG = false;
 	protected WebSocketClient client;
 	protected ISocketClientDelegate delegate;
 	public String serverAddress;// = "ws://xxx.xxx.xxx.xxx:8887";
@@ -26,7 +26,7 @@ public class SocketClient {
 	public static int RECONNECT_TIME = 1000 * 60;
 	
 	public SocketClient(String serverAddress, ISocketClientDelegate delegate, boolean debug) {
-		SocketClient.DEBUG = debug;
+	    SOCKET_DEBUG = debug;
 		this.serverAddress = (serverAddress != null) ? serverAddress : localSocketServerAddress();
 		this.delegate = delegate;
 		P.p.registerMethod("pre", this);
@@ -47,13 +47,13 @@ public class SocketClient {
 			client = new WebSocketClient( new URI( serverAddress ), new Draft_6455() ) {
 				@Override
 				public void onMessage( String message ) {
-					if(SOCKET_DEBUG == true) P.println("onMessage: "+message);
+					if(SOCKET_DEBUG == true) P.out("onMessage: "+message);
 					if(delegate != null) delegate.messageReceived(message);
 				}
 
 				@Override
 				public void onOpen( ServerHandshake handshake ) {
-					if(SOCKET_DEBUG == true) P.println( "opened connection" );
+					if(SOCKET_DEBUG == true) P.out( "opened connection" );
 					if(delegate != null) delegate.socketConnected("self");
 					JSONObject jsonOut = new JSONObject();
 					jsonOut.setString("event", "SocketClient: opened connection");
@@ -63,12 +63,12 @@ public class SocketClient {
 				@Override
 				public void onClose( int code, String reason, boolean remote ) {
 					if(delegate != null) delegate.socketDisconnected("self");
-					if(SOCKET_DEBUG == true) P.println( "closed connection" );
+					if(SOCKET_DEBUG == true) P.out( "closed connection:", code, reason, remote );
 				}
 
 				@Override
 				public void onError( Exception ex ) {
-					if(SOCKET_DEBUG == true) P.println( "connection error", ex.getMessage() );
+					if(SOCKET_DEBUG == true) P.out( "connection error", ex.getMessage() );
 					ex.printStackTrace();
 				}
 			};
@@ -95,13 +95,13 @@ public class SocketClient {
 	public void sendMessage(String message) {
 		if(isConnected() == false) return;
 		client.send(message);
-		if(SOCKET_DEBUG == true) P.println("sent message: "+message);
+		if(SOCKET_DEBUG == true) P.out("sent message: "+message);
 	}
 	
 	protected void checkConnection() {
 		if(isConnected() == false) {
 			if(P.p.millis() - lastConnectAttemptTime > RECONNECT_TIME) {
-				if(SOCKET_DEBUG == true) P.println("Attempting to reconnect to Websocket");
+				if(SOCKET_DEBUG == true) P.out("Attempting to reconnect to Websocket");
 				new Thread(new Runnable() { public void run() {
 					if(client != null) {
 						try {

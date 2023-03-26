@@ -86,17 +86,17 @@ implements IWebCamCallback {
 		ImageUtil.flipH(audioBufferPG);
 		
 		for (int i = 0; i < 5; i++) {			
-			BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 1f, pg.width);
-			BlurHFilter.instance(p).applyTo(audioBufferPG);
-			BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 1f, pg.height);
-			BlurVFilter.instance(p).applyTo(audioBufferPG);
+			BlurHFilter.instance().setBlurByPercent(Mouse.xNorm * 1f, pg.width);
+			BlurHFilter.instance().applyTo(audioBufferPG);
+			BlurVFilter.instance().setBlurByPercent(Mouse.yNorm * 1f, pg.height);
+			BlurVFilter.instance().applyTo(audioBufferPG);
 		}
-		ContrastFilter.instance(p).setContrast(1.9f);
-		ContrastFilter.instance(p).applyTo(audioBufferPG);
+		ContrastFilter.instance().setContrast(1.9f);
+		ContrastFilter.instance().applyTo(audioBufferPG);
 
-		BlendTowardsTexture.instance(p).setSourceTexture(audioBufferPG);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.2f);
-		BlendTowardsTexture.instance(p).applyTo(audioBufferLerped);
+		BlendTowardsTexture.instance().setSourceTexture(audioBufferPG);
+		BlendTowardsTexture.instance().setBlendLerp(0.2f);
+		BlendTowardsTexture.instance().applyTo(audioBufferLerped);
 		DebugView.setTexture("audioBufferPG", audioBufferPG);
 		DebugView.setTexture("audioBufferLerped", audioBufferLerped);
 		

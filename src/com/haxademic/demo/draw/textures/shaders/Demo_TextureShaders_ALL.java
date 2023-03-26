@@ -143,11 +143,17 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		if(triggerPrev.triggered()) textureIndex = (textureIndex > 0) ? textureIndex - 1 : textures.length - 1;
 		if(triggerNext.triggered()) textureIndex = (textureIndex < textures.length - 1) ? textureIndex + 1 : 0;
 
-		// run cur shader
+		// run cur shader & draw to screen
 		TextureShader curShader = textures[textureIndex];
 		curShader.setTimeMult(Mouse.xNorm * 0.07f);
 		curShader.updateTime();
-		p.filter(curShader.shader());
+		
+		pg.beginDraw();
+		pg.background(0);
+		pg.filter(curShader.shader());
+		pg.endDraw();
+		
+		p.image(pg, 0, 0);
 		
 		// specific controls - refactor this into shader subclasses
 		if(curShader.shaderPath().equals(TextureShader.cacheflowe_concentric_rectwist)) {

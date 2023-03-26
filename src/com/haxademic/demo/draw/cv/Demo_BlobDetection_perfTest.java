@@ -67,11 +67,11 @@ extends PAppletHax {
 		// copy & blur source image
 		ImageUtil.copyImage(source, blobBufferGraphics);
 		float shaderBlurAmount = 1f;
-		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blobBufferGraphics.width);
-		BlurVFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blobBufferGraphics.width);
+		BlurHFilter.instance().setBlurByPercent(shaderBlurAmount, blobBufferGraphics.width);
+		BlurVFilter.instance().setBlurByPercent(shaderBlurAmount, blobBufferGraphics.width);
 		for (int i = 0; i < 2; i++) {
-			BlurHFilter.instance(P.p).applyTo(blobBufferGraphics);
-			BlurVFilter.instance(P.p).applyTo(blobBufferGraphics);
+			BlurHFilter.instance().applyTo(blobBufferGraphics);
+			BlurVFilter.instance().applyTo(blobBufferGraphics);
 		}
 		
 		// send pixels data to algorithm

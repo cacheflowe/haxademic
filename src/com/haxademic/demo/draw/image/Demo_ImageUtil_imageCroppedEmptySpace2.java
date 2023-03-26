@@ -1,7 +1,6 @@
 
 package com.haxademic.demo.draw.image;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -27,7 +26,7 @@ extends PAppletHax {
 	}
 
 	public void setup()	{
-		croppedTextResult = p.createImage(128, 128, P.ARGB);
+		croppedTextResult = ImageUtil.newImage(128, 128);
 		
 		int fontSize = 200;
 		fitText = new FitTextSourceBuffer(DemoAssets.fontDSEG7(fontSize), p.color(255));
@@ -51,7 +50,9 @@ extends PAppletHax {
 		String str = RandomStringUtil.randomStringOfLength(MathUtil.randRange(3, 10), RandomStringUtil.ALPHANUMERIC);
 		fitText.updateText(str);
 		// ImageUtil.imageCroppedEmptySpace(fitText.buffer(), croppedTextResult, ImageUtil.BLACK_INT, true); // EMPTY_INT
-		ImageUtil.imageCroppedEmptySpace(fitText.buffer(), croppedTextResult, ImageUtil.EMPTY_INT, false, new int[] {20, 20, 20, 20}, new int[] {0, 0, 0, 0}, p.color(0)); // EMPTY_INT
+		int[] padding = new int[] {20, 20, 20, 20};
+		int[] cropIn = new int[] {0, 0, 0, 0};
+		ImageUtil.imageCroppedEmptySpace(fitText.buffer(), croppedTextResult, ImageUtil.EMPTY_INT, false, padding, cropIn, p.color(0)); // EMPTY_INT
 	}
 
 }

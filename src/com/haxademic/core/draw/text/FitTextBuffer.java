@@ -19,7 +19,7 @@ public class FitTextBuffer {
 		this.font = font;
 		this.color = color;
 		sourceBuffer = PG.newPG(2048, P.ceil(font.getSize() * 1.4f));
-		croppedText = P.p.createImage(16, 16, P.ARGB);
+		croppedText = ImageUtil.newImage(16, 16);
 	}
 	
 	public PGraphics source() {

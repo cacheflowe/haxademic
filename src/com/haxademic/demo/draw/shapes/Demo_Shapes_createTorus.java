@@ -70,12 +70,12 @@ extends PAppletHax {
 			texture.rect(i, 0, 8, texture.height);
 		}
 		texture.endDraw();
-		RepeatFilter.instance(p).setOffset(FrameLoop.progress() * -0.1f, 0);
-//		RepeatFilter.instance(p).applyTo(texture);
-		FeedbackRadialFilter.instance(p).setMultY(0);
-		FeedbackRadialFilter.instance(p).setAmp(0.05f);
-//		FeedbackRadialFilter.instance(p).applyTo(texture);
-//		MirrorQuadFilter.instance(p).applyTo(texture);
+		RepeatFilter.instance().setOffset(FrameLoop.progress() * -0.1f, 0);
+//		RepeatFilter.instance().applyTo(texture);
+		FeedbackRadialFilter.instance().setMultY(0);
+		FeedbackRadialFilter.instance().setAmp(0.05f);
+//		FeedbackRadialFilter.instance().applyTo(texture);
+//		MirrorQuadFilter.instance().applyTo(texture);
 //		ImageUtil.copyImage(DemoAssets.textureNebula(), texture);
 		
 		PG.setCenterScreen(p.g);
@@ -107,10 +107,10 @@ extends PAppletHax {
 //		p.noStroke();
 	
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(DemoAssets.textureNebula());
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.01f);
-		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
-//		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(DemoAssets.textureNebula());
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(0.01f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(false);
+//		MeshDeformAndTextureFilter.instance().applyTo(p);
 
 		// draw mesh
 //		p.shape(shape);
@@ -118,16 +118,16 @@ extends PAppletHax {
 		p.resetShader();
 		
 		// postprocessing
-		VignetteFilter.instance(p).setDarkness(0.75f);
-		VignetteFilter.instance(p).setSpread(0.2f);
-		VignetteFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.75f);
+		VignetteFilter.instance().setSpread(0.2f);
+		VignetteFilter.instance().applyTo(p.g);
 
-		GrainFilter.instance(p).setTime(p.frameCount * 0.02f);
-		GrainFilter.instance(p).setCrossfade(0.02f);
-//		GrainFilter.instance(p).applyTo(p.g);
+		GrainFilter.instance().setTime(p.frameCount * 0.02f);
+		GrainFilter.instance().setCrossfade(0.02f);
+//		GrainFilter.instance().applyTo(p.g);
 		
-		CubicLensDistortionFilter.instance(p).setAmplitude(-2f);
-//		CubicLensDistortionFilter.instance(p).applyTo(p.g);
+		CubicLensDistortionFilter.instance().setAmplitude(-2f);
+//		CubicLensDistortionFilter.instance().applyTo(p.g);
 	}
 
 }

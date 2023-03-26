@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ColorCorrectionFilter
 extends BaseFragmentShader {
 
 	public static ColorCorrectionFilter instance;
 	
-	public ColorCorrectionFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/color-correction.glsl");
+	public ColorCorrectionFilter() {
+		super("haxademic/shaders/filters/color-correction.glsl");
 		setBrightness(0f);
 		setContrast(1f);
 		setGamma(1f);
 	}
 	
-	public static ColorCorrectionFilter instance(PApplet p) {
+	public static ColorCorrectionFilter instance() {
 		if(instance != null) return instance;
-		instance = new ColorCorrectionFilter(p);
+		instance = new ColorCorrectionFilter();
 		return instance;
 	}
 	

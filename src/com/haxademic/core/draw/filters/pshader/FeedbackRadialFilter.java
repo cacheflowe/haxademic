@@ -2,15 +2,13 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class FeedbackRadialFilter
 extends BaseFragmentShader {
 
 	public static FeedbackRadialFilter instance;
 	
-	public FeedbackRadialFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/feedback-radial.glsl");
+	public FeedbackRadialFilter() {
+		super("haxademic/shaders/filters/feedback-radial.glsl");
 		setAmp(1f);
 		setSampleMult(1f);
 		setWaveAmp(1f);
@@ -18,9 +16,9 @@ extends BaseFragmentShader {
 		setAlphaMult(1f);
 	}
 	
-	public static FeedbackRadialFilter instance(PApplet p) {
+	public static FeedbackRadialFilter instance() {
 		if(instance != null) return instance;
-		instance = new FeedbackRadialFilter(p);
+		instance = new FeedbackRadialFilter();
 		return instance;
 	}
 	

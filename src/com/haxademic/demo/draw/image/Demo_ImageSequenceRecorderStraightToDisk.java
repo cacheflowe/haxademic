@@ -107,8 +107,8 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 		
 		// add desaturated copy
 		ImageUtil.copyImageFlipH(frame, camBufferDesaturated);
-		SaturationFilter.instance(p).setSaturation(0);
-		SaturationFilter.instance(p).applyTo(camBufferDesaturated);
+		SaturationFilter.instance().setSaturation(0);
+		SaturationFilter.instance().applyTo(camBufferDesaturated);
 	}
 
 	///////////////////////////////////////////

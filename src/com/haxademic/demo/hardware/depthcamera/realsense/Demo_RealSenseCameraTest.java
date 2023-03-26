@@ -61,6 +61,7 @@ extends PAppletHax {
 		camera.enableDepthStream(CAMERA_W, CAMERA_H);
 		camera.enableColorizer(ColorScheme.Cold);
 //		camera.enableIRStream(640, 480, 30);
+//		camera.enableIRStream();
 		camera.enableAlign();
 		camera.start();
 		
@@ -111,7 +112,7 @@ extends PAppletHax {
 		if(IR_ACTIVE) {
 //			if(UI.valueToggle(MIRROR)) ImageUtil.copyImageFlipH(camera.getIRImage(), mirrorRGB);
 			PG.setPImageAlpha(p, 0.6f);
-//			p.image(getRGBImage(), 30, 0);
+			p.image(getRGBImage(), 30, 0);
 			PG.setPImageAlpha(p, 1f);
 		}
 

@@ -3,7 +3,6 @@ package com.haxademic.core.draw.shapes.pshader;
 import com.haxademic.core.draw.shapes.pshader.shared.BaseVertexShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class LinesDeformAndTextureFilter
@@ -16,8 +15,8 @@ extends BaseVertexShader {
 	// use obj.disableStyle() to let vertex shader re-texture 
 	// set p.stroke(255) before calling p.shape(obj)
 	
-	public LinesDeformAndTextureFilter(PApplet p) {
-		super(p, 
+	public LinesDeformAndTextureFilter() {
+		super(
 			"haxademic/shaders/vertex/lines-deform-frag.glsl", 
 			"haxademic/shaders/vertex/lines-deform-vert.glsl"
 		);
@@ -30,9 +29,9 @@ extends BaseVertexShader {
 		setColorThicknessMode(true);
 	}
 	
-	public static LinesDeformAndTextureFilter instance(PApplet p) {
+	public static LinesDeformAndTextureFilter instance() {
 		if(instance != null) return instance;
-		instance = new LinesDeformAndTextureFilter(p);
+		instance = new LinesDeformAndTextureFilter();
 		return instance;
 	}
 		

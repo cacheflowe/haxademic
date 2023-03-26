@@ -45,9 +45,9 @@ extends PAppletHax {
 		
 		// reuse bump map for specular map
 		ImageUtil.copyImage(bumpMap, specMap);
-		BrightnessFilter.instance(p).setBrightness(0.25f);
-		BrightnessFilter.instance(p).applyTo(specMap);
-		for(int i=0; i < 2; i++) BlurProcessingFilter.instance(p).applyTo(specMap);
+		BrightnessFilter.instance().setBrightness(0.25f);
+		BrightnessFilter.instance().applyTo(specMap);
+		for(int i=0; i < 2; i++) BlurProcessingFilter.instance().applyTo(specMap);
 
 		// show in debug
 		DebugView.setTexture("bumpMap", bumpMap);

@@ -82,7 +82,7 @@ extends PAppletHax {
 		textBuffer = PG.newPG(p.width, p.height);
 //		fontBig = p.createFont(FileUtil.getPath("fonts/_sketch/HelveticaNeueLTStd-Blk.ttf"), 150);
 		fontBig = DemoAssets.fontOpenSans(150);
-		textCropped = p.createImage(16, 16, P.ARGB);
+		textCropped = ImageUtil.newImage(16, 16);
 		
 		// draw text
 		textBuffer.beginDraw();
@@ -96,7 +96,9 @@ extends PAppletHax {
 		textBuffer.endDraw();
 		
 		// crop text
-		ImageUtil.imageCroppedEmptySpace(textBuffer, textCropped, ImageUtil.EMPTY_INT, false, new int[] {20, 20, 20, 20}, new int[] {0, 0, 0, 0}, p.color(0, 0));
+		int[] padding = new int[] {20, 20, 20, 20};
+		int[] cropIn = new int[] {0, 0, 0, 0};
+		ImageUtil.imageCroppedEmptySpace(textBuffer, textCropped, ImageUtil.EMPTY_INT, false, padding, cropIn, p.color(0, 0));
 		
 		// create tiled texture
 		tiledImg = new TiledTexture(textCropped);
@@ -145,7 +147,7 @@ extends PAppletHax {
 		p.popMatrix();
 		
 		// post process
-		VignetteFilter.instance(p).applyTo(p);
+		VignetteFilter.instance().applyTo(p);
 	}
 
 }

@@ -75,28 +75,28 @@ public class ColorAdjustmentFilter {
 	public static void applyTo(PGraphics pg, int mode, float gamma, float crossfade, float brightness, float contrast, float sharpen, float saturation) {
 		// tonemapping (mode 0 doesn't do anything)
 		if(mode > 0) {
-			ToneMappingFilter.instance(P.p).setMode(mode);
-			ToneMappingFilter.instance(P.p).setGamma(gamma);
-			ToneMappingFilter.instance(P.p).setCrossfade(crossfade);
-			ToneMappingFilter.instance(P.p).applyTo(pg);
+			ToneMappingFilter.instance().setMode(mode);
+			ToneMappingFilter.instance().setGamma(gamma);
+			ToneMappingFilter.instance().setCrossfade(crossfade);
+			ToneMappingFilter.instance().applyTo(pg);
 		}
 			
 		// extra controls as needed 
 		if(brightness != 1f) {
-			BrightnessFilter.instance(P.p).setBrightness(brightness);
-			BrightnessFilter.instance(P.p).applyTo(pg);
+			BrightnessFilter.instance().setBrightness(brightness);
+			BrightnessFilter.instance().applyTo(pg);
 		}
 		if(contrast != 1f) {
-			ContrastFilter.instance(P.p).setContrast(contrast);
-			ContrastFilter.instance(P.p).applyTo(pg);
+			ContrastFilter.instance().setContrast(contrast);
+			ContrastFilter.instance().applyTo(pg);
 		}
 		if(sharpen != 0) {
-			SharpenFilter.instance(P.p).setSharpness(sharpen);
-			SharpenFilter.instance(P.p).applyTo(pg);
+			SharpenFilter.instance().setSharpness(sharpen);
+			SharpenFilter.instance().applyTo(pg);
 		}
 		if(saturation != 1f) {
-			SaturationFilter.instance(P.p).setSaturation(saturation);
-			SaturationFilter.instance(P.p).applyTo(pg);
+			SaturationFilter.instance().setSaturation(saturation);
+			SaturationFilter.instance().applyTo(pg);
 		}
 	}
 	

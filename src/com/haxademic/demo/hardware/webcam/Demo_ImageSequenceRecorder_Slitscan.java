@@ -64,8 +64,8 @@ implements IWebCamCallback {
 		noiseTexture.shader().set("rotation", 0f, p.frameCount * 0.002f);
 		noiseTexture.shader().set("zoom", 2.f);
 		noiseBuffer.filter(noiseTexture.shader());
-		ContrastFilter.instance(p).setContrast(1.35f);	// weights the time distortion to newest/oldest
-		ContrastFilter.instance(p).applyTo(noiseBuffer);
+		ContrastFilter.instance().setContrast(1.35f);	// weights the time distortion to newest/oldest
+		ContrastFilter.instance().applyTo(noiseBuffer);
 		DebugView.setTexture("noiseBuffer", noiseBuffer);
 		
 		// override map buffer
@@ -99,9 +99,9 @@ implements IWebCamCallback {
 		DebugView.setTexture("slitscanOutputBuffer", slitscanOutputBuffer);
 		
 		// lerp the slitscan to next buffer
-		BlendTowardsTexture.instance(p).setBlendLerp(0.45f);
-		BlendTowardsTexture.instance(p).setSourceTexture(slitscanOutputBuffer);
-		BlendTowardsTexture.instance(p).applyTo(slitscanLerpedBuffer);
+		BlendTowardsTexture.instance().setBlendLerp(0.45f);
+		BlendTowardsTexture.instance().setSourceTexture(slitscanOutputBuffer);
+		BlendTowardsTexture.instance().applyTo(slitscanLerpedBuffer);
 		
 		// draw live webcam
 		p.pushMatrix();
@@ -120,8 +120,8 @@ implements IWebCamCallback {
 		ImageUtil.copyImageFlipH(frame, camBuffer);
 		recorder.addFrame(camBuffer);
 		// do some post-processing
-		SaturationFilter.instance(p).setSaturation(0);
-//		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
+		SaturationFilter.instance().setSaturation(0);
+//		SaturationFilter.instance().applyTo(recorder.getCurFrame());
 		// set debug staus
 		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}

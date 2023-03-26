@@ -38,8 +38,8 @@ extends PAppletHax {
 	protected void drawApp() {
 		// background 
 		p.image(backgroundImg, 0, 0);
-		BadTVLinesFilter.instance(p).setTime(100f+(float)p.frameCount/1000f);
-		BadTVLinesFilter.instance(p).applyTo(p);
+		BadTVLinesFilter.instance().setTime(100f+(float)p.frameCount/1000f);
+		BadTVLinesFilter.instance().applyTo(p);
 		
 		// update waveform texture
 		waveform.beginDraw();

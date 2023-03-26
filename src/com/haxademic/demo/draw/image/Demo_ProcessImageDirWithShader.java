@@ -54,7 +54,7 @@ extends PAppletHax {
 			drawBuffer.beginDraw();
 			drawBuffer.clear();
 			ImageUtil.copyImage(img, drawBuffer);
-			InvertFilter.instance(p).applyTo(drawBuffer);
+			InvertFilter.instance().applyTo(drawBuffer);
 			drawBuffer.endDraw();
 			
 			// save image to output path

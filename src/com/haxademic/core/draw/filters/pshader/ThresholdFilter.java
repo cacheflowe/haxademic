@@ -2,22 +2,20 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ThresholdFilter
 extends BaseFragmentShader {
 
 	public static ThresholdFilter instance;
 	
-	public ThresholdFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/threshold.glsl");
+	public ThresholdFilter() {
+		super("haxademic/shaders/filters/threshold.glsl");
 		setCutoff(0.5f);
 		setCrossfade(1f);
 	}
 	
-	public static ThresholdFilter instance(PApplet p) {
+	public static ThresholdFilter instance() {
 		if(instance != null) return instance;
-		instance = new ThresholdFilter(p);
+		instance = new ThresholdFilter();
 		return instance;
 	}
 

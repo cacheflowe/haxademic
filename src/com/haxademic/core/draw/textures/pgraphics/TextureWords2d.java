@@ -56,12 +56,12 @@ extends BaseTexture {
 
 	public void updateDraw() {
 		// feedback alpha fade
-		FeedbackRadialFilter.instance(P.p).setAmp(1f / 255f);
-		FeedbackRadialFilter.instance(P.p).setSampleMult(0.93f);
-		FeedbackRadialFilter.instance(P.p).setWaveAmp(0f);
-		FeedbackRadialFilter.instance(P.p).setWaveFreq(0f);
-		FeedbackRadialFilter.instance(P.p).setAlphaMult(0.94f);
-		FeedbackRadialFilter.instance(P.p).applyTo(_texture);
+		FeedbackRadialFilter.instance().setAmp(1f / 255f);
+		FeedbackRadialFilter.instance().setSampleMult(0.93f);
+		FeedbackRadialFilter.instance().setWaveAmp(0f);
+		FeedbackRadialFilter.instance().setWaveFreq(0f);
+		FeedbackRadialFilter.instance().setAlphaMult(0.94f);
+		FeedbackRadialFilter.instance().applyTo(_texture);
 
 		// draw text
 		showFrameCount = 50;

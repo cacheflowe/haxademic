@@ -2,24 +2,22 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class EdgeColorFadeFilter
 extends BaseFragmentShader {
 
 	public static EdgeColorFadeFilter instance;
 	
-	public EdgeColorFadeFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/edge-color-fade.glsl");
+	public EdgeColorFadeFilter() {
+		super("haxademic/shaders/filters/edge-color-fade.glsl");
 		setSpreadX(0.05f);
 		setSpreadY(0.05f);
 		setEdgeColor(1f, 1f, 1f);
 		setCrossfade(1f);
 	}
 	
-	public static EdgeColorFadeFilter instance(PApplet p) {
+	public static EdgeColorFadeFilter instance() {
 		if(instance != null) return instance;
-		instance = new EdgeColorFadeFilter(p);
+		instance = new EdgeColorFadeFilter();
 		return instance;
 	}
 

@@ -2,15 +2,13 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class GlitchImageGlitcherFilter
 extends BaseFragmentShader {
 
 	public static GlitchImageGlitcherFilter instance;
 	
-	public GlitchImageGlitcherFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/glitch-imageglitcher.glsl");
+	public GlitchImageGlitcherFilter() {
+		super("haxademic/shaders/filters/glitch-imageglitcher.glsl");
 		setColorSeparation(true);
 		setAmp(1f);
 		setCrossfade(1f);
@@ -19,9 +17,9 @@ extends BaseFragmentShader {
 		setNumSlices(10.0f);
 	}
 	
-	public static GlitchImageGlitcherFilter instance(PApplet p) {
+	public static GlitchImageGlitcherFilter instance() {
 		if(instance != null) return instance;
-		instance = new GlitchImageGlitcherFilter(p);
+		instance = new GlitchImageGlitcherFilter();
 		return instance;
 	}
 	

@@ -1,5 +1,7 @@
 package com.haxademic.core.hardware.serial;
 
+import java.util.Arrays;
+
 import com.haxademic.core.app.P;
 
 import processing.serial.Serial;
@@ -16,7 +18,7 @@ public class SerialDevice {
 	
 	// hardware connection
 	protected ISerialDeviceDelegate delegate = null;
-	protected int serialPortIndex = 0;
+	protected String serialDeviceName;
 	protected int baudRate = 9600;
 
 	protected Serial device;
@@ -30,17 +32,31 @@ public class SerialDevice {
 	protected SerialReader reader;
 	protected Thread serailReadThread;
 	protected Boolean readThreadBusy = false;
-	
 	protected Boolean writeThreadBusy = false;
 	
 
 	public SerialDevice(ISerialDeviceDelegate delegate, int serialPortIndex, int baudRate) {
-		this.delegate = delegate;
-		this.serialPortIndex = serialPortIndex;
-		this.baudRate = baudRate;
-		
-		initSerialDevice();
-		P.p.registerMethod("post", this);
+		this(delegate, Serial.list()[serialPortIndex], baudRate);
+	}
+	
+	public SerialDevice(ISerialDeviceDelegate delegate, String serialDeviceName, int baudRate) {
+	    this.delegate = delegate;
+	    this.serialDeviceName = serialDeviceName;
+	    this.baudRate = baudRate;
+	    
+	    // init device
+        if(deviceExists(serialDeviceName)) {
+            device = new Serial(P.p, serialDeviceName, baudRate); 
+            device.clear();
+            // Throw out the first reading, in case we started reading in the middle of a string from the sender.
+            device.readStringUntil(cr);
+            P.out("SerialDevice.initSerialDevice() complete!");
+        } else {
+            P.error("Couldn't find SerialDevice:", serialDeviceName);
+        }
+
+        // listen for frame loop
+        P.p.registerMethod("post", this);
 	}
 	
 	public static void printDevices() {
@@ -50,14 +66,8 @@ public class SerialDevice {
 		}
 	}
 
-	protected void initSerialDevice() {
-		if(serialPortIndex < Serial.list().length) {
-			device = new Serial(P.p, Serial.list()[serialPortIndex], baudRate); 
-			device.clear();
-			// Throw out the first reading, in case we started reading in the middle of a string from the sender.
-			device.readStringUntil(cr);
-			P.out("SerialDevice.initSerialDevice() complete!");
-		}
+	public static boolean deviceExists(String deviceName) {
+	    return Arrays.asList(Serial.list()).contains(deviceName);
 	}
 	
 	// getters

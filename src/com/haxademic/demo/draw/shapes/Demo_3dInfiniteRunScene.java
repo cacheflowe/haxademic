@@ -128,20 +128,20 @@ extends PAppletHax {
 
 	
 	protected void postProcessStage() {
-		ToneMappingFilter.instance(P.p).setMode(1);
-		ToneMappingFilter.instance(P.p).setGamma(2.2f);
-		ToneMappingFilter.instance(P.p).setCrossfade(1f);
-		ToneMappingFilter.instance(P.p).applyTo(p.g);
+		ToneMappingFilter.instance().setMode(1);
+		ToneMappingFilter.instance().setGamma(2.2f);
+		ToneMappingFilter.instance().setCrossfade(1f);
+		ToneMappingFilter.instance().applyTo(p.g);
 
-		RadialFlareFilter.instance(p).setImageBrightness(12f);
-		RadialFlareFilter.instance(p).setFlareBrightness(2f);
-		RadialFlareFilter.instance(p).applyTo(p.g);
+		RadialFlareFilter.instance().setImageBrightness(12f);
+		RadialFlareFilter.instance().setFlareBrightness(2f);
+		RadialFlareFilter.instance().applyTo(p.g);
 		
-		VignetteFilter.instance(p).setDarkness(0.8f);
-		VignetteFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.8f);
+		VignetteFilter.instance().applyTo(p.g);
 		
-		DitherFilter.instance(P.p).setDitherMode8x8();
-		DitherFilter.instance(P.p).applyTo(p.g);
+		DitherFilter.instance().setDitherMode8x8();
+		DitherFilter.instance().applyTo(p.g);
 	}
 	
 	public class Ground {

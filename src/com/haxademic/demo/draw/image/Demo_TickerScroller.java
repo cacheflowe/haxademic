@@ -45,8 +45,8 @@ extends PAppletHax {
 		ticker.update();
 		
 		// post-process blur for speed effect
-		BlurHFilter.instance(p).setBlurByPercent(speed / 3f, ticker.image().width);
-		BlurHFilter.instance(p).applyTo(ticker.buffer());
+		BlurHFilter.instance().setBlurByPercent(speed / 3f, ticker.image().width);
+		BlurHFilter.instance().applyTo(ticker.buffer());
 
 		// draw to screen
 		p.image(ticker.image(), 0, 0);

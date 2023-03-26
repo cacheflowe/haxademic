@@ -3,7 +3,6 @@ package com.haxademic.core.draw.text;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -15,7 +14,7 @@ public class FontCacher {
 	public static PFont getFont(String fontPath, float fontSize) {
 		String key = fontPath + "-" + fontSize;
 		if(fonts.containsKey(key) == false) {
-			fonts.put(key, P.p.createFont(FileUtil.getPath(fontPath), fontSize));
+			fonts.put(key, P.p.createFont(P.path(fontPath), fontSize));
 		}
 		return fonts.get(key);
 	}

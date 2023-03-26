@@ -19,11 +19,10 @@ extends PAppletHax {
 	protected ImageFramesHistory recorder;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1000 );
-		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.WIDTH, 1920 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
-		Config.setProperty( AppSettings.SHOW_DEBUG, true );
-		Config.setProperty( AppSettings.FILLS_SCREEN, true );
+		Config.setProperty( AppSettings.FILLS_SCREEN, false );
 	}
 
 	protected void firstFrame() {
@@ -35,7 +34,7 @@ extends PAppletHax {
 		kinect.enableInfraredImg(true);
 		kinect.init();
 		
-		recorder = new ImageFramesHistory(640, 480, 30);
+		recorder = new ImageFramesHistory(p.width, p.height, 30);
 	}
 	
 	protected void drawApp() {

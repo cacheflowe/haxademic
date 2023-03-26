@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -29,7 +28,7 @@ extends BaseVideoFilter {
 		super(width, height);
 		
 		// load & set texture
-		displacementMap = P.p.createGraphics(width, height, PRenderers.P2D);
+		displacementMap = PG.newPG(width, height);
 //		colorMap = webcamBuffer;//DemoAssets.textureNebula();  // p.loadImage(FileUtil.getFile("images/_sketch/logo.png"));
 
 		// count vertices for debugView
@@ -83,9 +82,9 @@ extends BaseVideoFilter {
 		if(motionDetectionMap == null) return;
 
 		// update lerped motion detection buffer as the displacementMap 
-		BlendTowardsTexture.instance(P.p).setBlendLerp(0.2f);
-		BlendTowardsTexture.instance(P.p).setSourceTexture(motionDetectionMap.bwBuffer());
-		BlendTowardsTexture.instance(P.p).applyTo(displacementMap);
+		BlendTowardsTexture.instance().setBlendLerp(0.2f);
+		BlendTowardsTexture.instance().setSourceTexture(motionDetectionMap.bwBuffer());
+		BlendTowardsTexture.instance().applyTo(displacementMap);
 		DebugView.setTexture("displacementMap", displacementMap);
 
 		// clear background & move to center

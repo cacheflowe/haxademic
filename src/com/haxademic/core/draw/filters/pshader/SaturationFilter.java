@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class SaturationFilter
 extends BaseFragmentShader {
 
 	public static SaturationFilter instance;
 	
-	public SaturationFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/saturation.glsl");
+	public SaturationFilter() {
+		super("haxademic/shaders/filters/saturation.glsl");
 		setSaturation(1f);
 	}
 	
-	public static SaturationFilter instance(PApplet p) {
+	public static SaturationFilter instance() {
 		if(instance != null) return instance;
-		instance = new SaturationFilter(p);
+		instance = new SaturationFilter();
 		return instance;
 	}
 	

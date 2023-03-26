@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class BlendTowardsTexture
@@ -10,15 +9,15 @@ extends BaseFragmentShader {
 
 	public static BlendTowardsTexture instance;
 	
-	public BlendTowardsTexture(PApplet p) {
-		super(p, "haxademic/shaders/filters/texture-blend-towards-texture.glsl");
+	public BlendTowardsTexture() {
+		super("haxademic/shaders/filters/texture-blend-towards-texture.glsl");
 		setBlendLerp(0.25f);
 		setFlipY(false);
 	}
 	
-	public static BlendTowardsTexture instance(PApplet p) {
+	public static BlendTowardsTexture instance() {
 		if(instance != null) return instance;
-		instance = new BlendTowardsTexture(p);
+		instance = new BlendTowardsTexture();
 		return instance;
 	}
 	

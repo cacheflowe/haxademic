@@ -59,6 +59,15 @@ extends BaseSavedQuadUI {
 		DebugView.setHelpLine("E |", "Export config");
 	}
 	
+	public boolean isActive() {
+		return active;
+	}
+	
+	public void setActive(boolean debug) {
+		super.setActive(debug);
+		if(!active) resetSelectedFineRowCol();
+	}
+	
 	public void fillSolidColor( PGraphics canvas, int fill ) {
 		// default single mapped quad
 		canvas.noStroke();
@@ -300,12 +309,9 @@ extends BaseSavedQuadUI {
 		}
 	}
 	
-	public void setActive(boolean debug) {
-		super.setActive(debug);
-		if(!active) {
-			 selectedRowIndex = -1;
-			 selectedColIndex = -1;
-		}
+	public void resetSelectedFineRowCol() {
+		selectedRowIndex = -1;
+		selectedColIndex = -1;
 	}
 	
 	// config file

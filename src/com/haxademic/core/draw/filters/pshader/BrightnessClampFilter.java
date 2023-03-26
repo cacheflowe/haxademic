@@ -2,22 +2,20 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class BrightnessClampFilter
 extends BaseFragmentShader {
 
 	public static BrightnessClampFilter instance;
 	
-	public BrightnessClampFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/brightness-clamp.glsl");
+	public BrightnessClampFilter() {
+		super("haxademic/shaders/filters/brightness-clamp.glsl");
 		setLow(0f);
 		setHigh(1f);
 	}
 	
-	public static BrightnessClampFilter instance(PApplet p) {
+	public static BrightnessClampFilter instance() {
 		if(instance != null) return instance;
-		instance = new BrightnessClampFilter(p);
+		instance = new BrightnessClampFilter();
 		return instance;
 	}
 	

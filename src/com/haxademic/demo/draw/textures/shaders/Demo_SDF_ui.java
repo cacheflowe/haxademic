@@ -69,8 +69,8 @@ extends PAppletHax {
 		buffer.endDraw();
 		
 		// knock out black bg
-//		BrightnessToAlphaFilter.instance(p).set
-		BrightnessToAlphaFilter.instance(p).applyTo(buffer);
+//		BrightnessToAlphaFilter.instance().set
+		BrightnessToAlphaFilter.instance().applyTo(buffer);
 		
 		// draw to screen
 		DebugView.setTexture("buffer", buffer);

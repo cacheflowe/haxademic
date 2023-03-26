@@ -52,18 +52,18 @@ extends PAppletHax {
 		pg.translate(pg.width/2, pg.height/2);
 		pg.rotate(Mouse.xNorm * P.TWO_PI);
 		pg.shape(shape, 0, 0);
-//		GlowFilter.instance(p).setSize(30f + 20f * P.sin((float)p.frameCount * 0.05f));
-//		GlowFilter.instance(p).setRadialSamples(P.map(p.mouseX, 0, p.width, 8f, 128f));
-		GlowFilter.instance(p).setSize(26f + 14f * P.sin(progress * P.TWO_PI));
-		GlowFilter.instance(p).setRadialSamples(32f);
-		GlowFilter.instance(p).setGlowColor(0f, 0f, 0f, 0.6f);
-		GlowFilter.instance(p).applyTo(pg);
+//		GlowFilter.instance().setSize(30f + 20f * P.sin((float)p.frameCount * 0.05f));
+//		GlowFilter.instance().setRadialSamples(P.map(p.mouseX, 0, p.width, 8f, 128f));
+		GlowFilter.instance().setSize(26f + 14f * P.sin(progress * P.TWO_PI));
+		GlowFilter.instance().setRadialSamples(32f);
+		GlowFilter.instance().setGlowColor(0f, 0f, 0f, 0.6f);
+		GlowFilter.instance().applyTo(pg);
 		pg.popMatrix();
 		pg.endDraw();
 		
 		// draw shadow buffer to screen
 		p.image(pg, 0, 0);
-		InvertFilter.instance(p).applyTo(p);
+		InvertFilter.instance().applyTo(p);
 	}
 
 }

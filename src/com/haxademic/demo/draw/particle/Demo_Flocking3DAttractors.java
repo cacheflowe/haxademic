@@ -108,7 +108,7 @@ extends PAppletHax {
 			// draw attractor
 			p.fill( fillColor.toARGB() );
 			p.noStroke();
-			Toxiclibs.instance(p).toxi.mesh( box.toMesh(20) );
+			Toxiclibs.instance(P.p).toxi.mesh( box.toMesh(20) );
 		}
 	}
 	
@@ -164,7 +164,7 @@ extends PAppletHax {
 			position.addSelf(vector);
 						
 			// point and position
-			Toxiclibs.instance(p).toxi.mesh( mesh.copy().pointTowards(positionLast.sub(position), Vec3D.Z_AXIS).translate(position) );
+			Toxiclibs.instance(P.p).toxi.mesh( mesh.copy().pointTowards(positionLast.sub(position), Vec3D.Z_AXIS).translate(position) );
 		}
 		
 		protected void findClosestAttractor() {
@@ -216,7 +216,7 @@ extends PAppletHax {
 			vector = vectorEase.sub(position); 
 			position.addSelf(vector);
 			
-			Toxiclibs.instance(p).toxi.mesh( mesh.copy().pointTowards(target.sub(position), Vec3D.Z_AXIS).translate(position) );
+			Toxiclibs.instance(P.p).toxi.mesh( mesh.copy().pointTowards(target.sub(position), Vec3D.Z_AXIS).translate(position) );
 		}
 
 		protected void findClosestAttractor() {

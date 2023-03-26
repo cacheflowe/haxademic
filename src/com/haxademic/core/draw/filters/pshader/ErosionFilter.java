@@ -2,20 +2,18 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ErosionFilter
 extends BaseFragmentShader {
 
 	public static ErosionFilter instance;
 	
-	public ErosionFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/erosion.glsl");
+	public ErosionFilter() {
+		super("haxademic/shaders/filters/erosion.glsl");
 	}
 	
-	public static ErosionFilter instance(PApplet p) {
+	public static ErosionFilter instance() {
 		if(instance != null) return instance;
-		instance = new ErosionFilter(p);
+		instance = new ErosionFilter();
 		return instance;
 	}
 

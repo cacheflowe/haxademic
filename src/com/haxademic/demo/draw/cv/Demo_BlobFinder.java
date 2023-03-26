@@ -52,14 +52,14 @@ implements IWebCamCallback {
 		ImageUtil.cropFillCopyImage(frame, webcamBuffer, true);
 		
 		float shaderBlurAmount = 1f;
-		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, webcamBuffer.width);
-		BlurVFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, webcamBuffer.height);
-		BlurHFilter.instance(P.p).applyTo(webcamBuffer);
-		BlurVFilter.instance(P.p).applyTo(webcamBuffer);
+		BlurHFilter.instance().setBlurByPercent(shaderBlurAmount, webcamBuffer.width);
+		BlurVFilter.instance().setBlurByPercent(shaderBlurAmount, webcamBuffer.height);
+		BlurHFilter.instance().applyTo(webcamBuffer);
+		BlurVFilter.instance().applyTo(webcamBuffer);
 		
-		BlendTowardsTexture.instance(p).setSourceTexture(webcamBuffer);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.25f);
-		BlendTowardsTexture.instance(p).applyTo(webcamBufferLerped);
+		BlendTowardsTexture.instance().setSourceTexture(webcamBuffer);
+		BlendTowardsTexture.instance().setBlendLerp(0.25f);
+		BlendTowardsTexture.instance().applyTo(webcamBufferLerped);
 	}
 	
 	protected void drawApp() {

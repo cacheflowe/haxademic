@@ -92,12 +92,12 @@ public class BaseTexture {
 	public void postProcess() {
 
 		if( _makeOverlay == true ) {
-			ThresholdFilter.instance(P.p).setCutoff(0.5f);
-			ThresholdFilter.instance(P.p).applyTo(_texture);
-			InvertFilter.instance(P.p).applyTo(_texture);
-			ChromaColorFilter.instance(P.p).presetBlackKnockout().applyTo(_texture);
+			ThresholdFilter.instance().setCutoff(0.5f);
+			ThresholdFilter.instance().applyTo(_texture);
+			InvertFilter.instance().applyTo(_texture);
+			ChromaColorFilter.instance().presetBlackKnockout().applyTo(_texture);
 		} else if( _knockoutBlack == true ) {
-			ChromaColorFilter.instance(P.p).presetBlackKnockout().applyTo(_texture);
+			ChromaColorFilter.instance().presetBlackKnockout().applyTo(_texture);
 		}
 		
 		if( _brightMode > -1 ) {
@@ -105,8 +105,8 @@ public class BaseTexture {
 			if(P.p.frameCount == 10) {
 				P.println(_brightEaser.value());
 			}
-			BrightnessFilter.instance(P.p).setBrightness(_brightEaser.value());
-			BrightnessFilter.instance(P.p).applyTo(_texture);
+			BrightnessFilter.instance().setBrightness(_brightEaser.value());
+			BrightnessFilter.instance().applyTo(_texture);
 		}
 	}
 	
@@ -158,8 +158,6 @@ public class BaseTexture {
 		_texture.push();
 		_texture.perspective();
 		_texture.noLights();
-//		_texture.strokeJoin(P.PROJECT);
-//		_texture.strokeCap(P.ROUND);
 		_texture.blendMode(PBlendModes.BLEND);
 //		CameraUtil.setCameraDistance(_texture, 200, 20000);
 		PG.setDrawCorner(_texture);
@@ -169,7 +167,7 @@ public class BaseTexture {
 		_texture.pop();
 		_texture.endDraw();
 		
-		postProcess();
+//		postProcess();
 		_newlyActive = false;
 		renderTime = P.p.millis() - startRender;
 	}
@@ -180,6 +178,14 @@ public class BaseTexture {
 	
 	public void updateDraw() {
 		// override with subclass
+	}
+	
+	public void randomizeAll() {
+		updateTiming();
+		updateTimingSection();
+		newMode();
+		newLineMode();
+		newRotation();
 	}
 	
 	public void updateTiming() {

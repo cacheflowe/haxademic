@@ -120,9 +120,9 @@ public class ColorObjectDetection {
 		// should this use a shader posterize effect?
 		ImageUtil.copyImage(source, analysisBuffer);
 		analysisBuffer.filter(colorDistanceFilter);
-		InvertFilter.instance(P.p).applyTo(analysisBuffer);
-		ThresholdFilter.instance(P.p).setCutoff(colorClosenessThreshold);
-		ThresholdFilter.instance(P.p).applyTo(analysisBuffer);
+		InvertFilter.instance().applyTo(analysisBuffer);
+		ThresholdFilter.instance().setCutoff(colorClosenessThreshold);
+		ThresholdFilter.instance().applyTo(analysisBuffer);
 		
 		// loop through pixels
 		totalChecked = 0;

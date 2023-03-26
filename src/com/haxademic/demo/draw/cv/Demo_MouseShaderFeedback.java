@@ -49,9 +49,9 @@ extends PAppletHax {
 	}
 	
 	protected void blurMap(PGraphics buffer) {
-		BlurProcessingFilter.instance(p).setBlurSize(10);
+		BlurProcessingFilter.instance().setBlurSize(10);
 //		for(int i=0; i < 5; i++) 
-		BlurProcessingFilter.instance(p).applyTo(buffer);
+		BlurProcessingFilter.instance().applyTo(buffer);
 	}
 
 	protected void drawApp() {

@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class BulgeLinearFilter
 extends BaseFragmentShader {
 
 	public static BulgeLinearFilter instance;
 	
-	public BulgeLinearFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/bulge-linear.glsl");
+	public BulgeLinearFilter() {
+		super("haxademic/shaders/filters/bulge-linear.glsl");
 		setControlX(0.5f);
 		setMixAmp(0.1f);
 		setGainCurve(1.2f);
 	}
 	
-	public static BulgeLinearFilter instance(PApplet p) {
+	public static BulgeLinearFilter instance() {
 		if(instance != null) return instance;
-		instance = new BulgeLinearFilter(p);
+		instance = new BulgeLinearFilter();
 		return instance;
 	}
 	

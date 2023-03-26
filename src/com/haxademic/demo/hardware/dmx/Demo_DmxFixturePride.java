@@ -42,13 +42,13 @@ extends PAppletHax {
 			pg.rect(x, 0, colW, pg.height);
 		}
 		pg.endDraw();
-		BrightnessFilter.instance(p).setBrightness(UI.value(brightness));
-		BrightnessFilter.instance(p).applyTo(pg);
-		RotateFilter.instance(p).applyTo(pg);
+		BrightnessFilter.instance().setBrightness(UI.value(brightness));
+		BrightnessFilter.instance().applyTo(pg);
+		RotateFilter.instance().applyTo(pg);
 		
 		// draw & scroll
 		p.image(pg, 0, 0);
-		RotateFilter.instance(p).setOffset(p.frameCount * (0.001f * UI.value(speed)), 0);
+		RotateFilter.instance().setOffset(p.frameCount * (0.001f * UI.value(speed)), 0);
 		
 		// send colors to fixtures
 		p.loadPixels();

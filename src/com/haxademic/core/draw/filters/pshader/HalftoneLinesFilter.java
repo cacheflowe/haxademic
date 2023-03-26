@@ -2,15 +2,13 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class HalftoneLinesFilter
 extends BaseFragmentShader {
 
 	public static HalftoneLinesFilter instance;
 	
-	public HalftoneLinesFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/halftone-lines.glsl");
+	public HalftoneLinesFilter() {
+		super("haxademic/shaders/filters/halftone-lines.glsl");
 		setSampleDistX(200f);   // divisions for kernel sampling (width)
 		setSampleDistY(80f);	// divisions for kernel sampling (height)
 		setRows(50f);
@@ -19,9 +17,9 @@ extends BaseFragmentShader {
 		setMode(3);
 	}
 	
-	public static HalftoneLinesFilter instance(PApplet p) {
+	public static HalftoneLinesFilter instance() {
 		if(instance != null) return instance;
-		instance = new HalftoneLinesFilter(p);
+		instance = new HalftoneLinesFilter();
 		return instance;
 	}
 	

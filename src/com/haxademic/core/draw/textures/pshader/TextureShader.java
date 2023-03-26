@@ -2,7 +2,6 @@ package com.haxademic.core.draw.textures.pshader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PShaderHotSwap;
-import com.haxademic.core.file.FileUtil;
 
 import processing.opengl.PShader;
 
@@ -41,7 +40,7 @@ public class TextureShader {
 
 	public static PShader loadShader(String shaderPath) {
 		shaderPath = shaderPath.replaceAll("_", "-");
-		String shaderFilePath = FileUtil.getPath("haxademic/shaders/textures/" + shaderPath);
+		String shaderFilePath = P.path("haxademic/shaders/textures/" + shaderPath);
 		if(HOT_SWAP) {
 			shaderHotSwap = new PShaderHotSwap(shaderFilePath);
 			return shaderHotSwap.shader();

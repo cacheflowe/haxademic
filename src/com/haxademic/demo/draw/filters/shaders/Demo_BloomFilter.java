@@ -36,18 +36,18 @@ extends PAppletHax {
 
 		// run bloom on off-screen buffer
 		int bloomBlendMode = P.round(p.frameCount / 200f) % 3;
-		BloomFilter.instance(p).setStrength(Mouse.xNorm * 5f);
-		BloomFilter.instance(p).setBlurIterations(P.round(Mouse.yNorm * 4f));
-		BloomFilter.instance(p).setBlendMode(bloomBlendMode);
-		BloomFilter.instance(p).applyTo(pg);
+		BloomFilter.instance().setStrength(Mouse.xNorm * 5f);
+		BloomFilter.instance().setBlurIterations(P.round(Mouse.yNorm * 4f));
+		BloomFilter.instance().setBlendMode(bloomBlendMode);
+		BloomFilter.instance().applyTo(pg);
 		DebugView.setValue("Bloom blend mode", bloomBlendMode);
 		
 		// draw to screen
 		p.image(pg, 0, 0);
 		
 		// post 
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.03f);
-		GrainFilter.instance(p).applyTo(p);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.03f);
+		GrainFilter.instance().applyTo(p);
 	}
 }

@@ -101,12 +101,12 @@ extends PAppletHax {
 		}
 		
 		// post FX
-		VignetteFilter.instance(p).setDarkness(0.5f);
-		VignetteFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.5f);
+		VignetteFilter.instance().applyTo(p.g);
 
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.11f);
-		GrainFilter.instance(p).applyTo(p.g);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.11f);
+		GrainFilter.instance().applyTo(p.g);
 
 	}
 

@@ -156,11 +156,11 @@ public class DemoAssets {
 		return fontHelloDenver;
 	}
 	
-	public static String fontOhmegaSansPath = "haxademic/fonts/OhmegaSans-Regular.ttf";
-	public static PFont fontOhmegaSans = null;
-	public static PFont fontOhmegaSans(float fontSize) {
-		if(fontOhmegaSans == null) fontOhmegaSans = P.p.createFont( FileUtil.getPath(fontOhmegaSansPath), fontSize );
-		return fontOhmegaSans;
+	public static String fontMonospacePath = "haxademic/fonts/Inconsolata.otf";
+	public static PFont fontMonospace = null;
+	public static PFont fontMonospace(float fontSize) {
+		if(fontMonospace == null) fontMonospace = P.p.createFont( FileUtil.getPath(fontMonospacePath), fontSize );
+		return fontMonospace;
 	}
 	
 	public static String fontDSEG7Path = "haxademic/fonts/DSEG7ClassicMini-Regular.ttf";

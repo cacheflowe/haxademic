@@ -115,16 +115,16 @@ extends PAppletHax {
 	}
 	
 	protected void applyBlur(PGraphics pg) {
-		BlurHFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.width);
-		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.height);
-		BlurVFilter.instance(p).applyTo(pg);
+		BlurHFilter.instance().setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.width);
+		BlurHFilter.instance().applyTo(pg);
+		BlurVFilter.instance().setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.height);
+		BlurVFilter.instance().applyTo(pg);
 	}
 	
 	protected void postProcessStage() {
-		VignetteFilter.instance(p).setDarkness(0.5f);
-		VignetteFilter.instance(p).applyTo(p.g);
-//		VignetteAltFilter.instance(p).applyTo(p.g);
+		VignetteFilter.instance().setDarkness(0.5f);
+		VignetteFilter.instance().applyTo(p.g);
+//		VignetteAltFilter.instance().applyTo(p.g);
 	}
 
 }

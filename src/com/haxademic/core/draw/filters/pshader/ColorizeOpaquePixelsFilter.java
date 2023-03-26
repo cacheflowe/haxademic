@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ColorizeOpaquePixelsFilter
 extends BaseFragmentShader {
 
 	public static ColorizeOpaquePixelsFilter instance;
 	
-	public ColorizeOpaquePixelsFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/opaque-pixels-to-color.glsl");
+	public ColorizeOpaquePixelsFilter() {
+		super("haxademic/shaders/filters/opaque-pixels-to-color.glsl");
 		setColor(0f, 0f, 0f);
 	}
 	
-	public static ColorizeOpaquePixelsFilter instance(PApplet p) {
+	public static ColorizeOpaquePixelsFilter instance() {
 		if(instance != null) return instance;
-		instance = new ColorizeOpaquePixelsFilter(p);
+		instance = new ColorizeOpaquePixelsFilter();
 		return instance;
 	}
 	

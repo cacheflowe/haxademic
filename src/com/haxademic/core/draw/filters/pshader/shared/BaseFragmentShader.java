@@ -16,7 +16,7 @@ public class BaseFragmentShader {
 	protected PShaderHotSwap shaderHotSwap;
 	protected float time;
 
-	public BaseFragmentShader(PApplet p, String shaderFilePath) {
+	public BaseFragmentShader(String shaderFilePath) {
 		if(shaderFilePath != null) {
 			this.shaderFilePath = FileUtil.getPath(shaderFilePath);
 			shader = P.p.loadShader(this.shaderFilePath);
@@ -46,6 +46,22 @@ public class BaseFragmentShader {
 	
 	public void applyTo(PApplet p) {
 		p.filter(shader());
+	}
+	
+	public void setOnContext(PGraphics pg) {
+	    pg.shader(shader());
+	}
+	
+	public void setOnContext(PApplet p) {
+	    p.shader(shader());
+	}
+	
+	public void resetContext(PGraphics pg) {
+	    pg.resetShader();
+	}
+	
+	public void resetContext(PApplet p) {
+	    p.resetShader();
 	}
 	
 	public void setTime(float time) {

@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class DitherFilter
 extends BaseFragmentShader {
 
 	public static DitherFilter instance;
 	
-	public DitherFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/dither.glsl");
+	public DitherFilter() {
+		super("haxademic/shaders/filters/dither.glsl");
 		setDitherMode8x8();
 	}
 	
-	public static DitherFilter instance(PApplet p) {
+	public static DitherFilter instance() {
 		if(instance != null) return instance;
-		instance = new DitherFilter(p);
+		instance = new DitherFilter();
 		return instance;
 	}
 	

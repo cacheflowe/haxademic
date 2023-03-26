@@ -78,15 +78,15 @@ extends PAppletHax {
 	}
 	
 	protected void applyFeedbackToBuffer() {
-		FeedbackRadialFilter.instance(P.p).setAmp(UI.value(feedbackAmp));
-		FeedbackRadialFilter.instance(P.p).setMultX(UI.value(feedbackMultX));
-		FeedbackRadialFilter.instance(P.p).setMultY(UI.value(feedbackMultY));
-		FeedbackRadialFilter.instance(P.p).setSampleMult(UI.value(feedbackBrightMult));
-		FeedbackRadialFilter.instance(P.p).setWaveAmp(UI.value(feedbackWaveAmp));
-		FeedbackRadialFilter.instance(P.p).setWaveFreq(UI.value(feedbackWaveFreq));
-		FeedbackRadialFilter.instance(P.p).setWaveStart(p.frameCount * UI.value(feedbackWaveStartMult));
-		FeedbackRadialFilter.instance(P.p).setAlphaMult(UI.value(feedbackAlphaMult));
-		FeedbackRadialFilter.instance(P.p).applyTo(buffer);
+		FeedbackRadialFilter.instance().setAmp(UI.value(feedbackAmp));
+		FeedbackRadialFilter.instance().setMultX(UI.value(feedbackMultX));
+		FeedbackRadialFilter.instance().setMultY(UI.value(feedbackMultY));
+		FeedbackRadialFilter.instance().setSampleMult(UI.value(feedbackBrightMult));
+		FeedbackRadialFilter.instance().setWaveAmp(UI.value(feedbackWaveAmp));
+		FeedbackRadialFilter.instance().setWaveFreq(UI.value(feedbackWaveFreq));
+		FeedbackRadialFilter.instance().setWaveStart(p.frameCount * UI.value(feedbackWaveStartMult));
+		FeedbackRadialFilter.instance().setAlphaMult(UI.value(feedbackAlphaMult));
+		FeedbackRadialFilter.instance().applyTo(buffer);
 	}
 
 	protected void drawApp() {

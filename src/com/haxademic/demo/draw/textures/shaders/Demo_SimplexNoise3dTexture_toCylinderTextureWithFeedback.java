@@ -135,38 +135,38 @@ extends PAppletHax {
 		);
 		
 		// update texture
-		BlendTowardsTexture.instance(p).setSourceTexture(noiseTexture.texture());
-		BlendTowardsTexture.instance(p).setBlendLerp(UI.value(BLEND_LERP));
-		BlendTowardsTexture.instance(p).applyTo(texture);
+		BlendTowardsTexture.instance().setSourceTexture(noiseTexture.texture());
+		BlendTowardsTexture.instance().setBlendLerp(UI.value(BLEND_LERP));
+		BlendTowardsTexture.instance().applyTo(texture);
 		
 		// colorize sometimes
 		if(FrameLoop.frameModLooped(120)) {
 			// full blend to gray map
-			BlendTowardsTexture.instance(p).setBlendLerp(1);
-			BlendTowardsTexture.instance(p).applyTo(texture);
+			BlendTowardsTexture.instance().setBlendLerp(1);
+			BlendTowardsTexture.instance().applyTo(texture);
 			
 			// then colorize
 			int rand = MathUtil.randRange(0, 2);
 			switch (rand) {
 				case 0:
-					ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
+					ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
 					break;
 				case 1:
-					ColorizeFromTexture.instance(p).setTexture(ImageGradient.SPARKS_FLAMES());
+					ColorizeFromTexture.instance().setTexture(ImageGradient.SPARKS_FLAMES());
 					break;
 				case 2:
-					ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
+					ColorizeFromTexture.instance().setTexture(ImageGradient.PASTELS());
 					break;
 				default:
 					break;
 			}
-//			ColorizeFromTexture.instance(p).applyTo(texture);
+//			ColorizeFromTexture.instance().applyTo(texture);
 			
 			int color1 = ColorsHax.COLOR_GROUPS[MathUtil.randIndex(ColorsHax.COLOR_GROUPS.length)][MathUtil.randIndex(5)];
 			int color2 = ColorsHax.COLOR_GROUPS[MathUtil.randIndex(ColorsHax.COLOR_GROUPS.length)][MathUtil.randIndex(5)];
-			ColorizeTwoColorsFilter.instance(p).setColor1(EasingColor.redFromColorIntNorm(color1), EasingColor.greenFromColorIntNorm(color1), EasingColor.blueFromColorIntNorm(color1));
-			ColorizeTwoColorsFilter.instance(p).setColor2(EasingColor.redFromColorIntNorm(color2), EasingColor.greenFromColorIntNorm(color2), EasingColor.blueFromColorIntNorm(color2));
-			ColorizeTwoColorsFilter.instance(p).applyTo(texture);
+			ColorizeTwoColorsFilter.instance().setColor1(EasingColor.redFromColorIntNorm(color1), EasingColor.greenFromColorIntNorm(color1), EasingColor.blueFromColorIntNorm(color1));
+			ColorizeTwoColorsFilter.instance().setColor2(EasingColor.redFromColorIntNorm(color2), EasingColor.greenFromColorIntNorm(color2), EasingColor.blueFromColorIntNorm(color2));
+			ColorizeTwoColorsFilter.instance().applyTo(texture);
 		}
 		
 		// draw shapes
@@ -179,17 +179,17 @@ extends PAppletHax {
 //		texture.endDraw();
 		
 		// apply feedback
-		FeedbackMapFilter.instance(p).setMap(noiseTexture.texture());
-		FeedbackMapFilter.instance(p).setAmp(UI.value(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(UI.value(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(UI.value(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
-		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(texture);
+		FeedbackMapFilter.instance().setMap(noiseTexture.texture());
+		FeedbackMapFilter.instance().setAmp(UI.value(feedbackAmp));
+		FeedbackMapFilter.instance().setBrightnessStep(UI.value(feedbackBrightStep));
+		FeedbackMapFilter.instance().setAlphaStep(UI.value(feedbackAlphaStep));
+		FeedbackMapFilter.instance().setRadiansStart(UI.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance().setRadiansRange(UI.value(feedbackRadiansRange));
+		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance().applyTo(texture);
 		
 		// add contrast
-		ContrastFilter.instance(p).setContrast(1.01f);
-		ContrastFilter.instance(p).applyTo(texture);
+		ContrastFilter.instance().setContrast(1.01f);
+		ContrastFilter.instance().applyTo(texture);
 		
 		// set cylinder context
 		PG.setBetterLights(p);

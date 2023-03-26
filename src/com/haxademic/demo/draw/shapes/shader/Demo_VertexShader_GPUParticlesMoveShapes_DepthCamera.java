@@ -162,9 +162,9 @@ extends PAppletHax {
 		p.rotateX(P.PI);	// textures are flipped on y-axis
 		
 		// lerp proper 32-bit texture for displacement
-		BlendTowardsTexture.instance(p).setBlendLerp(0.05f);
-		BlendTowardsTexture.instance(p).setSourceTexture(realSenseWrapper.getDepthImage());
-		BlendTowardsTexture.instance(p).applyTo(displaceTexture);
+		BlendTowardsTexture.instance().setBlendLerp(0.05f);
+		BlendTowardsTexture.instance().setSourceTexture(realSenseWrapper.getDepthImage());
+		BlendTowardsTexture.instance().applyTo(displaceTexture);
 		
 		// draw & generate shapes
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!

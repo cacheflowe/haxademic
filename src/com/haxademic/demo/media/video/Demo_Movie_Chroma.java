@@ -62,10 +62,10 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// run chroma!
-		ChromaColorFilter.instance(P.p).presetWhiteKnockout();
-		ChromaColorFilter.instance(P.p).setThresholdSensitivity(0.03f);
-		ChromaColorFilter.instance(P.p).setSmoothing(0.03f);
-		ChromaColorFilter.instance(P.p).applyTo(pg);
+		ChromaColorFilter.instance().presetWhiteKnockout();
+		ChromaColorFilter.instance().setThresholdSensitivity(0.03f);
+		ChromaColorFilter.instance().setSmoothing(0.03f);
+		ChromaColorFilter.instance().applyTo(pg);
 
 		// alpha cleanup
 		shaderNoiseCleanup.update();
@@ -80,10 +80,10 @@ extends PAppletHax {
 		shaderAlphaEdgeFade.shader().set("radiusCheck", 1.5f);
 		pg.filter(shaderAlphaEdgeFade.shader());
 
-		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-		GrainFilter.instance(p).setCrossfade(0.1f);
-//		GrainFilter.instance(p).setTime(p.millis());
-//		GrainFilter.instance(p).applyTo(pg);
+		GrainFilter.instance().setTime(p.frameCount * 0.01f);
+		GrainFilter.instance().setCrossfade(0.1f);
+//		GrainFilter.instance().setTime(p.millis());
+//		GrainFilter.instance().applyTo(pg);
 		
 		// draw result to screen
 		p.image(pg, 0, 0);

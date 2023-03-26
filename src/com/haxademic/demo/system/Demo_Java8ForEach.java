@@ -6,6 +6,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -43,8 +46,8 @@ extends PAppletHax {
 		
 		// multiline String (Java 14)
 		String multiline = """
-		    A quick brown fox jumps over a lazy dog; \n
-		    the lazy dog howls loudly.
+A quick brown fox jumps over a lazy dog; \n
+the lazy dog howls loudly.
 		""";
 		P.out("multiline");
 		P.out(multiline);
@@ -54,6 +57,14 @@ extends PAppletHax {
 		testIndent.indent(4);
 		P.out("testIndent");
 		P.out(testIndent);
+		
+		// streams
+		// https://www.jrebel.com/blog/java-streams-in-java-8
+		List<String> names = Arrays.asList("Justin", "Dawn"); // new ArrayList();
+		List<String> people = names.stream()
+		        .map(String::toUpperCase)
+		        .collect(Collectors.toList());
+		people.forEach(nameUpper -> P.out(nameUpper));
 		
 		// https://www.baeldung.com/java-11-new-features
 		// httpclient (Java 11)
@@ -71,6 +82,7 @@ extends PAppletHax {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		
 	}
 	
 	protected void testOutput(String input) {

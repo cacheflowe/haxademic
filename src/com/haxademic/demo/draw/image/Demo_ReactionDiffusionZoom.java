@@ -46,8 +46,8 @@ extends PAppletHax {
 		
 		// TEST zoom
 //		ImageUtil.cropFillCopyImage(DemoAssets.textureJupiter(), p.g, true);
-//		RepeatFilter.instance(p).setZoom(1f + 0.01f * P.sin(p.frameCount * 0.1f));
-//		RepeatFilter.instance(p).applyTo(p.g);
+//		RepeatFilter.instance().setZoom(1f + 0.01f * P.sin(p.frameCount * 0.1f));
+//		RepeatFilter.instance().applyTo(p.g);
 		
 		// effect
 		float blurAmp = P.map(p.mouseX, 0, p.width, 0.25f, 1.5f);
@@ -57,24 +57,24 @@ extends PAppletHax {
 		
 		RD_ITERATIONS = 15;
 		for (int i = 0; i < RD_ITERATIONS; i++) {			
-			BlurHFilter.instance(p).setBlurByPercent(blurAmp, p.width);
-			BlurHFilter.instance(p).applyTo(p);
-			BlurVFilter.instance(p).setBlurByPercent(blurAmp, p.height);
-			BlurVFilter.instance(p).applyTo(p);
-			SharpenFilter.instance(p).setSharpness(sharpAmp);
-			SharpenFilter.instance(p).applyTo(p);
-			SaturationFilter.instance(p).setSaturation(0);
-			SaturationFilter.instance(p).applyTo(p.g);
+			BlurHFilter.instance().setBlurByPercent(blurAmp, p.width);
+			BlurHFilter.instance().applyTo(p);
+			BlurVFilter.instance().setBlurByPercent(blurAmp, p.height);
+			BlurVFilter.instance().applyTo(p);
+			SharpenFilter.instance().setSharpness(sharpAmp);
+			SharpenFilter.instance().applyTo(p);
+			SaturationFilter.instance().setSaturation(0);
+			SaturationFilter.instance().applyTo(p.g);
 		}
 		
 		
 		if(p.frameCount % 300 < 150) {
 			PG.zoomReTexture(p.g, 1.03f);
-//			RepeatFilter.instance(p).setZoom(1.01f);
-//			RepeatFilter.instance(p).applyTo(p.g);
+//			RepeatFilter.instance().setZoom(1.01f);
+//			RepeatFilter.instance().applyTo(p.g);
 		} else {
-//			RepeatFilter.instance(p).setZoom(0.99f);
-//			RepeatFilter.instance(p).applyTo(p.g);
+//			RepeatFilter.instance().setZoom(0.99f);
+//			RepeatFilter.instance().applyTo(p.g);
 			PG.zoomReTexture(p.g, 0.97f);			
 		}
 		

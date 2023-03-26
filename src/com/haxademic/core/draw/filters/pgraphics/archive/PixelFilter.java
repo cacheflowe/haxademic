@@ -2,6 +2,7 @@ package com.haxademic.core.draw.filters.pgraphics.archive;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import blobDetection.BlobDetection;
@@ -25,8 +26,8 @@ public class PixelFilter {
 		_width = width;
 		_height = height;
 		_pixelSize = pixelSize;
-		_pg = p.createGraphics( _width, _height );
-		_image = p.createImage( _width, _height, P.ARGB );
+		_pg = PG.newPG(_width, _height);
+		_image = ImageUtil.newImage(_width, _height);
 	}
 	
 	public PImage pg() {

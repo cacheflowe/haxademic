@@ -66,9 +66,9 @@ extends PAppletHax {
 		p.image(_texture, 0, 0);
 		
 		// post effects
-		SphereDistortionFilter.instance(p).setAmplitude(1.f);
-		SphereDistortionFilter.instance(p).applyTo(p);
-		VignetteFilter.instance(p).setDarkness(0.2f);
-		VignetteFilter.instance(p).applyTo(p);
+		SphereDistortionFilter.instance().setAmplitude(1.f);
+		SphereDistortionFilter.instance().applyTo(p);
+		VignetteFilter.instance().setDarkness(0.2f);
+		VignetteFilter.instance().applyTo(p);
 	}
 }

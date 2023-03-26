@@ -63,8 +63,8 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(DemoAssets.textureNebula(), materialBuffer, true);
 		
 		// adjust perlin
-		ContrastFilter.instance(p).setContrast(1.5f);
-		ContrastFilter.instance(p).applyTo(perlinBuffer);
+		ContrastFilter.instance().setContrast(1.5f);
+		ContrastFilter.instance().applyTo(perlinBuffer);
 		
 		// rotate
 		p.translate(p.width/2f, p.height * 1.75f, P.map(p.mouseX, 0, p.width, 0, -10000));

@@ -92,17 +92,17 @@ extends BaseTexture {
 		ImageUtil.cropFillCopyImage(_curTexturePool.get(texturePoolIndex).texture(), sphereTexture, true);
 		
 		// effects
-		ChromaColorFilter.instance(P.p).presetBlackKnockout().applyTo(sphereTexture);
-//		LeaveWhiteFilter.instance(P.p).setMix(0.99f);
-//		LeaveWhiteFilter.instance(P.p).applyTo(sphereTexture);
-		VignetteAltFilter.instance(P.p).setSpread(0.95f);
-		VignetteAltFilter.instance(P.p).setDarkness(3.f);
-		VignetteAltFilter.instance(P.p).applyTo(sphereTexture);
-//		BlurBasicFilter.instance(P.p).applyTo(sphereTexture);
-		BlurProcessingFilter.instance(P.p).setBlurSize(6);
-		BlurProcessingFilter.instance(P.p).setSigma(6);
-		BlurProcessingFilter.instance(P.p).applyTo(sphereTexture);
-		BlurProcessingFilter.instance(P.p).applyTo(sphereTexture);
+		ChromaColorFilter.instance().presetBlackKnockout().applyTo(sphereTexture);
+//		LeaveWhiteFilter.instance().setMix(0.99f);
+//		LeaveWhiteFilter.instance().applyTo(sphereTexture);
+		VignetteAltFilter.instance().setSpread(0.95f);
+		VignetteAltFilter.instance().setDarkness(3.f);
+		VignetteAltFilter.instance().applyTo(sphereTexture);
+//		BlurBasicFilter.instance().applyTo(sphereTexture);
+		BlurProcessingFilter.instance().setBlurSize(6);
+		BlurProcessingFilter.instance().setSigma(6);
+		BlurProcessingFilter.instance().applyTo(sphereTexture);
+		BlurProcessingFilter.instance().applyTo(sphereTexture);
 	}
 	
 	public void updateDraw() {
@@ -137,10 +137,10 @@ extends BaseTexture {
 		float scaleOsc = P.p.frameCount * 0.001f;
 		
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(sphereTexture);
-		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(0.65f + 0.3f * P.sin(scaleOsc));
-		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(sphereTexture);
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(0.65f + 0.3f * P.sin(scaleOsc));
+		MeshDeformAndTextureFilter.instance().setSheetMode(false);
+		MeshDeformAndTextureFilter.instance().setOnContext(_texture);
 //		// set texture using PShape method
 //		shape.setTexture(textureFlipped);
 

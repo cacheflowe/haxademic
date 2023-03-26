@@ -83,25 +83,25 @@ extends PAppletHax {
 			audioTexture.texture().filter(noiseTexture.shader());
 		}
 		// blur texture for smooothness
-		BlurProcessingFilter.instance(p).setBlurSize(5);
-		BlurProcessingFilter.instance(p).applyTo(audioTexture.texture());
+		BlurProcessingFilter.instance().setBlurSize(5);
+		BlurProcessingFilter.instance().applyTo(audioTexture.texture());
 		DebugView.setTexture("audioTexture", audioTexture.texture());
 		
 		// apply points deform/texture shader
-		PointsDeformAndTextureFilter.instance(p).setColorMap(audioTexture.texture());
-		PointsDeformAndTextureFilter.instance(p).setDisplacementMap(audioTexture.texture());
-		PointsDeformAndTextureFilter.instance(p).setMaxPointSize(2f);
+		PointsDeformAndTextureFilter.instance().setColorMap(audioTexture.texture());
+		PointsDeformAndTextureFilter.instance().setDisplacementMap(audioTexture.texture());
+		PointsDeformAndTextureFilter.instance().setMaxPointSize(2f);
 		// change params per flat/3d model
 		if(Mouse.xNorm < 0.5f) {
-			PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(100f);			// multiplied by obj extent
-			PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(svgExtent * 2.1f);		// texture mapping UV
-			PointsDeformAndTextureFilter.instance(p).setSheetMode(true);
-			PointsDeformAndTextureFilter.instance(p).setColorPointSizeMode(true);
+			PointsDeformAndTextureFilter.instance().setDisplaceAmp(100f);			// multiplied by obj extent
+			PointsDeformAndTextureFilter.instance().setModelMaxExtent(svgExtent * 2.1f);		// texture mapping UV
+			PointsDeformAndTextureFilter.instance().setSheetMode(true);
+			PointsDeformAndTextureFilter.instance().setColorPointSizeMode(true);
 		} else {
-			PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(1.2f);		// multiplied by passed-in number
-			PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(objExtent * 2.1f);		// texture mapping UV
-			PointsDeformAndTextureFilter.instance(p).setSheetMode(false);
-			PointsDeformAndTextureFilter.instance(p).setColorPointSizeMode(false);
+			PointsDeformAndTextureFilter.instance().setDisplaceAmp(1.2f);		// multiplied by passed-in number
+			PointsDeformAndTextureFilter.instance().setModelMaxExtent(objExtent * 2.1f);		// texture mapping UV
+			PointsDeformAndTextureFilter.instance().setSheetMode(false);
+			PointsDeformAndTextureFilter.instance().setColorPointSizeMode(false);
 		}
 		
 		// rotate
@@ -110,7 +110,7 @@ extends PAppletHax {
 		
 		// draw points mesh 
 		p.stroke(255);	// make sure to reset stroke
-		PointsDeformAndTextureFilter.instance(p).applyTo(p);
+		PointsDeformAndTextureFilter.instance().setOnContext(p);
 		if(Mouse.xNorm > 0.5f) {
 			p.shape(obj);
 		} else {

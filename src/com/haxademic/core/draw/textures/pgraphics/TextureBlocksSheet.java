@@ -125,17 +125,17 @@ extends BaseTexture {
 //		noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
 //		audioTexture.texture().filter(noiseTexture.shader());
 		
-		BlurProcessingFilter.instance(P.p).setBlurSize(6);
-		BlurProcessingFilter.instance(P.p).setSigma(2f);
-		BlurProcessingFilter.instance(P.p).applyTo(audioTexture.texture());
+		BlurProcessingFilter.instance().setBlurSize(6);
+		BlurProcessingFilter.instance().setSigma(2f);
+		BlurProcessingFilter.instance().applyTo(audioTexture.texture());
 		
-		ContrastFilter.instance(P.p).setContrast(2f);
-		ContrastFilter.instance(P.p).applyTo(audioTexture.texture());
+		ContrastFilter.instance().setContrast(2f);
+		ContrastFilter.instance().applyTo(audioTexture.texture());
 		
-//		ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());
-//		ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
-//		ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
-//		ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
+//		ColorizeFilter.instance().setTargetR(_colorEase.rNorm());
+//		ColorizeFilter.instance().setTargetG(_colorEase.gNorm());
+//		ColorizeFilter.instance().setTargetB(_colorEase.bNorm());
+//		ColorizeFilter.instance().applyTo(audioTexture.texture());
 //		DebugView.setTexture(audioTexture.texture());
 	}
 
@@ -167,10 +167,10 @@ extends BaseTexture {
 		_texture.rotateZ(logoRotZ.value());
 
 		// deform mesh
-		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
-		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(1.5f);
-		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
+		MeshDeformAndTextureFilter.instance().setDisplacementMap(audioTexture.texture());
+		MeshDeformAndTextureFilter.instance().setDisplaceAmp(1.5f);
+		MeshDeformAndTextureFilter.instance().setSheetMode(false);
+		MeshDeformAndTextureFilter.instance().setOnContext(_texture);
 		// set texture using PShape method
 //		gridShape.setTexture(DemoAssets.textureNebula());
 
@@ -187,9 +187,9 @@ extends BaseTexture {
 		_texture.popMatrix();
 
 		// post-processing
-//		RotateFilter.instance(P.p).setZoom(Mouse.yNorm * 3f + 0.5f);
-//		RotateFilter.instance(P.p).setRotation(Mouse.xNorm * 2f * P.TWO_PI);
-//		RotateFilter.instance(P.p).applyTo(_texture);
+//		RotateFilter.instance().setZoom(Mouse.yNorm * 3f + 0.5f);
+//		RotateFilter.instance().setRotation(Mouse.xNorm * 2f * P.TWO_PI);
+//		RotateFilter.instance().applyTo(_texture);
 		
 		// black to transparent
 //		applyChromaBlackKnockout(_texture);

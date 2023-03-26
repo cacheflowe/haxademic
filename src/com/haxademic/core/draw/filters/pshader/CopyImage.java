@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class CopyImage
@@ -10,15 +9,15 @@ extends BaseFragmentShader {
 
 	public static CopyImage instance;
 	
-	public CopyImage(PApplet p) {
-		super(p, "haxademic/shaders/filters/copy-image.glsl");
+	public CopyImage() {
+		super("haxademic/shaders/filters/copy-image.glsl");
 		setFlipX(false);
 		setFlipY(false);
 	}
 	
-	public static CopyImage instance(PApplet p) {
+	public static CopyImage instance() {
 		if(instance != null) return instance;
-		instance = new CopyImage(p);
+		instance = new CopyImage();
 		return instance;
 	}
 	

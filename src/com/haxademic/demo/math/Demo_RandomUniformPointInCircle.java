@@ -27,8 +27,8 @@ extends PAppletHax {
 	protected void drawApp() {
 		// fade  out
 		if(p.frameCount == 1) background(0);
-		BrightnessStepFilter.instance(p).setBrightnessStep(-3/255f);
-		BrightnessStepFilter.instance(p).applyTo(p);
+		BrightnessStepFilter.instance().setBrightnessStep(-3/255f);
+		BrightnessStepFilter.instance().applyTo(p);
 		PG.setDrawCenter(p);
 		p.noStroke();
 		PG.setCenterScreen(p);

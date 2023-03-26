@@ -2,20 +2,18 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class DeformTunnelFanFilter
 extends BaseFragmentShader {
 
 	public static DeformTunnelFanFilter instance;
 	
-	public DeformTunnelFanFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/deform-tunnel-fan.glsl");
+	public DeformTunnelFanFilter() {
+		super("haxademic/shaders/filters/deform-tunnel-fan.glsl");
 	}
 	
-	public static DeformTunnelFanFilter instance(PApplet p) {
+	public static DeformTunnelFanFilter instance() {
 		if(instance != null) return instance;
-		instance = new DeformTunnelFanFilter(p);
+		instance = new DeformTunnelFanFilter();
 		return instance;
 	}
 

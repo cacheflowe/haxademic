@@ -21,12 +21,34 @@ import processing.opengl.Texture;
 
 public class ImageUtil {
 	
-	public static final int BLACK_INT = -16777216;
+    //////////////////////////////
+    // COLOR ANLYSIS CONSTANTS
+    //////////////////////////////
+
+    public static final int BLACK_INT = -16777216;
 	public static final int TRANSPARENT_PNG = 16777215;
 	public static final int CLEAR_INT = 48356;
 	public static final int CLEAR_INT_PG = 13421772;
 	public static final int EMPTY_INT = 0;
 	public static final int EMPTY_WHITE_INT = -1;
+	
+    //////////////////////////////
+    // IMAGE INIT
+    //////////////////////////////
+
+    public static PImage newImage(int w, int h) {
+        return P.p.createImage(w, h, P.ARGB);
+    }
+    
+    protected static PImage blankImage = null;
+    public static PImage blankImage() {
+        if(blankImage == null) blankImage = P.p.createImage(16, 16, P.ARGB);
+        return blankImage;
+    }
+    
+    //////////////////////////////
+    // Pixel grid helper
+    //////////////////////////////
 	
 	public static int getPixelIndex( PImage image, int x, int y ) {
 		return (int) x + y * image.width;
@@ -428,7 +450,7 @@ public class ImageUtil {
 	}
 	
 	public static void imageCroppedEmptySpace(PGraphics sourceImg, PImage destImg, int emptyColor, boolean debug, int[] padding, int[] cropIn, int bgColor) {
-		if(debug) P.println("SEARCHING =======================");
+		if(debug) P.out("SEARCHING =======================");
 		Rectangle bounds = null;
 		sourceImg.loadPixels();
 		
@@ -448,7 +470,7 @@ public class ImageUtil {
 				}
 			}			
 		}
-		if(debug) P.println("low res bounds:", bounds);
+		if(debug) P.out("low res bounds:", bounds);
 		
 		// create boundary padded by spacing to search within
 		int refineX = P.max(0, bounds.x - searchSpacing);
@@ -462,7 +484,7 @@ public class ImageUtil {
 				refineW,
 				refineH
 		);
-		if(debug) P.println("refineBounds:", refineBounds);
+		if(debug) P.out("refineBounds:", refineBounds);
 
 		if(debug) sourceImg.fill(255,255,0, 127);	 // set refine color
 
@@ -522,11 +544,11 @@ public class ImageUtil {
 		destW += padding[1] + padding[3] - cropIn[1] - cropIn[3];
 		destH += padding[0] + padding[2] - cropIn[0] - cropIn[2];
 		if(destImg == null) {
-			destImg = P.p.createImage(destW, destH, P.ARGB);
+			destImg = ImageUtil.newImage(destW, destH);
 		} else {
 			destImg.resize(destW, destH);
 		}
-		if(debug) P.println("destW, destH", destW, destH);
+		if(debug) P.out("destW, destH", destW, destH);
 		// get size of image to crop
 		// clear destination image
 		destImg.loadPixels();
@@ -535,8 +557,8 @@ public class ImageUtil {
 		destImg.updatePixels();
 		// copy with padding
 		destImg.copy(sourceImg, bounds.x + cropIn[3], bounds.y + cropIn[0], cropW, cropH, padding[3], padding[0], cropW, cropH);
-		if(debug) P.println(bounds);
-		if(debug) P.println(refineBounds);
+		if(debug) P.out(bounds);
+		if(debug) P.out(refineBounds);
 		if(debug) sourceImg.endDraw();
 	}
 

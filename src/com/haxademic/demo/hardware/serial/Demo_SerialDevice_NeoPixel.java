@@ -61,8 +61,8 @@ implements ISerialDeviceDelegate {
 		
 		// pixel-sampling color send
 		noiseTexture.update(2f, 0, p.frameCount * 0.01f, 0);
-		ContrastFilter.instance(p).setContrast(2f);
-		ContrastFilter.instance(p).applyTo(noiseTexture.texture());
+		ContrastFilter.instance().setContrast(2f);
+		ContrastFilter.instance().applyTo(noiseTexture.texture());
 		PImage readTexture = noiseTexture.texture();
 		p.image(readTexture, 0, 0);
 		readTexture.loadPixels();

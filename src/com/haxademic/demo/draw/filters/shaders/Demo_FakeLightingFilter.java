@@ -54,10 +54,10 @@ extends PAppletHax {
 			altMap = ImageUtil.getScaledImage(DemoAssets.squareTexture(), altMapW, altMapH);
 			PGraphics mapPG = PG.newPG(altMapW, altMapH);
 			ImageUtil.copyImage(altMap, mapPG);
-			BlurHFilter.instance(p).setBlurByPercent(1, altMapW);
-			BlurVFilter.instance(p).setBlurByPercent(1, altMapH);
-			BlurHFilter.instance(p).applyTo(mapPG);
-			BlurVFilter.instance(p).applyTo(mapPG);
+			BlurHFilter.instance().setBlurByPercent(1, altMapW);
+			BlurVFilter.instance().setBlurByPercent(1, altMapH);
+			BlurHFilter.instance().applyTo(mapPG);
+			BlurVFilter.instance().applyTo(mapPG);
 			altMap = mapPG;
 			DebugView.setTexture("altMap", altMap);
 		}
@@ -67,18 +67,18 @@ extends PAppletHax {
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
 		// apply effect
-		FakeLightingFilter.instance(p).setAmbient(UI.value(AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(UI.value(GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(UI.value(GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(UI.value(SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(UI.value(DIFF_DARK));
+		FakeLightingFilter.instance().setAmbient(UI.value(AMBIENT));
+		FakeLightingFilter.instance().setGradAmp(UI.value(GRAD_AMP));
+		FakeLightingFilter.instance().setGradBlur(UI.value(GRAD_BLUR));
+		FakeLightingFilter.instance().setSpecAmp(UI.value(SPEC_AMP));
+		FakeLightingFilter.instance().setDiffDark(UI.value(DIFF_DARK));
 		if(UI.valueToggle(ALT_MAP)) {
-			FakeLightingFilter.instance(p).setMap(altMap);
+			FakeLightingFilter.instance().setMap(altMap);
 		} else {
-			FakeLightingFilter.instance(p).setMap(p.g);
+			FakeLightingFilter.instance().setMap(p.g);
 		}
 		if(UI.valueToggle(FILTER_ACTIVE)) {
-			FakeLightingFilter.instance(p).applyTo(p.g);
+			FakeLightingFilter.instance().applyTo(p.g);
 		}
 	}
 

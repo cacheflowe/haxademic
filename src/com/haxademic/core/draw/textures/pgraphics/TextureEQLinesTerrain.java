@@ -92,7 +92,7 @@ extends BaseTexture {
 		eqHistoryCopy.endShape(P.CLOSE);
 		eqHistoryCopy.endDraw();
 		
-		ReflectFilter.instance(P.p).applyTo(eqHistoryCopy);
+		ReflectFilter.instance().applyTo(eqHistoryCopy);
 	}
 	
 	public void updateDraw() {
@@ -106,26 +106,26 @@ extends BaseTexture {
 		_texture.rotateX(1.2f);
 
 		// draw shader-displaced mesh
-		LinesDeformAndTextureFilter.instance(P.p).setDisplacementMap(eqHistoryCopy);
-		LinesDeformAndTextureFilter.instance(P.p).setColorMap(eqHistoryCopy);
-		LinesDeformAndTextureFilter.instance(P.p).setWeight(10f);
-		LinesDeformAndTextureFilter.instance(P.p).setModelMaxExtent(shapeExtent * 2f);
-		LinesDeformAndTextureFilter.instance(P.p).setColorThicknessMode(true);
-		LinesDeformAndTextureFilter.instance(P.p).setSheetMode(true);
-		LinesDeformAndTextureFilter.instance(P.p).setDisplaceAmp(200);
-		LinesDeformAndTextureFilter.instance(P.p).applyTo(_texture);
+		LinesDeformAndTextureFilter.instance().setDisplacementMap(eqHistoryCopy);
+		LinesDeformAndTextureFilter.instance().setColorMap(eqHistoryCopy);
+		LinesDeformAndTextureFilter.instance().setWeight(10f);
+		LinesDeformAndTextureFilter.instance().setModelMaxExtent(shapeExtent * 2f);
+		LinesDeformAndTextureFilter.instance().setColorThicknessMode(true);
+		LinesDeformAndTextureFilter.instance().setSheetMode(true);
+		LinesDeformAndTextureFilter.instance().setDisplaceAmp(200);
+		LinesDeformAndTextureFilter.instance().setOnContext(_texture);
 
 		_texture.stroke(255);
 		_texture.shape(shape);
 		_texture.resetShader();
 
 		// post effects
-		VignetteAltFilter.instance(P.p).setDarkness(-4f);
-		VignetteAltFilter.instance(P.p).setSpread(1f);
-		VignetteAltFilter.instance(P.p).applyTo(_texture);
-		BlurProcessingFilter.instance(P.p).setSigma(6);
-		BlurProcessingFilter.instance(P.p).setBlurSize(1);
-		BlurProcessingFilter.instance(P.p).applyTo(_texture);
-		InvertFilter.instance(P.p).applyTo(_texture);
+		VignetteAltFilter.instance().setDarkness(-4f);
+		VignetteAltFilter.instance().setSpread(1f);
+		VignetteAltFilter.instance().applyTo(_texture);
+		BlurProcessingFilter.instance().setSigma(6);
+		BlurProcessingFilter.instance().setBlurSize(1);
+		BlurProcessingFilter.instance().applyTo(_texture);
+		InvertFilter.instance().applyTo(_texture);
 	}
 }

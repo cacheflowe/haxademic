@@ -88,14 +88,14 @@ extends PAppletHax {
 		fluidBuff.endDraw();
 		
 		// postprocessing
-		BlurHFilter.instance(p).setBlurByPercent(2f, fluidBuff.width);
-		BlurVFilter.instance(p).setBlurByPercent(2f, fluidBuff.height);
-		BlurHFilter.instance(p).applyTo(fluidBuff);
-		BlurVFilter.instance(p).applyTo(fluidBuff);
-		BlurHFilter.instance(p).applyTo(fluidBuff);
-		BlurVFilter.instance(p).applyTo(fluidBuff);
-		BlurHFilter.instance(p).applyTo(fluidBuff);
-		BlurVFilter.instance(p).applyTo(fluidBuff);
+		BlurHFilter.instance().setBlurByPercent(2f, fluidBuff.width);
+		BlurVFilter.instance().setBlurByPercent(2f, fluidBuff.height);
+		BlurHFilter.instance().applyTo(fluidBuff);
+		BlurVFilter.instance().applyTo(fluidBuff);
+		BlurHFilter.instance().applyTo(fluidBuff);
+		BlurVFilter.instance().applyTo(fluidBuff);
+		BlurHFilter.instance().applyTo(fluidBuff);
+		BlurVFilter.instance().applyTo(fluidBuff);
 		
 		// draw fluid buffer to screen
 		p.image(fluidBuff, 0, 0);

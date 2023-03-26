@@ -32,6 +32,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+	    // NOTE! Couldn't this be done with an IJoystickControl/DepthCameraRegion??
+	    
 		// init depth cam
 //	    RealSenseWrapper.setSmallStream();
 		DepthCamera.instance(DepthCameraType.Realsense);

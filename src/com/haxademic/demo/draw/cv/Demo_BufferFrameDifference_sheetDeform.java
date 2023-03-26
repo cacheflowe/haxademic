@@ -63,10 +63,10 @@ implements IWebCamCallback {
 		bufferFrameDifference.update(textureFlipped);
 		
 		// blur to smooth out displacement
-		BlurHFilter.instance(p).setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().width);
-		BlurHFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
-		BlurVFilter.instance(p).setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().height);
-		BlurVFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
+		BlurHFilter.instance().setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().width);
+		BlurHFilter.instance().applyTo(bufferFrameDifference.differenceBuffer());
+		BlurVFilter.instance().setBlurByPercent(1f, bufferFrameDifference.differenceBuffer().height);
+		BlurVFilter.instance().applyTo(bufferFrameDifference.differenceBuffer());
 		
 		// debug view
 		DebugView.setTexture("webcam", frame);
@@ -82,10 +82,10 @@ implements IWebCamCallback {
 		// update shader & draw mesh
 		if(bufferFrameDifference != null) {
 			// deform mesh
-			MeshDeformAndTextureFilter.instance(p).setDisplacementMap(bufferFrameDifference.differenceBuffer());
-			MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(300f);
-			MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-			MeshDeformAndTextureFilter.instance(p).applyTo(p);
+			MeshDeformAndTextureFilter.instance().setDisplacementMap(bufferFrameDifference.differenceBuffer());
+			MeshDeformAndTextureFilter.instance().setDisplaceAmp(300f);
+			MeshDeformAndTextureFilter.instance().setSheetMode(true);
+			MeshDeformAndTextureFilter.instance().setOnContext(p);
 			// set texture using PShape method
 			shape.setTexture(textureFlipped);
 

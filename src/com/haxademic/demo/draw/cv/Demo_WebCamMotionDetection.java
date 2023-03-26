@@ -58,12 +58,12 @@ implements IWebCamCallback {
 
 		// post-process difference buffer w/ threshold of black & white falloff, w/ blur to help smooth
 		ImageUtil.cropFillCopyImage(differenceBuffer, bwBuffer, true);
-		BlurHFilter.instance(p).setBlurByPercent(1f, (float) bwBuffer.width);
-		BlurHFilter.instance(p).applyTo(bwBuffer);
-		BlurVFilter.instance(p).setBlurByPercent(1f, (float) bwBuffer.height);
-		BlurVFilter.instance(p).applyTo(bwBuffer);
-		ThresholdFilter.instance(p).setCutoff(0.2f);
-		ThresholdFilter.instance(p).applyTo(bwBuffer);
+		BlurHFilter.instance().setBlurByPercent(1f, (float) bwBuffer.width);
+		BlurHFilter.instance().applyTo(bwBuffer);
+		BlurVFilter.instance().setBlurByPercent(1f, (float) bwBuffer.height);
+		BlurVFilter.instance().applyTo(bwBuffer);
+		ThresholdFilter.instance().setCutoff(0.2f);
+		ThresholdFilter.instance().applyTo(bwBuffer);
 		
 		// set debug info
 		p.image(bwBuffer, 0, 0);

@@ -2,23 +2,21 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ColorizeTwoColorsFilter
 extends BaseFragmentShader {
 
 	public static ColorizeTwoColorsFilter instance;
 	
-	public ColorizeTwoColorsFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/colorize-two-colors.glsl");
+	public ColorizeTwoColorsFilter() {
+		super("haxademic/shaders/filters/colorize-two-colors.glsl");
 		setColor1(1f, 1f, 1f);
 		setColor2(0f, 0f, 0f);
 		setCrossfadeMode(0);
 	}
 	
-	public static ColorizeTwoColorsFilter instance(PApplet p) {
+	public static ColorizeTwoColorsFilter instance() {
 		if(instance != null) return instance;
-		instance = new ColorizeTwoColorsFilter(p);
+		instance = new ColorizeTwoColorsFilter();
 		return instance;
 	}
 	

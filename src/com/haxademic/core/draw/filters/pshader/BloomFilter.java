@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pshader;
 
 import java.util.HashMap;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -23,16 +22,16 @@ extends BaseFragmentShader {
 	public static int BLEND_MULTIPLY = 1;
 	public static int BLEND_DARKEST = 2;
 	
-	public BloomFilter(PApplet p) {
-		super(p, null);
+	public BloomFilter() {
+		super(null);
 		setStrength(1f);
 		setBlurIterations(5);
 		setBlendMode(BLEND_SCREEN);
 	}
 	
-	public static BloomFilter instance(PApplet p) {
+	public static BloomFilter instance() {
 		if(instance != null) return instance;
-		instance = new BloomFilter(p);
+		instance = new BloomFilter();
 		return instance;
 	}
 	
@@ -49,7 +48,7 @@ extends BaseFragmentShader {
 	}
 	
 	public void applyTo(PApplet p) {
-		applyTo(p.g);
+		applyTo(p);
 	}
 	
 	public void applyTo(PGraphics pg) {
@@ -67,25 +66,25 @@ extends BaseFragmentShader {
 ////		glowTexture.image(pg, 0, 0);
 		glowTexture.endDraw();
 		ImageUtil.copyImage(pg, glowTexture);
-		LeaveWhiteFilter.instance(P.p).setCrossfade(0.95f);
-		LeaveWhiteFilter.instance(P.p).applyTo(glowTexture);
-		BlurHFilter.instance(P.p).setBlurByPercent(strength, glowTexture.width);
-		BlurVFilter.instance(P.p).setBlurByPercent(strength, glowTexture.height);
+		LeaveWhiteFilter.instance().setCrossfade(0.95f);
+		LeaveWhiteFilter.instance().applyTo(glowTexture);
+		BlurHFilter.instance().setBlurByPercent(strength, glowTexture.width);
+		BlurVFilter.instance().setBlurByPercent(strength, glowTexture.height);
 		for (int i = 0; i < iterations; i++) {
-			BlurHFilter.instance(P.p).applyTo(glowTexture);
-			BlurVFilter.instance(P.p).applyTo(glowTexture);
+			BlurHFilter.instance().applyTo(glowTexture);
+			BlurVFilter.instance().applyTo(glowTexture);
 		}
 		
 		// blend it
 		if(blendMode == BLEND_SCREEN) {
-			BlendTextureScreen.instance(P.p).setSourceTexture(glowTexture);
-			BlendTextureScreen.instance(P.p).applyTo(pg);
+			BlendTextureScreen.instance().setSourceTexture(glowTexture);
+			BlendTextureScreen.instance().applyTo(pg);
 		} else if(blendMode == BLEND_MULTIPLY) {
-			BlendTextureMultiply.instance(P.p).setSourceTexture(glowTexture);
-			BlendTextureMultiply.instance(P.p).applyTo(pg);
+			BlendTextureMultiply.instance().setSourceTexture(glowTexture);
+			BlendTextureMultiply.instance().applyTo(pg);
 		} else if(blendMode == BLEND_DARKEST) {
-			BlendTextureDarken.instance(P.p).setSourceTexture(glowTexture);
-			BlendTextureDarken.instance(P.p).applyTo(pg);
+			BlendTextureDarken.instance().setSourceTexture(glowTexture);
+			BlendTextureDarken.instance().applyTo(pg);
 		}
 	}
 }

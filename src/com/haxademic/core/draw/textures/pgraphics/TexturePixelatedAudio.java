@@ -121,23 +121,23 @@ extends BaseTexture {
 //		DebugView.setTexture(noiseMapFine);
 		
 		// blend 2 maps together
-		BlendTowardsTexture.instance(P.p).setSourceTexture(noiseMapZoomed);
-		BlendTowardsTexture.instance(P.p).setBlendLerp(0.2f);
-		BlendTowardsTexture.instance(P.p).applyTo(noiseMap);
+		BlendTowardsTexture.instance().setSourceTexture(noiseMapZoomed);
+		BlendTowardsTexture.instance().setBlendLerp(0.2f);
+		BlendTowardsTexture.instance().applyTo(noiseMap);
 
 		// blend another map together
-		BlendTowardsTexture.instance(P.p).setSourceTexture(noiseMapFine);
-		BlendTowardsTexture.instance(P.p).setBlendLerp(0.2f);
-		BlendTowardsTexture.instance(P.p).applyTo(noiseMap);
+		BlendTowardsTexture.instance().setSourceTexture(noiseMapFine);
+		BlendTowardsTexture.instance().setBlendLerp(0.2f);
+		BlendTowardsTexture.instance().applyTo(noiseMap);
 		
 		// Blur it
-		BlurProcessingFilter.instance(P.p).setSigma(0.15f);
-		BlurProcessingFilter.instance(P.p).setBlurSize(4);
-		BlurProcessingFilter.instance(P.p).applyTo(noiseMap);
+		BlurProcessingFilter.instance().setSigma(0.15f);
+		BlurProcessingFilter.instance().setBlurSize(4);
+		BlurProcessingFilter.instance().applyTo(noiseMap);
 		
 		// texture to current palette
-		ColorizeFromTexture.instance(P.p).setTexture(gradient.texture());
-		ColorizeFromTexture.instance(P.p).applyTo(noiseMap);
+		ColorizeFromTexture.instance().setTexture(gradient.texture());
+		ColorizeFromTexture.instance().applyTo(noiseMap);
 		
 		// draw audio cells over scaled-up low-res texture
 //		noiseMap.beginDraw();
@@ -151,9 +151,9 @@ extends BaseTexture {
 //		noiseMap.endDraw();
 		
 		// blend composite
-		BlendTowardsTexture.instance(P.p).setSourceTexture(noiseMap);
-		BlendTowardsTexture.instance(P.p).setBlendLerp(0.5f);
-		BlendTowardsTexture.instance(P.p).applyTo(noiseComposite);
+		BlendTowardsTexture.instance().setSourceTexture(noiseMap);
+		BlendTowardsTexture.instance().setBlendLerp(0.5f);
+		BlendTowardsTexture.instance().applyTo(noiseComposite);
 	}
 
 	public void updateDraw() {

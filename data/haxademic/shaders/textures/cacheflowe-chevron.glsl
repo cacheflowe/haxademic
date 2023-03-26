@@ -30,5 +30,5 @@ void main() {
     float col = 0.5 + 0.5 * sin(uv.y * numLines);
     float aA = numLines * 0.0015;
     col = smoothstep(0.5 - aA, 0.5 + aA, col);
-	  gl_FragColor = vec4(vec3(col),1.0);
+	gl_FragColor = vec4(vec3(col),1.0);
 }

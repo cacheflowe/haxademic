@@ -74,8 +74,8 @@ extends PAppletHax {
 		
 		// copy to tiny texture, reduce brightness & send!
 		ImageUtil.copyImage(curTexture, ledTexture);
-		BrightnessFilter.instance(p).setBrightness(0.2f);
-		BrightnessFilter.instance(p).applyTo(ledTexture);
+		BrightnessFilter.instance().setBrightness(0.2f);
+		BrightnessFilter.instance().applyTo(ledTexture);
 		
 		// send it!
 		ledTexture.loadPixels();
@@ -104,16 +104,16 @@ extends PAppletHax {
 		noise3d.update(0.8f, 0, 0, FrameLoop.count(0.01f), FrameLoop.count(0.0075f), false, false);
 
 		// post-process noise map
-//		ContrastFilter.instance(p).setContrast(3f);
-//		ContrastFilter.instance(p).applyTo(noise3d.texture());
-		ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
-		ColorizeFromTexture.instance(p).applyTo(noise3d.texture());
+//		ContrastFilter.instance().setContrast(3f);
+//		ContrastFilter.instance().applyTo(noise3d.texture());
+		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
+		ColorizeFromTexture.instance().applyTo(noise3d.texture());
 		
-		BlurHFilter.instance(p).setBlurByPercent(1f, noise3d.texture().width);
-		BlurVFilter.instance(p).setBlurByPercent(1f, noise3d.texture().height);
+		BlurHFilter.instance().setBlurByPercent(1f, noise3d.texture().width);
+		BlurVFilter.instance().setBlurByPercent(1f, noise3d.texture().height);
 		for (int i = 0; i < 10; i++) {
-			BlurHFilter.instance(p).applyTo(noise3d.texture());
-			BlurVFilter.instance(p).applyTo(noise3d.texture());
+			BlurHFilter.instance().applyTo(noise3d.texture());
+			BlurVFilter.instance().applyTo(noise3d.texture());
 		}
 	}
 }

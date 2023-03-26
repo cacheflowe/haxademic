@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class CubicLensDistortionFilter
 extends BaseFragmentShader {
 
 	public static CubicLensDistortionFilter instance;
 	
-	public CubicLensDistortionFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/cubic-lens-distortion.glsl");
+	public CubicLensDistortionFilter() {
+		super("haxademic/shaders/filters/cubic-lens-distortion.glsl");
 		setAmplitude(0);
 	}
 	
-	public static CubicLensDistortionFilter instance(PApplet p) {
+	public static CubicLensDistortionFilter instance() {
 		if(instance != null) return instance;
-		instance = new CubicLensDistortionFilter(p);
+		instance = new CubicLensDistortionFilter();
 		return instance;
 	}
 	

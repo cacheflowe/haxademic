@@ -73,10 +73,10 @@ implements IWebCamCallback {
 		
 		// kaleido
 		PG.setTextureRepeat(p, true);
-//		KaleidoFilter.instance(p).setSides(4f + activityMonitor.activityAmp() * 6f);
-		KaleidoFilter.instance(p).setSides(6f);
-		KaleidoFilter.instance(p).setAngle(p.frameCount * 0.0001f);
-		KaleidoFilter.instance(p).applyTo(p);
+//		KaleidoFilter.instance().setSides(4f + activityMonitor.activityAmp() * 6f);
+		KaleidoFilter.instance().setSides(6f);
+		KaleidoFilter.instance().setAngle(p.frameCount * 0.0001f);
+		KaleidoFilter.instance().applyTo(p);
 	}
 	
 }

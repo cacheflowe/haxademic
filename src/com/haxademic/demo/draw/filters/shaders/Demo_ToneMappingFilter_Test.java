@@ -75,10 +75,10 @@ implements IWebCamCallback {
 		shader.showShaderStatus(p.g);
 		
 		// add some saturation back in
-		SaturationFilter.instance(p).setSaturation(UI.value(SATURATION));
-		if(UI.valueToggle(ACTIVE)) SaturationFilter.instance(p).applyTo(p.g);
-		ContrastFilter.instance(p).setContrast(UI.value(CONTRAST));
-		if(UI.valueToggle(ACTIVE)) ContrastFilter.instance(p).applyTo(p.g);
+		SaturationFilter.instance().setSaturation(UI.value(SATURATION));
+		if(UI.valueToggle(ACTIVE)) SaturationFilter.instance().applyTo(p.g);
+		ContrastFilter.instance().setContrast(UI.value(CONTRAST));
+		if(UI.valueToggle(ACTIVE)) ContrastFilter.instance().applyTo(p.g);
 	}
 	
 	@Override

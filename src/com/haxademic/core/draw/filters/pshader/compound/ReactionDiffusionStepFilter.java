@@ -22,27 +22,27 @@ public class ReactionDiffusionStepFilter {
 		// it has its own iteration count
 		for (int i = 0; i < iterations; i++) {
 
-			BlurHFilter.instance(P.p).setBlurByPercent(blurH, pg.width);
-			BlurVFilter.instance(P.p).setBlurByPercent(blurV, pg.height);
+			BlurHFilter.instance().setBlurByPercent(blurH, pg.width);
+			BlurVFilter.instance().setBlurByPercent(blurV, pg.height);
 			for (int j = 0; j < blurIterations; j++) {
-				BlurHFilter.instance(P.p).applyTo(pg);
-				BlurVFilter.instance(P.p).applyTo(pg);
+				BlurHFilter.instance().applyTo(pg);
+				BlurVFilter.instance().applyTo(pg);
 			}
 			
-			SharpenFilter.instance(P.p).setSharpness(sharpen);
-			SharpenFilter.instance(P.p).applyTo(pg);
+			SharpenFilter.instance().setSharpness(sharpen);
+			SharpenFilter.instance().applyTo(pg);
 		}
 		
 		// thresh if needed
 		if(thresholdActive) {
-			ThresholdFilter.instance(P.p).setCrossfade(threshCrossfade);
-			ThresholdFilter.instance(P.p).setCutoff(threshCutoff);
-			ThresholdFilter.instance(P.p).applyTo(pg);
+			ThresholdFilter.instance().setCrossfade(threshCrossfade);
+			ThresholdFilter.instance().setCutoff(threshCutoff);
+			ThresholdFilter.instance().applyTo(pg);
 		}
 
 		// fully desaturate to make sure we're grayscale 
-		SaturationFilter.instance(P.p).setSaturation(0);
-		SaturationFilter.instance(P.p).applyTo(pg);
+		SaturationFilter.instance().setSaturation(0);
+		SaturationFilter.instance().applyTo(pg);
 	}
 	
 }

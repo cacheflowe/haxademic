@@ -52,7 +52,7 @@ extends PAppletHax {
 		shape = p.createShape();
 		shape.beginShape(PConstants.POINTS);
 		shape.noFill();
-		float spread = 5f; 
+		float spread = 1f; 
 		shape.strokeWeight(spread * 0.75f);
 		texture = DemoAssets.smallTexture();
 		for (int x = 0; x < texture.width; x++) {
@@ -77,8 +77,8 @@ extends PAppletHax {
 		noiseTexture.shader().set("rotation", FrameLoop.progressRads());
 		noiseBuffer.filter(noiseTexture.shader());
 		// blur texture for smooothness
-		BlurProcessingFilter.instance(p).setBlurSize(5);
-		BlurProcessingFilter.instance(p).applyTo(noiseBuffer);
+		BlurProcessingFilter.instance().setBlurSize(5);
+		BlurProcessingFilter.instance().applyTo(noiseBuffer);
 		
 		// set context
 		p.background(0);
@@ -88,14 +88,14 @@ extends PAppletHax {
 		
 		// set up shader
 		// apply points deform/texture shader
-		PointsDeformAndTextureFilter.instance(p).setColorMap(texture);
-		PointsDeformAndTextureFilter.instance(p).setDisplacementMap(noiseBuffer);
-		PointsDeformAndTextureFilter.instance(p).setMaxPointSize(6f);
-		PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(100 * P.sin(FrameLoop.progressRads()));			// multiplied by obj extent
-		PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(objExtent * 2.1f);		// texture mapping UV
-		PointsDeformAndTextureFilter.instance(p).setSheetMode(true);
-		PointsDeformAndTextureFilter.instance(p).setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
-		PointsDeformAndTextureFilter.instance(p).applyTo(p);
+		PointsDeformAndTextureFilter.instance().setColorMap(texture);
+		PointsDeformAndTextureFilter.instance().setDisplacementMap(noiseBuffer);
+		PointsDeformAndTextureFilter.instance().setMaxPointSize(1f);
+		PointsDeformAndTextureFilter.instance().setDisplaceAmp(1000 + 1000f * P.sin(FrameLoop.progressRads()));			// multiplied by obj extent
+		PointsDeformAndTextureFilter.instance().setModelMaxExtent(objExtent * 2.f);		// texture mapping UV
+		PointsDeformAndTextureFilter.instance().setSheetMode(true);
+		PointsDeformAndTextureFilter.instance().setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
+		PointsDeformAndTextureFilter.instance().setOnContext(p);
 		
 		// draw shape
 		p.stroke(255); // make sure we reset stroke

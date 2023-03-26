@@ -59,10 +59,10 @@ implements IWebCamCallback {
 			DebugView.setTexture("movie.buffer", movie.buffer);
 
 			ImageUtil.cropFillCopyImage(flippedCamera, p.g, true);
-			ColorizeFromTexture.instance(p).setTexture(movie.buffer);
-			ColorizeFromTexture.instance(p).setLumaMult(Mouse.xNorm > 0.5f);
-			ColorizeFromTexture.instance(p).setCrossfade(Mouse.yNorm);
-			ColorizeFromTexture.instance(p).applyTo(p);
+			ColorizeFromTexture.instance().setTexture(movie.buffer);
+			ColorizeFromTexture.instance().setLumaMult(Mouse.xNorm > 0.5f);
+			ColorizeFromTexture.instance().setCrossfade(Mouse.yNorm);
+			ColorizeFromTexture.instance().applyTo(p);
 		}
 	}
 

@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -52,9 +51,9 @@ extends BaseVideoFilter {
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.15f);
-			blurredMotion = P.p.createGraphics(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height, PRenderers.P3D);
-			blendedSpread = P.p.createGraphics(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height, PRenderers.P3D);
-			colorizedTrail = P.p.createGraphics(sourceBuffer.width, sourceBuffer.height, PRenderers.P3D);
+			blurredMotion = PG.newPG(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height);
+			blendedSpread = PG.newPG(motionDetectionMap.bwBuffer().width, motionDetectionMap.bwBuffer().height);
+			colorizedTrail = PG.newPG(sourceBuffer.width, sourceBuffer.height);
 		}
 
 		// run motion detection
@@ -77,16 +76,16 @@ extends BaseVideoFilter {
 		
 		// blur to smooth clocky motion detection
 		float blurAmp = 2f;
-		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, blurredMotion.width);
-		BlurHFilter.instance(P.p).applyTo(blurredMotion);
-		BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, blurredMotion.height);
-		BlurVFilter.instance(P.p).applyTo(blurredMotion);
+		BlurHFilter.instance().setBlurByPercent(blurAmp, blurredMotion.width);
+		BlurHFilter.instance().applyTo(blurredMotion);
+		BlurVFilter.instance().setBlurByPercent(blurAmp, blurredMotion.height);
+		BlurVFilter.instance().applyTo(blurredMotion);
 	}
 	
 	protected void addBlendBlurredAndSpread() {
 		// fade down
-		BrightnessStepFilter.instance(P.p).setBrightnessStep(-1f/255);
-		BrightnessStepFilter.instance(P.p).applyTo(blendedSpread);
+		BrightnessStepFilter.instance().setBrightnessStep(-1f/255);
+		BrightnessStepFilter.instance().applyTo(blendedSpread);
 		
 		// add new frame on top
 		blendedSpread.beginDraw();
@@ -99,16 +98,16 @@ extends BaseVideoFilter {
 		// spread out
 		float blurAmp = 1f;
 		for (int i = 0; i < 5; i++) {
-			BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, blendedSpread.width);
-			BlurHFilter.instance(P.p).applyTo(blendedSpread);
-			BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, blendedSpread.height);
-			BlurVFilter.instance(P.p).applyTo(blendedSpread);
+			BlurHFilter.instance().setBlurByPercent(blurAmp, blendedSpread.width);
+			BlurHFilter.instance().applyTo(blendedSpread);
+			BlurVFilter.instance().setBlurByPercent(blurAmp, blendedSpread.height);
+			BlurVFilter.instance().applyTo(blendedSpread);
 		}
 	}
 	
 	protected void colorizeFinal() {
 		ImageUtil.copyImage(blendedSpread, colorizedTrail);
-		ColorizeFromTexture.instance(P.p).setTexture(gradientTexture);
-		ColorizeFromTexture.instance(P.p).applyTo(colorizedTrail);
+		ColorizeFromTexture.instance().setTexture(gradientTexture);
+		ColorizeFromTexture.instance().applyTo(colorizedTrail);
 	}
 }

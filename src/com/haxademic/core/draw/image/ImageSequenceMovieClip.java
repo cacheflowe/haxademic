@@ -54,7 +54,7 @@ public class ImageSequenceMovieClip {
 	public ImageSequenceMovieClip(String imagesDir, String format, float fps, int[] framesSequence) {
 		this.fps = fps;
 		this.frameIndexPlaybackSequence = framesSequence;
-		if(BLANK_IMAGE == null) BLANK_IMAGE = P.p.createImage(32, 32, P.ARGB);
+		if(BLANK_IMAGE == null) BLANK_IMAGE = ImageUtil.newImage(32, 32);
 		imageSequence = new ArrayList<PImage>();
 		tint = P.p.color(255);
 		if(imagesDir != null) {

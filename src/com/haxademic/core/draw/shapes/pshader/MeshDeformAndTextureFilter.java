@@ -3,7 +3,6 @@ package com.haxademic.core.draw.shapes.pshader;
 import com.haxademic.core.draw.shapes.pshader.shared.BaseVertexShader;
 import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class MeshDeformAndTextureFilter
@@ -17,19 +16,19 @@ extends BaseVertexShader {
 	// NO LIGHTS: p.noLights();
 	// pshape.setTexture() needs to be used, unlike LINES and POINTS
 	
-	public MeshDeformAndTextureFilter(PApplet p) {
-		super(p, 
-			"haxademic/shaders/vertex/mesh-deform-frag.glsl", 
-			"haxademic/shaders/vertex/mesh-deform-vert.glsl"
+	public MeshDeformAndTextureFilter() {
+		super(
+	        "haxademic/shaders/vertex/mesh-deform-frag.glsl", 
+	        "haxademic/shaders/vertex/mesh-deform-vert.glsl"
 		);
 		setDisplacementMap(DemoAssets.justin());
 		setDisplaceAmp(1f);
 		setSheetMode(true);
 	}
 	
-	public static MeshDeformAndTextureFilter instance(PApplet p) {
+	public static MeshDeformAndTextureFilter instance() {
 		if(instance != null) return instance;
-		instance = new MeshDeformAndTextureFilter(p);
+		instance = new MeshDeformAndTextureFilter();
 		return instance;
 	}
 	

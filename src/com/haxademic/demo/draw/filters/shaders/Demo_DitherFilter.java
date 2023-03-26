@@ -1,6 +1,5 @@
 package com.haxademic.demo.draw.filters.shaders;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -63,16 +62,16 @@ implements IWebCamCallback {
 	
 	protected void doDither() {
 		// pre-process the image
-		SaturationFilter.instance(p).setSaturation(UI.value(SATURATION));
-		SaturationFilter.instance(p).applyTo(p.g);
-		ContrastFilter.instance(p).setContrast(UI.value(CONTRAST));
-		ContrastFilter.instance(p).applyTo(p.g);
+		SaturationFilter.instance().setSaturation(UI.value(SATURATION));
+		SaturationFilter.instance().applyTo(p.g);
+		ContrastFilter.instance().setContrast(UI.value(CONTRAST));
+		ContrastFilter.instance().applyTo(p.g);
 
 		// do dithering
-		if(UI.valueInt(DITHER_MODE) == 0) DitherFilter.instance(P.p).setDitherMode2x2();
-		if(UI.valueInt(DITHER_MODE) == 1) DitherFilter.instance(P.p).setDitherMode4x4();
-		if(UI.valueInt(DITHER_MODE) == 2) DitherFilter.instance(P.p).setDitherMode8x8();
-		DitherFilter.instance(P.p).applyTo(p.g);
+		if(UI.valueInt(DITHER_MODE) == 0) DitherFilter.instance().setDitherMode2x2();
+		if(UI.valueInt(DITHER_MODE) == 1) DitherFilter.instance().setDitherMode4x4();
+		if(UI.valueInt(DITHER_MODE) == 2) DitherFilter.instance().setDitherMode8x8();
+		DitherFilter.instance().applyTo(p.g);
 	}
 	
 	@Override

@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -30,7 +29,7 @@ extends BaseVideoFilter {
 
 		// build final draw buffer
 		renderedParticles = PG.newPG(width, height);
-		motionBuffer = P.p.createGraphics(width / 4, height / 4, PRenderers.P3D);
+		motionBuffer = PG.newPG(width / 4, height / 4);
 		
 		// build particle launcher
 		particleLaunchers = new ParticleLauncherGPU(512);
@@ -59,10 +58,10 @@ extends BaseVideoFilter {
 		
 		// pre-process motion buffer for smoother launch blobs
 		ImageUtil.copyImage(sourceBuffer, motionBuffer);
-		BlurHFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.width);
-		BlurHFilter.instance(P.p).applyTo(motionBuffer);
-		BlurVFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.height);
-		BlurVFilter.instance(P.p).applyTo(motionBuffer);
+		BlurHFilter.instance().setBlurByPercent(0.5f, motionBuffer.width);
+		BlurHFilter.instance().applyTo(motionBuffer);
+		BlurVFilter.instance().setBlurByPercent(0.5f, motionBuffer.height);
+		BlurVFilter.instance().applyTo(motionBuffer);
 
 		// run motion detection
 		motionDetectionMap.updateSource(motionBuffer);
@@ -122,7 +121,7 @@ extends BaseVideoFilter {
 		
 		destBuffer.endDraw();
 		// desaturate
-//		SaturationFilter.instance(p).setSaturation(0);
-//		SaturationFilter.instance(p).applyTo(p);	}
+//		SaturationFilter.instance().setSaturation(0);
+//		SaturationFilter.instance().applyTo(p);	}
 	}
 }

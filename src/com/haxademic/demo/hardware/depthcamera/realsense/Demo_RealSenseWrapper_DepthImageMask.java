@@ -65,14 +65,14 @@ implements IAppStoreListener {
 		ImageUtil.cropFillCopyImage(realSenseWrapper.getDepthImage(), pg, true);
 		
 		// preprocess
-		ChromaColorFilter.instance(p).presetBlackKnockout();
-		ChromaColorFilter.instance(p).applyTo(pg);
-		ContrastFilter.instance(p).setContrast(2f);
-		ContrastFilter.instance(p).applyTo(pg);
+		ChromaColorFilter.instance().presetBlackKnockout();
+		ChromaColorFilter.instance().applyTo(pg);
+		ContrastFilter.instance().setContrast(2f);
+		ContrastFilter.instance().applyTo(pg);
 		
 		// colorize
-		ColorizeFromTexture.instance(p).setTexture(thermalGradient);
-		ColorizeFromTexture.instance(p).applyTo(pg);
+		ColorizeFromTexture.instance().setTexture(thermalGradient);
+		ColorizeFromTexture.instance().applyTo(pg);
 		
 		// draw to screen
 		ImageUtil.drawImageCropFill(DemoAssets.textureNebula(), p.g, true);

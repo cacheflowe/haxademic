@@ -2,7 +2,6 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.cv.BufferMotionDetectionMap;
@@ -34,12 +33,12 @@ extends BaseVideoFilter {
 		// create offscreen buffer for blob processing
 		int blurImgW = motionDetectionMap.bwBuffer().width;
 		int blurImgH = motionDetectionMap.bwBuffer().height;
-		blobSourceBuffer = P.p.createGraphics(blurImgW, blurImgH, P.P2D);
+		blobSourceBuffer = PG.newPG(blurImgW, blurImgH);
 		
 		// set up blur shader for blob pre-processing
 		float shaderBlurAmount = 1f;
-		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blurImgW);
-		BlurVFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blurImgH);
+		BlurHFilter.instance().setBlurByPercent(shaderBlurAmount, blurImgW);
+		BlurVFilter.instance().setBlurByPercent(shaderBlurAmount, blurImgH);
 
 		// init blob detection object
 		blobDetection = new BlobDetection(blurImgW, blurImgH);
@@ -54,7 +53,7 @@ extends BaseVideoFilter {
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.1f);
-			blobOutputBuffer = P.p.createGraphics(width, height, PRenderers.P3D);
+			blobOutputBuffer = PG.newPG(width, height);
 			initBlobDetection();
 			DebugView.setTexture("sourceBuffer", sourceBuffer);
 		}
@@ -73,13 +72,13 @@ extends BaseVideoFilter {
 		ImageUtil.copyImage(motionDetectionMap.bwBuffer(), blobSourceBuffer);
 		
 		// darken the edges to help with blob cleanliness
-		EdgeColorDarkenFilter.instance(P.p).setSpreadX(0.05f);
-		EdgeColorDarkenFilter.instance(P.p).setSpreadY(0.05f);
-		EdgeColorDarkenFilter.instance(P.p).applyTo(blobSourceBuffer);
+		EdgeColorDarkenFilter.instance().setSpreadX(0.05f);
+		EdgeColorDarkenFilter.instance().setSpreadY(0.05f);
+		EdgeColorDarkenFilter.instance().applyTo(blobSourceBuffer);
 		
 		// blur for blob computation smoothness
-		BlurHFilter.instance(P.p).applyTo(blobSourceBuffer);
-		BlurVFilter.instance(P.p).applyTo(blobSourceBuffer);
+		BlurHFilter.instance().applyTo(blobSourceBuffer);
+		BlurVFilter.instance().applyTo(blobSourceBuffer);
 		
 		// load pixels and pass to blob detection object
 		blobSourceBuffer.loadPixels();

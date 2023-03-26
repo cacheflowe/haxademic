@@ -23,10 +23,10 @@ extends PAppletHax {
 		p.background(0);
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
-		RotateFilter.instance(p).setRotation(Mouse.xNorm * 10f);
-		RotateFilter.instance(p).setZoom(Mouse.yNorm * 10f);
-		RotateFilter.instance(p).setOffset(Mouse.xNorm * 10f, Mouse.xNorm * 10f);
-		RotateFilter.instance(p).applyTo(p.g);
+		RotateFilter.instance().setRotation(Mouse.xNorm * 10f);
+		RotateFilter.instance().setZoom(Mouse.yNorm * 10f);
+		RotateFilter.instance().setOffset(Mouse.xNorm * 10f, Mouse.xNorm * 10f);
+		RotateFilter.instance().applyTo(p.g);
 	}
 
 }

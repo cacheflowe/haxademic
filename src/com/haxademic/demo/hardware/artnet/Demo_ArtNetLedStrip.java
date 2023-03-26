@@ -26,10 +26,10 @@ extends PAppletHax {
 		noise3d.update(1f, 0, 0, 0, FrameLoop.count(0.001f), false, false);
 
 		// post-process noise map
-		ContrastFilter.instance(p).setContrast(3f);
-		ContrastFilter.instance(p).applyTo(noise3d.texture());
-		ColorizeFromTexture.instance(p).setTexture(ImageGradient.BLACK_HOLE());
-		ColorizeFromTexture.instance(p).applyTo(noise3d.texture());
+		ContrastFilter.instance().setContrast(3f);
+		ContrastFilter.instance().applyTo(noise3d.texture());
+		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
+		ColorizeFromTexture.instance().applyTo(noise3d.texture());
 
 		// draw to screen
 		p.image(noise3d.texture(), 0, 0);

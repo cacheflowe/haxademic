@@ -2,22 +2,20 @@ package com.haxademic.core.draw.filters.pshader;
 
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
-import processing.core.PApplet;
-
 public class ColorSolidFilter
 extends BaseFragmentShader {
 
 	public static ColorSolidFilter instance;
 	
-	public ColorSolidFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/color-solid.glsl");
+	public ColorSolidFilter() {
+		super("haxademic/shaders/filters/color-solid.glsl");
 		setColor(1f, 1f, 1f, 1f);
 		setCrossfade(1f);
 	}
 	
-	public static ColorSolidFilter instance(PApplet p) {
+	public static ColorSolidFilter instance() {
 		if(instance != null) return instance;
-		instance = new ColorSolidFilter(p);
+		instance = new ColorSolidFilter();
 		return instance;
 	}
 	

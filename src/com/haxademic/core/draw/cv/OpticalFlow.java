@@ -175,10 +175,10 @@ public class OpticalFlow {
 		// pre-process frames before optical flow:
 		// blur for smoother optical flow results in some cases
 		if(preBlurAmp > 0) {
-			BlurProcessingFilter.instance(P.p).setBlurSize(preBlurAmp);
-			BlurProcessingFilter.instance(P.p).setSigma(preBlurSigma);
-			BlurProcessingFilter.instance(P.p).applyTo(tex1);
-			BlurProcessingFilter.instance(P.p).applyTo(tex0);
+			BlurProcessingFilter.instance().setBlurSize(preBlurAmp);
+			BlurProcessingFilter.instance().setSigma(preBlurSigma);
+			BlurProcessingFilter.instance().applyTo(tex1);
+			BlurProcessingFilter.instance().applyTo(tex0);
 		}
 		
 		// update shader & do optical flow calculations
@@ -199,27 +199,27 @@ public class OpticalFlow {
 //			resultFlowedBuffer.beginDraw();
 //			resultFlowedBuffer.background(0);
 //			resultFlowedBuffer.endDraw();
-			BlendTowardsTexture.instance(P.p).setBlendLerp(resultFlowDecayLerp);
-			BlendTowardsTexture.instance(P.p).setSourceTexture(resultBuffer);
-			BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
+			BlendTowardsTexture.instance().setBlendLerp(resultFlowDecayLerp);
+			BlendTowardsTexture.instance().setSourceTexture(resultBuffer);
+			BlendTowardsTexture.instance().applyTo(resultFlowedBuffer);
 //			ImageUtil.copyImage(resultBuffer, resultFlowedBuffer);
 			
 			// displace & blur the flow data for liquidy flow & dispersion
-			DisplacementMapFilter.instance(P.p).setMap(resultFlowedBuffer);
-			DisplacementMapFilter.instance(P.p).setMode(10);	// special flow mode
-			DisplacementMapFilter.instance(P.p).setAmp(resultFlowDisplaceAmp);
+			DisplacementMapFilter.instance().setMap(resultFlowedBuffer);
+			DisplacementMapFilter.instance().setMode(10);	// special flow mode
+			DisplacementMapFilter.instance().setAmp(resultFlowDisplaceAmp);
 			for (int i = 0; i < resultFlowDisplaceIters; i++) {
 				DisplacementMapFilter.instance.applyTo(resultFlowedBuffer);
 			}
 			
-			BlurProcessingFilter.instance(P.p).setBlurSize(resultBlurAmp);
-			BlurProcessingFilter.instance(P.p).setSigma(resultBlurSigma);
-			BlurProcessingFilter.instance(P.p).applyTo(resultFlowedBuffer);
+			BlurProcessingFilter.instance().setBlurSize(resultBlurAmp);
+			BlurProcessingFilter.instance().setSigma(resultBlurSigma);
+			BlurProcessingFilter.instance().applyTo(resultFlowedBuffer);
 		}
 		
-//		BlendTowardsTexture.instance(P.p).setBlendLerp(0.15f);
-//		BlendTowardsTexture.instance(P.p).setSourceTexture(resultIntermediateFlowedBuffer);
-//		BlendTowardsTexture.instance(P.p).applyTo(resultFlowedBuffer);
+//		BlendTowardsTexture.instance().setBlendLerp(0.15f);
+//		BlendTowardsTexture.instance().setSourceTexture(resultIntermediateFlowedBuffer);
+//		BlendTowardsTexture.instance().applyTo(resultFlowedBuffer);
 	}
 	
 	public void drawDebugLines() {

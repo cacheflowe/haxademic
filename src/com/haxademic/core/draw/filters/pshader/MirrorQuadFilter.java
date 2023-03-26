@@ -10,14 +10,14 @@ extends BaseFragmentShader {
 
 	public static MirrorQuadFilter instance;
 	
-	public MirrorQuadFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/mirror-quad.glsl");
+	public MirrorQuadFilter() {
+		super("haxademic/shaders/filters/mirror-quad.glsl");
 		setZoom(1f);
 	}
 	
-	public static MirrorQuadFilter instance(PApplet p) {
+	public static MirrorQuadFilter instance() {
 		if(instance != null) return instance;
-		instance = new MirrorQuadFilter(p);
+		instance = new MirrorQuadFilter();
 		return instance;
 	}
 	
