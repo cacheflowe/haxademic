@@ -35,6 +35,7 @@ implements IAppStoreListener {
 	public AppWindow() {
 		P.store.addListener(this);
 		buildAppWindow(P.p);
+//		P.p.size(500, 500, P.P3D);
 		// update every frame
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
@@ -72,7 +73,7 @@ implements IAppStoreListener {
 		if(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH) == 0) {
 			p.noSmooth();
 		} else {
-			p.smooth(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH));	
+			p.smooth(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_MEDIUM));	
 		}
 		
 		// SET APP ICON
