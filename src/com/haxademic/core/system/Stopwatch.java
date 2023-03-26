@@ -31,6 +31,10 @@ public class Stopwatch {
         return totalMs;
     }
     
+    public boolean isRunning() {
+        return isRunning;
+    }
+    
     public int totalMs() {
         if(isRunning) {
             return totalMs + P.p.millis() - startTime;

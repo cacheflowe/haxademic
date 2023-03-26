@@ -3,6 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.Stopwatch;
@@ -24,8 +25,9 @@ extends PAppletHax {
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.3f, PTextAlign.LEFT, PTextAlign.TOP);
 
 		p.text(
-		        stopwatch.totalMs() + "ms\n" +
-		        stopwatch.totalHours() + " hours"
+		        stopwatch.totalMs() + "ms" + FileUtil.NEWLINE + 
+		        stopwatch.totalHours() + " hours" + FileUtil.NEWLINE +  
+		        "isRunning = " + stopwatch.isRunning()
 		        , 30, 40);
 		
 		// key commands
