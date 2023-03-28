@@ -98,7 +98,7 @@ public class Particle {
 	
 	public Particle setRotation(float rotX, float rotY, float rotZ, float rotSpeedX, float rotSpeedY, float rotSpeedZ) {
 		this.rotation.set(rotX, rotY, rotZ);
-		setRotationRange(rotX, rotY, rotZ, rotX, rotY, rotZ);
+		setRotationRange(rotX, rotX, rotY, rotY, rotZ, rotZ);
 		return this;
 	}
 	
@@ -110,7 +110,7 @@ public class Particle {
 	
 	public Particle setRotationSpeed(float rotSpeedX, float rotSpeedY, float rotSpeedZ) {
 		this.rotationSpeed.set(rotSpeedX, rotSpeedY, rotSpeedZ);
-		setRotationSpeedRange(rotSpeedX, rotSpeedY, rotSpeedZ, rotSpeedX, rotSpeedY, rotSpeedZ);
+		setRotationSpeedRange(rotSpeedX, rotSpeedX, rotSpeedY, rotSpeedY, rotSpeedZ, rotSpeedZ);
 		return this;
 	}
 	
@@ -122,7 +122,7 @@ public class Particle {
 	
 	public Particle setSpeed(float speedX, float speedY, float speedZ) {
 		this.speed.set(speedX, speedY, speedZ);
-		setSpeedRange(speedX, speedY, speedZ, speedX, speedY, speedZ);
+		setSpeedRange(speedX, speedX, speedY, speedY, speedZ, speedZ);
 		return this;
 	}
 	
@@ -134,7 +134,7 @@ public class Particle {
 	
 	public Particle setGravity(float gravityX, float gravityY, float gravityZ) {
 		this.gravity.set(gravityX, gravityY, gravityZ);
-		setGravityRange(gravityX, gravityY, gravityZ, gravityX, gravityY, gravityZ);
+		setGravityRange(gravityX, gravityX, gravityY, gravityY, gravityZ, gravityZ);
 		return this;
 	}
 	
