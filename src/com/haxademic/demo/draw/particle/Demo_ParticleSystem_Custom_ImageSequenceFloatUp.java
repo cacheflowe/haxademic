@@ -30,7 +30,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		particles = new ParticleSystemCustom(new PImage[] { DemoAssets.particle() });
+		particles = new ParticleSystemCustom();
 		images = new PImage[] {
 				DemoAssets.textureCursor(),
 				DemoAssets.smallTexture(),
@@ -86,8 +86,8 @@ extends PAppletHax {
 	public class ParticleFactoryCustom
 	extends ParticleFactory {
 		
-		public ParticleFactoryCustom(PImage[] particleImages) {
-			super(particleImages);
+		public ParticleFactoryCustom() {
+			super();
 		}
 		
 		public Particle initNewParticle() {
@@ -99,8 +99,8 @@ extends PAppletHax {
 	public class ParticleSystemCustom
 	extends ParticleSystem {
 
-		public ParticleSystemCustom(PImage[] particleImages) {
-			super(new ParticleFactoryCustom(particleImages));
+		public ParticleSystemCustom() {
+			super(new ParticleFactoryCustom());
 		}
 		
 		protected void randomize(Particle particle) {
