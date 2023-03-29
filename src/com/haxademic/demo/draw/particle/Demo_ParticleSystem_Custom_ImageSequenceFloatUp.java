@@ -21,8 +21,6 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ParticleSystemCustom particles;
-	protected int imgIndex = 0;
-	protected PImage[] images;
 	
 	protected void config() {
 		Config.setAppSize(800, 800);
@@ -31,11 +29,6 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		particles = new ParticleSystemCustom();
-		images = new PImage[] {
-				DemoAssets.textureCursor(),
-				DemoAssets.smallTexture(),
-				DemoAssets.justin(),
-		};
 	}
 	
 	protected void drawApp() {
@@ -59,13 +52,7 @@ extends PAppletHax {
 			particles.launchParticle(randX, randY, 0);
 		}
 	}
-	
-	protected PImage nextImg() {
-		imgIndex++;
-		imgIndex = imgIndex % images.length;
-		return images[imgIndex];
-	}
-	
+		
 	protected void drawParticles() {
 		// draw
 		pg.beginDraw();
@@ -98,9 +85,24 @@ extends PAppletHax {
 
 	public class ParticleSystemCustom
 	extends ParticleSystem {
+		
+		protected int imgIndex = 0;
+		protected PImage[] images;
 
 		public ParticleSystemCustom() {
 			super(new ParticleFactoryCustom());
+			
+			images = new PImage[] {
+					DemoAssets.textureCursor(),
+					DemoAssets.smallTexture(),
+					DemoAssets.justin(),
+			};
+		}
+		
+		protected PImage nextImg() {
+			imgIndex++;
+			imgIndex = imgIndex % images.length;
+			return images[imgIndex];
 		}
 		
 		protected void randomize(Particle particle) {
