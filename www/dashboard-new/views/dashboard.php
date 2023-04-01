@@ -16,7 +16,18 @@ class Dashboard {
     $this->request = $request;
     $this->dataPath = $dataPath;
     $this->projectsJsonPath = $dataPath."projects.json";
-    $this->dashboardDB = (file_exists($this->projectsJsonPath)) ? JsonUtil::getJsonFromFile($this->projectsJsonPath) : null;
+    $this->dbFileExists = file_exists($this->projectsJsonPath);
+    if($this->dbFileExists == false) $this->createDb();  // if no db file exists, create it
+    $this->dbFileAvailable = $this->dbFileExists && is_readable($this->projectsJsonPath) && is_writable($this->projectsJsonPath);
+    // potential concurrency problem! file_exists, but JsonUtil::getJsonFromFile() returns null.
+    $this->dashboardDB = JsonUtil::getJsonFromFile($this->projectsJsonPath);
+  }
+
+  function createDb() {
+    $emptyDb = new stdClass();
+    $emptyDb->checkins = array();
+    JsonUtil::writeJsonToFile($this->projectsJsonPath, $emptyDb);
+    $this->dbFileExists = true;
   }
 
   function storePostedCheckIn() {
@@ -27,8 +38,13 @@ class Dashboard {
     // check for old-style data
     $this->transformDataFromOldStyle($jsonPostObj);
 
-    // validate form data
-    if(isset($jsonPostObj['appId'])) {
+    if($this->dbFileAvailable == false || $this->dashboardDB == null) {
+      // make sure we can read/write the database file. if we can't bail. hopefully solves an issue where the file is locked by another process and triggered a clearing of the database in `storeCheckIn()`
+      $dbLoadError = "Couldn't read JSON databse, probably due to a concurrency issue. Checkin failed. Try again later.";
+      error_log($dbLoadError, 0);
+      JsonUtil::printFailMessage($dbLoadError);
+    } else if(isset($jsonPostObj['appId'])) {
+      // validate form data
       // get props to store submitted checkin to dashboard database
       $this->submittedAppId = $jsonPostObj['appId'];
       $this->projectDataPath = $this->dataPath . "projects/" . $this->submittedAppId . '/';
@@ -50,7 +66,9 @@ class Dashboard {
 
   function storeCheckIn($jsonPostObj) {
     // create json database properties if they dont exist
-    if(isset($this->dashboardDB['checkins']) == false) $this->dashboardDB['checkins'] = array();    // create outer object
+    if(isset($this->dashboardDB['checkins']) == false) {
+      $this->dashboardDB['checkins'] = array();    // create outer object
+    }
     if(isset($this->dashboardDB['checkins'][$this->submittedAppId]) == false) $this->dashboardDB['checkins'][$this->submittedAppId] = array();  // app-specific object
 
     // add custom backend props to incoming json, which gets copied to local database json
@@ -162,7 +180,7 @@ class Dashboard {
 
   function listProjects() {
     // bail if no projects.json data
-    if(isset($this->dashboardDB['checkins']) == false) {
+    if($this->dashboardDB == null || count($this->dashboardDB['checkins']) == 0) {
       return $this->noResults();
     }
 
