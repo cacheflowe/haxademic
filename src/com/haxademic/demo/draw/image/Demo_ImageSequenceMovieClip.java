@@ -35,7 +35,7 @@ implements IImageSequenceMovieClipDelegate {
 	protected void drawApp() {
 		p.background(0);
 		
-		if(p.frameCount % 100 == 50) {
+		if(p.frameCount % 200 == 50) {
 			if(Mouse.xNorm < 0.5f)
 				imageSequence.play();
 			else 
@@ -43,6 +43,7 @@ implements IImageSequenceMovieClipDelegate {
 		}
 		imageSequence.preCacheImages(p.g);
 		imageSequence.update();
+		imageSequence.setPauseOnComplete(false);
 		
 		p.image(imageSequence.image(), 0, 0);
 		
@@ -71,7 +72,7 @@ implements IImageSequenceMovieClipDelegate {
 			imageSequence.play();
 //			imageSequence.setFrame(9);
 //			imageSequence.setFrameByProgress(0.5f);
-			imageSequence.seek(0.5f);
+//			imageSequence.seek(0.5f);
 			P.out("numFrames", imageSequence.numImages());
 		}
 	}

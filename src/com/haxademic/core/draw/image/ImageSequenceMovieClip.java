@@ -42,8 +42,7 @@ public class ImageSequenceMovieClip {
 	protected boolean isFlipped = false;
 	protected boolean isPlaying = false;
 	protected boolean isLooping = false;
-	
-	protected int tint;
+	protected boolean pauseOnComplete = false;
 	
 
 	/*
@@ -56,7 +55,6 @@ public class ImageSequenceMovieClip {
 		this.frameIndexPlaybackSequence = framesSequence;
 		if(BLANK_IMAGE == null) BLANK_IMAGE = ImageUtil.newImage(32, 32);
 		imageSequence = new ArrayList<PImage>();
-		tint = P.p.color(255);
 		if(imagesDir != null) {
 			if(debug == true) P.println("Loading for:", imagesDir);
 			loadImages(imagesDir, format);
@@ -106,14 +104,6 @@ public class ImageSequenceMovieClip {
 		this.fps = fps;
 	}
 	
-	public void setTint(int tintColor) {
-		tint = tintColor;
-	}
-	
-	public int tint() {
-		return tint;
-	}
-	
 	public PImage getFrame(int index) {
 		index = index % imageSequence.size();
 		if(index < imageSequence.size()) {
@@ -150,6 +140,14 @@ public class ImageSequenceMovieClip {
 	
 	public void setFlipped(boolean flipped) {
 		isFlipped = flipped;
+	}
+	
+	public boolean pauseOnComplete() {
+	    return pauseOnComplete;
+	}
+	
+	public void setPauseOnComplete(boolean pauseOnComplete) {
+	    this.pauseOnComplete = pauseOnComplete;
 	}
 	
 	public boolean isPlaying() {
@@ -275,7 +273,7 @@ public class ImageSequenceMovieClip {
 	
 	public PImage image() {
 		int safeCurFrame = (imageSequence.size() > 0) ? P.constrain(curFrame, 0, imageSequence.size() - 1) : 0;
-		if(isPlaying == false || playbackFrames() <= safeCurFrame) {
+		if((isPlaying == false && pauseOnComplete == false) || playbackFrames() <= safeCurFrame) {
 			return BLANK_IMAGE;
 		} else {
 			if(frameIndexPlaybackSequence != null) {
@@ -389,7 +387,11 @@ public class ImageSequenceMovieClip {
 			if(isPlaying == true && isPaused() == false) {
 				playbackProgress = (P.p.millis() - startTime) / 1000f;
 				if(playbackProgress > duration()) {
-					resetPlayhead();
+					if(pauseOnComplete == false) {
+					    resetPlayhead();
+					} else {
+					    isPlaying = false;
+					}
 					if(delegate != null) delegate.movieClipFinished(this);
 				}
 				curFrame = P.floor(playbackProgress * fps);
