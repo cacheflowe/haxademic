@@ -20,6 +20,7 @@ class Dashboard {
     if($this->dbFileExists == false) $this->createDb();  // if no db file exists, create it
     $this->dbFileAvailable = $this->dbFileExists && is_readable($this->projectsJsonPath) && is_writable($this->projectsJsonPath);
     // potential concurrency problem! file_exists, but JsonUtil::getJsonFromFile() returns null.
+    // likely info: https://stackoverflow.com/questions/26619359/file-get-contents-fails-with-multiple-concurrent-requests
     $this->dashboardDB = JsonUtil::getJsonFromFile($this->projectsJsonPath);
   }
 

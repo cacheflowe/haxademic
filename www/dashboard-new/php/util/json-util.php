@@ -10,6 +10,7 @@ class JsonUtil {
 
     public static function getJsonFromFile($path) {
       $jsonStr = file_get_contents($path);
+      $jsonStr = str_replace("}}", "}", $jsonStr); // possible concurrency issue - we're getting a json file with an extra bracket at the end of the file. surely there's a better way to handle this?
       return json_decode($jsonStr, true);
     }
 
