@@ -74,6 +74,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 	}
 	
 	protected void buildWebServer() {
+		WebServer.PORT = 8080;
 		webServer = new WebServer(new UIControlsHandler(), false);
 		webServerAddress = WebServer.getServerAddress();
 		
@@ -83,7 +84,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 	
 	protected void buildSocketServer() {
 		try {
-			// SocketServer.PORT = 3000;
+			SocketServer.PORT = 3001;
 			socketServerHandler = new SocketServerHandler(SocketServer.PORT, this);
 			socketServer = new SocketServer(socketServerHandler, DEBUG);
 			wsServerAddress = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
@@ -155,10 +156,10 @@ implements IAppStoreListener, ISocketClientDelegate {
 	/////////////////////////////////	
 	
 	protected void sendHeartbeat() {
-	    JSONObject jsonOut = new JSONObject();
-	    jsonOut.setString("event", "heartbeat");
-	    jsonOut.setInt("value", p.frameCount);
-	    String jsonString = JsonUtil.jsonToSingleLine(jsonOut);
+		JSONObject jsonOut = new JSONObject();
+		jsonOut.setString("event", "heartbeat");
+		jsonOut.setInt("value", p.frameCount);
+		String jsonString = JsonUtil.jsonToSingleLine(jsonOut);
 		socketServer.sendMessage(jsonString);
 		socketLog.printToScreen(pg, 20, 80);
 	}
@@ -170,7 +171,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 	public void updatedNumber(String key, Number val) {}
 	public void updatedString(String key, String val) {
 		if(key.equals(WebServer.REQUEST_URL)) {
-			P.println("WebServer.REQUEST_URL", val);
+			P.out("WebServer.REQUEST_URL", val);
 			webServerLog.update(val);
 		}
 	}
@@ -189,9 +190,9 @@ implements IAppStoreListener, ISocketClientDelegate {
 		/*
 		if(message.indexOf("WEB_EVENT") != -1) {
 			JSONObject eventData = JSONObject.parse(message);
-		    String event = eventData.getString("event");	
-		    String command = eventData.getString("command");	
-		     DebugUtil.printBig("Incoming WS command: " + event + " / " + command);
+				String event = eventData.getString("event");	
+				String command = eventData.getString("command");	
+				DebugUtil.printBig("Incoming WS command: " + event + " / " + command);
 		}
 		*/
 	}
