@@ -22,10 +22,9 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 800 );
-		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void setup()	{
+	protected void firstFrame()	{
 		croppedTextResult = ImageUtil.newImage(128, 128);
 		
 		int fontSize = 200;

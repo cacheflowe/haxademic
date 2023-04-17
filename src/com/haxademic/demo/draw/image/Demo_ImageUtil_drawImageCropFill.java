@@ -12,6 +12,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		background(0);
 		boolean cropFill = Mouse.xNorm < 0.5f;
-		ImageUtil.drawImageCropFill(DemoAssets.justin(), p.g, cropFill, Mouse.yNorm < 0.5f, false);
+		boolean rotate180 = Mouse.yNorm < 0.5f;
+		ImageUtil.drawImageCropFill(DemoAssets.justin(), p.g, cropFill, rotate180, false);
 	}
 }

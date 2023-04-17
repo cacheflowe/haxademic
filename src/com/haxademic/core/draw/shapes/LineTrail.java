@@ -45,6 +45,7 @@ public class LineTrail {
 
         // render
         pg.beginShape();
+        pg.noFill();
         for (int i = 0; i < size - 1; i++) {
             PVector curSegment = trail[i]; 
             PVector nexSegment = trail[i+1]; 

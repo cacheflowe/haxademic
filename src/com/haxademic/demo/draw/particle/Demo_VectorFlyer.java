@@ -10,6 +10,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -33,6 +34,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		AudioIn.instance();
+
 		shape = Icosahedron.createIcosahedron(p.g, 4, null);
 //		shape = DemoAssets.objHumanoid();
 		PShapeUtil.scaleShapeToExtent(shape, p.displayHeight * 0.3f);

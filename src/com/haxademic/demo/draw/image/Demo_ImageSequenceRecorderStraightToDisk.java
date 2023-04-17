@@ -40,8 +40,8 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, false );
 	}
-		
-	protected void firstFrame () {
+
+	protected void firstFrame() {
 		camBuffer = PG.newPG(640, 480);
 		camBufferDesaturated = PG.newPG(640, 480);
 		recorder = new ImageSequenceRecorderStraightToDisk(720, 1280, 180, this);
@@ -49,50 +49,50 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 	}
 
 	protected void drawApp() {
-	    p.background(0);
-	    
-	    // reset recording
-	    if(KeyboardState.keyTriggered(' ')) {
-	        recorder.reset();
-	        shouldRecord = true;
-	    }
+		p.background(0);
 
-	    // record frames on some interval
-	    PGraphics curFramePG = null;
-	    int recordFrameSkip = 2; // 1=60fps, 2=30fps, etc
-	    if(shouldRecord && FrameLoop.frameModLooped(recordFrameSkip)) {
-	        // copy image to buffer
-	        curFramePG = recorder.addFrame(camBufferDesaturated);
-	        // start threaded saving. curFramePG could be null at this point!
-	        if(curFramePG != null) {
-	            recorder.saveFrame(curFramePG);
-	        }
-	    }
-
-	    // draw camera & recording, side-by-side
-		ImageUtil.cropFillCopyImage(camBuffer, p.g, 0, 0, p.width/2, p.height, true);
-		if(recorder.lastPGSaved() != null) {
-		    ImageUtil.cropFillCopyImage(recorder.lastPGSaved(), p.g, p.width/2, 0, p.width/2, p.height, true);
+		// reset recording
+		if (KeyboardState.keyTriggered(' ')) {
+			recorder.reset();
+			shouldRecord = true;
 		}
-		
+
+		// record frames on some interval
+		PGraphics curFramePG = null;
+		int recordFrameSkip = 2; // 1=60fps, 2=30fps, etc
+		if (shouldRecord && FrameLoop.frameModLooped(recordFrameSkip)) {
+			// copy image to buffer
+			curFramePG = recorder.addFrame(camBufferDesaturated);
+			// start threaded saving. curFramePG could be null at this point!
+			if (curFramePG != null) {
+				recorder.saveFrame(curFramePG);
+			}
+		}
+
+		// draw camera & recording, side-by-side
+		ImageUtil.cropFillCopyImage(camBuffer, p.g, 0, 0, p.width / 2, p.height, true);
+		if (recorder.lastPGSaved() != null) {
+			ImageUtil.cropFillCopyImage(recorder.lastPGSaved(), p.g, p.width / 2, 0, p.width / 2, p.height, true);
+		}
+
 		// draw recorder debug
 		recorder.drawDebug(p.g);
-		
+
 		// draw debug text
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 16);
 		FontCacher.setFontOnContext(p.g, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		p.text(
-		        "Pool active/size: " + recorder.activePGCount() + " / " + recorder.poolSize() + FileUtil.NEWLINE + 
-		        "recorder.saveProgress(): " + recorder.saveProgress()
-		        , 100, p.height - 70);
-		
+				"Pool active/size: " + recorder.activePGCount() + " / " + recorder.poolSize() + FileUtil.NEWLINE +
+						"recorder.saveProgress(): " + recorder.saveProgress(),
+				100, p.height - 70);
+
 		// draw recording indicator
-		if(recorder.saveProgress() < 1) {
-		    p.push();
-		    p.translate(30, p.height - 80);
-		    p.fill(255, 0, 0);
-		    p.arc(30, 30, 60, 60, -P.HALF_PI, -P.HALF_PI + P.TWO_PI * recorder.saveProgress());
-		    p.pop();
+		if (recorder.saveProgress() < 1) {
+			p.push();
+			p.translate(30, p.height - 80);
+			p.fill(255, 0, 0);
+			p.arc(30, 30, 60, 60, -P.HALF_PI, -P.HALF_PI + P.TWO_PI * recorder.saveProgress());
+			p.pop();
 		}
 	}
 
@@ -104,7 +104,7 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 		// set recorder frame - use buffer as intermediary to fix aspect ratio
 		ImageUtil.copyImageFlipH(frame, camBuffer);
 		DebugView.setValue("Last WebCam frame", p.frameCount);
-		
+
 		// add desaturated copy
 		ImageUtil.copyImageFlipH(frame, camBufferDesaturated);
 		SaturationFilter.instance().setSaturation(0);
@@ -114,25 +114,26 @@ implements IWebCamCallback, IImageSequenceRecorderDelegate, IScriptCallback {
 	///////////////////////////////////////////
 	// IImageSequenceRecorderDelegate
 	///////////////////////////////////////////
-	
-    public void savedToDisk(ImageSequenceRecorderStraightToDisk recorder) {
-        P.out("SAVING COMPLETE to", recorder.savePath());
-        
-        // compile video
-        final IScriptCallback self = this;
-        new Thread(new Runnable() { public void run() {
-            scriptRunner = new ScriptRunner("image-sequence-to-video-tga", self);
-            scriptRunner.runWithParams(recorder.savePath(), "30");
-        }}).start();
-    }
 
-    ///////////////////////////////////////////
-    // IScriptCallback
-    ///////////////////////////////////////////
+	public void savedToDisk(ImageSequenceRecorderStraightToDisk recorder) {
+		P.out("SAVING COMPLETE to", recorder.savePath());
 
-    public void scriptComplete() {
-        // P.out("Script complete!");
-    }
+		// compile video
+		final IScriptCallback self = this;
+		new Thread(new Runnable() {
+			public void run() {
+				scriptRunner = new ScriptRunner("image-sequence-to-video-tga", self);
+				scriptRunner.runWithParams(recorder.savePath(), "30");
+			}
+		}).start();
+	}
 
+	///////////////////////////////////////////
+	// IScriptCallback
+	///////////////////////////////////////////
+
+	public void scriptComplete() {
+		// P.out("Script complete!");
+	}
 
 }
