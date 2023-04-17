@@ -34,6 +34,7 @@ public class FileUtil {
 	public static String DATA_PATH = null;
 	public static String OUTPUT_PATH = null;
 	public static String SCREENSHOTS_PATH = null;
+	public static String DEMO_SCREENSHOTS_PATH = null;
 	public static String BIN_PATH = null;
 	public static String HAX_PATH = null;
 	public static String UTIL_PATH = null;
@@ -95,6 +96,12 @@ public class FileUtil {
 		return SCREENSHOTS_PATH;
 	}
 	
+	public static String demoScreenshotsPath() {
+		if( DEMO_SCREENSHOTS_PATH != null ) return DEMO_SCREENSHOTS_PATH;
+		DEMO_SCREENSHOTS_PATH = haxademicWwwPath().concat(File.separator + "demo-images" + File.separator + "images" + File.separator);
+		return DEMO_SCREENSHOTS_PATH;
+	}
+	
 	// PATH HELPERS
 	
 	public static String pathForFile(String filePath) {
@@ -130,15 +137,15 @@ public class FileUtil {
 	}
 	
 	public static String safeDirPath(String path) {
-	    path = safePath(path);
-	    if(path.lastIndexOf(File.separator) != path.length() - 1) path += File.separator;
-	    return path;
+		path = safePath(path);
+		if(path.lastIndexOf(File.separator) != path.length() - 1) path += File.separator;
+		return path;
 	}
 	
 	public static String getPathExtension(String path) {
 		int i = path.lastIndexOf('.');
 		if (i > 0) {
-		    return path.substring(i+1);
+			return path.substring(i+1);
 		} else {
 			return "";
 		}
@@ -181,13 +188,13 @@ public class FileUtil {
 		if (children == null) {
 			P.println("FileUtil error: couldn't find file or directory");
 		} else {
-		    for (int i=0; i < children.length; i++) {
-		        String filename = children[i];
-		        if( filename.indexOf( type ) != -1 ) {	
-			        	// P.println(filename);
-			        	filesOfType.add( filename );
-		        }
-		    }
+			for (int i=0; i < children.length; i++) {
+				String filename = children[i];
+				if( filename.indexOf( type ) != -1 ) {	
+					// P.println(filename);
+					filesOfType.add( filename );
+				}
+			}
 		}
 		return filesOfType;
 	}
@@ -208,19 +215,19 @@ public class FileUtil {
 			P.println("FileUtil error: couldn't find file or directory");
 		} else {
 			String[] extensions = formats.split(",");
-		    for (int i=0; i < childPaths.length; i++) {
-		        String filename = childPaths[i];
-	        	File curFile = new File(directory + FileUtil.SEPARATOR + filename);
-	        	String fileExtension = getPathExtension(filename);
-		        if(extensionIsInArray(fileExtension, extensions)) {	
-		        	filesOfType.add(curFile.getAbsolutePath());
-		        }
-		        
-		        // check for recursive folders
-		        if(recursive == true && curFile.isDirectory()) {
-		        	getFilesInDirOfTypes(curFile.getAbsolutePath(), formats, recursive, filesOfType);
-		        }
-		    }
+			for (int i=0; i < childPaths.length; i++) {
+				String filename = childPaths[i];
+				File curFile = new File(directory + FileUtil.SEPARATOR + filename);
+				String fileExtension = getPathExtension(filename);
+				if(extensionIsInArray(fileExtension, extensions)) {	
+					filesOfType.add(curFile.getAbsolutePath());
+				}
+				
+				// check for recursive folders
+				if(recursive == true && curFile.isDirectory()) {
+					getFilesInDirOfTypes(curFile.getAbsolutePath(), formats, recursive, filesOfType);
+				}
+			}
 		}
 		return filesOfType;		
 	}
@@ -254,19 +261,19 @@ public class FileUtil {
 		if (children == null) {
 		    // Either dir does not exist or is not a directory
 		} else {
-		    for (int i=0; i<children.length; i++) {
-		        // Get filename of file or directory
-		        String filename = children[i];
-		        DebugUtil.print( filename );
-		    }
+			for (int i=0; i<children.length; i++) {
+				// Get filename of file or directory
+				String filename = children[i];
+				DebugUtil.print( filename );
+			}
 		}
 
 		// It is also possible to filter the list of returned files.
 		// This example does not return any files that start with `.'.
 		FilenameFilter filter = new FilenameFilter() {
-		    public boolean accept(File dir, String name) {
-		        return !name.startsWith(".");
-		    }
+			public boolean accept(File dir, String name) {
+				return !name.startsWith(".");
+			}
 		};
 		children = dir.list(filter);
 
@@ -276,9 +283,9 @@ public class FileUtil {
 
 		// This filter only returns directories
 		FileFilter fileFilter = new FileFilter() {
-		    public boolean accept(File file) {
-		        return file.isDirectory();
-		    }
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
 		};
 		File[] files = dir.listFiles(fileFilter);
 		P.println( files.length );
@@ -288,9 +295,9 @@ public class FileUtil {
 		File dir = new File( directory );
 		// This filter only returns directories
 		FileFilter fileFilter = new FileFilter() {
-		    public boolean accept(File file) {
-		        return file.isDirectory();
-		    }
+			public boolean accept(File file) {
+				return file.isDirectory();
+			}
 		};
 		File[] files = dir.listFiles(fileFilter);
 		String[] fileNames = new String[files.length];
@@ -321,9 +328,9 @@ public class FileUtil {
 	public static String[] getFilesAndDirsInDir( String directory ) {
 		File dir = new File( directory );
 		FileFilter fileFilter = new FileFilter() {
-		    public boolean accept(File file) {
-		        return file.isDirectory() || file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("mov") || file.getName().endsWith("mp4");
-		    }
+			public boolean accept(File file) {
+				return file.isDirectory() || file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("mov") || file.getName().endsWith("mp4");
+			}
 		};
 		File[] files = dir.listFiles(fileFilter);
 		String[] fileNames = new String[files.length];
@@ -347,9 +354,9 @@ public class FileUtil {
 		// retrieve & sort files by modified date
 		File dir = new File( directory );
 		File[] files = dir.listFiles(new FileFilter() {
-		    public boolean accept(File file) {
-		        return file.isFile();
-		    }
+			public boolean accept(File file) {
+				return file.isFile();
+			}
 		});
 		if(!reverse) {
 			Arrays.sort(files, Comparator.comparingLong(File::lastModified));
@@ -401,8 +408,8 @@ public class FileUtil {
 			boolean success = f.mkdirs();
 			return success;
 		} catch(Exception e) {
-		    e.printStackTrace();
-		    return false;
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
@@ -410,33 +417,33 @@ public class FileUtil {
 	public static void copyFolder(String srcPath, String destPath) throws IOException {
 		Path src = Paths.get(srcPath);
 		Path dest = Paths.get(destPath);
-	    Files.walk(src)
-	        .forEach(source -> copy(source, dest.resolve(src.relativize(source))));
+		Files.walk(src)
+			.forEach(source -> copy(source, dest.resolve(src.relativize(source))));
 	}
 	
 	public static void copyDirContents(String src, String dest, boolean overwrite) {
-	    try {
-	        Files.walk(Paths.get(src)).forEach(a -> {
-	            Path b = Paths.get(dest, a.toString().substring(src.length()));
-	            try {
-	                if (!a.toString().equals(src))
-	                    Files.copy(a, b, overwrite ? new CopyOption[]{StandardCopyOption.REPLACE_EXISTING} : new CopyOption[]{});
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        });
-	    } catch (IOException e) {
-	        //permission issue
-	        e.printStackTrace();
-	    }
+		try {
+			Files.walk(Paths.get(src)).forEach(a -> {
+				Path b = Paths.get(dest, a.toString().substring(src.length()));
+				try {
+					if (!a.toString().equals(src))
+						Files.copy(a, b, overwrite ? new CopyOption[]{StandardCopyOption.REPLACE_EXISTING} : new CopyOption[]{});
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+		} catch (IOException e) {
+			//permission issue
+			e.printStackTrace();
+		}
 	}
 	
 	public static void copy(Path source, Path dest) {
-	    try {
-	        Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);
-	    } catch (Exception e) {
-	        throw new RuntimeException(e.getMessage(), e);
-	    }
+		try {
+			Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
 	}
 	
 	/**
@@ -448,8 +455,8 @@ public class FileUtil {
 		new Thread(new Runnable() { public void run() {
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-	            writer.write( text );
-	            writer.close();
+				writer.write( text );
+				writer.close();
 			} catch (IOException e) { e.printStackTrace(); }
 		}}).start();
 	}
@@ -461,9 +468,9 @@ public class FileUtil {
 	 */
 	public static final void appendTextToFile( String file, String text ) {
 		try {
-		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
-		    out.print(text);
-		    out.close();
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+			out.print(text);
+			out.close();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
@@ -478,26 +485,26 @@ public class FileUtil {
 		File sourceFile = new File( sourcePath );
 		File destFile = new File( destPath );
 		
-	    if(!destFile.exists()) {
-	        destFile.createNewFile();
-	    }
+		if(!destFile.exists()) {
+				destFile.createNewFile();
+		}
 
-	    FileChannel source = null;
-	    FileChannel destination = null;
+		FileChannel source = null;
+		FileChannel destination = null;
 
-	    try {
-	        source = new FileInputStream(sourceFile).getChannel();
-	        destination = new FileOutputStream(destFile).getChannel();
-	        destination.transferFrom(source, 0, source.size());
-	    }
-	    finally {
-	        if(source != null) {
-	            source.close();
-	        }
-	        if(destination != null) {
-	            destination.close();
-	        }
-	    }
+		try {
+			source = new FileInputStream(sourceFile).getChannel();
+			destination = new FileOutputStream(destFile).getChannel();
+			destination.transferFrom(source, 0, source.size());
+		}
+		finally {
+			if(source != null) {
+				source.close();
+			}
+			if(destination != null) {
+				destination.close();
+			}
+		}
 	}
 
 	// READ FILE
@@ -560,7 +567,5 @@ public class FileUtil {
 			return false;
 		}
 	}
-	
-
 	
 }

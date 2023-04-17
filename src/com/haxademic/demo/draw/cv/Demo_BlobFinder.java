@@ -40,7 +40,7 @@ implements IWebCamCallback {
 	protected void firstFrame() {
 		// setup webcam
 		WebCam.instance().setDelegate(this);
-		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
+		webcamBuffer =  p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 		webcamBufferLerped = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 		
 		// init blob detection

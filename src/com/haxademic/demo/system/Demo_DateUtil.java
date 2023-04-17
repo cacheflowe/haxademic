@@ -2,13 +2,9 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.constants.PTextAlign;
-import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.DateUtil;
-
-import processing.core.PFont;
 
 public class Demo_DateUtil
 extends PAppletHax {
@@ -18,8 +14,7 @@ extends PAppletHax {
 		p.background(0);
 		
 		// set font
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 18);
-		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
+		DemoAssets.setDemoFont(p.g);
 				
 		// draw debug output
 		p.text(

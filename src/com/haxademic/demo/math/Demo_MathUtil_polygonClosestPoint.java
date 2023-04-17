@@ -11,7 +11,6 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected void firstFrame() {
-
 		OpenGLUtil.setTextureQualityHigh(p.g);
 	}
 	

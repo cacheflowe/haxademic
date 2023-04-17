@@ -4,15 +4,11 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.StringBufferLog;
-import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
-
-import processing.core.PFont;
 
 public class Demo_FrameLoop_frameMod
 extends PAppletHax {
@@ -57,11 +53,8 @@ extends PAppletHax {
 	}
 	
 	protected void drawText() {
-		// set font
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 18);
-		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
-
 		// draw debug output
+		DemoAssets.setDemoFont(p.g);
 		p.text(
 				"FrameLoop.count() :: " + (int) FrameLoop.count() + FileUtil.NEWLINE + 
 				"FrameLoop.count(0.1f) :: " + (int) FrameLoop.count(0.1f) + FileUtil.NEWLINE + 

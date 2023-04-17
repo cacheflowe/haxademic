@@ -9,43 +9,44 @@ public class Demo_TimerTrigger
 extends PAppletHax
 implements ITimerTriggerDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-	
+
 	protected TimerTrigger timerTrigger;
 	protected EasingColor bg = new EasingColor(0x000000, 0.1f);
 
 	protected void firstFrame() {
-	    timerTrigger = new TimerTrigger(this);
+		timerTrigger = new TimerTrigger(this);
 	}
-	
+
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == '1') startTimer();
-		if(p.key == '2') killTimer();
+		if (p.key == '1')
+			startTimer();
+		if (p.key == '2')
+			killTimer();
 	}
-	
+
 	protected void startTimer() {
 		timerTrigger.setTimer(1000);
 	}
-	
+
 	protected void killTimer() {
 		timerTrigger.cancel();
 	}
-	
+
 	protected void drawApp() {
-	    bg.update();
+		bg.update();
 		p.background(bg.colorInt());
-		
+
 		// show timer progress
 		p.fill(255);
 		p.rect(0, p.height - 20, p.width * timerTrigger.progress(), 20);
 	}
 
-
 	/////////////////////////////
 	// ITimerTriggerDelegate
 	/////////////////////////////
-	
-    public void timerComplete(TimerTrigger trigger) {
-        bg.setCurrentInt(0xffffffff).setTargetInt(0xff000000);
-    }
+
+	public void timerComplete(TimerTrigger trigger) {
+		bg.setCurrentInt(0xffffffff).setTargetInt(0xff000000);
+	}
 }

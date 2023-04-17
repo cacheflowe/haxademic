@@ -42,7 +42,7 @@ extends PAppletHax {
 		
 		// set up sliders
 		UI.addSlider(POINT_SIZE, 10, 1, 100, 1, false);
-		UI.addSlider(DISPLACE_AMP, 30, 1, 300, 1, false);
+		UI.addSlider(DISPLACE_AMP, 150, 1, 300, 1, false);
 		UI.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false);
 		UI.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false);
 		UI.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false);

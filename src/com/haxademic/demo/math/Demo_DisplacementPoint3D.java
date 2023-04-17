@@ -33,6 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1080);
 		Config.setProperty( AppSettings.HEIGHT, 1080);
 		Config.setProperty( AppSettings.SHOW_UI, true);
+		Config.setProperty( AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 2000);
 	}
 
 	protected void firstFrame() {

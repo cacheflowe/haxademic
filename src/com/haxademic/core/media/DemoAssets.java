@@ -1,11 +1,15 @@
 package com.haxademic.core.media;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PFont;
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.video.Movie;
@@ -116,6 +120,20 @@ public class DemoAssets {
 	public static String audioBrimBeat = "haxademic/audio/brim-beat-4.wav";
 
 	// FONTS
+
+	// cached font setters
+
+	public static void setDemoFont(PGraphics pg) {
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 18);
+		setFont(pg, font, ColorsHax.WHITE);
+	}
+
+	public static void setFont(PGraphics pg, PFont font, int color) {
+		// PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 18);
+		FontCacher.setFontOnContext(pg, font, color, 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
+	}
+
+	// individual fonts to cache
 	
 	public static String fontOpenSansPath = "haxademic/fonts/OpenSans-Regular.ttf";
 	public static PFont fontOpenSans = null;

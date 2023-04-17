@@ -2,6 +2,7 @@ package com.haxademic.demo.data;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.media.DemoAssets;
 
 public class Demo_ConvertUtil
 extends PAppletHax {
@@ -9,6 +10,9 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		background(0);
+
+		DemoAssets.setDemoFont(p.g);
+
 		String outputStr = "";
 		outputStr += "ConvertUtil.stringToInt(\"10\") = " + ConvertUtil.stringToInt("10") + "\n";
 		outputStr += "ConvertUtil.stringToFloat(\"100.01\") = " + ConvertUtil.stringToFloat("100.01") + "\n";

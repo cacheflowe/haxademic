@@ -177,6 +177,16 @@ implements IAppStoreListener {
 		return filename;
 	}
 	
+	public static String saveDemoScreenshot( PGraphics pg, String className ) {
+		String outputDir = FileUtil.demoScreenshotsPath();
+		if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
+
+		String outputFileName = className.concat(".png");
+		pg.save(outputDir.concat(outputFileName));
+		
+		return outputFileName;
+	}
+	
 
 	////////////////////////////
 	// IAppStore listeners
@@ -201,6 +211,5 @@ implements IAppStoreListener {
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
-	
 	
 }

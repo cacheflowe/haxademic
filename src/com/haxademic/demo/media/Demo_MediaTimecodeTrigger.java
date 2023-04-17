@@ -89,8 +89,3 @@ implements IMediaTimecodeTriggerDelegate {
     }
 
 }
-
-
-
-
-

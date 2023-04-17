@@ -25,10 +25,11 @@ extends PAppletHax {
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.3f, PTextAlign.LEFT, PTextAlign.TOP);
 
 		p.text(
-		        stopwatch.totalMs() + "ms" + FileUtil.NEWLINE + 
-		        stopwatch.totalHours() + " hours" + FileUtil.NEWLINE +  
-		        "isRunning = " + stopwatch.isRunning()
-		        , 30, 40);
+			stopwatch.totalMs() + "ms" + FileUtil.NEWLINE + 
+			stopwatch.totalHours() + " hours" + FileUtil.NEWLINE +  
+			"isRunning = " + stopwatch.isRunning()
+			, 30, 40
+		);
 		
 		// key commands
 		if(KeyboardState.keyTriggered('1')) stopwatch.start();

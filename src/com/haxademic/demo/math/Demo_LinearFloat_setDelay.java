@@ -2,6 +2,8 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -17,6 +19,7 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
 //		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 //		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 400 );
+		Config.setProperty( AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 130);
 	}
 
 	protected void firstFrame() {

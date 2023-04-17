@@ -27,8 +27,6 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-
-		
 		// load texture
 		arrowImg = ImageUtil.imageToGraphics(DemoAssets.arrow());
 

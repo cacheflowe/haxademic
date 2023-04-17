@@ -52,6 +52,10 @@ extends PApplet {
 	
 	// helper methods
 	
+	public static String appClassName() {
+		return P.p.getClass().getCanonicalName();
+	}
+	
 	public static boolean isOpenGL() {
 		return P.renderer.equals(PRenderers.P2D) || P.renderer.equals(PRenderers.P3D);
 	}

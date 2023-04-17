@@ -7,6 +7,7 @@ import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.ui.UITextInput;
 
@@ -19,6 +20,7 @@ public class AppWindow
 implements IAppStoreListener {
 	
 	protected boolean alwaysOnTop = false;
+	protected int demoScreenshotFrame;
 
 	// Singleton instance
 	
@@ -91,6 +93,9 @@ implements IAppStoreListener {
 				P.error("Error: Attempting to set retina drawing on a non-retina screen");
 			}
 		}	
+
+		// demo screenshot setup
+		demoScreenshotFrame = Config.getInt(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 180);
 	}
 	
 	public void finishSetup() {
@@ -141,10 +146,24 @@ implements IAppStoreListener {
 		alwaysOnTop = !alwaysOnTop;
 		AppUtil.setAlwaysOnTop(P.p, alwaysOnTop);
 	}
+
+	protected void takeDemoScreenshot() {
+		if (P.p.frameCount == demoScreenshotFrame && Config.getBoolean(AppSettings.RENDER_DEMO_SCREENSHOT, true)) {
+			String className = P.appClassName();
+			if (className.contains("Demo_")) {
+				String outputFile = Renderer.saveDemoScreenshot(P.p.g, className);
+				P.outInitLineBreak();
+				P.outInit("Saved demo screenshot:", outputFile);
+				P.outInitLineBreak();
+			}
+		}
+	}
+
 	
 	// Frame updates
 	
 	public void pre() {
+		takeDemoScreenshot();
 	}
 	
 	public void post() {

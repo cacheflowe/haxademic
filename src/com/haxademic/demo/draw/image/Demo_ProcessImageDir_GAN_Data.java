@@ -12,6 +12,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.MediaMetaData;
@@ -36,6 +37,8 @@ extends PAppletHax {
 	// current image
 	protected int imageIndex = 0;
 	protected PGraphics drawBuffer;
+//	protected int START_INDEX = 1346;
+	protected int START_INDEX = 0;
 	
 	// panning controls
 	protected float imageScale = 1;
@@ -43,12 +46,16 @@ extends PAppletHax {
 	protected float offsetY = 0;
 	protected float rotation = 0;
 
+	protected boolean showInfo = false;
 	protected boolean showGrid = false;
 	protected boolean queueExport = false;
 	
 	// output
 	protected int outputSize = 1024;
 	protected int numExported = 0;
+	
+	// custom 
+	protected int bgColor = 0xffffffff;
 	
 	protected void config() {
 		Config.setAppSize(1024, 1024);
@@ -61,7 +68,7 @@ extends PAppletHax {
 		// create output directory
 		FileUtil.createDir(imagesOutputPath);
 		loadImages();
-		setIndex(0);
+		setIndex(START_INDEX);
 	}
 	
 	protected void loadImages() {
@@ -83,11 +90,11 @@ extends PAppletHax {
 		curImage().setActive();
 		resetControls();
 		showGrid = true;
-		customFit();
+		// customFit();
 	}
 	
 	protected void resetControls() {
-		imageScale = MathUtil.scaleToTarget(curImage().image().height, drawBuffer.height);
+		imageScale = MathUtil.scaleToTarget(curImage().image().width, drawBuffer.width);
 		offsetX = 0;
 		offsetY = 0;
 		rotation = 0;
@@ -115,7 +122,7 @@ extends PAppletHax {
 			int newIndex = (imageIndex + P.round(1 * keyScale)) % images.size();
 			setIndex(newIndex);
 		}
-		if(KeyboardState.keyTriggered('3')) resetControls();
+		if(KeyboardState.keyTriggered('r')) resetControls();
 		if(KeyboardState.keyTriggered(147)) { curImage().delete(); updateNumExported(); }
 		if(KeyboardState.keyOn(' ')) { showGrid = false; queueExport = true; updateNumExported(); }
 		
@@ -125,19 +132,39 @@ extends PAppletHax {
 		if(KeyboardState.keyOn('s') || KeyboardState.keyOn(40)) offsetY -= 1f * keyScale;
 		if(KeyboardState.keyOn('q')) rotation -= 0.0025f * keyScale;
 		if(KeyboardState.keyOn('e')) rotation += 0.0025f * keyScale;
-		if(KeyboardState.keyOn('z')) imageScale -= 0.0025f * keyScale;
-		if(KeyboardState.keyOn('c')) imageScale += 0.0025f * keyScale;
+		if(KeyboardState.keyOn('z')) imageScale -= 0.0025f * (keyScale * 0.3f);
+		if(KeyboardState.keyOn('c')) imageScale += 0.0025f * (keyScale * 0.3f);
+		if(KeyboardState.keyTriggered('i')) showInfo = !showInfo;
 		if(KeyboardState.keyTriggered('g')) showGrid = !showGrid;
 		
-		customKeyCommands();
+		// set help text
+		DebugView.setHelpLine("[1]", "PREV Img");
+		DebugView.setHelpLine("[2]", "NEXT Img");
+		DebugView.setHelpLine("[R]", "RESET Img");
+		DebugView.setHelpLine("[SPACE]", "SAVE Img");
+		DebugView.setHelpLine("[DEL]", "Delete Export");
+		DebugView.setHelpLine("[A,W,D,S]", "MOVE Img");
+		DebugView.setHelpLine("[Q,E]", "ROTATE Img");
+		DebugView.setHelpLine("[Z,C]", "SCALE Img");
+		DebugView.setHelpLine("[I]", "Info toggle");
+		DebugView.setHelpLine("[G]", "Grid toggle");
+		
+		// customKeyCommands();
 	}
 	
 	protected void drawApp() {
 		p.background(40);
 		runKeyCommands();
 		
+
 		drawBuffer.beginDraw();
-		drawBuffer.background(0, 255, 0);
+//		drawBuffer.background(0, 255, 0);
+//		drawBuffer.background(0xfffafafa);
+//		drawBuffer.background(0xffffffff);
+//		drawBuffer.background(0xfffdfdfd);
+		drawBuffer.background(p.red(bgColor), p.green(bgColor), p.blue(bgColor), 255);
+		drawBuffer.background(bgColor);
+		
 		// draw image
 		drawBuffer.push();
 		PG.setDrawCenter(drawBuffer);
@@ -161,13 +188,20 @@ extends PAppletHax {
 		// draw buffer to screen
 		ImageUtil.cropFillCopyImage(drawBuffer, p.g, false);
 		
+		if(KeyboardState.keyOn('p')) {
+		    bgColor = p.get(Mouse.x, Mouse.y);
+		    DebugView.setValue("bgColor", P.hex(bgColor));
+		}
+		
 		// draw status text
-		drawTextStatus(
-			"Current  = " + (imageIndex + 1) + " / " + images.size() + FileUtil.NEWLINE + 
-			"Exported = " + numExported + " / " + images.size() + FileUtil.NEWLINE +
-			"--------------------------" + FileUtil.NEWLINE +
-			curImage().info()
-		);
+		if(showInfo) {
+			drawTextStatus(
+				"Current  = " + (imageIndex + 1) + " / " + images.size() + FileUtil.NEWLINE + 
+				"Exported = " + numExported + " / " + images.size() + FileUtil.NEWLINE +
+				"--------------------------" + FileUtil.NEWLINE +
+				curImage().info()
+			);
+		}
 
 		// exported indicator
 		p.push();
@@ -185,7 +219,10 @@ extends PAppletHax {
 	protected void drawTextStatus(String str) {
 		String fontFile = DemoAssets.fontOpenSansPath;
 		PFont font = FontCacher.getFont(fontFile, 24);
-		FontCacher.setFontOnContext(p.g, font, p.color(127), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		FontCacher.setFontOnContext(p.g, font, p.color(0), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		p.text(str, 20, 18);
+		p.text(str, 20, 22);
+		p.fill(255);
 		p.text(str, 20, 20);
 	}
 	
@@ -208,6 +245,20 @@ extends PAppletHax {
 		drawBuffer.fill(255,0,0);
 		drawBuffer.rect(0, 874, drawBuffer.width, 4);
 		drawBuffer.pop();
+		
+		/*
+		// MIAMI
+		drawBuffer.push();
+		drawBuffer.fill(255,0,0);
+		// sidewalk baseline
+		float lineWeight = 4;
+		drawBuffer.rect(0, drawBuffer.height * 0.8f, drawBuffer.width, lineWeight);
+		// 3 columns
+		drawBuffer.rect(drawBuffer.width * 0.3f, 0, lineWeight, drawBuffer.height);
+		drawBuffer.rect(drawBuffer.width * 0.5f, 0, lineWeight, drawBuffer.height);
+		drawBuffer.rect(drawBuffer.width * 0.7f, 0, lineWeight, drawBuffer.height);
+		drawBuffer.pop();
+		 */
 	}
 	
 	protected void customKeyCommands() {

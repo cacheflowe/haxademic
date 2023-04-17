@@ -16,12 +16,14 @@ import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.ConsoleColors;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UITextInput;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.opengl.PGraphicsOpenGL;
 import processing.video.Movie;
 
 public class PAppletHax
@@ -37,8 +39,8 @@ extends PApplet {
 
 	// app
 	public static String arguments[] = null;	// Args passed in via main() launch command
-	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
-	public PGraphics pg;						// Offscreen buffer that matches the app size by default
+	protected static PAppletHax p;						// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
+	public PGraphics pg;											// Offscreen buffer that matches the app size by default
 	protected int startupTime;
 
 	////////////////////////
@@ -79,6 +81,11 @@ extends PApplet {
 				P.outInit("Graphics init -------------------");
 				P.outInit("- Processing renderer:", P.renderer);
 				P.outInit("- GL version:", OpenGLUtil.getGlVersion(p.g));
+				PGraphicsOpenGL pg = (PGraphicsOpenGL)g;
+				P.outInit("OPENGL_VENDOR:", PGraphicsOpenGL.OPENGL_VENDOR);
+				P.outInit("OPENGL_RENDERER:", PGraphicsOpenGL.OPENGL_RENDERER);
+				P.outInit("OPENGL_VERSION:", PGraphicsOpenGL.OPENGL_VERSION);
+				P.outInit("GLSL_VERSION:", PGraphicsOpenGL.GLSL_VERSION);
 				P.outInit("- App Size:", p.width, "x", p.height);
 				boolean is32Bit = buildMainPg();
 				P.outInit("- pg Size: ", pg.width, "x", pg.height);

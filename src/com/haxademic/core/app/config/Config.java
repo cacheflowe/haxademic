@@ -68,7 +68,7 @@ public class Config {
 	/////////////////////////
 	
 	protected void loadDefaultPropsFile() {
-		String defaultPropsFile = FileUtil.getPath("properties/run.properties");
+		String defaultPropsFile = P.path("properties/run.properties");
 		if(FileUtil.fileExists(defaultPropsFile)) {
 			loadPropertiesFile(defaultPropsFile);
 		}
@@ -78,7 +78,7 @@ public class Config {
 		try {
 			properties.load(P.p.createInput(file));
 		} catch(IOException e) {
-			DebugUtil.printErr("couldn't read run.properties config file...");
+			DebugUtil.printErr("couldn't read " + file + " config file...");
 		}
 	}
  

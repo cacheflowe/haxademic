@@ -46,8 +46,8 @@ public class ScreenshotBuffer {
 		
 		// get new screenshot...
 		// it's okay because garbage collection :-/
-        Rectangle capture = new Rectangle((int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight());
-        screenshot = robot.createScreenCapture(capture);
+				Rectangle capture = new Rectangle((int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight());
+				screenshot = robot.createScreenCapture(capture);
 		
 		// listen for Processing post command for threaded drawing 
 		P.p.registerMethod("post", this);
@@ -79,11 +79,11 @@ public class ScreenshotBuffer {
 	
 	public void updateScreenshot() {
 		// copy screenshot pixels right into screenshot BufferedImage
-//		screenshot.setRGB(0, 0, w, h, robot.getRGBPixels(bounds.getBounds()), 0, w);
+		// screenshot.setRGB(0, 0, w, h, robot.getRGBPixels(bounds.getBounds()), 0, w);
 		
 		// do old fashioned way
-        Rectangle capture = new Rectangle((int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight());
-        screenshot = robot.createScreenCapture(capture);
+		Rectangle capture = new Rectangle((int)bounds.getX(), (int)bounds.getY(), (int)bounds.getWidth(), (int)bounds.getHeight());
+		screenshot = robot.createScreenCapture(capture);
 
 		// save pixels directly to PImage
 		ImageUtil.copyBufferedToPImagePixels(screenshot, image);

@@ -47,6 +47,8 @@ public class AppSettings {
 	public static final String RENDERING_GIF_QUALITY = "rendering_gif_quality";
 	public static final String RENDERING_GIF_START_FRAME = "rendering_gif_startframe";
 	public static final String RENDERING_GIF_STOP_FRAME = "rendering_gif_stopframe";
+	public static final String RENDER_DEMO_SCREENSHOT = "render_demo_screenshot";
+	public static final String RENDER_DEMO_SCREENSHOT_FRAME = "render_demo_screenshot_frame";
 	// sunflow
 	public static final String SUNFLOW = "sunflow";
 	public static final String SUNFLOW_ACTIVE = "sunflow_active";
