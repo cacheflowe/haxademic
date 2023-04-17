@@ -21,6 +21,7 @@ implements IAppStoreListener {
 	
 	protected boolean alwaysOnTop = false;
 	protected int demoScreenshotFrame;
+	protected boolean demoScreenshotDirty = false;
 
 	// Singleton instance
 	
@@ -36,8 +37,13 @@ implements IAppStoreListener {
 
 	public AppWindow() {
 		P.store.addListener(this);
-		buildAppWindow(P.p);
-//		P.p.size(500, 500, P.P3D);
+
+		initWindowAndRenderer();
+		initAppSmoothing();
+		setAppIcon();		
+		setScreenDensity();
+		setUpDemoScreenshot();
+
 		// update every frame
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
@@ -47,66 +53,102 @@ implements IAppStoreListener {
 		return alwaysOnTop;
 	}
 	
-	protected void buildAppWindow(PApplet p) {
-		// SELECT RENDERER AND WINDOW SIZE
+	// initialize during settings() ----------
+
+	protected void initWindowAndRenderer() {
+		// get config
 		P.renderer = Config.getString(AppSettings.RENDERER, P.P3D);
-		if(P.isOpenGL()) PJOGL.profile = Config.getInt(AppSettings.PJOGL_PROFILE, 4);
-		if(Config.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
-			// run fullscreen across all screens
-			p.fullScreen(P.renderer, P.SPAN);
-		} else if(Config.getBoolean(AppSettings.FULLSCREEN, false) == true) {
-			// run fullscreen - default to screen #1 unless another is specified
-			if(Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1) != 1) P.error("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
-			p.fullScreen(P.renderer); // , Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1)
-		} else if(Config.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
-			// fills the screen, but not fullscreen
-			p.size(p.displayWidth, p.displayHeight, P.renderer);
+		boolean spanScreens = Config.getBoolean(AppSettings.SPAN_SCREENS, false);
+		boolean fullScreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
+		boolean fillsScreen = Config.getBoolean(AppSettings.FILLS_SCREEN, false);
+		int fullScreenScreenNumber = Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1);
+		int appW = Config.getInt(AppSettings.WIDTH, 800);
+		int appH = Config.getInt(AppSettings.HEIGHT, 600);
+		String pdfOutputFile = Config.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf");
+
+		// opengl settings
+		if (P.isOpenGL()) {
+			PJOGL.profile = Config.getInt(AppSettings.PJOGL_PROFILE, 4);
+		}
+		
+		// check fullscreen options, then move on to other renderers, with default being last case
+		if (spanScreens == true) {
+			P.p.fullScreen(P.renderer, P.SPAN);
+		} else if (fullScreen == true) {
+			if (fullScreenScreenNumber != 1)
+				P.error("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
+			P.p.fullScreen(P.renderer);
+		} else if (fillsScreen == true) {
+			P.p.size(P.p.displayWidth, P.p.displayHeight, P.renderer);
 		} else {
-			if(P.renderer == PRenderers.PDF) {
-				// set headless pdf output file
-				p.size(Config.getInt(AppSettings.WIDTH, 800),Config.getInt(AppSettings.HEIGHT, 600), P.renderer, Config.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf"));
+			if (P.renderer == PRenderers.PDF) { // headless output
+				P.p.size(appW, appH, P.renderer, pdfOutputFile);
 			} else {
-				// run normal P3D renderer
-				p.size(Config.getInt(AppSettings.WIDTH, 800),Config.getInt(AppSettings.HEIGHT, 600), P.renderer);
+				P.p.size(appW, appH, P.renderer);
 			}
 		}
-		
-		// SMOOTHING
-		if(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH) == 0) {
-			p.noSmooth();
+	}
+
+	protected void initAppSmoothing() {
+		int smoothingLevel = Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_MEDIUM);
+		if (smoothingLevel == 0) {
+			P.p.noSmooth();
 		} else {
-			p.smooth(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_MEDIUM));	
+			P.p.smooth(smoothingLevel);
 		}
-		
-		// SET APP ICON
+	}
+
+	protected void setAppIcon() {
 		String appIconFile = Config.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
 		String iconPath = FileUtil.getPath(appIconFile);
-		if(FileUtil.fileExists(iconPath)) {
+		if (FileUtil.fileExists(iconPath)) {
 			PJOGL.setIcon(iconPath);
 		}
-		
+	}
+
+	protected void setScreenDensity() {
 		// DO WE DARE TRY THE RETINA SETTING?
-		if(Config.getBoolean(AppSettings.RETINA, false) == true) {
-			if(p.displayDensity() == 2) {
-				p.pixelDensity(2);
+		if (Config.getBoolean(AppSettings.RETINA, false) == true) {
+			if (P.p.displayDensity() == 2) {
+				P.p.pixelDensity(2);
 			} else {
 				P.error("Error: Attempting to set retina drawing on a non-retina screen");
 			}
-		}	
-
-		// demo screenshot setup
+		}
+	}
+	
+	protected void setUpDemoScreenshot() {
 		demoScreenshotFrame = Config.getInt(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 180);
 	}
 	
+	// post setup() -------------------
+
 	public void finishSetup() {
-		// FRAMERATE
-		int _fps = Config.getInt(AppSettings.FPS, 60);
-		if(Config.getInt(AppSettings.FPS, 60) != 60) P.p.frameRate(_fps);
-		
-		// APP RESIZING
+		// called from PAppletHax after other setup methods have run
+		setFrameRate();
+		setAppResizing();
+	}
+
+	protected void setFrameRate() {
+		int fps = Config.getInt(AppSettings.FPS, 60);
+		if(Config.getInt(AppSettings.FPS, 60) != 60) P.p.frameRate(fps);
+	}
+
+	protected void setAppResizing() {
 		if(Config.getBoolean(AppSettings.RESIZABLE, true) == true) {
 			AppUtil.setResizable(P.p, true);
 		}
+	}
+
+	// during draw() ----------
+	
+	public void pre() {
+		takeDemoScreenshot();
+	}
+	
+	public void post() {
+		updateAppTitle();
+		checkFullscreenSettings();
 	}
 	
 	protected void updateAppTitle() {
@@ -120,20 +162,23 @@ implements IAppStoreListener {
 	}
 	
 	public void checkFullscreenSettings() {
-		boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
-		// check for additional screen_x params to manually place the window
-		if(Config.getInt("screen_x", -1) != -1) {
-			if(isFullscreen == false) {
-				P.error("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
-				return;
+		// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
+		if(P.p.frameCount == 10) {
+			// check for additional screen_x params to manually place the window
+			boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
+			if(Config.getInt(AppSettings.SCREEN_X, -1) != -1) {
+				if(isFullscreen == false) {
+					P.error("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
+					return;
+				}
+				P.surface().setSize(Config.getInt(AppSettings.WIDTH, 800), Config.getInt(AppSettings.HEIGHT, 600));
+				P.surface().setLocation(Config.getInt(AppSettings.SCREEN_X, 0), Config.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
 			}
-			P.surface().setSize(Config.getInt(AppSettings.WIDTH, 800), Config.getInt(AppSettings.HEIGHT, 600));
-			P.surface().setLocation(Config.getInt(AppSettings.SCREEN_X, 0), Config.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
+			
+			// Always on top?
+			alwaysOnTop = Config.getBoolean(AppSettings.ALWAYS_ON_TOP, false);
+			if(alwaysOnTop) AppUtil.setAlwaysOnTop(P.p, true);
 		}
-		
-		// Always on top?
-		alwaysOnTop = Config.getBoolean(AppSettings.ALWAYS_ON_TOP, false);
-		if(alwaysOnTop) AppUtil.setAlwaysOnTop(P.p, true);
 	}
 
 	protected void keepOnTop() {
@@ -147,8 +192,11 @@ implements IAppStoreListener {
 		AppUtil.setAlwaysOnTop(P.p, alwaysOnTop);
 	}
 
-	protected void takeDemoScreenshot() {
-		if (P.p.frameCount == demoScreenshotFrame && Config.getBoolean(AppSettings.RENDER_DEMO_SCREENSHOT, true)) {
+	public void takeDemoScreenshot() {
+		boolean shouldTakeDemoScreenshot = P.p.frameCount == demoScreenshotFrame && Config.getBoolean(AppSettings.RENDER_DEMO_SCREENSHOT, true);
+		if (demoScreenshotDirty || shouldTakeDemoScreenshot) {
+			demoScreenshotDirty = false;
+			// get classname and use it as the screenshot filename
 			String className = P.appClassName();
 			if (className.contains("Demo_")) {
 				String outputFile = Renderer.saveDemoScreenshot(P.p.g, className);
@@ -159,30 +207,15 @@ implements IAppStoreListener {
 		}
 	}
 
-	
-	// Frame updates
-	
-	public void pre() {
-		takeDemoScreenshot();
-	}
-	
-	public void post() {
-		updateAppTitle();
-		if(P.p.frameCount == 10) {
-			// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
-			checkFullscreenSettings();
-		}
-		// keepOnTop();
-	}
-
 	////////////////////////
 	// AppStore callbacks
 	////////////////////////
 
 	public void updatedNumber(String key, Number val) {}
 	public void updatedString(String key, String val) {
-		if(key.equals(PEvents.KEY_PRESSED) && val.equals("F") && !UITextInput.active()) {
-			toggleAlwaysOnTop();
+		if(key.equals(PEvents.KEY_PRESSED) && !UITextInput.active()) {
+			if(val.equals("F")) toggleAlwaysOnTop();
+			if(val.equals("~")) demoScreenshotDirty = true;
 		}
 	}
 	public void updatedBoolean(String key, Boolean val) {}
