@@ -44,8 +44,6 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-
-		
 		buffer = P.p.createGraphics(W, H, PRenderers.P3D); 
 		
 		xShape = DemoAssets.shapeFractal().getTessellation();

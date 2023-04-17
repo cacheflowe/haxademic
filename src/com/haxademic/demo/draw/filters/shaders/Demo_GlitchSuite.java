@@ -26,6 +26,7 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 960 );
 		Config.setProperty( AppSettings.HEIGHT, 640 );
+		Config.setProperty(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 120);
 	}
 
 	protected void firstFrame() {

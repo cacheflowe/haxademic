@@ -27,9 +27,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-
 	protected void firstFrame() {
-	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		// load image and configure size

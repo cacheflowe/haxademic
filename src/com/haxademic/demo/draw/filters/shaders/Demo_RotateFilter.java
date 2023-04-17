@@ -9,6 +9,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
+import processing.opengl.Texture;
+
 public class Demo_RotateFilter
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -19,7 +21,8 @@ extends PAppletHax {
 	}
 
 	protected void drawApp() {
-		if(p.frameCount == 1) PG.setTextureRepeat(p.g, true);
+		PG.setTextureRepeat(p.g, true);
+		p.textureWrap(Texture.REPEAT);
 		p.background(0);
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		

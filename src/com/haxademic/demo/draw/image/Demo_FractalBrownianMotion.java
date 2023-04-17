@@ -21,7 +21,6 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-
 		fbm = new FractalBrownianMotion(p);
 	}
 
@@ -34,8 +33,6 @@ extends PAppletHax {
 			}
 		}
 	}
-
-	
 
 }
 

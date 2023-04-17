@@ -19,6 +19,7 @@ implements IWebCamCallback {
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 		Config.setProperty(AppSettings.SHOW_UI, true );
+		Config.setProperty(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 2000);
 	}
 		
 	protected void firstFrame () {

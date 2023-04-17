@@ -14,8 +14,8 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.WIDTH, "520" );
-		Config.setProperty( AppSettings.HEIGHT, "120" );
+		Config.setProperty( AppSettings.WIDTH, 520 );
+		Config.setProperty( AppSettings.HEIGHT, 120 );
 	}
 		
 	protected void firstFrame() {
@@ -26,7 +26,7 @@ extends PAppletHax {
 
 		// texture feedback
 		// pg.copy(pg, 0, 0, pg.width, pg.height, -1.5f, 0, pg.width, pg.height);
-//		pg.copy(pg, 0, 0, pg.width, pg.height, -2, -2, pg.width, pg.height + 4);
+		pg.copy(pg, 0, 0, pg.width, pg.height, -2, 0, pg.width, pg.height);
 
 		// start texture drawing
 		pg.beginDraw();

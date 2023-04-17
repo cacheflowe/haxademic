@@ -24,11 +24,10 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 640 );
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 130);
 	}
 
 	protected void firstFrame() {
-
-		
 		img1 = ImageUtil.imageToGraphics(DemoAssets.squareTexture());
 		img2 = ImageUtil.imageToGraphics(DemoAssets.textureNebula());
 		
