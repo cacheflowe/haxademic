@@ -32,7 +32,7 @@ extends PAppletHax {
 	protected int FRAMES = 180;
 	
 	protected void config() {
-		Config.setAppSize(1024, 1024);
+		Config.setAppSize(1024, 512);
 		Config.setProperty(AppSettings.SHOW_UI, true);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE, false);

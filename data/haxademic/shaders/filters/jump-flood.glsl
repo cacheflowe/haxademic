@@ -39,6 +39,17 @@ float luma(vec3 color) {
     return dot(color, vec3(0.299, 0.587, 0.114));
 }
 
+// responsive aspect ratio fix from Kyle Meredith / @prismatic.visuals
+float screenDistance(vec2 a, vec2 b) {
+    vec2 diff = a - b;
+    float aspect = (texOffset.y / texOffset.x);
+    if(aspect > 1.0)
+        diff.x *= aspect;
+    else
+        diff.y /= aspect;
+    return length(diff);
+}
+
 void main() {
     // aliases
     float aspect = (texOffset.y / texOffset.x);
@@ -72,7 +83,8 @@ void main() {
                 vec2 kernelOffset = vec2(x,y) * texelSize * stepKernelSize;
                 vec2 kernelSampleUV = center + kernelOffset;
                 vec2 neighborUV = texture2D(texture, kernelSampleUV).xy;
-                float d = length(neighborUV - center);
+                // float d = length(neighborUV - center);
+                float d = screenDistance(neighborUV, center);
                 if ((neighborUV.x != 0.0) && (neighborUV.y != 0.0) && (d < bestDist)) {
                     bestDist = d;
                     closestCoord = neighborUV;
@@ -84,7 +96,8 @@ void main() {
         // make sdf distance gradient
         // decode UV coord pointer stored in pixel
         vec2 nearestUV = texture2D(texture, color.rg).rg;  // vec2 p = (nearestUV * 2.0 - 1.0) * aspect;
-        float d = length(uv - nearestUV);
+        // float d = length(uv - nearestUV);
+        float d = screenDistance(uv, nearestUV);
         gl_FragColor = vec4(vec3(d),1.0);
 
         // for fun: stripes?
