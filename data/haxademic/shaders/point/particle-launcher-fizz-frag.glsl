@@ -9,7 +9,7 @@ uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform float lifespanStep = 0.005;
+uniform float lifespanStep = 0.003;
 uniform float baseSpeed = 0.00075;
 uniform vec2 gravity = vec2(0.);
 
@@ -40,8 +40,9 @@ void main() {
 	progress -= lifespanStep;
 	if(progress < 0.) progress = 0.;	// things get weird if alpha goes negative...
 
-  // move particles. slow down over time, via progress
-	float speed = baseSpeed * (1. + 0.2 * rand(p)); // randomize speed a bit for variance
+  // move particles in fragment shader simulation. slow down over time, via progress
+  float initialSpeedRandomness = 0.01;
+	float speed = baseSpeed * (1. + initialSpeedRandomness * rand(p)); // randomize speed a bit for variance
 	x += cos(rads) * speed * progress + gravity.x;
 	y += sin(rads) * speed * progress + gravity.y;
 

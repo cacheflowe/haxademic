@@ -25,7 +25,7 @@ extends PAppletHax {
 
 	protected int FRAMES = 60 * 4;
 	protected ParticleLauncherGPU gpuParticles;
-	protected boolean pointsShader = false;
+	protected boolean pointsShader = true;
 
 	protected PGraphics randomNumbers;
 	protected PShader randomColorShader;
@@ -46,7 +46,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// build particles launcher
 		if(pointsShader) {
-			gpuParticles = new ParticleLauncherGPU(256, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
+			gpuParticles = new ParticleLauncherGPU(1024, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl");
 		} else {
 			PImage particle = DemoAssets.particle();
 			gpuParticles = new ParticleLauncherGPU(1024, "haxademic/shaders/point/particle-launcher-fizz-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-frag.glsl", "haxademic/shaders/vertex/particles-launcher-textured-vert.glsl", particle);
@@ -60,37 +60,18 @@ extends PAppletHax {
 		randomNumbers = PG.newDataPG(1024, 1024);
 		randomNumbers.filter(randomColorShader);
 	}
-	
-	protected void buildOpticalFlow() {
-		opticalFlow = new OpticalFlow(p.width, p.height);
-		opticalFlow.buildUI();
-		curSourceFrame = PG.newPG32(p.width, p.height, true, false);
-	}
-
-	protected void updateOpticalFlow() {
-		opticalFlow.updateOpticalFlowProps();
-		opticalFlow.update(curSourceFrame, true);
-		opticalFlow.drawDebugLines(true);
-//		opticalFlow.drawDebugLines((FrameLoop.frameMod(200) < 100) ? opticalFlow.resultBuffer() : opticalFlow.resultFlowedBuffer());
-	}	
-	
-	protected void setDebugTextures() {
-		DebugView.setTexture("opFlowResult", opticalFlow.resultBuffer());
-		DebugView.setTexture("opFlowResultFlowed", opticalFlow.resultFlowedBuffer());
-		DebugView.setTexture("source video", curSourceFrame);
-	}
-	
+		
 	protected void updateTextureMaps() {
 		// set color map
 		ImageUtil.copyImage(ImageGradient.BLACK_HOLE(), gpuParticles.colorBuffer());
 		ImageUtil.copyImage(ImageGradient.SPARKS_FLAMES(), gpuParticles.colorBuffer());
-		ImageUtil.copyImage(ImageGradient.THERMAL(), gpuParticles.colorBuffer());
+		// ImageUtil.copyImage(ImageGradient.THERMAL(), gpuParticles.colorBuffer());
 	}
 	
 	protected void launchParticles() {
 		// launch! need to open & close the position buffer where we're writing new launch pixels
 		int startLaunchTime = p.millis();
-		int launchesPerFrame = 500;
+		int launchesPerFrame = 2000;
 		gpuParticles.beginLaunch();
 //		for (int j = 0; j < launchesPerFrame; j++) gpuParticles.launch(pg, Mouse.xEased, Mouse.yEased);
 //		for (int j = 0; j < launchesPerFrame; j++) gpuParticles.launch(pg, p.width/2 + p.width/4 * P.sin(p.frameCount/40f), p.height/2 + p.height/6 * P.sin(p.frameCount/20f));
@@ -101,19 +82,6 @@ extends PAppletHax {
 	
 	protected void updateSimulation() {
 		int startUpdateTime = p.millis();
-		
-		if(pointsShader) {
-		
-		} else {
-//			gpuParticles.simulationShader().set("directionMap", varianceNoise.texture());
-//			gpuParticles.simulationShader().set("ampMap", varianceNoise.texture());
-//			gpuParticles.simulationShader().set("amp", 0.004f); // * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
-//			gpuParticles.simulationShader().set("randomMap", randomNumbers);
-//			gpuParticles.simulationShader().set("flowMap", opticalFlow.resultFlowedBuffer());
-//			gpuParticles.simulationShader().set("flowMode", 0);
-//			gpuParticles.simulationShader().set("flowAmp", UI.valueEased(PARTICLES_OPFLOW_AMP));
-		}
-		
 		gpuParticles.updateSimulation();
 		DebugView.setValue("updateTime", p.millis() - startUpdateTime);
 	}
@@ -138,7 +106,7 @@ extends PAppletHax {
 		pg.beginDraw();
 		pg.background(0);
 		PG.setCenterScreen(pg);
-//		PG.basicCameraFromMouse(pg, 0.5f);
+		PG.basicCameraFromMouse(pg, 0.5f);
 		pg.blendMode(PBlendModes.BLEND);
 		gpuParticles.renderTo(pg);
 		pg.endDraw();

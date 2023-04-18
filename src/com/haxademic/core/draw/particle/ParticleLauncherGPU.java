@@ -96,12 +96,20 @@ public class ParticleLauncherGPU {
 	}
 	
 	public void beginLaunch() {
+		// original method
 		positionBuffer.beginDraw();
 		positionBuffer.blendMode(PBlendModes.REPLACE); // ensures proper re-spawning and not additive alpha channel
+
+		// alt method - slower & doesn't work quite right :(
+		// positionBuffer.loadPixels();
 	}
 	
 	public void endLaunch() {
+		// original method
 		positionBuffer.endDraw();
+
+		// alt method - slower & doesn't work quite right :(
+		// positionBuffer.updatePixels();
 	}
 	
 	public void launch(PGraphics buffer, float x, float y) {
@@ -121,8 +129,13 @@ public class ParticleLauncherGPU {
 		float radians = MathUtil.randRangeDecimal(0f, 255f);
 		float progress = 255f;	// reset progress to 100%, always, since alpha is additive. switch to pixels[].set() 
 		int positionColor = P.p.color(launchX, launchY, radians, progress);
+
+		// original method
 		positionBuffer.fill(positionColor);
 		positionBuffer.rect(texX, texY, 1, 1);
+
+		// alt method - slower & doesn't work quite right :(
+		// ImageUtil.setPixelColor(positionBuffer, texX, texY, positionColor);
 	}
 	
 	public void updateSimulation() {
