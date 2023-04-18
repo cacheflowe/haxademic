@@ -42,6 +42,7 @@ implements IAppStoreListener {
 	
 	protected void firstFrame() {
 		// load interphase
+		AudioUtil.setPrimaryMixer();
 		SequencerConfig.setAbsolutePath();
 //		interphase = new Interphase(new SequencerConfig[] {
 //				new SequencerConfig(0, "audio/samples2/01-kick", SequencerConfig.buildKickSnarePatterns(), 1f, false, false, false, false, false),

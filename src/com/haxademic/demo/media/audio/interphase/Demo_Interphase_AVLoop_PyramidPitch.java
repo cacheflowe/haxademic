@@ -11,6 +11,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Scales;
@@ -51,6 +52,9 @@ implements IAppStoreListener {
 	protected void firstFrame() {
 		mockup = P.getImage("images/_sketch/sheraton-street-view.png");
 		
+		AudioUtil.setPrimaryMixer();
+		SequencerConfig.setAbsolutePath();
+
 		interphase = new Interphase(SequencerConfig.interphaseChannels());
 		interphase.initUI();
 		numSequencers = interphase.sequencers().length;

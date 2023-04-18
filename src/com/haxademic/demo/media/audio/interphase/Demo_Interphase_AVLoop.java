@@ -8,9 +8,10 @@ import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
+import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.http.HttpInputState;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
@@ -44,21 +45,26 @@ implements IAppStoreListener {
 	}
 	
 	protected void firstFrame() {
+		
+		// viz
+		audioTexture = new TexturePixelatedAudio(p.width, p.height);
+		//		audioTexture = new TextureFractalPolygons(p.width, p.height);
+		//		audioTexture = new TextureEQLinesTerrain(p.width, p.height);
+		// audioTexture = new TextureConcentricDashedCubes(p.width, p.height);
+		//		audioTexture = new TextureRadialGridPulse(p.width, p.height);
+
+		// global setup
+		AudioUtil.setPrimaryMixer();
+		SequencerConfig.setAbsolutePath();
+
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels());
+		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.autoPlay();
 		P.store.addListener(this);
 		
 		P.out("WebServer.DEBUG", WebServer.DEBUG);
 		HttpInputState.DEBUG = false;
-		
-		// viz
-//		audioTexture = new TexturePixelatedAudio(p.width, p.height);
-//		audioTexture = new TextureFractalPolygons(p.width, p.height);
-//		audioTexture = new TextureEQLinesTerrain(p.width, p.height);
-		audioTexture = new TextureConcentricDashedCubes(p.width, p.height);
-//		audioTexture = new TextureRadialGridPulse(p.width, p.height);
 		
 		// Interphase UI
 		UI.addTitle("Interphase");
@@ -98,7 +104,7 @@ implements IAppStoreListener {
 		// update Interphase object every frame
 		interphase.update();
 		
-		// update viz (disabled for the moment
+		// update viz (disabled for the moment)
 		audioTexture.update();
 		ImageUtil.cropFillCopyImage(audioTexture.texture(), p.g, true);
 		

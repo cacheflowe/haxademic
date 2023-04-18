@@ -45,7 +45,7 @@ public class BaseTexture {
 		this.height = height;
 		this.smoothPG = smoothPG;
 //		_texture = PG.newPG(width, height, smoothPG, true);
-		_active = false;
+		setActive(true);
 		_color = P.p.color(255);
 		_colorEase = new EasingColor( "#ffffff", 5 );
 	}
