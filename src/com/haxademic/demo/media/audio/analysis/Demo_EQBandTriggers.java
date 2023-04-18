@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
@@ -16,6 +17,7 @@ extends PAppletHax {
 	float ampThreshold = 0.2f;
 	
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
 		AudioIn.instance(AudioInputLibrary.Beads);
 		
 		numElements = 40; // p.width;

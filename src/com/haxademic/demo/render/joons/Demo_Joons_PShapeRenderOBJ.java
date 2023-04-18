@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
 		
 		Config.setProperty( AppSettings.SUNFLOW, true );
-		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
 		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH);
 
 		Config.setProperty( AppSettings.WIDTH, 960 );
@@ -34,11 +34,10 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
+		Config.setProperty(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 2);
 	}
 
 	protected void firstFrame() {
-
-		
 		// load & normalize shape
 		obj = p.loadShape( FileUtil.getPath("models/skull-realistic.obj"));	
 		obj = p.loadShape( FileUtil.getPath("models/poly-hole-penta.obj"));

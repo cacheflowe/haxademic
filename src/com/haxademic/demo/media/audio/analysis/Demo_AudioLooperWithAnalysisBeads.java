@@ -22,6 +22,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	}
 	
 	protected void firstFrame() {
+		AudioUtil.setPrimaryMixer();
+
 		ac = AudioUtil.getBeadsContext();
 		ac.start();
 	

@@ -19,6 +19,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 2);
 	}
 
 	protected void drawApp() {

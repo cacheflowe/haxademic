@@ -20,7 +20,6 @@ import beads.WavePlayer;
 public class Demo_Beads_TriggerWavePlayer
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);

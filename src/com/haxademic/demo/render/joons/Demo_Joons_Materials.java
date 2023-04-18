@@ -15,10 +15,10 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SUNFLOW, true );
 		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
 		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
-
+		
 		Config.setProperty( AppSettings.WIDTH, 800 );
 		Config.setProperty( AppSettings.HEIGHT, 600 );
-		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 2);
 	}
 
 	protected void drawApp() {

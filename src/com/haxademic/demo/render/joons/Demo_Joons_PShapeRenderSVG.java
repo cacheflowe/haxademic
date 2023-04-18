@@ -30,6 +30,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 );
 //		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - 1 );
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2 );
+		Config.setProperty(AppSettings.RENDER_DEMO_SCREENSHOT_FRAME, 2);
 	}
 
 	protected void firstFrame() {

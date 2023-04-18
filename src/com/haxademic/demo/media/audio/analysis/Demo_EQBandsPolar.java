@@ -11,7 +11,6 @@ import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
-import com.haxademic.core.render.FrameLoop;
 
 public class Demo_EQBandsPolar 
 extends PAppletHax {

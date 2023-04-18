@@ -38,6 +38,7 @@ implements IWebCamCallback {
 		WebCam.instance().setDelegate(this);
 		
 		// init audio
+		AudioUtil.setPrimaryMixer();
 		AudioContext ac = AudioUtil.getBeadsContext();
 		AudioIn.instance(new AudioInputBeads(ac));
 	
