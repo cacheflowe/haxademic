@@ -18,7 +18,6 @@ import com.haxademic.core.render.FrameLoop;
 import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.core.PVector;
-import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PShader;
 
 public class Demo_BumpMap_Box
