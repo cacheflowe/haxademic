@@ -42,10 +42,6 @@ extends PAppletHax {
 	}
 	
 	protected void drawApp() {
-		// debug input
-		DebugView.setValue("Mouse.xNorm", Mouse.xNorm);
-		DebugView.setValue("Mouse.yNorm", Mouse.yNorm);
-
 		// context & camera
 		p.background(0);
 		PG.setCenterScreen(p);
@@ -54,6 +50,7 @@ extends PAppletHax {
 		p.ortho();
 //		p.perspective();
 //		PG.basicCameraFromMouse(p.g, 1f);
+		p.stroke(255);
 		
 		// progress through loop
 		if(FrameLoop.progress() > 0.5f) tiltProgress.setTarget(1);
@@ -62,8 +59,8 @@ extends PAppletHax {
 		easedProgress = Penner.easeInOutCubic(tiltProgress.value());
 		
 		// rotate for rendering
-//		p.rotateY(P.QUARTER_PI * 0.75f);
-//		p.rotateX(AnimationLoop.progressRads());
+		// p.rotateY(P.QUARTER_PI * 0.75f);
+		// p.rotateX(FrameLoop.progressRads());
 
 		// almost-hexagon tilt
 //		p.rotateY(easedProgress * P.PI * 0.2307f); // Mouse.xNorm
@@ -81,9 +78,9 @@ extends PAppletHax {
 		
 		
 		drawInfiniteZoomCubes();
-//		drawNestedCubes();
-//		drawSingleCube();
-//		drawFlatGrid();
+		// drawNestedCubes();
+		// drawSingleCube();
+		// drawFlatGrid();
 	}
 	
 	protected void drawCubeDashLerp() {

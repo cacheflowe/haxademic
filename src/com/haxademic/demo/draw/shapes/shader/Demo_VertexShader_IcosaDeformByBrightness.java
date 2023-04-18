@@ -30,8 +30,6 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-	
-
 		// load texture
 		texture = ImageUtil.imageToGraphics(DemoAssets.textureJupiter());
 		

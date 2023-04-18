@@ -39,19 +39,13 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		p.background(0);
-		
 		p.pushMatrix();
 		p.translate( p.width/2, p.height/2, -300 );
 
 		// debug mouse position
 		float x = (float) p.mouseX * 0.1f; // 10 + 6f * ( (float) p.mouseX / (float) p.width );
 		float y = (float) p.mouseY * 0.1f; // 6f * ( (float) p.mouseY / (float) p.height );
-
-		
-		//		p.rotateX(p.frameCount/20f);
-//		p.rotateY(P.PI/2f);
-//		p.rotateZ(p.frameCount/200f);
-		p.rotateZ(P.HALF_PI);
+		// p.rotateZ(P.HALF_PI);
 		
 		if( _audioEnabled == false ) {
 			setSuperFormulaProps( 10, 1, 6, 20, 7, 18 );
@@ -63,19 +57,12 @@ extends PAppletHax {
 			_superForm.n3( UI.value(n3) );
 
 		} else {
-			
-			
 			setSuperFormulaProps( 10, 1, 6, 20, 7, 18 );
-			
 			// form 1
 //			_superForm.a( 76 + ( 50f * p._audioInput.getFFT().averages[0]));
 //			_superForm.n1( 5 + ( 10f * p._audioInput.getFFT().averages[1]));
-
 			// form 2
 			setSuperFormulaProps( 1, 1, 6, x, y, 18 );
-			
-			
-			
 			float audioRange = 0.1f;
 //			_superForm.a( x + (audioRange * 300f * p._audioInput.getFFT().averages[0]));
 			_superForm.b( 8 + (audioRange * 10f * AudioIn.audioFreq(0)));

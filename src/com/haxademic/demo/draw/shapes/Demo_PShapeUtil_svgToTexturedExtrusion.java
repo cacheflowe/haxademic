@@ -31,15 +31,13 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-		shape = p.loadShape(FileUtil.getPath("svg/eight.svg"));
+		shape = p.loadShape(FileUtil.getPath("svg/numbers/nine.svg"));
 		texture = ImageUtil.shapeToGraphicsJittered(shape, 20);
-		
-		
 		
 		// TODO: add jitter to the texture to avoid transparent pixels
 		DebugView.setTexture("texture", texture);
 		
-		shapeSolid = p.loadShape(FileUtil.getPath("svg/eight-solid.svg"));
+		shapeSolid = p.loadShape(FileUtil.getPath("svg/numbers/nine.svg"));
 		shapeSolid = shapeSolid.getTessellation();
 		PShapeUtil.repairMissingSVGVertex(shapeSolid);
 		PShapeUtil.centerShape(shapeSolid);
@@ -80,7 +78,7 @@ extends PAppletHax {
 		p.shape(shapeSolid);
 		
 		// debug shape
-		PShapeUtil.debugVertices(pg, shapeSolid);
+		// PShapeUtil.debugVertices(pg, shapeSolid);
 	}
 	
 }

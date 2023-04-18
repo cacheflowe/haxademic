@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -25,12 +25,12 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-//		shape = DemoAssets.objHumanoid();
+		shape = DemoAssets.objHumanoid();
 //		shape = p.loadShape(FileUtil.getPath("models/cacheflowe-scandy-pro-2022-04-05.obj"));
 		
 		// normalize shape (scaling centers)
 		PShapeUtil.centerShape(shape);
-		PShapeUtil.meshFlipOnAxis(shape, P.Y);
+		// PShapeUtil.meshFlipOnAxis(shape, P.Y);
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.5f);
 		PShapeUtil.setOnGround(shape);
 //		PShapeUtil.setRegistrationOffset(shape, 0, -0.5f, 0);

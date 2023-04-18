@@ -55,7 +55,7 @@ extends PAppletHax {
 				subShape = subShape.getTessellation();
 				float lightU = 1f - i / numCols;
 				float lightV = j / numRows;
-				P.out(lightU, lightV, subShape.getVertexCount());
+				// P.out(lightU, lightV, subShape.getVertexCount());
 				addTextureSingleUV(subShape, movie, lightU, lightV);
 				s.addChild(subShape);
 			}

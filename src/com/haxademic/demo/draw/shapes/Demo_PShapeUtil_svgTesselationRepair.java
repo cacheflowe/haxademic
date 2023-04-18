@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected int curShapeIndex = 0;
 	
 	protected void firstFrame() {
-		shape = p.loadShape(FileUtil.getPath("svg/nine.svg"));
+		shape = p.loadShape(FileUtil.getPath("svg/numbers/nine.svg"));
 		shapeTess = shape.getTessellation();
 		shapeRepaired = shape.getTessellation();
 
