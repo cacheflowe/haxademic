@@ -210,8 +210,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 			Sequencer seq = sequencerAt(i);
 			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
 			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
-            UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
-            UI.addSlider(UI_REVERB_+(i+1), 0, 0, 1, 0.005f, false, midiCCReverb);
+			UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
+			UI.addSlider(UI_REVERB_+(i+1), 0, 0, 1, 0.005f, false, midiCCReverb);
 		}
 		return this;
 	}
@@ -696,20 +696,20 @@ implements IAppStoreListener, ILaunchpadCallback {
 			sequencerAt(sequencerIndex).pitchShift(val.floatValue());
 		}
 		if(key.indexOf(UI_REVERB_) == 0) {
-		    String sequencerNum = key.substring(UI_REVERB_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
-		    int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
-		    float amp = val.floatValue();
-		    if(amp < 0.1f) amp = 0;
-		    float reverbSize = amp * 40f;
-		    float reverbDampening = amp * 0.5f;
-		    if(sequencerIndex == 0) {
-		        reverbSize *= 0.5f;
-		        reverbDampening *= 0.5f;
-		    }
-//		    reverbSize = 1.0f;
-//		    reverbDampening = 1.5f;
-		    P.out(reverbSize, reverbDampening);
-		    sequencerAt(sequencerIndex).reverb(reverbSize, reverbDampening);
+			String sequencerNum = key.substring(UI_REVERB_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!
+			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;
+			float amp = val.floatValue();
+			if (amp < 0.1f) amp = 0;	// turn off if knob is close to zero
+			float reverbSize = amp * 400f;
+			float reverbDampening = 1f - amp * 0.9f;
+			// if (sequencerIndex == 0) {
+			// 	reverbSize *= 0.5f;
+			// 	reverbDampening *= 0.5f;
+			// }
+			// reverbSize = 20.0f;
+			// reverbDampening = 0.5f;
+			// P.out(reverbSize, reverbDampening);
+			sequencerAt(sequencerIndex).reverb(reverbSize, reverbDampening);
 		}
 	}
 	public void updatedString(String key, String val) {
