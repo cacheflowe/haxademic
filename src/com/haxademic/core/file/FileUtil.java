@@ -98,7 +98,7 @@ public class FileUtil {
 	
 	public static String demoScreenshotsPath() {
 		if( DEMO_SCREENSHOTS_PATH != null ) return DEMO_SCREENSHOTS_PATH;
-		DEMO_SCREENSHOTS_PATH = haxademicWwwPath().concat(File.separator + "demo-images" + File.separator + "images" + File.separator);
+		DEMO_SCREENSHOTS_PATH = haxademicOutputPath().concat(File.separator + "_demo-images" + File.separator);
 		return DEMO_SCREENSHOTS_PATH;
 	}
 	
