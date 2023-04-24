@@ -67,7 +67,7 @@ WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
 bool wsConnected = false;
 long lastNetworkPollTime = 0;
-int networkPollTimeInterval = 20;
+int networkPollTimeInterval = 20; // how fast to send ws messages
 
 ////////////////////////////////////////////////////
 // force reboot helper
