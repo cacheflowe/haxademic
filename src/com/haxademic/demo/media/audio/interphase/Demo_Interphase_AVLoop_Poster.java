@@ -10,7 +10,6 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -20,6 +19,7 @@ import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
@@ -268,7 +268,12 @@ implements IAppStoreListener {
 		interphase.update();
 	}
 	
-	protected void outputConfig() {		
+	protected void outputConfig() {
+		for (int i = 0; i < numSequencers; i++) {
+			Sequencer seq = interphase.sequencerAt(i);
+			P.out(JsonUtil.jsonToSingleLine(seq.json()));
+		}
+
 		// write out code for setting samples
 		for (int i = 0; i < numSequencers; i++) {
 			Sequencer seq = interphase.sequencerAt(i);

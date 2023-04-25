@@ -72,8 +72,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public static final String UI_PITCH_ = "UI_PITCH_";
 	
 	public static final String UI_REVERB_ = "UI_REVERB_";
-    public static final String UI_MUTE_ = "UI_MUTE_";
-    public static final String UI_TRIGGER_ = "UI_MUTE_";
+	public static final String UI_MUTE_ = "UI_MUTE_";
+	public static final String UI_TRIGGER_ = "UI_MUTE_";
 
 	
 	//////////////////////////////////////////
@@ -148,12 +148,12 @@ implements IAppStoreListener, ILaunchpadCallback {
 		DebugView.setHelpLine("[1234] |", "Trigger");
 		DebugView.setHelpLine("[QWER] |", "Toggle mute");
 		DebugView.setHelpLine("[ASDF] |", "New sound");
-		DebugView.setHelpLine("[ZXCV] |", "Toggle Evloves");
-		DebugView.setHelpLine("[+]    |", "BPM ++");
-		DebugView.setHelpLine("[-]    |", "BPM --");
-		DebugView.setHelpLine("[9-0]  |", "Load stored sequences");
+		DebugView.setHelpLine("[9, 0]  |", "Load stored sequences");
 		DebugView.setHelpLine("[o]    |", "Save stored sequences");
 		DebugView.setHelpLine("[O]    |", "Overwrite cur sequence");
+		// DebugView.setHelpLine("[ZXCV] |", "Toggle Evloves");
+		// DebugView.setHelpLine("[+]    |", "BPM ++");
+		// DebugView.setHelpLine("[-]    |", "BPM --");
 	}
 	
 	// init config
@@ -316,14 +316,14 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(P.p.key == 'J') sequencers[6].loadNextSound();
 		if(P.p.key == 'K') sequencers[7].loadNextSound();
 		
-		if(P.p.key == 'Z') sequencers[0].evolves(!sequencers[0].evolves());
-		if(P.p.key == 'X') sequencers[1].evolves(!sequencers[1].evolves());
-		if(P.p.key == 'C') sequencers[2].evolves(!sequencers[2].evolves());
-		if(P.p.key == 'V') sequencers[3].evolves(!sequencers[3].evolves());
-		if(P.p.key == 'B') sequencers[4].evolves(!sequencers[4].evolves());
-		if(P.p.key == 'N') sequencers[5].evolves(!sequencers[5].evolves());
-		if(P.p.key == 'M') sequencers[6].evolves(!sequencers[6].evolves());
-		if(P.p.key == '<') sequencers[7].evolves(!sequencers[7].evolves());
+		// if(P.p.key == 'Z') sequencers[0].evolves(!sequencers[0].evolves());
+		// if(P.p.key == 'X') sequencers[1].evolves(!sequencers[1].evolves());
+		// if(P.p.key == 'C') sequencers[2].evolves(!sequencers[2].evolves());
+		// if(P.p.key == 'V') sequencers[3].evolves(!sequencers[3].evolves());
+		// if(P.p.key == 'B') sequencers[4].evolves(!sequencers[4].evolves());
+		// if(P.p.key == 'N') sequencers[5].evolves(!sequencers[5].evolves());
+		// if(P.p.key == 'M') sequencers[6].evolves(!sequencers[6].evolves());
+		// if(P.p.key == '<') sequencers[7].evolves(!sequencers[7].evolves());
 
 //		if(P.p.key == 'o') P.out(outputConfigSingleLine());
 		if(P.p.key == 'o') saveJsonConfigToFile();

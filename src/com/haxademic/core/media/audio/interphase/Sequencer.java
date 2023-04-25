@@ -249,7 +249,7 @@ implements IAppStoreListener {
 	}
 	
 	public boolean evolves() { return this.evolves; }
-	public Sequencer evolves(boolean evolves) { this.evolves = evolves; return this; } 
+	public Sequencer evolves(boolean evolves) { this.evolves = evolves; if(!evolves) { resetRandomizedProps(); } return this; } 
 	public float volume() { return config.volume; }
 	public Sequencer volume(float volume) { config.volume = volume; return this; } 
 	public float attack() { return attack; }
@@ -386,42 +386,90 @@ implements IAppStoreListener {
 	/////////////////////////////////////
 	
 	public void evolvePattern() {
-		if(evolves == true) {
-			// every 4 sample triggers, make a bigger evolving change
-			// new pattern, note & note props
+		if(!evolves) return;
+
+		// decide when to evolve
+		// next channel every cycle around the sequencer?
+		// boolean shouldEvolve = P.round(sequencesComplete) % Interphase.NUM_CHANNELS == index;
+		// or spaced out further:
+		boolean shouldEvolve = P.round(sequencesComplete) % (Interphase.NUM_CHANNELS * 2) == index * 2;
+
+		// every 4 sample triggers, make a bigger evolving change
+		// new pattern, note & note props
+		// otherwise, do a small sequence pattern evolution
+		if(shouldEvolve == true) {
 			if(sampleTriggerCount % 4 == 0) {
 				newRandomPattern();
-				
-				// change note scheme
-				noteOffset = MathUtil.randRange(0, Interphase.NUM_STEPS - 1);
-				notesByStep = MathUtil.randBooleanWeighted(0.7f);
-				upOctave = MathUtil.randBooleanWeighted(0.2f) && config.playsOctaveNotes;	// don't octave on keys
-				chordMode = (config.playsChords && MathUtil.randBooleanWeighted(0.5f));
-				
-				// change attack
-				if(MathUtil.randBooleanWeighted(0.2f) && config.hasAttack) {
-					attack = MathUtil.randRange(30, 150);
-				} else {
-					attack = 0;
-				}
-				
-				// change release
-				if(MathUtil.randBooleanWeighted(0.2f) && config.hasRelease) {
-					float loopInterval = Metronome.bpmToIntervalMS(P.store.getInt(Interphase.BPM));
-					release = MathUtil.randRange(200, loopInterval);
-				} else {
-					release = 0;
-				}
+				newRandomNoteScheme();
+				newRandomAttack();
+				newRandomRelease();
 			} else {
-				// every sample trigger, slightly change sequence
-				if(MathUtil.randBoolean()) {
-					PatternUtil.nudgePatternForward(steps);
-				} else {
-					PatternUtil.morphPattern(steps);
-				}
+				evolvePatternSmall();
 			}
 		}
 	}
+
+	protected void evolvePatternSmall() {
+		if(MathUtil.randBoolean()) {
+			PatternUtil.nudgePatternForward(steps);
+		} else {
+			PatternUtil.morphPattern(steps);
+		}
+	}
+
+	protected void newRandomNoteScheme() {
+		noteOffset = MathUtil.randRange(0, Interphase.NUM_STEPS - 1);
+		notesByStep = MathUtil.randBooleanWeighted(0.7f);
+		upOctave = MathUtil.randBooleanWeighted(0.2f) && config.playsOctaveNotes; // don't octave on keys
+		chordMode = (config.playsChords && MathUtil.randBooleanWeighted(0.5f));
+	}
+
+	protected void newRandomAttack() {
+		if (MathUtil.randBooleanWeighted(0.2f) && config.hasAttack) {
+			attack = MathUtil.randRange(30, 150);
+		} else {
+			attack = 0;
+		}
+	}
+
+	protected void newRandomRelease() {
+		if (MathUtil.randBooleanWeighted(0.2f) && config.hasRelease) {
+			float loopInterval = Metronome.bpmToIntervalMS(P.store.getInt(Interphase.BPM));
+			release = MathUtil.randRange(200, loopInterval);
+		} else {
+			release = 0;
+		}
+	}
+
+	protected void resetRandomizedProps() {
+		notesByStep = true;
+		attack = 0;
+		release = 0;
+	}
+
+	// go next sound / evolve sound
+
+	public void loadNextSound() {
+		sampleIndex++;
+		if(sampleIndex >= samples.length) sampleIndex = 0;
+		setSample(samples[sampleIndex]);
+		sampleLength = (float) curSample.getLength();
+		DebugView.setValue("Sequencer.curSample_"+index, FileUtil.fileNameFromPath(curSample.getFileName()));
+	}
+	
+	protected void checkLoadNewSound() {
+		if(!evolves) return;
+		if(sequencesComplete - lastSequenceCountChangedSound >= sequenceCountChangeSound) {
+			lastSequenceCountChangedSound = sequencesComplete;
+			updateChangeSoundCount();
+			if(evolves == true) loadNextSound();
+		}	
+	}
+	
+	protected void updateChangeSoundCount() {
+		sequenceCountChangeSound = Interphase.NUM_STEPS + 4 * MathUtil.randRange(0, 4);	
+	}
+
 	
 	/////////////////////////////////////
 	// AUDIO
@@ -455,18 +503,23 @@ implements IAppStoreListener {
 		waveformDirty = true;
 	}
 	
-	public void playSample() {
+	/////////////////////////////////////
+	// PLAY SOUND
+	/////////////////////////////////////
+
+	protected void checkPlaySample() {
+		if(!shouldPlay) return;
 		if(curSample == null) return;
 		if(muted) return;
 		
-		// get scale/pitch
+		// get scale/pitch, play sound, send event out
 		selectNewNote();
-		
-		// recreate SamplePlayer objects
-		player = playSampleWithNote(player, pitchRatioFromIndex(pitchIndex1));
-		if(chordMode) player2 = playSampleWithNote(player2, pitchRatioFromIndex(pitchIndex2));
-		
-		// let the app know
+		playSound();
+		sendTriggerEvent();
+		shouldPlay = false;
+	}
+
+	protected void sendTriggerEvent() {
 		P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
 		if(TRIGGER_DELAY == 0) {
 			P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
@@ -475,9 +528,6 @@ implements IAppStoreListener {
 				P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
 			}}, TRIGGER_DELAY);
 		}
-					
-		// reset play trigger flag
-		shouldPlay = false;
 	}
 	
 	protected void selectNewNote() {
@@ -507,6 +557,13 @@ implements IAppStoreListener {
 		float alteredPitch = pitchIndex + pitchShift * 12f;	// pitch bending! 
 		return P.pow(2, alteredPitch/12.0f);
 	}
+
+	protected void playSound() {
+		player = playSampleWithNote(player, pitchRatioFromIndex(pitchIndex1));
+		if (chordMode) {
+			player2 = playSampleWithNote(player2, pitchRatioFromIndex(pitchIndex2));
+		}
+	}
 	
 	protected SamplePlayer playSampleWithNote(SamplePlayer curPlayer, float pitchRatio) {
 		// stop playing previous sample instance 
@@ -535,6 +592,20 @@ implements IAppStoreListener {
 			//				curPlayer.start();
 			//			}
 //		}
+
+		// AudioContext ac = Metronome.ac;
+		// // add some swing... move this!
+		//// int delay = 0; // (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) :
+		// 0;
+		// int delay = (index == 2 || index == 5) ? MathUtil.randRange(0, 20) : 0;
+		// // play it, with delay or without
+		// Bead myBead = new Bead() {
+		// protected void messageReceived(Bead b) {
+		// }
+		// };
+		//
+		// DelayTrigger dt = new DelayTrigger(ac, delay, myBead, null);
+		// ac.out.addDependent(dt);
 
 		// apply attack/sustain
 		if(useASDR) {
@@ -576,8 +647,8 @@ implements IAppStoreListener {
 				rb.setDamping(reverbDamping);
 				rb.setValue(reverbSize);
 				// rb.setLateReverbLevel(reverbSize * 0.1f);
-				rb.setLateReverbLevel(reverbSize * 0.01f);
-				rb.setEarlyReflectionsLevel(reverbSize * 0.01f);
+				// rb.setLateReverbLevel(reverbSize * 0.01f);
+				// rb.setEarlyReflectionsLevel(reverbSize * 0.01f);
 			}
 			
 			Compressor comp = null;
@@ -610,31 +681,8 @@ implements IAppStoreListener {
 			ac.out.addInput(curPlayer);
 		}
 		
-		// play!
-//		curPlayer.start(0);
+		// send player object back
 		return curPlayer;
-	}
-	
-	// load next sound
-	
-	public void loadNextSound() {
-		sampleIndex++;
-		if(sampleIndex >= samples.length) sampleIndex = 0;
-		setSample(samples[sampleIndex]);
-		sampleLength = (float) curSample.getLength();
-		DebugView.setValue("Sequencer.curSample_"+index, FileUtil.fileNameFromPath(curSample.getFileName()));
-	}
-	
-	protected void checkLoadNewSound() {
-		if(sequencesComplete - lastSequenceCountChangedSound >= sequenceCountChangeSound) {
-			lastSequenceCountChangedSound = sequencesComplete;
-			updateChangeSoundCount();
-			if(evolves == true) loadNextSound();
-		}	
-	}
-	
-	protected void updateChangeSoundCount() {
-		sequenceCountChangeSound = 16 + 4 * MathUtil.randRange(0, 4);	
 	}
 	
 		
@@ -642,72 +690,55 @@ implements IAppStoreListener {
 	// AppStore callbacks & Beat updates
 	/////////////////////////////////////
 	
+protected void checkBeatChanged(int newBeat) {
+	int offset = 0; // index * 2; // 8 / 16
+	// offset = index * 4;
+	newBeat = (newBeat - offset + Interphase.NUM_STEPS) % Interphase.NUM_STEPS;
+	if (newBeat != curStep) {
+		curStep = newBeat;
+		interphaseBeatChanged();
+	}
+}
+
 	protected void interphaseBeatChanged() {
 		// update timing
 		if(curStep == 0) {
-			// increment sequence
 			sequencesComplete++;
-			// load a new sound on a random interval
 			checkLoadNewSound();
-			// every 8 cycles, trigger
-			if(P.round(sequencesComplete) % Interphase.NUM_CHANNELS == index) evolvePattern();
+			evolvePattern();
 		}
-		
-		// trigger sound! queue up so Metronome can trigger it within main audio thread/context
-		if(stepActive(curStep)) {
+		checkActiveStepToTrigger();
+		checkManualTrigger();
+		checkPlaySample();
+	}
+
+	protected void checkActiveStepToTrigger() {
+		// trigger sound if this step is active!
+		// queue up so Metronome can trigger it within main audio thread/context
+		if (stepActive(curStep)) {
 			shouldPlay = true;
 		}
-		
+	}
+	
+	protected void checkManualTrigger() {
 		// if step is quantized/queued from user interaction, play that!
 		if(curStep == manualTriggerQueuedIndex) { 
 			shouldPlay = true;
 			manualTriggerQueuedIndex = -1;
 		}
-		
-		// playhead restarted, flash LEDs
-//		if(curStep == 0) flashLEDs();
-		
-		if(shouldPlay) {
-//			AudioContext ac = Metronome.ac;
-//			// add some swing... move this!
-////			int delay = 0; // (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0;
-//			int delay = (index == 2 || index == 5) ? MathUtil.randRange(0, 20) : 0;
-//			// play it, with delay or without
-//			Bead myBead = new Bead() {
-//				protected void messageReceived(Bead b) {
-//				}
-//			};
-//			
-//			DelayTrigger dt = new DelayTrigger(ac, delay, myBead, null);
-//			ac.out.addDependent(dt);
-			playSample();
-		}
 	}
 	
 	public void updatedNumber(String key, Number val) {
-		if(key.equals(Interphase.BEAT)) {
-			int newBeat = val.intValue();
-			int offset = 0; // index * 2; // 8 / 16
-//			offset = index * 4;
-			newBeat = (newBeat - offset + Interphase.NUM_STEPS) % Interphase.NUM_STEPS; // do loop and offset per panel
-			if(newBeat != curStep) {
-				curStep = newBeat;
-				interphaseBeatChanged();
-			}
-		}
+		if(key.equals(Interphase.BEAT)) checkBeatChanged(val.intValue());
 	}
 
-	public void updatedString(String key, String val) {
-	}
+	public void updatedString(String key, String val) {}
 
 	public void updatedBoolean(String key, Boolean val) {
-		if(key.equals(Interphase.GLOBAL_PATTERNS_EVLOVE)) evolves = val;
+		if(key.equals(Interphase.GLOBAL_PATTERNS_EVLOVE)) evolves(val);
 	}
 
-	public void updatedImage(String key, PImage val) {
-	}
-
-	public void updatedBuffer(String key, PGraphics val) {
-	}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 
 }

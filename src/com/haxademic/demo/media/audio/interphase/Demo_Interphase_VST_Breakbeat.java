@@ -87,7 +87,7 @@ implements IAppStoreListener {
 		for (int i = 0; i < interphase.numChannels(); i++) {
 			Sequencer seq = interphase.sequencerAt(i);
 			seq.reverb(10.0f, 0.75f);
-			if(i == 0) seq.reverb(5f, 0.9f);
+			// if(i == 0) seq.reverb(5f, 0.9f);
 		}
 	}
 	
