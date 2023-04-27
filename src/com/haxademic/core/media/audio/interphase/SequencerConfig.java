@@ -35,6 +35,8 @@ public class SequencerConfig {
 		this.hasAttack = hasAttack;
 		this.hasRelease = hasRelease;
 	}
+
+	// where to look for samples?
 	
 	public static void setLocalProjectPath() {
 		BASE_AUDIO_PATH = FileUtil.haxademicDataPath();

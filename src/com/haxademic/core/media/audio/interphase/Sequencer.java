@@ -367,18 +367,10 @@ implements IAppStoreListener {
 	
 	public void triggerSample() {
 		// keep track of manual input time
-//		if(isManual) {
 			manualTriggerTime = P.p.millis();
 			sampleTriggerCount++;
 			// queue up for manual jamming
 			manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
-//		} else {
-//			// if user interaction timed out, advance trigger count for slower pattern switching & morphing below
-//			if(userInteracted() == false) {
-//				sampleTriggerCount++;
-//			}
-//		}
-		
 	}
 	
 	/////////////////////////////////////
@@ -454,11 +446,11 @@ implements IAppStoreListener {
 		if(sampleIndex >= samples.length) sampleIndex = 0;
 		setSample(samples[sampleIndex]);
 		sampleLength = (float) curSample.getLength();
-		DebugView.setValue("Sequencer.curSample_"+index, FileUtil.fileNameFromPath(curSample.getFileName()));
 	}
 	
 	protected void checkLoadNewSound() {
 		if(!evolves) return;
+		sequencesComplete++;
 		if(sequencesComplete - lastSequenceCountChangedSound >= sequenceCountChangeSound) {
 			lastSequenceCountChangedSound = sequencesComplete;
 			updateChangeSoundCount();
@@ -478,7 +470,6 @@ implements IAppStoreListener {
 	protected void buildWaveformBuffer() {
 		waveformPG = PG.newPG2DFast(512, 32);
 		DebugView.setTexture("Sequencer.waveformPG_"+index, waveformPG);
-
 	}
 	
 	protected void getAudiofiles(String audioDir) {
@@ -501,6 +492,7 @@ implements IAppStoreListener {
 	protected void setSample(Sample newSample) {
 		curSample = newSample;
 		waveformDirty = true;
+		DebugView.setValue("Sequencer.curSample_" + index, FileUtil.fileNameFromPath(curSample.getFileName()));
 	}
 	
 	/////////////////////////////////////
@@ -703,7 +695,6 @@ protected void checkBeatChanged(int newBeat) {
 	protected void interphaseBeatChanged() {
 		// update timing
 		if(curStep == 0) {
-			sequencesComplete++;
 			checkLoadNewSound();
 			evolvePattern();
 		}

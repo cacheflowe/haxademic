@@ -34,6 +34,8 @@ public class Particle {
 	protected PVector rotationSpeedMin = new PVector();
 	protected PVector rotationSpeedMax = new PVector();
 	
+	protected float age = 0;
+	protected float ageTotal = 0;
 	protected float lifespan = 60;
 	protected float lifespanMin = 60;
 	protected float lifespanMax = 60;
@@ -76,24 +78,28 @@ public class Particle {
 	public Particle setLifespan(float lifespan) {
 		this.lifespan = lifespan;
 		setLifespanRange(lifespan, lifespan);
+		calcLifespan();
 		return this;
 	}
 	
 	public Particle setLifespanRange(float lifespanMin, float lifespanMax) {
 		this.lifespanMin = lifespanMin; 
 		this.lifespanMax = lifespanMax; 
+		calcLifespan();
 		return this;
 	}
 	
 	public Particle setLifespanSustain(int lifespanSustain) {
 		this.lifespanSustain = lifespanSustain;
 		setLifespanSustainRange(lifespanSustain, lifespanSustain);
+		calcLifespan();
 		return this;
 	}
 	
 	public Particle setLifespanSustainRange(float lifespanSustainMin, float lifespanSustainMax) {
 		this.lifespanSustainMin = lifespanSustainMin; 
-		this.lifespanSustainMax = lifespanSustainMax; 
+		this.lifespanSustainMax = lifespanSustainMax;
+		calcLifespan();
 		return this;
 	}
 	
@@ -185,6 +191,9 @@ public class Particle {
 		boolean finished = (lifespanProgress.value() == 0 && lifespanProgress.target() == 0);
 		return finished;
 	}
+	public float age() { return age; }
+	public float ageTotal() { return ageTotal; }
+	public float ageProgress() { return (float) age / ageTotal; }
 	
 	///////////////////////////////
 	// Launch!
@@ -206,13 +215,16 @@ public class Particle {
 	
 	protected void calcLifespan() {
 		// calculate frames for LinearFloat
-		float lifespanInc = 1f / MathUtil.randRange(lifespanMin, lifespanMax);
-		lifespanInc /= 2; // since we go up, then down w/LinearFloat
+		int showHideFrames = MathUtil.randRange(lifespanMin, lifespanMax);
+		float lifespanInc = 1f / (showHideFrames / 2); // (/ 2) since we fade up then down by default
 		lifespanProgress.setInc(lifespanInc);
 		lifespanProgress.setCurrent(0);
 		lifespanProgress.setTarget(1);
 		// add a potential delay to stay at 1 before descending to 0
 		lifespanSustain = MathUtil.randRange(lifespanSustainMin, lifespanSustainMax);
+		// set total lifespan
+		age = 0;
+		ageTotal = showHideFrames + lifespanSustain;
 	}
 	
 	protected void setRandomVector(PVector property, PVector rangeMin, PVector rangeMax) {
@@ -247,6 +259,7 @@ public class Particle {
 			lifespanProgress.setTarget(0);
 			lifespanProgress.setDelay(lifespanSustain);
 		}
+		age++;
 	}
 	
 	protected void setContext(PGraphics pg) {
@@ -277,10 +290,10 @@ public class Particle {
 	}
 
 	public void kill() {
-	    lifespanProgress
-	        .setDelay(0)
-	        .setCurrent(0)
-	        .setTarget(0);
+		lifespanProgress
+			.setDelay(0)
+			.setCurrent(0)
+			.setTarget(0);
 	}
 	
 	///////////////////////////////

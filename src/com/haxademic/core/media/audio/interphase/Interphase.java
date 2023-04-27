@@ -14,7 +14,6 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
-//import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.audio.AudioUtil;
@@ -88,15 +87,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	protected boolean hasUI = false;
 	
-//	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{104, 41});
-//	protected InputTrigger trigger2 = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{105, 42});
-//	protected InputTrigger trigger3 = new InputTrigger().addKeyCodes(new char[]{'3'}).addMidiNotes(new Integer[]{106, 43});
-//	protected InputTrigger trigger4 = new InputTrigger().addKeyCodes(new char[]{'4'}).addMidiNotes(new Integer[]{107, 44});
-//	protected InputTrigger trigger5 = new InputTrigger().addKeyCodes(new char[]{'5'}).addMidiNotes(new Integer[]{108, 45});
-//	protected InputTrigger trigger6 = new InputTrigger().addKeyCodes(new char[]{'6'}).addMidiNotes(new Integer[]{109, 46});
-//	protected InputTrigger trigger7 = new InputTrigger().addKeyCodes(new char[]{'7'}).addMidiNotes(new Integer[]{110, 47});
-//	protected InputTrigger trigger8 = new InputTrigger().addKeyCodes(new char[]{'8'}).addMidiNotes(new Integer[]{111, 48});
-
 	protected InputTrigger triggerDown = new InputTrigger().addKeyCodes(new char[]{'-'});
 	protected InputTrigger triggerUp = new InputTrigger().addKeyCodes(new char[]{'='});
 //	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
@@ -176,6 +166,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
+	// init MIDI input
+
 	public Interphase initGlobalControlsUI() {
 		return initGlobalControlsUI(null, null, null, null);
 	}
@@ -216,8 +208,9 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
-	
+	//////////////////////////
 	// init launchpad grids
+	//////////////////////////
 	
 	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
 		MidiBus.list();
