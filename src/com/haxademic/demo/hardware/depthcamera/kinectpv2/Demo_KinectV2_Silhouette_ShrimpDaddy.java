@@ -11,7 +11,6 @@ import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.Particle;
-import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.render.FrameLoop;
 
@@ -30,8 +29,6 @@ extends PAppletHax {
     protected PGraphics bufferMask;
     
     protected ParticleSystemCustom particles;
-
-
 
     protected void config() {
         Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -103,26 +100,14 @@ extends PAppletHax {
     // Custom particle system
     //////////////////////////////////////
 
-    public class ParticleFactoryCustom
-    extends ParticleFactory {
-        
-        public ParticleFactoryCustom() {
-            super();
-        }
-        
-        public Particle initNewParticle() {
-            return new ParticleCustom();
-        }
-    }
-
     public class ParticleSystemCustom
     extends ParticleSystem {
 
         public ParticleSystemCustom() {
-            super(new ParticleFactoryCustom());
+            super(ParticleCustom.class);
         }
         
-        protected void randomize(Particle particle) {
+        public void randomize(Particle particle) {
             particle
                 .setSpeed(0, 0, 0)
                 .setAcceleration(1)
@@ -134,8 +119,6 @@ extends PAppletHax {
                 .setRotationSpeedRange(0, 0, 0, 0, -0.01f, 0.01f) // -1, 1)
                 .setLifespanRange(30, 70)
                 .setColor(P.p.color(P.p.random(0, 255), P.p.random(0, 255), P.p.random(0, 255)));
-            // shared launch config & call
-//            particleFactory.randomize(particle);
         }
         
     }
@@ -144,7 +127,7 @@ extends PAppletHax {
     // Custom particle
     //////////////////////////////////////
     
-    public class ParticleCustom
+    public static class ParticleCustom
     extends Particle {
         
         protected PGraphics texture;

@@ -7,7 +7,6 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.Particle;
-import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -17,20 +16,36 @@ import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 public class Demo_ParticleSystem_Custom 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ParticleSystemCustom particles;
+	/*
+	 * ParticleSystem notes:
+	 * - @SuppressWarnings("rawtypes") used above because ParticleSystem is a
+	 *   generic class
+	 * - @SuppressWarnings("unchecked") used below
+	 * - This demo overrides ParticleSystem and Particle
+	 *   Note the following generic syntax:
+	 * - public static class ParticleCustom<T>
+	 *     extends Particle {
+	 * - public class ParticleSystemCustom<T extends Particle>
+	 *     extends ParticleSystem<T>
+	 * - @SuppressWarnings("unchecked")
+	 *   public ParticleSystemCustom() {
+	 *     super((Class<T>) ParticleCustom.class);
+	 *   }
+	 */
+
+	protected ParticleSystemCustom<Particle> particles;
 	
 	protected void config() {
 		Config.setAppSize(1024, 1024);
 	}
 
 	protected void firstFrame() {
-		particles = new ParticleSystemCustom(new PImage[] { DemoAssets.particle() });
+		particles = new ParticleSystemCustom<Particle>();
 		particles.enableUI("PARTICLES_", false);
 	}
 	
@@ -45,8 +60,8 @@ extends PAppletHax {
 		pg.background(0);
 		PG.setDrawFlat2d(pg, true);
 		PG.setDrawCenter(pg);
-//		launchFromMouse();
-		particles.launchParticle(FrameLoop.osc(0.05f, pg.width * 0.3f, pg.width * 0.7f), pg.height * 0.7f, 0);
+		launchFromMouse();
+		// launchOnOscillation();
 		particles.updateAndDrawParticles(pg, PBlendModes.ADD);
 		pg.endDraw();
 		
@@ -58,6 +73,11 @@ extends PAppletHax {
 		DebugView.setValue("particles.poolActiveSize()", particles.poolActiveSize());
 	}
 	
+	protected void launchOnOscillation() {
+		particles.launchParticle(FrameLoop.osc(0.05f, pg.width * 0.3f, pg.width * 0.7f), pg.height * 0.7f, 0);
+	}
+
+	@SuppressWarnings("rawtypes")
 	protected void launchFromMouse() {
 		if(P.abs(Mouse.xSpeed) > 0 && P.abs(Mouse.ySpeed) > 0) {
 			for(int i=0; i < 3; i++) {
@@ -76,27 +96,16 @@ extends PAppletHax {
 	// Custom particle system
 	//////////////////////////////////////
 
-	public class ParticleFactoryCustom
-	extends ParticleFactory {
-		
-		public ParticleFactoryCustom(PImage[] particleImages) {
-			super(particleImages);
-		}
-		
-		public Particle initNewParticle() {
-			return new ParticleCustom();
-		}
-		
-	}
+	public class ParticleSystemCustom<T extends Particle>
+	extends ParticleSystem<T> {
 
-	public class ParticleSystemCustom
-	extends ParticleSystem {
-
-		public ParticleSystemCustom(PImage[] particleImages) {
-			super(new ParticleFactoryCustom(particleImages));
+		@SuppressWarnings("unchecked")
+		public ParticleSystemCustom() {
+			super((Class<T>) ParticleCustom.class);
 		}
 		
-		protected void randomize(Particle particle) {
+		public void randomize(Particle particle) {
+			particle.setImage(DemoAssets.particle());
 			if(usingUI) {
 				particle
 					.setSpeedRange(UI.valueX(SPEED_MIN), UI.valueX(SPEED_MAX), UI.valueY(SPEED_MIN), UI.valueY(SPEED_MAX), UI.valueZ(SPEED_MIN), UI.valueZ(SPEED_MAX))
@@ -116,20 +125,24 @@ extends PAppletHax {
 					.setSizeRange(20, 60)
 					.setColor(P.p.color(P.p.random(0, 255), P.p.random(0, 255), P.p.random(0, 255)));
 			}
-			// shared launch config & call
-			particleFactory.randomize(particle);
 		}
 		
 	}
 	
 	//////////////////////////////////////
 	// Custom particle
+	// Constructor can't be passed any params, for generic instantiation.
+	// NEEDS TO BE A STATIC CLASS if nested in another class, 
+	// because inner classes don't work with generic instantiation: 
+	// https://stackoverflow.com/a/17485341
 	//////////////////////////////////////
 	
-	public class ParticleCustom
+	public static class ParticleCustom<T>
 	extends Particle {
 		
-		public ParticleCustom() {}
+		public ParticleCustom() {
+			super();
+		}
 		
 		public float sizeNorm() {
 			return P.map(size, sizeMin, sizeMax, 0, 1);
@@ -140,8 +153,8 @@ extends PAppletHax {
 			// scale up, but alpha fade out instead of scale down
 			boolean scalingUp = (lifespanProgress.target() == 1);
 			float curSize = (scalingUp) ?
-					size * Penner.easeOutExpo(lifespanProgress.value()) :
-					size;
+				size * Penner.easeOutExpo(lifespanProgress.value()) :
+				size;
 			curSize = size * Penner.easeOutCirc(lifespanProgress.value());
 			float alpha = (lifespanProgress.target() == 1) ? 255 : 255 * lifespanProgress.value();
 			float sizeNorm = sizeNorm();
@@ -162,9 +175,6 @@ extends PAppletHax {
 				pg.strokeWeight(size * 0.1f);
 				pg.rect(0, 0, curSize, curSize);
 			}
-			
-			// debug
-			// pg.text(speed.y, 10, 10);
 		}		
 		
 	}

@@ -6,14 +6,12 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeOpaquePixelsFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
-import com.haxademic.core.draw.particle.IParticleFactory;
 import com.haxademic.core.draw.particle.Particle;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -21,14 +19,21 @@ import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
-import processing.core.PShape;
 
+@SuppressWarnings("rawtypes")
 public class Demo_ParticleSystem3dShadow 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	/*
+	 * ParticleSystem notes:
+	 * - @SuppressWarnings("rawtypes") used above because ParticleSystem is a generic class
+	 * - @SuppressWarnings("unchecked") used below
+	 * - This demo uses the built-in ParticleSystem & Particle class, but adds
+	 * custom behavior after the standard Particle.launchParticle()
+	 */
+
 	// particle system
-	protected ParticleFactoryBasic3d particleFactory;
 	protected ParticleSystem particles;
 	protected PGraphics shadowBuffer;
 	protected PGraphics groundPlane;
@@ -40,8 +45,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// particle system init
-		particleFactory = new ParticleFactoryBasic3d();
-		particles = new ParticleSystem(particleFactory);
+		particles = new ParticleSystem();
 		particles.enableUI("Parti3d", false);
 		UI.loadValuesFromJSON("{ \"Parti3dMAX_ATTEMPTS\": 2000.0, \"Parti3dMAX_LAUNCHES\": 10.0, \"Parti3dPOOL_MAX_SIZE\": 10000.0, \"Parti3dLIFESPAN_MIN\": 10.0, \"Parti3dLIFESPAN_MAX\": 22.0, \"Parti3dLIFESPAN_SUSTAIN_MIN\": 0.0, \"Parti3dLIFESPAN_SUSTAIN_MAX\": 42.0, \"Parti3dSIZE_MIN\": 26.7, \"Parti3dSIZE_MAX\": 80.7, \"Parti3dACCELERATION_X\": 1.0, \"Parti3dACCELERATION_Y\": 1.0, \"Parti3dACCELERATION_Z\": 1.0, \"Parti3dSPEED_MIN_X\": -1.9999993, \"Parti3dSPEED_MIN_Y\": -1.999999, \"Parti3dSPEED_MIN_Z\": -1.999999, \"Parti3dSPEED_MAX_X\": 1.9999993, \"Parti3dSPEED_MAX_Y\": 1.2999997, \"Parti3dSPEED_MAX_Z\": 1.999999, \"Parti3dGRAVITY_MIN_X\": 0.0, \"Parti3dGRAVITY_MIN_Y\": 0.0, \"Parti3dGRAVITY_MIN_Z\": 0.0, \"Parti3dGRAVITY_MAX_X\": 0.0, \"Parti3dGRAVITY_MAX_Y\": 0.0, \"Parti3dGRAVITY_MAX_Z\": 0.0, \"Parti3dROTATION_MIN_X\": -3.1415927, \"Parti3dROTATION_MIN_Y\": 0.0, \"Parti3dROTATION_MIN_Z\": -3.0399997, \"Parti3dROTATION_MAX_X\": 3.1415927, \"Parti3dROTATION_MAX_Y\": 0.0, \"Parti3dROTATION_MAX_Z\": 2.03, \"Parti3dROTATION_SPEED_MIN_X\": -0.012000001, \"Parti3dROTATION_SPEED_MIN_Y\": -0.020000003, \"Parti3dROTATION_SPEED_MIN_Z\": -0.006, \"Parti3dROTATION_SPEED_MAX_X\": 0.016, \"Parti3dROTATION_SPEED_MAX_Y\": 0.04299999, \"Parti3dROTATION_SPEED_MAX_Z\": 0.008 }");
 		UI.addWebInterface(false);
@@ -56,8 +60,14 @@ extends PAppletHax {
 	protected void launchParticles() {
 		int launchesPerFrame = 1;
 		for (int i = 0; i < launchesPerFrame; i++) {
-			// launch w/default UI controls
-			particles.launchParticle(0, 0, 0);
+			Particle particle = particles.launchParticle(0, 0, 0);
+			if(particle.shape() == null) {
+				particle.setShape(PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0)));
+				particles.randomize(particle); // need to re-randomize once since random color is set on PShape inside particle system
+			}
+			// TODO: particle.setColor() is broken. Might be PShapeUtil.setPShapeColor() issue
+			// ... but also might be ColorUtil.randomColor() issue
+			// particle.setColor(ColorUtil.randomColor());
 		}
 	}
 	
@@ -106,6 +116,13 @@ extends PAppletHax {
 		PG.setDrawCorner(pg);
 //		PG.basicCameraFromMouse(pg, 0.1f, 0);
 		
+// pg.push();
+// pg.scale(2);
+// pg.noStroke();
+// pg.fill(255, 0, 0);
+// pg.rect(0, 0, 300, 300);
+// pg.pop();
+
 		// ground plane 
 		float groundScale = 3f;
 		float groundW = groundPlane.width * groundScale;
@@ -172,32 +189,4 @@ extends PAppletHax {
 		if(KeyboardState.keyTriggered(' ')) P.out(UI.valuesToJSON());
 	}
 	
-	////////////////////////////////////
-	// Custom particle system
-	////////////////////////////////////
-	
-	public class ParticleFactoryBasic3d
-	implements IParticleFactory {
-		
-		
-		public ParticleFactoryBasic3d() {}
-		
-		public Particle randomize(Particle particle) {
-			setColor(particle, ColorUtil.randomColor());
-			return particle;
-		}
-
-		public Particle setColor(Particle particle, int color) {
-			PShapeUtil.setBasicShapeStyles(particle.shape(), color, 0, 0);
-			return particle;
-		}
-		
-		public Particle initNewParticle() {
-			PShape newShape = null;
-			newShape = PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0));
-			return new Particle(newShape);
-		}
-
-	}
-
 }

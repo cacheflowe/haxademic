@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.particle;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -11,7 +12,7 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class Particle {
-	
+
 	protected PVector pos = new PVector();
 	protected PVector acceleration = new PVector(1f, 1f, 1f);
 	protected PVector speed = new PVector();

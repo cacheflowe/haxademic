@@ -3,12 +3,12 @@ package com.haxademic.demo.draw.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.Particle;
-import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -18,27 +18,27 @@ public class Demo_ParticleSystemSwirl
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ParticleSystemSwirl particles;
+	protected ParticleSystemSwirl<Particle> particles;
 	
 	protected void config() {
 		Config.setAppSize(1024, 1024);
 	}
 
 	protected void firstFrame() {
-		particles = new ParticleSystemSwirl();
+		particles = new ParticleSystemSwirl<Particle>();
 		particles.enableUI("SWIRL_1_", false);
 	}
 	
 	protected void drawApp() {
 		background(0);
 		
-		// draw image/map base
+		// draw particles
 		pg.beginDraw();
 		pg.background(0);
 		PG.setDrawFlat2d(pg, true);
 		PG.setDrawCenter(pg);
 		particles.launchParticles(pg);
-		particles.updateAndDrawParticles(pg);
+		particles.updateAndDrawParticles(pg, PBlendModes.ADD);
 		pg.endDraw();
 		
 		p.image(pg, 0, 0);
@@ -48,27 +48,24 @@ extends PAppletHax {
 	// Custom particle system w/overrides
 	//////////////////////////////////////
 	
-	public class ParticleFactorySwirl
-	extends ParticleFactory {
-		
-		public Particle initNewParticle() {
-			return new ParticleSwirl(randomImg());
-		}
-		
-	}
-	
-	public class ParticleSystemSwirl
-	extends ParticleSystem {
+	@SuppressWarnings("unchecked")
+	public class ParticleSystemSwirl<T extends Particle>
+	extends ParticleSystem<T> {
+
+		protected PImage[] particleImages;
 
 		public ParticleSystemSwirl() {
-			super(new ParticleFactorySwirl());
+			super((Class<T>) ParticleSwirl.class);
+			particleImages = FileUtil.loadImagesArrFromDir(FileUtil.getPath("haxademic/images/particles/"), "png");
 		}
 		
-		public void enableUI(String prefix, boolean saves) {
-			usingUI = true;
-			super.enableUI(prefix, saves);
+		public PImage randomImg() {
+			return particleImages[MathUtil.randRange(0, particleImages.length - 1)];
 		}
 
+		// This should probably be in main class - 
+		// doesn't need to be in a ParticleSystem subclass.
+		// But it's still an example of how to override the default behavior
 		public void launchParticles(PGraphics pg) {
 			int numLaunched = 0;
 			int maxAttempts = (usingUI) ? UI.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
@@ -77,8 +74,7 @@ extends PAppletHax {
 				float radius = MathUtil.randRangeDecimal(pg.height * 0.15f, pg.height * 0.35f);
 				float rads = MathUtil.randRangeDecimal(0, P.TWO_PI);
 				if(numLaunched < maxLaunches) {
-					PImage randImg = ((ParticleFactory) particleFactory).randomImg();
-					launchParticle(radius, rads, 0).setImage(randImg);
+					launchParticle(radius, rads, 0).setImage(randomImg());
 					numLaunched++;
 				}
 			}
@@ -90,18 +86,19 @@ extends PAppletHax {
 	// Custom particle object w/overrides
 	//////////////////////////////////////
 	
-	public class ParticleSwirl
+	public static class ParticleSwirl<T>
 	extends Particle {
 		
 		protected float radius;
 		protected float radians;
 		
-		public ParticleSwirl(PImage image) {
-			super(image);
+		public ParticleSwirl() {
+			super();
 		}
 		
-		// launch
+		// launch override for polar motion behavior
 		
+		@Override
 		public Particle launch(float x, float y, float z) {
 			super.launch(x, y, z);
 			
@@ -117,28 +114,22 @@ extends PAppletHax {
 			return this;
 		}
 		
-		// animate
+		// animate with polar motion - override the default particle movement
 
 		@Override
 		protected void updatePosition() {
+			super.updatePosition();
 			// update position
 			radians += speed.x;
 			radius += speed.y;
 			speed.add(gravity);
 			pos.set(
-					pg.width/2 + P.cos(radians) * radius, 
-					pg.height/2 + P.sin(radians) * radius, 
-					pos.z + speed.z
-					);
+				P.p.pg.width/2 + P.cos(radians) * radius, 
+				P.p.pg.height/2 + P.sin(radians) * radius, 
+				pos.z + speed.z
+			);
 			
 			rotation.add(rotationSpeed);
-		}
-		
-		protected void drawParticle(PGraphics pg) {
-			float curSize = size * Penner.easeOutExpo(lifespanProgress.value());
-			pg.tint(color);
-			pg.image(image, 0, 0, curSize, curSize);
-			pg.tint(255);
 		}
 		
 	}

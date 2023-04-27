@@ -9,7 +9,6 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GodRays;
-import com.haxademic.core.draw.particle.IParticleFactory;
 import com.haxademic.core.draw.particle.Particle;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -23,13 +22,21 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PShape;
 
+@SuppressWarnings("rawtypes")
 public class Demo_ParticleSystem3d 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	/*
+	 * ParticleSystem notes:
+	 * - @SuppressWarnings("rawtypes") used above because ParticleSystem is a generic class
+	 * - This demo uses the built-in ParticleSystem & Particle class, but adds
+	 *   custom behavior on the standard Particle.launchParticle()
+	 */
+
 	// particle system
-	protected ParticleFactoryBasic3d particleFactory;
 	protected ParticleSystem particles;
+	protected TextToPShape textToPShape;
 	
 	// ui
 	protected String FRAME_LAUNCH_INTERVAL = "FRAME_LAUNCH_INTERVAL";
@@ -46,9 +53,11 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// particle system init
-		particleFactory = new ParticleFactoryBasic3d();
-		particles = new ParticleSystem(particleFactory);
+		particles = new ParticleSystem();
 		particles.enableUI("Parti3d", false);
+
+		// shape helpers
+		textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
 				
 		// build UI
 		UI.addTitle("ParticleSystem3d Controls");
@@ -70,7 +79,7 @@ extends PAppletHax {
 				// Add extra partcle setters/behavior based on local controls outside of ParticleSystem
 				// here we've overridden the speed range to launch radially. This is slightly inefficient
 				// because we're regenerating random number a 2nd time, but it does allow for outside overriding.
-				// This should be done within a custom Particle subclass or ParticleFactory.randomize(),
+				// This should probably be done within a custom Particle subclass or ParticleFactory.randomize(),
 				// but here are some circular launch props:
 				float radialSpeed = MathUtil.randRangeDecimal(UI.value(SPEED_RADIAL) - 1f, UI.value(SPEED_RADIAL) + 1f);
 				float rot = MathUtil.randRangeDecimal(0, P.TWO_PI);
@@ -80,9 +89,41 @@ extends PAppletHax {
 					.setColor(ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)][MathUtil.randRange(0, ColorsHax.COLOR_GROUPS[UI.valueInt(COLOR_SET_INDEX)].length - 1)])
 					.setSpeedRange(speedX, speedX, UI.value(SPEED_Y) - 1, UI.value(SPEED_Y) + 1, speedZ, speedZ)
 					.launch(0, 0, 0);
+
+				// set particle shape, making sure to let the particle keep its shape if it already has one!
+				if(particle.shape() == null) {
+					PShape newShape = null;
+					boolean isCube = MathUtil.randBoolean();
+					if (isCube) {
+						newShape = PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0));
+					} else if (MathUtil.randBoolean()) {
+						PShape shapeTess = DemoAssets.shapeX().getTessellation();
+						PShapeUtil.repairMissingSVGVertex(shapeTess);
+						PShapeUtil.centerShape(shapeTess);
+						PShapeUtil.scaleShapeToHeight(shapeTess, 1);
+						shapeTess.disableStyle();
+						newShape = PShapeUtil.createExtrudedShape(shapeTess, 1);
+					} else if (MathUtil.randBoolean()) {
+						newShape = newNumber(MathUtil.randRange(0, 9) + "");
+					} else {
+						p.sphereDetail(8);
+						newShape = PShapeUtil.createSphere(1, p.color(180, 180, 0));
+					}
+					// add shape to particle
+					particle.setShape(newShape);
+				}
 			}
 		}	
 	}
+
+	public PShape newNumber(String number) {
+		String fontFile = FileUtil.getPath(DemoAssets.fontDSEG7Path);
+		PShape shape = textToPShape.stringToShape3d(number, 25, fontFile);	// 100 is the unfortunate text font default size
+		PShapeUtil.centerShape(shape);
+		PShapeUtil.scaleShapeToHeight(shape, 1);
+		return shape;
+	}
+
 	
 	protected void drawApp() {
 		launchParticles();
@@ -113,7 +154,7 @@ extends PAppletHax {
 		GodRays.instance().setWeight(0.3f);
 		GodRays.instance().setRotation(Mouse.xEasedNorm * -3f);
 		GodRays.instance().setAmp(0.2f);
-		GodRays.instance().applyTo(pg);
+		// GodRays.instance().applyTo(pg);
 		
 		// draw to screen
 		p.image(pg, 0, 0);
@@ -121,59 +162,6 @@ extends PAppletHax {
 		// debug
 		DebugView.setValue("particles.poolSize()", particles.poolSize());
 		DebugView.setValue("particles.poolActiveSize()", particles.poolActiveSize());
-	}
-	
-	////////////////////////////////////
-	// Custom particle system
-	////////////////////////////////////
-	
-	public class ParticleFactoryBasic3d
-	implements IParticleFactory {
-		
-		protected TextToPShape textToPShape;
-		
-		public ParticleFactoryBasic3d() {
-			textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
-		}
-		
-		public Particle randomize(Particle particle) {
-			return particle;
-		}
-
-		public Particle setColor(Particle particle, int color) {
-			PShapeUtil.setBasicShapeStyles(particle.shape(), color, 0, 0);
-			return particle;
-		}
-		
-		public Particle initNewParticle() {
-			PShape newShape = null;
-			boolean isCube = MathUtil.randBoolean();
-			if(isCube) {
-				newShape = PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0));
-			} else if(MathUtil.randBoolean()) {
-				PShape shapeTess = DemoAssets.shapeX().getTessellation();
-				PShapeUtil.repairMissingSVGVertex(shapeTess);
-				PShapeUtil.centerShape(shapeTess);
-				PShapeUtil.scaleShapeToHeight(shapeTess, 1);
-				shapeTess.disableStyle();
-				newShape = PShapeUtil.createExtrudedShape(shapeTess, 1);
-			} else if(MathUtil.randBoolean()) {
-				newShape = newNumber(MathUtil.randRange(0, 9) + "");
-			} else {
-				p.sphereDetail(8);
-				newShape = PShapeUtil.createSphere(1, p.color(180, 180, 0));
-			}
-			return new Particle(newShape);
-		}
-
-		public PShape newNumber(String number) {
-			String fontFile = FileUtil.getPath(DemoAssets.fontDSEG7Path);
-			PShape shape = textToPShape.stringToShape3d(number, 25, fontFile);	// 100 is the unfortunate text font default size
-			PShapeUtil.centerShape(shape);
-			PShapeUtil.scaleShapeToHeight(shape, 1);
-			return shape;
-		}
-		
 	}
 
 }

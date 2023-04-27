@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.particle;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
@@ -11,7 +12,7 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
-public class ParticleSystem {
+public class ParticleSystem<T extends Particle> {
 
 	// INFO
 	// - By default, particles will launch with a random image texture
@@ -28,8 +29,9 @@ public class ParticleSystem {
 	
 	// particles & source textures
 	protected ArrayList<Particle> particles = new ArrayList<Particle>();
-	protected IParticleFactory particleFactory;
+	protected Class<T> particleDef;
 	protected int activeParticles = 0;
+	protected IParticleRandomizer particleRandomizer;
 
 	// config
 	protected int MAX_MAP_ATTEMPTS_PER_FRAME = 2000;
@@ -57,12 +59,26 @@ public class ParticleSystem {
 	protected String ROTATION_SPEED_MIN = "ROTATION_SPEED_MIN";
 	protected String ROTATION_SPEED_MAX = "ROTATION_SPEED_MAX";
 
-	public ParticleSystem() {
-		particleFactory = new ParticleFactory();
+	// for use really in case of not using a subclass of ParticleSystem,
+	// which is where a lot of particle randomization happens. 
+	// Also is helpful if using the launchParticlesFromMap(), since this is batched
+	public interface IParticleRandomizer {
+		public void randomizeParticle(Particle particle);
 	}
 
-	public ParticleSystem(IParticleFactory particleFactory) {
-		this.particleFactory = particleFactory;
+	@SuppressWarnings("unchecked")
+	public ParticleSystem() {
+		this((Class<T>) Particle.class);
+	}
+
+	public ParticleSystem(Class<T> clazz) {
+		this.particleDef = clazz;
+		// P.out("initNewParticle() -> particleDef", particleDef.getCanonicalName());
+	}
+
+	public ParticleSystem<T> setParticleRandomizer(IParticleRandomizer particleRandomizer) {
+		this.particleRandomizer = particleRandomizer;
+		return this;
 	}
 	
 	public void enableUI(String prefix, boolean saves) {
@@ -113,14 +129,7 @@ public class ParticleSystem {
 	public int poolActiveSize() {
 		return activeParticles;
 	}
-	
-	// particle factory
-	
-	public ParticleSystem setParticleFactory(IParticleFactory particleFactory) {
-		this.particleFactory = particleFactory;
-		return this;
-	}
-	
+		
 	/////////////////////////////////////////////////////////////
 	// update & draw
 	/////////////////////////////////////////////////////////////
@@ -166,14 +175,26 @@ public class ParticleSystem {
 	// special actions
 	
 	public void killAll() {
-        for (int i = 0; i < particles.size(); i++) {
-            particles.get(i).kill();
-        }
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).kill();
+		}
 	}
 	
 	/////////////////////////////////////////////////////////////
 	// Init/recycle particles from the pool, and launch them! 
 	/////////////////////////////////////////////////////////////
+	
+	// generic particle factory
+
+	public static <T> T initNewParticle(Class<T> objectClass) {
+		P.out("initNewParticle() -> objectClass", objectClass.getCanonicalName());
+		try {
+			return objectClass.getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public Particle launchParticle(float x, float y, float z) {
 		// look for an available shape
@@ -185,8 +206,8 @@ public class ParticleSystem {
 				return particle;
 			}
 		}
-		// didn't find one
-		Particle particle = particleFactory.initNewParticle();
+		// didn't find one, so instantiate a new one
+		Particle particle = (Particle) initNewParticle(particleDef);
 		randomize(particle);
 		particle.launch(x, y, z);
 		particles.add(particle);
@@ -213,18 +234,14 @@ public class ParticleSystem {
 			int pixelColor = ImageUtil.getPixelColor(pg, checkX, checkY);
 			float redColor = (float) ColorUtil.redFromColorInt(pixelColor) / 255f;
 			if(redColor > 0.5f && numLaunched < maxLaunches) {
-				launchParticle(checkX * destScale, checkY * destScale, 0);
+				Particle launchedParticle = launchParticle(checkX * destScale, checkY * destScale, 0);
+				if(particleRandomizer != null) particleRandomizer.randomizeParticle(launchedParticle);
 				numLaunched++;
 			}
 		}
 	}
 	
-	protected void randomize(Particle particle) {
-		// randomize anything on the ParticleFactory side,
-		// like distributing a collection of media to each particle
-		// that was loaded in the factory
-		particleFactory.randomize(particle);
-		
+	public void randomize(Particle particle) {
 		// then randomize any other params per launch
 		if(usingUI) {
 			particle

@@ -6,7 +6,6 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.Particle;
-import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.math.easing.Penner;
@@ -20,7 +19,24 @@ public class Demo_ParticleSystem_Custom_ImageSequenceFloatUp
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ParticleSystemCustom particles;
+	/*
+	 * ParticleSystem notes:
+	 * - @SuppressWarnings("rawtypes") used above because ParticleSystem is a
+	 *   generic class
+	 * - @SuppressWarnings("unchecked") used below
+	 * - This demo overrides ParticleSystem and Particle
+	 * Note the following generic syntax:
+	 * - public static class ParticleCustom<T>
+	 *   extends Particle {
+	 * - public class ParticleSystemCustom<T extends Particle>
+	 *   extends ParticleSystem<T>
+	 * - @SuppressWarnings("unchecked")
+	 *   public ParticleSystemCustom() {
+	 *     super((Class<T>) ParticleCustom.class);
+	 *   }
+	 */
+
+	protected ParticleSystemCustom<Particle> particles;
 	
 	protected void config() {
 		Config.setAppSize(800, 800);
@@ -28,7 +44,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		particles = new ParticleSystemCustom();
+		particles = new ParticleSystemCustom<Particle>();
 	}
 	
 	protected void drawApp() {
@@ -70,32 +86,20 @@ extends PAppletHax {
 	// Custom particle system
 	//////////////////////////////////////
 
-	public class ParticleFactoryCustom
-	extends ParticleFactory {
-		
-		public ParticleFactoryCustom() {
-			super();
-		}
-		
-		public Particle initNewParticle() {
-			return new ParticleCustom();
-		}
-		
-	}
-
-	public class ParticleSystemCustom
-	extends ParticleSystem {
+	public class ParticleSystemCustom<T extends Particle>
+	extends ParticleSystem<T> {
 		
 		protected int imgIndex = 0;
 		protected PImage[] images;
 
+		@SuppressWarnings("unchecked")
 		public ParticleSystemCustom() {
-			super(new ParticleFactoryCustom());
+			super((Class<T>) ParticleCustom.class);
 			
 			images = new PImage[] {
-					DemoAssets.textureCursor(),
-					DemoAssets.smallTexture(),
-					DemoAssets.justin(),
+				DemoAssets.textureCursor(),
+				DemoAssets.smallTexture(),
+				DemoAssets.justin(),
 			};
 		}
 		
@@ -105,8 +109,7 @@ extends PAppletHax {
 			return images[imgIndex];
 		}
 		
-		protected void randomize(Particle particle) {
-			particleFactory.randomize(particle);
+		public void randomize(Particle particle) {
 			particle
 				.setSize(1)
 				.setSpeed(0, -2, 0)
@@ -125,7 +128,7 @@ extends PAppletHax {
 	// Custom particle
 	//////////////////////////////////////
 	
-	public class ParticleCustom
+	public static class ParticleCustom
 	extends Particle {
 		
 		public ParticleCustom() {}

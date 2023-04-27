@@ -7,7 +7,6 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.Particle;
-import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.dmx.artnet.LightStripBuffer;
@@ -16,7 +15,6 @@ import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 public class Demo_ArtNetDataSender_BufferStripSingle
 extends PAppletHax {
@@ -70,8 +68,7 @@ extends PAppletHax {
 			super(artNetDataSender, width, indexStart, indexEnd, bufferH); 
 			
 			// create particle system with basic particle texture
-			PImage[] particleImages = new PImage[] { DemoAssets.particle() };
-			particles = new ParticleSystem(new ParticleFactory(particleImages));
+			particles = new ParticleSystem();
 		}
 
 		public void drawCustom() {
@@ -87,6 +84,7 @@ extends PAppletHax {
 						.setSizeRange(10, 50)
 						.setSpeedRange(-0.5f, 0.5f, 0, 0, 0, 0)
 						.setColor(p.color(P.p.random(255), P.p.random(255), P.p.random(255)))
+						.setImage(DemoAssets.particle())
 						.launch(P.p.random(0, numPixels), 0, 0);	// .launch() to set params properly
 				}
 			}

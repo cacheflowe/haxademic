@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PTextAlign;
@@ -9,10 +10,9 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GodRays;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.particle.IParticleFactory;
 import com.haxademic.core.draw.particle.Particle;
-import com.haxademic.core.draw.particle.ParticleFactory;
 import com.haxademic.core.draw.particle.ParticleSystem;
+import com.haxademic.core.draw.particle.ParticleSystem.IParticleRandomizer;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
@@ -28,18 +28,20 @@ import processing.core.PShape;
 import processing.video.Movie;
 
 public class Demo_ParticleSystem_FromMap 
-extends PAppletHax {
+extends PAppletHax
+implements IParticleRandomizer {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Movie video;
-	protected IParticleFactory particleFactory;
-	protected ParticleSystem particles;
+	protected ParticleSystem<Particle> particles;
+	protected PImage[] particleImages;
 	protected boolean loadParticlesDir = true;
 	protected boolean is3d = true;
 	protected PGraphics map;
 	
 	protected void config() {
 		Config.setAppSize(1024, 1024);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
 	protected void firstFrame() {
@@ -52,15 +54,10 @@ extends PAppletHax {
 		DebugView.setTexture("map", map);
 		
 		// create particle system
-		PImage[] particleImages = new PImage[] { DemoAssets.particle() };
-		if(loadParticlesDir) {
-			particleImages = FileUtil.loadImagesArrFromDir(FileUtil.getPath("haxademic/images/particles/"), "png");
-		}
+		particleImages = FileUtil.loadImagesArrFromDir(FileUtil.getPath("haxademic/images/particles/"), "png");
 
-		particleFactory = (is3d) ?
-			new ParticleFactoryBasic3d() :
-			new ParticleFactory(particleImages);
-		particles = new ParticleSystem(particleFactory);
+		particles = new ParticleSystem<Particle>();
+		particles.setParticleRandomizer(this);
 		particles.enableUI("PARTY_1_", false);	// add sliders
 	}
 	
@@ -90,7 +87,7 @@ extends PAppletHax {
 		
 		// draw particles
 		p.translate(-p.height/2, -p.height/2);	//  <- use height for both for responsive map/dest calc
-		particles.updateAndDrawParticles(p.g, PBlendModes.BLEND);
+		particles.updateAndDrawParticles(p.g, (is3d) ? PBlendModes.BLEND : PBlendModes.ADD);
 		
 		// post-process
 		GodRays.instance().setDecay(0.8f);
@@ -137,38 +134,28 @@ extends PAppletHax {
 		map.endDraw();
 		map.loadPixels();
 	}
-	
-	///////////////////////////////////
-	// Simplest custom 3d particle overrides
-	///////////////////////////////////
-	
-	
-	public class ParticleFactoryBasic3d
-	implements IParticleFactory {
-		
-		public ParticleFactoryBasic3d() {}
-		
-		public Particle randomize(Particle particle) {
-			return particle;
-		}
 
-		public Particle setColor(Particle particle, int color) {
-			PShapeUtil.setBasicShapeStyles(particle.shape(), color, 0, 0);
-			return particle;
-		}
-		
-		public Particle initNewParticle() {
+
+
+	@Override
+	public void randomizeParticle(Particle particle) {
+		if(is3d && particle.shape() == null) {
+			// build a new shape
 			PShape newShape = null;
 			boolean isCube = MathUtil.randBoolean();
-			if(isCube) {
+			if (isCube) {
 				newShape = PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0));
 			} else {
-				p.sphereDetail(8);
+				p.sphereDetail(5);
 				newShape = PShapeUtil.createSphere(1, p.color(180, 180, 0));
 			}
-			return new Particle(newShape);
+			particle.setShape(newShape);
+			particle.setImage(null);
+			PShapeUtil.setBasicShapeStyles(particle.shape(), particle.color(), 0, 0);
+		} else {
+			// 2d - just hand a different image
+			particle.setImage(particleImages[MathUtil.randIndex(particleImages.length)]);
 		}
-
 	}
 
 			
