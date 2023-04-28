@@ -53,7 +53,7 @@ implements IAppStoreListener {
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-        interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+    interphase.initGlobalControlsUI(LaunchControlXL.BUTTONS_1, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
 		interphase.initLaunchpads(4, 7, 8, 11);
 //		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);

@@ -74,7 +74,7 @@ implements IAppStoreListener {
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initGlobalControlsUI(LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+		interphase.initGlobalControlsUI(LaunchControlXL.BUTTONS_1, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
 		interphase.initLaunchpads(2, 5, 4, 7);
 		interphase.initAudioAnalysisPerChannel();
 		// for UI controls debugging

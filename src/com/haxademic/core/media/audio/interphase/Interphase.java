@@ -72,7 +72,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public static final String UI_REVERB_ = "UI_REVERB_";
 	public static final String UI_MUTE_ = "UI_MUTE_";
-	public static final String UI_TRIGGER_ = "UI_MUTE_";
+	public static final String UI_TRIGGER_ = "UI_TRIGGER_";
 
 	
 	//////////////////////////////////////////
@@ -169,11 +169,13 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// init MIDI input
 
 	public Interphase initGlobalControlsUI() {
-		return initGlobalControlsUI(null, null, null, null);
+		return initGlobalControlsUI(null, null, null, null, null);
 	}
 	
-	public Interphase initGlobalControlsUI(int samplePickerMidiCC, int volumeCC, int pitchCC, int reverbCC) {
+	public Interphase initGlobalControlsUI(int sampleTriggerMidi, int samplePickerMidiCC, int volumeCC, int pitchCC, int reverbCC) {
 		// create sequential MIDI CC notes
+		int[] sampleTriggerMidiArray = new int[sequencers.length];
+		for (int i = 0; i < sampleTriggerMidiArray.length; i++) sampleTriggerMidiArray[i] = sampleTriggerMidi + i;
 		int[] samplePickerMidiCCArray = new int[sequencers.length];
 		for (int i = 0; i < samplePickerMidiCCArray.length; i++) samplePickerMidiCCArray[i] = samplePickerMidiCC + i;
 		int[] midiCCSequenceArray = new int[sequencers.length];
@@ -183,10 +185,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 		int[] reverbCCSequenceArray = new int[sequencers.length];
 		for (int i = 0; i < reverbCCSequenceArray.length; i++) reverbCCSequenceArray[i] = reverbCC + i;
 		// pass to constructor
-		return initGlobalControlsUI(samplePickerMidiCCArray, midiCCSequenceArray, pitchCCSequenceArray, reverbCCSequenceArray);
+		return initGlobalControlsUI(sampleTriggerMidiArray, samplePickerMidiCCArray, midiCCSequenceArray, pitchCCSequenceArray, reverbCCSequenceArray);
 	}
 	
-	public Interphase initGlobalControlsUI(int[] samplePickerMidiCC, int[] volumeMidiCC, int[] pitchMidiCC, int[] reverbMidiCC) {
+	public Interphase initGlobalControlsUI(int[] sampleTriggerMidi, int[] samplePickerMidiCC, int[] volumeMidiCC, int[] pitchMidiCC, int[] reverbMidiCC) {
 		UI.addTitle("Interphase");
 		UI.addSlider(UI_GLOBAL_BPM, P.store.getInt(BPM), 30, 200, 1, false);
 		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
@@ -200,6 +202,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			int midiCCReverb = (reverbMidiCC != null) ? reverbMidiCC[i] : -1;
 			// add sliders for each sequencer
 			Sequencer seq = sequencerAt(i);
+			UI.addButton(UI_TRIGGER_+(i+1), false, sampleTriggerMidi[i]);
 			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
 			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
 			UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
@@ -673,6 +676,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(key.equals(UI_CUR_SCALE)) P.store.setNumber(Interphase.CUR_SCALE_INDEX, val.intValue());
 		if(key.equals(UI_GLOBAL_EVOLVES)) P.store.setBoolean(Interphase.GLOBAL_PATTERNS_EVLOVE, val.intValue() == 1);	// toggle events are 0-1, not boolean !!!
 		// set sample/volume props for specific channels
+		if(key.indexOf(UI_TRIGGER_) == 0) {
+			String sequencerNum = key.substring(UI_TRIGGER_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
+			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
+			sequencerAt(sequencerIndex).triggerSample();
+		}
 		if(key.indexOf(UI_SAMPLE_) == 0) {
 			String sequencerNum = key.substring(UI_SAMPLE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
