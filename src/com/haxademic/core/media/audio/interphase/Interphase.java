@@ -247,10 +247,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
-	public void autoPlay() {
-		metronome.togglePlay();
-	}
-	
 	
 	/////////////////////////////////
 	// GETTERS
@@ -479,16 +475,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	/////////////////////////////////
 	
 	protected void checkInputs() {
-		// sample triggers & evolve
-//		if(trigger1.triggered()) { sequencers[0].evolvePattern(); sequencers[0].triggerSample(); }
-//		if(trigger2.triggered()) { sequencers[1].evolvePattern(); sequencers[1].triggerSample(); }
-//		if(trigger3.triggered()) { sequencers[2].evolvePattern(); sequencers[2].triggerSample(); }
-//		if(trigger4.triggered()) { sequencers[3].evolvePattern(); sequencers[3].triggerSample(); }
-//		if(trigger5.triggered()) { sequencers[4].evolvePattern(); sequencers[4].triggerSample(); }
-//		if(trigger6.triggered()) { sequencers[5].evolvePattern(); sequencers[5].triggerSample(); }
-//		if(trigger7.triggered()) { sequencers[6].evolvePattern(); sequencers[6].triggerSample(); }
-//		if(trigger8.triggered()) { sequencers[7].evolvePattern(); sequencers[7].triggerSample(); }
-
 		// bpm
 		int curBmpMIDI = P.store.getInt(Interphase.BPM);
 		if(triggerDown.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1);
@@ -496,6 +482,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 
 		// global settings
 //		if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE, !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
+	}
+
+	public void autoPlay() {
+		metronome.togglePlay();
 	}
 	
 	public void update() {
@@ -716,8 +706,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public void updatedString(String key, String val) {
 		if(key.equals(PEvents.KEY_PRESSED)) keyPressed();
 	}
-	public void updatedBoolean(String key, Boolean val) {
-	}	
+	public void updatedBoolean(String key, Boolean val) {}	
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
 }

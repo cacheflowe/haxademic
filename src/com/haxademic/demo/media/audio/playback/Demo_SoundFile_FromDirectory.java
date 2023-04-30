@@ -28,12 +28,12 @@ extends PAppletHax {
 	protected ArrayList<SoundFile> sounds;
 
 	// paths
-	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\Vengeance\\Vengeance Minimal House";
+	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\Vengeance\\Electro Essentials 1\\VEE Effects";
 	protected String outputPathInterphase = "D:\\workspace\\interphase\\data\\audio\\samples2";
 	protected String[] outputDirs;
 	protected ArrayList<String> soundPaths;
 	protected String curFilePath;
-	protected int playlistIndex = 1754; // GOING BACKWARDS - LOTS MORE SAMPLE TO CHECK
+	protected int playlistIndex = 0;
 
 	// make sure to run this after copying files to interphase:
 	// `wavFormatTo16-44Dir.sh .`
