@@ -12,6 +12,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.Particle;
@@ -19,6 +20,8 @@ import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
+import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
+import com.haxademic.core.hardware.dmx.artnet.LedMatrix48x12;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.math.easing.FloatBuffer;
@@ -31,6 +34,7 @@ import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.interphase.SequencerTexture;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -46,6 +50,7 @@ implements IAppStoreListener {
 	protected LinearFloat[] sequencerHits;
 	protected FloatBuffer[] sequencerAmps;
 	protected ArrayList<DMXFixture> fixture;
+	protected LedMatrix48x12 ledMatrix;
 
 	protected InterphaseVizDemo interphaseVizDemo;
 		
@@ -64,6 +69,7 @@ implements IAppStoreListener {
 		initDMX();
 		initSequencerDrawables();		
 		interphaseVizDemo = new InterphaseVizDemo2();
+		ledMatrix = new LedMatrix48x12();
 		P.store.addListener(this);
 	}
 	
@@ -110,7 +116,8 @@ implements IAppStoreListener {
 		interphase.update();
 		drawVisuals();
 		// drawSequencerDrawablesToScreen();
-		updateLights();
+		updateLightsDMX();
+		ledMatrix.update(pg);
 	}
 
 	protected void updateEasingValues() {
@@ -147,7 +154,7 @@ implements IAppStoreListener {
 		}
 	}
 
-	protected void updateLights() {
+	protected void updateLightsDMX() {
 		for (int i = 0; i < numSequencers; i++) {
 			// dmx colors from amp scale
 			// use the oldest value in the buffer, because the FFT values are a little ahead of the sound
@@ -274,11 +281,11 @@ implements IAppStoreListener {
 			BloomFilter.instance().setStrength(5f);
 			BloomFilter.instance().setBlurIterations(5);
 			BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
-			BloomFilter.instance().applyTo(pg);
+			// BloomFilter.instance().applyTo(pg);
 
 			GrainFilter.instance().setTime(p.frameCount * 0.01f);
 			GrainFilter.instance().setCrossfade(0.11f);
-			GrainFilter.instance().applyTo(pg);
+			// GrainFilter.instance().applyTo(pg);
 		}
 
 		protected ParticleCustom launchParticleType(ParticleCustom.ParticleType type, int lifespan, int partiColor) {
@@ -332,7 +339,7 @@ implements IAppStoreListener {
 		/////////////////////////////////////////////////////////////////
 		// IAppStoreListener
 		/////////////////////////////////////////////////////////////////
-
+		
 		public void updatedNumber(String key, Number val) {
 			if (key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) {
 				triggerParticles(val.intValue());
@@ -343,6 +350,12 @@ implements IAppStoreListener {
 		public void updatedImage(String key, PImage val) {}
 		public void updatedBuffer(String key, PGraphics val) {}
 	}
+
+
+
+	/////////////////////////////////////////////////////////////////
+	// Custom Particle
+	/////////////////////////////////////////////////////////////////
 
 	public static class ParticleCustom<T>
 	extends Particle {
@@ -377,18 +390,19 @@ implements IAppStoreListener {
 			// draw different types of shapes
 			if (type == ParticleType.KICK) {
 				pg.fill(color, (255 - 255 * progressAlpha));
-				float partiSize = P.map(progress, 0, 1, minDim * 0.2f, minDim * 0.4f);
+				float partiSize = P.map(progress, 0, 1, minDim * 0.2f, minDim * 0.5f);
 				float thickness = minDim * 0.05f;
 				Shapes.drawDisc(pg, partiSize, partiSize - thickness, 6);
 			} else if (type == ParticleType.SNARE) {
 				pg.fill(color, (255 - 255 * progressAlpha));
-				float partiSize = P.map(progress, 0, 1, minDim * 0.4f, minDim * 0.3f);
+				float partiSize = P.map(progress, 0, 1, minDim * 0.5f, minDim * 0.3f);
 				float thickness = minDim * 0.025f;
 				Shapes.drawDisc(pg, partiSize, partiSize - thickness, 3);
 				// Shapes.drawPolygon(pg, P.map(progress, 0, 1, minDim * 0.5f, minDim * 0.3f), 3);
 			} else if (type == ParticleType.HAT) {
 				pg.fill(color, (255 - 255 * progressAlpha));
-				Shapes.drawDisc(pg, minDim * 0.2f, minDim * 0.16f, 4);
+				float partiSize = P.map(progress, 0, 1, minDim * 0.2f, minDim * 0.2f);
+				Shapes.drawDisc(pg, partiSize, partiSize * 0.9f, 4);
 			} else if (type == ParticleType.PERC) {
 				pg.fill(color);
 				float partiSize = P.map(progress, 0, 1, minDim * 0.05f, 0);
