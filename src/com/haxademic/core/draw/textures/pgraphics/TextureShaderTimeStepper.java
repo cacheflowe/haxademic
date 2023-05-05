@@ -84,8 +84,10 @@ extends BaseTexture {
 		super.setActive(isActive);
 		_brightMode = MathUtil.randRange(0, 1);
 		if( _active == true && wasActive == false ) {
-			_timeEaser.setCurrent( 0.0001f );
-			_timeEaser.setTarget( 0.0001f );
+			if(_timeEaser != null) {
+				_timeEaser.setCurrent( 0.0001f );
+				_timeEaser.setTarget( 0.0001f );
+			}
 			pickNewTimeMode();
 		}
 		return this;

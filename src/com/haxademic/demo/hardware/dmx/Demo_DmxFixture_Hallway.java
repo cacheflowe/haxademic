@@ -26,6 +26,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
+import com.haxademic.core.hardware.dmx.artnet.LedMatrix48x12;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
@@ -44,6 +45,8 @@ extends PAppletHax {
     protected PGraphics ledBufferWall;
     protected PGraphics simBuffer;
     protected int numFixtures = 150;
+    protected LedMatrix48x12 ledMatrix;
+
 
     // patterns
     protected SimplexNoise3dTexture noiseTexture;
@@ -89,6 +92,9 @@ extends PAppletHax {
         UI.addSlider(speed, 0.3f, -5, 5, 0.01f);
         UI.addSlider(hallwayOffset, -0.45f, -0.5f, 0.5f, 0.005f);
         //        UI.addWebInterface(false);
+
+        // build artnet panel
+        ledMatrix = new LedMatrix48x12();
     }
 
     protected void drawBuffer() {
@@ -181,7 +187,6 @@ extends PAppletHax {
         BlurProcessingFilter.instance().applyTo(ledBufferGlow);
         BlurProcessingFilter.instance().applyTo(ledBufferGlow);
         BlurProcessingFilter.instance().applyTo(ledBufferGlow);
-
     }
 
     protected void bufferToFixtures() {
@@ -200,6 +205,9 @@ extends PAppletHax {
         bufferToFixtures();
         drawSimulation();
         p.image(simBuffer, 0, 0);
+        // artnet
+        if(Mouse.xNorm > 0.25f && Mouse.xNorm < 0.5f) ledMatrix.update(ledBuffer);
+        else ledMatrix.update(ledBufferGlow);
     }
 
     protected void drawSimulation() {

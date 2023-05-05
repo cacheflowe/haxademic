@@ -43,7 +43,8 @@ public class LedMatrix48x12 {
 	}
 
 	public void update(PImage sourceImg) {
-		ImageUtil.drawImageCropFillRotated90deg(sourceImg, ledTexture, true, true, true);
+		// ImageUtil.drawImageCropFillRotated90deg(sourceImg, ledTexture, true, true, true);
+		ImageUtil.cropFillCopyImage(sourceImg, ledTexture, true);
 
 		// rotation correction operations
 		if (UI.valueToggle(FLIP_H)) ImageUtil.flipH(ledTexture);
