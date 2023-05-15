@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.compound.ColorAdjustmentFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR.IKinectV2SkeletonsARDelegate;
 import com.haxademic.core.hardware.depthcamera.ar.ArElementImage;
@@ -66,6 +67,7 @@ implements IKinectV2SkeletonsARDelegate {
 //				arAsset.setPositionOffset(0, -1f, 0);
 //				arPool.addElement(arAsset);
 //			}
+/*
 			{
 				ArElementImage arAsset = new ArElementImage("images/_sketch/falcons/FreddieFalcon/", 0.21f, BodyTrackType.HEAD, 24);
 //				arAsset.setPositionOffset(0, -1f, 0);
@@ -93,20 +95,20 @@ implements IKinectV2SkeletonsARDelegate {
 				arPool.addElement(arAsset);
 			}
 			{
-				// add headset
-//				PShape shape = P.p.loadShape(FileUtil.getPath(DemoAssets.objSkullRealisticPath));
-				PShape shape = PShapeUtil.loadModelAndTexture("models/Helmet_Hole/amfam-falcons-headset-test01.obj", "models/Helmet_Hole/helmet_v2_default_BaseColor.1001-rework.png");
-				PShapeUtil.centerShape(shape);
-				PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
-				// PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Y);
-				// PShapeUtil.meshFlipOnAxis(shape, P.Y);
-				// float modelW = PShapeUtil.getWidth(shape);
-				// float modelH = PShapeUtil.getHeight(shape);
-				// PShapeUtil.offsetShapeVertices(shape, modelW * 0.75f, modelH * -0.75f, 0);
-				ArElementObj arAsset = new ArElementObj(shape, 0.11f, BodyTrackType.HEAD);
-				arAsset.setPositionOffset(0, -0.1f, 0);
-				arPool.addElement(arAsset);
 			}
+			*/
+			// add skull
+			PShape shape = P.p.loadShape(FileUtil.getPath(DemoAssets.objSkullRealisticPath));
+			PShapeUtil.centerShape(shape);
+			PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
+			// PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Y);
+			// PShapeUtil.meshFlipOnAxis(shape, P.Y);
+			// float modelW = PShapeUtil.getWidth(shape);
+			// float modelH = PShapeUtil.getHeight(shape);
+			// PShapeUtil.offsetShapeVertices(shape, modelW * 0.75f, modelH * -0.75f, 0);
+			ArElementObj arAsset = new ArElementObj(shape, 0.11f, BodyTrackType.HEAD);
+			arAsset.setPositionOffset(0, -0.1f, 0);
+			arPool.addElement(arAsset);
 			return arPool;
 	}
 

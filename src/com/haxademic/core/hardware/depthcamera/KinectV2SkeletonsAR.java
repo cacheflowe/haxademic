@@ -141,10 +141,19 @@ public class KinectV2SkeletonsAR {
 	}
 	
 	protected boolean skeletonsDidChange(ArrayList<KSkeleton> skeletonsCur2d, ArrayList<KSkeleton> skeletonsCur3d) {
-		if(skeletons2d.size() != skeletonsCur2d.size()) return true;
+		// check whether the skeleton array size has changed
+		// handle very rare occurance that crashes inside `if(usersChanged)` below if 2d & 3d arrays are different sizes
+		boolean arraysAreSafe = skeletonsCur2d.size() == skeletonsCur3d.size();
+		boolean arrayDiff2d = skeletons2d.size() != skeletonsCur2d.size();
+		boolean arrayDiff3d = skeletons3d.size() != skeletonsCur3d.size();
+		if(arrayDiff2d && arrayDiff3d && arraysAreSafe) return true;
+		// if the skeletons have reordered, we've changed. we know the old & new arrays are the same size at this point, 
+		// so we don't need to preotect against index out of bounds
 		for (int i = 0; i < skeletons2d.size(); i++) {
 			if(skeletons2d.get(i) != skeletonsCur2d.get(i)) return true;
+			if(skeletons3d.get(i) != skeletonsCur3d.get(i)) return true;
 		}
+		// arrays are the same as before!
 		return false;
 	}
 	
@@ -183,11 +192,11 @@ public class KinectV2SkeletonsAR {
 					}
 				}
 			}
+			
+			// then store current skeletons if changed
+			skeletons2d = skeletonsCur2d;
+			skeletons3d = skeletonsCur3d;
 		}
-		
-		// then store current skeletons
-		skeletons2d = skeletonsCur2d;
-		skeletons3d = skeletonsCur3d;
 	}
 	
 	protected void drawDebugSkeleton(KSkeleton skeleton2d, KJoint[] joints2d) {
