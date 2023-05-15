@@ -114,12 +114,12 @@ implements IJoystickControl {
 	}
 	
 	public void updatePropsFromUI() {
-			if(!hasUI) return;
-			
-			// ran into a case where a different camera size had been used, and got our of bounds errors in getDepthAt()
-			// this hopefully ensures that switching camera sizes won't blow things up
-			if(UI.value(CAMERA_RIGHT) >= DepthCameraSize.WIDTH) UI.setValue(CAMERA_RIGHT, DepthCameraSize.WIDTH);
-			if(UI.value(CAMERA_BOTTOM) >= DepthCameraSize.HEIGHT) UI.setValue(CAMERA_BOTTOM, DepthCameraSize.HEIGHT);
+		if(!hasUI) return;
+		
+		// ran into a case where a different camera size had been used, and got our of bounds errors in getDepthAt()
+		// this hopefully ensures that switching camera sizes won't blow things up
+		if(UI.value(CAMERA_RIGHT) >= DepthCameraSize.WIDTH) UI.setValue(CAMERA_RIGHT, DepthCameraSize.WIDTH);
+		if(UI.value(CAMERA_BOTTOM) >= DepthCameraSize.HEIGHT) UI.setValue(CAMERA_BOTTOM, DepthCameraSize.HEIGHT);
 			
 		// set ui params
 		left(UI.valueInt(CAMERA_LEFT));
@@ -152,28 +152,28 @@ implements IJoystickControl {
 	
 	
 	public void update(IDepthCamera depthCamera, PGraphics debugGraphics) {
-			update(depthCamera, debugGraphics, true);
+		update(depthCamera, debugGraphics, true);
 	}
 	
 	public void update(IDepthCamera depthCamera, PGraphics debugGraphics, boolean is3d) {
-			depthCamera = (depthCamera != null) ? depthCamera : DepthCamera.instance().camera;
+		depthCamera = (depthCamera != null) ? depthCamera : DepthCamera.instance().camera;
 
 		if(hasUI) updatePropsFromUI();
 		
 		// draw 3d "floor"
 		float depthDivider = 0.3f;
-				if(debugGraphics != null) {
-					debugGraphics.beginShape();
-				debugGraphics.stroke(debugColor);
-				debugGraphics.fill( 255, pixelCount / minPixels * 10f );
-					debugGraphics.vertex(left, bottom, -near * depthDivider);
-					debugGraphics.vertex(right, bottom, -near * depthDivider);
-					debugGraphics.vertex(right, bottom, -far * depthDivider);
-					debugGraphics.vertex(left, bottom, -far * depthDivider);
-					debugGraphics.endShape();
-					debugGraphics.noStroke();
-				}
-				// find depth readings in the region
+		if(debugGraphics != null) {
+			debugGraphics.beginShape();
+			debugGraphics.stroke(debugColor);
+			debugGraphics.fill( 255, pixelCount / minPixels * 10f );
+			debugGraphics.vertex(left, bottom, -near * depthDivider);
+			debugGraphics.vertex(right, bottom, -near * depthDivider);
+			debugGraphics.vertex(right, bottom, -far * depthDivider);
+			debugGraphics.vertex(left, bottom, -far * depthDivider);
+			debugGraphics.endShape();
+			debugGraphics.noStroke();
+		}
+		// find depth readings in the region
 		_isActive = false;
 		if( depthCamera != null ) {
 			pixelCount = 0;
@@ -185,30 +185,30 @@ implements IJoystickControl {
 				for ( int y = top; y < bottom; y += pixelSkip ) {
 					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 ) {
-							if(pixelDepth > near && pixelDepth < far) {
-										if(debugGraphics != null) {
-											float debugZ = is3d ? -pixelDepth * depthDivider : 0;
-											debugGraphics.fill( debugColor, 127 );
-											debugGraphics.pushMatrix();
-											debugGraphics.translate(x, y, debugZ);
-											debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
-											debugGraphics.popMatrix();
-								}
-								// add up for calculations
-								pixelCount++;
-								controlXTotal += x;
-								controlYTotal += y;
-								controlZTotal += pixelDepth;
-							} else {
-													if(debugGraphics != null) {
-																float debugZ = is3d ? -pixelDepth * depthDivider : 0;
-																debugGraphics.fill( 127, 127 );
-																debugGraphics.pushMatrix();
-																debugGraphics.translate(x, y, debugZ);
-																debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
-																debugGraphics.popMatrix();
-													}
+						if(pixelDepth > near && pixelDepth < far) {
+							if(debugGraphics != null) {
+								float debugZ = is3d ? -pixelDepth * depthDivider : 0;
+								debugGraphics.fill( debugColor, 127 );
+								debugGraphics.pushMatrix();
+								debugGraphics.translate(x, y, debugZ);
+								debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
+								debugGraphics.popMatrix();
 							}
+							// add up for calculations
+							pixelCount++;
+							controlXTotal += x;
+							controlYTotal += y;
+							controlZTotal += pixelDepth;
+						} else {
+							if(debugGraphics != null) {
+								float debugZ = is3d ? -pixelDepth * depthDivider : 0;
+								debugGraphics.fill( 127, 127 );
+								debugGraphics.pushMatrix();
+								debugGraphics.translate(x, y, debugZ);
+								debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
+								debugGraphics.popMatrix();
+							}
+						}
 					}
 				}
 			}
@@ -226,8 +226,8 @@ implements IJoystickControl {
 					_controlZ = (MathUtil.getPercentWithinRange(near, far, avgZ) - 0.5f) * 2f;
 
 					// show debug
-							if(debugGraphics != null) {
-									float playerH = debugGraphics.height * 0.75f;
+					if(debugGraphics != null) {
+						float playerH = debugGraphics.height * 0.75f;
 						debugGraphics.fill( 255, 127 );
 						debugGraphics.pushMatrix();
 						debugGraphics.translate(avgX, bottom - playerH/2, -avgZ * depthDivider);
@@ -260,10 +260,10 @@ implements IJoystickControl {
 			for ( int y = top; y < bottom; y += pixelSkip ) {
 				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
-							if(debugGraphics != null) {
-								debugGraphics.fill(debugColor, 255);
-								debugGraphics.stroke(0);
-								debugGraphics.rect(x, y, pixelSkip - 1, pixelSkip - 1);
+					if(debugGraphics != null) {
+						debugGraphics.fill(debugColor, 255);
+						debugGraphics.stroke(0);
+						debugGraphics.rect(x, y, pixelSkip - 1, pixelSkip - 1);
 					}
 					// add up for calculations
 					pixelCount++;
@@ -272,10 +272,10 @@ implements IJoystickControl {
 		}
 		
 		// draw bounds
-			debugGraphics.stroke(255, 0, 0);
-			debugGraphics.strokeWeight(4);
-			debugGraphics.noFill();
-			debugGraphics.rect(left, top, right - left, bottom - top);
+		debugGraphics.stroke(255, 0, 0);
+		debugGraphics.strokeWeight(4);
+		debugGraphics.noFill();
+		debugGraphics.rect(left, top, right - left, bottom - top);
 		
 		debugGraphics.endDraw();
 	}
