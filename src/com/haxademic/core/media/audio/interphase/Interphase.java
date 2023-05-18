@@ -573,7 +573,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 				pg.fill(cellColor);
 				pg.stroke(100);
 				pg.rect(0, 0, boxSize, boxSize);
-				if(isOn) pg.image(sequencers[y].waveformPG, 0, 0, sequencers[y].waveformPG.width, boxSize);
+				if(isOn) pg.image(sequencers[y].sampleWaveformPG, 0, 0, sequencers[y].sampleWaveformPG.width, boxSize);
 				pg.pop();
 			}
 		}

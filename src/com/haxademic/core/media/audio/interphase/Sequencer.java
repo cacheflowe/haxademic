@@ -92,9 +92,9 @@ implements IAppStoreListener {
 	protected String[] filenames;
 	protected boolean useASDR = true;
 	
-	// draw waveform
-	protected PGraphics waveformPG;
-	protected boolean waveformDirty = false;
+	// draw waveform for current sample
+	protected PGraphics sampleWaveformPG;
+	protected boolean sampleWaveformDirty = false;
 
 	// draw object
 	public static int TRIGGER_DELAY = 130; // helps with syncing visual triggers with audio sample start time
@@ -318,31 +318,44 @@ implements IAppStoreListener {
 	}
 	
 	public void update() {
-		if(audioIn != null) {
-			// update audio analysis: fft, waveform
-			audioIn.update();
-			// update buffer if we've been asked to draw them
-			if(hasAudioTextures) {
-				audioIn.drawDataBuffers();
-				DebugView.setTexture("Audio FFT " + index, audioIn.audioData().bufferFFT);
-				DebugView.setTexture("Audio Waveform " + index, audioIn.audioData().bufferWaveform);
-			}
-			// draw audio in debug if debug panel is open
-			if(DebugView.active()) {
-				audioIn.drawDebugBuffer();
-				DebugView.setTexture("Audio Input " + index, audioIn.debugBuffer());
-			}
-		}
+		updateAudioInput();
 		if(drawable != null) drawable.update(steps, curStep);
-		if(waveformDirty) {
-			waveformDirty = false;
-			waveformPG.beginDraw();
-			waveformPG.background(0);
-			waveformPG.fill(255);
-			PG.setDrawCenter(waveformPG);
-			waveformPG.translate(0, waveformPG.height / 2);
-			WavPlayer.drawWav(waveformPG, curSample);
-			waveformPG.endDraw();
+		if(sampleWaveformDirty) {
+			sampleWaveformDirty = false;
+			sampleWaveformPG.beginDraw();
+			sampleWaveformPG.background(0);
+			sampleWaveformPG.fill(255);
+			PG.setDrawCenter(sampleWaveformPG);
+			sampleWaveformPG.translate(0, sampleWaveformPG.height / 2);
+			WavPlayer.drawWav(sampleWaveformPG, curSample);
+			sampleWaveformPG.endDraw();
+		}
+	}
+
+	protected void updateAudioInput() {
+		if (audioIn == null) return;
+
+		// update audio analysis: fft, waveform
+		audioIn.update();
+
+		// update audio buffers if we've set them active
+		updateAudioAnalysisBuffer();
+		updateAudioInputDebugBuffer();
+	}
+	
+	protected void updateAudioAnalysisBuffer() {
+		if (hasAudioTextures) {
+			audioIn.drawDataBuffers();
+			DebugView.setTexture("Audio FFT " + index, audioIn.audioData().bufferFFT);
+			DebugView.setTexture("Audio Waveform " + index, audioIn.audioData().bufferWaveform);
+		}
+	}
+
+	protected void updateAudioInputDebugBuffer() {
+		if (DebugView.active()) {
+			// draw audio debug view if debug panel is open
+			audioIn.drawDebugBuffer();
+			DebugView.setTexture("Audio Input " + index, audioIn.debugBuffer());
 		}
 	}
 	
@@ -470,8 +483,8 @@ implements IAppStoreListener {
 	/////////////////////////////////////
 	
 	protected void buildWaveformBuffer() {
-		waveformPG = PG.newPG2DFast(512, 32);
-		DebugView.setTexture("Sequencer.waveformPG_"+index, waveformPG);
+		sampleWaveformPG = PG.newPG2DFast(512, 32);
+		DebugView.setTexture("Sequencer.waveformPG_"+index, sampleWaveformPG);
 	}
 	
 	protected void getAudiofiles(String audioDir) {
@@ -493,7 +506,7 @@ implements IAppStoreListener {
 	
 	protected void setSample(Sample newSample) {
 		curSample = newSample;
-		waveformDirty = true;
+		sampleWaveformDirty = true;
 		DebugView.setValue("Sequencer.curSample_" + index, FileUtil.fileNameFromPath(curSample.getFileName()));
 	}
 	
