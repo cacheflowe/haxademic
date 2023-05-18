@@ -437,21 +437,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 				}
 			}
 		}
-		
-		// update playhead row in play button column on 1st-gen Launchpad
-		/*
-		if(launchpad1 instanceof LaunchPadMini == false) {
-			int lastColIndex = 8;
-			for (int step = 0; step < NUM_STEPS; step++) {
-				float value = (step == P.store.getInt(CUR_STEP)) ? 0.68f : 0; 
-				if(step <= 7) {
-					launchpad1.setButton(lastColIndex, step, value);
-				} else {
-					launchpad2.setButton(lastColIndex, step - 8, value);
-				}
-			}
-		}
-		*/
 	}
 	
 	/////////////////////////////////
@@ -519,10 +504,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected void checkInputs() {
 		// bpm
 		int curBmpMIDI = P.store.getInt(Interphase.BPM);
-		if (triggerDown.triggered())
-			P.store.setNumber(Interphase.BPM, curBmpMIDI - 1);
-		if (triggerUp.triggered())
-			P.store.setNumber(Interphase.BPM, curBmpMIDI + 1);
+		if (triggerDown.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1);
+		if (triggerUp.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI + 1);
 
 		// global settings
 		// if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE,
@@ -547,97 +530,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER_VISUAL));
 		DebugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
-	
-	protected void drawSequencer(PGraphics pg) {
-		float boxSize = pg.width / NUM_STEPS;
-		float drawW = (boxSize * sequencers.length);
-		float startY =  drawW/ -2f - boxSize / 2;
-		float startX = (boxSize * NUM_STEPS) / -2f;
-		if(pg != P.p.g) pg.beginDraw();
-		if(pg != P.p.g) pg.background(0);
-		PG.setCenterScreen(pg);
-		PG.setDrawCorner(pg);
 		
-		pg.translate(startX, startY);
-		
-		// draw grid
-		pg.blendMode(PBlendModes.LIGHTEST);
-		for (int y = 0; y < NUM_CHANNELS; y++) {
-			for (int x = 0; x < NUM_STEPS; x++) {
-				boolean isOn = (sequencers[y].stepActive(x)); 
-				pg.push();
-				pg.translate(x * boxSize, y * boxSize);
-				int cellColor = 10;
-				if(x % 4 == 0) cellColor = P.p.color(0, 87, 167);
-				if(isOn) cellColor = P.p.color(0, 127, 0);
-				pg.fill(cellColor);
-				pg.stroke(100);
-				pg.rect(0, 0, boxSize, boxSize);
-				if(isOn) pg.image(sequencers[y].sampleWaveformPG, 0, 0, sequencers[y].sampleWaveformPG.width, boxSize);
-				pg.pop();
-			}
-		}
-		pg.blendMode(PBlendModes.BLEND);
-		
-		// track current beat
-		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
-		pg.push();
-		pg.stroke(255);
-		pg.stroke(0, 255, 0);
-		pg.fill(255, 50);
-		pg.rect(curBeat * boxSize, 0, boxSize, boxSize * NUM_CHANNELS);
-		pg.popMatrix();	
-		
-		if(pg != P.p.g) pg.endDraw();
-	}
-
-	protected void drawSequencer3D(PGraphics pg) {
-		float spacing = 40;
-		float boxSize = 25;
-		float startx = (spacing * sequencers.length) / -2f + boxSize/2;
-		float startY = (spacing * NUM_STEPS) / -2f + boxSize/2;
-		pg.beginDraw();
-		PG.setCenterScreen(pg);
-		PG.basicCameraFromMouse(pg, 0.1f);
-		PG.setBetterLights(pg);
-		PG.setDrawCenter(pg);
-		
-		// draw cubes
-		for (int x = 0; x < sequencers.length; x++) {
-			for (int y = 0; y < NUM_STEPS; y++) {
-//				float value = (sequencers[x].stepActive(y)) ? 1 : 0; 
-				boolean isOn = (sequencers[x].stepActive(y)); 
-				pg.fill(isOn ? P.p.color(255) : 30);
-				pg.pushMatrix();
-				pg.translate(startx + x * spacing, startY + y * spacing);
-				pg.box(20);
-				pg.popMatrix();
-			}
-		}
-		
-		// show beat/4
-		for (int y = 0; y < NUM_STEPS; y+=4) {
-//			float value = (sequencers[x].stepActive(y)) ? 1 : 0; 
-			pg.stroke(255);
-			pg.noFill();
-			pg.pushMatrix();
-			pg.translate(-boxSize/2, startY + y * spacing);
-			Shapes.drawDashedBox(pg, spacing * (sequencers.length + 1), boxSize, boxSize, 10, true);
-			pg.popMatrix();
-		}
-		
-		// track current beat
-		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
-		pg.stroke(255);
-		pg.noFill();
-		pg.pushMatrix();
-		pg.translate(-boxSize/2, startY + curBeat * spacing);
-		pg.box(spacing * (sequencers.length + 1), boxSize, boxSize);
-		pg.popMatrix();	
-		
-		pg.endDraw();
-	}
-	
 	/////////////////////////////////
 	// LAUNCHPAD CALLBACK
 	/////////////////////////////////
@@ -747,4 +640,103 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public void updatedBoolean(String key, Boolean val) {}	
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
+
+
+
+
+	//////////////////////////
+	// Draw sequencers grid
+	//////////////////////////
+
+	protected void drawSequencer(PGraphics pg) {
+		float boxSize = pg.width / NUM_STEPS;
+		float drawW = (boxSize * sequencers.length);
+		float startY = drawW / -2f - boxSize / 2;
+		float startX = (boxSize * NUM_STEPS) / -2f;
+		if (pg != P.p.g) pg.beginDraw();
+		if (pg != P.p.g) pg.background(0);
+		PG.setCenterScreen(pg);
+		PG.setDrawCorner(pg);
+
+		pg.translate(startX, startY);
+
+		// draw grid
+		pg.blendMode(PBlendModes.LIGHTEST);
+		for (int y = 0; y < NUM_CHANNELS; y++) {
+			for (int x = 0; x < NUM_STEPS; x++) {
+				boolean isOn = (sequencers[y].stepActive(x));
+				pg.push();
+				pg.translate(x * boxSize, y * boxSize);
+				int cellColor = 10;
+				if (x % 4 == 0) cellColor = P.p.color(0, 87, 167);
+				if (isOn) cellColor = P.p.color(0, 127, 0);
+				pg.fill(cellColor);
+				pg.stroke(100);
+				pg.rect(0, 0, boxSize, boxSize);
+				if (isOn) pg.image(sequencers[y].sampleWaveformPG, 0, 0, sequencers[y].sampleWaveformPG.width, boxSize);
+				pg.pop();
+			}
+		}
+		pg.blendMode(PBlendModes.BLEND);
+
+		// track current beat
+		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
+		pg.push();
+		pg.stroke(255);
+		pg.stroke(0, 255, 0);
+		pg.fill(255, 50);
+		pg.rect(curBeat * boxSize, 0, boxSize, boxSize * NUM_CHANNELS);
+		pg.popMatrix();
+
+		if (pg != P.p.g)
+			pg.endDraw();
+	}
+
+	protected void drawSequencer3D(PGraphics pg) {
+		float spacing = 40;
+		float boxSize = 25;
+		float startx = (spacing * sequencers.length) / -2f + boxSize / 2;
+		float startY = (spacing * NUM_STEPS) / -2f + boxSize / 2;
+		pg.beginDraw();
+		PG.setCenterScreen(pg);
+		PG.basicCameraFromMouse(pg, 0.1f);
+		PG.setBetterLights(pg);
+		PG.setDrawCenter(pg);
+
+		// draw cubes
+		for (int x = 0; x < sequencers.length; x++) {
+			for (int y = 0; y < NUM_STEPS; y++) {
+				// float value = (sequencers[x].stepActive(y)) ? 1 : 0;
+				boolean isOn = (sequencers[x].stepActive(y));
+				pg.fill(isOn ? P.p.color(255) : 30);
+				pg.pushMatrix();
+				pg.translate(startx + x * spacing, startY + y * spacing);
+				pg.box(20);
+				pg.popMatrix();
+			}
+		}
+
+		// show beat/4
+		for (int y = 0; y < NUM_STEPS; y += 4) {
+			// float value = (sequencers[x].stepActive(y)) ? 1 : 0;
+			pg.stroke(255);
+			pg.noFill();
+			pg.pushMatrix();
+			pg.translate(-boxSize / 2, startY + y * spacing);
+			Shapes.drawDashedBox(pg, spacing * (sequencers.length + 1), boxSize, boxSize, 10, true);
+			pg.popMatrix();
+		}
+
+		// track current beat
+		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
+		pg.stroke(255);
+		pg.noFill();
+		pg.pushMatrix();
+		pg.translate(-boxSize / 2, startY + curBeat * spacing);
+		pg.box(spacing * (sequencers.length + 1), boxSize, boxSize);
+		pg.popMatrix();
+
+		pg.endDraw();
+	}
+
 }

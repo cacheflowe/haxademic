@@ -318,9 +318,13 @@ implements IAppStoreListener {
 	}
 	
 	public void update() {
+		updateSampleWaveform();
 		updateAudioInput();
 		if(drawable != null) drawable.update(steps, curStep);
-		if(sampleWaveformDirty) {
+	}
+
+	protected void updateSampleWaveform() {
+		if (sampleWaveformDirty) {
 			sampleWaveformDirty = false;
 			sampleWaveformPG.beginDraw();
 			sampleWaveformPG.background(0);
