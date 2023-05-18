@@ -111,7 +111,7 @@ extends PAppletHax {
 		
 		protected void checkTrigger() {
 			if((AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.LAST_PROGRESS) < triggerProgress || AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.LAST_PROGRESS) > AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.PROGRESS)) && 
-			   AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.PROGRESS) >= triggerProgress) {
+			  AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.PROGRESS) >= triggerProgress) {
 				trigger();
 			}
 		}
