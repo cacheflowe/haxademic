@@ -13,6 +13,8 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.DilateFilter;
+import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -67,6 +69,8 @@ implements IWebCamCallback {
     protected String UI_CONTRAST = "UI_CONTRAST";
     protected String UI_THRESH_CUTOFF = "UI_THRESH_CUTOFF";
     protected String UI_THRESH_MIX = "UI_THRESH_MIX";
+    protected String UI_EROSION = "UI_EROSION";
+    protected String UI_DILATE = "UI_DILATE";
     protected String UI_RECT_X = "UI_RECT_X";
     protected String UI_RECT_Y = "UI_RECT_Y";
     protected String UI_RECT_W = "UI_RECT_W";
@@ -111,6 +115,8 @@ implements IWebCamCallback {
         UI.addSlider(UI_CONTRAST, 1.4f, 1, 4, 0.01f, false);
         UI.addSlider(UI_THRESH_CUTOFF, 0.5f, 0,  1, 0.01f, false);
         UI.addSlider(UI_THRESH_MIX, 0.5f, 0, 1, 0.01f, false);
+        UI.addToggle(UI_EROSION, false, false);
+        UI.addToggle(UI_DILATE, false, false);
         UI.addTitle("Rect");
         UI.addSlider(UI_RECT_X, 0, 0, bwBuffer.width, 1, false);
         UI.addSlider(UI_RECT_Y, 0, 0, bwBuffer.height, 1, false);
@@ -131,6 +137,8 @@ implements IWebCamCallback {
         ThresholdFilter.instance().setCutoff(UI.value(UI_THRESH_CUTOFF));
         ThresholdFilter.instance().setCrossfade(UI.value(UI_THRESH_MIX));
         ThresholdFilter.instance().applyTo(bwBuffer);
+        if(UI.valueToggle(UI_EROSION)) ErosionFilter.instance().applyTo(bwBuffer);
+        if(UI.valueToggle(UI_DILATE)) DilateFilter.instance().applyTo(bwBuffer);
 
         // need to copy the buffered image on the main thread
         ImageUtil.copyImage(bwBuffer, ocrInputImg);
