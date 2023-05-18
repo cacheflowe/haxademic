@@ -128,8 +128,8 @@ implements IAppStoreListener {
 	
 	public String info() {
 		return 
-				  "index: " + index + FileUtil.NEWLINE
-			    + "SEQUENCE ------------------- " + FileUtil.NEWLINE
+				"index: " + index + FileUtil.NEWLINE
+				+ "SEQUENCE ------------------- " + FileUtil.NEWLINE
 				+ "curStep: " + curStep + FileUtil.NEWLINE
 				+ "sequencesComplete: " + sequencesComplete + FileUtil.NEWLINE
 				+ "triggerCount: " + (sampleTriggerCount % 4) + FileUtil.NEWLINE
