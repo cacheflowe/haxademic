@@ -1,4 +1,4 @@
-package com.haxademic.core.media.audio.interphase;
+package com.haxademic.core.media.audio.interphase.draw;
 
 
 import com.haxademic.core.debug.DebugView;
@@ -6,6 +6,7 @@ import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.interphase.Interphase;
 
 import processing.core.PGraphics;
 

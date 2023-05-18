@@ -17,7 +17,7 @@ import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
-import com.haxademic.core.media.audio.interphase.SequencerTexture;
+import com.haxademic.core.media.audio.interphase.draw.SequencerTexture;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;

@@ -16,6 +16,7 @@ import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
+import com.haxademic.core.media.audio.vst.devices.synth.SynthCharlatan;
 import com.haxademic.core.media.audio.vst.devices.synth.SynthDolphin;
 import com.haxademic.core.ui.UI;
 
@@ -53,15 +54,16 @@ implements IAppStoreListener {
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-    interphase.initGlobalControlsUI(LaunchControlXL.BUTTONS_1, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		interphase.initLaunchpads(4, 7, 8, 11);
-//		interphase.initGlobalControlsUI();
+    interphase.initLaunchControls(LaunchControlXL.BUTTONS_1, LaunchControlXL.BUTTONS_2, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+		interphase.initLaunchpads(2, 5, 4, 7);
+		//		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 		UI.launchWebUIWindow();
 		P.store.addListener(this);
 		
 		// load VSTs
-		vstSynth = new SynthDolphin(true, true);
+		// vstSynth = new SynthDolphin(true, true);
+		vstSynth = new SynthCharlatan(true, true);
 		
 		// beat loop
 		AudioContext acInterphase = Metronome.ac;

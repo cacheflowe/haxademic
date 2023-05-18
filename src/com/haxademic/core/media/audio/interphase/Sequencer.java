@@ -15,6 +15,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.media.audio.interphase.draw.ISequencerDrawable;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -369,6 +370,7 @@ implements IAppStoreListener {
 		// keep track of manual input time
 			manualTriggerTime = P.p.millis();
 			sampleTriggerCount++;
+			DebugView.setValue("sampleTriggerCount", sampleTriggerCount);
 			// queue up for manual jamming
 			manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
 	}

@@ -1,4 +1,4 @@
-package com.haxademic.core.media.audio.interphase;
+package com.haxademic.core.media.audio.interphase.draw;
 
 public interface ISequencerDrawable {
 	
