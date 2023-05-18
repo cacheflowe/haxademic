@@ -71,13 +71,13 @@ extends PAppletHax {
 		delayIn = new TapIn(ac, 3000);
 		delayIn.addInput(g);
 		delayOut = new TapOut(ac, delayIn, 500.0f);
-		delayGain = new Gain(ac, 1, 0.50f);
+		delayGain = new Gain(ac, 1, 0.30f);
 		delayGain.addInput(delayOut);
 
 		delayIn2 = new TapIn(ac, 3000);
 		delayIn2.addInput(g);
 		delayOut2 = new TapOut(ac, delayIn2, 500.0f);
-		delayGain2 = new Gain(ac, 1, 0.25f);
+		delayGain2 = new Gain(ac, 1, 0.15f);
 		delayGain2.addInput(delayOut2);
 
 		// send both original signal & delay to output
