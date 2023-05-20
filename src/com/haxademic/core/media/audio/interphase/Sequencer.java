@@ -45,7 +45,7 @@ implements IAppStoreListener {
 	protected SequencerConfig config;
 	
 	// beats & beat offset
-	protected int index;							// wall index number
+	protected int index; // sequencer index
 	protected int sequencesComplete = 0;			// keeps counting up
 	protected int lastSequenceCountChangedSound = 0;
 	protected int sequenceCountChangeSound = 16;
@@ -127,30 +127,31 @@ implements IAppStoreListener {
 	}
 	
 	public String info() {
+		String nl = FileUtil.NEWLINE;
 		return 
-				"index: " + index + FileUtil.NEWLINE
-				+ "SEQUENCE ------------------- " + FileUtil.NEWLINE
-				+ "curStep: " + curStep + FileUtil.NEWLINE
-				+ "sequencesComplete: " + sequencesComplete + FileUtil.NEWLINE
-				+ "triggerCount: " + (sampleTriggerCount % 4) + FileUtil.NEWLINE
-				+ "velocity: " + P.round(100f * velocity) + FileUtil.NEWLINE
-				+ "EVOLVE ------------------- " + FileUtil.NEWLINE
-				+ "evolves: " + evolves + FileUtil.NEWLINE
-				+ "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound + FileUtil.NEWLINE
-				+ "SAMPLE ------------------- " + FileUtil.NEWLINE
-				+ "file: " + filenames[sampleIndex] + FileUtil.NEWLINE
-				+ "sampleLength: " + sampleLength + FileUtil.NEWLINE
-				+ "length: " + P.round(sampleLength) + FileUtil.NEWLINE
-				+ "attack: " + attack + FileUtil.NEWLINE
-				+ "release: " + release + FileUtil.NEWLINE
-				+ "NOTES ------------------- " + FileUtil.NEWLINE
-				+ "pitchShift: " + pitchShift + FileUtil.NEWLINE
-				+ "pitchIndex1: " + pitchIndex1 + FileUtil.NEWLINE
-				+ "pitchIndex2: " + pitchIndex2 + FileUtil.NEWLINE
-				+ "playsNotes: " + config.playsNotes + FileUtil.NEWLINE
-				+ "notesByStep: " + notesByStep + FileUtil.NEWLINE
-				+ "noteOffset: " + noteOffset + FileUtil.NEWLINE
-				+ "chordMode: " + chordMode + FileUtil.NEWLINE
+				"index: " + index 
+				+ nl + "SEQUENCE ------------------- " 
+				+ nl + "curStep: " + curStep 
+				+ nl + "sequencesComplete: " + sequencesComplete 
+				+ nl + "triggerCount: " + (sampleTriggerCount % 4) 
+				+ nl + "velocity: " + P.round(100f * velocity) 
+				+ nl + "EVOLVE ------------------- " 
+				+ nl + "evolves: " + evolves 
+				+ nl + "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound 
+				+ nl + "SAMPLE ------------------- " 
+				+ nl + "file: " + filenames[sampleIndex] 
+				+ nl + "sampleLength: " + sampleLength 
+				+ nl + "length: " + P.round(sampleLength) 
+				+ nl + "attack: " + attack 
+				+ nl + "release: " + release 
+				+ nl + "NOTES ------------------- " 
+				+ nl + "pitchShift: " + pitchShift 
+				+ nl + "pitchIndex1: " + pitchIndex1 
+				+ nl + "pitchIndex2: " + pitchIndex2 
+				+ nl + "playsNotes: " + config.playsNotes 
+				+ nl + "notesByStep: " + notesByStep 
+				+ nl + "noteOffset: " + noteOffset 
+				+ nl + "chordMode: " + chordMode 
 				;
 	}
 	
@@ -651,12 +652,18 @@ implements IAppStoreListener {
 			// got reverb?
 			boolean hasReverb = reverbSize > 0.1f;
 			Reverb rb = null;
+			Reverb rb2 = null;
 			if(hasReverb) {
 				// P.out("reverbSize", reverbSize);
 				rb = new Reverb(ac, 2);
 				rb.setSize(reverbSize);
 				rb.setDamping(reverbDamping);
 				rb.setValue(reverbSize);
+
+				rb2 = new Reverb(ac, 2);
+				rb2.setSize(reverbSize * 2f);
+				rb2.setDamping(reverbDamping * 2f);
+				rb2.setValue(reverbSize * 2f);
 				// rb.setLateReverbLevel(reverbSize * 0.1f);
 				// rb.setLateReverbLevel(reverbSize * 0.01f);
 				// rb.setEarlyReflectionsLevel(reverbSize * 0.01f);
@@ -679,9 +686,11 @@ implements IAppStoreListener {
 					rb.addInput(comp);
 				} else {
 					rb.addInput(curPlayer);
+					rb2.addInput(curPlayer);
 				}
 				// mic both reverb and dry sample
 				gain.addInput(rb);
+				gain.addInput(rb2);
 				gain.addInput(curPlayer);
 			} else {
 				gain.addInput(curPlayer);

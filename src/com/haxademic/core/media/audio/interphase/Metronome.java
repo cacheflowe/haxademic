@@ -65,25 +65,25 @@ public class Metronome {
 		bpmEased.setCurrent(TEMPOS[0]).setTarget(TEMPOS[0]);
 		P.store.setNumber(Interphase.BPM, TEMPOS[0]);
 	}
+
+	public Bead clockTick = new Bead() {
+		public void messageReceived(Bead message) {
+			if(P.store.getBoolean(Interphase.SYSTEM_MUTED)) return;
+
+			// set beat on sequencers, and play them if needed
+			Clock c = (Clock) message;
+			updateBpm(c);
+			updateBeat(c);
+			
+			// set debug text
+			DebugView.setValue("INTERPHASE :: numinputs", ac.out.getConnectedInputs().size());
+			DebugView.setValue("INTERPHASE :: c.getCount()", ((c.getCount() / 4) % 8) + 1);
+		}
+	};
 	
 	public void initClock() {
 		clock = new Clock(ac, bpmEased.value());
-		clock.addMessageListener(
-			new Bead() {
-				public void messageReceived(Bead message) {
-					if(P.store.getBoolean(Interphase.SYSTEM_MUTED)) return;
-
-					Clock c = (Clock) message;
-					updateBpm(c);
-					updateBeat(c);
-					// set beat on sequencers, and play them if needed
-					
-					// set debug text
-					DebugView.setValue("INTERPHASE :: numinputs", ac.out.getConnectedInputs().size());
-					DebugView.setValue("INTERPHASE :: c.getCount()", ((c.getCount() / 4) % 8) + 1);
-				}
-			}
-		);
+		clock.addMessageListener(clockTick);
 		ac.out.addDependent(clock);
 		ac.start();
 		
