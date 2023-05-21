@@ -70,6 +70,7 @@ implements IAppStoreListener {
 	protected int manualTriggerTime = 0;
 	protected int sampleTriggerCount = 0;
 	protected boolean evolves = false;
+	protected int evolveCount = 0;
 	
 	// audio effects
 	protected float sampleLength = 0;
@@ -398,19 +399,11 @@ implements IAppStoreListener {
 	/////////////////////////////////////
 	
 	public void evolvePattern() {
-		if(!evolves) return;
-
-		// decide when to evolve
-		// next channel every cycle around the sequencer?
-		// boolean shouldEvolve = P.round(sequencesComplete) % Interphase.NUM_CHANNELS == index;
-		// or spaced out further:
-		boolean shouldEvolve = P.round(sequencesComplete) % (Interphase.NUM_CHANNELS * 2) == index * 2;
-
 		// every 4 sample triggers, make a bigger evolving change
 		// new pattern, note & note props
 		// otherwise, do a small sequence pattern evolution
-		if(shouldEvolve == true) {
-			if(sampleTriggerCount % 4 == 0) {
+		// if(shouldEvolve == true) {
+			if(evolveCount % 4 == 0) {
 				newRandomPattern();
 				newRandomNoteScheme();
 				newRandomAttack();
@@ -418,7 +411,8 @@ implements IAppStoreListener {
 			} else {
 				evolvePatternSmall();
 			}
-		}
+			evolveCount++;
+		// }
 	}
 
 	protected void evolvePatternSmall() {
@@ -661,12 +655,12 @@ implements IAppStoreListener {
 				rb.setValue(reverbSize);
 
 				rb2 = new Reverb(ac, 2);
-				rb2.setSize(reverbSize * 2f);
-				rb2.setDamping(reverbDamping * 2f);
-				rb2.setValue(reverbSize * 2f);
-				// rb.setLateReverbLevel(reverbSize * 0.1f);
-				// rb.setLateReverbLevel(reverbSize * 0.01f);
-				// rb.setEarlyReflectionsLevel(reverbSize * 0.01f);
+				rb2.setSize(reverbSize * 4f);
+				rb2.setDamping(reverbDamping * 2.5f);
+				rb2.setValue(reverbSize * 4f);
+				// rb2.setLateReverbLevel(reverbSize * 0.001f);
+				// rb2.setLateReverbLevel(reverbSize * 0.001f);
+				rb2.setEarlyReflectionsLevel(reverbSize * 0.001f);
 			}
 			
 			Compressor comp = null;
@@ -724,7 +718,13 @@ protected void checkBeatChanged(int newBeat) {
 		// update timing
 		if(curStep == 0) {
 			checkLoadNewSound();
-			evolvePattern();
+			{ // evolve on frist step?
+				// next channel every cycle around the sequencer?
+				// boolean shouldEvolve = P.round(sequencesComplete) % Interphase.NUM_CHANNELS == index;
+				// or spaced out further:
+				boolean shouldEvolve = P.round(sequencesComplete) % (Interphase.NUM_CHANNELS * 2) == index * 2;
+				if(evolves && shouldEvolve) evolvePattern();
+			}
 		}
 		checkActiveStepToTrigger();
 		checkManualTrigger();

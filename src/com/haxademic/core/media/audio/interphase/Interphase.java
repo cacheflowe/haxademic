@@ -596,11 +596,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 		if(key.indexOf(UI_EVOLVE_) == 0) {
 			String sequencerNum = key.substring(UI_EVOLVE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
-			if(MathUtil.randBooleanWeighted(0.2f)) {
+			// if(MathUtil.randBooleanWeighted(0.2f)) {
 				sequencerAt(sequencerIndex).evolvePattern();
-			} else {
-				sequencerAt(sequencerIndex).evolvePatternSmall();
-			}
+			// } else {
+			// 	sequencerAt(sequencerIndex).evolvePatternSmall();
+			// }
 		}
 		if(key.indexOf(UI_SAMPLE_) == 0) {
 			String sequencerNum = key.substring(UI_SAMPLE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
