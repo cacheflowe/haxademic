@@ -370,6 +370,35 @@ Below you'll find a long list of classes and utilities that I've built to make m
   ```
 * Remove .classpath jna.jar entires that aren't the processing/video version
 
+Or in VSCode
+
+```
+"java.project.importHint": false,
+"java.debug.settings.vmArgs": "-Xmx4G -Xms2G -Djava.library.path=lib/jinput/native;lib/jvsthost;lib/KinectPV2/library;lib/LeapMotionForProcessing/library/windows64;lib/processing-4/libraries/javafx/library/windows-amd64;lib/processing-4/libraries/video/library/windows-amd64;lib/spout/library",
+"[java]": {
+	"editor.defaultFormatter": "redhat.java"
+},
+"java.configuration.runtimes": [
+	{
+		"name": "JavaSE-17",
+		"path": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.6-Processing",
+		"default": true
+	}
+],
+```
+
+```
+{
+	"type": "java",
+	"name": "Demo_VertexShader_GPUParticlesLauncher",
+	"request": "launch",
+	"mainClass": "com.haxademic.demo.draw.shapes.shader.Demo_VertexShader_GPUParticlesLauncher",
+	"projectName": "haxademic",
+	"args": "testArg arg=1 agr2=2",
+	"vmArgs": "-Xmx8G -Xms2G -Djava.library.path=lib/KinectPV2/library;lib/processing-4/libraries/serial/library/windows64"
+},
+
+```
 
 
 ## Dependencies
