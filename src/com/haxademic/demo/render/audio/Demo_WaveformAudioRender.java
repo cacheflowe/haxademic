@@ -1,10 +1,12 @@
 package com.haxademic.demo.render.audio;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.Renderer;
 
 public class Demo_WaveformAudioRender
 extends PAppletHax {
@@ -13,13 +15,17 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
-		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
-		Config.setProperty( AppSettings.RENDER_AUDIO_SIMULATION, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDER_AUDIO_SIMULATION, false );
 		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getPath("haxademic/audio/cacheflowe_bigger_loop.wav") );
 	}
 	
-	protected void drawApp() {
+	protected void firstFrame() {
 		AudioIn.instance();
+		// Renderer.instance().videoRenderer.setPG(pg);
+	}
+
+	protected void drawApp() {
 		p.background(0);
 
 		// draw waveform

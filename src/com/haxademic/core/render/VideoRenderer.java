@@ -132,7 +132,8 @@ public class VideoRenderer {
 			// make sure we're still in bounds - kept getting data run-out errors
 			if (audioPos < audioPlayer.size) {	//  - (audioPlayer.sampleRate * 0.01f) 
 				audioCurSeconds = (float) curFrame / fps;
-				audioPlayer.cue(audioPos);			
+				audioPlayer.cue(audioPos);
+				audioPlayer.volume(0.2f);	
 				// if still running & in-bounds, grab next data within the ESS wrapper
 				audioInput.updateForRender(audioPlayer, audioPos);
 			} else {

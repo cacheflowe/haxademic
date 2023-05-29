@@ -47,7 +47,7 @@ implements IAudioInput {
 	}
 	
 	public void update() {
-//		if(rendering) return; // don't override with microphone data
+		if(rendering) return; // don't override with microphone data
 		
 		// update audio data object
 		audioStreamData.setFFTFrequencies(fft.spectrum);
