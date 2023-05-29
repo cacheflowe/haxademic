@@ -1,12 +1,10 @@
 package com.haxademic.demo.render.audio;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
-import com.haxademic.core.render.Renderer;
 
 public class Demo_WaveformAudioRender
 extends PAppletHax {
@@ -36,7 +34,7 @@ extends PAppletHax {
 		float spacing = p.width / 512f;
 		p.beginShape();
 		for (int i = 0; i < AudioIn.waveform.length; i++ ) {
-			float curY = p.height * 0.5f + AudioIn.waveform[i] * 300f;
+			float curY = p.height * 0.33f + AudioIn.waveform[i] * 300f;
 			p.vertex(startX + i * spacing, curY);
 		}
 		p.endShape();
@@ -46,7 +44,7 @@ extends PAppletHax {
 		spacing = p.width / 512f;
 		p.beginShape();
 		for (int i = 0; i < AudioIn.frequencies.length; i++ ) {
-			float curY = p.height * 0.5f - AudioIn.frequencies[i] * 300f;
+			float curY = p.height * 0.66f - AudioIn.frequencies[i] * 300f;
 			p.vertex(startX + i * spacing, curY);
 		}
 		p.endShape();
