@@ -12,7 +12,6 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
-import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.Particle;
@@ -20,7 +19,6 @@ import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
-import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.dmx.artnet.LedMatrix48x12;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
@@ -32,9 +30,8 @@ import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
-import com.haxademic.core.media.audio.interphase.SequencerTexture;
+import com.haxademic.core.media.audio.interphase.draw.SequencerTexture;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -80,7 +77,7 @@ implements IAppStoreListener {
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initGlobalControlsUI(LaunchControlXL.BUTTONS_1, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
+		interphase.initLaunchControls(LaunchControlXL.BUTTONS_1, LaunchControlXL.BUTTONS_2, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
 		interphase.initLaunchpads(2, 5, 4, 7);
 		interphase.initAudioAnalysisPerChannel();
 		// for UI controls debugging
@@ -264,7 +261,7 @@ implements IAppStoreListener {
 		protected ParticleSystem particles;
 
 		public InterphaseVizDemo2() {
-			particles = new ParticleSystem(ParticleCustom.class);
+			particles = new ParticleSystem(ParticleCustomPolygons.class);
 			P.store.addListener(this);
 		}
 
@@ -288,9 +285,9 @@ implements IAppStoreListener {
 			// GrainFilter.instance().applyTo(pg);
 		}
 
-		protected ParticleCustom launchParticleType(ParticleCustom.ParticleType type, int lifespan, int partiColor) {
+		protected ParticleCustomPolygons launchParticleType(ParticleCustomPolygons.ParticleType type, int lifespan, int partiColor) {
 			// reasonable particle defaults, overridden by type of Interphase channel
-			ParticleCustom particle = (ParticleCustom) particles.launchParticle(0, 0, 0);
+			ParticleCustomPolygons particle = (ParticleCustomPolygons) particles.launchParticle(0, 0, 0);
 			particle
 					.setType(type)
 					.setSpeed(0, 0, -0.1f) // z-speed ensures proper z-stacking
@@ -305,30 +302,30 @@ implements IAppStoreListener {
 		protected void triggerParticles(int index) {
 			int partiColor = ColorsHax.colorFromGroupAt(9, index);
 			if(index == 0) {
-				launchParticleType(ParticleCustom.ParticleType.KICK, 30, partiColor);
+				launchParticleType(ParticleCustomPolygons.ParticleType.KICK, 30, partiColor);
 			} else if(index == 1) {
 				float rotInit = P.PI / 3f / 2f;
-				launchParticleType(ParticleCustom.ParticleType.SNARE, 25, partiColor)
-						.setGravity(0, -0.3f, 0)
+				launchParticleType(ParticleCustomPolygons.ParticleType.SNARE, 25, partiColor)
+						.setGravity(0, 0.0f, 0)
 						.setRotation(0, 0, rotInit, 0, 0, 0);
-				launchParticleType(ParticleCustom.ParticleType.SNARE, 25, partiColor)
-						.setGravity(0, 0.3f, 0)
-						.setRotation(0, 0, rotInit + P.PI, 0, 0, 0);
+				// launchParticleType(ParticleCustom.ParticleType.SNARE, 25, partiColor)
+				// 		.setGravity(0, 0.3f, 0)
+				// 		.setRotation(0, 0, rotInit + P.PI, 0, 0, 0);
 			} else if(index == 2) {
-				launchParticleType(ParticleCustom.ParticleType.HAT, 20, partiColor)
+				launchParticleType(ParticleCustomPolygons.ParticleType.HAT, 20, partiColor)
 						.setSpeed(0, -2, -0.1f) // z-speed ensures proper z-stacking
 						.setGravity(0, 0.2f, 0)
 						.setRotation(0, 0, 0, 0, 0, 0);
 			} else if(index == 3) {
-				float numParticles = 16;
-				float speedAmp = 30;
-				float decel = 0.9f;
+				float numParticles = 32;
+				float speedAmp = 40;
+				float decel = 0.95f;
 				float segmentRads = P.TWO_PI / numParticles;
 				for (int i = 0; i < numParticles; i++) {
 					float curRads = segmentRads * i;
 					float speedX = speedAmp * P.cos(curRads);
 					float speedY = speedAmp * P.sin(curRads);
-					launchParticleType(ParticleCustom.ParticleType.PERC, 40, partiColor)
+					launchParticleType(ParticleCustomPolygons.ParticleType.PERC, 40, partiColor)
 							.setSpeed(speedX, speedY, -0.1f) // z-speed ensures proper z-stacking
 							.setAcceleration(decel, decel, 1)
 							.setRotation(0, 0, curRads - P.PI + segmentRads, 0, 0, 0);
@@ -357,7 +354,7 @@ implements IAppStoreListener {
 	// Custom Particle
 	/////////////////////////////////////////////////////////////////
 
-	public static class ParticleCustom<T>
+	public static class ParticleCustomPolygons<T>
 	extends Particle {
 
 		public static enum ParticleType {
@@ -372,11 +369,11 @@ implements IAppStoreListener {
 		}
 		protected ParticleType type;
 
-		public ParticleCustom() {
+		public ParticleCustomPolygons() {
 			super();
 		}
 
-		protected ParticleCustom setType(ParticleType type) {
+		protected ParticleCustomPolygons setType(ParticleType type) {
 			this.type = type;
 			return this;
 		}
@@ -390,19 +387,20 @@ implements IAppStoreListener {
 			// draw different types of shapes
 			if (type == ParticleType.KICK) {
 				pg.fill(color, (255 - 255 * progressAlpha));
-				float partiSize = P.map(progress, 0, 1, minDim * 0.2f, minDim * 0.5f);
+				float partiSize = P.map(progress, 0, 1, minDim * 0.1f, minDim * 0.65f);
 				float thickness = minDim * 0.05f;
 				Shapes.drawDisc(pg, partiSize, partiSize - thickness, 6);
 			} else if (type == ParticleType.SNARE) {
 				pg.fill(color, (255 - 255 * progressAlpha));
-				float partiSize = P.map(progress, 0, 1, minDim * 0.5f, minDim * 0.3f);
-				float thickness = minDim * 0.025f;
-				Shapes.drawDisc(pg, partiSize, partiSize - thickness, 3);
+				float partiSize = P.map(progress, 0, 1, minDim * 0.15f, minDim * 0.6f);
+				float thickness = minDim * 0.1f;
+				Shapes.drawDisc(pg, partiSize, partiSize - thickness, 30);
 				// Shapes.drawPolygon(pg, P.map(progress, 0, 1, minDim * 0.5f, minDim * 0.3f), 3);
 			} else if (type == ParticleType.HAT) {
 				pg.fill(color, (255 - 255 * progressAlpha));
-				float partiSize = P.map(progress, 0, 1, minDim * 0.2f, minDim * 0.2f);
-				Shapes.drawDisc(pg, partiSize, partiSize * 0.9f, 4);
+				float partiSize = P.map(progress, 0, 1, minDim * 0.1f, minDim * 0.3f);
+				float thickness = minDim * 0.1f;
+				Shapes.drawDisc(pg, partiSize, partiSize - thickness, 4);
 			} else if (type == ParticleType.PERC) {
 				pg.fill(color);
 				float partiSize = P.map(progress, 0, 1, minDim * 0.05f, 0);
