@@ -63,7 +63,7 @@ extends PAppletHax {
 			Particle particle = particles.launchParticle(0, 0, 0);
 			if(particle.shape() == null) {
 				particle.setShape(PShapeUtil.createBox(1, 1, 1, p.color(180, 180, 0)));
-				particles.randomize(particle); // need to re-randomize once since random color is set on PShape inside particle system
+				particles.updateRandomRanges(particle); // need to re-randomize once since random color is set on PShape inside particle system
 			}
 			// TODO: particle.setColor() is broken. Might be PShapeUtil.setPShapeColor() issue
 			// ... but also might be ColorUtil.randomColor() issue

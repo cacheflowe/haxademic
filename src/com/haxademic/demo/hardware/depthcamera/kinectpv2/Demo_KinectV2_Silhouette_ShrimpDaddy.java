@@ -107,7 +107,7 @@ extends PAppletHax {
             super(ParticleCustom.class);
         }
         
-        public void randomize(Particle particle) {
+        public void updateRandomRanges(Particle particle) {
             particle
                 .setSpeed(0, 0, 0)
                 .setAcceleration(1)

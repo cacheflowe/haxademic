@@ -104,7 +104,7 @@ extends PAppletHax {
 			super((Class<T>) ParticleCustom.class);
 		}
 		
-		public void randomize(Particle particle) {
+		public void updateRandomRanges(Particle particle) {
 			particle.setImage(DemoAssets.particle());
 			if(usingUI) {
 				particle

@@ -85,7 +85,7 @@ extends PAppletHax {
 						.setSpeedRange(-0.5f, 0.5f, 0, 0, 0, 0)
 						.setColor(p.color(P.p.random(255), P.p.random(255), P.p.random(255)))
 						.setImage(DemoAssets.particle())
-						.launch(P.p.random(0, numPixels), 0, 0);	// .launch() to set params properly
+						.launch(P.p.random(0, numPixels), 0, 0);	// .launch() to set random params properly
 				}
 			}
 			particles.updateAndDrawParticles(buffer);

@@ -201,15 +201,17 @@ public class ParticleSystem<T extends Particle> {
 		for (int i = 0; i < particles.size(); i++) {
 			if(particles.get(i).available()) {
 				Particle particle = particles.get(i);
-				randomize(particle);
+				updateRandomRanges(particle);
 				particle.launch(x, y, z);
+				particle.randomize();
 				return particle;
 			}
 		}
 		// didn't find one, so instantiate a new one
 		Particle particle = (Particle) initNewParticle(particleDef);
-		randomize(particle);
+		updateRandomRanges(particle);
 		particle.launch(x, y, z);
+		particle.randomize();
 		particles.add(particle);
 		return particle;
 	}
@@ -241,7 +243,7 @@ public class ParticleSystem<T extends Particle> {
 		}
 	}
 	
-	public void randomize(Particle particle) {
+	public void updateRandomRanges(Particle particle) {
 		// then randomize any other params per launch
 		if(usingUI) {
 			particle

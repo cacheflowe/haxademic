@@ -1,6 +1,5 @@
 package com.haxademic.core.draw.particle;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -200,12 +199,16 @@ public class Particle {
 	///////////////////////////////
 	
 	public Particle launch(float x, float y, float z) {
-		// random params
-		calcLifespan();
-		size = MathUtil.randRangeDecimal(sizeMin, sizeMax);
-		
+	    pos.set(x, y, z);
+		randomize();
+		return this;
+	}
+	
+	public Particle randomize() {
+	    // lifespan & size
+	    calcLifespan();
+	    size = MathUtil.randRangeDecimal(sizeMin, sizeMax);
 		// set motion properties
-		pos.set(x, y, z);
 		setRandomVector(speed, speedMin, speedMax);
 		setRandomVector(gravity, gravityMin, gravityMax);
 		setRandomVector(rotation, rotationMin, rotationMax);

@@ -109,7 +109,7 @@ extends PAppletHax {
 			return images[imgIndex];
 		}
 		
-		public void randomize(Particle particle) {
+		public void updateRandomRanges(Particle particle) {
 			particle
 				.setSize(1)
 				.setSpeed(0, -2, 0)
