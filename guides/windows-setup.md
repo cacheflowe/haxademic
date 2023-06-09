@@ -52,6 +52,7 @@
   * `Control Panel\Hardware and Sound\Power Options`
     * Power button should shut down
     * Laptop should do nothing on lid close
+* (WIN + "Sign-in Options") "If you've been away, when should Windows require you to sign in again?" -> Never
 * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
 * Turn off system sounds:
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
@@ -334,8 +335,10 @@ choco install ffmpeg
   * Reference User directory: `C:%HOMEPATH%\Documents\`
   * Remove Apple files from current dir: `del /s /q *.DS_Store`
   * List running tasks: `tasklist`
-  * Kill a task by .exe: `Taskkill /IM javaw.exe /F /T`
-  * Kill a task by id: `Taskkill /PID 26356 /F /T`
+  * Find a task on a specific port: `netstat -a -n -o | find "8080"`
+  * Get app name from task number: `tasklist | findstr 9260`
+  * Kill a task by .exe: `Taskkill /F /T /IM javaw.exe`
+  * Kill a task by id: `Taskkill /F /T /PID 26356`
   * Add script to system startup:
     * Windows Key + R
     * `shell:startup`
