@@ -54,6 +54,8 @@ Try to set WSL2 if you're not already on it... This could be destructive, so be 
 * `wsl --update`
 * `wsl --set-default-version 2`
 
+But also, WSL 2 file system performance is currently terrible when interacting with your Windows drives. For this reason, you might want to stay on WSL 1. More info [here](https://stackoverflow.com/a/69968723).
+
 
 ## Navigating the WSL shell
 
