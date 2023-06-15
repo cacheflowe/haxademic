@@ -25,6 +25,7 @@ public class VideoRenderer {
 	protected String outputDir;
 	protected Boolean isRendering = false;
 	protected Boolean audioSimulation = false;
+	protected float audioPosition = 0;
 	protected float fps;
 	public int outputType;
 	public static final int OUTPUT_TYPE_IMAGE = 0;
@@ -65,7 +66,6 @@ public class VideoRenderer {
 	/**
 	 * Stores an instance of the audio analyzer, and loads a .wav to render
 	 * @param audioFile			reference to a .wav file
-	 * @param audioWrapper		instance of the audio analyzer object
 	 */
 	public void startRendererForAudio( String audioFile ) {
 		// grab the system ESS audio input object
@@ -117,34 +117,48 @@ public class VideoRenderer {
 	 */
 	public void analyzeAudio() {
 		if(audioSimulation) {
-			// restart realtime audio on loop, if there's a loop
-			if(FrameLoop.loopFrames() != 0) {
-				if(FrameLoop.loopCurFrame() == 0) {
-					audioPlayer.cue(0);
-					audioPlayer.loop();
-				}
-			}
-			// pass through audio player directly to audio input data
-			audioInput.updateForRender(audioPlayer, -1);
+			updateAudioSimulation();
 		} else {
-			// get position in wav file
-			audioPos = (int)( curFrame * audioPlayer.sampleRate / fps );
-			// make sure we're still in bounds - kept getting data run-out errors
-			if (audioPos < audioPlayer.size) {	//  - (audioPlayer.sampleRate * 0.01f) 
-				audioCurSeconds = (float) curFrame / fps;
-				audioPlayer.cue(audioPos);
-				audioPlayer.volume(0.2f);	
-				// if still running & in-bounds, grab next data within the ESS wrapper
-				audioInput.updateForRender(audioPlayer, audioPos);
-			} else {
-				if(outputType == OUTPUT_TYPE_MOVIE) movieMaker.finish();
-				stop();  
-				P.p.exit();
-				return;
-			}
+			updateAudioRenderFrame();
 		}
 	}
+
+	protected void updateAudioSimulation() {
+		// restart realtime audio on loop, if there's a loop
+		if(FrameLoop.loopFrames() != 0) {
+			if(FrameLoop.loopCurFrame() == 0) {
+				audioPlayer.cue(0);
+				audioPlayer.loop();
+			}
+		}
+		// pass through audio player directly to audio input data
+		audioInput.updateForRender(audioPlayer, -1);
+		// keep track of audio time
+		audioPosition = audioPlayer.cue / audioPlayer.sampleRate;
+	}
 	
+	protected void updateAudioRenderFrame() {
+		// get position in wav file
+		audioPos = (int)( curFrame * audioPlayer.sampleRate / fps );
+		// make sure we're still in bounds - kept getting data run-out errors
+		if (audioPos < audioPlayer.size) {	//  - (audioPlayer.sampleRate * 0.01f) 
+			audioCurSeconds = (float) curFrame / fps;
+			audioPlayer.cue(audioPos);
+			audioPlayer.volume(0.2f);	
+			// if still running & in-bounds, grab next data within the ESS wrapper
+			audioInput.updateForRender(audioPlayer, audioPos);
+		} else {
+			if(outputType == OUTPUT_TYPE_MOVIE) movieMaker.finish();
+			stop();  
+			P.p.exit();
+			return;
+		}
+	}
+
+	public float audioPosition() {
+		return audioPosition;
+	}
+
 	protected void debugRenderProgress() {
 		// get elapsed time
 		int elapsedMillis = P.p.millis() - timeStarted;
