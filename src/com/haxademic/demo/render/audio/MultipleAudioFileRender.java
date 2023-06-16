@@ -78,13 +78,15 @@ public class MultipleAudioFileRender
 		_audioInputs[5] = _audioInput6;
 		
 		// set up renders
-		_render1 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render2 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render3 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render4 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render5 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render6 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_renderFinal = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
+		VideoRenderer.setOutputImages();
+		_render1 = new VideoRenderer( _fps, "bin/output/" );
+		_render2 = new VideoRenderer( _fps, "bin/output/" );
+		_render3 = new VideoRenderer( _fps, "bin/output/" );
+		_render4 = new VideoRenderer( _fps, "bin/output/" );
+		_render5 = new VideoRenderer( _fps, "bin/output/" );
+		_render6 = new VideoRenderer( _fps, "bin/output/" );
+		VideoRenderer.setOutputVideo();
+		_renderFinal = new VideoRenderer( _fps, "bin/output/" );
 //		_renderFinal.startRendererForAudio( "wav/ringtones/ringtone-01.wav", new AudioInputWrapper( this, false ) );
 		
 		// store renderers for cycling 

@@ -24,20 +24,24 @@ public class VideoRenderer {
 	protected String timestampStart;
 	protected String outputDir;
 	protected Boolean isRendering = false;
+	protected Boolean renderSimulation = false;
 	protected Boolean audioSimulation = false;
-	protected float audioPosition = 0;
+	protected float audioCurSeconds = 0;
 	protected float fps;
-	public int outputType;
 	public static final int OUTPUT_TYPE_IMAGE = 0;
 	public static final int OUTPUT_TYPE_MOVIE = 1;
+	public static int outputType = OUTPUT_TYPE_MOVIE;
+	public static void setOutputVideo() { outputType = OUTPUT_TYPE_MOVIE;	}
+	public static void setOutputImages() { outputType = OUTPUT_TYPE_IMAGE;	}
 	public int timeStarted;
+	public static String IMAGE_EXTENSION = "tga";
 
-	public VideoRenderer(int framesPerSecond, int outputType, String outputDir ) {
+	public VideoRenderer(int framesPerSecond, String outputDir ) {
 		this.pg = P.p.g;
 		fps = framesPerSecond;
-		this.outputType = outputType;
 		this.outputDir = outputDir;
 		audioSimulation = Config.getBoolean( AppSettings.RENDER_AUDIO_SIMULATION, false );
+		renderSimulation = Config.getBoolean( AppSettings.RENDER_SIMULATION, false );
 	}
 	
 	public void setPG(PGraphics pg) {
@@ -52,7 +56,7 @@ public class VideoRenderer {
 		timestampStart = SystemUtil.getTimestamp();
 
 		// initialize movie renderer
-		if( outputType == OUTPUT_TYPE_MOVIE ) {
+		if(outputType == OUTPUT_TYPE_MOVIE && !renderSimulation) {
 			if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
 			movieMaker = new UMovieMakerCustom(pg, outputDir+"render-"+timestampStart+".mov", pg.width, pg.height, (int)fps);
 			P.println("VideoRenderer started :: "+timestampStart);
@@ -63,10 +67,6 @@ public class VideoRenderer {
 		timeStarted = P.p.millis();
 	}
 	
-	/**
-	 * Stores an instance of the audio analyzer, and loads a .wav to render
-	 * @param audioFile			reference to a .wav file
-	 */
 	public void startRendererForAudio( String audioFile ) {
 		// grab the system ESS audio input object
 		audioInput = (AudioInputESS) AudioIn.audioInput;
@@ -82,6 +82,7 @@ public class VideoRenderer {
 		audioPlayer.play();
 		if(audioSimulation == false) {
 			audioPlayer.pause();
+			Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 999999999); // let the audio track determine end of movie
 		} else {
 			audioPlayer.loop();
 		}
@@ -96,25 +97,28 @@ public class VideoRenderer {
 		if( isRendering == true ) {			
 			// if movie, add frame to MovieMaker file
 			if ( outputType == OUTPUT_TYPE_MOVIE ) {
-				pg.loadPixels();
-				movieMaker.addFrame();
+				if(!renderSimulation) {
+					pg.loadPixels();
+					movieMaker.addFrame();
+				}
 				
 			// otherwise, save an image
 			} else {
-				pg.save( "output/"+timestampStart+"/img_" + P.nf( curFrame, 8 ) + ".jpg" );
+				if(!renderSimulation) {
+					String outputDir = FileUtil.haxademicOutputPath() + timestampStart + "/";
+					if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
+					String filename = "out_" + P.nf( curFrame, 8 ) + "." + IMAGE_EXTENSION;
+					pg.save(outputDir + filename);
+				}
 			}
 			
-			// keep track of rendered frame count
+			// keep track of rendered frame count & debug output
 			curFrame++;
-			
-			// debug output
 			debugRenderProgress();
 		}
 	}
-		
-	/**
-	 * Called at the beginning of PApplet.draw() to prepare the audio data 
-	 */
+	
+	// called by Renderer before each frame is drawn
 	public void analyzeAudio() {
 		if(audioSimulation) {
 			updateAudioSimulation();
@@ -134,12 +138,13 @@ public class VideoRenderer {
 		// pass through audio player directly to audio input data
 		audioInput.updateForRender(audioPlayer, -1);
 		// keep track of audio time
-		audioPosition = audioPlayer.cue / audioPlayer.sampleRate;
+		audioCurSeconds = audioPlayer.cue / audioPlayer.sampleRate;
 	}
 	
 	protected void updateAudioRenderFrame() {
 		// get position in wav file
 		audioPos = (int)( curFrame * audioPlayer.sampleRate / fps );
+		audioCurSeconds = audioPos / audioPlayer.sampleRate;
 		// make sure we're still in bounds - kept getting data run-out errors
 		if (audioPos < audioPlayer.size) {	//  - (audioPlayer.sampleRate * 0.01f) 
 			audioCurSeconds = (float) curFrame / fps;
@@ -156,7 +161,7 @@ public class VideoRenderer {
 	}
 
 	public float audioPosition() {
-		return audioPosition;
+		return audioCurSeconds;
 	}
 
 	protected void debugRenderProgress() {
@@ -174,28 +179,38 @@ public class VideoRenderer {
 			totalFrames = totalFramesInt + "";
 			float totalMillisProjected = ((float) totalFramesInt / (float) curFrame) * elapsedMillis;
 			millisLeft = totalMillisProjected - elapsedMillis;
+		} else if(audioPlayer != null) {
+			float audioProg = (float)audioPos/(float)audioPlayer.size;
+			totalFramesInt = P.round(curFrame * (1f / audioProg));
+			totalFrames = totalFramesInt + "";
+			float totalMillisProjected = ((float) totalFramesInt / (float) curFrame) * elapsedMillis;
+			millisLeft = totalMillisProjected - elapsedMillis;
 		}
 		
 		// output
-		P.println( "= RENDERING ==================" );
-		P.println( "= Exporting frame number:   " + curFrame + " / " + totalFrames );
-		P.println( "= Elapsed time:             "  + DateUtil.timeFromMilliseconds(elapsedMillis, true));
-		if(millisLeft != -1) {
-			P.println( "= Expected time left:       "  + DateUtil.timeFromMilliseconds(P.round(millisLeft), true));
-			P.println( "= Progress:                 "  + ((float) curFrame / (float) totalFramesInt));
-		}
-		if(audioPlayer != null) {
-			if ((curFrame % 15) == 0) {
-				P.println( "= Audio position: " + audioPos + " fps: " + fps + " seconds: " + audioCurSeconds + " _chn.sampleRate = " + audioPlayer.sampleRate + "  position in file: " + audioPos + " / " + audioPlayer.size );
-				P.println( "= Audio @ seconds: " + audioCurSeconds + "  Progress: " + Math.round(100f*((float)audioPos/(float)audioPlayer.size)) + "%" );
-				P.println( "= Frame Number: " + curFrame );
+		if(!audioSimulation && !renderSimulation) {
+			P.println( "= RENDERING ==================" );
+			P.println( "= Exporting frame number:   " + curFrame + " / " + totalFrames );
+			P.println( "= Elapsed time:             "  + DateUtil.timeFromMilliseconds(elapsedMillis, true));
+			if(millisLeft != -1) {
+				P.println( "= Expected time left:       "  + DateUtil.timeFromMilliseconds(P.round(millisLeft), true));
+				P.println( "= Progress:                 "  + ((float) curFrame / (float) totalFramesInt));
 			}
+			if(audioPlayer != null) {
+				if ((curFrame % 15) == 0) {
+					P.println( "= Audio position: " + audioPos + " fps: " + fps + " seconds: " + audioCurSeconds + " _chn.sampleRate = " + audioPlayer.sampleRate + "  position in file: " + audioPos + " / " + audioPlayer.size );
+					P.println( "= Audio @ seconds: " + audioCurSeconds + "  Progress: " + Math.round(100f*((float)audioPos/(float)audioPlayer.size)) + "%" );
+					P.println( "= Frame Number: " + curFrame );
+				}
+			}
+			P.println( "============================" );
 		}
-		P.println( "============================" );
 	}
 
 	public void stop() {
-		if( isRendering && outputType == OUTPUT_TYPE_MOVIE && audioSimulation == false ) movieMaker.finish();
+		if(isRendering && outputType == OUTPUT_TYPE_MOVIE && !audioSimulation && !renderSimulation) {
+			movieMaker.finish();
+		}
 		isRendering = false;
 	}
 	

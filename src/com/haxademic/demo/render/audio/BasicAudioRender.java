@@ -65,7 +65,7 @@ public class BasicAudioRender
 			camera = new CameraOscillate( this, 0, 0, -500, 400 );
 			
 			// set up renderer
-			_render = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
+			_render = new VideoRenderer( _fps, "bin/output/" );
 	//		_render.startRenderer();
 			_render.startRendererForAudio( "cock_holster.wav" );
 		}

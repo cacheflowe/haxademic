@@ -58,7 +58,7 @@ implements IAppStoreListener {
 	}
 
 	protected void initRendering() {
-		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.haxademicOutputPath() ) );
+		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), Config.getString( "render_output_dir", FileUtil.haxademicOutputPath() ) );
 		if(Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			gifRenderer = new GifRenderer(Config.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), Config.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
