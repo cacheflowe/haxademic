@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternUtil;
 import com.haxademic.core.data.store.IAppStoreListener;
@@ -85,6 +86,7 @@ implements IAppStoreListener {
 	// audio sample playback objects
 	protected Sample curSample;
 	protected int sampleIndex = 0;
+	protected String sampleFileName = "";
 	protected SamplePlayer player;
 	protected SamplePlayer player2;
 	protected Gain gain;
@@ -93,6 +95,8 @@ implements IAppStoreListener {
 	protected Sample[] samples;
 	protected String[] filenames;
 	protected boolean useASDR = true;
+	protected boolean sampleIsLoop;
+	protected int loopDivisor;
 	
 	// draw waveform for current sample
 	protected PGraphics sampleWaveformPG;
@@ -328,6 +332,7 @@ implements IAppStoreListener {
 		updateSampleWaveform();
 		updateAudioInput();
 		triggerFalloff.update();
+		triggerFalloff.setInc(0.1f);
 		if(drawable != null) drawable.update(steps, curStep);
 	}
 
@@ -512,8 +517,22 @@ implements IAppStoreListener {
 	
 	protected void setSample(Sample newSample) {
 		curSample = newSample;
+		sampleFileName = FileUtil.fileNameFromPath(curSample.getFileName());
+		DebugView.setValue("Sequencer.curSample_" + index, sampleFileName);
 		sampleWaveformDirty = true;
-		DebugView.setValue("Sequencer.curSample_" + index, FileUtil.fileNameFromPath(curSample.getFileName()));
+		
+		// add looping and get loop divisor from filename
+		sampleIsLoop = sampleFileName.contains("_loop_");
+		if(sampleIsLoop) {
+			loopDivisor = 4;
+			String[] parts = sampleFileName.split("_loop_");
+			if(parts.length > 1) {
+				String[] loopParts = parts[1].split("_");
+				if(loopParts.length > 0) {
+					loopDivisor = ConvertUtil.stringToInt(loopParts[0]);
+				}
+			}
+		}
 	}
 	
 	/////////////////////////////////////
@@ -600,8 +619,25 @@ implements IAppStoreListener {
 		// set pitch on all sequencers that play notes
 //		if(config.playsNotes) {
 			// change pitch
+			if(sampleIsLoop) {
+				// calcs from WavPlayer.pitchRatioFromIndex()
+				float pitchIndex = Metronome.shiftPitchToMatchBpm(curPlayer, P.store.getInt(Interphase.BPM), loopDivisor);
+				pitchRatio = WavPlayer.pitchRatioFromIndex(pitchIndex);
+				useASDR = false;
+
+				// randomize start position (sometimes)
+				// TODO: add more playback modes for loops
+				// if loop is attached to snare track, take kicks into account like the original demo
+				if(MathUtil.randBooleanWeighted(0.2f)) {
+					WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, 3) * 0.25f);	
+				}
+			} else {
+				useASDR = true;
+			}
 			Glide glide = new Glide(ac, pitchRatio);
+			// apply pitch shift to player
 			curPlayer.setRate(glide);
+
 
 			// reverse
 			//			if(MathUtil.randBooleanWeighted(0.2f)) {
@@ -654,58 +690,63 @@ implements IAppStoreListener {
 				DebugView.setValue("release", release);
 				ampEnv.addSegment(endGain, P.min(sampleLength, MAX_SAMPLE_LENGTH), new KillTrigger(gain));	// no attack or release, but using Gain for volume. set killtrigger at end of sample. 
 			}
+		} else {
+			gain = new Gain(ac, 2, config.volume); // standard pass-thru volume/gain
+		}
 			
-			// got reverb?
-			boolean hasReverb = reverbSize > 0.1f;
-			Reverb rb = null;
-			Reverb rb2 = null;
-			if(hasReverb) {
-				// P.out("reverbSize", reverbSize);
-				rb = new Reverb(ac, 2);
-				rb.setSize(reverbSize);
-				rb.setDamping(reverbDamping);
-				rb.setValue(reverbSize);
+		// got reverb?
+		boolean hasReverb = reverbSize > 0.1f;
+		Reverb rb = null;
+		Reverb rb2 = null;
+		if(hasReverb) {
+			// P.out("reverbSize", reverbSize);
+			rb = new Reverb(ac, 2);
+			rb.setSize(reverbSize);
+			rb.setDamping(reverbDamping);
+			rb.setValue(reverbSize);
 
-				rb2 = new Reverb(ac, 2);
-				rb2.setSize(reverbSize * 4f);
-				rb2.setDamping(reverbDamping * 2.5f);
-				rb2.setValue(reverbSize * 4f);
-				// rb2.setLateReverbLevel(reverbSize * 0.001f);
-				// rb2.setLateReverbLevel(reverbSize * 0.001f);
-				rb2.setEarlyReflectionsLevel(reverbSize * 0.001f);
-			}
-			
-			Compressor comp = null;
+			rb2 = new Reverb(ac, 2);
+			rb2.setSize(reverbSize * 4f);
+			rb2.setDamping(reverbDamping * 2.5f);
+			rb2.setValue(reverbSize * 4f);
+			// rb2.setLateReverbLevel(reverbSize * 0.001f);
+			// rb2.setLateReverbLevel(reverbSize * 0.001f);
+			rb2.setEarlyReflectionsLevel(reverbSize * 0.001f);
+		}
+		
+		Compressor comp = null;
 //			Compressor comp = new Compressor(ac, 2);
 //			comp.setAttack(10);
 //			comp.setDecay(100);
 //			comp.setThreshold(0.75f);
 //			comp.setRatio(7f);
 //			comp.setKnee(3f);
-			
-			// build audio chain
-	        // any effects like reverb must be inserted before the gain in the audio chain ->
-	        // otherwise they won't get cleaned up?!
-			if(hasReverb) {
-				if(comp != null) {
-					comp.addInput(curPlayer);
-					rb.addInput(comp);
-				} else {
-					rb.addInput(curPlayer);
-					rb2.addInput(curPlayer);
-				}
-				// mic both reverb and dry sample
-				gain.addInput(rb);
-				gain.addInput(rb2);
-				gain.addInput(curPlayer);
+		
+		// build audio chain
+				// any effects like reverb must be inserted before the gain in the audio chain ->
+				// otherwise they won't get cleaned up?!
+		if(hasReverb) {
+			if(comp != null) {
+				comp.addInput(curPlayer);
+				rb.addInput(comp);
 			} else {
-				gain.addInput(curPlayer);
+				rb.addInput(curPlayer);
+				rb2.addInput(curPlayer);
 			}
-			ac.out.addInput(gain);
+			// mic both reverb and dry sample
+			gain.addInput(rb);
+			gain.addInput(rb2);
+			gain.addInput(curPlayer);
 		} else {
-			// add sample direct to AudioContext output
-			ac.out.addInput(curPlayer);
+			gain.addInput(curPlayer);
 		}
+		ac.out.addInput(gain);
+
+		
+		// } else {
+		// 	// add sample direct to AudioContext output
+		// 	ac.out.addInput(curPlayer);
+		// }
 		
 		// send player object back
 		return curPlayer;

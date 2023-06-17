@@ -249,6 +249,11 @@ public class WavPlayer {
 		}
 	}
 	
+	public static void seekToProgress(SamplePlayer player, float progress) {
+		float playTimeMS = duration(player) * progress;
+		player.setPosition(playTimeMS);
+	}
+	
 	public WavPlayer pauseToggle(String id) {
 		if(getPlayer(id) != null) getPlayer(id).pause(!isPaused(id));
 		return this;
@@ -303,6 +308,11 @@ public class WavPlayer {
 	public float duration(String id) {
 		if(getPlayer(id) == null) return 1;
 		return (float) getPlayer(id).getSample().getLength();
+	}
+	
+	public static float duration(SamplePlayer player) {
+		if(player == null) return 1;
+		return (float) player.getSample().getLength();
 	}
 	
 	public WavPlayer setVolume(String id, float gain) {

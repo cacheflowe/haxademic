@@ -51,11 +51,11 @@ implements IInterphaseViz {
     BloomFilter.instance().setStrength(9f);
     BloomFilter.instance().setBlurIterations(12);
     BloomFilter.instance().setBlendMode(BloomFilter.BLEND_SCREEN);
-    BloomFilter.instance().applyTo(pg);
+    // BloomFilter.instance().applyTo(pg);
 
     GrainFilter.instance().setTime(FrameLoop.count(0.01f));
     GrainFilter.instance().setCrossfade(0.11f);
-    GrainFilter.instance().applyTo(pg);
+    // GrainFilter.instance().applyTo(pg);
   }
 
 }

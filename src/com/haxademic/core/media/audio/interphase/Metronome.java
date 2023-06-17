@@ -149,6 +149,14 @@ public class Metronome {
 		player.setPitch(id, -pitchShift * 12f);
 	}
 	
+	public static float shiftPitchToMatchBpm(SamplePlayer player, float bpm, float measureDivider) {
+		// formula from https://math.stackexchange.com/a/1205895
+		float bpmToMs = Metronome.bpmToIntervalMS(bpm, measureDivider); // times 4 because they're only 1 bar loops
+		float syncRatio = (bpmToMs) / WavPlayer.duration(player);
+		float pitchShift = P.log(syncRatio) / P.log(2f); // * 1.1f;
+		return -pitchShift * 12f;
+	}
+	
 	public static void shiftPitchToMatchBpm(SamplePlayer player, Glide glide, float bpm, float measureDivider) {
 		// formula from https://math.stackexchange.com/a/1205895
 		float bpmToMs = Metronome.bpmToIntervalMS(bpm, measureDivider); // times 4 because they're only 1 bar loops
