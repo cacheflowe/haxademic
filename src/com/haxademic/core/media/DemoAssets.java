@@ -24,6 +24,15 @@ public class DemoAssets {
 	public static PImage particle() {
 		return ImageCacher.get("haxademic/images/particle.png");
 	}
+	public static PImage particleLight() {
+	    return ImageCacher.get("haxademic/images/particle-light.png");
+	}
+	public static PImage particleMedium() {
+	    return ImageCacher.get("haxademic/images/particle-medium.png");
+	}
+	public static PImage particleHeavy() {
+	    return ImageCacher.get("haxademic/images/particle-heavy.png");
+	}
 	public static PImage arrow() {
 		return ImageCacher.get("haxademic/images/arrow-right.png");
 	}
