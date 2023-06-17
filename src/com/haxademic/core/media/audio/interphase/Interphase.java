@@ -16,7 +16,6 @@ import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -133,7 +132,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected void buildSequencers(SequencerConfig[] interphaseChannels) {
 		sequencers = new Sequencer[NUM_CHANNELS];
 		for (int i = 0; i < NUM_CHANNELS; i++) {
-			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
+			sequencers[i] = new Sequencer(interphaseChannels[i]);
 			sequencers[i].newRandomPattern();
 		}
 	}
@@ -221,28 +220,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 			UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
 			UI.addSlider(UI_REVERB_+(i+1), 0, 0, 1, 0.005f, false, midiCCReverb);
 		}
-		return this;
-	}
-	
-	//////////////////////////
-	// init launchpad grids
-	//////////////////////////
-	
-	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
-		MidiBus.list();
-		launchpad1 = new LaunchPadMini(midiIn1, midiOut1);
-		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(midiIn2, midiOut2);
-		launchpad2.setDelegate(this);
-		return this;
-	}
-	
-	public Interphase initLaunchpads(String deviceName1, String deviceName2) {
-		MidiBus.list();
-		launchpad1 = new LaunchPadMini(deviceName1);
-		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(deviceName2);
-		launchpad2.setDelegate(this);
 		return this;
 	}
 	
@@ -421,6 +398,24 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// LAUNCHPAD INTEGRATION
 	/////////////////////////////////
 	
+	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
+		MidiBus.list();
+		launchpad1 = new LaunchPadMini(midiIn1, midiOut1);
+		launchpad1.setDelegate(this);
+		launchpad2 = new LaunchPadMini(midiIn2, midiOut2);
+		launchpad2.setDelegate(this);
+		return this;
+	}
+	
+	public Interphase initLaunchpads(String deviceName1, String deviceName2) {
+		MidiBus.list();
+		launchpad1 = new LaunchPadMini(deviceName1);
+		launchpad1.setDelegate(this);
+		launchpad2 = new LaunchPadMini(deviceName2);
+		launchpad2.setDelegate(this);
+		return this;
+	}
+	
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
 		// split across launchpads
@@ -488,7 +483,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		updateSequencers();
 		updateUIGridButtons();
 		updateDebugValues();
-		if(pg != null) drawSequencer(pg);
+		if(pg != null) drawAudioGrid(pg);
 	}
 	
 	protected void updateSequencers() {
@@ -648,7 +643,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// Draw sequencers grid
 	//////////////////////////
 
-	protected void drawSequencer(PGraphics pg) {
+	protected void drawAudioGrid(PGraphics pg) {
 		float boxSize = pg.width / NUM_STEPS;
 		float drawW = (boxSize * sequencers.length);
 		float startY = drawW / -2f - boxSize / 2;

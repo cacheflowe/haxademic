@@ -58,7 +58,7 @@ implements IAppStoreListener {
 		interphase.initLaunchpads(2, 5, 4, 7);
 		//		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
-		UI.launchWebUIWindow();
+		// UI.launchWebUIWindow();
 		P.store.addListener(this);
 		
 		// load VSTs

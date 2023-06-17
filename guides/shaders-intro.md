@@ -64,7 +64,11 @@ Step 1: Check out the following interactive tutorials:
 * [Fragment Foundry by @hughsk](https://hughsk.io/fragment-foundry/)
 * [The Book of Shaders](https://thebookofshaders.com/)
 
-Step 2: If you get past the first two, here are some more great interactive tutorials
+And YouTube video
+
+* [An introduction to Shader Art Coding](https://www.youtube.com/watch?v=f4s1h2YETNY)
+
+Step 2: If you get past these, here are some more great interactive tutorials
 
 * [28 GLSL tutorials @ Shadertoy](https://www.shadertoy.com/view/Md23DV)
 * [StackGL Shader School](https://github.com/stackgl/shader-school)

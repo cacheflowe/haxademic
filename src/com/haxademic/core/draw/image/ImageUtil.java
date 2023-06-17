@@ -381,6 +381,18 @@ public class ImageUtil {
 		if(openDestContext) dest.endDraw();
 	}
 	
+	public static void drawImageFitRotated90deg(PImage img, PGraphics dest, boolean positive, boolean openDestContext) {
+		if(openDestContext) dest.beginDraw();
+		PG.push(dest);
+		PG.setDrawCenter(dest);
+		PG.setCenterScreen(dest);
+		dest.rotate(P.HALF_PI * ((positive) ? 1f : -1f));
+		dest.image(img, 0, 0, dest.height, dest.width);
+		PG.setDrawCorner(dest);
+		PG.pop(dest);
+		if(openDestContext) dest.endDraw();
+	}
+	
 	public static void copyImageFlipH(PImage src, PImage dest) {
 		if(src == null || dest == null) return;
 		dest.copy(src, 0, 0, src.width, src.height, dest.width, 0, -dest.width, dest.height);

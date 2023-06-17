@@ -15,6 +15,14 @@ public class LedMatrix48x12 {
 	protected ArtNetDataSender artNetDataSender2;
 	protected PGraphics ledTexture;
 	protected int numPixels;
+
+	public enum Orientation {
+		ROT_0_COPY,
+		ROT_0_FILL,
+		ROT_90_COPY,
+		ROT_90_FILL,
+	}
+	protected Orientation orientation = Orientation.ROT_0_FILL;
 	
 	protected String BRIGHTNESS = "BRIGHTNESS";
 	protected String FLIP_H = "FLIP_H";
@@ -42,9 +50,21 @@ public class LedMatrix48x12 {
 		UI.addToggle(ROT_180, false, false);
 	}
 
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
+	}
+
 	public void update(PImage sourceImg) {
 		// ImageUtil.drawImageCropFillRotated90deg(sourceImg, ledTexture, true, true, true);
-		ImageUtil.cropFillCopyImage(sourceImg, ledTexture, true);
+		if(orientation == Orientation.ROT_0_COPY) {
+			ImageUtil.copyImage(sourceImg, ledTexture);
+		} else if(orientation == Orientation.ROT_0_FILL) {
+			ImageUtil.cropFillCopyImage(sourceImg, ledTexture, true);
+		} else if(orientation == Orientation.ROT_90_COPY) {
+			ImageUtil.drawImageFitRotated90deg(sourceImg, ledTexture, true, true);
+		} else if(orientation == Orientation.ROT_90_FILL) {
+			ImageUtil.drawImageCropFillRotated90deg(sourceImg, ledTexture, true, true, true);
+		}
 
 		// rotation correction operations
 		if (UI.valueToggle(FLIP_H)) ImageUtil.flipH(ledTexture);

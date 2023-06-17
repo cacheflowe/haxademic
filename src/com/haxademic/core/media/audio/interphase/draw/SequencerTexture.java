@@ -129,7 +129,8 @@ implements ISequencerDrawable {
 				active = isActive;	
 				
 				// show sequence pattern
-				int activeColor = (active) ? ColorsHax.COLOR_GROUPS[1][rectIndex % 4] : 0xff333333;
+				// int activeColor = (active) ? ColorsHax.COLOR_GROUPS[9][rectIndex % 4] : 0xff000000;
+				int activeColor = (active) ? ColorsHax.COLOR_GROUPS[9][index % 4] : 0xff000000;
 				stepColors.setTargetInt(activeColor);
 //			}
 		}

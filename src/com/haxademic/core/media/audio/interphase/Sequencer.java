@@ -14,6 +14,8 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.FloatBuffer;
+import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.interphase.draw.ISequencerDrawable;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -40,7 +42,6 @@ public class Sequencer
 implements IAppStoreListener {
 	
 	// app
-	protected Interphase inter;
 	protected boolean muted = false;
 	protected SequencerConfig config;
 	
@@ -104,13 +105,14 @@ implements IAppStoreListener {
 	// local audio analysis
 	protected AudioInputBeads audioIn;
 	protected boolean hasAudioTextures = false;
+	protected LinearFloat triggerFalloff = new LinearFloat(0, 0.05f);
+	protected FloatBuffer ampSmoothed = new FloatBuffer(6);
 	
-	public Sequencer(Interphase inter, SequencerConfig config) {
+	public Sequencer(SequencerConfig config) {
 		this.config = config;
 		this.index = config.index;
 		this.audioDir = config.audioPath;
 		this.sequencerPatterns = config.patterns;
-		this.inter = inter;
 		getAudiofiles(audioDir);
 		buildWaveformBuffer();
 		loadNextSound();
@@ -270,6 +272,9 @@ implements IAppStoreListener {
 	public float audioAmp() { return audioIn.audioData().amp(); }
 	public PGraphics bufferWaveForm() { return audioIn.audioData().bufferWaveform; }
 	public PGraphics bufferFFT() { return audioIn.audioData().bufferFFT; }
+	public float triggerFalloff() { return triggerFalloff.value(); }
+	public float ampSmoothed() { return ampSmoothed.averageOldHalf(); }
+
 	
 	public boolean notesByStep() {
 		return notesByStep;
@@ -322,6 +327,7 @@ implements IAppStoreListener {
 	public void update() {
 		updateSampleWaveform();
 		updateAudioInput();
+		triggerFalloff.update();
 		if(drawable != null) drawable.update(steps, curStep);
 	}
 
@@ -347,6 +353,7 @@ implements IAppStoreListener {
 		// update audio buffers if we've set them active
 		updateAudioAnalysisBuffer();
 		updateAudioInputDebugBuffer();
+		ampSmoothed.update(audioAmp());
 	}
 	
 	protected void updateAudioAnalysisBuffer() {
@@ -528,12 +535,17 @@ implements IAppStoreListener {
 	protected void sendTriggerEvent() {
 		P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
 		if(TRIGGER_DELAY == 0) {
-			P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
+			triggerVisualHit();
 		} else {
 			SystemUtil.setTimeout(new ActionListener() { public void actionPerformed(ActionEvent e) {
-				P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
+				triggerVisualHit();
 			}}, TRIGGER_DELAY);
 		}
+	}
+
+	protected void triggerVisualHit() {
+		P.store.setNumber(Interphase.SEQUENCER_TRIGGER_VISUAL, index);
+		triggerFalloff.setCurrent(1).setTarget(0);
 	}
 	
 	protected void selectNewNote() {
