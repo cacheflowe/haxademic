@@ -81,10 +81,14 @@ public class FrameLoop {
 	}
 	
 	public static float noiseLoop(float zoom, float offsetX, float offsetY) {
+		return noiseLoop(zoom, offsetX, offsetY, 1);
+	}
+
+	public static float noiseLoop(float zoom, float offsetX, float offsetY, float progressMult) {
 		// circular looped noise
 		return P.p.noise(
-			offsetX + zoom * P.cos(offsetX + progressRads()),
-			offsetY + zoom * P.sin(offsetY + progressRads())
+			offsetX + zoom * P.cos(offsetX + progressRads() * progressMult),
+			offsetY + zoom * P.sin(offsetY + progressRads() * progressMult)
 		);
 	}
 
