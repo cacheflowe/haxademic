@@ -2,6 +2,8 @@ package com.haxademic.core.draw.particle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
@@ -134,6 +136,18 @@ public class ParticleSystem<T extends Particle> {
 	// update & draw
 	/////////////////////////////////////////////////////////////
 	
+	// sort by age if drawing flat gets weird
+
+	public Comparator<Particle> ageComparator = new Comparator<Particle>() {         
+		public int compare(Particle p1, Particle p2) {
+			return (p1.age() < p2.age() ? 1 : -1);           
+		}     
+	}; 
+
+	public void sortParticlesByAge() {
+		Collections.sort(particles, ageComparator);
+	}
+
 	// update and draw independently so we can update once and draw to multiple buffers
 	
 	public void updateParticles() {
