@@ -142,6 +142,7 @@ public class ParticleSystem<T extends Particle> {
 
 	public Comparator<Particle> ageComparator = new Comparator<Particle>() {         
 		public int compare(Particle p1, Particle p2) {
+			if(p1.age() == p2.age()) return 0;
 			return (p1.age() < p2.age() ? 1 : -1);           
 		}     
 	}; 
