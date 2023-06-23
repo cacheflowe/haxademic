@@ -22,11 +22,13 @@ public class ParticleSystem<T extends Particle> {
 	//   - There are multiple demos for this
 	
 	// TODO
-	// - Multiple ParticleLaunchers within a ParticleSystem? This is problematic for recycling different types of particles...
+	// - Extract UI out of this base class! make it composable. often we don't want/need UI
+	//   - Selectively add UI groups by property? i.e. speed, size, lifespan, etc
 	// - Should all of the randomized launch params be in ParticleLauncher, and not ParticleSystem... Probably!
+	// - Multiple ParticleLaunchers within a ParticleSystem? This is problematic for recycling different types of particles...
 	// - Billboard shader?
 	// - Cached geometry? move particles with PShape.translate() ? Or vertex shader attributes?
-	// - Look at making looping particle launches easy - WashYourHands demo has the code
+	// - Look at making looping particle launches easy? - WashYourHands demo has the code
 	
 	
 	// particles & source textures
@@ -201,7 +203,7 @@ public class ParticleSystem<T extends Particle> {
 	// generic particle factory
 
 	public static <T> T initNewParticle(Class<T> objectClass) {
-		P.out("initNewParticle() -> objectClass", objectClass.getCanonicalName());
+		// P.out("initNewParticle() -> objectClass", objectClass.getCanonicalName());
 		try {
 			return objectClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
