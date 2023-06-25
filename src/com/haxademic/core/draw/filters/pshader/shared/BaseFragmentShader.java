@@ -49,19 +49,19 @@ public class BaseFragmentShader {
 	}
 	
 	public void setOnContext(PGraphics pg) {
-	    pg.shader(shader());
+		pg.shader(shader());
 	}
 	
 	public void setOnContext(PApplet p) {
-	    p.shader(shader());
+		p.shader(shader());
 	}
 	
 	public void resetContext(PGraphics pg) {
-	    pg.resetShader();
+		pg.resetShader();
 	}
 	
 	public void resetContext(PApplet p) {
-	    p.resetShader();
+		p.resetShader();
 	}
 	
 	public void setTime(float time) {

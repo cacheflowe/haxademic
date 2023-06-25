@@ -19,15 +19,9 @@ public class Demo_FakeLightingFilter
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected String AMBIENT = "AMBIENT";
-	protected String GRAD_AMP = "GRAD_AMP";
-	protected String GRAD_BLUR = "GRAD_BLUR";
-	protected String SPEC_AMP = "SPEC_AMP";
-	protected String DIFF_DARK = "DIFF_DARK";
-	protected String FILTER_ACTIVE = "FILTER_ACTIVE";
-	
 	protected PImage altMap;
 	protected String ALT_MAP = "ALT_MAP";
+	protected String FILTER_ACTIVE = "FILTER_ACTIVE";
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 800 );
@@ -36,12 +30,7 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		UI.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
-		UI.addSlider(GRAD_AMP, 0.66f, 0f, 6f, 0.005f, false);
-		UI.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);
-		UI.addSlider(SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f, false);
-		UI.addSlider(DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f, false);
-
+		FakeLightingFilter.instance().buildUI("Demo", false);
 		UI.addToggle(FILTER_ACTIVE, true, false);
 		UI.addToggle(ALT_MAP, false, false);
 	}
@@ -67,17 +56,13 @@ extends PAppletHax {
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
 		// apply effect
-		FakeLightingFilter.instance().setAmbient(UI.value(AMBIENT));
-		FakeLightingFilter.instance().setGradAmp(UI.value(GRAD_AMP));
-		FakeLightingFilter.instance().setGradBlur(UI.value(GRAD_BLUR));
-		FakeLightingFilter.instance().setSpecAmp(UI.value(SPEC_AMP));
-		FakeLightingFilter.instance().setDiffDark(UI.value(DIFF_DARK));
-		if(UI.valueToggle(ALT_MAP)) {
-			FakeLightingFilter.instance().setMap(altMap);
-		} else {
-			FakeLightingFilter.instance().setMap(p.g);
-		}
 		if(UI.valueToggle(FILTER_ACTIVE)) {
+			if(UI.valueToggle(ALT_MAP)) {
+				FakeLightingFilter.instance().setMap(altMap);
+			} else {
+				FakeLightingFilter.instance().setMap(p.g);
+			}
+			FakeLightingFilter.instance().setPropsFromUI("Demo");
 			FakeLightingFilter.instance().applyTo(p.g);
 		}
 	}
