@@ -20,7 +20,6 @@ public class VideoRenderer {
 	protected AudioChannel audioPlayer;
 	protected int curFrame = 0;
 	protected int audioPos = 0;
-	protected float audioCurSeconds;
 	protected String timestampStart;
 	protected String outputDir;
 	protected Boolean isRendering = false;
@@ -34,7 +33,8 @@ public class VideoRenderer {
 	public static void setOutputVideo() { outputType = OUTPUT_TYPE_MOVIE;	}
 	public static void setOutputImages() { outputType = OUTPUT_TYPE_IMAGE;	}
 	public int timeStarted;
-	public static String IMAGE_EXTENSION = "tga";
+	public static String IMAGE_EXTENSION = "png";
+	protected boolean imageDirCreated = false;
 
 	public VideoRenderer(int framesPerSecond, String outputDir ) {
 		this.pg = P.p.g;
@@ -106,7 +106,10 @@ public class VideoRenderer {
 			} else {
 				if(!renderSimulation) {
 					String outputDir = FileUtil.haxademicOutputPath() + timestampStart + "/";
-					if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
+					if(imageDirCreated == false && FileUtil.fileOrPathExists(outputDir) == false) {
+						FileUtil.createDir(outputDir);
+						imageDirCreated = true;
+					}
 					String filename = "out_" + P.nf( curFrame, 8 ) + "." + IMAGE_EXTENSION;
 					pg.save(outputDir + filename);
 				}
