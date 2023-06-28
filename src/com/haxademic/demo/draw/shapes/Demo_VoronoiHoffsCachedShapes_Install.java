@@ -71,13 +71,13 @@ extends PAppletHax {
 
 	protected void config() {
 		int scaleUp = 1;
-		Config.setAppSize( 1920 * scaleUp, 1080 * scaleUp );
-		Config.setPgSize( 1920 * scaleUp, 1080 * scaleUp );
-		Config.setAppSize(1920, 1080);
-		Config.setPgSize(1080 * 2, 1920);
-//		Config.setProperty( AppSettings.FULLSCREEN, true );
-//		Config.setProperty( AppSettings.SCREEN_X, 0 );
-//		Config.setProperty( AppSettings.SCREEN_Y, 0 );
+		int appW = 1080 * 2;
+		int appH = 1920;
+		Config.setAppSize(appW, appH);
+		Config.setPgSize(appW, appH);
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.SCREEN_X, 1920 );
+		Config.setProperty( AppSettings.SCREEN_Y, 0 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 		Config.setProperty( AppSettings.SHOW_UI, true );
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
@@ -417,3 +417,4 @@ extends PAppletHax {
 		RadialFlareFilter.instance().applyTo(pg);
 	}
 }
+
