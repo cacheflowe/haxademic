@@ -11,6 +11,7 @@ import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.Console;
 import com.haxademic.core.system.ScreenSaverBlocker;
 import com.haxademic.core.ui.UI;
 import com.jogamp.newt.opengl.GLWindow;
@@ -86,11 +87,23 @@ extends PApplet {
 	public static void out(Object ...args) {
 		if(logging) P.println(args);
 	}
-	public static void outInit(Object ...args) {
-		if(logging) {
-			P.print("##HAX##| ");
-			P.println(args);
+	public static void warn(Object ...args) { P.outColor(Console.YELLOW, args); }
+	public static void success(Object ...args) { P.outColor(Console.GREEN, args); }
+	public static void fail(Object ...args) { P.outColor(Console.RED, args); }
+	public static void outColor(String color, Object ...args) {
+		if(!logging) return;
+		P.print(color);
+		for (int i = 0; i < args.length; i++) {
+			if(i > 0) P.print(" ");
+			P.print(args[i]);
 		}
+		P.println(Console.RESET);
+	}
+	public static void outInit(Object ...args) {
+		Object[] tempArr = new Object[args.length + 1];
+    System.arraycopy(args, 0, tempArr, 1, args.length);
+    tempArr[0] = "##HAX##| ";
+		P.success(tempArr);
 	}
 	public static void outInitLineBreak() {
 		outInit("=================================");

@@ -16,6 +16,7 @@ import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.Console;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UITextInput;
 
@@ -92,7 +93,8 @@ extends PApplet {
 				P.outInitLineBreak();
 				P.outInit("PAppletHax started in:", (p.millis() - startupTime)+"ms");				
 				P.outInitLineBreak();
-				P.out("##########################################", "\n");
+				P.outColor(Console.GREEN_BACKGROUND, "###########################################");
+				P.out("");
 			} else {
 				P.outInit("Processing special renderer:", P.renderer);
 			}
