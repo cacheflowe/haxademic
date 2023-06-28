@@ -16,7 +16,6 @@ import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.system.ConsoleColors;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UITextInput;
 
@@ -146,7 +145,7 @@ extends PApplet {
 	////////////////////////
 	
 	protected void finishPdfRender() {
-		P.out("Finished PDF render.");
+		// P.out(ConsoleColors.GREEN, "Finished PDF render.", ConsoleColors.RESET);
 		p.exit();
 	}
 		
