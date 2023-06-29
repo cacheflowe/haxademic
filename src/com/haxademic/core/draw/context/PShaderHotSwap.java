@@ -7,6 +7,8 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.file.WatchDir;
 import com.haxademic.core.file.WatchDir.IWatchDirListener;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.system.Console;
+import com.haxademic.core.system.DateUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -64,6 +66,7 @@ implements IWatchDirListener {
 		// set as active shader if valid
 		if(compiledShader.isValid()) {
 			shader = compiledShader;
+			P.success("Shader compiled!", Console.CYAN_BRIGHT, DateUtil.currentTime(true, false, true));
 		}
 	}
 

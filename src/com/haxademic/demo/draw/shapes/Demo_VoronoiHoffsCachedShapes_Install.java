@@ -41,9 +41,9 @@ implements IAppStoreListener {
 	// TODO:
 	// Needs
 	// - Pick nice color sets
-	//   - Add proper offset multipliers to UI & easingFloat
+	//   - Add proper offset multipliers to UI & easingFloat - is the multiplier the right thing here?
 	// - Fix shape recycling vs new mode recycling
-	// - 
+	// - Add Uptime suite & move dashboard URL into run.properties
 	// Maybes
 	// - add UI for different modes
 	// - add more movement modes

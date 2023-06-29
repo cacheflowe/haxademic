@@ -130,9 +130,9 @@ public class Config {
 	// Special helper setters
 	/////////////////////////
 	
-	public static void setAppSize(int w, int h) {
-		Config.setProperty(AppSettings.WIDTH, w);
-		Config.setProperty(AppSettings.HEIGHT, h);
+	public static void setAppSize(float w, float h) {
+		Config.setProperty(AppSettings.WIDTH, P.round(w));
+		Config.setProperty(AppSettings.HEIGHT, P.round(h));
 	}
 	
 	public static void setPgSize(int w, int h) {

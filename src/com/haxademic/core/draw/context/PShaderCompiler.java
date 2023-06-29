@@ -48,7 +48,7 @@ extends PShader {
 
 	protected void setCompileMessage(String message) {
 		compileMessage = message;
-		P.out(compileMessage);
+		P.fail(compileMessage);
 	}
 
 	/////////////////////////////////
