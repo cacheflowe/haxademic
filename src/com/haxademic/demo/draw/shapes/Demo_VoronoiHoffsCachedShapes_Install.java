@@ -9,6 +9,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -24,47 +25,68 @@ import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.system.Console;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
 public class Demo_VoronoiHoffsCachedShapes_Install 
-extends PAppletHax {
+extends PAppletHax
+implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// TODO:
+	// Needs
+	// - Pick nice color sets
+	//   - Add proper offset multipliers to UI & easingFloat
+	// - Fix shape recycling vs new mode recycling
+	// - 
+	// Maybes
 	// - add UI for different modes
 	// - add more movement modes
 	// - use vertex shader to move grouped shapes - will be a big change
 	// - add different color cycling modes/evolution
 
+	// particles
 	protected float hoffOrthoFactor;
 	protected int NUM_CELLS = 888;
 	protected int CELL_DETAIL = 36;
 	protected VoronoiCell cells[] = new VoronoiCell[NUM_CELLS];
 
-	protected EasingFloat offsetR = new EasingFloat(0, 0.1f);
-	protected EasingFloat offsetG = new EasingFloat(1, 0.1f);
-	protected EasingFloat offsetB = new EasingFloat(2, 0.1f);
+	// colors
+	protected EasingFloat offsetR = new EasingFloat(0, 0.01f);
+	protected EasingFloat offsetG = new EasingFloat(1, 0.01f);
+	protected EasingFloat offsetB = new EasingFloat(2, 0.01f);
+	protected float[][] colorOffsets;
+	protected int colorSetIndex = 0;
+	protected String UI_R = "UI_R";
+	protected String UI_G = "UI_G";
+	protected String UI_B = "UI_B";
+	protected String UI_R_OFFSET_MULT = "UI_R_OFFSET_MULT";
+	protected String UI_G_OFFSET_MULT = "UI_G_OFFSET_MULT";
+	protected String UI_B_OFFSET_MULT = "UI_B_OFFSET_MULT";
 
+	// current particle arrangement & behavior
 	public enum MODE_PATTERN {
 		WATERFALL,
 		GRID,
 		SPIRAL,
 		RINGS
 	}
-	protected MODE_PATTERN curMode = MODE_PATTERN.WATERFALL;
+	protected MODE_PATTERN curPatternMode = MODE_PATTERN.WATERFALL;
 	private static final List<MODE_PATTERN> MODE_PATTERN_VALS = Collections.unmodifiableList(Arrays.asList(MODE_PATTERN.values()));
 	private static final int PATTERNS_NUM = MODE_PATTERN_VALS.size();
 	private static final Random RANDOM_PATTERN = new Random();
 
-	public enum MODE_BEHAVIOR {
+	// current cycling mode
+	public enum SYSTEM_MODE {
 		COLLECT,
 		BE_FREE
 	}
-	protected MODE_BEHAVIOR curBehavior = MODE_BEHAVIOR.COLLECT;
+	protected SYSTEM_MODE curSystemMode = SYSTEM_MODE.COLLECT;
 	protected int collectFrame = 0;
 
 	protected PShader moveShader;
@@ -75,7 +97,7 @@ extends PAppletHax {
 		int appH = 1920;
 		Config.setAppSize(appW, appH);
 		Config.setPgSize(appW, appH);
-		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
 		Config.setProperty( AppSettings.SCREEN_X, 1920 );
 		Config.setProperty( AppSettings.SCREEN_Y, 0 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
@@ -87,7 +109,9 @@ extends PAppletHax {
 	protected void firstFrame() {
 		buildParticles();
 		buildFakeLighting();
+		buildColorOffsets();
 		// loadVertexShader();
+		P.store.addListener(this);
 	}
 
 	protected void loadVertexShader() {
@@ -95,6 +119,30 @@ extends PAppletHax {
 			P.path("haxademic/shaders/vertex/ColorFrag-positionAttrib.glsl"),
 			P.path("haxademic/shaders/vertex/ColorVert-positionAttrib.glsl") 
 		);
+	}
+
+	protected void buildColorOffsets() {
+		// build UI
+		if(colorOffsets == null) {
+			UI.addTitle("Color Offsets");
+			UI.addSlider(UI_R, 0, 0, 1, 0.01f, false);
+			UI.addSlider(UI_G, 1, 0, 1, 0.01f, false);
+			UI.addSlider(UI_B, 2, 0, 1, 0.01f, false);
+			UI.addSlider(UI_R_OFFSET_MULT, 1, 0.995f, 1.005f, 0.0001f, false);
+			UI.addSlider(UI_G_OFFSET_MULT, 1, 0.995f, 1.005f, 0.0001f, false);
+			UI.addSlider(UI_B_OFFSET_MULT, 1, 0.995f, 1.005f, 0.0001f, false);
+		}
+		// build array
+		colorOffsets = new float[][] {
+			new float[] {0, 1, 2},
+			new float[] {1, 0, 2},
+			new float[] {2.506f, 1.796f, 2.464f},
+			new float[] {5.586f, 5.243f, 6.093f},
+			new float[] {5.183f, 5.259f, 6.153f},
+			new float[] {5.518f, 0.243f, 0.598f},
+			new float[] {1.223f, 1.312f, 0.653f},
+			new float[] {3.042f, 3.154f, 3.529f},
+		};
 	}
 
 	protected void buildParticles() {
@@ -105,7 +153,7 @@ extends PAppletHax {
 	}
 
 	protected void resetParticles(MODE_PATTERN mode) {
-		curMode = mode;
+		curPatternMode = mode;
 		for (int i = 0; i < NUM_CELLS; i++)
 			cells[i].resetParticle();
 	}
@@ -116,6 +164,11 @@ extends PAppletHax {
 		if(KeyboardState.keyOn('2')) resetParticles(MODE_PATTERN.SPIRAL);
 		if(KeyboardState.keyOn('3')) resetParticles(MODE_PATTERN.RINGS);
 		if(KeyboardState.keyOn('4')) resetParticles(MODE_PATTERN.GRID);
+		if(KeyboardState.keyTriggered('c')) randomColorOffsets();
+		if(KeyboardState.keyTriggered('v')) printColorOffsets();
+		if(KeyboardState.keyTriggered('b')) nextColorOffsets(1);
+		if(KeyboardState.keyTriggered('n')) nextColorOffsets(-1);
+		if(KeyboardState.keyTriggered('m')) buildColorOffsets();
 		
 		updateColorOffsets();
 		updateBehavior();
@@ -125,28 +178,64 @@ extends PAppletHax {
 	}
 
 	protected void updateColorOffsets() {
-		offsetR.update();
-		offsetG.update();
-		offsetB.update();
+		offsetR.setEaseFactor(0.1f);
+		offsetG.setEaseFactor(0.1f);
+		offsetB.setEaseFactor(0.1f);
+		offsetR.update(true);
+		offsetG.update(true);
+		offsetB.update(true);
 	}
 
-	protected void newColorOffsets() {
+	protected void randomColorOffsets() {
 		offsetR.setTarget(p.random(P.TWO_PI));
 		offsetG.setTarget(p.random(P.TWO_PI));
 		offsetB.setTarget(p.random(P.TWO_PI));
+		printColorOffsets();
+	}
+
+	protected void nextColorOffsets(int inc) {
+		// cycle
+		colorSetIndex += inc;
+		colorSetIndex %= colorOffsets.length;
+		if(colorSetIndex < 0) colorSetIndex = colorOffsets.length - 1;
+		// print!
+		// set index
+		setColorIndex(colorSetIndex);
+	}
+
+	protected void setColorIndex(int index) {
+		colorSetIndex = index;
+		float r = colorOffsets[colorSetIndex][0];
+		float g = colorOffsets[colorSetIndex][1];
+		float b = colorOffsets[colorSetIndex][2];
+		offsetR.setTarget(r);
+		offsetG.setTarget(g);
+		offsetB.setTarget(b);
+		// print!
+		P.outColor(Console.YELLOW_BACKGROUND, "["+colorSetIndex+"]", r, g, b);
+		printColorOffsets();
+	}
+
+	protected void printColorOffsets() {
+		P.outColor(
+			Console.CYAN_BACKGROUND, 
+			MathUtil.roundToPrecision(offsetR.target(), 3) + "f,", 
+			MathUtil.roundToPrecision(offsetG.target(), 3) + "f,", 
+			MathUtil.roundToPrecision(offsetB.target(), 3) + "f"
+		);
 	}
 
 	protected void updateBehavior() {
 		if(FrameLoop.frameModMinutes(0.3f)) {
-			curBehavior = MODE_BEHAVIOR.COLLECT;
-			curMode = randomMode();
-			for (int i = 0; i < NUM_CELLS; i++) cells[i].setPatternMode(curMode); // tell them to outro
+			curSystemMode = SYSTEM_MODE.COLLECT;
+			curPatternMode = randomMode();
+			for (int i = 0; i < NUM_CELLS; i++) cells[i].setPatternMode(curPatternMode); // tell them to outro
 			collectFrame = p.frameCount;
-			P.out("MODE_BEHAVIOR.COLLECT", curMode);
-			newColorOffsets();
+			P.out("MODE_BEHAVIOR.COLLECT", curPatternMode);
+			setColorIndex(MathUtil.randIndex(colorOffsets.length));
 		}
 		if(p.frameCount == collectFrame + 240) {
-			curBehavior = MODE_BEHAVIOR.BE_FREE;
+			curSystemMode = SYSTEM_MODE.BE_FREE;
 			P.out("MODE_BEHAVIOR.BE_FREE");
 		}
 	}
@@ -215,7 +304,11 @@ extends PAppletHax {
 			// draw shape
 			pg.push();
 			shape.disableStyle();
-			pg.fill(P.sin(i + offsetR.value()) * 127 + 127, P.sin(i + offsetG.value()) * 127 + 127, P.sin(i + offsetB.value()) * 127 + 127);
+			pg.fill(
+				P.sin(i * UI.valueEased(UI_R_OFFSET_MULT) + offsetR.value()) * 127 + 127, 
+				P.sin(i * UI.valueEased(UI_G_OFFSET_MULT) + offsetG.value()) * 127 + 127, 
+				P.sin(i * UI.valueEased(UI_B_OFFSET_MULT) + offsetB.value()) * 127 + 127
+			);
 			pg.translate(this.x, this.y, 0);
 			float curScale = (scale.value() != 1) ? 
 				Penner.easeInOutExpo(scale.value()) : 
@@ -244,7 +337,6 @@ extends PAppletHax {
 				shape.vertex(hoffOrthoFactor * cos(rads + segmentRads), hoffOrthoFactor * sin(rads + segmentRads), -hoffOrthoFactor);
 				// shape.attrib("shapeCenter", p.random(0, width));
 			}
-			shape.disableStyle();
 			shape.endShape();
 		}
 
@@ -262,7 +354,7 @@ extends PAppletHax {
 			scale.setInc(0.01f);
 			scale.update();
 			if(scale.value() == 0 && scale.target() == 0) {
-				this.mode = curMode;
+				this.mode = curPatternMode;
 				scale.setTarget(1);
 				// if(curBehavior == MODE_BEHAVIOR.COLLECT) 
 					resetParticle();
@@ -270,7 +362,7 @@ extends PAppletHax {
 		}
 
 		protected void updateMovement() {
-			if(curBehavior != MODE_BEHAVIOR.BE_FREE) return;
+			if(curSystemMode != SYSTEM_MODE.BE_FREE) return;
 			
 			this.speedX *= this.accelX;
 			this.speedY *= this.accelY;
@@ -416,5 +508,15 @@ extends PAppletHax {
 		RadialFlareFilter.instance().setIters(50);
 		RadialFlareFilter.instance().applyTo(pg);
 	}
-}
 
+	public void updatedNumber(String key, Number val) {
+		if(key.equals(UI_R)) { P.out(UI_R, val.floatValue()); offsetR.setTarget(val.floatValue()); }
+		if(key.equals(UI_G)) { P.out(UI_G, val.floatValue()); offsetG.setTarget(val.floatValue()); }
+		if(key.equals(UI_B)) { P.out(UI_B, val.floatValue()); offsetB.setTarget(val.floatValue()); }
+	}
+	public void updatedString(String key, String val) {}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
+
+}
