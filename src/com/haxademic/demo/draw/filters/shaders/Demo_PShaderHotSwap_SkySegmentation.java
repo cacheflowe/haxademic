@@ -38,6 +38,7 @@ extends PAppletHax {
 		UI.addSlider("uSmoothHigh", 1, 0f, 1, 0.01f, false);
 		UI.addSlider("uAlphaMapLow", 0, -1, 1f, 0.01f, false);
 		UI.addSlider("uAlphaMapHigh", 2, 0, 3, 0.01f, false);
+		UI.addSlider("uShowMask", 0, 0, 1, 0.01f, false);
 
 		imgFg = p.loadImage("D:\\workspace\\nike-wwc-sendoff-2023\\shader-test\\fg.png");
 		imgBg = p.loadImage("D:\\workspace\\nike-wwc-sendoff-2023\\shader-test\\bg.png");
@@ -62,6 +63,7 @@ extends PAppletHax {
 		shader.shader().set("uSmoothHigh", UI.value("uSmoothHigh"));
 		shader.shader().set("uAlphaMapLow", UI.value("uAlphaMapLow"));
 		shader.shader().set("uAlphaMapHigh", UI.value("uAlphaMapHigh"));
+		shader.shader().set("uShowMask", UI.value("uShowMask"));
 		shader.update();
 
 		// draw camera into buffer

@@ -8,7 +8,6 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
-// uniform sampler2D uSceneTexture;
 uniform sampler2D uMaskTexture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -18,8 +17,9 @@ const float bugYellowThresh = 0.25;
 uniform float uTime = 0.;
 uniform float uSmoothLow = 0.0;
 uniform float uSmoothHigh = 1.0;
-uniform float uAlphaMapLow = 0.0;
+uniform float uAlphaMapLow = -0.3;
 uniform float uAlphaMapHigh = 2.0;
+uniform float uShowMask = 0.0;
 
 float remap(float value, float low1, float high1, float low2, float high2) {
   return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
@@ -39,6 +39,7 @@ void main() {
     maskAdjust.r = 0.0;
   }
 
+  // calculate alpha from mask, with extra curves & remapping for feathering/threshold/sharpness
   float mapToAlpha = maskAdjust.r;
   if(uSmoothLow > 0.001) mapToAlpha = smoothstep(uSmoothLow, uSmoothHigh, mapToAlpha);
   mapToAlpha = remap(mapToAlpha, 0., 1., uAlphaMapLow, uAlphaMapHigh);
@@ -46,12 +47,16 @@ void main() {
   float finalAlpha = min(mapToAlpha, colorScene.a); // use mask alpha unless it's transparent
 
   // draw!
-  gl_FragColor.rgba = vec4(colorScene.rgb, finalAlpha);
+  vec4 finalColor = vec4(colorScene.rgb, finalAlpha);
+  gl_FragColor.rgba = finalColor;
 
+  // debug
+  if(uShowMask > 0.) {
+    gl_FragColor.rgba = mix(finalColor, colorMask, uShowMask);
+  }
 
   // debug views
   // if(finalAlpha < 0.9) gl_FragColor.rgba = mix(colorScene, colorMask, 1. - finalAlpha);
   // gl_FragColor.rgba = colorScene;
-  // if(vUv.x < 0.25) 
   // gl_FragColor.rgba = colorMask;
 }
