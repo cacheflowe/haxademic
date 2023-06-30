@@ -95,7 +95,7 @@ implements IAppStoreListener {
 		int appH = 1920;
 		Config.setAppSize(appW, appH);
 		Config.setPgSize(appW, appH);
-		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
 		Config.setProperty( AppSettings.SCREEN_X, 1920 );
 		Config.setProperty( AppSettings.SCREEN_Y, 0 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
