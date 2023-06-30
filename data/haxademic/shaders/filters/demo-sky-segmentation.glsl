@@ -29,7 +29,7 @@ void main() {
   vec2 vUv = vertTexCoord.xy;
   // vUv.y = 1. - vUv.y; // flip y
 
-  vec2 offsetAnim = vec2(cos(uTime/3.) * 0.01, sin(uTime) * 0.01);
+  vec2 offsetAnim = vec2(cos(uTime/2.) * 0.02, sin(uTime) * 0.02);
   vec4 colorScene = texture2D(texture, vUv + offsetAnim);
   vec4 colorMask = texture2D(uMaskTexture, vUv);
   vec4 maskAdjust = colorMask;
@@ -41,9 +41,9 @@ void main() {
 
   // calculate alpha from mask, with extra curves & remapping for feathering/threshold/sharpness
   float mapToAlpha = maskAdjust.r;
-  if(uSmoothLow > 0.001) mapToAlpha = smoothstep(uSmoothLow, uSmoothHigh, mapToAlpha);
   mapToAlpha = remap(mapToAlpha, 0., 1., uAlphaMapLow, uAlphaMapHigh);
   mapToAlpha = clamp(mapToAlpha, 0., 1.);
+  if(uSmoothLow > 0.001) mapToAlpha = smoothstep(uSmoothLow, uSmoothHigh, mapToAlpha);
   float finalAlpha = min(mapToAlpha, colorScene.a); // use mask alpha unless it's transparent
 
   // draw!
