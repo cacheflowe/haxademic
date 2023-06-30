@@ -40,8 +40,8 @@ implements IAppStoreListener {
 	
 	// TODO:
 	// Needs
-	// - Pick nice color sets
-	//   - Add proper offset multipliers to UI & easingFloat - is the multiplier the right thing here?
+	// - Sometimes have some of the particles assume an alternate mode of behavior
+	// - Add proper offset multipliers to UI & easingFloat - is the multiplier the right thing here?
 	// - Fix shape recycling vs new mode recycling
 	// - Add Uptime suite & move dashboard URL into run.properties
 	// Maybes
@@ -55,19 +55,18 @@ implements IAppStoreListener {
 	protected int NUM_CELLS = 888;
 	protected int CELL_DETAIL = 36;
 	protected VoronoiCell cells[] = new VoronoiCell[NUM_CELLS];
+	protected LinearFloat globalSpeedMult = new LinearFloat(1, 0.003f);
 
 	// colors
-	protected EasingFloat offsetR = new EasingFloat(0, 0.01f);
-	protected EasingFloat offsetG = new EasingFloat(1, 0.01f);
-	protected EasingFloat offsetB = new EasingFloat(2, 0.01f);
+	protected float colorEaseFactor = 0.01f;
+	protected EasingFloat offsetR = new EasingFloat(0, colorEaseFactor);
+	protected EasingFloat offsetG = new EasingFloat(1, colorEaseFactor);
+	protected EasingFloat offsetB = new EasingFloat(2, colorEaseFactor);
 	protected float[][] colorOffsets;
 	protected int colorSetIndex = 0;
 	protected String UI_R = "UI_R";
 	protected String UI_G = "UI_G";
 	protected String UI_B = "UI_B";
-	protected String UI_R_OFFSET_MULT = "UI_R_OFFSET_MULT";
-	protected String UI_G_OFFSET_MULT = "UI_G_OFFSET_MULT";
-	protected String UI_B_OFFSET_MULT = "UI_B_OFFSET_MULT";
 
 	// current particle arrangement & behavior
 	public enum MODE_PATTERN {
@@ -87,7 +86,6 @@ implements IAppStoreListener {
 		BE_FREE
 	}
 	protected SYSTEM_MODE curSystemMode = SYSTEM_MODE.COLLECT;
-	protected int collectFrame = 0;
 
 	protected PShader moveShader;
 
@@ -103,7 +101,7 @@ implements IAppStoreListener {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 		Config.setProperty( AppSettings.SHOW_UI, true );
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
-		Config.setProperty( AppSettings.LOOP_FRAMES, 600 );
+		Config.setProperty( AppSettings.LOOP_FRAMES, 1500 );
 	}
 
 	protected void firstFrame() {
@@ -125,12 +123,9 @@ implements IAppStoreListener {
 		// build UI
 		if(colorOffsets == null) {
 			UI.addTitle("Color Offsets");
-			UI.addSlider(UI_R, 0, 0, 1, 0.01f, false);
-			UI.addSlider(UI_G, 1, 0, 1, 0.01f, false);
-			UI.addSlider(UI_B, 2, 0, 1, 0.01f, false);
-			UI.addSlider(UI_R_OFFSET_MULT, 1, 0.995f, 1.005f, 0.0001f, false);
-			UI.addSlider(UI_G_OFFSET_MULT, 1, 0.995f, 1.005f, 0.0001f, false);
-			UI.addSlider(UI_B_OFFSET_MULT, 1, 0.995f, 1.005f, 0.0001f, false);
+			UI.addSlider(UI_R, 0, 0, P.TWO_PI, 0.01f, false);
+			UI.addSlider(UI_G, 1, 0, P.TWO_PI, 0.01f, false);
+			UI.addSlider(UI_B, 2, 0, P.TWO_PI, 0.01f, false);
 		}
 		// build array
 		colorOffsets = new float[][] {
@@ -155,7 +150,7 @@ implements IAppStoreListener {
 	protected void resetParticles(MODE_PATTERN mode) {
 		curPatternMode = mode;
 		for (int i = 0; i < NUM_CELLS; i++)
-			cells[i].resetParticle();
+			cells[i].setStartPosition();
 	}
 
 	protected void drawApp() {
@@ -178,9 +173,9 @@ implements IAppStoreListener {
 	}
 
 	protected void updateColorOffsets() {
-		offsetR.setEaseFactor(0.1f);
-		offsetG.setEaseFactor(0.1f);
-		offsetB.setEaseFactor(0.1f);
+//		offsetR.setEaseFactor(0.1f);
+//		offsetG.setEaseFactor(0.1f);
+//		offsetB.setEaseFactor(0.1f);
 		offsetR.update(true);
 		offsetG.update(true);
 		offsetB.update(true);
@@ -212,8 +207,8 @@ implements IAppStoreListener {
 		offsetG.setTarget(g);
 		offsetB.setTarget(b);
 		// print!
-		P.outColor(Console.YELLOW_BACKGROUND, "["+colorSetIndex+"]", r, g, b);
-		printColorOffsets();
+//		P.outColor(Console.YELLOW_BACKGROUND, "["+colorSetIndex+"]", r, g, b);
+//		printColorOffsets();
 	}
 
 	protected void printColorOffsets() {
@@ -226,17 +221,30 @@ implements IAppStoreListener {
 	}
 
 	protected void updateBehavior() {
-		if(FrameLoop.frameModMinutes(0.3f)) {
+		globalSpeedMult.update();
+		
+//		if(FrameLoop.frameModMinutes(0.3f)) {
+		if(FrameLoop.loopCurFrame() == 5) {
 			curSystemMode = SYSTEM_MODE.COLLECT;
+			
+			// make sure we get a new random pattern mode that's different
+			MODE_PATTERN lastMode = curPatternMode;
 			curPatternMode = randomMode();
-			for (int i = 0; i < NUM_CELLS; i++) cells[i].setPatternMode(curPatternMode); // tell them to outro
-			collectFrame = p.frameCount;
-			P.out("MODE_BEHAVIOR.COLLECT", curPatternMode);
+			while(lastMode == curPatternMode) curPatternMode = randomMode(); 
+			
+			// tell particles to outro
+			for (int i = 0; i < NUM_CELLS; i++) {
+				cells[i].nextPatternMode(curPatternMode); 
+			}
+			
+			// slow down for outro
 			setColorIndex(MathUtil.randIndex(colorOffsets.length));
+			globalSpeedMult.setTarget(0);
 		}
-		if(p.frameCount == collectFrame + 240) {
+//		if(p.frameCount == collectFrame + 240) {
+		if(FrameLoop.loopCurFrame() == 280) {
 			curSystemMode = SYSTEM_MODE.BE_FREE;
-			P.out("MODE_BEHAVIOR.BE_FREE");
+			globalSpeedMult.setTarget(1);
 		}
 	}
 
@@ -277,7 +285,8 @@ implements IAppStoreListener {
 		protected float speedX, speedY;
 		protected float accelX, accelY;
 		protected PShape shape;
-		protected MODE_PATTERN mode;
+		protected MODE_PATTERN curMode;
+		protected MODE_PATTERN queuedMode;
 
 		VoronoiCell(int i) {
 			this.i = i;
@@ -287,7 +296,7 @@ implements IAppStoreListener {
 			this.speedY = 0;
 			this.accelX = 1; 
 			this.accelY = 1;
-			resetParticle();
+			setStartPosition();
 		}
 		
 		public VoronoiCell setPosition(float x, float y) {
@@ -305,9 +314,9 @@ implements IAppStoreListener {
 			pg.push();
 			shape.disableStyle();
 			pg.fill(
-				P.sin(i * UI.valueEased(UI_R_OFFSET_MULT) + offsetR.value()) * 127 + 127, 
-				P.sin(i * UI.valueEased(UI_G_OFFSET_MULT) + offsetG.value()) * 127 + 127, 
-				P.sin(i * UI.valueEased(UI_B_OFFSET_MULT) + offsetB.value()) * 127 + 127
+				P.sin(i + offsetR.value()) * 127 + 127, 
+				P.sin(i + offsetG.value()) * 127 + 127, 
+				P.sin(i + offsetB.value()) * 127 + 127
 			);
 			pg.translate(this.x, this.y, 0);
 			float curScale = (scale.value() != 1) ? 
@@ -341,12 +350,13 @@ implements IAppStoreListener {
 		}
 
 		public void advance() {
+			checkRecycle();
 			updateScale();
 			updateMovement();
-			checkRecycle();
 		}
 
-		public void setPatternMode(MODE_PATTERN mode) {
+		public void nextPatternMode(MODE_PATTERN mode) {
+			queuedMode = mode;
 			scale.setDelay((int) p.random(0, 180)).setTarget(0);
 		}
 		
@@ -354,31 +364,35 @@ implements IAppStoreListener {
 			scale.setInc(0.01f);
 			scale.update();
 			if(scale.value() == 0 && scale.target() == 0) {
-				this.mode = curPatternMode;
+				boolean modeChanged = curMode != queuedMode; 
+				curMode = queuedMode;
 				scale.setTarget(1);
-				// if(curBehavior == MODE_BEHAVIOR.COLLECT) 
-					resetParticle();
+				if(modeChanged) {
+					setStartPosition();
+				} else {
+					recycle();
+				}
 			}
 		}
 
 		protected void updateMovement() {
-			if(curSystemMode != SYSTEM_MODE.BE_FREE) return;
+//			if(curSystemMode != SYSTEM_MODE.BE_FREE) return;
 			
 			this.speedX *= this.accelX;
 			this.speedY *= this.accelY;
-			this.x += this.speedX;
-			this.y += this.speedY;
+			this.x += this.speedX * globalSpeedMult.value();
+			this.y += this.speedY * globalSpeedMult.value();
 
-			if (mode == MODE_PATTERN.WATERFALL) {
+			if (curMode == MODE_PATTERN.WATERFALL) {
 				float heightProgress = this.y / pg.height;
 				this.x += P.sin(i + heightProgress) * heightProgress;
 			}
 		}
 
-		protected void resetParticle() {
+		protected void setStartPosition() {
 			age = 0;
 
-			if(mode == MODE_PATTERN.WATERFALL) {
+			if(curMode == MODE_PATTERN.WATERFALL) {
 				this.x = MathUtil.randRange(0, pg.width);
 				this.y = MathUtil.randRange(0, pg.height);
 				this.speedY = p.random(0.25f, 1f);
@@ -386,7 +400,7 @@ implements IAppStoreListener {
 				this.accelY = 1 + MathUtil.randRangeDecimal(0.005f, 0.01f);
 				this.accelX = 1f;
 			}
-			if(mode == MODE_PATTERN.RINGS) {
+			if(curMode == MODE_PATTERN.RINGS) {
 				float numVertices = 28;
 				float segmentRads = P.TWO_PI / numVertices;
 				float rads = i * segmentRads;
@@ -401,7 +415,7 @@ implements IAppStoreListener {
 				this.accelY = 1f;
 				this.accelX = 1f;
 			}
-			if(mode == MODE_PATTERN.SPIRAL) {
+			if(curMode == MODE_PATTERN.SPIRAL) {
 				float segmentRads = P.TWO_PI / 36;
 				float rads = p.frameCount * 0.004f + i * segmentRads;
 				float radius = i * 1.5f;
@@ -415,7 +429,7 @@ implements IAppStoreListener {
 				this.accelY = 1f;
 				this.accelX = 1f;
 			}
-			if(mode == MODE_PATTERN.GRID) {
+			if(curMode == MODE_PATTERN.GRID) {
 				int gridRes = P.floor(P.sqrt(NUM_CELLS));
 				float spacingH = pg.width / gridRes * 1.1f;
 				float spacingV = pg.height / gridRes * 1.1f;
@@ -438,19 +452,27 @@ implements IAppStoreListener {
 		}
 
 		protected void checkRecycle() {
-			if(mode == MODE_PATTERN.WATERFALL) {
-				if (this.y > pg.height * 1.5f) {
-					this.y = -pg.height * 0.1f;
-					this.speedY = p.random(0.25f, 1f);
-					this.accelY = 1 + MathUtil.randRangeDecimal(0.01f, 0.015f);
-					scale.setCurrent(0).setTarget(0);	// set cleanup via scale updates!
+			if(curMode == MODE_PATTERN.WATERFALL) {
+				if (this.y > pg.height * 1.25f) {
+					scale.setTarget(0);	// set cleanup via scale updates!
 				}
 			}
-			if(mode == MODE_PATTERN.RINGS || mode == MODE_PATTERN.SPIRAL) {
-				if(MathUtil.getDistance(this.x, this.y, pg.width / 2, pg.height / 2) > pg.width * 0.7f) {
-					setPosition(pg.width / 2, pg.height / 2);
-					scale.setCurrent(0).setTarget(0);	// set cleanup via scale updates!
+			if(curMode == MODE_PATTERN.RINGS || curMode == MODE_PATTERN.SPIRAL) {
+				if(MathUtil.getDistance(this.x, this.y, pg.width / 2, pg.height / 2) > pg.width * 0.8f) {
+					scale.setTarget(0);	// set cleanup via scale updates!
 				}
+			}
+		}
+		
+		protected void recycle() {
+			if(curMode == MODE_PATTERN.WATERFALL) {
+				this.x = MathUtil.randRange(0, pg.width);
+				this.y = -pg.height * 0.2f;
+				this.speedY = p.random(0.25f, 1f);
+				this.accelY = 1 + MathUtil.randRangeDecimal(0.01f, 0.015f);
+			}
+			if(curMode == MODE_PATTERN.RINGS || curMode == MODE_PATTERN.SPIRAL) {
+				setPosition(pg.width / 2, pg.height / 2);
 			}
 		}
 	}
@@ -510,9 +532,9 @@ implements IAppStoreListener {
 	}
 
 	public void updatedNumber(String key, Number val) {
-		if(key.equals(UI_R)) { P.out(UI_R, val.floatValue()); offsetR.setTarget(val.floatValue()); }
-		if(key.equals(UI_G)) { P.out(UI_G, val.floatValue()); offsetG.setTarget(val.floatValue()); }
-		if(key.equals(UI_B)) { P.out(UI_B, val.floatValue()); offsetB.setTarget(val.floatValue()); }
+		if(key.equals(UI_R)) { offsetR.setTarget(val.floatValue()); }
+		if(key.equals(UI_G)) { offsetG.setTarget(val.floatValue()); }
+		if(key.equals(UI_B)) { offsetB.setTarget(val.floatValue()); }
 	}
 	public void updatedString(String key, String val) {}
 	public void updatedBoolean(String key, Boolean val) {}
