@@ -98,9 +98,9 @@ implements IAppStoreListener {
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 		Config.setProperty( AppSettings.SCREEN_X, 1920 );
 		Config.setProperty( AppSettings.SCREEN_Y, 0 );
-		Config.setProperty( AppSettings.SHOW_DEBUG, true );
-		Config.setProperty( AppSettings.SHOW_UI, true );
-		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
+		Config.setProperty( AppSettings.SHOW_DEBUG, false );
+		Config.setProperty( AppSettings.SHOW_UI, false );
+		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, false );
 		Config.setProperty( AppSettings.LOOP_FRAMES, 1500 );
 	}
 
