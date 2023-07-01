@@ -63,7 +63,7 @@ public class AppSettings {
 	// input
 	public static final String DISABLE_ESC_KEY = "disable_esc";
 	// Debugging
-	public static final String SHOW_DEBUG = "show_stats";
+	public static final String SHOW_DEBUG = "show_debug";
 	public static final String SHOW_UI = "show_ui";
 	public static final String SHOW_FPS_IN_TITLE = "show_fps_in_title";
 }
