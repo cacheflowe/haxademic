@@ -11,7 +11,6 @@ import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.ui.UITextInput;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PJOGL;
@@ -62,8 +61,8 @@ implements IAppStoreListener {
 		boolean fullScreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
 		boolean fillsScreen = Config.getBoolean(AppSettings.FILLS_SCREEN, false);
 		int fullScreenScreenNumber = Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1);
-		int appW = Config.getInt(AppSettings.WIDTH, 800);
-		int appH = Config.getInt(AppSettings.HEIGHT, 600);
+		int appW = Config.getInt(AppSettings.WIDTH, 1280);
+		int appH = Config.getInt(AppSettings.HEIGHT, 720);
 		String pdfOutputFile = Config.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf");
 
 		// opengl settings
