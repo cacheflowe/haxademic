@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.AudioUtil;
 
 import beads.AudioContext;
@@ -370,11 +371,19 @@ public class WavPlayer {
 		float skipFrames = SampleFrames[0].length / 512f;
 		int x = 0;
 		int h = pg.height;
+		
+		// draw to buffer
+		pg.beginDraw();
+		pg.background(0);
+		pg.fill(255);
+		PG.setDrawCenter(pg);
+		pg.translate(0, pg.height / 2);
 		for (float i = 0; i < SampleFrames[0].length; i+=skipFrames) {
 			pg.fill(255);
 			pg.rect(x, 0, 1, h * SampleFrames[0][P.floor(i)]);
 			x++;
 		}
+		pg.endDraw();
 	}
 	
 }

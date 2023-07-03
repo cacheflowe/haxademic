@@ -37,6 +37,7 @@ implements IAppStoreListener {
 	protected String UI_BREAK_DIVIDER = "UI_BREAK_DIVIDER";
 //	protected String beat1 = "data/audio/breakbeats/dnb_loop006.wav";
 	protected String beat1 = "data/audio/breakbeats/fish-loop.wav";
+	protected PGraphics waveformPG;
 	protected WavPlayer player;
 	protected MidiDevice knobs;
 
@@ -68,22 +69,25 @@ implements IAppStoreListener {
 		// beat loop
 		AudioContext acInterphase = Metronome.ac;
 		player = new WavPlayer(acInterphase);
+		waveformPG = PG.newPG(256, 64);
 		UI.addSlider(UI_BREAK_DIVIDER, 4, 1, 16, 1, false);
 	}
 	
 	protected void drawApp() {
-		p.background(0);
+		// draw sound in pre()
+		player.drawWav(waveformPG, beat1);
+
+		// draw main app
+		p.background(30);
 		p.noStroke();
 		PG.setDrawCorner(p);
 
-		interphase.update(p.g);
+		interphase.update();
+		// interphase.update(p.g);
 		
 		// keep loop synced
 		float bpm = P.store.getNumber(Interphase.BPM).floatValue();
 		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, UI.valueInt(UI_BREAK_DIVIDER));
-		
-		// draw sound?
-//		player.drawWav(p.g, beat1);
 		
 		// add reverb
 		for (int i = 0; i < interphase.numChannels(); i++) {
@@ -91,6 +95,15 @@ implements IAppStoreListener {
 			seq.reverb(10.0f, 0.75f);
 			// if(i == 0) seq.reverb(5f, 0.9f);
 		}
+
+		// draw waveform to screen
+		p.push();
+		p.translate(p.width/2 - waveformPG.width/2, p.height/2 - waveformPG.height/2);
+		p.image(waveformPG, 0, 0);
+		float progress = player.progress(beat1);
+		p.fill(255);
+		p.rect(waveformPG.width * progress, 0, 2, waveformPG.height);
+		p.pop();
 	}
 	
 

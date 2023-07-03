@@ -339,13 +339,7 @@ implements IAppStoreListener {
 	protected void updateSampleWaveform() {
 		if (sampleWaveformDirty) {
 			sampleWaveformDirty = false;
-			sampleWaveformPG.beginDraw();
-			sampleWaveformPG.background(0);
-			sampleWaveformPG.fill(255);
-			PG.setDrawCenter(sampleWaveformPG);
-			sampleWaveformPG.translate(0, sampleWaveformPG.height / 2);
 			WavPlayer.drawWav(sampleWaveformPG, curSample);
-			sampleWaveformPG.endDraw();
 		}
 	}
 
