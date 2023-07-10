@@ -226,27 +226,36 @@ implements IAppStoreListener {
 		
 //		if(FrameLoop.frameModMinutes(0.3f)) {
 		if(FrameLoop.loopCurFrame() == 5) {
-			curSystemMode = SYSTEM_MODE.COLLECT;
-			
-			// make sure we get a new random pattern mode that's different
-			MODE_PATTERN lastMode = curPatternMode;
-			curPatternMode = randomMode();
-			while(lastMode == curPatternMode) curPatternMode = randomMode(); 
-			
-			// tell particles to outro
-			for (int i = 0; i < NUM_CELLS; i++) {
-				cells[i].nextPatternMode(curPatternMode); 
-			}
-			
-			// slow down for outro
-			setColorIndex(MathUtil.randIndex(colorOffsets.length));
-			globalSpeedMult.setTarget(0);
+			transitionToNewMode();
 		}
 //		if(p.frameCount == collectFrame + 240) {
 		if(FrameLoop.loopCurFrame() == 280) {
-			curSystemMode = SYSTEM_MODE.BE_FREE;
-			globalSpeedMult.setTarget(1);
+			releaseInNewMode();
 		}
+	}
+
+	protected void transitionToNewMode() {
+		curSystemMode = SYSTEM_MODE.COLLECT;
+		
+		// make sure we get a new random pattern mode that's different
+		MODE_PATTERN lastMode = curPatternMode;
+		curPatternMode = randomMode();
+		while(lastMode == curPatternMode) curPatternMode = randomMode(); 
+		
+		// tell particles to outro
+		for (int i = 0; i < NUM_CELLS; i++) {
+			cells[i].nextPatternMode(curPatternMode); 
+		}
+
+		
+		// slow down for outro
+		setColorIndex(MathUtil.randIndex(colorOffsets.length));
+		globalSpeedMult.setTarget(0);
+	}
+	
+	protected void releaseInNewMode() {
+		curSystemMode = SYSTEM_MODE.BE_FREE;
+		globalSpeedMult.setTarget(1);
 	}
 
 	protected MODE_PATTERN randomMode() {
