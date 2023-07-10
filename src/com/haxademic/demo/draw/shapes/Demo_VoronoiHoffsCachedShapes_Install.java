@@ -14,6 +14,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.ColorCorrectionFilter;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.filters.pshader.GodRays;
 import com.haxademic.core.draw.filters.pshader.RadialFlareFilter;
@@ -40,11 +41,10 @@ implements IAppStoreListener {
 	
 	// TODO:
 	// Needs
-	// - Sometimes have some of the particles assume an alternate mode of behavior
+	// - Sometimes some of the particles should assume an alternate mode of behavior for variety
 	// - Add proper offset multipliers to UI & easingFloat - is the multiplier the right thing here?
 	// - Fix shape recycling vs new mode recycling
 	// - Add Uptime suite & move dashboard URL into run.properties
-	// - Add brightness/contrast controls for final output
 	// Maybes
 	// - add UI for different modes
 	// - add more movement modes
@@ -108,6 +108,7 @@ implements IAppStoreListener {
 		buildParticles();
 		buildFakeLighting();
 		buildColorOffsets();
+		ColorCorrectionFilter.instance().buildUI(COLOR_CORRECTION_ID, true);
 		// loadVertexShader();
 		P.store.addListener(this);
 	}
@@ -269,6 +270,7 @@ implements IAppStoreListener {
 
 	protected void applyPostEffects() {
 		applyLighting();
+		applyColorCorrection();
 	}
 
 
@@ -486,6 +488,7 @@ implements IAppStoreListener {
 	protected PGraphics pgLightingBlur;
 	protected String FILTER_ACTIVE = "FILTER_ACTIVE";
 	protected String LIGHTING_ID = "FAKELIGHT_";
+	protected String COLOR_CORRECTION_ID = "COLOR_";
 
 	protected void buildFakeLighting() {
 		FakeLightingFilter.instance().buildUI(LIGHTING_ID, false);
@@ -530,6 +533,15 @@ implements IAppStoreListener {
 		RadialFlareFilter.instance().setIters(50);
 		RadialFlareFilter.instance().applyTo(pg);
 	}
+
+	protected void applyColorCorrection() {
+		ColorCorrectionFilter.instance().setPropsFromUI(COLOR_CORRECTION_ID);
+		ColorCorrectionFilter.instance().applyTo(pg);
+	}
+
+	////////////////////////////////////////////////////
+	// AppStore listeners
+	////////////////////////////////////////////////////
 
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(UI_R)) { offsetR.setTarget(val.floatValue()); }
