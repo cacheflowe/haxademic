@@ -42,14 +42,15 @@ implements IAppStoreListener {
 	// TODO:
 	// Needs
 	// - Sometimes some of the particles should assume an alternate mode of behavior for variety
-	// - Add proper offset multipliers to UI & easingFloat - is the multiplier the right thing here?
-	// - Fix shape recycling vs new mode recycling
+	// - Hole in new pattern animation before releasing particles
+	// - Clean up recycling vs new mode recycling
 	// - Add Uptime suite & move dashboard URL into run.properties
+	// - Add 5x grid placement mode
 	// Maybes
 	// - add UI for different modes
 	// - add more movement modes
-	// - use vertex shader to move grouped shapes - will be a big change
 	// - add different color cycling modes/evolution
+	// - use vertex shader to move grouped shapes - will be a big change
 
 	// particles
 	protected float hoffOrthoFactor;
@@ -150,8 +151,10 @@ implements IAppStoreListener {
 
 	protected void resetParticles(MODE_PATTERN mode) {
 		curPatternMode = mode;
-		for (int i = 0; i < NUM_CELLS; i++)
+		for (int i = 0; i < NUM_CELLS; i++) {
 			cells[i].setStartPosition();
+			cells[i].nextPatternMode(curPatternMode);
+		}
 	}
 
 	protected void drawApp() {
@@ -465,12 +468,12 @@ implements IAppStoreListener {
 		protected void checkRecycle() {
 			if(curMode == MODE_PATTERN.WATERFALL) {
 				if (this.y > pg.height * 1.25f) {
-					scale.setTarget(0);	// set cleanup via scale updates!
+					scale.setTarget(0);
 				}
 			}
 			if(curMode == MODE_PATTERN.RINGS || curMode == MODE_PATTERN.SPIRAL) {
 				if(MathUtil.getDistance(this.x, this.y, pg.width / 2, pg.height / 2) > pg.width * 0.8f) {
-					scale.setTarget(0);	// set cleanup via scale updates!
+					scale.setTarget(0);
 				}
 			}
 		}
@@ -514,10 +517,10 @@ implements IAppStoreListener {
 		BlurVFilter.instance().setBlurByPercent(1, pgLightingBlur.height);
 		BlurHFilter.instance().applyTo(pgLightingBlur);
 		BlurVFilter.instance().applyTo(pgLightingBlur);
-		BlurHFilter.instance().applyTo(pgLightingBlur);
-		BlurVFilter.instance().applyTo(pgLightingBlur);
-		BlurHFilter.instance().applyTo(pgLightingBlur);
-		BlurVFilter.instance().applyTo(pgLightingBlur);
+		// BlurHFilter.instance().applyTo(pgLightingBlur);
+		// BlurVFilter.instance().applyTo(pgLightingBlur);
+		// BlurHFilter.instance().applyTo(pgLightingBlur);
+		// BlurVFilter.instance().applyTo(pgLightingBlur);
 		DebugView.setTexture("pgLightingBlur", pgLightingBlur);
 
 		// apply lighting effect to main drawing
