@@ -44,6 +44,7 @@ implements IAppStoreListener {
 	// - Add proper offset multipliers to UI & easingFloat - is the multiplier the right thing here?
 	// - Fix shape recycling vs new mode recycling
 	// - Add Uptime suite & move dashboard URL into run.properties
+	// - Add brightness/contrast controls for final output
 	// Maybes
 	// - add UI for different modes
 	// - add more movement modes
@@ -90,7 +91,6 @@ implements IAppStoreListener {
 	protected PShader moveShader;
 
 	protected void config() {
-		int scaleUp = 1;
 		int appW = 1080 * 2;
 		int appH = 1920;
 		Config.setAppSize(appW, appH);
