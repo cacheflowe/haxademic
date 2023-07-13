@@ -2,14 +2,26 @@
 // Made possible with support from The Frank-Ratchye STUDIO For Creative Inquiry
 // At Carnegie Mellon University. http://studioforcreativeinquiry.org/
 // from: https://gist.github.com/LingDong-/09d4e65d0c320246b950206db1382092
-
+// And then merged with Patricio's Lygia poisson fill shader by @cacheflowe
+// https://github.com/patriciogonzalezvivo/lygia/blob/main/morphological/poissonFill.glsl
 // #define PROCESSING_COLOR_SHADER
+
+uniform sampler2D texture;
+uniform vec2 texOffset;
+varying vec4 vertColor;
+varying vec4 vertTexCoord;
 
 uniform sampler2D unf;
 uniform sampler2D fil;
 uniform int w;
 uniform int h;
 uniform bool isup;
+
+const float[] h1arr = float[](1.0334, 0.6836, 0.1507);
+const float[] garr = float[](0.7753, 0.0312);
+int absi(int x) {
+  return ( (x < 0)? x * -1 : x );
+}
 
 float h1(int i){
   if (i == 0 || i == 4){
@@ -29,7 +41,6 @@ float G(int i){
 }
 
 void main() {
-
   float ab = 0.0;
 
   vec2 step = 1.0 / vec2(float(w),float(h));
@@ -37,65 +48,37 @@ void main() {
   int j = int(gl_FragCoord.x+0.5);
 
   if (!isup){
-
-    int x = (j);
-    int y = (i);
-
-    vec4 acc = vec4(0.0,0.0,0.0,0.0);
-    for (int dy = -2; dy <= 2; dy++) {
-        for (int dx = -2; dx <= 2; dx++) {
-            int nx = x + dx;
-            int ny = y + dy;
-            vec4 col = texture2D(unf, vec2((float(nx)) * step.x, (float(ny)) * step.y));
-
-            acc.r += h1(dx+2) * h1(dy+2) * (col.r*floor(col.a+ab));
-            acc.g += h1(dx+2) * h1(dy+2) * (col.g*floor(col.a+ab));
-            acc.b += h1(dx+2) * h1(dy+2) * (col.b*floor(col.a+ab));
-            acc.a += h1(dx+2) * h1(dy+2) * floor(col.a+ab);
-        }
+    vec4 acc = vec4(0.0);
+    for(int dy = -2; dy <= 2; dy++) {
+      for(int dx = -2; dx <= 2; dx++) {
+        vec2 uv = (gl_FragCoord.xy + vec2(dx, dy)) * step;
+        if(uv.x <= 0.0 || uv.x >= 1.0 || uv.y <= 0.0 || uv.y >= 1.0)
+          continue;
+        vec4 col = texture2D(unf, uv);
+        acc += col * h1arr[absi(dx)] * h1arr[absi(dy)];
+      }
     }
-    if (acc.a == 0.0){
-      gl_FragColor = acc;
-    }else{
-      gl_FragColor = vec4(acc.r/acc.a,acc.g/acc.a,acc.b/acc.a,1.0);
-    }
+    gl_FragColor = (acc.a == 0.0) ? acc : vec4(acc.rgb / acc.a, 1.0);
     
-  }else{
+  } else {
     float h2 = 0.0270;
 
-    vec4 acc = vec4(0.0,0.0,0.0,0.0);
+    vec4 acc = vec4(0.0);
     for (int dy = -1; dy <= 1; dy++) {
         for (int dx = -1; dx <= 1; dx++) {
-            int nx = j + dx;
-            int ny = i + dy;
-
-
-            vec4 col = texture2D(unf, 1.0*vec2((float(nx)-0.75) * step.x, (float(ny)-0.75) * step.y));
-
-            acc.r += G(dx+1) * G(dy+1) * (col.r*floor(col.a+ab));
-            acc.g += G(dx+1) * G(dy+1) * (col.g*floor(col.a+ab));
-            acc.b += G(dx+1) * G(dy+1) * (col.b*floor(col.a+ab));
-            acc.a += G(dx+1) * G(dy+1) * floor(col.a+ab);
+            vec2 uv = (gl_FragCoord.xy + vec2(dx, dy)) * step;
+            vec4 col = texture2D(unf, uv);
+            acc += col * garr[absi(dx)] * garr[absi(dy)];
         }
     }
     for (int dy = -2; dy <= 2; dy++) {
         for (int dx = -2; dx <= 2; dx++) {
-            float nx = float(j) + float(dx)*1.0;
-            float ny = float(i) + float(dy)*1.0;
-  
-            vec4 col = texture2D(fil, 1.0*vec2((float(nx)-0.75) * step.x, (float(ny)-0.75) * step.y));
-
-            acc.r += h2 * h1(dx+2) * h1(dy+2) * (col.r*floor(col.a+ab));
-            acc.g += h2 * h1(dx+2) * h1(dy+2) * (col.g*floor(col.a+ab));
-            acc.b += h2 * h1(dx+2) * h1(dy+2) * (col.b*floor(col.a+ab));
-            acc.a += h2 * h1(dx+2) * h1(dy+2) * floor(col.a+ab);
+            vec2 uv = (gl_FragCoord.xy + vec2(dx, dy)) * step;
+            vec4 col = texture2D(fil, uv);
+            acc += col * h2 * h1arr[absi(dx)] * h1arr[absi(dy)];
         }
     }
-    if (acc.a == 0.0){
-      gl_FragColor = acc;
-    }else{
-      gl_FragColor = vec4(acc.r/acc.a,acc.g/acc.a,acc.b/acc.a,1.0);
-    }
+    gl_FragColor = (acc.a == 0.0) ? acc : vec4(acc.rgb / acc.a, 1.0);
   }
 }
 

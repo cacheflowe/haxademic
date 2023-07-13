@@ -3,8 +3,11 @@ package com.haxademic.core.draw.filters.pshader;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.system.Console;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -18,23 +21,31 @@ import processing.opengl.PShader;
  */
 
 public class PoissonFill{
-	PShader shader1;
-	PShader shader2;
+	protected PShader shader1;
+	protected PShader shader2;
 
-	public ArrayList<PGraphics> downs;
-	public ArrayList<PGraphics> ups;
+	protected ArrayList<PGraphics> downs;
+	protected ArrayList<PGraphics> ups;
 
-	int w;
-	int h;
-	public int depth;
+	protected int w;
+	protected int h;
+	protected int depth;
+
+	protected int buffIndex = 0;
+
+	public PoissonFill(int _w, int _h) {
+		this(_w, _h, P.floor(P.log(P.min(_w,_h))/P.log(2))-1);
+	}
+	
 
 	public PoissonFill(int _w, int _h, int _depth){    
 		w = _w;
 		h = _h;
 		depth = _depth;
+		P.outColor(Console.CYAN_BOLD, "PoissonFill()", w, h, depth);
 
-		shader1 = shader2way();
-		shader2 = shader2way();
+		shader1 = poissonStepShader();
+		shader2 = poissonStepShader();
 		downs = new ArrayList<PGraphics>();
 		ups = new ArrayList<PGraphics>();
 		for (int i = 0; i < depth; i++){
@@ -42,54 +53,55 @@ public class PoissonFill{
 			_w/=2;
 			_h/=2;
 		}
-		for (int i = 0; i < depth; i++){
-			_w*=2;
-			_h*=2;
-			ups.add(buffer(_w, _h));
+		// modified to keep same texture sizes as downs
+		// original version scaled back up by multiplying, and sizes lost precision when scaling down above
+		for (int i = 0; i < downs.size(); i++){
+			int revIndex = downs.size()-i-1;
+			ups.add(buffer(downs.get(revIndex).width, downs.get(revIndex).height));
 		}
-	}
-	
-	public PoissonFill(int _w, int _h){
-		this(_w,_h,P.floor(P.log(P.min(_w,_h))/P.log(2))-1);
 	}
 	
 	protected PGraphics buffer(int w, int h) {
 		PGraphics newPG = PG.newPG(w, h, false, true);
 //		newPG.hint(PApplet.DISABLE_TEXTURE_MIPMAPS);
+		OpenGLUtil.setTextureQualityHigh(newPG);;
 		PG.setTextureRepeat(newPG, false);
+		// debug
+		DebugView.setTexture("poisson_"+buffIndex, newPG);
+		buffIndex++;
 		return newPG;
 	}
 	
-	protected PShader shader2way(){
+	protected PShader poissonStepShader() {
 		return P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/poisson-fill.glsl"));
 	}
 	
-	public void applyTo(PImage tex){
+	public void applyTo(PImage tex) {
 		int i;
-		pass(shader1,downs.get(0),tex,null);
+		pass(shader1, downs.get(0), tex, null);
 		for (i = 1; i < depth; i++) {
-			pass(shader1,downs.get(i),downs.get(i-1),null);
+			pass(shader1, downs.get(i), downs.get(i-1), null);
 		}
-		pass(shader2,ups.get(0),downs.get(depth-2),downs.get(depth-1));
+		pass(shader2, ups.get(0), downs.get(depth-2), downs.get(depth-1));
 		for (i = 1; i < depth-1; i++) {
-			pass(shader2,ups.get(i),downs.get(depth-i-2),ups.get(i-1));
+			pass(shader2, ups.get(i), downs.get(depth-i-2), ups.get(i-1));
 		}
-		pass(shader2,ups.get(depth-1),tex,ups.get(depth-2));
+		pass(shader2, ups.get(depth-1), tex, ups.get(depth-2));
 	}
 
 	public PImage output(){
 		return ups.get(depth-1);
 	}
 
-	void pass(PShader shader, PGraphics pg, PImage tex1, PImage tex2){
+	void pass(PShader shader, PGraphics pg, PImage tex1, PImage tex2) {
 		pg.beginDraw();
 		shader.set("unf", tex1);
 		if (tex2 != null){
 			shader.set("fil", tex2);
 		}
 		shader.set("isup", tex2 != null);
-		shader.set("w",pg.width);
-		shader.set("h",pg.height);
+		shader.set("w", pg.width);
+		shader.set("h", pg.height);
 		pg.clear();
 		pg.noStroke();
 		pg.fill(255);

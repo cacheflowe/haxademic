@@ -17,7 +17,7 @@ extends PAppletHax {
 	protected PoissonFill poisson;
 	
 	protected void config() {
-		Config.setAppSize(1024, 1024);
+		Config.setAppSize(1024, 720);
 	}
 
 	protected void drawApp() {
@@ -79,15 +79,15 @@ extends PAppletHax {
 		// line 2
 		pg.push();
 		pg.fill(255);
-		pg.rect(0, FrameLoop.osc(0.08f,  -400,  400), 200, 5);
+		pg.rect(0, FrameLoop.osc(0.02f,  -300,  300), 200, 5);
 		pg.pop();
 
 		// circle
 		pg.push();
 		pg.fill(255,255,0);
-		pg.stroke(0);
-		pg.strokeWeight(10);
-		pg.circle(-350, FrameLoop.osc(0.15f,  -100,  100), 100);
+		pg.stroke(127);
+		pg.strokeWeight(2);
+		pg.circle(-350, FrameLoop.osc(0.05f,  -100,  100), 100);
 		pg.pop();
 		
 		pg.pop();
