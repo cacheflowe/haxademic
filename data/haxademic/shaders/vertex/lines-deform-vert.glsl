@@ -13,6 +13,7 @@ attribute vec2 texCoord;
 varying vec2 center;
 varying vec2 normal;
 varying vec4 vertColor;
+varying vec4 vertColorMap;
 varying vec4 vertTexCoord;
 
 uniform float weight = 10.;
@@ -22,6 +23,7 @@ uniform float displaceAmp;
 uniform float modelMaxExtent = 500.;
 uniform int colorThickness = 0;
 uniform int sheet = 0;
+uniform bool flipY = false;
 
 #define PROCESSING_LINE_SHADER
 
@@ -37,10 +39,13 @@ void main() {
 
   // get/pass colors
   vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
-  vec4 texDisplace = texture2D( displacementMap, 0.5 + position.xy / modelMaxExtent ); // rgba color
-  vec4 texColor = texture2D( colorMap, 0.5 + position.xy / modelMaxExtent ); // displacement color
+  vec2 uv = position.xy;
+  if(flipY) uv.y = 1.0 - uv.y;
+  vec4 texDisplace = texture2D( displacementMap, 0.5 + uv / modelMaxExtent ); // rgba color
+  vec4 texColor = texture2D( colorMap, 0.5 + uv / modelMaxExtent ); // displacement color
   // texColor = vec4(0., 1., 0., 1.);
-  vertColor = texColor;
+  vertColor = texColor; 
+  vertColorMap = texDisplace;
 
   // displace
   if(sheet == 1) {
@@ -55,7 +60,7 @@ void main() {
   vec4 clip0 = transform * posUpdated;
   vec4 clip1 = clip0 + transform * vec4(direction.xyz, 0);
   float thickness = direction.w * weight;  // weight added by @cacheflowe
-  if(colorThickness == 1) thickness *= texColor.r;
+  if(colorThickness == 1) thickness *= (1. + texColor.r);
 
   // clip0.z = 10.;
   // clip1.z = 500.;

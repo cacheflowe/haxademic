@@ -27,6 +27,7 @@ extends BaseVertexShader {
 		setModelMaxExtent(1000);
 		setSheetMode(true);
 		setColorThicknessMode(true);
+		setFlipY(false);
 	}
 	
 	public static LinesDeformAndTextureFilter instance() {
@@ -61,6 +62,14 @@ extends BaseVertexShader {
 	
 	public void setColorThicknessMode(boolean colorThickness) {
 		shader.set("colorThickness", (colorThickness) ? 1 : 0);
+	}
+	
+	public void setFlipY(boolean flipY) {
+		shader.set("flipY", flipY);
+	}
+
+	public void setBgRemove(boolean bgRemove) {
+		shader.set("bgRemove", bgRemove);
 	}
 
 }	
