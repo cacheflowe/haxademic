@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.PoissonFill;
@@ -34,8 +35,12 @@ extends PAppletHax {
 		// init & apply poisson fill
 		if(Mouse.xNorm > 0.25f) {
 			if(poisson == null) poisson = new PoissonFill(pg.width, pg.height);
-			poisson.applyTo(pg);
+			poisson.applyTo(pg, true);
 			p.image(poisson.output(), 0, 0);
+
+			// if using blur, let's draw the original texture on top
+			p.blendMode(PBlendModes.SCREEN);
+			p.image(pg, 0, 0);
 			
 			// set to 
 			DebugView.setTexture("output", poisson.output());
@@ -85,7 +90,7 @@ extends PAppletHax {
 		// circle
 		pg.push();
 		pg.fill(255,255,0);
-		pg.stroke(127);
+		pg.stroke(0);
 		pg.strokeWeight(2);
 		pg.circle(-350, FrameLoop.osc(0.05f,  -100,  100), 100);
 		pg.pop();

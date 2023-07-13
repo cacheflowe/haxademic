@@ -77,23 +77,27 @@ public class PoissonFill{
 	}
 	
 	public void applyTo(PImage tex) {
+		applyTo(tex, false);
+	}
+
+	public void applyTo(PImage tex, boolean blurs) {
 		int i;
-		pass(shader1, downs.get(0), tex, null);
+		pass(shader1, downs.get(0), tex, null, blurs);
 		for (i = 1; i < depth; i++) {
-			pass(shader1, downs.get(i), downs.get(i-1), null);
+			pass(shader1, downs.get(i), downs.get(i-1), null, blurs);
 		}
-		pass(shader2, ups.get(0), downs.get(depth-2), downs.get(depth-1));
+		pass(shader2, ups.get(0), downs.get(depth-2), downs.get(depth-1), blurs);
 		for (i = 1; i < depth-1; i++) {
-			pass(shader2, ups.get(i), downs.get(depth-i-2), ups.get(i-1));
+			pass(shader2, ups.get(i), downs.get(depth-i-2), ups.get(i-1), blurs);
 		}
-		pass(shader2, ups.get(depth-1), tex, ups.get(depth-2));
+		pass(shader2, ups.get(depth-1), tex, ups.get(depth-2), blurs);
 	}
 
 	public PImage output(){
 		return ups.get(depth-1);
 	}
 
-	void pass(PShader shader, PGraphics pg, PImage tex1, PImage tex2) {
+	void pass(PShader shader, PGraphics pg, PImage tex1, PImage tex2, boolean blurs) {
 		pg.beginDraw();
 		shader.set("unf", tex1);
 		if (tex2 != null){
@@ -107,6 +111,14 @@ public class PoissonFill{
 		pg.fill(255);
 		pg.shader(shader);
 		pg.rect(0, 0, pg.width, pg.height);
+		if(blurs) {
+			float blurAmp = (pg.width / (float) w);
+			blurAmp = P.map(blurAmp, 0, 1, 0.75f, 1);
+			// blurAmp = 1;
+			BlurProcessingFilter.instance().setSigma(20 * blurAmp);
+			BlurProcessingFilter.instance().setBlurSize(P.ceil(10 * blurAmp));
+			BlurProcessingFilter.instance().applyTo(pg);
+		}
 		pg.endDraw();
 	}
 
