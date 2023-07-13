@@ -9,10 +9,13 @@ uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 uniform int flip = 0;
+uniform float smoothstepLow = 0.0;
+uniform float smoothstepHigh = 1.0;
 
 void main() {
     vec4 color = texture2D( texture, vec2( vertTexCoord.x, vertTexCoord.y ) );
     float alpha = (color.r + color.g + color.b) / 3.0;
+    alpha = smoothstep(smoothstepLow, smoothstepHigh, alpha);
     if(flip == 1) alpha = 1.0 - alpha;
     gl_FragColor = vec4(color.rgb, alpha * color.a);
 }

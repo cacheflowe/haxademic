@@ -10,6 +10,8 @@ extends BaseFragmentShader {
 	public BrightnessToAlphaFilter() {
 		super("haxademic/shaders/filters/brightness-to-alpha.glsl");
 		setFlip(false);
+		setSmoothstepLow(0);
+		setSmoothstepHigh(1);
 	}
 	
 	public static BrightnessToAlphaFilter instance() {
@@ -20,6 +22,14 @@ extends BaseFragmentShader {
 	
 	public void setFlip(boolean flip) {
 		shader.set("flip", (flip == true) ? 1 : 0);
+	}
+	
+	public void setSmoothstepLow(float smoothstepLow) {
+		shader.set("smoothstepLow", smoothstepLow);
+	}
+	
+	public void setSmoothstepHigh(float smoothstepHigh) {
+		shader.set("smoothstepHigh", smoothstepHigh);
 	}
 		
 }
