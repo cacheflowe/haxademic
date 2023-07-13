@@ -67,8 +67,8 @@ public class PoissonFill{
 		OpenGLUtil.setTextureQualityHigh(newPG);;
 		PG.setTextureRepeat(newPG, false);
 		// debug
-		DebugView.setTexture("poisson_"+buffIndex, newPG);
-		buffIndex++;
+		// DebugView.setTexture("poisson_"+buffIndex, newPG);
+		// buffIndex++;
 		return newPG;
 	}
 	
