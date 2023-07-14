@@ -22,6 +22,7 @@ void main() {
     1.0 - abs(2.0 * dot(normalize(normal), v) / weight) :
     vertColor.a;
   if(bgRemove) alpha = min(alpha, vertColorMap.r);
+  // vec3 greenCol = vertColor.rgr * vec3(0.4, 1.2, 0.4);
   gl_FragColor = vec4(vertColor.rgb, alpha);
 }
 

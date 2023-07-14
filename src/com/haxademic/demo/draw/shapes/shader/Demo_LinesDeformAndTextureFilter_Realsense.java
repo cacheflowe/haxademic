@@ -114,7 +114,7 @@ extends PAppletHax {
 		LinesDeformAndTextureFilter.instance().setSheetMode(true);
 		LinesDeformAndTextureFilter.instance().setDisplaceAmp(pg.height * 0.5f);
 		LinesDeformAndTextureFilter.instance().setFlipY(true);
-		LinesDeformAndTextureFilter.instance().setBgRemove(false);
+		LinesDeformAndTextureFilter.instance().setBgRemove(true);
 		LinesDeformAndTextureFilter.instance().setOnContext(p);
 
 		p.stroke(255);
