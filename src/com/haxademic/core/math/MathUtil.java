@@ -241,9 +241,9 @@ public class MathUtil {
 	 */
 
 	public static float roundToPrecision(float value, int numDecimalPlaces) {
-	    float multiplyFactor = (float) Math.pow(10f, numDecimalPlaces);
-	    float valueMultiplied = value * multiplyFactor;
-	    return (float) Math.round(valueMultiplied) / multiplyFactor;
+		float multiplyFactor = (float) Math.pow(10f, numDecimalPlaces);
+		float valueMultiplied = value * multiplyFactor;
+		return (float) Math.round(valueMultiplied) / multiplyFactor;
 	}
 
 	/**
