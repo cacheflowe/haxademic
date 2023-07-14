@@ -19,6 +19,7 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -47,9 +48,10 @@ implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 	// - Add Uptime
 	//   - If no active connections, draw red background
 	//   - Add command line for machine ID
-	// - Build nicer HUD layout/look. Make something custom
-	// - Test with WebSockets.cs
-	// - Send position messages on an interval - 10x per second?
+	// - WebSockets.cs
+  //   - Refactor & clean up autoreconnect & defensive error handling. Initial connection checking is too eager
+  //   - Add a GUI visual to show whether it's connected or not
+	//   - Add connection check for mouse takeover in Unity
 	// - Move into new GitHub repo w/full Haxademic project
 	//   - Build startup script
 
@@ -142,9 +144,11 @@ implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 		DebugView.setValue("userZ", userZ.value());
 
 		// send json
-		JSONObject jsonOut = new JSONObject();
-		jsonOut.setString("cmd", "position");
-		jsonOut.setFloat("value", userX.value());
+		// we're constructing a string instead of JSONObject, since doing so kills the smaller floating-point precision that reduces overall message size
+		float userXOut = MathUtil.roundToPrecision(userX.value(), 3);
+		float userYOut = MathUtil.roundToPrecision(userY.value(), 3);
+		float userZOut = MathUtil.roundToPrecision(userZ.value(), 3);
+		String jsonOut = "{\"cmd\":\"position\",\"valueX\":" + userXOut + ",\"valueY\":" + userYOut + ",\"valueZ\":" + userZOut + "}";
 		String jsonString = JsonUtil.jsonToSingleLine(jsonOut);
 		if(userActive.value() && FrameLoop.frameModLooped(1)) {
 			boolean shouldLog = FrameLoop.frameModLooped(30);
@@ -194,7 +198,7 @@ implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 		// send json
 		JSONObject jsonOut = new JSONObject();
 		jsonOut.setString("cmd", "active");
-		jsonOut.setBoolean("value", value);
+		jsonOut.setBoolean("active", value);
 		String jsonString = JsonUtil.jsonToSingleLine(jsonOut);
 		sendJson(jsonString, true);
 	}
@@ -301,7 +305,7 @@ implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 	protected void sendHeartbeat() {
 		JSONObject jsonOut = new JSONObject();
 		jsonOut.setString("cmd", "heartbeat");
-		jsonOut.setInt("value", p.frameCount);
+		jsonOut.setInt("count", p.frameCount);
 		String jsonString = JsonUtil.jsonToSingleLine(jsonOut);
 		sendJson(jsonString, true);
 	}
