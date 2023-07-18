@@ -8,8 +8,8 @@ public class LaunchPadMini
 extends LaunchPad
 implements SimpleMidiListener {
 	
-	public LaunchPadMini(String launchpadDeviceName) {
-		super(launchpadDeviceName);
+	public LaunchPadMini(String launchpadDeviceNameIn, String launchpadDeviceNameOut) {
+		super(launchpadDeviceNameIn, launchpadDeviceNameOut);
 	}
 	
 	public LaunchPadMini(int midiIndexIn, int midiIndexOut) {

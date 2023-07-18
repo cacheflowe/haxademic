@@ -407,11 +407,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
-	public Interphase initLaunchpads(String deviceName1, String deviceName2) {
+	public Interphase initLaunchpads(String device1In, String device1Out, String device2In, String device2Out) {
 		MidiBus.list();
-		launchpad1 = new LaunchPadMini(deviceName1);
+		launchpad1 = new LaunchPadMini(device1In, device1Out);
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(deviceName2);
+		launchpad2 = new LaunchPadMini(device2In, device2Out);
 		launchpad2.setDelegate(this);
 		return this;
 	}
@@ -466,7 +466,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	/////////////////////////////////
-	// DRAW
+	// UPDATE
 	/////////////////////////////////
 	
 	public void autoPlay() {
@@ -474,16 +474,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	public void update() {
-		update(null);
-	}
-	
-	public void update(PGraphics pg) {
-		// check inputs & advance sequencers
 		checkInputs();
 		updateSequencers();
 		updateUIGridButtons();
 		updateDebugValues();
-		if(pg != null) drawAudioGrid(pg);
 	}
 	
 	protected void updateSequencers() {
@@ -643,13 +637,15 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// Draw sequencers grid
 	//////////////////////////
 
-	protected void drawAudioGrid(PGraphics pg) {
+	public void drawAudioGrid(PGraphics pg, boolean openContext) {
 		float boxSize = pg.width / NUM_STEPS;
 		float drawW = (boxSize * sequencers.length);
 		float startY = drawW / -2f - boxSize / 2;
 		float startX = (boxSize * NUM_STEPS) / -2f;
-		if (pg != P.p.g) pg.beginDraw();
-		if (pg != P.p.g) pg.background(0);
+		if (openContext) {
+			pg.beginDraw();
+			pg.background(0);
+		}
 		PG.setCenterScreen(pg);
 		PG.setDrawCorner(pg);
 
@@ -683,8 +679,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		pg.rect(curBeat * boxSize, 0, boxSize, boxSize * NUM_CHANNELS);
 		pg.popMatrix();
 
-		if (pg != P.p.g)
-			pg.endDraw();
+		if (openContext) pg.endDraw();
 	}
 
 	protected void drawSequencer3D(PGraphics pg) {

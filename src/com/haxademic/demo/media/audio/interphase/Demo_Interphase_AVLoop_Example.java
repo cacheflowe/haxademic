@@ -30,14 +30,15 @@ implements IAppStoreListener {
 	// interphase setup
 	protected MidiDevice knobs;
 	protected Interphase interphase;
-	
+	protected PGraphics pgWavGrid;
+
 	// visuals & lights
 	protected IInterphaseViz interphaseViz;
 	protected LedMatrix48x12 ledMatrix;
 	protected IInterphaseViz interphaseDmxTriggers;
 
 	protected void config() {
-		Config.setAppSize(1024, 1024);
+		Config.setAppSize(1920, 1080);
 		// Config.setPgSize(2048, 2048);
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 		Config.setProperty( AppSettings.SHOW_UI, true );
@@ -58,8 +59,10 @@ implements IAppStoreListener {
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
 		interphase.initLaunchControls(LaunchControlXL.BUTTONS_1, LaunchControlXL.BUTTONS_2, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		interphase.initLaunchpads(2, 5, 4, 7);
+		// interphase.initLaunchpads(2, 5, 4, 7);
+		interphase.initLaunchpads("MIDIIN2 (LPMiniMK3 MIDI)", "MIDIOUT2 (LPMiniMK3 MIDI)", "MIDIIN4 (LPMiniMK3 MIDI)", "MIDIOUT4 (LPMiniMK3 MIDI)");
 		interphase.initAudioAnalysisPerChannel();
+		pgWavGrid = PG.newPG(800, 400);
 		// for UI controls debugging
 		// P.out("WebServer.DEBUG", WebServer.DEBUG);
 		// HttpInputState.DEBUG = false;
@@ -79,6 +82,7 @@ implements IAppStoreListener {
 
 	protected void drawApp() {
 		interphase.update();
+		interphase.drawAudioGrid(pgWavGrid, true);
 		drawVisuals();
 		if(interphaseDmxTriggers != null) interphaseDmxTriggers.update(pg);
 		ledMatrix.setOrientation(LedMatrix48x12.Orientation.ROT_90_FILL);
