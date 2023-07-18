@@ -432,6 +432,7 @@ implements IAppStoreListener {
 	protected void newRandomNoteScheme() {
 		noteOffset = MathUtil.randRange(0, Interphase.NUM_STEPS - 1);
 		notesByStep = MathUtil.randBooleanWeighted(0.7f);
+		P.out("notesByStep", notesByStep);
 		upOctave = MathUtil.randBooleanWeighted(0.2f) && config.playsOctaveNotes; // don't octave on keys
 		chordMode = (config.playsChords && MathUtil.randBooleanWeighted(0.5f));
 	}
@@ -569,11 +570,13 @@ implements IAppStoreListener {
 			if(notesByStep) {
 				// if notes by step mode, use cur step + offset to cycle through current scale notes 
 				pitchIndex1 = Scales.CUR_SCALE[(noteOffset + curStep) % Scales.CUR_SCALE.length];
+				// if(index == 5) P.out(pitchIndex1);
 				int secondPitch = (MathUtil.randBoolean()) ? 5 : 7;	// 4ths & 5ths - thank you David Last :-D 
 				pitchIndex2 = Scales.CUR_SCALE[(noteOffset + curStep + secondPitch) % Scales.CUR_SCALE.length];
 			} else {
 				// random pitch
 				int randPitch = MathUtil.randRange(0, Scales.CUR_SCALE.length - 1);
+				// if(index == 5) P.out(randPitch);
 				int randPitch2 = randPitch + 2;
 				pitchIndex1 = Scales.CUR_SCALE[randPitch];
 				pitchIndex2 = Scales.CUR_SCALE[randPitch2 % Scales.CUR_SCALE.length];

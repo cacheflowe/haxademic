@@ -17,7 +17,7 @@ import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.demo.media.audio.interphase.viz.IInterphaseViz;
-import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizConcentricAmps;
+import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizAudioTexture;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -68,7 +68,8 @@ implements IAppStoreListener {
 	
 	protected void initVisuals() {
 		// interphaseViz = new InterphaseVizDemo(interphase.sequencers());
-		interphaseViz = new InterphaseVizConcentricAmps(interphase.sequencers());
+		// interphaseViz = new InterphaseVizConcentricAmps(interphase.sequencers());
+		interphaseViz = new InterphaseVizAudioTexture();
 		// interphaseViz = new InterphaseVizBasicPolygons();
 		// interphaseViz = new InterphaseVizSequencerDrawableDemo(interphase.sequencers());
 		// interphaseViz = new InterphaseVizBasicPolygons();
@@ -81,6 +82,7 @@ implements IAppStoreListener {
 		drawVisuals();
 		if(interphaseDmxTriggers != null) interphaseDmxTriggers.update(pg);
 		ledMatrix.setOrientation(LedMatrix48x12.Orientation.ROT_90_FILL);
+		ImageUtil.rotate180(pg);
 		ledMatrix.update(pg);
 	}
 
