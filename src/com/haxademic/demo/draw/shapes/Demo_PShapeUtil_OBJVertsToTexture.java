@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 
+import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.core.PVector;
 
@@ -17,12 +18,9 @@ extends PAppletHax {
 	protected PShape shape;
 	protected PVector modelSize;
 
-	protected void config() {
-	}
-	
 	protected void firstFrame() {
 		// build shape and assign texture
-		shape = DemoAssets.objHumanoid();
+		shape = DemoAssets.objSkullRealistic();
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.5f);
 		PShapeUtil.setOnGround(shape);
@@ -32,8 +30,12 @@ extends PAppletHax {
 		DebugView.setValue("shape.width", modelSize.x);
 		DebugView.setValue("shape.height", modelSize.y);
 		DebugView.setValue("shape.depth", modelSize.z);
+
+		// obj to texture
+		PGraphics texture = PShapeUtil.objVertsToTexture(shape, 64);
+		DebugView.setTexture("texture", texture);
 	}
-		
+
 	protected void drawApp() {
 		// clear the screen
 		background(0, 0, 0);
