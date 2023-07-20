@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.midi;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.system.Console;
 
 import themidibus.MidiBus;
 import themidibus.MidiListener;
@@ -28,13 +29,19 @@ public class MidiDevice {
 
 	public static MidiDevice init(String midiDeviceName) {
 		if(instance != null) return instance;
-		instance = new MidiDevice(midiDeviceName, null);
+		instance = new MidiDevice(midiDeviceName, midiDeviceName, null);
 		return instance;
 	}
 	
 	public static MidiDevice init(String midiDeviceName, SimpleMidiListener delegate) {
 		if(instance != null) return instance;
-		instance = new MidiDevice(midiDeviceName, delegate);
+		instance = new MidiDevice(midiDeviceName, midiDeviceName, delegate);
+		return instance;
+	}
+	
+	public static MidiDevice init(String midiDeviceInName, String midiDeviceOutName, SimpleMidiListener delegate) {
+		if(instance != null) return instance;
+		instance = new MidiDevice(midiDeviceInName, midiDeviceOutName, delegate);
 		return instance;
 	}
 	
@@ -49,6 +56,10 @@ public class MidiDevice {
 		}
 	}
 	
+	public MidiDevice(int midiDeviceInIndex, SimpleMidiListener delegate) {
+		this(midiDeviceInIndex, midiDeviceInIndex, delegate);
+	}
+
 	public MidiDevice(int midiDeviceInIndex, int midiDeviceOutIndex, SimpleMidiListener delegate) {
 		printDevices();
 		new Thread(new Runnable() { public void run() {
@@ -57,17 +68,23 @@ public class MidiDevice {
 			if(delegate != null) {
 				midiBus.addMidiListener(delegate);
 			}
+			P.outColor(Console.GREEN_BACKGROUND, "MidiBus init by index:", midiDeviceInIndex, midiDeviceOutIndex);
 		}}).start();
 	}
 	
-	public MidiDevice(String midiDeviceName, SimpleMidiListener delegate) {
+	public MidiDevice(String midiDeviceInName, SimpleMidiListener delegate) {
+		this(midiDeviceInName, midiDeviceInName, delegate);
+	}
+
+	public MidiDevice(String midiDeviceInName, String midiDeviceOutName, SimpleMidiListener delegate) {
 		printDevices();		
 		new Thread(new Runnable() { public void run() {
-			midiBus = new MidiBus(this, midiDeviceName, midiDeviceName);
+			midiBus = new MidiBus(this, midiDeviceInName, midiDeviceOutName);
 			midiBus.addMidiListener((MidiListener) MidiState.instance());
 			if(delegate != null) {
 				midiBus.addMidiListener(delegate);
 			}
+			P.outColor(Console.GREEN_BACKGROUND, "MidiBus init by name:", midiDeviceInName, midiDeviceOutName);
 		}}).start();
 	}
 	

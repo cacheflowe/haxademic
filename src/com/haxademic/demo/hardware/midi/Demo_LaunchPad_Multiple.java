@@ -4,7 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
@@ -23,17 +25,25 @@ implements ILaunchpadCallback {
 	protected LaunchPadMini launchpad2;
 	
 	protected void config() {
-		Config.setProperty(AppSettings.PG_WIDTH, 128 );
-		Config.setProperty(AppSettings.PG_HEIGHT, 128 );
+		Config.setPgSize(128, 128);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
 	protected void firstFrame() {
+		// buffer setup
+		PG.setTextureRepeat(pg, false);
+		DebugView.setTexture("pg", pg);
+
+		// midi setup
 		MidiBus.list();
-		launchpad1 = new LaunchPadMini(6, 9);
-//		launchpad1 = new LaunchPadMini("4- Launchpad");
+
+		// devices setup
+		// launchpad1 = new LaunchPadMini(2, 5);
+		launchpad1 = new LaunchPadMini("MIDIIN2 (LPMiniMK3 MIDI)", "MIDIOUT2 (LPMiniMK3 MIDI)");
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(8, 11);
-//		launchpad2 = new LaunchPadMini("5- Launchpad");
+		
+		// launchpad2 = new LaunchPadMini(4, 7);
+		launchpad2 = new LaunchPadMini("MIDIIN4 (LPMiniMK3 MIDI)", "MIDIOUT4 (LPMiniMK3 MIDI)");
 		launchpad2.setDelegate(this);
 	}
 	
@@ -50,9 +60,16 @@ implements ILaunchpadCallback {
 		pg.fill(255);
 		PG.setCenterScreen(pg);
 		PG.setDrawCenter(pg);
-		pg.rotate(p.frameCount * 0.03f);
+		pg.rotate(p.frameCount * 0.06f);
 		pg.rect(0, 0, pg.width * 2f, pg.height * 1f/4f);
 		pg.endDraw();
+
+		// post-process
+		BlurProcessingFilter.instance().setBlurSize(20);
+		BlurProcessingFilter.instance().setSigma(10);
+		BlurProcessingFilter.instance().applyTo(pg);
+		BlurProcessingFilter.instance().applyTo(pg);
+		BlurProcessingFilter.instance().applyTo(pg);
 		
 		// copy texture to 2 launchpads, inverting the 2nd
 		launchpad1.setTextureFromTexture(pg);
