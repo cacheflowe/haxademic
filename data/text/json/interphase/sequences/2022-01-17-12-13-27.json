@@ -2,99 +2,67 @@
   "sequencers": [
     {
       "volume": 1,
-      "sampleIndex": 3,
+      "sampleIndex": 21,
       "noteOffset": 7,
       "notesByStep": false,
-      "steps": [
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\H�ST_-_H�ST's_Cabinet_Of_Curiosity_Volume_001_-_17_Kick_3.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1]
     },
     {
       "volume": 1,
-      "sampleIndex": 3,
+      "sampleIndex": 64,
       "noteOffset": 10,
       "notesByStep": false,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Lurka_-_Lurka_Sample_Pack_-_53_LurkaSnare-STKG.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1,
       "sampleIndex": 22,
       "noteOffset": 5,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\HAT_11.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1]
     },
     {
       "volume": 1,
-      "sampleIndex": 14,
+      "sampleIndex": 53,
       "noteOffset": 1,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_131_HYROGLIFICS_fx_one_shot_snarescare.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 55,
+      "noteOffset": 9,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_110_HYROGLIFICS_bass_one_shot_wobpan.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 9,
+      "noteOffset": 9,
+      "notesByStep": false,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Dark_Bass-26-C#.wav",
+      "steps": [1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 60,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\VMH1_Synth_Shots_177.wav",
+      "steps": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 39,
+      "noteOffset": 4,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_147.wav",
+      "steps": [0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1]
     }
   ],
   "BPM": 60

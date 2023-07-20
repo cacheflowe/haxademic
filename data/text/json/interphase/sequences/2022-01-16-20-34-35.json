@@ -2,99 +2,67 @@
   "sequencers": [
     {
       "volume": 1,
-      "sampleIndex": 4,
+      "sampleIndex": 48,
       "noteOffset": 11,
       "notesByStep": true,
-      "steps": [
-        1,
-        1,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_15_LurkaKick-76Gkick.wav",
+      "steps": [1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 23,
+      "sampleIndex": 73,
       "noteOffset": 15,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Lurka_-_Lurka_Sample_Pack_-_86_LurkaPerc-LXPClank.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 7,
+      "sampleIndex": 30,
       "noteOffset": 10,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_149_HYROGLIFICS_shaker_one_shot_hut.wav",
+      "steps": [0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 36,
+      "sampleIndex": 89,
       "noteOffset": 15,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Lurka_-_Lurka_Sample_Pack_-_90_LurkaPerc-WGBagg.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 76,
+      "noteOffset": 9,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\SOUND11.wav",
+      "steps": [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 28,
+      "noteOffset": 9,
+      "notesByStep": false,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\Fracture_-_TURBO_TOOLS_VOL_2_Sample_Pack_-_07_BA_808ish_LOW_GAIN_-1978-_GC.wav",
+      "steps": [0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 34,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Deep_Lead-07-C#.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 26,
+      "noteOffset": 4,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Synth_Lead-26-A#.wav",
+      "steps": [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
     }
   ],
   "BPM": 116

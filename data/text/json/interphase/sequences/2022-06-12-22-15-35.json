@@ -1,0 +1,69 @@
+{
+  "sequencers": [
+    {
+      "volume": 1,
+      "sampleIndex": 3,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Clouds_-_Clouds_Sample_Pack_001_-_20_Kick_014_(C).wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    },
+    {
+      "volume": 0.75,
+      "sampleIndex": 48,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Lurka_-_Lurka_Sample_Pack_-_37_LurkaSnare-76TBS.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0]
+    },
+    {
+      "volume": 0.6000000238418579,
+      "sampleIndex": 2,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0002_Pet_Shop_Boys-Being_Boring-beat_loop_8_.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]
+    },
+    {
+      "volume": 0.800000011920929,
+      "sampleIndex": 25,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Cocktail_Party_Effect_-_Sample_Pack_Vol_4_-_Alien_Drum_Hits_-_03_Hit_3.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 5,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\1115SHAK.wav",
+      "steps": [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 0,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\aphrod.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 15,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Bass_Lead-79-C.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 36,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_009.wav",
+      "steps": [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    }
+  ],
+  "BPM": 82
+}

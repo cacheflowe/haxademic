@@ -146,16 +146,18 @@ implements IAppStoreListener {
 				+ nl + "evolves: " + evolves 
 				+ nl + "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound 
 				+ nl + "SAMPLE ------------------- " 
-				+ nl + "file: " + filenames[sampleIndex] 
+				// + nl + "file: " + filenames[sampleIndex] 
+				+ nl + "file: " + sampleFileName
+				+ nl + "sampleIndex: " + sampleIndex
 				+ nl + "sampleLength: " + sampleLength 
 				+ nl + "length: " + P.round(sampleLength) 
 				+ nl + "attack: " + attack 
 				+ nl + "release: " + release 
 				+ nl + "NOTES ------------------- " 
+				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "pitchShift: " + pitchShift 
 				+ nl + "pitchIndex1: " + pitchIndex1 
 				+ nl + "pitchIndex2: " + pitchIndex2 
-				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "notesByStep: " + notesByStep 
 				+ nl + "noteOffset: " + noteOffset 
 				+ nl + "chordMode: " + chordMode 
@@ -174,6 +176,7 @@ implements IAppStoreListener {
 		JSONObject jsonConfig = new JSONObject();
 		jsonConfig.setJSONArray("steps", dataSteps);
 		jsonConfig.setInt("sampleIndex", sampleIndex);
+		jsonConfig.setString("samplePath", curSample.getFileName());
 		jsonConfig.setBoolean("notesByStep", notesByStep);
 		jsonConfig.setInt("noteOffset", noteOffset);
 		jsonConfig.setFloat("volume", config.volume);
@@ -191,7 +194,8 @@ implements IAppStoreListener {
 	
 	public void load(JSONObject json) {
 		// get data from JSON
-		setSampleByIndex(json.getInt("sampleIndex", 0));
+		// setSampleByIndex(json.getInt("sampleIndex", 0));
+		setSampleByPath(json.getString("samplePath", ""));
 		noteOffset = json.getInt("noteOffset", 0);
 		notesByStep = json.getBoolean("notesByStep", false);
 		volume(json.getFloat("volume", 1));
@@ -293,12 +297,6 @@ implements IAppStoreListener {
 		return filenames.length;
 	}
 	
-	public Sequencer setSampleByIndex(int index) {
-		sampleIndex = index;
-		setSample(samples[sampleIndex % samples.length]); // safe access
-		return this;
-	}
-	
 	public int sampleIndex() {
 		return sampleIndex;
 	}
@@ -312,10 +310,31 @@ implements IAppStoreListener {
 		return stepsString;
 	}
 	
+	public Sequencer setSampleByIndex(int index) {
+		sampleIndex = index;
+		setSample(samples[sampleIndex % samples.length]); // safe access
+		return this;
+	}
+	
 	public void setSampleByPath(String samplePath) {
-		setSample(SampleManager.sample(samplePath)); // samples[curSampleIndex];
-		// check if exists in current sample collection
-		// otherwise, note that we loaded outside of collection
+		for (int i = 0; i < samples.length; i++) {
+			if(samplePath.equals(samples[i].getFileName())) {
+				setSample(samples[i]); 
+				sampleIndex = indexForSample(samplePath);
+				return;
+			}
+		}
+		// if none found...
+		P.out("Index not found for file: " + samplePath + " in sequencers[" + index + "]");
+		sampleIndex = 0;
+	}
+	
+	public int indexForSample(String samplePath) {
+		for (int i = 0; i < samples.length; i++) {
+			String filename = samples[i].getFileName();
+			if(filename.equals(samplePath)) return i;
+		}
+		return 0;
 	}
 	
 	public String fileNameForPath(String samplePath) {
@@ -431,7 +450,7 @@ implements IAppStoreListener {
 
 	protected void newRandomNoteScheme() {
 		noteOffset = MathUtil.randRange(0, Interphase.NUM_STEPS - 1);
-		notesByStep = MathUtil.randBooleanWeighted(0.7f);
+		notesByStep = (index == 5) ? false : MathUtil.randBooleanWeighted(0.7f);
 		P.out("notesByStep", notesByStep);
 		upOctave = MathUtil.randBooleanWeighted(0.2f) && config.playsOctaveNotes; // don't octave on keys
 		chordMode = (config.playsChords && MathUtil.randBooleanWeighted(0.5f));
@@ -489,7 +508,7 @@ implements IAppStoreListener {
 	/////////////////////////////////////
 	
 	protected void buildWaveformBuffer() {
-		sampleWaveformPG = PG.newPG2DFast(512, 32);
+		sampleWaveformPG = PG.newPG2DFast(256, 32);
 		DebugView.setTexture("Sequencer.waveformPG_"+index, sampleWaveformPG);
 	}
 	
@@ -588,7 +607,7 @@ implements IAppStoreListener {
 	}
 	
 	protected float pitchRatioFromIndex(int pitchIndex) {
-		float alteredPitch = pitchIndex + pitchShift * 12f;	// pitch bending! 
+		float alteredPitch = pitchIndex + (pitchShift * 12f);	// pitch bending! 
 		return P.pow(2, alteredPitch/12.0f);
 	}
 

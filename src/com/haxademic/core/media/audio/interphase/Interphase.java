@@ -7,22 +7,27 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PEvents;
+import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.system.Console;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONArray;
@@ -358,6 +363,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		String jsonFilename = configFiles.get(curConfigIndex);
 		String jsonSavePath = FileUtil.getPath(SEQUENCES_PATH + jsonFilename);
 		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
+		P.outColor(Console.GREEN_BOLD, "Saved: ", jsonSavePath);
 	}
 	
 	protected void loadConfig(String jsonStr) {
@@ -387,7 +393,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			String uiVolumeKey = UI_VOLUME_+(i+1);
 			String uiPitchKey = UI_PITCH_+(i+1);
 			String uiReverbKey = UI_REVERB_+(i+1);
-			if(UI.has(uiSampleKey)) UI.setValue(UI_SAMPLE_+(i+1), seq.sampleIndex());
+			if(UI.has(uiSampleKey)) UI.setValue(UI_SAMPLE_+(i+1), seq.sampleIndex()); // oof: need to find index for sample to update UI
 			if(UI.has(uiVolumeKey)) UI.setValue(UI_VOLUME_+(i+1), seq.volume());
 			if(UI.has(uiPitchKey)) UI.setValue(UI_PITCH_+(i+1), seq.pitchShift());
 			if(UI.has(uiReverbKey)) UI.setValue(UI_REVERB_+(i+1), seq.reverbSize());
@@ -640,11 +646,12 @@ implements IAppStoreListener, ILaunchpadCallback {
 	public void drawAudioGrid(PGraphics pg, boolean openContext) {
 		float boxSize = pg.width / NUM_STEPS;
 		float drawW = (boxSize * sequencers.length);
-		float startY = drawW / -2f - boxSize / 2;
+		float startY = drawW / -2f;
 		float startX = (boxSize * NUM_STEPS) / -2f;
 		if (openContext) {
 			pg.beginDraw();
-			pg.background(0);
+			pg.clear();
+			// pg.background(0);
 		}
 		PG.setCenterScreen(pg);
 		PG.setDrawCorner(pg);
@@ -727,6 +734,35 @@ implements IAppStoreListener, ILaunchpadCallback {
 		pg.popMatrix();
 
 		pg.endDraw();
+	}
+
+	public void drawSequencersInfo(PGraphics pg, boolean openContext) {
+		if (openContext) {
+			pg.beginDraw();
+			pg.clear();
+			// pg.background(0);
+		}
+		PG.setDrawCorner(pg);
+
+		// set font
+		String fontFile = DemoAssets.fontOpenSansPath;
+		PFont font = FontCacher.getFont(fontFile, 18);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
+
+		// loop through channels
+		int columnW = pg.width / NUM_CHANNELS;
+		for (int i = 0; i < NUM_CHANNELS; i++) {
+			int colX = columnW * i;
+			pg.push();
+			pg.translate(colX, 0);
+
+			// print text info
+			pg.text(sequencerAt(i).info(), 20, 20);
+
+			pg.pop();
+		}
+
+		if (openContext) pg.endDraw();
 	}
 
 }

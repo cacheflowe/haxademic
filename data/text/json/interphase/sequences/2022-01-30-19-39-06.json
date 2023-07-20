@@ -5,96 +5,64 @@
       "sampleIndex": 1,
       "noteOffset": 11,
       "notesByStep": true,
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\BOOOOM!.wav",
+      "steps": [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
     },
     {
       "volume": 1,
       "sampleIndex": 3,
       "noteOffset": 15,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\analogBully_snare.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 23,
+      "sampleIndex": 4,
       "noteOffset": 5,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0005-Astrophonica_-_Astrophonica_x_LABS_Breakbeats_Sample_Pack_-_30_ASTROxLABS_NIKKINAIR_BREAK_05_loop_4_.wav",
+      "steps": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 18,
+      "sampleIndex": 104,
       "noteOffset": 14,
       "notesByStep": false,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Om_Unit_-_Hardware_Synth_Drums_2_(Sample_Pack)_-_155_Om_Ver_Perc30.wav",
+      "steps": [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 60,
+      "noteOffset": 8,
+      "notesByStep": false,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_81_HYROGLIFICS_atmos_one_shot_sting.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 15,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Sub_Bass-10-C.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 22,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Chord-62-C.wav",
+      "steps": [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 28,
+      "noteOffset": 4,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Synth_Lead-44-C#.wav",
+      "steps": [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
     }
   ],
   "BPM": 118
