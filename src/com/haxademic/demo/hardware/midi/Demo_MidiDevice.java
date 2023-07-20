@@ -30,17 +30,17 @@ implements SimpleMidiListener {
 	protected void firstFrame() {
 		// prep audio input
 		AudioIn.instance();
+		
 		// init 2 devices
-		device1 = MidiDevice.init(3, 6, this);	// basic singleton initialization in case there's only one device
-		device2 = new MidiDevice(11, 14, this);	// a 2nd device, with normal constructor
+		device1 = MidiDevice.init("Launch Control XL", "Launch Control XL", this);	// basic singleton initialization in case there's only one device
+		device2 = new MidiDevice("2- Launch Control XL", "2- Launch Control XL", this);	// a 2nd device, with normal constructor
 //		device3 = new MidiDevice(12, 15, this);	// a 2nd device, with normal constructor
 	}
 	
 	protected void drawApp() {
 		p.background(0);
 		
-		// debug views
-		DebugView.active(true);
+		// debug log incoming messages
 		logOut.printToScreen(p.g, p.width - 300, 20);
 
 		// test MidiState storage
