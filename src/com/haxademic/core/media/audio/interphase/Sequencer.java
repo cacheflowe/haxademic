@@ -647,6 +647,7 @@ implements IAppStoreListener {
 				if(MathUtil.randBooleanWeighted(0.2f)) {
 					WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, 3) * 0.25f);	
 				}
+				useASDR = false;
 			} else {
 				useASDR = true;
 			}
@@ -708,6 +709,7 @@ implements IAppStoreListener {
 			}
 		} else {
 			gain = new Gain(ac, 2, config.volume); // standard pass-thru volume/gain
+			curPlayer.setKillListener(new KillTrigger(gain));
 		}
 			
 		// got reverb?
