@@ -6,19 +6,16 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.DepthCameraRegion;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
-import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
@@ -44,17 +41,6 @@ extends PAppletHax
 implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	// TODO: 
-	// - Add Uptime
-	//   - If no active connections, draw red background
-	//   - Add command line for machine ID
-	// - WebSockets.cs
-  //   - Refactor & clean up autoreconnect & defensive error handling. Initial connection checking is too eager
-  //   - Add a GUI visual to show whether it's connected or not
-	//   - Add connection check for mouse takeover in Unity
-	// - Move into new GitHub repo w/full Haxademic project
-	//   - Build startup script
-
 	// base components
 	protected DepthCameraRegion region;
 	protected PGraphics regionDebug;		// updated by the `region` object
@@ -87,7 +73,8 @@ implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 	protected void drawApp() {
 		// check depth camera stability
 		if (FrameLoop.frameModMinutes(10)) P.out("Still running:", DebugView.uptimeStr());
-		p.background(0);
+		int bgColor = (numConnections() == 0) ? 0xff990000 : 0;
+		p.background(bgColor);
 		updateCamera();
 		drawDebug();
 	}
@@ -288,9 +275,12 @@ implements IAppStoreListener, ISocketClientDelegate, IEasingBooleanCallback {
 			
 			PFont fontSm = FontCacher.getFont(fontFile, 16);
 			FontCacher.setFontOnContext(pg, fontSm, p.color(0, 255, 0), 1f, PTextAlign.RIGHT, PTextAlign.TOP);
-			int numConns = socketServerHandler.getConnections().size();
-			pg.text(numConns + " connections", 540, 24);
+			pg.text(numConnections() + " connections", 540, 24);
 		}
+	}
+
+	protected int numConnections() {
+		return socketServerHandler.getConnections().size();
 	}
 
 	protected void drawLogs(PGraphics pg) {
