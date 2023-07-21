@@ -300,10 +300,20 @@ public class WavPlayer {
 	public float progress(String id) {
 		return position(id) / duration(id);
 	}
+
+	public static float progress(SamplePlayer player) {
+		if(player == null) return 0;
+		return P.min((float) position(player) / duration(player), 1);
+	}
 	
 	public float position(String id) {
 		if(getPlayer(id) == null) return 0;
 		return (float) getPlayer(id).getPosition();
+	}
+	
+	public static float position(SamplePlayer player) {
+		if(player == null) return 0;
+		return (float) player.getPosition();
 	}
 	
 	public float duration(String id) {

@@ -153,6 +153,7 @@ implements IAppStoreListener {
 				+ nl + "length: " + P.round(sampleLength) 
 				+ nl + "attack: " + attack 
 				+ nl + "release: " + release 
+				+ nl + "sampleProgress: " + sampleProgress() 
 				+ nl + "NOTES ------------------- " 
 				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "pitchShift: " + pitchShift 
@@ -299,6 +300,14 @@ implements IAppStoreListener {
 	
 	public int sampleIndex() {
 		return sampleIndex;
+	}
+	
+	public float sampleProgress() {
+		return WavPlayer.progress(player);
+	}
+	
+	public PImage sampleWaveformPG() {
+		return sampleWaveformPG;
 	}
 	
 	public String stepsListString() {

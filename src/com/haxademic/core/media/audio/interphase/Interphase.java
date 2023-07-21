@@ -20,6 +20,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.AudioUtil;
+import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.Console;
 import com.haxademic.core.system.SystemUtil;
@@ -756,12 +757,29 @@ implements IAppStoreListener, ILaunchpadCallback {
 			pg.push();
 			pg.translate(colX, 0);
 
+			// draw waveform & playhead
+			// float sampleLengthS = sequencerAt(i).sampleLength / 5f;
+			// float maxWavW = columnW - 40;
+			// float wavW = sampleLengthS;
+			// wavW = P.constrain(wavW, 0, maxWavW);
+			float wavW = columnW - 40;
+			int wavX = 20;
+			int wavY = 20;
+			int wavH = 32;
+			pg.image(sequencerAt(i).sampleWaveformPG(), wavX, wavY, wavW, wavH);
+			// playhead
+			float progress = sequencerAt(i).sampleProgress();
+			if(progress > 0 && progress < 1) {
+				pg.stroke(255, 0, 0);
+				pg.rect(wavX + wavW * progress, wavY, 2, wavH);
+			}
+
 			// print text info
-			pg.text(sequencerAt(i).info(), 20, 20);
+			pg.text(sequencerAt(i).info(), 20, 120);
 
 			pg.pop();
 		}
-
+		
 		if (openContext) pg.endDraw();
 	}
 
