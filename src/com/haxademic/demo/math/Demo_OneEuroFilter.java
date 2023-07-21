@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.OneEuroFilter;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 public class Demo_OneEuroFilter
@@ -75,6 +76,7 @@ extends PAppletHax {
 			f.setMinCutoff(UI.value(MINCUTOFF));
 
 			float addedNoise = p.random(-UI.value(NOISE_ADD), UI.value(NOISE_ADD));
+			// if(FrameLoop.frameModLooped(30)) addedNoise *= 10; // add intermittent really bad noise - doesn't work well
 			float input = (1f - Mouse.yNorm) + addedNoise;
 			float smoothedInput = f.filter(input, p.frameCount / UI.value(FREQUENCY)); // 60hz by default
 			
