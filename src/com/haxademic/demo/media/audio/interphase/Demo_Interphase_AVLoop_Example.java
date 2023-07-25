@@ -18,9 +18,11 @@ import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 import com.haxademic.demo.media.audio.interphase.viz.IInterphaseViz;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizAudioTexture;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizBasicPolygons;
+import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizDmxTriggers;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -44,6 +46,9 @@ implements IAppStoreListener {
 	protected IInterphaseViz interphaseViz2;
 	protected LedMatrix48x12 ledMatrix;
 	protected IInterphaseViz interphaseDmxTriggers;
+
+	// ui
+	protected String SHOW_INFO = "SHOW_INFO";
 
 	protected void config() {
 		Config.setAppSize(1920, 1080);
@@ -82,6 +87,7 @@ implements IAppStoreListener {
 		DebugView.setTexture("pg", pg);
 
 		// for UI controls debugging
+		UI.addToggle(SHOW_INFO, false, false);
 		// P.out("WebServer.DEBUG", WebServer.DEBUG);
 		// HttpInputState.DEBUG = false;
 		// numSequencers = interphase.numChannels();
@@ -93,7 +99,7 @@ implements IAppStoreListener {
 		interphaseViz = new InterphaseVizAudioTexture();
 		interphaseViz2 = new InterphaseVizBasicPolygons();
 		// interphaseViz = new InterphaseVizSequencerDrawableDemo(interphase.sequencers());
-		// interphaseDmxTriggers = new InterphaseVizDmxTriggers(interphase.sequencers());
+		interphaseDmxTriggers = new InterphaseVizDmxTriggers(interphase.sequencers());
 		ledMatrix = new LedMatrix48x12();
 	}
 
@@ -112,22 +118,28 @@ implements IAppStoreListener {
 		PG.setDrawCorner(p);
 		
 		// update viz buffers
-		interphase.drawAudioGrid(pgWavGrid, true);
-		interphase.drawSequencersInfo(pg, true);
-		interphaseViz.update(viz);
-		interphaseViz2.update(viz2);
-		DebugView.setTexture("pg", pg);
-
+		
 		// draw layers to screen
-		ImageUtil.drawImageCropFill(viz, p.g, true);
-		p.blendMode(PBlendModes.SCREEN);
-		ImageUtil.drawImageCropFill(viz2, p.g, true);
-		p.blendMode(PBlendModes.ADD);
-		ImageUtil.drawImageCropFill(pgWavGrid, p.g, false);
-		p.blendMode(PBlendModes.BLEND);
-		p.fill(0, 180);
-		p.rect(0, 0, p.width, p.height);
-		ImageUtil.drawImageCropFill(pg, p.g, false);
+		if(UI.valueToggle(SHOW_INFO) == false) {
+			// draw
+			interphase.drawAudioGrid(pgWavGrid, true);
+			interphaseViz.update(viz);
+			interphaseViz2.update(viz2);
+			// display
+			ImageUtil.drawImageCropFill(viz, p.g, true);
+			p.blendMode(PBlendModes.SCREEN);
+			ImageUtil.drawImageCropFill(viz2, p.g, true);
+			p.blendMode(PBlendModes.ADD);
+			ImageUtil.drawImageCropFill(pgWavGrid, p.g, false);
+			p.blendMode(PBlendModes.BLEND);
+		} else {
+			// draw
+			interphase.drawSequencersInfo(pg, true);
+			// display
+			p.fill(0, 180);
+			p.rect(0, 0, p.width, p.height);
+			ImageUtil.drawImageCropFill(pg, p.g, false);
+		}
 	}
 
 	protected void updateLedMatrix() {

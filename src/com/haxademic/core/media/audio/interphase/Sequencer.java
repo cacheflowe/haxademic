@@ -52,7 +52,7 @@ implements IAppStoreListener {
 	protected int lastSequenceCountChangedSound = 0;
 	protected int sequenceCountChangeSound = 16;
 	protected int curStep = 0;						// 1-16
-	protected int manualTriggerQueuedIndex = -1;	// the next beat
+	// protected int manualTriggerQueuedIndex = -1;	// the next beat
 	
 	// step sequencer
 	protected boolean steps[];
@@ -91,6 +91,7 @@ implements IAppStoreListener {
 	protected SamplePlayer player2;
 	protected Gain gain;
 	protected boolean shouldPlay = false;
+	protected boolean manuallyTriggered = false;
 	protected String audioDir;
 	protected Sample[] samples;
 	protected String[] filenames;
@@ -110,7 +111,7 @@ implements IAppStoreListener {
 	protected AudioInputBeads audioIn;
 	protected boolean hasAudioTextures = false;
 	protected LinearFloat triggerFalloff = new LinearFloat(0, 0.05f);
-	protected FloatBuffer ampSmoothed = new FloatBuffer(6);
+	protected FloatBuffer ampSmoothed = new FloatBuffer(8);
 	
 	public Sequencer(SequencerConfig config) {
 		this.config = config;
@@ -251,6 +252,10 @@ implements IAppStoreListener {
 	
 	public boolean shouldPlay() {
 		return shouldPlay;
+	}
+	
+	public boolean manuallyTriggered() {
+		return manuallyTriggered;
 	}
 	
 	public int noteOffset() {
@@ -421,11 +426,13 @@ implements IAppStoreListener {
 	
 	public void triggerSample() {
 		// keep track of manual input time
-			manualTriggerTime = P.p.millis();
-			sampleTriggerCount++;
-			DebugView.setValue("sampleTriggerCount", sampleTriggerCount);
-			// queue up for manual jamming
-			manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
+		manualTriggerTime = P.p.millis();
+		sampleTriggerCount++;
+		DebugView.setValue("sampleTriggerCount", sampleTriggerCount);
+		// queue up for manual jamming
+		// manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
+		shouldPlay = true;
+		manuallyTriggered = true;
 	}
 	
 	/////////////////////////////////////
@@ -572,6 +579,7 @@ implements IAppStoreListener {
 		playSound();
 		sendTriggerEvent();
 		shouldPlay = false;
+		manuallyTriggered = false;
 	}
 
 	protected void sendTriggerEvent() {
@@ -653,8 +661,9 @@ implements IAppStoreListener {
 				// randomize start position (sometimes)
 				// TODO: add more playback modes for loops
 				// if loop is attached to snare track, take kicks into account like the original demo
-				if(MathUtil.randBooleanWeighted(0.2f)) {
-					WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, 3) * 0.25f);	
+				if(MathUtil.randBooleanWeighted(0.2f) || manuallyTriggered) {
+					// WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, 3) * 0.25f);	
+					WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, loopDivisor) * 1f / loopDivisor);	
 				}
 				useASDR = false;
 			} else {
@@ -807,7 +816,7 @@ protected void checkBeatChanged(int newBeat) {
 			}
 		}
 		checkActiveStepToTrigger();
-		checkManualTrigger();
+		// checkManualTrigger();
 		checkPlaySample();
 	}
 
@@ -819,13 +828,16 @@ protected void checkBeatChanged(int newBeat) {
 		}
 	}
 	
+	/*
 	protected void checkManualTrigger() {
 		// if step is quantized/queued from user interaction, play that!
 		if(curStep == manualTriggerQueuedIndex) { 
 			shouldPlay = true;
+			manuallyTriggered = true;
 			manualTriggerQueuedIndex = -1;
 		}
 	}
+	*/
 	
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(Interphase.BEAT)) checkBeatChanged(val.intValue());

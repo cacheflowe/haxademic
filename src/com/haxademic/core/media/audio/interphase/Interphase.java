@@ -426,12 +426,15 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
 		// split across launchpads
+		int curStep = P.store.getInt(CUR_STEP);
+		int nextStep = (P.store.getInt(CUR_STEP) + 1) % NUM_STEPS;
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {
 				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
 				float adjustedVal = value;
+				if(sequencers[i].manuallyTriggered() && step == nextStep) adjustedVal = 0.87f;
 				if(value == 0 && step % 4 == 0) adjustedVal = 0.3f;	// show divisor by 4
-				if(value == 0 && step == P.store.getInt(CUR_STEP)) adjustedVal = 0.65f;	// show playhead in row
+				if(value == 0 && step == curStep) adjustedVal = 0.65f;	// show playhead in row
 				if(step <= 7) {
 					launchpad1.setButton(i, step, adjustedVal);
 				} else {
