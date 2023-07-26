@@ -75,8 +75,8 @@ implements SimpleMidiListener {
 	protected PGraphics pg8x8;
 	protected ILaunchpadCallback delegate;
 
-	public LaunchPad(String launchpadDeviceName) {
-		midiBus = new MidiBus(this, launchpadDeviceName, launchpadDeviceName);
+	public LaunchPad(String launchpadDeviceNameIn, String launchpadDeviceNameOut) {
+		midiBus = new MidiBus(this, launchpadDeviceNameIn, launchpadDeviceNameOut);
 		init();
 	}
 	

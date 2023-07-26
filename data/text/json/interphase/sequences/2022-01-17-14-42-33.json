@@ -2,99 +2,67 @@
   "sequencers": [
     {
       "volume": 1,
-      "sampleIndex": 21,
+      "sampleIndex": 18,
       "noteOffset": 11,
       "notesByStep": true,
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_137_HYROGLIFICS_kick_one_shot_coldwater.wav",
+      "steps": [1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 27,
+      "sampleIndex": 40,
       "noteOffset": 15,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\H�ST_-_Sample_Pack_002_-_30_Bleeps.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1,
-      "sampleIndex": 25,
+      "sampleIndex": 12,
       "noteOffset": 5,
       "notesByStep": true,
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\Closed_02_HH_The_APX.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0]
     },
     {
       "volume": 1,
       "sampleIndex": 42,
       "noteOffset": 14,
       "notesByStep": false,
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\HAT_2.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 46,
+      "noteOffset": 8,
+      "notesByStep": false,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\FRASH.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1,
+      "sampleIndex": 29,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\Fracture_-_TURBO_TOOLS_VOL_2_Sample_Pack_-_13_BA_CLOUD_BASS_6_-DSM-_G.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 37,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Deep_Lead-19-F#.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 49,
+      "noteOffset": 4,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_351.wav",
+      "steps": [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
     }
   ],
   "BPM": 116

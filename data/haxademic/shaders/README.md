@@ -14,7 +14,7 @@ Fragment shaders:
 # Snippets
 
 Shader header, built-in varyings & uniforms
-```
+```glsl
 #ifdef GL_ES
 precision mediump float;
 precision mediump int;
@@ -30,20 +30,20 @@ uniform vec2 texOffset;
 ```
 
 Pi
-```
+```glsl
 #define PI     3.14159265358
 #define TWO_PI 6.28318530718
 // #define TWO_PI (PI * 2.)
 ```
 
 Centered UV w/square aspect ratio
-```
+```glsl
 vec2 uv = vertTexCoord.xy - 0.5;
 uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 ```
 
 Get current color and resolution
-```
+```glsl
 vec2 uv = vertTexCoord.xy;
 vec2 uvPixel = 1. / texOffset.xy * uv;   // get actual pixel position
 vec4 texColor = texture2D(texture, uv);
@@ -51,17 +51,17 @@ vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);
 ```
 
 Get a texture size
-```
+```glsl
 vec2 texSize = textureSize(displacementMap, 0);
 ```
 
 Angle to center
-```
+```glsl
 float rads = atan(uv.x, uv.y);
 ```
 
 Rotate a UV coord
-```
+```glsl
 vec2 rotateCoord(vec2 uv, float rads) {
     uv *= mat2(cos(rads), sin(rads), -sin(rads), cos(rads));
     return uv;
@@ -69,14 +69,14 @@ vec2 rotateCoord(vec2 uv, float rads) {
 ```
 
 Remap a number
-```
+```glsl
 float remap(float value, float low1, float high1, float low2, float high2) {
    return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
 }
 ```
 
 Luminance
-```
+```glsl
 // old
 float luma(vec4 rgba) {
   const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -94,7 +94,7 @@ float luma(vec4 color) {
 ```
 
 Saw, synced up with sin()
-```
+```glsl
 float saw(float rads) {
     rads += PI * 0.5; // sync oscillation up with sin()
     float percent = mod(rads, PI) / PI;
@@ -104,7 +104,7 @@ float saw(float rads) {
 ```
 
 Noise & random
-```
+```glsl
 // 2D Random
 float random (in vec2 st) {
     return fract(sin(dot(st.xy,vec2(12.9898,78.233))) * 43758.5453123);
@@ -126,7 +126,7 @@ float noise (in vec2 st) {
 }
 ```
 
-```
+```glsl
 // hash based 3d value noise
 float hash( float n )
 {
@@ -147,7 +147,7 @@ float noise( in vec3 x )
 }
 ```
 
-```
+```glsl
 float snoise(vec3 uv, float res) {
 	const vec3 s = vec3(1e0, 1e2, 1e3);
 	uv *= res;
@@ -165,7 +165,7 @@ float snoise(vec3 uv, float res) {
 ```
 
 Shapes
-```
+```glsl
 float triangle(vec2 p, float size) {
     vec2 q = abs(p);
     return max(q.x * 0.866025 + p.y * 0.5, -p.y * 0.5) - size * 0.5;
@@ -190,12 +190,12 @@ float polygon(vec2 p, int vertices, float size) {
 
 * Replicate Shadertoy's iResolution with: `vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);`
 * Correct aspect ratio with:
-```
+```glsl
   vec2 uv = vertTexCoord.xy - vec2(.5,.5);
   uv *= texOffset.y / texOffset.x;
 ```
 or
-```
+```glsl
   vec2 uv = vertTexCoord.xy - 0.5;
   uv.x *= texOffset.y / texOffset.x;
 ```

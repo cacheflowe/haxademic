@@ -52,7 +52,7 @@ implements IAppStoreListener {
 	protected int lastSequenceCountChangedSound = 0;
 	protected int sequenceCountChangeSound = 16;
 	protected int curStep = 0;						// 1-16
-	protected int manualTriggerQueuedIndex = -1;	// the next beat
+	// protected int manualTriggerQueuedIndex = -1;	// the next beat
 	
 	// step sequencer
 	protected boolean steps[];
@@ -91,6 +91,7 @@ implements IAppStoreListener {
 	protected SamplePlayer player2;
 	protected Gain gain;
 	protected boolean shouldPlay = false;
+	protected boolean manuallyTriggered = false;
 	protected String audioDir;
 	protected Sample[] samples;
 	protected String[] filenames;
@@ -110,7 +111,7 @@ implements IAppStoreListener {
 	protected AudioInputBeads audioIn;
 	protected boolean hasAudioTextures = false;
 	protected LinearFloat triggerFalloff = new LinearFloat(0, 0.05f);
-	protected FloatBuffer ampSmoothed = new FloatBuffer(6);
+	protected FloatBuffer ampSmoothed = new FloatBuffer(8);
 	
 	public Sequencer(SequencerConfig config) {
 		this.config = config;
@@ -146,16 +147,19 @@ implements IAppStoreListener {
 				+ nl + "evolves: " + evolves 
 				+ nl + "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound 
 				+ nl + "SAMPLE ------------------- " 
-				+ nl + "file: " + filenames[sampleIndex] 
+				// + nl + "file: " + filenames[sampleIndex] 
+				+ nl + "file: " + sampleFileName
+				+ nl + "sampleIndex: " + sampleIndex
 				+ nl + "sampleLength: " + sampleLength 
 				+ nl + "length: " + P.round(sampleLength) 
 				+ nl + "attack: " + attack 
 				+ nl + "release: " + release 
+				+ nl + "sampleProgress: " + sampleProgress() 
 				+ nl + "NOTES ------------------- " 
+				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "pitchShift: " + pitchShift 
 				+ nl + "pitchIndex1: " + pitchIndex1 
 				+ nl + "pitchIndex2: " + pitchIndex2 
-				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "notesByStep: " + notesByStep 
 				+ nl + "noteOffset: " + noteOffset 
 				+ nl + "chordMode: " + chordMode 
@@ -174,6 +178,7 @@ implements IAppStoreListener {
 		JSONObject jsonConfig = new JSONObject();
 		jsonConfig.setJSONArray("steps", dataSteps);
 		jsonConfig.setInt("sampleIndex", sampleIndex);
+		jsonConfig.setString("samplePath", curSample.getFileName());
 		jsonConfig.setBoolean("notesByStep", notesByStep);
 		jsonConfig.setInt("noteOffset", noteOffset);
 		jsonConfig.setFloat("volume", config.volume);
@@ -191,7 +196,8 @@ implements IAppStoreListener {
 	
 	public void load(JSONObject json) {
 		// get data from JSON
-		setSampleByIndex(json.getInt("sampleIndex", 0));
+		// setSampleByIndex(json.getInt("sampleIndex", 0));
+		setSampleByPath(json.getString("samplePath", ""));
 		noteOffset = json.getInt("noteOffset", 0);
 		notesByStep = json.getBoolean("notesByStep", false);
 		volume(json.getFloat("volume", 1));
@@ -248,6 +254,10 @@ implements IAppStoreListener {
 		return shouldPlay;
 	}
 	
+	public boolean manuallyTriggered() {
+		return manuallyTriggered;
+	}
+	
 	public int noteOffset() {
 		return noteOffset;
 	}
@@ -293,14 +303,16 @@ implements IAppStoreListener {
 		return filenames.length;
 	}
 	
-	public Sequencer setSampleByIndex(int index) {
-		sampleIndex = index;
-		setSample(samples[sampleIndex % samples.length]); // safe access
-		return this;
-	}
-	
 	public int sampleIndex() {
 		return sampleIndex;
+	}
+	
+	public float sampleProgress() {
+		return WavPlayer.progress(player);
+	}
+	
+	public PImage sampleWaveformPG() {
+		return sampleWaveformPG;
 	}
 	
 	public String stepsListString() {
@@ -312,10 +324,31 @@ implements IAppStoreListener {
 		return stepsString;
 	}
 	
+	public Sequencer setSampleByIndex(int index) {
+		sampleIndex = index;
+		setSample(samples[sampleIndex % samples.length]); // safe access
+		return this;
+	}
+	
 	public void setSampleByPath(String samplePath) {
-		setSample(SampleManager.sample(samplePath)); // samples[curSampleIndex];
-		// check if exists in current sample collection
-		// otherwise, note that we loaded outside of collection
+		for (int i = 0; i < samples.length; i++) {
+			if(samplePath.equals(samples[i].getFileName())) {
+				setSample(samples[i]); 
+				sampleIndex = indexForSample(samplePath);
+				return;
+			}
+		}
+		// if none found...
+		P.out("Index not found for file: " + samplePath + " in sequencers[" + index + "]");
+		sampleIndex = 0;
+	}
+	
+	public int indexForSample(String samplePath) {
+		for (int i = 0; i < samples.length; i++) {
+			String filename = samples[i].getFileName();
+			if(filename.equals(samplePath)) return i;
+		}
+		return 0;
 	}
 	
 	public String fileNameForPath(String samplePath) {
@@ -393,11 +426,13 @@ implements IAppStoreListener {
 	
 	public void triggerSample() {
 		// keep track of manual input time
-			manualTriggerTime = P.p.millis();
-			sampleTriggerCount++;
-			DebugView.setValue("sampleTriggerCount", sampleTriggerCount);
-			// queue up for manual jamming
-			manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
+		manualTriggerTime = P.p.millis();
+		sampleTriggerCount++;
+		DebugView.setValue("sampleTriggerCount", sampleTriggerCount);
+		// queue up for manual jamming
+		// manualTriggerQueuedIndex = (curStep + 1) % Interphase.NUM_STEPS;
+		shouldPlay = true;
+		manuallyTriggered = true;
 	}
 	
 	/////////////////////////////////////
@@ -431,7 +466,7 @@ implements IAppStoreListener {
 
 	protected void newRandomNoteScheme() {
 		noteOffset = MathUtil.randRange(0, Interphase.NUM_STEPS - 1);
-		notesByStep = MathUtil.randBooleanWeighted(0.7f);
+		notesByStep = (index == 5) ? false : MathUtil.randBooleanWeighted(0.7f);
 		P.out("notesByStep", notesByStep);
 		upOctave = MathUtil.randBooleanWeighted(0.2f) && config.playsOctaveNotes; // don't octave on keys
 		chordMode = (config.playsChords && MathUtil.randBooleanWeighted(0.5f));
@@ -489,7 +524,7 @@ implements IAppStoreListener {
 	/////////////////////////////////////
 	
 	protected void buildWaveformBuffer() {
-		sampleWaveformPG = PG.newPG2DFast(512, 32);
+		sampleWaveformPG = PG.newPG2DFast(256, 32);
 		DebugView.setTexture("Sequencer.waveformPG_"+index, sampleWaveformPG);
 	}
 	
@@ -544,6 +579,7 @@ implements IAppStoreListener {
 		playSound();
 		sendTriggerEvent();
 		shouldPlay = false;
+		manuallyTriggered = false;
 	}
 
 	protected void sendTriggerEvent() {
@@ -588,7 +624,7 @@ implements IAppStoreListener {
 	}
 	
 	protected float pitchRatioFromIndex(int pitchIndex) {
-		float alteredPitch = pitchIndex + pitchShift * 12f;	// pitch bending! 
+		float alteredPitch = pitchIndex + (pitchShift * 12f);	// pitch bending! 
 		return P.pow(2, alteredPitch/12.0f);
 	}
 
@@ -625,9 +661,11 @@ implements IAppStoreListener {
 				// randomize start position (sometimes)
 				// TODO: add more playback modes for loops
 				// if loop is attached to snare track, take kicks into account like the original demo
-				if(MathUtil.randBooleanWeighted(0.2f)) {
-					WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, 3) * 0.25f);	
+				if(MathUtil.randBooleanWeighted(0.2f) || manuallyTriggered) {
+					// WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, 3) * 0.25f);	
+					WavPlayer.seekToProgress(curPlayer, MathUtil.randRange(0, loopDivisor) * 1f / loopDivisor);	
 				}
+				useASDR = false;
 			} else {
 				useASDR = true;
 			}
@@ -689,6 +727,7 @@ implements IAppStoreListener {
 			}
 		} else {
 			gain = new Gain(ac, 2, config.volume); // standard pass-thru volume/gain
+			curPlayer.setKillListener(new KillTrigger(gain));
 		}
 			
 		// got reverb?
@@ -777,7 +816,7 @@ protected void checkBeatChanged(int newBeat) {
 			}
 		}
 		checkActiveStepToTrigger();
-		checkManualTrigger();
+		// checkManualTrigger();
 		checkPlaySample();
 	}
 
@@ -789,13 +828,16 @@ protected void checkBeatChanged(int newBeat) {
 		}
 	}
 	
+	/*
 	protected void checkManualTrigger() {
 		// if step is quantized/queued from user interaction, play that!
 		if(curStep == manualTriggerQueuedIndex) { 
 			shouldPlay = true;
+			manuallyTriggered = true;
 			manualTriggerQueuedIndex = -1;
 		}
 	}
+	*/
 	
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(Interphase.BEAT)) checkBeatChanged(val.intValue());

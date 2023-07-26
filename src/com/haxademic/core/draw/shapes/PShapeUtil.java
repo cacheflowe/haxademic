@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.Triangle3d;
@@ -1361,7 +1362,10 @@ public class PShapeUtil {
 		String outputStr = "o Sphere\n";
 		outputStr += verts;
 		outputStr += faces;
-		FileUtil.writeTextToFile(FileUtil.haxademicOutputPath() + "text/model-"+SystemUtil.getTimestamp()+".obj", outputStr);
+		String outputDir = FileUtil.haxademicOutputPath() + "text/";
+		String fileName = "model-" + SystemUtil.getTimestamp() + ".obj";
+		if(!FileUtil.fileOrPathExists(outputDir)) FileUtil.createDir(outputDir);
+		FileUtil.writeTextToFile(outputDir + fileName, outputStr);
 	}
 	
 	///////////////////////////
@@ -1461,5 +1465,94 @@ public class PShapeUtil {
 		setBasicShapeStyles(shape, color, stroke, strokeWeight);
 		return shape;
 	}
-	
+
+
+	///////////////////////////
+	// Created a data texture of vertex positions from an OBJ file
+	///////////////////////////
+
+	public static PGraphics objVertsToTexture(PShape shape, int textureSize) {
+		// ported from: https://github.com/mattatz/processing-verttexgen/blob/master/VertTexGen/VertTexGen.pde
+		// get unique verts from triangulated shape
+		PShape shapeTess = shape.getTessellation();
+		ArrayList<PVector> verticesOrig = PShapeUtil.getUniqueVertices(shapeTess);
+		int origVertCount = verticesOrig.size();
+		int storedVertCount = textureSize * textureSize;
+		
+		// step over vertices
+		float step = P.max((float) origVertCount / storedVertCount, 1f);
+		// build bounding box
+		PVector minP = new PVector(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+		PVector maxP = new PVector(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
+		
+		// buil storage of collected vertices
+		PVector[] storedVertices = new PVector[storedVertCount];
+		int index = 0;
+		
+		for (int i = 0; i < verticesOrig.size() && index < storedVertCount; i += step) {
+			PVector p = verticesOrig.get(i);
+			updateVertsToTexture(p, maxP, minP);
+			storedVertices[index++] = p;
+		}
+
+		P.out("origVertCount", origVertCount);
+		P.out("storedVertCount", storedVertCount);
+		P.out("step", step);
+
+		// normalize vert positions
+		PVector range = PVector.sub(maxP, minP);
+		float maxLength = P.max(range.x, P.max(range.y, range.z));
+		PVector offset = new PVector(range.x - maxLength, range.y - maxLength, range.z - maxLength);
+		offset.mult(0.5f);
+		offset.div(maxLength);
+
+		for (int i = 0, n = index; i < n; i++) {
+			PVector p = storedVertices[i];
+			p.sub(minP);
+			p.div(maxLength);
+			p.sub(offset);
+			storedVertices[i] = p;
+		}
+		P.out("range", range);
+
+		// build texture
+		PGraphics texture = PG.newDataPG(textureSize, textureSize);
+		texture.beginDraw();
+		for (int y = 0; y < textureSize; y++) {
+			for (int x = 0; x < textureSize; x++) {
+				int idx = y * textureSize + x;
+				PVector p = storedVertices[idx % index]; // loop if we don't have enough verts?
+				if (p != null) {
+					texture.fill(P.p.color(p.x * 255.0f, p.y * 255.0f, p.z * 255.0f, 255));
+				} else {
+					texture.fill(P.p.color(0, 0, 0, 0));
+				}     
+				texture.rect(x, y, 1, 1);
+			}
+		}
+		texture.endDraw();
+		return texture;
+	}
+
+	public static void updateVertsToTexture(PVector p, PVector maxP, PVector minP) {
+		if (p.x < minP.x) {
+			minP.x = p.x;
+		} 
+		if (p.y < minP.y) {
+			minP.y = p.y;
+		} 
+		if (p.z < minP.z) {
+			minP.z = p.z;
+		} 
+		if (p.x > maxP.x) {
+			maxP.x = p.x;
+		} 
+		if (p.y > maxP.y) {
+			maxP.y = p.y;
+		} 
+		if (p.z > maxP.z) {
+			maxP.z = p.z;
+		}
+	}
+
 }

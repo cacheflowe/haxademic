@@ -7,22 +7,28 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PEvents;
+import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.AudioUtil;
+import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.system.Console;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONArray;
@@ -358,6 +364,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		String jsonFilename = configFiles.get(curConfigIndex);
 		String jsonSavePath = FileUtil.getPath(SEQUENCES_PATH + jsonFilename);
 		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
+		P.outColor(Console.GREEN_BOLD, "Saved: ", jsonSavePath);
 	}
 	
 	protected void loadConfig(String jsonStr) {
@@ -387,7 +394,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			String uiVolumeKey = UI_VOLUME_+(i+1);
 			String uiPitchKey = UI_PITCH_+(i+1);
 			String uiReverbKey = UI_REVERB_+(i+1);
-			if(UI.has(uiSampleKey)) UI.setValue(UI_SAMPLE_+(i+1), seq.sampleIndex());
+			if(UI.has(uiSampleKey)) UI.setValue(UI_SAMPLE_+(i+1), seq.sampleIndex()); // oof: need to find index for sample to update UI
 			if(UI.has(uiVolumeKey)) UI.setValue(UI_VOLUME_+(i+1), seq.volume());
 			if(UI.has(uiPitchKey)) UI.setValue(UI_PITCH_+(i+1), seq.pitchShift());
 			if(UI.has(uiReverbKey)) UI.setValue(UI_REVERB_+(i+1), seq.reverbSize());
@@ -407,11 +414,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 		return this;
 	}
 	
-	public Interphase initLaunchpads(String deviceName1, String deviceName2) {
+	public Interphase initLaunchpads(String device1In, String device1Out, String device2In, String device2Out) {
 		MidiBus.list();
-		launchpad1 = new LaunchPadMini(deviceName1);
+		launchpad1 = new LaunchPadMini(device1In, device1Out);
 		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(deviceName2);
+		launchpad2 = new LaunchPadMini(device2In, device2Out);
 		launchpad2.setDelegate(this);
 		return this;
 	}
@@ -419,12 +426,15 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
 		// split across launchpads
+		int curStep = P.store.getInt(CUR_STEP);
+		int nextStep = (P.store.getInt(CUR_STEP) + 1) % NUM_STEPS;
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {
 				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
 				float adjustedVal = value;
+				if(sequencers[i].manuallyTriggered() && step == nextStep) adjustedVal = 0.87f;
 				if(value == 0 && step % 4 == 0) adjustedVal = 0.3f;	// show divisor by 4
-				if(value == 0 && step == P.store.getInt(CUR_STEP)) adjustedVal = 0.65f;	// show playhead in row
+				if(value == 0 && step == curStep) adjustedVal = 0.65f;	// show playhead in row
 				if(step <= 7) {
 					launchpad1.setButton(i, step, adjustedVal);
 				} else {
@@ -466,7 +476,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	/////////////////////////////////
-	// DRAW
+	// UPDATE
 	/////////////////////////////////
 	
 	public void autoPlay() {
@@ -474,16 +484,10 @@ implements IAppStoreListener, ILaunchpadCallback {
 	}
 	
 	public void update() {
-		update(null);
-	}
-	
-	public void update(PGraphics pg) {
-		// check inputs & advance sequencers
 		checkInputs();
 		updateSequencers();
 		updateUIGridButtons();
 		updateDebugValues();
-		if(pg != null) drawAudioGrid(pg);
 	}
 	
 	protected void updateSequencers() {
@@ -643,13 +647,16 @@ implements IAppStoreListener, ILaunchpadCallback {
 	// Draw sequencers grid
 	//////////////////////////
 
-	protected void drawAudioGrid(PGraphics pg) {
+	public void drawAudioGrid(PGraphics pg, boolean openContext) {
 		float boxSize = pg.width / NUM_STEPS;
 		float drawW = (boxSize * sequencers.length);
-		float startY = drawW / -2f - boxSize / 2;
+		float startY = drawW / -2f;
 		float startX = (boxSize * NUM_STEPS) / -2f;
-		if (pg != P.p.g) pg.beginDraw();
-		if (pg != P.p.g) pg.background(0);
+		if (openContext) {
+			pg.beginDraw();
+			pg.clear();
+			// pg.background(0);
+		}
 		PG.setCenterScreen(pg);
 		PG.setDrawCorner(pg);
 
@@ -683,8 +690,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		pg.rect(curBeat * boxSize, 0, boxSize, boxSize * NUM_CHANNELS);
 		pg.popMatrix();
 
-		if (pg != P.p.g)
-			pg.endDraw();
+		if (openContext) pg.endDraw();
 	}
 
 	protected void drawSequencer3D(PGraphics pg) {
@@ -732,6 +738,52 @@ implements IAppStoreListener, ILaunchpadCallback {
 		pg.popMatrix();
 
 		pg.endDraw();
+	}
+
+	public void drawSequencersInfo(PGraphics pg, boolean openContext) {
+		if (openContext) {
+			pg.beginDraw();
+			pg.clear();
+			// pg.background(0);
+		}
+		PG.setDrawCorner(pg);
+
+		// set font
+		String fontFile = DemoAssets.fontOpenSansPath;
+		PFont font = FontCacher.getFont(fontFile, 18);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
+
+		// loop through channels
+		int columnW = pg.width / NUM_CHANNELS;
+		for (int i = 0; i < NUM_CHANNELS; i++) {
+			int colX = columnW * i;
+			pg.push();
+			pg.translate(colX, 0);
+
+			// draw waveform & playhead
+			// float sampleLengthS = sequencerAt(i).sampleLength / 5f;
+			// float maxWavW = columnW - 40;
+			// float wavW = sampleLengthS;
+			// wavW = P.constrain(wavW, 0, maxWavW);
+			float wavW = columnW - 40;
+			int wavX = 20;
+			int wavY = 20;
+			int wavH = 32;
+			pg.image(sequencerAt(i).sampleWaveformPG(), wavX, wavY, wavW, wavH);
+			// playhead
+			float progress = sequencerAt(i).sampleProgress();
+			if(progress > 0 && progress < 1) {
+				pg.stroke(255, 0, 0);
+				pg.rect(wavX + wavW * progress, wavY, 2, wavH);
+			}
+
+			// print text info
+			pg.text(sequencerAt(i).info(), 20, 120);
+
+			pg.pop();
+		}
+		
+		if (openContext) pg.endDraw();
 	}
 
 }
