@@ -54,8 +54,9 @@ class DateUtil {
   }
 
   public static function timeElapsedString($dateTimeOld, $full=false) {
-      $now = new DateTime;
-      $ago = $dateTimeOld; // new DateTime($dateTime);
+      // from: https://stackoverflow.com/a/18602474
+      $now = DateUtil::getDateTimeFromMS(time()); // was using `new DateTime;` but it was returning the wrong time! probably time zone issues
+      $ago = $dateTimeOld;
       $diff = $now->diff($ago);
 
       $diff->w = floor($diff->d / 7);
