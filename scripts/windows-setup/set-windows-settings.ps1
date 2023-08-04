@@ -6,6 +6,7 @@
 # https://github.com/owre/Win10-Initial-Setup-Script/blob/master/Win10.psm1
 # https://github.com/Wauwter700/SetupCompleted/blob/master/script.ps1
 # https://www.technewstoday.com/remove-recycle-bin-from-desktop-windows-11/
+# https://github.com/TairikuOokami/Windows/blob/main/Windows%20Tweaks.bat
 ######################################################################################################
 
 ######################################################################################################
@@ -75,6 +76,7 @@ Write-Host "Disabling Lock screen spotlight..."
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "RotatingLockScreenEnabled" -Type DWord -Value 0
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "RotatingLockScreenOverlayEnabled" -Type DWord -Value 0
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-310093Enabled" -Type DWord -Value 0
 
 ######################################################################################################
 
@@ -196,11 +198,16 @@ powercfg /SETACVALUEINDEX SCHEME_CURRENT 2a737441-1930-4402-8d77-b2bebba308a3 48
 
 ######################################################################################################
 
+Write-Host "Disable ~If you've been away, when should Windows require you to sign in again~..."
+powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_NONE CONSOLELOCK 0​ 
+powercfg /SETDCVALUEINDEX SCHEME_CURRENT SUB_NONE CONSOLELOCK 0
+
+######################################################################################################
+
 Write-Host "Disable screensaver..."
 Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveTimeOut" -Value 0
 Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveActive" -Value 0
 Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaverIsSecure" -Value 0
-
 
 ######################################################################################################
 
@@ -319,6 +326,11 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 
 ######################################################################################################
 
+Write-Host "Hiding more notifications..."
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" -Name "Enabled" -Type DWord -Value 0
+
+######################################################################################################
+
 Write-Host "Hiding Recycle Bin from desktop..."
 If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel")) {
     New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" | Out-Null
@@ -382,9 +394,9 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroP
 # Didn't work - maybe need to create property if doesn't exist
 # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" -Name "DisableStartupSound" -Type DWord -Value 1
 
-Write-Host "Disabling windows sounds..."
-Remove-ItemProperty -Path "HKCU:\AppEvents\Schemes\Apps" -Name "FavoritesResolve" -Force -ErrorAction SilentlyContinue
-
+# Write-Host "Disabling windows sounds..."
+# Remove-ItemProperty -Path "HKCU:\AppEvents\Schemes\Apps" -Name "FavoritesResolve" -Force -ErrorAction SilentlyContinue
+# New-ItemProperty -Path HKCU:\AppEvents\Schemes -Name "(Default)" -Value ".None" -Force | Out-Null
 
 ######################################################################################################
 
@@ -501,6 +513,8 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAcce
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\radios" -Name Value -Value Deny
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" -Name Value -Value Deny
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userDataTasks" -Name Value -Value Deny
+Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" -Name Value -Value Deny
+Set-ItemProperty "HKLM:\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userNotificationListener" -Name Value -Value Deny
 
 # Services
 Get-Service "*DiagTrack*" | Set-Service -StartupType Disabled

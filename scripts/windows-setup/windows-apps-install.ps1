@@ -25,6 +25,13 @@ choco install python
 choco install 7zip.install
 
 ######################################################################################################
+# Download apps for manual install
+######################################################################################################
+
+$WebClient = New-Object System.Net.WebClient
+$WebClient.DownloadFile("https://www.sordum.org/files/download/windows-update-blocker/Wub_v1.8.zip", "$HOME\Downloads\Wub_v1.8.zip")
+
+######################################################################################################
 # Clean up links created on desktop
 ######################################################################################################
 Write-Host "Remove all shortcuts"
@@ -79,6 +86,9 @@ Write-Host "Uninstall some applications that come with Windows out of the box" -
 # How to find more app IDs for uninstall:
 # Get-AppxPackage -AllUsers | Select Name, PackageFullName
 # More info here: https://techcult.com/how-to-uninstall-mcafee-livesafe-in-windows-10/
+# 
+# But then other apps needs to be found like so:
+# https://redmondmag.com/articles/2019/08/27/powershell-to-uninstall-an-application.aspx
 
 function removeApp {
 	Param ([string]$appName)
@@ -95,6 +105,7 @@ $applicationList = @(
 	"Microsoft.BingNews"
 	"Microsoft.BingSports"
 	"Microsoft.BingWeather"
+	"Microsoft.CBSPreview"
 	"Microsoft.CommsPhone"
 	"Microsoft.ConnectivityStore"
 	"Microsoft.FreshPaint"
@@ -117,6 +128,7 @@ $applicationList = @(
 	"Microsoft.Print3D"
 	"Microsoft.RemoteDesktop"
 	"Microsoft.SkypeApp"
+	"Microsoft.Todods"
 	"Microsoft.WindowsAlarms"
 	"Microsoft.WindowsCamera"
 	"microsoft.windowscommunicationsapps"
@@ -128,6 +140,7 @@ $applicationList = @(
 	"Microsoft.XboxGameOverlay"
 	"Microsoft.XboxGamingOverlay"
 	"Microsoft.XboxIdentityProvider"
+	"Microsoft.YourPhone"
 	"Microsoft.ZuneMusic"
 	"Microsoft.ZuneVideo"
 	"MicrosoftTeams"
