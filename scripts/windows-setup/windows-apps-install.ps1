@@ -29,6 +29,7 @@ choco install 7zip.install
 ######################################################################################################
 
 $WebClient = New-Object System.Net.WebClient
+$WebClient.DownloadFile("https://github.com/IntelRealSense/librealsense/releases/download/v2.54.1/Intel.RealSense.SDK-WIN10-2.54.1.5216.exe", "$HOME\Downloads\Intel.RealSense.SDK-WIN10-2.54.1.5216.exe")
 $WebClient.DownloadFile("https://www.sordum.org/files/download/windows-update-blocker/Wub_v1.8.zip", "$HOME\Downloads\Wub_v1.8.zip")
 
 ######################################################################################################
