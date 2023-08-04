@@ -128,7 +128,7 @@ $applicationList = @(
 	"Microsoft.Print3D"
 	"Microsoft.RemoteDesktop"
 	"Microsoft.SkypeApp"
-	"Microsoft.Todods"
+	"Microsoft.Todos"
 	"Microsoft.WindowsAlarms"
 	"Microsoft.WindowsCamera"
 	"microsoft.windowscommunicationsapps"
@@ -191,6 +191,10 @@ $applicationList = @(
 	"2414FC7A.Viber"
 	"64885BlueEdge.OneCalendar"
 	"41038Axilesoft.ACGMediaPlayer"
+	# ASUS
+	"Clipchamp.Clipchamp"
+	"B9ECED6F.ArmouryCrate"
+	"Microsoft.Todos"
 );
 
 foreach ($app in $applicationList) {

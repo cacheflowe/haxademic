@@ -5,17 +5,13 @@
 
 ## Let's go
 
-- Set up machine with [no Microsoft account](https://github.com/cacheflowe/haxademic/blob/master/guides/windows-setup.md?plain=1#L5-L12) and run all Windows updates
-- Turn on Developer Mode (Settings → Privacy & Security → For Developers):
-    - Developer Mode toggle
-    - File Explorer settings
-    - Powershell execution policy
+- Set up machine with [no Microsoft account](https://github.com/cacheflowe/haxademic/blob/master/guides/windows-setup.md?plain=1#L5-L12) and run all Windows updates when you first log in
 - Now we can run our app installation scripts and manually (un)install other apps
     - Download **apps install/uninstall [script](../scripts/windows-setup/windows-apps-install.ps1).** This will install the Chocolatey package manager with a bunch of boilerplate apps & drivers, and uninstall bloatware.
     - Open Powershell ***as Administrator***
     - cd to the script that you downloaded (`cd $HOME\Downloads`) and run: `.\windows-apps-install.ps1`
         - If permissions don't allow, run it like this:
-        - `powershell.exe -noprofile -executionpolicy bypass -file .\windows-apps-install.ps1`
+        - `powershell.exe -executionpolicy unrestricted .\windows-apps-install.ps1`
     - Uninstall 2 McAfee apps manually
     - Uninstall Geforce Experience - ***can this be part of the windows uninstall .ps1***?
     - Unzip and run Wub.exe from Downloads - turn off updates. We'll manually update Windows once in a while when we log in
@@ -23,6 +19,12 @@
     - `powershell.exe -noprofile -executionpolicy bypass -file .\set-windows-settings.ps1`
     - Restart the machine!
     - Now we manually go through Windows settings that aren't updated with the script
+
+// DEVELOPER MODE??
+- Turn on Developer Mode (Settings → Privacy & Security → For Developers):
+    - Developer Mode toggle
+    - File Explorer settings
+    - Powershell execution policy
 
 ## Check for non-essential apps & bloatware
 
