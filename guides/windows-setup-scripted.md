@@ -16,8 +16,9 @@ We'll use some .ps1 scripts and fewer manual steps
     - Uninstall 2 McAfee apps manually
     - Uninstall Geforce Experience - ***can this be part of the windows uninstall .ps1***?
     - Unzip and run Wub.exe from Downloads - turn off updates. We'll manually update Windows once in a while when we log in
+    - Run Realsense installer from Downloads with default settings
 - Set global windows settings with [**this script**](../scripts/windows-setup/set-windows-settings.ps1).
-    - `powershell.exe -noprofile -executionpolicy bypass -file .\set-windows-settings.ps1`
+    - `powershell.exe -executionpolicy unrestricted .\set-windows-settings.ps1`
     - Restart the machine!
     - Now we manually go through Windows settings that aren't updated with the script
 
