@@ -1,7 +1,8 @@
 # Set up Windows 10 for installations
-## Using some .ps1 scripts and fewer manual steps
 
-* Check out the [vanilla guide](./windows-setup.md) for more details.
+We'll use some .ps1 scripts and fewer manual steps
+
+* Check out the [vanilla guide](./windows-setup.md) for the older fully-manual process. It includes lots of extra/unnecessary info for edge cases that I've seen over the years.
 
 ## Let's go
 
@@ -19,12 +20,6 @@
     - `powershell.exe -noprofile -executionpolicy bypass -file .\set-windows-settings.ps1`
     - Restart the machine!
     - Now we manually go through Windows settings that aren't updated with the script
-
-// DEVELOPER MODE??
-- Turn on Developer Mode (Settings → Privacy & Security → For Developers):
-    - Developer Mode toggle
-    - File Explorer settings
-    - Powershell execution policy
 
 ## Check for non-essential apps & bloatware
 
