@@ -41,8 +41,8 @@ extends PAppletHax {
 		// use the exact number of pixels you're addressing
 		numPixels = ledTexture.width * ledTexture.height;
 		DebugView.setTexture("ledTexture", ledTexture);
-		artNetDataSender1 = new ArtNetDataSender("192.168.1.101", 6, numPixels/2);
-		artNetDataSender2 = new ArtNetDataSender("192.168.1.101", 12, numPixels/2);
+		artNetDataSender1 = new ArtNetDataSender("192.168.0.184", 0, numPixels/2);
+		artNetDataSender2 = new ArtNetDataSender("192.168.0.184", 6, numPixels/2);
 
 		// build textures
 		// video

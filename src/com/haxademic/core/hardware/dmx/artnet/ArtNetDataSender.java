@@ -49,7 +49,7 @@ public class ArtNetDataSender {
 	public int universeStart() { return universeStart; }
 	public int numPixels() { return numPixels; }
 	
-	public void setColorAtIndex(int pixelIndex, float r, float g, float b) {
+	public void setColorAtIndex(int pixelIndex, int r, int g, int b) {
 		// assuming RGB LEDs, map dmx channels to pixel index
 //		pixelIndex *= 3; 
 		// prevent out of range errors... why is it doing this?
@@ -113,9 +113,9 @@ public class ArtNetDataSender {
 			int x = MathUtil.gridXFromIndex(i, matrixW);
 			int y = MathUtil.gridYFromIndex(i, matrixW);
 			int pixelColor = ImageUtil.getPixelColor(texture, offsetX + x, offsetY + y);
-			float r = ColorUtil.redFromColorInt(pixelColor);
-			float g = ColorUtil.greenFromColorInt(pixelColor);
-			float b = ColorUtil.blueFromColorInt(pixelColor);
+			int r = ColorUtil.redFromColorInt(pixelColor);
+			int g = ColorUtil.greenFromColorInt(pixelColor);
+			int b = ColorUtil.blueFromColorInt(pixelColor);
 			
 			// calculate pixel index, stepping through single-row sequential layout, 1 by 1
 			// zigzag remap
@@ -158,7 +158,10 @@ public class ArtNetDataSender {
 		int y = 0;
 		// need to properly convert byte back to int, because of weird byte value range without conversion
 		for(int i=0; i < dmxData.length/3; i+=3) {
-			pg.fill(P.parseInt(dmxData[i + 0]), P.parseInt(dmxData[i + 1]), P.parseInt(dmxData[i + 2]));
+			int r = P.parseInt(dmxData[i + 0]);
+			int g = P.parseInt(dmxData[i + 1]);
+			int b = P.parseInt(dmxData[i + 2]);
+			pg.fill(r, g, b);
 			pg.rect(x, y, pixSize, pixSize);
 			x += pixSize;
 			if(x >= pg.width) {

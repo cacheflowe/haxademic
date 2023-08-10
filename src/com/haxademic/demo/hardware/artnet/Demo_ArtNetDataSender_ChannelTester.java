@@ -70,9 +70,9 @@ extends PAppletHax {
 //		UI.setValue(CHANNEL_RANGE_END, FrameLoop.osc(0.2f, 190, 195));
 		
 		// get rgb colors from UI
-		float r = UI.value(COLOR_R);
-		float g = UI.value(COLOR_G);
-		float b = UI.value(COLOR_B);
+		int r = UI.valueInt(COLOR_R);
+		int g = UI.valueInt(COLOR_G);
+		int b = UI.valueInt(COLOR_B);
 		
 		// build entire LED data, to loop through afterwards
 		for(int i=0; i < numPixels; i++) {

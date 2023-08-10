@@ -37,11 +37,11 @@ public class LightStripBuffer {
 
 	public void drawCustom() {
 		for (int x = 0; x < this.width; x++) {
-			float dashFreq = 0.5f;
+			float dashFreq = 0.05f;
 			buffer.fill(
-				20 + 100 * P.sin(FrameLoop.count(0.175f) + indexStart + x*dashFreq),
-				20 + 100 * P.sin(FrameLoop.count(0.150f) + indexStart + x*dashFreq),
-				20 + 100 * P.sin(FrameLoop.count(0.195f) + indexStart + x*dashFreq)
+				100 + 100 * P.sin(FrameLoop.count(0.0075f) + indexStart + x*dashFreq),
+				100 + 100 * P.sin(FrameLoop.count(0.0050f) + indexStart + x*dashFreq),
+				100 + 100 * P.sin(FrameLoop.count(0.0035f) + indexStart + x*dashFreq)
 			);
 			buffer.rect(x, 0, 1, buffer.height);
 		}
@@ -57,7 +57,7 @@ public class LightStripBuffer {
 	}
 
 	public void setData() {
-		for(int i=indexStart; i <= indexEnd; i++) {
+		for(int i=indexStart; i <= indexEnd; i+=3) {
 			int bufferXIndex = P.round(P.map(i, indexStart, indexEnd, 0, this.width - 1)); 
 			//					P.out(bufferXIndex);;
 			int pixelColor = ImageUtil.getPixelColor(buffer, bufferXIndex, 0);

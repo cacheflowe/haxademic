@@ -1,6 +1,8 @@
 package com.haxademic.core.math;
 
 import java.awt.Point;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 

@@ -116,9 +116,9 @@ public class MappedLightStrip {
 			int pixelColor = ImageUtil.getPixelColor(map, (int) pixelX, (int) pixelY);
 			
 			// set rgb colors
-			float r = P.p.red(pixelColor);
-			float g = P.p.green(pixelColor);
-			float b = P.p.blue(pixelColor);
+			int r = (int) P.p.red(pixelColor);
+			int g = (int) P.p.green(pixelColor);
+			int b = (int) P.p.blue(pixelColor);
 			
 			// draw to screen
 			pg.fill(r, g, b);
