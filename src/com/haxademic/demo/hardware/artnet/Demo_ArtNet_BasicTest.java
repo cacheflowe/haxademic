@@ -24,10 +24,10 @@ extends PAppletHax {
 		// max of 170 RGB lights in 1 universe
 		for(int i=0; i < 170; i++) {
 			int indx = i * 3;
-			float r = 127 + 127f * sin(0+(i/10f) + frameCount * 0.08f);
+			float r = 127 + 127f * sin(0+(i/10f) + frameCount * 0.04f);
 			// float r = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(0+(i/10f) + frameCount * 0.2f));
 			float g = 127 + 127f * sin(1+(i/10f) + frameCount * 0.08f);
-			float b = 127 + 127f * sin(2+(i/10f) + frameCount * 0.08f);
+			float b = 127 + 127f * sin(2+(i/10f) + frameCount * 0.06f);
 			dmxData[indx + 0] = P.parseByte(r);
 			dmxData[indx + 1] = P.parseByte(g);
 			dmxData[indx + 2] = P.parseByte(b);
