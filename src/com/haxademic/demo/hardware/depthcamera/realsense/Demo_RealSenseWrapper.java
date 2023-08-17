@@ -67,13 +67,13 @@ implements IAppStoreListener {
 		int depthFar = P.round(RealSenseWrapper.METERS_FAR_THRESH * 1000);
 		for ( int x = 0; x < RealSenseWrapper.DEPTH_W; x += pixelSize ) {
 			for ( int y = 0; y < RealSenseWrapper.DEPTH_H; y += pixelSize ) {
-			    // get intensity
-			    float pixelDepth = realSenseWrapper.getDepthAt(x, y);
-			    if(pixelDepth != 0 && pixelDepth < depthFar) {
-				    p.fill(P.map(pixelDepth, 0, depthFar, 255, 0));
-				    p.rect(x, y, pixelSize, pixelSize);
-				    numPixelsProcessed++;
-			    }
+				// get intensity
+				float pixelDepth = realSenseWrapper.getDepthAt(x, y);
+				if(pixelDepth != 0 && pixelDepth < depthFar) {
+					p.fill(P.map(pixelDepth, 0, depthFar, 255, 0));
+					p.rect(x, y, pixelSize, pixelSize);
+					numPixelsProcessed++;
+				}
 			}
 		}
 		
