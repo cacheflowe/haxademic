@@ -128,6 +128,7 @@ implements IEasingBooleanCallback {
 		// check depth camera stability
 		if(FrameLoop.frameModMinutes(10)) P.out("Still running:", DebugView.uptimeStr());
 		p.background(30);
+		if(DepthCamera.instance().camera.isActive() == false) return;
 		updateDepthRegion();
 		updateSmoothedJoystickResults();
 		addDebugTextures();

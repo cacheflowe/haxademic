@@ -110,6 +110,7 @@ implements IDepthCamera {
 	}
 	
 	public void stop() {
+		camera.stop();
 	}
 	
 	///////////////////////////
