@@ -26,6 +26,7 @@ implements IDepthCamera {
 	protected boolean MIRROR = true;
 	protected boolean threaded = true;
 	protected Boolean threadBusy = false;
+	protected Thread curThread;
 	protected boolean hasUpdated = false;
 	protected PGraphics mirrorRGB;
 	protected PGraphics mirrorDepth;
@@ -110,7 +111,13 @@ implements IDepthCamera {
 	}
 	
 	public void stop() {
-		camera.stop();
+		if (camera().isRunning()) {
+			camera.stop();
+		}
+		if(threaded && curThread != null) {
+			curThread.interrupt();
+			curThread = null;
+		}
 	}
 	
 	///////////////////////////
@@ -121,7 +128,7 @@ implements IDepthCamera {
 		if(camera.isRunning() == false) return;
 		if(threaded) {
 			if(threadBusy == false) {
-				new Thread(new Runnable() { public void run() {
+				curThread = new Thread(new Runnable() { public void run() {
 					threadBusy = true;
 					try {
 						camera.readFrames();
@@ -131,7 +138,8 @@ implements IDepthCamera {
 					if(DEPTH_ACTIVE) data = camera.getDepthData();
 					threadBusy = false;
 					hasUpdated = true;
-				}}).start();
+				}});
+				curThread.start();
 			}
 		} else {
 			camera.readFrames();
