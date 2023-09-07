@@ -19,6 +19,7 @@ public class AppState {
 	// state handlers & helpers
 	
 	public static void init(String initialState) {
+		if(initialState == null) P.error("AppState.init(String initialState) cannot be set to null");
 		P.store.setString(APP_STATE, initialState);
 		P.store.setString(QUEUED_APP_STATE, initialState);
 		P.store.setNumber(ANIMATION_FRAME, 0);
@@ -41,7 +42,11 @@ public class AppState {
 	public static void checkQueuedState() {
 		String queuedState = P.store.getString(QUEUED_APP_STATE);
 		if(!queuedState.equals(NO_QUEUE)) {
-			P.store.setString(APP_STATE, queuedState);
+			if(P.storeDistributed != null) {
+				P.storeDistributed.setString(APP_STATE, queuedState);
+			} else {
+				P.store.setString(APP_STATE, queuedState);
+			}
 			P.store.setString(QUEUED_APP_STATE, NO_QUEUE);
 		}
 	}

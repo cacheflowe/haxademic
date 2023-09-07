@@ -26,6 +26,9 @@
         <div>Send a test string:</div>
         <button onclick='javascript:_store.set("strang", "string one", true);'>strang: string one</button>
         <button onclick='javascript:_store.set("strang", "string two", true);'>strang: string two</button>
+        <div>Send AppState syncing:</div>
+        <button onclick='javascript:_store.set("APP_STATE", "APP_STATE_ONE", true);'>APP_STATE_ONE</button>
+        <button onclick='javascript:_store.set("APP_STATE", "APP_STATE_TWO", true);'>APP_STATE_TWO</button>
         <div>Send generic JSON:</div>
         <button onclick='javascript:_store.broadcastJson({"test":"test","data":true});'>"data":true</button>
         <button onclick='javascript:_store.broadcastJson({"test":"test","data":false});'>"data":false</button>

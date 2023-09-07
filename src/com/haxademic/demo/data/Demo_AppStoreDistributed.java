@@ -6,6 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.data.store.AppState;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
@@ -45,6 +46,8 @@ implements IAppStoreListener {
 	
 	protected StringBufferLog webServerLog = new StringBufferLog(10);
 
+	protected String APP_STATE_ONE = "APP_STATE_ONE";
+	protected String APP_STATE_TWO = "APP_STATE_TWO";
 
 	protected void config() {
 		Config.setAppSize(560, 680);
@@ -80,6 +83,7 @@ implements IAppStoreListener {
 			}
 		}
 		P.store.addListener(this);
+		AppState.init(APP_STATE_ONE);
 
 		// set to true to see messages coming in and out of the server
 		// must be set after server init
@@ -105,6 +109,8 @@ implements IAppStoreListener {
 		if(isServer) {
 			if(p.key == 'b') SystemUtil.openWebPage(WebServer.getServerAddress() + "app-store-distributed/");
 		}
+		if(p.key == '1') AppState.set(APP_STATE_ONE);
+		if(p.key == '2') AppState.set(APP_STATE_TWO);
 	}
 	
 	/////////////////////////////////
@@ -112,6 +118,7 @@ implements IAppStoreListener {
 	/////////////////////////////////
 	
 	protected void drawApp() {
+		AppState.checkQueuedState();
 		background(0);
 		
 		// set some shared values

@@ -146,12 +146,18 @@ implements ISocketClientDelegate {
 		
 		// if `store` key exists, set on local store
 		if(!jsonData.isNull(STORE_KEY) && !jsonData.isNull(DATA_TYPE)) {
+			String key = jsonData.getString(JSON_KEY);
 			if(jsonData.getString(DATA_TYPE).equals(DATA_TYPE_STRING)) {
-				P.store.setString(jsonData.getString(JSON_KEY), jsonData.getString(JSON_VALUE));
+				String val = jsonData.getString(JSON_VALUE);
+				if(key.equals(AppState.APP_STATE)) { // special case for APP_STATE - we queue it so it behaves as expected
+					AppState.set(val);
+				} else {
+					P.store.setString(key, val);
+				}
 			} else if(jsonData.getString(DATA_TYPE).equals(DATA_TYPE_NUMBER)) {
-				P.store.setNumber(jsonData.getString(JSON_KEY), jsonData.getFloat(JSON_VALUE));
+				P.store.setNumber(key, jsonData.getFloat(JSON_VALUE));
 			} else if(jsonData.getString(DATA_TYPE).equals(DATA_TYPE_BOOLEAN)) {
-				P.store.setBoolean(jsonData.getString(JSON_KEY), jsonData.getBoolean(JSON_VALUE));
+				P.store.setBoolean(key, jsonData.getBoolean(JSON_VALUE));
 			}
 		} else {
 			P.store.setString(DATA_TYPE_JSON_KEY, message);
