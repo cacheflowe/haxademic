@@ -95,37 +95,37 @@ implements ISocketClientDelegate {
 		// pass along to AppStore
 		if(setLocalAuto) P.store.setNumber(storeKey, val);
 		// send to other machines
-	    JSONObject jsonOut = new JSONObject();
-	    jsonOut.setBoolean(STORE_KEY, true);
-	    jsonOut.setString(DATA_TYPE, DATA_TYPE_NUMBER);
-	    jsonOut.setString(JSON_KEY, storeKey);
-	    jsonOut.setFloat(JSON_VALUE, val.floatValue());
+		JSONObject jsonOut = new JSONObject();
+		jsonOut.setBoolean(STORE_KEY, true);
+		jsonOut.setString(DATA_TYPE, DATA_TYPE_NUMBER);
+		jsonOut.setString(JSON_KEY, storeKey);
+		jsonOut.setFloat(JSON_VALUE, val.floatValue());
 		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	public void setString(String storeKey, String val) {
 		// pass along to AppStore
-	    if(setLocalAuto) P.store.setString(storeKey, val);
+		if(setLocalAuto) P.store.setString(storeKey, val);
 		// send to other machines
-	    JSONObject jsonOut = new JSONObject();
-	    jsonOut.setBoolean(STORE_KEY, true);
-	    jsonOut.setString(DATA_TYPE, DATA_TYPE_STRING);
-	    jsonOut.setString(JSON_KEY, storeKey);
-	    jsonOut.setString(JSON_VALUE, val);
+		JSONObject jsonOut = new JSONObject();
+		jsonOut.setBoolean(STORE_KEY, true);
+		jsonOut.setString(DATA_TYPE, DATA_TYPE_STRING);
+		jsonOut.setString(JSON_KEY, storeKey);
+		jsonOut.setString(JSON_VALUE, val);
 		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	public void setBoolean(String storeKey, Boolean val) {
 		// pass along to AppStore
-	    if(setLocalAuto) P.store.setBoolean(storeKey, val);
+		if(setLocalAuto) P.store.setBoolean(storeKey, val);
 		// send to other machines
-	    JSONObject jsonOut = new JSONObject();
-	    jsonOut.setBoolean(STORE_KEY, true);
-	    jsonOut.setString(DATA_TYPE, DATA_TYPE_BOOLEAN);
-	    jsonOut.setString(JSON_KEY, storeKey);
-	    jsonOut.setBoolean(JSON_VALUE, val);
+		JSONObject jsonOut = new JSONObject();
+		jsonOut.setBoolean(STORE_KEY, true);
+		jsonOut.setString(DATA_TYPE, DATA_TYPE_BOOLEAN);
+		jsonOut.setString(JSON_KEY, storeKey);
+		jsonOut.setBoolean(JSON_VALUE, val);
 		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
