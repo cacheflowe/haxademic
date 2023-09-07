@@ -63,6 +63,10 @@ public class SocketServer {
 			e.printStackTrace();
 		}  
 	}
+
+	public int numConnections() {
+		return server.getConnections().size();
+	}
 	
 	public void sendMessage(String msg) {
 		if(SocketServer.DEBUG == true) P.println("sending (to " + server.getConnections().size() + " clients):");

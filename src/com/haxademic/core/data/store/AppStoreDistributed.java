@@ -89,6 +89,12 @@ implements ISocketClientDelegate {
 		return false;
 	}
 	
+	public int numConnections() {
+		if(server != null) return server.numConnections();
+		if(client != null) return client.isConnected() ? 1 : 0;
+		return 0;
+	}
+	
 	// Shared basic data types setters 
 	
 	public void setNumber(String storeKey, Number val) {
