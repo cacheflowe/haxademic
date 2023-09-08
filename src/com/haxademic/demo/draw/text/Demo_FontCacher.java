@@ -27,7 +27,7 @@ extends PAppletHax {
 
 		// pixel fonts
 		
-        String fontFile3 = "haxademic/fonts/MiniSet2.ttf";
+    String fontFile3 = "haxademic/fonts/MiniSet2.ttf";
 		font = FontCacher.getFont(fontFile3, 8f);
 		FontCacher.setFontOnContext(p.g, font, p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		p.text(fontFile3, 20, 200);

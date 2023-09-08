@@ -42,14 +42,10 @@ extends PAppletHax {
 		// build entire LED data, to loop through afterwards
 		for(int i=0; i < numPixels; i++) {
 			// set rgb colors
-			float r = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(0+((i % numCols)*UI.value(colorFreq)) + -frameCount * UI.value(colorSpeed)*1f));
-			float g = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(1+((i % numCols)*UI.value(colorFreq)) + -frameCount * UI.value(colorSpeed)*0.66f));
-			float b = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(2+((i % numCols)*UI.value(colorFreq)) + -frameCount * UI.value(colorSpeed)*0.33f));
-			
-			r *= UI.value(brightness);
-			g *= UI.value(brightness);
-			b *= UI.value(brightness);
-			
+			int r = P.round(UI.value(brightness) * 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(0+((i % numCols)*UI.value(colorFreq)) + -frameCount * UI.value(colorSpeed)*1f)));
+			int g = P.round(UI.value(brightness) * 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(1+((i % numCols)*UI.value(colorFreq)) + -frameCount * UI.value(colorSpeed)*0.66f)));
+			int b = P.round(UI.value(brightness) * 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(2+((i % numCols)*UI.value(colorFreq)) + -frameCount * UI.value(colorSpeed)*0.33f)));
+						
 			// pixel index, stepping through single-row sequential layout, 1 by 1
 			int pixelIndex = i;
 			

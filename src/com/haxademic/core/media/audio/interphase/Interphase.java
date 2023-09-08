@@ -356,6 +356,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
 		configFiles.add(jsonFilename);
 		curConfigIndex = configFiles.size() - 1;
+		P.outColor(Console.GREEN_BOLD, "Saved: ", jsonSavePath);
 	}
 	
 	public void rewriteCurJsonFile() {

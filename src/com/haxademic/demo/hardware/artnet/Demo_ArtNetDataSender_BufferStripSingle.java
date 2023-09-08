@@ -34,14 +34,14 @@ extends PAppletHax {
 		AudioIn.instance(AudioInputLibrary.ESS);
 		
 		// build artnet obj
-		artNetDataSender = new ArtNetDataSender("192.168.1.100", 0, numPixels);
+		artNetDataSender = new ArtNetDataSender("192.168.1.192", 0, numPixels);
 		
 		// build debug buffer for visualizing artnet data array
 		debugPG = PG.newPG(128, 128);
 		DebugView.setTexture("debugPG", debugPG);
 		
 		// build main buffer
-		lightStripBuffer = new BufferCustom(artNetDataSender, numPixels, 0, numPixels-1, 40);
+		lightStripBuffer = new BufferCustom(artNetDataSender, numPixels, 0, numPixels-1, 10);
 	}
 
 	protected void drawApp() {
@@ -51,9 +51,15 @@ extends PAppletHax {
 		// draw info buffer
 		lightStripBuffer.draw();
 		lightStripBuffer.setData();
+		
 		// send to lighting hardware
 		artNetDataSender.send();
 		artNetDataSender.drawDebug(debugPG, true);
+
+		// draw buffer to screen
+		PG.setDrawCenter(p.g);
+		PG.setCenterScreen(p.g);
+		p.image(lightStripBuffer.buffer(), 0, 0);
 	}
 	
 	////////////////////////////////
@@ -76,7 +82,7 @@ extends PAppletHax {
 			
 			// draw a bunch of particles on the beat
 			if(AudioIn.isBeat()) {
-				for(int i=0; i < 10; i++) {
+				for(int i=0; i < 30; i++) {
 					Particle particle = particles.launchParticle(0, 0, 0);
 					particle
 						.setGravityRange(0, 0, 0, 0, 0, 0)
@@ -85,7 +91,7 @@ extends PAppletHax {
 						.setSpeedRange(-0.5f, 0.5f, 0, 0, 0, 0)
 						.setColor(p.color(P.p.random(255), P.p.random(255), P.p.random(255)))
 						.setImage(DemoAssets.particle())
-						.launch(P.p.random(0, numPixels), 0, 0);	// .launch() to set random params properly
+						.launch(P.p.random(0, numPixels), buffer.height/2, 0);	// .launch() to set random params properly
 				}
 			}
 			particles.updateAndDrawParticles(buffer);

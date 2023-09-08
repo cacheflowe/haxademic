@@ -1,5 +1,6 @@
 package com.haxademic.demo.hardware.artnet;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -48,7 +49,7 @@ extends PAppletHax {
 		for(int i=0; i < numPixels; i++) {
 			// get fft freq
 			// float c = AudioIn.audioFreq(i) * 20;
-			float c = AudioIn.audioWave(i) * 50;
+			int c = P.round(AudioIn.audioWave(i) * 50);
 			artNetDataSender.setColorAtIndex(i, c, c, c);
 		}
 	}

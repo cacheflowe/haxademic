@@ -61,15 +61,15 @@ extends PAppletHax {
 		float colorFreq = 0.05f;
 		for(int i=0; i < numPixels; i++) {
 			// set rgb colors
-			float r = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(0+(i*colorFreq) + -frameCount * colorSpeed*1f));
-			float g = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(1+(i*colorFreq) + -frameCount * colorSpeed*0.8f));
-			float b = 255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.6f));
+			int r = P.round(255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(0+(i*colorFreq) + -frameCount * colorSpeed*1f)));
+			int g = P.round(255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(1+(i*colorFreq) + -frameCount * colorSpeed*0.8f)));
+			int b = P.round(255f * Penner.easeInOutExpo(0.25f + 0.75f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.6f)));
 			
 			// set data
 			if(UI.valueToggle(SOLID_COLOR) == false) {
 				artNetDataSender.setColorAtIndex(i, r, g, b);
 			} else {
-				artNetDataSender.setColorAtIndex(i, UI.value(COLOR_R), UI.value(COLOR_G), UI.value(COLOR_B));
+				artNetDataSender.setColorAtIndex(i, UI.valueInt(COLOR_R), UI.valueInt(COLOR_G), UI.valueInt(COLOR_B));
 			}
 		}
 	}

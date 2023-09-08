@@ -39,19 +39,6 @@ extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	// TODO:
-	// Needs
-	// - Sometimes some of the particles should assume an alternate mode of behavior for variety
-	// - Hole in new pattern animation before releasing particles
-	// - Clean up recycling vs new mode recycling
-	// - Add Uptime suite & move dashboard URL into run.properties
-	// - Add 5x grid placement mode
-	// Maybes
-	// - add UI for different modes
-	// - add more movement modes
-	// - add different color cycling modes/evolution
-	// - use vertex shader to move grouped shapes - will be a big change
-
 	// particles
 	protected float hoffOrthoFactor;
 	protected int NUM_CELLS = 888;
@@ -490,8 +477,6 @@ implements IAppStoreListener {
 			}
 		}
 	}
-
-
 
 	////////////////////////////////////////////////////
 	// PostFX / Lighting 
