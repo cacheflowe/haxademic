@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.demo.system.Demo_JavaFX_MediaPlayer.Player;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,6 +36,8 @@ extends Application {
     protected Media media;
     protected MediaPlayer player;
     protected MediaView view;
+    protected static int W = 640;
+    protected static int H = 360;
 
     public static int numvideoWindows = 0;
 
@@ -43,7 +46,10 @@ extends Application {
         Runnable videoWindowThread = new Runnable() {
             public void run() {             
                 VideoWindowJavaFX newvideoWindow = new VideoWindowJavaFX();
-                newvideoWindow.start(new Stage());
+                Stage stage = new Stage();
+                stage.setWidth(W);
+                stage.setHeight(H);
+                newvideoWindow.start(stage);
                 newvideoWindow.setDelegate(delegate);
                 newvideoWindow.loadURL(url);
             }
@@ -77,7 +83,7 @@ extends Application {
 
         
         // create the browser & embed into Stage/Scene
-        Scene scene = new Scene(player, 320, 320, Color.web("#666970"));
+        Scene scene = new Scene(player, W, H, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
 //      stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
@@ -92,8 +98,8 @@ extends Application {
     public class Player extends BorderPane 
     {
         Media media;
-        MediaPlayer player;
-        MediaView view;
+//        MediaPlayer player;
+//        MediaView view;
         Pane mpane;
         public Player(String file) { 
             
@@ -122,6 +128,11 @@ extends Application {
                     P.out("Playing");
                 }
             });
+            player.setOnRepeat(new Runnable() {
+                public void run() {
+                    P.out("Looped");
+                }
+            });
             
         }
     }
@@ -132,23 +143,25 @@ extends Application {
    // JavaFX Image getter - saves the videoWindow as an image
    ///////////////////////////////////////////////
    
-   WritableImage img;
-   BufferedImage bImg;
-   PImage pimg;
+   protected WritableImage img;
+   protected BufferedImage bImg;
+   protected PImage pimg;
    
    public PImage getImage() {
        Platform.runLater(() -> {
-           if(img == null) img = new WritableImage((int)stage.getWidth(), (int)stage.getHeight());
-           stage.getScene().snapshot(img); // Image image = 
-           
-           bImg = SwingFXUtils.fromFXImage(img, bImg);
-           
-           if(pimg == null) {
-               pimg = ImageUtil.bufferedToPImage(bImg);
-           } else {
-               ImageUtil.copyBufferedToPImagePixels(bImg, pimg);
-           }
+           if(img == null) img = new WritableImage(1280, 720);
+           stage.getScene().snapshot(img);
+           bImg = SwingFXUtils.fromFXImage(img, bImg);           
        });
+       if(pimg == null) {
+           pimg = ImageUtil.bufferedToPImage(bImg);
+       } else if(bImg != null) {
+           ImageUtil.copyBufferedToPImagePixels(bImg, pimg);
+       }
        return pimg;
+   }
+   
+   public PImage getImage2() {
+       return null;
    }
 }
