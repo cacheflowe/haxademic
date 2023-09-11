@@ -5,7 +5,7 @@ This is a guide to explain a more advanced IDE setup, using traditional Java dev
 ## VS Code
 
 - Install VS Code, and check out the [VS Code Java docs](https://code.visualstudio.com/docs/java/java-tutorial)
-- Install the VS Code [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vs code-java-pack)
+- Install the VS Code [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
   - Upon completion, it will prompt you to install a Java JDK
     - Install the LTS 17 Hotspot version
     - Run the installer with default options
