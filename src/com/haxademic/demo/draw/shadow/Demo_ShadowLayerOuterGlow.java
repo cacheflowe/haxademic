@@ -87,7 +87,7 @@ extends PAppletHax {
 		shadowLayer.endDraw();
 		
 		// convert opaque pixels to black, then blur
-		ColorizeOpaquePixelsFilter.instance().setColor(0f, 0f, 0f);
+		ColorizeOpaquePixelsFilter.instance().setColor(0, 0, 0, 1);
 		ColorizeOpaquePixelsFilter.instance().applyTo(shadowLayer);
 		BlurProcessingFilter.instance().setBlurSize(10);
 		BlurProcessingFilter.instance().setSigma(10);

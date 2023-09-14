@@ -9,7 +9,7 @@ extends BaseFragmentShader {
 	
 	public ColorizeOpaquePixelsFilter() {
 		super("haxademic/shaders/filters/opaque-pixels-to-color.glsl");
-		setColor(0f, 0f, 0f);
+		setColor(0, 0, 0, 1);
 	}
 	
 	public static ColorizeOpaquePixelsFilter instance() {
@@ -18,8 +18,8 @@ extends BaseFragmentShader {
 		return instance;
 	}
 	
-	public void setColor(float r, float g, float b) {
-		shader.set("color", r, g, b);
+	public void setColor(float r, float g, float b, float a) {
+		shader.set("color", r, g, b, a);
 	}
 	
 }
