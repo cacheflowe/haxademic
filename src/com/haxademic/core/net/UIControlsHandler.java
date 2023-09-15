@@ -18,10 +18,10 @@ public class UIControlsHandler
 extends AbstractHandler {	
 	
 	@Override
-	public void handle( String target,
+	public void handle(String target,
 			Request baseRequest,
 			HttpServletRequest request,
-			HttpServletResponse response ) throws IOException, ServletException
+			HttpServletResponse response) throws IOException, ServletException
 	{
 		// Get request path and check to see if it looks like a file
 		String requestPath = baseRequest.getPathInfo();
@@ -29,7 +29,7 @@ extends AbstractHandler {
 		if(WebServer.DEBUG == true) P.println("requestPath", requestPath);
 		
 		String[] pathComponents = requestPathNoSlash.split("/");
-		String result = handleCustomPaths(requestPath, pathComponents);
+		String result = handleCustomPaths(requestPath, pathComponents, baseRequest, request);
 		if(result != null) {
 			// Set response props
 			response.addHeader("Access-Control-Allow-Origin", "*"); 	// Disable CORS
@@ -42,7 +42,7 @@ extends AbstractHandler {
 		} 
 	}
 	
-	protected String handleCustomPaths(String path, String[] pathComponents) {
+	protected String handleCustomPaths(String path, String[] pathComponents, Request baseRequest, HttpServletRequest request) {
 		if(WebServer.DEBUG == true && pathComponents[0].equals("values") == false) P.println("CustomWebRequestHandler path:", path);
 		P.store.setString(WebServer.REQUEST_URL, path);	// pass along all web requests to AppStore
 
