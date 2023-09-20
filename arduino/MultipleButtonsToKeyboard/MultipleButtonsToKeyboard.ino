@@ -5,6 +5,7 @@
 
 // Keyboard library
 // - Select Arduino Micro board, even if publishing to Arduino Nano, as the Keyboard library only work with certain boards
+// - There may be error messages when uploading to Arduino Micro device, but these might be false-positives
 
 #include <ezButton.h>
 #include <Keyboard.h>
@@ -12,9 +13,9 @@
 // initialize button objects with pin numbers
 const int NUM_BUTTONS = 3;
 ezButton buttons[] = {
-  ezButton(25),
-  ezButton(26),
-  ezButton(27)
+  ezButton(10),
+  ezButton(11),
+  ezButton(12)
 };
 
 unsigned long now;
@@ -23,7 +24,7 @@ void initButtons() {
   for(int i=0; i < NUM_BUTTONS; i++) {
     buttons[i].setDebounceTime(50); // set debounce time to 50 milliseconds
   }
-}
+}      
 
 void updateButtons() {
   for(int i=0; i < NUM_BUTTONS; i++) buttons[i].loop();
@@ -38,14 +39,14 @@ void updateButtons() {
 ////////////////////////////
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println("Buttons started");
   initButtons();
   Keyboard.begin();
+  Serial.begin(115200);
+  Serial.println("Buttons started");
 }
 
 void loop() {
-  now = millis(); // get durrent time. usually a single device interface would use something like `delay(100)`
+  now = millis(); // get current time. usually a single device interface would use something like `delay(100)`
   updateButtons();
 }
 
