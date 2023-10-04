@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.DateUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class Demo_DateUtil
 extends PAppletHax {
@@ -41,6 +42,7 @@ extends PAppletHax {
 				"hoursToMS(1) :: " + DateUtil.hoursToMS(1) + FileUtil.NEWLINE +
 				"minutesToSeconds(1) :: " + DateUtil.minutesToSeconds(1) + FileUtil.NEWLINE +
 				"hoursToSeconds(1) :: " + DateUtil.hoursToSeconds(1) + FileUtil.NEWLINE +
+				"SystemUtil.getDateStamp() :: " + SystemUtil.getDateStamp() + FileUtil.NEWLINE +
 				""
 		, 40, 40);
 	}
