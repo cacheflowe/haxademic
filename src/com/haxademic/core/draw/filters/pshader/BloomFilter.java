@@ -2,6 +2,7 @@ package com.haxademic.core.draw.filters.pshader;
 
 import java.util.HashMap;
 
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -21,6 +22,7 @@ extends BaseFragmentShader {
 	public static int BLEND_SCREEN = 0;
 	public static int BLEND_MULTIPLY = 1;
 	public static int BLEND_DARKEST = 2;
+	public static int BLEND_ADD = 3;
 	
 	public BloomFilter() {
 		super(null);
@@ -46,6 +48,14 @@ extends BaseFragmentShader {
 	public void setBlendMode(int mode) {
 		blendMode = mode;
 	}
+
+	public PGraphics glowTextureFor(PGraphics pg) {
+		if(buffers.containsKey(pg)) {
+			return buffers.get(pg);
+		} else {
+			return null;
+		}
+	}
 	
 	public void applyTo(PApplet p) {
 		applyTo(p);
@@ -57,17 +67,17 @@ extends BaseFragmentShader {
 			buffers.put(pg, PG.newPG(pg.width, pg.height));
 		}
 		PGraphics glowTexture = buffers.get(pg);
-//		DebugView.setTexture(glowTexture);
 		
 		// copy image & create glow version
 		glowTexture.beginDraw();
-//		glowTexture.clear();
-		glowTexture.background(0);
-////		glowTexture.image(pg, 0, 0);
+		glowTexture.clear();
+		glowTexture.background(255, 0);
+		glowTexture.image(pg, 0, 0);
 		glowTexture.endDraw();
-		ImageUtil.copyImage(pg, glowTexture);
-		LeaveWhiteFilter.instance().setCrossfade(0.95f);
-		LeaveWhiteFilter.instance().applyTo(glowTexture);
+		
+		// LeaveWhiteFilter.instance().setCrossfade(0.5f);
+		// LeaveWhiteFilter.instance().applyTo(glowTexture);
+		
 		BlurHFilter.instance().setBlurByPercent(strength, glowTexture.width);
 		BlurVFilter.instance().setBlurByPercent(strength, glowTexture.height);
 		for (int i = 0; i < iterations; i++) {
@@ -77,8 +87,19 @@ extends BaseFragmentShader {
 		
 		// blend it
 		if(blendMode == BLEND_SCREEN) {
-			BlendTextureScreen.instance().setSourceTexture(glowTexture);
-			BlendTextureScreen.instance().applyTo(pg);
+			pg.beginDraw();
+			pg.push();
+			pg.blendMode(PBlendModes.SCREEN);
+			pg.image(glowTexture, 0, 0);
+			pg.pop();
+			pg.endDraw();
+		} else if(blendMode == BLEND_ADD) {
+			pg.beginDraw();
+			pg.push();
+			pg.blendMode(PBlendModes.ADD);
+			pg.image(glowTexture, 0, 0);
+			pg.pop();
+			pg.endDraw();
 		} else if(blendMode == BLEND_MULTIPLY) {
 			BlendTextureMultiply.instance().setSourceTexture(glowTexture);
 			BlendTextureMultiply.instance().applyTo(pg);

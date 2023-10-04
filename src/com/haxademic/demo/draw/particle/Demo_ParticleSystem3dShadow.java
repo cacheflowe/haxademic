@@ -88,7 +88,7 @@ extends PAppletHax {
 		particles.drawParticles(shadowBuffer, PBlendModes.BLEND);
 		shadowBuffer.endDraw();
 		// shadow buffer post fx
-		ColorizeOpaquePixelsFilter.instance().setColor(0, 0, 0);
+		ColorizeOpaquePixelsFilter.instance().setColor(0, 0, 0, 1);
 		ColorizeOpaquePixelsFilter.instance().applyTo(shadowBuffer);
 		BlurHFilter.instance().setBlurByPercent(2f, shadowBuffer.width);
 		BlurVFilter.instance().setBlurByPercent(2f, shadowBuffer.height);

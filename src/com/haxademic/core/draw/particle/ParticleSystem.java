@@ -147,10 +147,21 @@ public class ParticleSystem<T extends Particle> {
 		}     
 	}; 
 
+	public Comparator<Particle> ageComparatorReverse = new Comparator<Particle>() {         
+	    public int compare(Particle p1, Particle p2) {
+	        if(p1.age() == p2.age()) return 0;
+	        return (p1.age() > p2.age() ? 1 : -1);           
+	    }     
+	}; 
+	
 	public void sortParticlesByAge() {
 		Collections.sort(particles, ageComparator);
 	}
 
+	public void sortParticlesByAgeReverse() {
+	    Collections.sort(particles, ageComparatorReverse);
+	}
+	
 	// update and draw independently so we can update once and draw to multiple buffers
 	
 	public void updateParticles() {

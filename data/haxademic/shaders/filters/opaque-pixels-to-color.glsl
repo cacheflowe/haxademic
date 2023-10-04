@@ -12,9 +12,9 @@ uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform vec3 color = vec3(0.);
+uniform vec4 color = vec4(0., 0., 0., 1.);
 
 void main() {
     vec4 origColor = texture2D(texture, vertTexCoord.xy);
-    gl_FragColor = vec4(color, origColor.a);
+    gl_FragColor = vec4(color.rgb, min(origColor.a, color.a));
 }

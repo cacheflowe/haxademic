@@ -27,7 +27,7 @@ implements IVideoDelegate {
 		p.fill(255);
 		
 		if(videoWindow != null && videoWindow.getImage() != null) {
-		    if(p.key == ' ') p.image(videoWindow.getImage(), 0, 0);
+		    p.image(videoWindow.getImage(), 0, 0);
 		}
 	}
 

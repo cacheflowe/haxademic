@@ -6,14 +6,13 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.ColorizeOpaquePixelsFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class Demo_MaskConcentric
 extends PAppletHax {
@@ -22,7 +21,6 @@ extends PAppletHax {
 	protected PGraphics[] masks;
 	protected PGraphics[] images;
 	protected PGraphics[] shadows;
-	protected PShader colorTransformShader;
 	protected int numCircles = 10;
 
 	protected void config() {
@@ -60,7 +58,6 @@ extends PAppletHax {
 		for (int i = 0; i < numCircles; i++) {
 			shadows[i] = PG.newPG(p.width, p.height);
 		}
-		colorTransformShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 	}
 
 	public void updateMaskedImages(PImage source) {
@@ -88,8 +85,8 @@ extends PAppletHax {
 			for (int j = 0; j < 6; j++) {
 				BlurProcessingFilter.instance().applyTo(shadow);
 			}
-			colorTransformShader.set("color", 0f, 0f, 0f);
-			shadow.filter(colorTransformShader);
+			ColorizeOpaquePixelsFilter.instance().setColor(0, 0, 0, 1);
+			ColorizeOpaquePixelsFilter.instance().applyTo(shadow);
 			shadow.endDraw();
 		}
 	}
