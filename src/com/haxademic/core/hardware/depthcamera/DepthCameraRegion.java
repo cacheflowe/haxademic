@@ -1,5 +1,6 @@
 package com.haxademic.core.hardware.depthcamera;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -19,6 +20,7 @@ implements IJoystickControl {
 	protected int right = 0;
 	protected int near = 0;
 	protected int far = 0;
+	protected int farBottom = 0;
 	protected int top = 0;
 	protected int bottom = 0;
 	protected int pixelSkip = 10;
@@ -34,6 +36,7 @@ implements IJoystickControl {
 	protected String CAMERA_RIGHT = "CAMERA_RIGHT";
 	protected String CAMERA_NEAR = "CAMERA_NEAR";
 	protected String CAMERA_FAR = "CAMERA_FAR";
+	protected String CAMERA_FAR_BOTTOM = "CAMERA_FAR_BOTTOM";
 	protected String CAMERA_TOP = "CAMERA_TOP";
 	protected String CAMERA_BOTTOM = "CAMERA_BOTTOM";
 	protected String CAMERA_PIXEL_SKIP = "CAMERA_PIXEL_SKIP";
@@ -49,6 +52,7 @@ implements IJoystickControl {
 		CAMERA_RIGHT += "_" + uiID;
 		CAMERA_NEAR += "_" + uiID;
 		CAMERA_FAR += "_" + uiID;
+		CAMERA_FAR_BOTTOM += "_" + uiID;
 		CAMERA_TOP += "_" + uiID;
 		CAMERA_BOTTOM += "_" + uiID;
 		CAMERA_PIXEL_SKIP += "_" + uiID;
@@ -60,6 +64,7 @@ implements IJoystickControl {
 		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, savesUI);
 		UI.addSlider(CAMERA_NEAR, 500, 0, 20000, 1, savesUI);
 		UI.addSlider(CAMERA_FAR, 1200, 0, 20000, 1, savesUI);
+		UI.addSlider(CAMERA_FAR_BOTTOM, 1200, 0, 20000, 1, savesUI);
 		UI.addSlider(CAMERA_TOP, 0, 0, DepthCameraSize.HEIGHT, 1, savesUI);
 		UI.addSlider(CAMERA_BOTTOM, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, savesUI);
 		UI.addSlider(CAMERA_PIXEL_SKIP, 20, 1, 30, 1, savesUI);
@@ -76,6 +81,7 @@ implements IJoystickControl {
 		this.right = right;
 		this.near = near;
 		this.far = far;
+		this.farBottom = far;
 		this.top = top;
 		this.bottom = bottom;
 		this.pixelSkip = pixelSkip;
@@ -93,6 +99,8 @@ implements IJoystickControl {
 	public void near( int value ) { this.near = value; }
 	public int far() { return far; }
 	public void far( int value ) { this.far = value; }
+	public int farBottom() { return farBottom; }
+	public void farBottom( int value ) { this.farBottom = value; }
 	public int top() { return top; }
 	public void top( int value ) { this.top = value; }
 	public int bottom() { return bottom; }
@@ -126,6 +134,7 @@ implements IJoystickControl {
 		right(UI.valueInt(CAMERA_RIGHT));
 		near(UI.valueInt(CAMERA_NEAR));
 		far(UI.valueInt(CAMERA_FAR));
+		farBottom(UI.valueInt(CAMERA_FAR_BOTTOM));
 		top(UI.valueInt(CAMERA_TOP));
 		bottom(UI.valueInt(CAMERA_BOTTOM));
 		pixelSkip(UI.valueInt(CAMERA_PIXEL_SKIP));
@@ -181,11 +190,17 @@ implements IJoystickControl {
 			float controlYTotal = 0;
 			float controlZTotal = 0;
 			float pixelDepth = 0;
+			float curFar = 0;
+			boolean tiltedFarPlane = far != farBottom;
 			for ( int x = left; x < right; x += pixelSkip ) {
 				for ( int y = top; y < bottom; y += pixelSkip ) {
 					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 ) {
-						if(pixelDepth > near && pixelDepth < far) {
+						curFar = far;
+						if(tiltedFarPlane) {
+							curFar = P.map(y, top, bottom, far, farBottom);
+						}
+						if(pixelDepth > near && pixelDepth < curFar) {
 							if(debugGraphics != null) {
 								float debugZ = is3d ? -pixelDepth * depthDivider : 0;
 								debugGraphics.fill( debugColor, 127 );
