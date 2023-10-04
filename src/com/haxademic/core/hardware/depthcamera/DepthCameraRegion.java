@@ -25,6 +25,7 @@ implements IJoystickControl {
 	protected int bottom = 0;
 	protected int pixelSkip = 10;
 	protected int minPixels = 20;
+	protected boolean farPlaneTilt = false;
 	
 	protected int debugColor = -1;
 	protected int pixelCount = 0;
@@ -43,7 +44,15 @@ implements IJoystickControl {
 	protected String CAMERA_MIN_PIXELS = "CAMERA_MIN_PIXELS";
 
 	
+	public DepthCameraRegion(String uiID) {
+		this(uiID, false, false);
+	}
+
 	public DepthCameraRegion(String uiID, boolean savesUI) {
+		this(uiID, savesUI, false);
+	}
+
+	public DepthCameraRegion(String uiID, boolean savesUI, boolean farPlaneTilt) {
 		this(0, 0, 0, 0, 0, 0, 0, 0, 0xff00ff00);
 
 		// set UI keys to be unique in case of multiple cameras. needs testing
@@ -64,7 +73,9 @@ implements IJoystickControl {
 		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, savesUI);
 		UI.addSlider(CAMERA_NEAR, 500, 0, 20000, 1, savesUI);
 		UI.addSlider(CAMERA_FAR, 1200, 0, 20000, 1, savesUI);
-		UI.addSlider(CAMERA_FAR_BOTTOM, 1200, 0, 20000, 1, savesUI);
+		if(farPlaneTilt) {
+			UI.addSlider(CAMERA_FAR_BOTTOM, 1200, 0, 20000, 1, savesUI);
+		}
 		UI.addSlider(CAMERA_TOP, 0, 0, DepthCameraSize.HEIGHT, 1, savesUI);
 		UI.addSlider(CAMERA_BOTTOM, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, savesUI);
 		UI.addSlider(CAMERA_PIXEL_SKIP, 20, 1, 30, 1, savesUI);
@@ -73,6 +84,7 @@ implements IJoystickControl {
 		// use default UI props & note that we have a UI
 		updatePropsFromUI();
 		this.uiID = uiID;
+		this.farPlaneTilt = farPlaneTilt;
 		hasUI = true;
 	}
 	
@@ -134,7 +146,7 @@ implements IJoystickControl {
 		right(UI.valueInt(CAMERA_RIGHT));
 		near(UI.valueInt(CAMERA_NEAR));
 		far(UI.valueInt(CAMERA_FAR));
-		farBottom(UI.valueInt(CAMERA_FAR_BOTTOM));
+		farBottom((farPlaneTilt) ? UI.valueInt(CAMERA_FAR_BOTTOM) : UI.valueInt(CAMERA_FAR));
 		top(UI.valueInt(CAMERA_TOP));
 		bottom(UI.valueInt(CAMERA_BOTTOM));
 		pixelSkip(UI.valueInt(CAMERA_PIXEL_SKIP));
@@ -191,13 +203,12 @@ implements IJoystickControl {
 			float controlZTotal = 0;
 			float pixelDepth = 0;
 			float curFar = 0;
-			boolean tiltedFarPlane = far != farBottom;
 			for ( int x = left; x < right; x += pixelSkip ) {
 				for ( int y = top; y < bottom; y += pixelSkip ) {
 					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 ) {
 						curFar = far;
-						if(tiltedFarPlane) {
+						if(farPlaneTilt) {
 							curFar = P.map(y, top, bottom, far, farBottom);
 						}
 						if(pixelDepth > near && pixelDepth < curFar) {
@@ -270,18 +281,25 @@ implements IJoystickControl {
 		// check grid
 		pixelCount = 0;
 		float pixelDepth = 0;
+		float curFar = far;
 
 		for ( int x = left; x < right; x += pixelSkip ) {
 			for ( int y = top; y < bottom; y += pixelSkip ) {
 				pixelDepth = depthCamera.getDepthAt( x, y );
-				if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
-					if(debugGraphics != null) {
-						debugGraphics.fill(debugColor, 255);
-						debugGraphics.stroke(0);
-						debugGraphics.rect(x, y, pixelSkip - 1, pixelSkip - 1);
+				if(pixelDepth != 0) {
+					curFar = far;
+					if(farPlaneTilt) {
+						curFar = P.map(y, top, bottom, far, farBottom);
 					}
-					// add up for calculations
-					pixelCount++;
+					if(pixelDepth > near && pixelDepth < curFar) {
+						if(debugGraphics != null) {
+							debugGraphics.fill(debugColor, 255);
+							debugGraphics.stroke(0);
+							debugGraphics.rect(x, y, pixelSkip - 1, pixelSkip - 1);
+						}
+						// add up for calculations
+						pixelCount++;
+					}
 				}
 			}
 		}

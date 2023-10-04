@@ -63,7 +63,7 @@ implements IEasingBooleanCallback {
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		regionFlatDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		joystickDebug = PG.newPG(200, 200);
-		region = new DepthCameraRegion("cam1", false);
+		region = new DepthCameraRegion("cam1", false, true);
 		userActive = new EasingBoolean(false, 20, this);
 	}
 	
