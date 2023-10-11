@@ -8,7 +8,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.OneEuroFilter;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 public class Demo_OneEuroFilter

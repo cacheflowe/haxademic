@@ -65,9 +65,13 @@ public class FrameLoop {
 	}
 	
 	public static float osc(float mult, float low, float high) {
+		return osc(mult, low, high, 0);
+	}
+	
+	public static float osc(float mult, float low, float high, float offset) {
 		float range = (high - low) * 0.5f;
 		float mid = low + range;
-		return mid + P.sin(count(mult)) * range;
+		return mid + P.sin(offset + count(mult)) * range;
 	}
 	
 	public static float oscRads(float rads, float low, float high) {
