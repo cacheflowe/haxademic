@@ -8,6 +8,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -20,6 +21,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		shape = Shapes.createDisc(p.height / 2, 36, 20, null);
 		shape.setTexture(DemoAssets.textureNebula());
+		DebugView.setTexture("texture", DemoAssets.textureNebula());
 	}
 
 	protected void drawApp() {
@@ -27,26 +29,16 @@ extends PAppletHax {
 		PG.setCenterScreen(p.g);
 		PG.basicCameraFromMouse(p.g);
 		
-		DebugView.setTexture("texture", DemoAssets.textureNebula());
-		// draw can
-//		shape.disableStyle();
-//		p.fill(255);
-//		p.noFill();
-//		p.stroke(255);
-//		p.strokeWeight(2);
-		if(p.frameCount % 100 < 50) {
+		if(p.frameCount % 200 < 100) {
 			// deform mesh
 			MeshDeformAndTextureFilter.instance().setDisplacementMap(DemoAssets.textureNebula());
-			MeshDeformAndTextureFilter.instance().setDisplaceAmp(100f * P.sin(p.frameCount * 0.03f));
-			MeshDeformAndTextureFilter.instance().setSheetMode(false);
+			MeshDeformAndTextureFilter.instance().setDisplaceAmp(FrameLoop.osc(0.01f, 0, 200));
+			MeshDeformAndTextureFilter.instance().setSheetMode(true);
 			MeshDeformAndTextureFilter.instance().setOnContext(p);
 
 			// draw mesh
 			p.shape(shape);
 			p.resetShader();
-
-			
-//			p.shape(shape);
 		} else {
 			PShapeUtil.drawTriangles(p.g, shape, DemoAssets.squareTexture(), 1f);
 		}
