@@ -3,6 +3,7 @@ bin/
 output/
 lib/
 data/text/prefs
+data/text/rectangles
 data/text/keystoning
 www/dashboard/projects
 *_sketch*
