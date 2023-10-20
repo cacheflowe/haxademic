@@ -130,12 +130,16 @@ implements IDepthCamera {
 			if(threadBusy == false) {
 				curThread = new Thread(new Runnable() { public void run() {
 					threadBusy = true;
+					boolean successfulFrame = false;
 					try {
 						camera.readFrames();
+						successfulFrame = true;
 					} catch (NullPointerException e) {
+						successfulFrame = false;
 						P.out("RealSenseWrapper failed to update");
+						e.printStackTrace();
 					}
-					if(DEPTH_ACTIVE) data = camera.getDepthData();
+					if(DEPTH_ACTIVE && successfulFrame) data = camera.getDepthData();
 					threadBusy = false;
 					hasUpdated = true;
 				}});
