@@ -7,6 +7,7 @@ public class AppState {
 	// current & queued state
 
 	public static final String APP_STATE = "APP_STATE";
+	public static final String PREVIOUS_APP_STATE = "PREVIOUS_APP_STATE";
 	public static final String QUEUED_APP_STATE = "QUEUED_APP_STATE";
 	public static final String NO_QUEUE = "NO_QUEUE";
 	
@@ -21,6 +22,7 @@ public class AppState {
 	public static void init(String initialState) {
 		if(initialState == null) P.error("AppState.init(String initialState) cannot be set to null");
 		P.store.setString(APP_STATE, initialState);
+		P.store.setString(PREVIOUS_APP_STATE, initialState);
 		P.store.setString(QUEUED_APP_STATE, initialState);
 		P.store.setNumber(ANIMATION_FRAME, 0);
 		P.store.setNumber(ANIMATION_FRAME_PRE, 0);
@@ -35,6 +37,10 @@ public class AppState {
 		return P.store.getString(APP_STATE);
 	}
 
+	public static String getPrevious() {
+		return P.store.getString(PREVIOUS_APP_STATE);
+	}
+
 	public static boolean is(String state) {
 		return P.store.getString(APP_STATE).equals(state);
 	}
@@ -42,6 +48,7 @@ public class AppState {
 	public static void checkQueuedState() {
 		String queuedState = P.store.getString(QUEUED_APP_STATE);
 		if(!queuedState.equals(NO_QUEUE)) {
+			P.store.setString(PREVIOUS_APP_STATE, P.store.getString(APP_STATE));
 			if(P.storeDistributed != null) {
 				P.storeDistributed.setString(APP_STATE, queuedState);
 			} else {

@@ -24,8 +24,8 @@ implements IAppStoreListener {
 	// PROPERTIES
 	/////////////////////////////////
 	
-	protected InputTrigger trigger1 = (new InputTrigger()).addKeyCodes(new char[]{'1'})
-			  											  .addGamepadControls(new String[]{"Button 9"});
+	protected InputTrigger trigger1 = (new InputTrigger()).addKeyCodes(new char[]{'1'}).addGamepadControls(new String[]{"Button 9"});
+	protected InputTrigger trigger2 = (new InputTrigger()).addKeyCodes(new char[]{'2'}).addGamepadControls(new String[]{"Button 10"});
 
 	/////////////////////////////////
 	// INIT
@@ -62,7 +62,8 @@ implements IAppStoreListener {
 	}
 	
 	protected void checkInputs() {
-//		if(trigger1.triggered()) sequencers[0].trigger(true);
+		if(trigger1.triggered()) AppState.set(App.APP_STATE_INTRO);
+		if(trigger2.triggered()) AppState.set(App.APP_STATE_PLAY);
 	}
 	
 	/////////////////////////////////
