@@ -9,7 +9,7 @@ public class Demo_SavedPointUI
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	SavedPointUI[] savedPoints;
+	protected SavedPointUI[] savedPoints;
 	protected int pointIndex = -1;
 	protected int rows = 4;
 	protected int cols = 5;

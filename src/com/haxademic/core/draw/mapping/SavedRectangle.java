@@ -16,12 +16,12 @@ public class SavedRectangle {
 	protected ConfigTextFile savedFile;
 	protected Rectangle rectangle;
 	protected Rectangle rectangleMove;
-	protected Point rectOffset = new Point();
 	
 	protected boolean isDragging = false;
 	protected boolean isResizing = false;
 	protected Point mouseStartPoint = new Point();
 	protected Point mouseMovePoint = new Point();
+	protected int dragCorner = 14;
 	
 	public static SavedRectangle curDragging = null;
 
@@ -44,8 +44,8 @@ public class SavedRectangle {
 	}
 	
 	// setters
-	public void setOffset(int x, int y) {
-		rectOffset.setLocation(x, y);
+	public void set(int x, int y, int w, int h) {
+		rectangle.setBounds(x, y, w, h);
 	}
 	
 	// mask getters for rectangle & state
@@ -72,6 +72,10 @@ public class SavedRectangle {
 	
 	// draw debug
 	
+	public void drawDebugToPG(PGraphics pg) {
+		drawDebugToPG(pg, false);
+	}
+
 	public void drawDebugToPG(PGraphics pg, boolean drawInPlace) {
 		int x = (drawInPlace == true) ? 0 : x();
 		int y = (drawInPlace == true) ? 0 : y();
@@ -81,6 +85,7 @@ public class SavedRectangle {
 			pg.fill(0,100,0, 100);
 		pg.rect(x, y, width(), height());
 		pg.fill(255);
+		pg.rect(x + width() - dragCorner, y + height() - dragCorner, dragCorner, dragCorner);
 		pg.text(""+x()+", "+y()+", "+width()+", "+height(), x + 10, y + 20);
 	}
 	
@@ -88,12 +93,12 @@ public class SavedRectangle {
 	public void mouseEvent(MouseEvent event) {
 		switch (event.getAction()) {
 			case MouseEvent.PRESS:
-				mouseStartPoint.setLocation( event.getX() + rectOffset.x, event.getY() + rectOffset.y );
+				mouseStartPoint.setLocation(event.getX(), event.getY());
 				if(rectangle.contains(mouseStartPoint) && SavedRectangle.curDragging == null) {
 					isDragging = true;
 					SavedRectangle.curDragging = this;
 					float cornerClickDist = (float) mouseStartPoint.distance(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
-					if(cornerClickDist < 15) {
+					if(cornerClickDist < dragCorner) {
 						isResizing = true;
 					} 
 					rectangleMove = new Rectangle(rectangle); // build temp rectangle for moving
@@ -112,7 +117,7 @@ public class SavedRectangle {
 				break;
 			case MouseEvent.DRAG:
 				if(isDragging == true) {
-					mouseMovePoint.setLocation( event.getX() + rectOffset.x, event.getY() + rectOffset.y );
+					mouseMovePoint.setLocation(event.getX(), event.getY());
 					int mouseDeltaX = mouseMovePoint.x - mouseStartPoint.x;
 					int mouseDeltaY = mouseMovePoint.y - mouseStartPoint.y;
 					if(isResizing == false) {
