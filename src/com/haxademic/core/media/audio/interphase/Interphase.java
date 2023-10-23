@@ -591,7 +591,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			String sequencerNum = key.substring(UI_TRIGGER_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
 			sequencerAt(sequencerIndex).triggerSample();
-			P.out("TRIGGER", sequencerIndex, "");
+			// P.out("TRIGGER", sequencerIndex, "");
 		}
 		if(key.indexOf(UI_EVOLVE_) == 0) {
 			String sequencerNum = key.substring(UI_EVOLVE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
@@ -606,6 +606,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			String sequencerNum = key.substring(UI_SAMPLE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
 			sequencerAt(sequencerIndex).setSampleByIndex(val.intValue());
+			sequencerAt(sequencerIndex).resetRandomizedProps();
 		}
 		if(key.indexOf(UI_VOLUME_) == 0) {
 			String sequencerNum = key.substring(UI_VOLUME_.length(), key.length() - 0); 	// TODO: this will break after 9 channels!!!!

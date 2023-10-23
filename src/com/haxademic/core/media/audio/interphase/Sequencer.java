@@ -537,8 +537,6 @@ implements IAppStoreListener {
 		for (int i = 0; i < files.size(); i++) {
 			samples[i] = SampleManager.sample(files.get(i));
 			filenames[i] = fileNameForPath(files.get(i));
-			// filenames[i] = this.audioDir + File.separator + simpleFileName;
-			// P.println("loading:", filenames[i]);
 		}
 		
 		sampleIndex = MathUtil.randRange(0, samples.length - 1);
