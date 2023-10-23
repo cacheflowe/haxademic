@@ -37,7 +37,7 @@ public class SavedRectangle {
 			ConvertUtil.stringToInt(coords[2]), 
 			ConvertUtil.stringToInt(coords[3])
 		);
-		P.println("Loading saved Rectangle = ", rectangle);
+		P.out("Loading saved Rectangle = ", rectangle);
 		
 		// add delegate mouse listener
 		if(draggable == true) P.p.registerMethod("mouseEvent", this);
