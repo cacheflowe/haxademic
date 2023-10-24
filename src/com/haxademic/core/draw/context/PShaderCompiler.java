@@ -27,6 +27,14 @@ extends PShader {
 		forceCompile();
 	}
 
+	public PShaderCompiler(PApplet parent, String fragSource) {
+		this(parent, PShaderCompiler.defaultVertexShader(), fragSource.split(com.haxademic.core.file.FileUtil.NEWLINE));
+	}
+
+	public PShaderCompiler(PApplet parent, String[] fragSource) {
+		this(parent, PShaderCompiler.defaultVertexShader(), fragSource);
+	}
+	
 	public PShaderCompiler(PApplet parent, String[] vertSource, String[] fragSource) {
 		super(parent, vertSource, fragSource);
 		forceCompile();
@@ -54,6 +62,10 @@ extends PShader {
 	/////////////////////////////////
 	// Override PShader methods that throw uncatchable exceptions
 	/////////////////////////////////
+
+	public static String[] defaultVertexShader() {
+    return loadVertexShader(defTextureShaderVertURL);
+	}
 
 	protected boolean compile() {
 		boolean vertRes = true;

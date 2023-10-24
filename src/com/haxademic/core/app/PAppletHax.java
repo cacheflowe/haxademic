@@ -125,7 +125,7 @@ extends PApplet {
 	protected void drawApp() {
 		P.error("Haxademic: YOU MUST OVERRIDE drawApp()");
 	}
-			
+	
 	////////////////////////
 	// DRAW
 	////////////////////////

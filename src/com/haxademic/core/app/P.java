@@ -15,10 +15,13 @@ import com.haxademic.core.system.Console;
 import com.haxademic.core.system.ScreenSaverBlocker;
 import com.haxademic.core.ui.UI;
 import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.opengl.GL4;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PSurface;
+import processing.opengl.PGL;
+import processing.opengl.PJOGL;
 
 public class P
 extends PApplet {
@@ -27,6 +30,7 @@ extends PApplet {
 	
 	public static PAppletHax p;
 	public static GLWindow window;
+	public static GL4 gl4;
 	public static String renderer;
 	public static AppStore store;	
 	public static AppStoreDistributed storeDistributed;	
@@ -42,6 +46,7 @@ extends PApplet {
 		// now that the app/window is initialized, we can act on P.p properties 
 		// ... and anything that relied on PAppletHax.config() overrides per-app
 		if(P.isOpenGL()) window = (GLWindow) P.p.getSurface().getNative();
+		if(P.isOpenGL()) gl4 = getGL4();
 		if(Config.getInt(AppSettings.LOOP_FRAMES, 0) != 0) FrameLoop.instance(Config.getInt(AppSettings.LOOP_FRAMES, 360), Config.getInt(AppSettings.LOOP_TICKS, 4));
 		if(P.renderer != PRenderers.PDF) DebugView.instance();
 		ScreenSaverBlocker.instance();
@@ -59,6 +64,13 @@ extends PApplet {
 	
 	public static boolean isOpenGL() {
 		return P.renderer.equals(PRenderers.P2D) || P.renderer.equals(PRenderers.P3D);
+	}
+	
+	public static GL4 getGL4() {
+		PGL pgl = P.p.beginPGL();
+		GL4 gl = ((PJOGL)pgl).gl.getGL4();
+		P.p.endPGL();
+		return gl;
 	}
 	
 	public static boolean isHaxApp() {
