@@ -45,7 +45,7 @@ public class DepthBuffer {
 				}
 				""";
 		shader = new PShaderCompiler(P.p, shaderFrag);
-		depthPG = PG.newPG(width, height);
+		depthPG = PG.newPG32(width, height, true, false);
 	}
 
 	// generate an empty color texture with 4 channels (RGBA8) using bilinear
@@ -116,6 +116,7 @@ public class DepthBuffer {
 		pg.endPGL();
 
 		// Pass depth buffer as texture to shader
+		depthPG.beginDraw();
 		pgl = depthPG.beginPGL();
 		int textureID = getDepthTexture()[0];
 		int textureUnit = PGL.TEXTURE2;
@@ -130,6 +131,7 @@ public class DepthBuffer {
 		depthPG.rect(0, 0, width, height);
 		depthPG.resetShader();
 		depthPG.endPGL();
+		depthPG.endDraw();
 	}
 
 	public void copyFrom(PGL pgl, int sourceFboID, int destFboID, int mask) {

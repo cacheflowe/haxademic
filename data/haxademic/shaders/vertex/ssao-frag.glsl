@@ -20,11 +20,11 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 
-// uniform float scale;
+varying vec4 vertColor;
+varying vec4 vertTexCoord;
 uniform sampler2D texture;
 
-uniform float cameraNear = 1.;
-uniform float cameraFar = 100.;
+uniform int samples = 8;
 uniform bool onlyAO = false;
 uniform vec2 size = vec2(512, 512);
 uniform float aoClamp = 0.5;
@@ -32,110 +32,46 @@ uniform float lumInfluence = 0.5;
 uniform sampler2D tDiffuse;
 uniform sampler2D tDepth;
 
-varying vec2 vUv;
-
 #define DL 2.399963229728653
 #define EULER 2.718281828459045
 
-uniform int samples = 8;
-uniform float radius = 10.0;
-uniform bool useNoise = true;
-uniform float noiseAmount = 0.00003;
-uniform float diffArea = 0.5;
-uniform float gDisplace = 0.5;
-uniform float diffMult = 100.0;
-uniform float gaussMult = -2.0;
+float dGamma = 152.;//1:10:2
+float oscSpeed = 3.;//0:10:5
 
-// RGBA depth
+float radAttenuation = 5.;//0:2:1
+uniform float radius = 0.05;//0:0.6:0.024
+float spiral = 16524.56;//1:100:50
+float spinSpeed = .10;
+int time = 0;
 
-// #include <packing>
-// replaced THREE.js call with unpackDepth()
-
-vec2 rand( const vec2 coord ) {
-  vec2 noise;
-  if ( useNoise ) {
-    float nx = dot ( coord, vec2( 12.9898, 78.233 ) );
-    float ny = dot ( coord, vec2( 12.9898, 78.233 ) * 2.0 );
-    noise = clamp( fract ( 43758.5453 * sin( vec2( nx, ny ) ) ), 0.0, 1.0 );
-  } else {
-    float ff = fract( 1.0 - coord.s * ( size.x / 2.0 ) );
-    float gg = fract( coord.t * ( size.y / 2.0 ) );
-    noise = vec2( 0.25, 0.75 ) * vec2( ff ) + vec2( 0.75, 0.25 ) * gg;
-  }
-  return ( noise * 2.0  - 1.0 ) * noiseAmount;
-}
-
-float unpackDepth(vec4 packedDepth){
-    // See Aras Pranckevičius' post Encoding Floats to RGBA
-    // http://aras-p.info/blog/2009/07/30/encoding-floats-to-rgba-the-final/
-    return dot(packedDepth, vec4(1.0, 1.0 / 255.0, 1.0 / 65025.0, 1.0 / 160581375.0));
- }
-
-float readDepth( vec2 coord ) {
-  float cameraFarPlusNear = cameraFar + cameraNear;
-  float cameraFarMinusNear = cameraFar - cameraNear;
-  float cameraCoef = 2.0 * cameraNear;
-  return cameraCoef / ( cameraFarPlusNear - unpackDepth( texture2D( tDepth, coord ) ) * cameraFarMinusNear );
-}
-
-float compareDepths( float depth1, float depth2, inout float far ) {
-  float garea = 2.0;
-  float diff = ( depth1 - depth2 ) * diffMult;
-  if ( diff < gDisplace ) {
-    garea = diffArea;
-  } else {
-    far = 1.0;
-  }
-  float dd = diff - gDisplace;
-  float gauss = pow( EULER, gaussMult * dd * dd / ( garea * garea ) );
-  return gauss;
-}
-
-float calcAO( float depth, float dw, float dh ) {
-  float dd = radius - depth * radius;
-  vec2 vv = vec2( dw, dh );
-  vec2 coord1 = vUv + dd * vv;
-  vec2 coord2 = vUv - dd * vv;
-  float temp1 = 0.0;
-  float temp2 = 0.0;
-  float far = 0.0;
-  temp1 = compareDepths( depth, readDepth( coord1 ), far );
-  if ( far > 0 ) {
-    temp2 = compareDepths( readDepth( coord2 ), depth, far );
-    temp1 += ( 1.0 - temp1 ) * temp2;
-  }
-  return temp1;
+float depth(vec2 coord) {
+  return texture2D(tDepth, coord).r;
 }
 
 void main() {
-  vec2 noise = rand( vUv );
-  float depth = readDepth( vUv );
-  float tt = clamp( depth, aoClamp, 1.0 );
-  float w = ( 1.0 / size.x )  / tt + ( noise.x * ( 1.0 - noise.x ) );
-  float h = ( 1.0 / size.y ) / tt + ( noise.y * ( 1.0 - noise.y ) );
-  float ao = 0.0;
-  float dz = 1.0 / float( samples );
-  float z = 1.0 - dz / 2.0;
-  float l = 0.0;
-  float radsDL = 3.14 / float(samples);
-  for ( int i = 0; i <= samples; i ++ ) {
-    float r = sqrt( 1.0 - z );
-    float pw = cos( l ) * r;
-    float ph = sin( l ) * r;
-    ao += calcAO( depth, pw * w, ph * h );
-    z = z - dz;
-    l = l + DL;
-    // l = l + radsDL;
+  vec2 uv = vertTexCoord.xy;
+  uv *= 1. + 0.1 * sin(time / 3.5);
+  uv += vec2(time / 15., sin(time) / 15.);
+  float dp = depth(uv);
+
+  float f;
+  vec2 offset;
+  float dTotal;
+
+  int samplesDone = 0;
+  for(int i = 0; i < samples; i++) {
+    f = float(i) / float(samples);
+    offset = vec2(radius * pow(f, radAttenuation) * sin(f * spiral + time * spinSpeed), radius * pow(f, radAttenuation) * cos(f * spiral + time * spinSpeed));
+    float dd = texture(tDepth, uv + offset).r - dp; // should this be abs()?
+    if(dd < 0.01) {
+      dTotal += max(dd, 0.);
+      samplesDone++;
+    }
   }
-  ao /= float( samples );
-  ao = 1.0 - ao;
-  vec3 color = texture2D( tDiffuse, vUv ).rgb;
-  vec3 lumcoeff = vec3( 0.299, 0.587, 0.114 );
-  float lum = dot( color.rgb, lumcoeff );
-  vec3 luminance = vec3( lum );
-  vec3 final = vec3( color * mix( vec3( ao ), vec3( 1.0 ), luminance * lumInfluence ) );
-  if ( onlyAO ) {
-    final = vec3( mix( vec3( ao ), vec3( 1.0 ), luminance * lumInfluence ) );
-  }
-  gl_FragColor = vec4( final, 1.0 );
+  dTotal /= float(samplesDone);
+  dTotal = (1. - dTotal);
+  dTotal = pow(dTotal, dGamma);
+  gl_FragColor.rgb = vec3(dTotal * (0.25 * dp + 0.65));
+  gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(dp), 0.5 + 0.5 * sin(time * oscSpeed));
+  gl_FragColor.a = 1.;
 }
