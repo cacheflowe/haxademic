@@ -21,7 +21,7 @@ extends PAppletHax {
 	protected boolean cameraThreadBusy2 = false;
 	protected int CAMERA_NEAR = 180;
 	protected int CAMERA_FAR = 2000;
-	protected int CAMERA_W = 640;
+	protected int CAMERA_W = 848;
 	protected int CAMERA_H = 480;
 	protected short[][] data1 = new short[CAMERA_H][CAMERA_W];
 	protected short[][] data2 = new short[CAMERA_H][CAMERA_W];
@@ -35,9 +35,9 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// init camera
-		camera1 = newCamera("851112060694");
-		camera2 = newCamera("953122060282");
 		debugCamerasConnected();
+		camera1 = newCamera("220322061514");
+		camera2 = newCamera("821312062651");
 	}
 	
 	protected void debugCamerasConnected() {
@@ -51,8 +51,8 @@ extends PAppletHax {
 
 	protected RealSenseCamera newCamera(String serialNumber) {
 		RealSenseCamera cam = new RealSenseCamera(this);
-		cam.enableColorStream();
-		cam.enableDepthStream(CAMERA_W, CAMERA_H);
+		cam.enableColorStream(CAMERA_W, CAMERA_H, 60);
+		cam.enableDepthStream(CAMERA_W, CAMERA_H, 60);
 		cam.enableColorizer(ColorScheme.Cold);
 		cam.start(serialNumber);
 		return cam;
@@ -82,8 +82,12 @@ extends PAppletHax {
 		}
 		
 		// draw
-		if(data1 != null) drawDepthPixels(data1, 0, 1);
-		if(data2 != null) drawDepthPixels(data2, CAMERA_W, 2);
+		// if(data1 != null) drawDepthPixels(data1, 0, 1);
+		// if(data2 != null) drawDepthPixels(data2, CAMERA_W, 2);
+
+		// color
+		p.image(camera1.getColorImage(), 0, 0);
+		p.image(camera2.getColorImage(), CAMERA_W, 0);
 	}
 	
 	protected void drawDepthPixels(short[][] data, int offsetX, int camNum) {

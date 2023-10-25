@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.system.Stopwatch;
 import com.haxademic.core.ui.UI;
 
 import ch.bildspur.realsense.RealSenseCamera;
@@ -35,8 +36,9 @@ extends PAppletHax {
 	*/
 	
 	protected RealSenseCamera camera;
-	protected int CAMERA_W = 1280;
-	protected int CAMERA_H = 720;
+	protected int CAMERA_W = 848; // 1280; // 640;
+	protected int CAMERA_H = 480; // 720; // 480;
+	protected int FPS = 60; // 60
 	protected int CAMERA_NEAR = 180;
 	protected String CAMERA_FAR = "CAMERA_FAR";
 	protected String MIRROR = "MIRROR";
@@ -47,6 +49,9 @@ extends PAppletHax {
 	protected PGraphics mirrorDepth;
 	protected short[][] data = new short[CAMERA_H][CAMERA_W];
 	protected boolean cameraThreadBusy = false;
+
+	protected Stopwatch stopwatch = new Stopwatch();
+	protected int framesPerSec = 0;
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -57,8 +62,8 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// init camera
 		camera = new RealSenseCamera(this);
-		camera.enableColorStream(CAMERA_W, CAMERA_H);
-		camera.enableDepthStream(CAMERA_W, CAMERA_H);
+		camera.enableColorStream(CAMERA_W, CAMERA_H, FPS);
+		camera.enableDepthStream(CAMERA_W, CAMERA_H, FPS);
 		camera.enableColorizer(ColorScheme.Cold);
 //		camera.enableIRStream(640, 480, 30);
 //		camera.enableIRStream();
@@ -86,6 +91,7 @@ extends PAppletHax {
 				camera.readFrames();
 				if(DEPTH_ACTIVE) data = camera.getDepthData();
 				cameraThreadBusy = false;
+				framesPerSec++;
 			}}).start();
 		}
 
@@ -118,6 +124,15 @@ extends PAppletHax {
 
 		// show depth pixels
 		drawDepthPixels();
+
+		// count avg fps of camera reads
+		if(stopwatch.isRunning() == false) {
+			stopwatch.start();
+		} else if(stopwatch.totalMs() >= 1000) {
+			DebugView.setValue("framesPerSec", framesPerSec);
+			framesPerSec = 0;
+			stopwatch.reset();
+		}
 	}
 	
 	public float getDepth(int x, int y) {
