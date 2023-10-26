@@ -101,12 +101,19 @@ void main() {
         gl_FragColor = vec4(vec3(d),1.0);
 
         // for fun: stripes?
-        d *= 200.;
-        float osc = smoothstep(0.4, 0.6, 0.5 + 0.5 * sin(d + time));
-        if(d < 0.001) osc = 0;  // make original shapes black
-        vec3 rgb = clamp( abs(mod(time * 2. + d*0.9+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0, 0.0, 1.0 );
+        d *= 30.;
+        float osc = smoothstep(0.2, 0.8, 0.5 + 0.5 * sin(d + time));
+        // osc = 0.5 + 0.5 * sin(d + time);
+        // if(d < 0.001) osc = 0;  // make original shapes black
+        // vec3 rgb = clamp( abs(mod(time * 2. + d + vec3(0.0,4.0,2.0),6.0)-3.0)-1.0, 0.0, 1.0 );
+        vec3 rgb = vec3(
+            smoothstep(0.01, 0.99, 0.5 + 0.5 * sin(d + time + 0.)),
+            smoothstep(0.01, 0.99, 0.5 + 0.5 * sin(d + time + 1.)),
+            smoothstep(0.01, 0.99, 0.5 + 0.5 * sin(d + time + 6.))
+        );
+
         gl_FragColor = vec4(rgb,1.0);
-        gl_FragColor = vec4(vec3(osc),1.0);
+        // gl_FragColor = vec4(vec3(osc),1.0);
     }
 
 }

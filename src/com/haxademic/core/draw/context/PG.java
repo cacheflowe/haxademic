@@ -45,11 +45,9 @@ public class PG {
     }
 
     public static PGraphics newDataPG(int w, int h) {
-        //		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
-        //		PGraphics newPG = P.p.createGraphics(w, h, P.P32);
         PGraphics newPG = PGraphics32.createGraphics(P.p, w, h);
         newPG.noSmooth();
-        ((PGraphicsOpenGL)newPG).textureSampling(2);
+        ((PGraphicsOpenGL)newPG).textureSampling(2);        // Texture.POINT = 2; Texture.LINEAR = 3; Texture.BILINEAR = 4; Texture.TRILINEAR = 5;
         newPG.beginDraw();
         //		newPG.hint(P.DISABLE_TEXTURE_MIPMAPS);
         newPG.hint(PConstants.DISABLE_DEPTH_SORT);
@@ -58,10 +56,8 @@ public class PG {
         newPG.background(0, 0);
         newPG.noStroke();
         newPG.endDraw();
-        // moved these calls into this block for a full test of options
-        //		OpenGLUtil.setTextureQualityLow(newPG);		// necessary for proper texel lookup in GLSL!
-        //		OpenGLUtil.optimize2D(newPG);
         return newPG;
+
     }
 
     public static PGraphics newPG(int w, int h, boolean smooth, boolean hasAlpha) {
@@ -75,6 +71,10 @@ public class PG {
         }
         PG.setTextureRepeat(newPG, true);
         return newPG;
+    }
+
+    public static PGraphics newPG32(int w, int h) {
+        return newPG32(w, h, true, true);
     }
 
     public static PGraphics newPG32(int w, int h, boolean smooth, boolean hasAlpha) {
