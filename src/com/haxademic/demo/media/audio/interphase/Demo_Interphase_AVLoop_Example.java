@@ -10,6 +10,7 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.dmx.artnet.LedMatrix48x12;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
@@ -21,6 +22,7 @@ import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
 import com.haxademic.demo.media.audio.interphase.viz.IInterphaseViz;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizAudioTexture;
+import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizBasicLines;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizBasicPolygons;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizDmxTriggers;
 
@@ -96,8 +98,9 @@ implements IAppStoreListener {
 	protected void initVisuals() {
 		// interphaseViz = new InterphaseVizDemo(interphase.sequencers());
 		// interphaseViz = new InterphaseVizConcentricAmps(interphase.sequencers());
-		interphaseViz = new InterphaseVizAudioTexture();
-		interphaseViz2 = new InterphaseVizBasicPolygons();
+		interphaseViz = new InterphaseVizBasicLines();
+		// interphaseViz = new InterphaseVizAudioTexture();
+		// interphaseViz2 = new InterphaseVizBasicPolygons();
 		// interphaseViz = new InterphaseVizSequencerDrawableDemo(interphase.sequencers());
 		interphaseDmxTriggers = new InterphaseVizDmxTriggers(interphase.sequencers());
 		ledMatrix = new LedMatrix48x12();
@@ -124,13 +127,13 @@ implements IAppStoreListener {
 			// draw
 			interphase.drawAudioGrid(pgWavGrid, true);
 			interphaseViz.update(viz);
-			interphaseViz2.update(viz2);
+			// interphaseViz2.update(viz2);
 			// display
 			ImageUtil.drawImageCropFill(viz, p.g, true);
 			p.blendMode(PBlendModes.SCREEN);
 			ImageUtil.drawImageCropFill(viz2, p.g, true);
 			p.blendMode(PBlendModes.ADD);
-			ImageUtil.drawImageCropFill(pgWavGrid, p.g, false);
+			// ImageUtil.drawImageCropFill(pgWavGrid, p.g, false);
 			p.blendMode(PBlendModes.BLEND);
 		} else {
 			// draw
@@ -143,9 +146,11 @@ implements IAppStoreListener {
 	}
 
 	protected void updateLedMatrix() {
-		ledMatrix.setOrientation(LedMatrix48x12.Orientation.ROT_90_FILL);
+		ArtNetDataSender.DEBUG = false;
+		ledMatrix.setOrientation(LedMatrix48x12.Orientation.ROT_0_COPY);
+		// ledMatrix.setOrientation(LedMatrix48x12.Orientation.ROT_90_FILL);
 		// ImageUtil.rotate180(pg);
-		ledMatrix.update(pg);
+		ledMatrix.update(viz);
 	}
 	
 	

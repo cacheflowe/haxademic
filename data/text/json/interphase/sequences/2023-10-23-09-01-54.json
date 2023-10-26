@@ -52,10 +52,10 @@
     },
     {
       "volume": 1.4881889820098877,
-      "sampleIndex": 38,
+      "sampleIndex": 14,
       "noteOffset": 5,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\JBK_160_Brk_Full_Drums_Astrorat_loop_4_.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0016-JBK_160_Brk_Full_Drums_Astrorat_loop_4_.wav",
       "steps": [
         1,
         0,
@@ -79,7 +79,7 @@
       "volume": 0.6850393414497375,
       "sampleIndex": 120,
       "noteOffset": 14,
-      "notesByStep": false,
+      "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\VFX1_Hits_&_Explode_03.wav",
       "steps": [
         1,
@@ -104,7 +104,7 @@
       "volume": 0.8740158081054688,
       "sampleIndex": 78,
       "noteOffset": 8,
-      "notesByStep": false,
+      "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\POWERSAW1.wav",
       "steps": [
         0,

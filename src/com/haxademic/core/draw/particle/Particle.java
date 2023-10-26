@@ -199,15 +199,15 @@ public class Particle {
 	///////////////////////////////
 	
 	public Particle launch(float x, float y, float z) {
-	    pos.set(x, y, z);
+		pos.set(x, y, z);
 		randomize();
 		return this;
 	}
 	
 	public Particle randomize() {
-	    // lifespan & size
-	    calcLifespan();
-	    size = MathUtil.randRangeDecimal(sizeMin, sizeMax);
+			// lifespan & size
+			calcLifespan();
+			size = MathUtil.randRangeDecimal(sizeMin, sizeMax);
 		// set motion properties
 		setRandomVector(speed, speedMin, speedMax);
 		setRandomVector(gravity, gravityMin, gravityMax);
