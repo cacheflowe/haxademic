@@ -75,12 +75,15 @@ public class MappedLightStrip {
 		// update midpoint
 		midPoint.set(point1);
 		midPoint.lerp(point2, 0.5f);
-				
+
+		float dist = P.dist(point1.x, point1.y, point2.x, point2.y);
+		boolean distGood = (dist > 1590 && dist < 1610);
+
 		// draw background line
 		pg.push();
 		pg.stroke(0, 180);
-		pg.strokeWeight(7);
-		pg.line(point1.x, point1.y, point2.x, point2.y);
+		pg.strokeWeight(3);
+		// pg.line(point1.x, point1.y, point2.x, point2.y);
 		pg.pop();
 
 		// draw
@@ -90,7 +93,7 @@ public class MappedLightStrip {
 			float highlightSize = point1.dist(point2) + 50;
 			pg.noFill();
 			pg.strokeWeight(1);
-			pg.stroke(0, 255, 0);
+			pg.stroke((distGood) ? 0 : 255, (distGood) ? 255 : 0, 0);
 			pg.ellipse(midPoint.x, midPoint.y, highlightSize, highlightSize);
 			
 			// flash color
@@ -133,6 +136,14 @@ public class MappedLightStrip {
 		// small circular ends
 		pg.ellipse(point1.x, point1.y, 3, 3);
 		pg.ellipse(point2.x, point2.y, 3, 3);
+
+		// draw length
+		if(active) {
+			PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 14);
+			FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
+			pg.text(dist, point2.x + 14, point2.y + 14);
+			pg.text(dist, point1.x + 14, point1.y + 14);
+		}
 		
 		// show text labels overlay
 		/*
@@ -163,10 +174,10 @@ public class MappedLightStrip {
 	
 	public String toSaveString() {
 		return P.round(point1.x) + "," + 
-			   P.round(point1.y) + "," +
-			   P.round(point2.x) + "," +
-			   P.round(point2.y) + "," +
-			   dmxChannel;
+					P.round(point1.y) + "," +
+					P.round(point2.x) + "," +
+					P.round(point2.y); // + "," +
+					// dmxChannel;
 	}
 	
 }

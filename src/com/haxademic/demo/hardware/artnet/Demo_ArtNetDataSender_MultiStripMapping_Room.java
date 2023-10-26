@@ -1,9 +1,11 @@
 package com.haxademic.demo.hardware.artnet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
@@ -11,25 +13,31 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.SavedPointUI;
+import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.dmx.artnet.MappedLightStrip;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-public class Demo_ArtNetDataSender_MultiStripMapping
+public class Demo_ArtNetDataSender_MultiStripMapping_Room
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// mapping & UI
 	protected ArtNetDataSender artNetDataSender;
-	protected int numStrips = 6;
-	protected int lightsPerStrip = 100;
+	protected int numStrips = 20;
+	protected int lightsPerStrip = 300;
 	protected int numPixels = numStrips * lightsPerStrip;
 	
 	protected ArrayList<MappedLightStrip> lights = new ArrayList<MappedLightStrip>();
@@ -39,67 +47,59 @@ extends PAppletHax {
 	// texture
 	protected SimplexNoise3dTexture noise3d;
 	
-	// TODO: 
-	// - Build into own editor class like DMXEditor
-	// - Add better visuals to show LED strip points in UI
-	// - Add key commands and text UI back in from DMXEditor
-	// - Add more channel info to visual light strip UI (universe start channel, point 1/2, etc)
-	// - Save/recall from text file 
-	// - Add a brightness slider for texture AND/OR for final output data
+	// app size
+	// - 13' x 7' = 27' wide, 8' tall
+	// - strip length: 16'
+	protected int APP_W = 2700;
+	protected int APP_H = 800;
+	protected int STRIP_W = 1600;
+
+	protected PGraphics map;
+
+	protected void config() {
+		Config.setAppSize(APP_W, APP_H);
+	}
 
 	protected void firstFrame() {
 		noise3d = new SimplexNoise3dTexture(p.width, p.height);
 		artNetDataSender = new ArtNetDataSender("192.168.1.100", 0, numPixels);
 		buildLightBarMapUI();
+		map = PG.newPG(pg.width, pg.height);
+		DebugView.setTexture("pg", pg);
+		DebugView.setTexture("map", map);
 	}
 	
 	protected void buildLightBarMapUI() {
-		int centerX = p.width / 2;
-		int centerY = p.height / 2;
-		// zig zag flip/reverse for current physical strip layout
-		buildLightBar(centerX + 100, centerY + 100 - 100, centerX + 100, centerY - 100 - 100);
-		buildLightBar(centerX + 60, centerY + 100 - 100, centerX + 60, centerY - 100 - 100);
-		buildLightBar(centerX + 20, centerY - 100 - 100, centerX + 20, centerY + 100 - 100);
-		buildLightBar(centerX - 20, centerY + 100 - 100, centerX - 20, centerY - 100 - 100);
-		buildLightBar(centerX - 60, centerY - 100 - 100, centerX - 60, centerY + 100 - 100);
-		buildLightBar(centerX - 100, centerY - 100 - 100, centerX - 60, centerY + 100 - 100);
 		
 		// keyboard & mouse events for SavedPointUI
 		P.p.registerMethod("mouseEvent", this); // add mouse listeners
 		P.p.registerMethod("keyEvent", this);
+
+		// load saved opints
+		textConfigPath = FileUtil.getPath("text/dmx/arnet-strips-lights-editor.txt");
+		if (FileUtil.fileExists(textConfigPath)) {
+			loadLightsConfig();
+		} else {
+			for(int i=0; i < numStrips; i++) {
+				int x = 100 + 20 * i;
+				int y = 100;
+				buildLightBar(x, y, x, y * 2);
+			}
+		}
 	}
 	
 	
 	protected void updateTexture() {
 		// update noise map
 		noise3d.offsetZ(p.frameCount / 10f);
-		noise3d.update(6f, 0, FrameLoop.count(0.005f), 0, FrameLoop.count(0.001f), false, false);
-		
-		// post-process noise map
-//		ContrastFilter.instance().setContrast(3f);
+		noise3d.update(1f, 0, FrameLoop.count(0.001f), 0, FrameLoop.count(0.005f), false, false);
+		// ContrastFilter.instance().setContrast(3f);
 		ContrastFilter.instance().applyTo(noise3d.texture());
 		ColorizeFromTexture.instance().setTexture(ImageGradient.BLACK_HOLE());
 		ColorizeFromTexture.instance().applyTo(noise3d.texture());
 		
 		// overdraw circles
-		PGraphics map = noise3d.texture();
-		
-		// replace with circles
-		map.beginDraw();
-		PG.setCenterScreen(map);
-		PG.setDrawCenter(map);
-		int index = 0;
-		for (int i = map.width * 3 + (p.frameCount*2) % 40; i > 0; i-= 20) {
-			if(index % 2 == 0) {
-				map.fill(0, 0, 100);
-			} else {
-				map.fill(100);
-			}
-			map.ellipse(0, 0, i, i);
-			index++;
-		}
-		map.endDraw();
-		/* */
+		// PGraphics map = noise3d.texture();
 		
 		// replace with rotating bar
 		map.beginDraw();
@@ -107,23 +107,15 @@ extends PAppletHax {
 		PG.setCenterScreen(map);
 		PG.setDrawCorner(map);
 		map.fill(255);
-		map.rotate(FrameLoop.count(0.06f));
-		map.rect(0, 0, p.width * 3, 20);
+		map.rotate(FrameLoop.count(0.01f));
+		map.rect(0, 0, map.width * 3, 20);
 		map.fill(255, 255, 0);
 		map.rotate(P.PI);
-		map.rect(0, 0, p.width * 3, 20);
+		map.rect(0, 0, map.width * 3, 20);
 		map.endDraw();
-		
-		// overdraw mouse
-		/*
-		map.beginDraw();
-		map.background(20);
-		PG.setDrawCorner(map);
-		map.fill(255);
-		map.rect(Mouse.x, 0, 10, map.height);
-		map.rect(0, Mouse.y, map.width, 100);
-		map.endDraw();
-		*/
+
+		// replace map
+		if(p.key == ' ') ImageUtil.copyImage(noise3d.texture(), map);
 		
 		// bring brightness down because voltage problems
 		BrightnessFilter.instance().setBrightness(0.1f);
@@ -133,16 +125,69 @@ extends PAppletHax {
 	// animate lights!
 
 	protected void drawApp() {
-		background(0);
+		background(50);
 		
 		// draw mapped texture with UI on top 
 		updateTexture();
-		p.image(noise3d.texture(), 0, 0);
+		// p.image(noise3d.texture(), 0, 0);
 		drawUI();
 		
 		// send ArtNet data
 		artNetDataSender.send();
-		artNetDataSender.drawDebug(p.g);
+		// artNetDataSender.drawDebug(p.g);
+
+		draw3dViz();
+	}
+
+	protected void draw3dViz() {
+		// 13' x 7' = 27' wide, 8' tall
+		// set context
+		p.push();
+		p.lights();
+		PG.setBasicLights(p.g);
+		PG.setDrawCenter(p.g);
+		PG.setCenterScreen(p.g);
+		p.translate(0, 0, -300);
+		PG.basicCameraFromMouse(p.g, 0.2f, 0.2f);
+
+		
+		// draw back wall
+		float u1 = (1300/2) / 2700f;
+		float u2 = (2700 - (1300/2)) / 2700f;
+		p.push();
+		p.translate(0, 0, -350);
+		Shapes.drawTexturedRect(p.g, pg, 1300, 800, u1, 0, u2, 0, u2, 1, u1, 1);
+		p.pop();
+		
+		// draw left wall
+		p.push();
+		p.translate(-1300/2, 0, 0);
+		p.rotateY(P.HALF_PI);
+		Shapes.drawTexturedRect(p.g, pg, 700, 800, 0, 0, u1, 0, u1, 1, 0, 1);
+		p.pop();
+
+		// draw right wall
+		p.push();
+		p.translate(1300/2, 0, 0);
+		p.rotateY(-P.HALF_PI);
+		Shapes.drawTexturedRect(p.g, pg, 700, 800, u2, 0, 1, 0, 1, 1, u2, 1);
+		p.pop();
+
+		// draw humanoid
+		p.push();
+		p.translate(0, 730, 0);
+		p.rotateY(-P.HALF_PI);
+		if(FrameLoop.frameModLooped(100)) {
+			PShapeUtil.scaleShapeToHeight(DemoAssets.objHumanoid(), 600); 
+			DemoAssets.objHumanoid().disableStyle();
+		}
+		// p.scale(100);
+		p.shape(DemoAssets.objHumanoid());
+		p.pop();
+
+
+
+		p.pop();
 	}
 	
 	//////////////////////////////
@@ -250,15 +295,18 @@ extends PAppletHax {
 	}
 	
 	protected void drawUI() {
-		PGraphics pgUI = p.g;
+		map.loadPixels();
+		
+		PGraphics pgUI = pg; // p.g;
+		boolean openContext = pgUI == pg;
 		boolean pointsUiDisabled = false; // P.store.getBoolean(LIGHTS_UI_DISABLE);
 				
-		// draw points
+		// draw UI points
 		SavedPointUI activePoint = null;
 		if(pointsUiDisabled == false) {
 			for (int i = 0; i < points.size(); i++) {
 				SavedPointUI point = points.get(i); 
-				point.drawDebug(pgUI, false);
+				// point.drawDebug(pgUI, openContext);
 				if(point.isActive()) activePoint = point;
 			}
 			
@@ -273,11 +321,9 @@ extends PAppletHax {
 		
 		PG.setDrawCenter(pgUI);
 		
-		// prepare image to grab pixels
-		PGraphics map = noise3d.texture();
-		map.loadPixels();
-		
 		// draw/update lights
+		if(openContext) pg.beginDraw();
+		if(openContext) pg.background(0);
 		MappedLightStrip newActiveLight = null;
 		PVector activePointPostion = (activePoint == null || pointsUiDisabled) ? null : activePoint.position();
 		DebugView.setValue("activePointPostion", (activePointPostion == null) ? null : activePointPostion.toString());
@@ -287,6 +333,7 @@ extends PAppletHax {
 			if(light.isActive()) newActiveLight = light;
 			light.update(pgUI, map, artNetDataSender);
 		}
+		if(openContext) pg.endDraw();
 		
 		// update dmx channel input when we select a new (or no) light
 		/*
@@ -371,10 +418,44 @@ extends PAppletHax {
 				if(pointIndex < 0) pointIndex = points.size() - 1;
 				setActivePoint();
 			}
-//			if(e.getKey() == 's') saveLightsToFile();
+			if(e.getKey() == 's') saveLightsToFile();
 //			if(e.getKeyCode() == 147) deleteActiveLight();
 //			if(e.getKeyCode() == '`') showInfo = !showInfo;
 		}
+	}
+
+	////////////////////////
+	// SAVE / RECALL
+	////////////////////////
+	
+	protected void loadLightsConfig() {
+		String[] configLines = FileUtil.readTextFromFile(textConfigPath);
+		if(configLines == null) return;
+		for (int i = 0; i < configLines.length; i++) {
+			String[] lineComponents = configLines[i].split(",");
+			String lightType = lineComponents[0]; // TODO: could add metadata here for ArtNet indexes & length
+			if(lineComponents.length == 4) {
+				buildLightBar(lineComponents);
+			}
+			else P.error("Couldn't load ArtNetEditor text line: " + configLines[i]);
+		}
+	}
+
+
+	protected void saveLightsToFile() {
+		String[] saveString = new String[lights.size()];
+		for (int i = 0; i < lights.size(); i++) {
+			saveString[i] = lights.get(i).toSaveString();
+		}
+		// make a backup
+		if(FileUtil.fileExists(textConfigPath)) {
+			try { FileUtil.copyFile(textConfigPath, textConfigPath.replace(".txt", "-bak-" + SystemUtil.getTimestamp() + ".txt"));
+			} catch (IOException e) { e.printStackTrace(); }
+		}
+		// save new config
+		FileUtil.createDir(FileUtil.pathForFile(textConfigPath));
+		FileUtil.writeTextToFile(textConfigPath, FileUtil.textLinesJoined(saveString));
+		P.out("ArtNetEditor: Saved lights config");
 	}
 
 }

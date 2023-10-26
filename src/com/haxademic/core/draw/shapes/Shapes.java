@@ -391,6 +391,17 @@ public class Shapes {
 		pg.endShape();
 	}
 	
+	public static void drawTexturedRect(PGraphics pg, PImage texture, float width, float height, float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
+		pg.beginShape(P.QUAD);
+		pg.textureMode(P.NORMAL);
+		pg.texture(texture);
+		pg.vertex(-width/2, -height/2, 			x1, y1);
+		pg.vertex( width/2, -height/2, 			x2, y2);
+		pg.vertex( width/2,  height/2, 			x3, y3);
+		pg.vertex(-width/2,  height/2, 			x4, y4);
+		pg.endShape();
+	}
+	
 	public static void textureQuadSubdivided(PGraphics pg, PImage texture, int subDivideSteps, 
 			float x1, float y1, float z1, float u1, float v1,
 			float x2, float y2, float z2, float u2, float v2,
