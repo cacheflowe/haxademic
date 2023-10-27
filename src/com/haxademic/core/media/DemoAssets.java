@@ -60,13 +60,13 @@ public class DemoAssets {
 	public static String shapeXPath = "haxademic/svg/x.svg";
 	public static PShape shapeX = null;
 	public static PShape shapeX() {
-		if(shapeX == null) shapeX = P.p.loadShape(FileUtil.getPath(shapeXPath));
+		if(shapeX == null) shapeX = P.p.loadShape(P.path(shapeXPath));
 		return shapeX;
 	}
 	
 	public static PShape shapeFractal = null;
 	public static PShape shapeFractal() {
-		if(shapeFractal == null) shapeFractal = P.p.loadShape(FileUtil.getPath("haxademic/svg/fractal-2013-09-15-20-27-38-01.svg"));
+		if(shapeFractal == null) shapeFractal = P.p.loadShape(P.path("haxademic/svg/fractal-2013-09-15-20-27-38-01.svg"));
 		return shapeFractal;
 	}
 	
@@ -75,7 +75,7 @@ public class DemoAssets {
 	public static PShape objSkeleton = null;
 	public static PShape objSkeleton() {
 		if(objSkeleton == null) {
-			objSkeleton = P.p.loadShape(FileUtil.getPath("haxademic/models/skeleton-lowpoly.obj"));
+			objSkeleton = P.p.loadShape(P.path("haxademic/models/skeleton-lowpoly.obj"));
 			PShapeUtil.meshRotateOnAxis(objSkeleton, P.PI, P.Z);
 		}
 		return objSkeleton;
@@ -85,7 +85,7 @@ public class DemoAssets {
 	public static PShape objSkullRealistic = null;
 	public static PShape objSkullRealistic() {
 		if(objSkullRealistic == null) {
-			objSkullRealistic = P.p.loadShape(FileUtil.getPath(objSkullRealisticPath));
+			objSkullRealistic = P.p.loadShape(P.path(objSkullRealisticPath));
 			PShapeUtil.meshRotateOnAxis(objSkullRealistic, P.PI, P.Z);
 		}
 		return objSkullRealistic;
@@ -94,8 +94,8 @@ public class DemoAssets {
 	public static PShape objHumanoid = null;
 	public static PShape objHumanoid() {
 		if(objHumanoid == null) {
-//			objHumanoid = P.p.loadShape(FileUtil.getPath("haxademic/models/man-lowpoly.obj"));
-			objHumanoid = P.p.loadShape(FileUtil.getPath("haxademic/models/humanoid-lowpoly.obj"));
+//			objHumanoid = P.p.loadShape(P.path("haxademic/models/man-lowpoly.obj"));
+			objHumanoid = P.p.loadShape(P.path("haxademic/models/humanoid-lowpoly.obj"));
 			PShapeUtil.meshRotateOnAxis(objHumanoid, P.PI, P.Z);
 			PShapeUtil.meshRotateOnAxis(objHumanoid, P.HALF_PI, P.Y);
 		}
@@ -107,19 +107,19 @@ public class DemoAssets {
 	public static String movieFractalCubePath = "haxademic/video/fractal-cube.mp4";
 	public static Movie movieFractalCube = null;
 	public static Movie movieFractalCube() {
-		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, FileUtil.getPath(movieFractalCubePath));
+		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, P.path(movieFractalCubePath));
 		return movieFractalCube;
 	}
 	
 	public static Movie movieKinectSilhouette = null;
 	public static Movie movieKinectSilhouette() {
-		if(movieKinectSilhouette == null) movieKinectSilhouette = new Movie(P.p, FileUtil.getPath("haxademic/video/kinect-silhouette.mp4"));
+		if(movieKinectSilhouette == null) movieKinectSilhouette = new Movie(P.p, P.path("haxademic/video/kinect-silhouette.mp4"));
 		return movieKinectSilhouette;
 	}
 
 	public static Movie movieTestPattern = null;
 	public static Movie movieTestPattern() {
-		if(movieTestPattern == null) movieTestPattern = new Movie(P.p, FileUtil.getPath("haxademic/video/test-pattern.mp4"));
+		if(movieTestPattern == null) movieTestPattern = new Movie(P.p, P.path("haxademic/video/test-pattern.mp4"));
 		return movieTestPattern;
 	}
 	
@@ -147,7 +147,7 @@ public class DemoAssets {
 	public static String fontOpenSansPath = "haxademic/fonts/OpenSans-Regular.ttf";
 	public static PFont fontOpenSans = null;
 	public static PFont fontOpenSans(float fontSize) {
-		if(fontOpenSans == null) fontOpenSans = P.p.createFont( FileUtil.getPath(fontOpenSansPath), fontSize );
+		if(fontOpenSans == null) fontOpenSans = P.p.createFont( P.path(fontOpenSansPath), fontSize );
 		return fontOpenSans;
 	}
 	
@@ -155,8 +155,8 @@ public class DemoAssets {
 	public static PFont fontInter = null;
 	public static PFont fontInter(float fontSize) {
 		if(fontInter == null) {
-			fontInter = (FileUtil.fileExists(FileUtil.getPath(fontInterPath))) ?
-					P.p.createFont( FileUtil.getPath(fontInterPath), fontSize ) : 
+			fontInter = (FileUtil.fileExists(P.path(fontInterPath))) ?
+					P.p.createFont( P.path(fontInterPath), fontSize ) : 
 					P.p.createFont("Arial", fontSize );
 		}
 		return fontInter;
@@ -165,35 +165,35 @@ public class DemoAssets {
 	public static String fontRalewayPath = "haxademic/fonts/Raleway-Regular.ttf";
 	public static PFont fontRaleway = null;
 	public static PFont fontRaleway(float fontSize) {
-		if(fontRaleway == null) fontRaleway = P.p.createFont( FileUtil.getPath(fontRalewayPath), fontSize );
+		if(fontRaleway == null) fontRaleway = P.p.createFont( P.path(fontRalewayPath), fontSize );
 		return fontRaleway;
 	}
 	
 	public static String fontBitlowPath = "haxademic/fonts/bitlow.ttf";
 	public static PFont fontBitlow = null;
 	public static PFont fontBitlow(float fontSize) {
-		if(fontBitlow == null) fontBitlow = P.p.createFont( FileUtil.getPath(fontBitlowPath), fontSize );
+		if(fontBitlow == null) fontBitlow = P.p.createFont( P.path(fontBitlowPath), fontSize );
 		return fontBitlow;
 	}
 	
 	public static String fontHelloDenverPath = "haxademic/fonts/HelloDenverDisplay-Regular.ttf";
 	public static PFont fontHelloDenver = null;
 	public static PFont fontHelloDenver(float fontSize) {
-		if(fontHelloDenver == null) fontHelloDenver = P.p.createFont( FileUtil.getPath(fontHelloDenverPath), fontSize );
+		if(fontHelloDenver == null) fontHelloDenver = P.p.createFont( P.path(fontHelloDenverPath), fontSize );
 		return fontHelloDenver;
 	}
 	
 	public static String fontMonospacePath = "haxademic/fonts/Inconsolata.otf";
 	public static PFont fontMonospace = null;
 	public static PFont fontMonospace(float fontSize) {
-		if(fontMonospace == null) fontMonospace = P.p.createFont( FileUtil.getPath(fontMonospacePath), fontSize );
+		if(fontMonospace == null) fontMonospace = P.p.createFont( P.path(fontMonospacePath), fontSize );
 		return fontMonospace;
 	}
 	
 	public static String fontDSEG7Path = "haxademic/fonts/DSEG7ClassicMini-Regular.ttf";
 	public static PFont fontDSEG7 = null;
 	public static PFont fontDSEG7(float fontSize) {
-		if(fontDSEG7 == null) fontDSEG7 = P.p.createFont( FileUtil.getPath(fontDSEG7Path), fontSize );
+		if(fontDSEG7 == null) fontDSEG7 = P.p.createFont( P.path(fontDSEG7Path), fontSize );
 		return fontDSEG7;
 	}
 
