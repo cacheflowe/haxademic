@@ -751,9 +751,9 @@ implements IAppStoreListener, ILaunchpadCallback {
 		PG.setDrawCorner(pg);
 
 		// set font
-		String fontFile = DemoAssets.fontOpenSansPath;
-		PFont font = FontCacher.getFont(fontFile, 18);
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
+		String fontFile = "haxademic/fonts/Minecraftia-Regular.ttf";
+		PFont font = FontCacher.getFont(fontFile, 8f);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 2f, PTextAlign.LEFT, PTextAlign.TOP);
 
 		// loop through channels
 		int columnW = pg.width / NUM_CHANNELS;

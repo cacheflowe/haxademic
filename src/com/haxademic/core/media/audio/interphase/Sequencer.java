@@ -151,10 +151,13 @@ implements IAppStoreListener {
 				+ nl + "file: " + sampleFileName
 				+ nl + "sampleIndex: " + sampleIndex
 				+ nl + "sampleLength: " + sampleLength 
+				+ nl + "PLAYBACK ------------------- " 
+				+ nl + "sampleProgress: " + sampleProgress() 
+				+ nl + "volume: " + volume() 
 				+ nl + "length: " + P.round(sampleLength) 
 				+ nl + "attack: " + attack 
 				+ nl + "release: " + release 
-				+ nl + "sampleProgress: " + sampleProgress() 
+				+ nl + "reverb: " + reverbSize + "/" + reverbDamping
 				+ nl + "NOTES ------------------- " 
 				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "pitchShift: " + pitchShift 
