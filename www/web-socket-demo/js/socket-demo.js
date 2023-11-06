@@ -32,7 +32,7 @@ function onMessage(event) {
 
 // init SolidSocket
 
-const socketAddress = "ws://" + document.location.hostname + ":8080";
+const socketAddress = "ws://" + document.location.hostname + ":3001";
 const solidSocket = new SolidSocket(socketAddress);
 solidSocket.setOpenCallback(onOpen);
 solidSocket.setMessageCallback(onMessage);
