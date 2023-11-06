@@ -111,10 +111,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
-	<classpathentry kind="lib" path="lib/tess4j/tess4j-5.6.0.jar"/>
-	<classpathentry kind="lib" path="lib/tess4j/lept4j-1.18.0.jar"/>
+	<classpathentry kind="lib" path="lib/tess4j/tess4j-5.8.0.jar"/>
+	<classpathentry kind="lib" path="lib/tess4j/lept4j-1.18.1.jar"/>
 	<classpathentry kind="lib" path="lib/tess4j/jai-imageio-core-1.4.0.jar"/>
-	<classpathentry kind="lib" path="lib/tess4j/commons-io-2.11.0.jar"/>
+	<classpathentry kind="lib" path="lib/tess4j/commons-io-2.15.0.jar"/>
 	<classpathentry kind="lib" path="lib/themidibus/library/themidibus.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar"/>
