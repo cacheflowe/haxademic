@@ -37,7 +37,7 @@
 	<classpathentry kind="lib" path="lib/hemesh/library/jts.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/objparser.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>
-	<classpathentry kind="lib" path="lib/java_websocket/Java-WebSocket-1.5.3.jar"/>
+	<classpathentry kind="lib" path="lib/java_websocket/Java-WebSocket-1.5.4.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.53.v20231009-uber.jar"/>
 	<classpathentry kind="lib" path="lib/jinput/jinput-2.0.9.jar">
 		<attributes>
