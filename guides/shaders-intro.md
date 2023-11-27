@@ -78,8 +78,10 @@ Step 3: Start reading other developers' shader code on ShaderToy!
 ### Learn how shaders work in:
 
 p5js
-* https://itp-xstory.github.io/p5js-shaders/
-* https://github.com/aferriss/p5jsShaderExamples
+* [p5js shader reference](https://p5js.org/reference/#/p5/shader)
+* [p5js Introduction to Shaders](https://p5js.org/learn/getting-started-in-webgl-shaders.html)
+* [p5js createFilterShader()](https://p5js.org/reference/#/p5/createFilterShader) (New as of p5js 1.8!)
+* [p5js examples](https://github.com/aferriss/p5jsShaderExamples)
 * https://twitter.com/adamferriss/status/1482140602573606912
 
 THREE.js
@@ -99,7 +101,9 @@ PIXI.js
 * [Post-Processing Distortion Effects](https://blog.en.uwa4d.com/2022/10/11/post-processing-in-depth-camera-distortion-effects/)
 * [Basic fragment shader distortions](https://www.youtube.com/watch?v=DH1KqXQvICQ)
 * [A Beginner's Guide to Coding Graphics Shaders](https://gamedevelopment.tutsplus.com/tutorials/a-beginners-guide-to-coding-graphics-shaders--cms-23313)
+* [A Journey Into Shaders](https://www.mayerowitz.io/blog/a-journey-into-shaders)
 * [3D Game Shaders For Beginners](https://github.com/lettier/3d-game-shaders-for-beginners)
+* [GM Shaders Mini Tuts by Xor](https://mini.gmshaders.com/)
 * [Intro to Compute Shaders (workshop for Unity)](https://paprika.studio/workshops/compute/index.html)
 
 ### Raymarching (advanced technique for the brave)
