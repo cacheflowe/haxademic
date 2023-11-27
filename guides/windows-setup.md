@@ -9,6 +9,8 @@
     * Run this command: 
       * `taskkill /F /IM oobenetworkconnectionflow.exe` (this should let you continue without restarting)
       * or `OOBE\BYPASSNRO` (this will erstart the machine)
+    * If you're still stuck, try this:
+      * Usually in the "Check Microsoft connection" section, there is an "I don't have Internet connection" option in the lower left corner of the page. If you don't see it, or if you have waited a long time for it to load, I recommend you use the key combination "Ctrl+Shift+F3" to try to skip this section(Some devices may need to hold down Ctrl+Shift and press Fn+F3 at the same time due to function keys).
     * When it restarts, you should now have an "I don't have Internet" button, followed by a "Continue with a limited setup" button, and can continue setup without a Microsoft account
   * Turn off non-essential services (but keep location services for clock-syncing)
 
