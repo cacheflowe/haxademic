@@ -44,18 +44,18 @@ extends PAppletHax {
 		} else if(p.key == '4') {
 			video.setTime(0);
 		} else if(p.key == '5') {
-		    video.pause();
-		    SystemUtil.setTimeout(resetToStart, 100);
+			video.pause();
+			SystemUtil.setTimeout(resetToStart, 100);
 		} else if(p.key == '6') {
-		    video.stop();
+			video.stop();
 		}
 	}
 
 	protected ActionListener resetToStart = new ActionListener() {
-        public void actionPerformed(ActionEvent arg0) {
-            video.setTime(0);
-        }
-    };
+				public void actionPerformed(ActionEvent arg0) {
+						video.setTime(0);
+				}
+		};
 	
 	protected void drawApp() {
 		// clear background
@@ -64,8 +64,8 @@ extends PAppletHax {
 		
 		// check finished time
 		if(video.isFinished()) {
-            p.background(255, 0, 0);
-        }
+			p.background(255, 0, 0);
+		}
 		
 		// show video
 		ImageUtil.drawImageCropFill(video, p.g, false);
