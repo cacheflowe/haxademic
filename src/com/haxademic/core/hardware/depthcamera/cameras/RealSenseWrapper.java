@@ -17,6 +17,7 @@ public class RealSenseWrapper
 implements IDepthCamera {
 	
 	protected RealSenseCamera camera;
+	public static int FPS = 30;
 	public static int RGB_W = 1280;
 	public static int RGB_H = 720;
 	public static int DEPTH_W = RGB_W;
@@ -36,14 +37,28 @@ implements IDepthCamera {
 	public static float METERS_FAR_QUEUED = -1;
 	public static ColorScheme COLOR_SCHEME = ColorScheme.Cold;
 	
+	public static void set720p() {
+		RGB_W = DEPTH_W = 1280;
+		RGB_H = DEPTH_H = 720;
+		FPS = 30;
+	}
+	
+	public static void setMidStreamFast() {
+		RGB_W = DEPTH_W = 848;
+		RGB_H = DEPTH_H = 480;
+		FPS = 60;
+	}
+	
 	public static void setSmallStream() {
 		RGB_W = DEPTH_W = 640;
 		RGB_H = DEPTH_H = 480;
+		FPS = 30;
 	}
-
+	
 	public static void setTinyStream() {
 		RGB_W = DEPTH_W = 424;
 		RGB_H = DEPTH_H = 240;
+		FPS = 30;
 	}
 	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
