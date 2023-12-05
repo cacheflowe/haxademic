@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -30,6 +31,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		RealSenseWrapper.setMidStreamFast();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		depthImg = depthCamera.getDepthImage();
