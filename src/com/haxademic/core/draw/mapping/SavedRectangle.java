@@ -22,7 +22,8 @@ public class SavedRectangle {
 	protected Point mouseStartPoint = new Point();
 	protected Point mouseMovePoint = new Point();
 	protected int dragCorner = 14;
-	
+	protected boolean draggingNewPoint = false;
+
 	public static SavedRectangle curDragging = null;
 
 	public SavedRectangle(String id, boolean draggable) {
@@ -102,6 +103,13 @@ public class SavedRectangle {
 						isResizing = true;
 					} 
 					rectangleMove = new Rectangle(rectangle); // build temp rectangle for moving
+					P.out("START: EXISTING");
+				} else {
+					// TODO: handle this for multiple rectangles. currently only works for redrawing a single existing rectangle
+					draggingNewPoint = true;
+					isResizing = true;
+					isDragging = true;
+					rectangleMove = new Rectangle(mouseStartPoint.x, mouseStartPoint.y, 0, 0); // build temp rectangle for moving
 				}
 				break;
 			case MouseEvent.RELEASE:
@@ -111,6 +119,7 @@ public class SavedRectangle {
 					rectangleMove = null;
 					isDragging = false;
 					isResizing = false;
+					draggingNewPoint = false;
 				}
 				break;
 			case MouseEvent.MOVE:
@@ -120,15 +129,16 @@ public class SavedRectangle {
 					mouseMovePoint.setLocation(event.getX(), event.getY());
 					int mouseDeltaX = mouseMovePoint.x - mouseStartPoint.x;
 					int mouseDeltaY = mouseMovePoint.y - mouseStartPoint.y;
-					if(isResizing == false) {
-						rectangleMove.setLocation(rectangle.x + mouseDeltaX, rectangle.y + mouseDeltaY );
+					if(draggingNewPoint) {
+						rectangleMove.setSize(mouseDeltaX, mouseDeltaY);
+					} else if(isResizing == false) {
+						rectangleMove.setLocation(rectangle.x + mouseDeltaX, rectangle.y + mouseDeltaY);
 					} else {
-						rectangleMove.setSize(rectangle.width + mouseDeltaX, rectangle.height + mouseDeltaY );
+						rectangleMove.setSize(rectangle.width + mouseDeltaX, rectangle.height + mouseDeltaY);
 					}
 				}
 				break;
 		}
 	}
-	
 
 }
