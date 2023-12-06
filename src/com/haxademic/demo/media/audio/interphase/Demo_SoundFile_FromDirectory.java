@@ -13,6 +13,7 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.system.Console;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PFont;
@@ -28,9 +29,10 @@ extends PAppletHax {
 	protected ArrayList<SoundFile> sounds;
 
 	// paths
-	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\bigfishaudio - Datacode - FOCUS Techno Oneshots Collection";
-	protected String outputPathInterphase = "D:\\workspace\\interphase\\data\\audio\\samples2";
-	protected String[] outputDirs;
+	protected String soundsPath = "E:\\cacheflowe\\samples\\sample-packs\\Analog Meltdown";
+	protected String outputPath = "D:\\workspace\\interphase\\data\\audio\\samples2";
+	// protected String outputPath = "D:\\workspace\\nike-sugar\\_assets\\audio\\justin";
+	protected String[] outputDirsInterphase;
 	protected ArrayList<String> soundPaths;
 	protected String curFilePath;
 	protected int playlistIndex = 1;
@@ -64,11 +66,11 @@ extends PAppletHax {
 		fft = new FFT(this, bands);
 		loadSounds();
 		setIndex(playlistIndex);
-		getOutputDirs();
+		getOutputDirsInterphase();
 	}
 
-	protected void getOutputDirs() {
-		outputDirs = FileUtil.getDirsInDir(outputPathInterphase);
+	protected void getOutputDirsInterphase() {
+		outputDirsInterphase = FileUtil.getDirsInDir(outputPath);
 	}
 
 	public void folderSelected(File selection) {
@@ -182,28 +184,32 @@ extends PAppletHax {
 			p.selectFolder("Select a folder", "folderSelected");
 		}
 		// copy to output folders
-		if (KeyboardState.keyTriggered('1')) 
-			copyCurSoundFile(0);
-		if (KeyboardState.keyTriggered('2')) 
-			copyCurSoundFile(1);
-		if (KeyboardState.keyTriggered('3'))
-			copyCurSoundFile(2);
-		if (KeyboardState.keyTriggered('4'))
-			copyCurSoundFile(3);
-		if (KeyboardState.keyTriggered('5'))
-			copyCurSoundFile(4);
-		if (KeyboardState.keyTriggered('6')) 
-			copyCurSoundFile(5);
-		if (KeyboardState.keyTriggered('7'))
-			copyCurSoundFile(6);
-		if (KeyboardState.keyTriggered('8'))
-			copyCurSoundFile(7);
+		if (KeyboardState.keyTriggered('1')) copyCurSoundFileInterphase(0);
+		if (KeyboardState.keyTriggered('2')) copyCurSoundFileInterphase(1);
+		if (KeyboardState.keyTriggered('3')) copyCurSoundFileInterphase(2);
+		if (KeyboardState.keyTriggered('4')) copyCurSoundFileInterphase(3);
+		if (KeyboardState.keyTriggered('5')) copyCurSoundFileInterphase(4);
+		if (KeyboardState.keyTriggered('6')) copyCurSoundFileInterphase(5);
+		if (KeyboardState.keyTriggered('7')) copyCurSoundFileInterphase(6);
+		if (KeyboardState.keyTriggered('8')) copyCurSoundFileInterphase(7);
+		if (KeyboardState.keyTriggered('0')) copyCurSoundFileToDir();
 	}
 
-	protected void copyCurSoundFile(int outputDirIndex) {
-		String outputPath = outputDirs[outputDirIndex] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_");
+	protected void copyCurSoundFileInterphase(int outputDirIndex) {
+		String outputPath = outputDirsInterphase[outputDirIndex] + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_");
 		try {
 			FileUtil.copyFile(curFilePath, outputPath);
+			P.outColor(Console.CYAN_BACKGROUND, "Copied", FileUtil.NEWLINE, curFilePath, FileUtil.NEWLINE, "to", FileUtil.NEWLINE, outputPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void copyCurSoundFileToDir() {
+		String savePath = outputPath + FileUtil.SEPARATOR + soundFileName.replaceAll(" ", "_");
+		try {
+			FileUtil.copyFile(curFilePath, savePath);
+			P.outColor(Console.CYAN_BACKGROUND, "Copied", FileUtil.NEWLINE, curFilePath, FileUtil.NEWLINE, "to", FileUtil.NEWLINE, savePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
