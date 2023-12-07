@@ -1,12 +1,10 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
-import com.haxademic.core.draw.filters.pshader.ReflectFilter;
-import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
@@ -21,6 +19,7 @@ extends BaseTexture {
 
 	protected PGraphics eqHistory; 
 	protected PGraphics eqHistoryCopy; 
+	protected PGraphics eqHistoryInvert; 
 
 	protected PShape shape; 
 	protected float shapeExtent;
@@ -35,6 +34,7 @@ extends BaseTexture {
 		eqHistoryCopy = PG.newPG(256, 256);
 		eqHistoryCopy.noSmooth();
 		OpenGLUtil.setTextureQualityLow(eqHistoryCopy);
+		eqHistoryInvert = PG.newPG(256, 256);
 
 		// build sheet mesh
 		shape = P.p.createShape(P.GROUP);
@@ -74,13 +74,15 @@ extends BaseTexture {
 		eqHistory.copy(0, 0, eqHistory.width, eqHistory.height, 0, 1, eqHistory.width, eqHistory.height);
 		// draw bottom line of current eq
 		for (int i = 0; i < eqHistory.width; i++) {
-			eqHistory.fill(255f * AudioIn.audioFreq(i));
-			eqHistory.rect(i, 0, 1, 1);
+			eqHistory.fill(255f * AudioIn.audioFreq(8 + P.round(i * 1.7f)));
+			eqHistory.rect(eqHistory.width/2 - i, 0, 1, 1);
+			eqHistory.rect(eqHistory.width/2 + i, 0, 1, 1);
 		}
 		eqHistory.endDraw();
 
 		// make gradient-faded copy
 		eqHistoryCopy.beginDraw();
+		PG.setTextureRepeat(eqHistoryCopy, false);
 		ImageUtil.copyImage(eqHistory, eqHistoryCopy);
 		eqHistoryCopy.beginShape();
 		eqHistoryCopy.fill(0, 0);
@@ -92,7 +94,9 @@ extends BaseTexture {
 		eqHistoryCopy.endShape(P.CLOSE);
 		eqHistoryCopy.endDraw();
 		
-		ReflectFilter.instance().applyTo(eqHistoryCopy);
+		ImageUtil.copyImage(eqHistoryCopy, eqHistoryInvert);
+		InvertFilter.instance().applyTo(eqHistoryInvert);
+		// ReflectFilter.instance().applyTo(eqHistoryCopy);
 	}
 	
 	public void updateDraw() {
@@ -103,29 +107,31 @@ extends BaseTexture {
 		// rotate
 		PG.setCenterScreen(_texture);
 //		PG.basicCameraFromMouse(_texture);
-		_texture.rotateX(1.2f);
+		_texture.translate(0, -height * 0.15f, -height * 0.1f);
+		_texture.rotateX(0.8f);
 
 		// draw shader-displaced mesh
 		LinesDeformAndTextureFilter.instance().setDisplacementMap(eqHistoryCopy);
-		LinesDeformAndTextureFilter.instance().setColorMap(eqHistoryCopy);
-		LinesDeformAndTextureFilter.instance().setWeight(10f);
-		LinesDeformAndTextureFilter.instance().setModelMaxExtent(shapeExtent * 2f);
+		LinesDeformAndTextureFilter.instance().setColorMap(eqHistoryInvert);
+		LinesDeformAndTextureFilter.instance().setWeight(3f);
+		LinesDeformAndTextureFilter.instance().setModelMaxExtent(shapeExtent * 2.1f);
 		LinesDeformAndTextureFilter.instance().setColorThicknessMode(true);
 		LinesDeformAndTextureFilter.instance().setSheetMode(true);
-		LinesDeformAndTextureFilter.instance().setDisplaceAmp(200);
+		LinesDeformAndTextureFilter.instance().setDisplaceAmp(70);
 		LinesDeformAndTextureFilter.instance().setOnContext(_texture);
 
 		_texture.stroke(255);
+		_texture.scale(1.2f, 1.2f);
 		_texture.shape(shape);
 		_texture.resetShader();
 
 		// post effects
-		VignetteAltFilter.instance().setDarkness(-4f);
-		VignetteAltFilter.instance().setSpread(1f);
-		VignetteAltFilter.instance().applyTo(_texture);
-		BlurProcessingFilter.instance().setSigma(6);
-		BlurProcessingFilter.instance().setBlurSize(1);
-		BlurProcessingFilter.instance().applyTo(_texture);
+		// VignetteAltFilter.instance().setDarkness(-4f);
+		// VignetteAltFilter.instance().setSpread(1f);
+		// VignetteAltFilter.instance().applyTo(_texture);
+		// BlurProcessingFilter.instance().setSigma(6);
+		// BlurProcessingFilter.instance().setBlurSize(1);
+		// BlurProcessingFilter.instance().applyTo(_texture);
 		InvertFilter.instance().applyTo(_texture);
 	}
 }

@@ -175,7 +175,7 @@ public class AudioStreamData {
 			pg.stroke(0,255,0);
 			pg.noFill();
 			for (int i = 0; i < frequencies.length; i++) {
-				float fftVal = frequencies[i];
+				float fftVal = frequencies[i] * 0.15f;
 				float fftLineH = P.min(rowHeight, fftVal * rowHeight);
 				pg.rect(i * fftLineW, rowHeight - fftLineH, fftLineW, fftLineH);
 			}
@@ -187,14 +187,17 @@ public class AudioStreamData {
 		
 		if(freqsDampened != null) {
 			float fftLineW = (float) debugW / (float) freqsDampened.length; 
-			pg.strokeWeight(fftLineW);
-			pg.stroke(255, 127);
+			pg.strokeWeight(1);
+			pg.stroke(255);
 			pg.noFill();
+			pg.beginShape();
 			for (int i = 0; i < freqsDampened.length; i++) {
-				float fftVal = freqsDampened[i];
+				float fftVal = freqsDampened[i] * 0.15f;
 				float fftLineH = P.min(rowHeight, fftVal * rowHeight);
-				pg.rect(i * fftLineW, rowHeight - fftLineH, fftLineW, fftLineH);
+				pg.vertex(i * fftLineW, rowHeight - fftLineH);
+				// pg.rect(i * fftLineW, rowHeight - fftLineH, fftLineW, fftLineH);
 			}
+			pg.endShape();
 			
 			// # FFT values
 			pg.fill(255);
@@ -244,28 +247,28 @@ public class AudioStreamData {
 	// audio data buffers -----------------------------------
 	
 	public void drawBufferFFT() {
-	    float[] freqs = frequencies; // freqsDampened;
-	  
+		float[] freqs = frequencies; // freqsDampened;
+		
 		// lazy init buffer
 		if(bufferFFT == null) bufferFFT = PG.newPG(freqs.length, 2, false, false);
 		
 		// draw fft data
 		bufferFFT.beginDraw();
-    	bufferFFT.background(0);
-    	bufferFFT.noStroke();
-    	for (int i = 0; i < freqs.length; i++) {
-    		bufferFFT.fill(255f * freqs[i] * 1f);
-    		bufferFFT.rect(i, 0, 1, bufferFFT.height);
-    	}
-    	bufferFFT.endDraw();
-    	
-    	// re-draw with only a lower portion of the FFT spectrum... upper range is generally useless
-    	bufferFFT.copy(0, 0, 100, bufferFFT.height, 0, 0, bufferFFT.width, bufferFFT.height);
+		bufferFFT.background(0);
+		bufferFFT.noStroke();
+		for (int i = 0; i < freqs.length; i++) {
+			bufferFFT.fill(255f * freqs[i] * 1f);
+			bufferFFT.rect(i, 0, 1, bufferFFT.height);
+		}
+		bufferFFT.endDraw();
+		
+		// re-draw with only a lower portion of the FFT spectrum... upper range is generally useless
+		bufferFFT.copy(20, 0, 160, bufferFFT.height, 0, 0, bufferFFT.width, bufferFFT.height);
 	}
 	
 	public void drawBufferWaveform() {
 		// lazy init buffer
-		if(bufferWaveform == null) bufferWaveform = PG.newPG(waveform.length, 8, false, false);
+		if(bufferWaveform == null) bufferWaveform = PG.newPG(waveform.length, 2, false, false);
 		
 		// draw waveform data
 		bufferWaveform.beginDraw();

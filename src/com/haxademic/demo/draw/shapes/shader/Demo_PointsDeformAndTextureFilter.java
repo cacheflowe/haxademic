@@ -15,6 +15,7 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
@@ -40,6 +41,8 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
+		AudioIn.instance();
+		
 		// mapped textures
 //		audioTexture = new TextureEQGrid(300, 300);
 		audioTexture = new TextureEQConcentricCircles(300, 300);

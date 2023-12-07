@@ -5,25 +5,8 @@
       "sampleIndex": 22,
       "noteOffset": 11,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\HØST_-_HØST's_Cabinet_Of_Curiosity_Volume_001_-_18_Kick_4.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\HOST_-_HOST's_Cabinet_Of_Curiosity_Volume_001_-_18_Kick_4.wav",
+      "steps": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1.039370059967041,
@@ -31,24 +14,7 @@
       "noteOffset": 15,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Lurka_-_Lurka_Sample_Pack_-_46_LurkaSnare-Resnr.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 0.82677161693573,
@@ -56,24 +22,7 @@
       "noteOffset": 5,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0004-Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_72_HYROGLIFICS_174_shuffle_miami_loop_4_.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 0.6850393414497375,
@@ -81,24 +30,7 @@
       "noteOffset": 14,
       "notesByStep": false,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\VMH1_Minimal_Perc_113.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 0.8740158081054688,
@@ -106,24 +38,7 @@
       "noteOffset": 8,
       "notesByStep": false,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Clouds_-_Clouds_Sample_Pack_001_-_319_Sound_072.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0]
     },
     {
       "volume": 1.5826771259307861,
@@ -131,24 +46,7 @@
       "noteOffset": 14,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Bass_Lead-17-G#.wav",
-      "steps": [
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 1.2047243118286133,
@@ -156,24 +54,7 @@
       "noteOffset": 13,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Synth_Lead-67-C.wav",
-      "steps": [
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0]
     },
     {
       "volume": 0.8503937721252441,
@@ -181,24 +62,7 @@
       "noteOffset": 4,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_283.wav",
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0
-      ]
+      "steps": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0]
     }
   ],
   "BPM": 115

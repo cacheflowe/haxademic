@@ -22,7 +22,6 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PerlinTexture perlin;
-	protected BaseTexture audioTexture;
 
 	protected PShape shape;
 	protected PGraphics bufferPositions;

@@ -29,11 +29,11 @@ extends PAppletHax {
 	public AudioHistoryTexture history;
 	
 	protected void config() {
-	  Config.setProperty(AppSettings.SHOW_DEBUG, true);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
 	protected void firstFrame() {
-	    // make sure we're selecting the proper audio device
+			// make sure we're selecting the proper audio device
 		AudioUtil.printMixerInfo();
 		AudioUtil.setPrimaryMixer();
 		
@@ -72,14 +72,14 @@ extends PAppletHax {
 	}
 	
 	protected void autoPlay() {
-	  if(FrameLoop.frameModLooped(30)) {
-	    if(FrameLoop.frameModLooped(60)) {
-	      player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, 0, 0, 0, 0, 0);
-	    } else {
-	      player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, 0, 0, 0, 0, 0);
-	      player.playWav(oneshots[1], 1, WavPlayer.PAN_CENTER, false, 0, 0, 0, 0, 0);
-	    }
-	  }
+		if(FrameLoop.frameModLooped(30)) {
+			if(FrameLoop.frameModLooped(60)) {
+				player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, 0, 0, 0, 0, 0);
+			} else {
+				player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, 0, 0, 0, 0, 0);
+				player.playWav(oneshots[1], 1, WavPlayer.PAN_CENTER, false, 0, 0, 0, 0, 0);
+			}
+		}
 	}
 
 	public void keyPressed() {

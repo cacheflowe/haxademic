@@ -1,6 +1,5 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
