@@ -47,7 +47,7 @@ extends BaseTexture {
 		logoRotZ.setTarget(MathUtil.randRangeDecimal(-rotAmp, rotAmp));
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		audioTexture.update();
 		
 		// lazy create & normalize shape - we need to wait until the audio texture has updated once and been lazy created itself 

@@ -76,7 +76,15 @@ public class BaseTexture {
 		}
 		return this;
 	}
+
+	public float widthNorm(float val) {
+		return val * width / 1000;
+	}
 	
+public float heightNorm(float val) {
+		return val * height / 1000;
+	}
+
 	public void setAsOverlay( boolean isOverlay ) {
 		_makeOverlay = isOverlay;
 	}
@@ -152,7 +160,7 @@ public class BaseTexture {
 		_colorEase.update();
 		resetUseCount(); // this should be the last thing that happens in a frame, to help with texture pool optimization
 		
-		preDraw();
+		drawPre();
 		
 		_texture.beginDraw();
 		_texture.push();
@@ -172,7 +180,7 @@ public class BaseTexture {
 		renderTime = P.p.millis() - startRender;
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		// override with subclass
 	}
 	

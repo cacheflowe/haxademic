@@ -113,7 +113,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		updateInput();
 		setContext();
-		ground.preDraw();
+		ground.drawPre();
 		ground.draw(p.g);
 		PG.setBetterLights(p.g);
 		drawBoxes();
@@ -204,7 +204,7 @@ extends PAppletHax {
 		}
 		
 		
-		public void preDraw() {
+		public void drawPre() {
 			// update colors
 			redrawTile();
 			

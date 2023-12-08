@@ -6,6 +6,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureConcentricDashedCubes
 extends BaseTexture {
@@ -20,7 +21,6 @@ extends BaseTexture {
 	
 	public TextureConcentricDashedCubes( int width, int height ) {
 		super(width, height);
-		
 	}
 	
 	public void updateDraw() {
@@ -51,10 +51,11 @@ extends BaseTexture {
 			float cubeSize = i * spacing.value();
 			cubeSize += loopProgress * spacing.value();
 //			drawDashedCube(cubeSize, 20f + P.sin(AnimationLoop.progressRads()) * 5f);
-			_texture.pushMatrix();
+			_texture.push();
+			_texture.strokeWeight(lineWeight.value() / 2f + lineWeight.value() * AudioIn.audioFreq(i * 5));
 			_texture.rotateZ(wobbleAmp.value() * P.sin(cubeSize * wobbleFreq.value()));
 			Shapes.drawDashedCube(_texture, cubeSize, 2f + (cubeSize * 0.08f), false);
-			_texture.popMatrix();
+			_texture.pop();
 		}
 	}
 	
@@ -71,7 +72,7 @@ extends BaseTexture {
 	}
 	
 	public void newLineMode() {
-		lineWeight.setTarget(MathUtil.randRange(1, 12));
+		lineWeight.setTarget(MathUtil.randRange(1, 6));
 	}
 
 }

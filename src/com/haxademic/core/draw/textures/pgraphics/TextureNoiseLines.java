@@ -24,7 +24,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 	}
 	
 	public void updateDraw() {

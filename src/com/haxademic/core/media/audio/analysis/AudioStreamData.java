@@ -13,7 +13,7 @@ public class AudioStreamData {
 	protected float[] waveform = new float[] {0};
 	protected float amp = 0;
 	protected float gain = 1;
-	float dampening = 0.2f; //  (freqsDampened[i] < frequencies[i]) ? 0.3f : 0.15f; // older attempt to lerp faster on the way up
+	protected float dampening = 0.5f;
 	protected EasingFloat beatOnset = new EasingFloat(0, 8);
 	protected int beatFrame = 0;
 	protected float progress = 0;
@@ -64,7 +64,8 @@ public class AudioStreamData {
 	
 	public void calcFreqsDampened() {
 		for(int i=0; i < frequencies.length; i++) {
-			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], dampening);	
+			float curDamp = (freqsDampened[i] < frequencies[i]) ? dampening * 1f : dampening * 0.25f;
+			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], curDamp);	
 		}
 	}
 	
@@ -95,6 +96,10 @@ public class AudioStreamData {
 		gain = newGain;
 	}
 	
+	public void setDampening(float dampening) {
+		this.dampening = dampening;
+	}
+	
 	public void setBeat() {
 		beatOnset.setCurrent(1);		
 		beatOnset.setTarget(0);
@@ -109,7 +114,7 @@ public class AudioStreamData {
 	
 	public float[] frequencies() {
 		if(freqsDampened != null) return freqsDampened;
-		else return frequencies;
+		return frequencies;
 	}
 	
 	public float[] waveform() {
@@ -247,7 +252,7 @@ public class AudioStreamData {
 	// audio data buffers -----------------------------------
 	
 	public void drawBufferFFT() {
-		float[] freqs = frequencies; // freqsDampened;
+		float[] freqs = freqsDampened; // frequencies
 		
 		// lazy init buffer
 		if(bufferFFT == null) bufferFFT = PG.newPG(freqs.length, 2, false, false);

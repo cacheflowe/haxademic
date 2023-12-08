@@ -57,7 +57,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		colorGroup = 15; // 0, 13, 14, 15, 20
 		// draw grid
 		for (int i = 0; i < gridCells.size(); i++) {

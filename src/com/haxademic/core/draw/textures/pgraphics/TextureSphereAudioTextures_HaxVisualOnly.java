@@ -82,7 +82,7 @@ extends BaseTexture {
 		pickRandomTexture();
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		sphereTexture.beginDraw();
 		PG.fadeToBlack(sphereTexture, 10);
 		sphereTexture.background(0);

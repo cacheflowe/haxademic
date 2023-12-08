@@ -21,34 +21,34 @@ import processing.opengl.Texture;
 
 public class ImageUtil {
 	
-    //////////////////////////////
-    // COLOR ANLYSIS CONSTANTS
-    //////////////////////////////
+		//////////////////////////////
+		// COLOR ANLYSIS CONSTANTS
+		//////////////////////////////
 
-    public static final int BLACK_INT = -16777216;
+		public static final int BLACK_INT = -16777216;
 	public static final int TRANSPARENT_PNG = 16777215;
 	public static final int CLEAR_INT = 48356;
 	public static final int CLEAR_INT_PG = 13421772;
 	public static final int EMPTY_INT = 0;
 	public static final int EMPTY_WHITE_INT = -1;
 	
-    //////////////////////////////
-    // IMAGE INIT
-    //////////////////////////////
+		//////////////////////////////
+		// IMAGE INIT
+		//////////////////////////////
 
-    public static PImage newImage(int w, int h) {
-        return P.p.createImage(w, h, P.ARGB);
-    }
-    
-    protected static PImage blankImage = null;
-    public static PImage blankImage() {
-        if(blankImage == null) blankImage = P.p.createImage(16, 16, P.ARGB);
-        return blankImage;
-    }
-    
-    //////////////////////////////
-    // Pixel grid helper
-    //////////////////////////////
+		public static PImage newImage(int w, int h) {
+				return P.p.createImage(w, h, P.ARGB);
+		}
+		
+		protected static PImage blankImage = null;
+		public static PImage blankImage() {
+				if(blankImage == null) blankImage = P.p.createImage(16, 16, P.ARGB);
+				return blankImage;
+		}
+		
+		//////////////////////////////
+		// Pixel grid helper
+		//////////////////////////////
 	
 	public static int getPixelIndex( PImage image, int x, int y ) {
 		return (int) x + y * image.width;
@@ -83,18 +83,18 @@ public class ImageUtil {
 	// needs testing....
 	public static int getPixelColorFast( PApplet p, PGraphics image, int x, int y ) {
 		// this should be done before all reading, and close after all reading (below)
-	    PGL pgl = image.beginPGL();
-	    ByteBuffer buffer = ByteBuffer.allocateDirect(1 * 1 * Integer.SIZE / 8);
+			PGL pgl = image.beginPGL();
+			ByteBuffer buffer = ByteBuffer.allocateDirect(1 * 1 * Integer.SIZE / 8);
 	
-	    pgl.readPixels(x, y, 1, 1, PGL.RGBA, PGL.UNSIGNED_BYTE, buffer); 
+			pgl.readPixels(x, y, 1, 1, PGL.RGBA, PGL.UNSIGNED_BYTE, buffer); 
 	
-	    // get the first three bytes
-	    int r = buffer.get() & 0xFF;
-	    int g = buffer.get() & 0xFF;
-	    int b = buffer.get() & 0xFF;
-	    buffer.clear();
-	    image.endPGL();
-	    return p.color(r, g, b);
+			// get the first three bytes
+			int r = buffer.get() & 0xFF;
+			int g = buffer.get() & 0xFF;
+			int b = buffer.get() & 0xFF;
+			buffer.clear();
+			image.endPGL();
+			return p.color(r, g, b);
 	}
 	
 	public static float getBrightnessForPixel( PApplet p, PImage image, int x, int y ) {
@@ -310,7 +310,7 @@ public class ImageUtil {
 		
 		cropFillRect.setFrame(offsetX, offsetY, resizedW, resizedH);
 		dest.copy(src, 0, 0, (int) imageW, (int) imageH, cropFillRect.x, cropFillRect.y, cropFillRect.width, cropFillRect.height);
-	    return cropFillRect;
+			return cropFillRect;
 	}
 	
 	// fills a specific rectangle without depending on offsetting off an entire buffer/canvas like the other version of this method
@@ -327,7 +327,7 @@ public class ImageUtil {
 			int srcY = cropFill ? P.round(imageH/2 - scaledDestH/2) : 0;
 			int srcW = cropFill ? P.round(scaledDestW) : 0;
 			int srcH = cropFill ? P.round(scaledDestH) : 0;
-		    cropFillRect.setFrame(destX, destY, destW, destH);
+			cropFillRect.setFrame(destX, destY, destW, destH);
 			dest.copy(src, srcX, srcY, srcW, srcH, cropFillRect.x, cropFillRect.y, cropFillRect.width, cropFillRect.height);
 		} else {
 			float letterboxRatio = ratioW > ratioH ? ratioH : ratioW;

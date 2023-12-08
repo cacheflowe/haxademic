@@ -14,7 +14,7 @@ import processing.core.PVector;
 public class TextureEQLinesConnected 
 extends BaseTexture {
 
-	protected int points = 10;
+	protected int points = 20;
 	protected EasingFloat[] amps = new EasingFloat[points];
 	protected PVector[] positions = new PVector[points];
 	protected PVector[] noiseLoc = new PVector[points];
@@ -24,9 +24,14 @@ extends BaseTexture {
 
 	public TextureEQLinesConnected( int width, int height ) {
 		super(width, height);
+		
+		_texture.beginDraw();
+		_texture.background(0);
+		_texture.endDraw();
+
 		// build objects
 		for (int i = 0; i < points; i++ ) {
-			amps[i] = new EasingFloat(0, 0.2f);
+			amps[i] = new EasingFloat(0, 0.8f);
 			positions[i] = new PVector();
 			noiseLoc[i] = new PVector();
 		}
@@ -45,11 +50,12 @@ extends BaseTexture {
 		PG.setDrawCenter(_texture);
 		
 		// feedback w/shaders
-		float zoom = 1f - 0.05f * audioAmp.value(); // zoom more when moving
+		float zoom = 1f - 0.2f * audioAmp.value(); // zoom more when moving
 		RepeatFilter.instance().setOffset(0, 0);
 		RepeatFilter.instance().setZoom(zoom);
 		RepeatFilter.instance().applyTo(_texture);
-		float fade = 0.25f - 0.25f * audioAmp.value(); // fade more when audio is quiet
+		float fade = P.map(audioAmp.value(), 0, 1, 1, 0.25f); // fade more when audio is quiet
+		fade = P.constrain(fade, 0, 1);
 		BrightnessStepFilter.instance().setBrightnessStep(-fade);
 		BrightnessStepFilter.instance().applyTo(_texture);
 		
@@ -67,9 +73,9 @@ extends BaseTexture {
 			// move point with noise
 			PVector pos = positions[i];
 			PVector noise = noiseLoc[i];
-			noise.x += amps[i].value();
-			noise.y -= amps[i].value();
-			float noiseZoom = 0.12f; // how wiggly are the points? higher is more wiggly as destination pos jumps around more
+			noise.x += widthNorm(amps[i].value() * 10f);
+			noise.y -= heightNorm(amps[i].value() * 10f);
+			float noiseZoom = 0.09f; // how wiggly are the points? higher is more wiggly as destination pos jumps around more
 			utilVec.set(
 				-width * 0.5f + P.p.noise(noise.x * noiseZoom) * width * 1f,
 				-height * 0.5f + P.p.noise(100 + noise.y * noiseZoom) * height * 1f

@@ -176,7 +176,7 @@ extends BaseTexture {
 //		}
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 //		drawMode = DrawMode.AudioTriangles;
 //		case TextureRepeat:
 		switch (drawMode) {

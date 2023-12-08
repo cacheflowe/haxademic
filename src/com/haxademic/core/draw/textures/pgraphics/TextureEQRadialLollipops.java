@@ -55,9 +55,9 @@ extends BaseTexture {
 		for (int i = 0; i < circlePoints; i++ ) {
 			int loopI = i;
 			if(loopI >= audioPoints) loopI = audioPoints - (i % audioPoints);
-			float radius = width * 0.2f + width * 0.05f * AudioIn.audioFreq(1 + loopI);
+			float radius = width * 0.2f + width * 0.13f * AudioIn.audioFreq(1 + loopI);
 			amps[i].setTarget(radius).update();
-			amps[i].setEaseFactor(0.3f);
+			amps[i].setEaseFactor(0.9f);
 
 			float curRads = radsOffset + segmentRads * i;
 			float x = P.cos(curRads) * amps[i].value();

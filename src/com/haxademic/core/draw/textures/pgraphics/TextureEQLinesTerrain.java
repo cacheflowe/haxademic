@@ -66,7 +66,7 @@ extends BaseTexture {
 
 	}
 
-	public void preDraw() {
+	public void drawPre() {
 		// build audio map w/scrolling history
 		eqHistory.beginDraw();
 		eqHistory.noStroke();

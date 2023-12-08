@@ -106,7 +106,7 @@ extends PAppletHax {
 		bufferPositions.filter(randomColorShader);
 	}
 
-	public void preDraw() {
+	public void drawPre() {
 	}
 	
 	protected void drawApp() {

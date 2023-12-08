@@ -6,8 +6,6 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
-import processing.core.PVector;
-
 public class TextureEQConcentricCircles 
 extends BaseTexture {
 
@@ -22,7 +20,7 @@ extends BaseTexture {
 	public TextureEQConcentricCircles( int width, int height ) {
 		super(width, height);
 		for (int i = 0; i < _numCircles; i++ ) {
-			amps[i] = new EasingFloat(0, 0.2f);
+			amps[i] = new EasingFloat(0, 0.8f);
 		}
 
 		_maxRadius = width;
@@ -41,8 +39,9 @@ extends BaseTexture {
 		_texture.strokeWeight(_circleRadiusStep / 1.8f);
 		PG.setDrawCenter(_texture);
 		for (int i = 0; i < _numCircles; i++) {
+			amps[i].setEaseFactor(0.99f);
 			amps[i].setTarget(AudioIn.audioFreq(P.floor(_spectrumInterval * i))).update();
-			float alphaVal = amps[i].value() * 0.25f;
+			float alphaVal = amps[i].value() * 0.8f;
 			_texture.stroke( white, P.constrain( alphaVal * 255f, 0, 255 ) );
 			_texture.ellipse( startX, startY, i * _circleRadiusStep, i * _circleRadiusStep );	
 		}

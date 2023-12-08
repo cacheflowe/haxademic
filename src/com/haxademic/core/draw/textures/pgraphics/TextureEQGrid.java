@@ -33,12 +33,12 @@ extends BaseTexture {
 		// draw grid
 		float startX = 0;
 		float startY = 0;
-		int spectrumIndex = 0;
+		float spectrumIndex = 0;
 		_texture.noStroke();
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				if( _boxesGrow ) {
-					float scaleVal = AudioIn.audioFreq(spectrumIndex % 128) / 10f;
+					float scaleVal = AudioIn.audioFreq((int)spectrumIndex % 128) / 10f;
 					scaleVal = P.min(1, scaleVal);
 					
 					_texture.fill( _colorEase.colorInt() );
@@ -49,13 +49,13 @@ extends BaseTexture {
 						_cellH * scaleVal 
 					);	
 				} else {
-					float alphaVal = AudioIn.audioFreq(spectrumIndex % 128) / 10f;
+					float alphaVal = AudioIn.audioFreq((int)spectrumIndex % 128) / 10f;
 					alphaVal = P.min(1, alphaVal);
 					
 					_texture.fill( _colorEase.colorInt(), P.constrain( alphaVal * 255f, 0, 255 ) );
 					_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW, _cellH );	
 				}
-				spectrumIndex++;
+				spectrumIndex += 0.18f;
 			}
 		}
 	}

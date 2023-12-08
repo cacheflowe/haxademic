@@ -1,14 +1,17 @@
 package com.haxademic.demo.media.audio.analysis;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesConnected;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQPointsDeformAndTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQRadialLollipops;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQTextLog;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
@@ -18,6 +21,8 @@ import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.MediaTimecodeTrigger;
+import com.haxademic.core.media.MediaTimecodeTrigger.IMediaTimecodeTriggerDelegate;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioHistoryTexture;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -25,15 +30,20 @@ import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.render.FrameLoop;
 
+import processing.core.PImage;
+import processing.video.Movie;
+
 public class Demo_SoundViz
-extends PAppletHax {
+extends PAppletHax
+implements IMediaTimecodeTriggerDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// TODO: 
-	// - Add EasingFloats to TextureEQConcentricCircles
+	// - Make grid 4x5 and add more
 	// - Add line thinckness and smaller number of lines at times to Concentric circles
-	// - Better sounds
+	// - Better sounds - use video soundtrack
 	// - FloatParticles should also move outward from center
+	// - Particle launcher based on frequency triggers. higher frequencies move faster and are smaller
 
 	protected WavPlayer player;
 	protected String[] oneshots = new String[] {
@@ -42,10 +52,14 @@ extends PAppletHax {
 		"data/audio/communichords/cacheflowe/mid-buzz-synth.wav",	
 	};
 	protected String soundbed = "data/audio/communichords/bass/operator-organ-bass.aif";
-	
+	protected Movie soundVideo;
+	protected String AUDIO_FILE;
+	protected String AUDIO_RESTART = "AUDIO_RESTART";
+	protected MediaTimecodeTrigger audioRestartTrigger;
+
 	// audio viz objects
 	protected AudioHistoryTexture history;
-	protected BaseTexture audioTextureCircles;
+	protected BaseTexture audioTextureConcentricCircles;
 	protected BaseTexture audioTextureRadialLollipops;
 	protected BaseTexture audioTextureVectorField;
 	protected BaseTexture audioTextureLinesConnected;
@@ -56,9 +70,21 @@ extends PAppletHax {
 	protected BaseTexture audioTextureOuterSphere;
 	protected BaseTexture audioTextureEQLinesTerrain;
 	protected BaseTexture audioTextureConcentricDashedCubes;
+	protected BaseTexture audioTextureEQPointsDeformAndTexture;
+
+	protected int layoutIndex = 0;
+	protected int layoutX = 0;
+	protected int layoutY = 0;
+	protected int cols = 4;
+	protected int padding = 40;
+	protected int spacing = 350;
+	protected	int vizW = 300;
+	protected	int vizH = 300;
+
 
 	protected void config() {
 		Config.setAppSize(1800, 1130);
+		// Config.setAppSize(1600, 800);
 	}
 	
 	protected void firstFrame() {
@@ -69,10 +95,18 @@ extends PAppletHax {
 		// build WavPlayer object, and have them share an AudioContext.
 		// this ensures that audio analysis can be done on the shared context's output
 		player = new WavPlayer();
+
+		AUDIO_FILE = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
+		String videoPath = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.noaudio.mp4";
+		player.loopWav(AUDIO_FILE);
+		soundVideo = new Movie(p, videoPath);
+		soundVideo.play();
+		audioRestartTrigger = new MediaTimecodeTrigger(AUDIO_FILE, 0f, AUDIO_RESTART, this);
 		
 		// send Beads audio player analyzer to PAppletHax.
 		// this automatically writes audio data to the global 
 		AudioIn.instance(new AudioInputBeads(player.context()));
+		AudioIn.setDampeningFFT(0.5f);
 
 		// Make sure audio data buffers are created before trying to use them
 		// Afterwards, AudioIn creates a listener for Processing's `pre()` method, 
@@ -82,32 +116,55 @@ extends PAppletHax {
 
 		// audio history texture. used for shader effects
 		history = new AudioHistoryTexture();
-		audioTextureCircles = new TextureEQConcentricCircles(300, 300);
-		audioTextureRadialLollipops = new TextureEQRadialLollipops(300, 300);
-		audioTextureVectorField = new TextureVectorFieldEQ(300, 300);
-		audioTextureLinesConnected = new TextureEQLinesConnected(300, 300);
-		audioTextureFloatParticles = new TextureEQFloatParticles(300, 300);
-		audioTextureWaveformCircle = new TextureWaveformCircle(300, 300);
-		audioTextureTextLog = new TextureEQTextLog(300, 300);
-		audioTextureOuterCube = new TextureOuterCube(300, 300);
-		audioTextureOuterSphere = new TextureOuterSphere(300, 300);
-		audioTextureEQLinesTerrain = new TextureEQLinesTerrain(650, 300);
-		audioTextureConcentricDashedCubes = new TextureConcentricDashedCubes(300, 300);
+		audioTextureConcentricCircles = new TextureEQConcentricCircles(vizW, vizH);
+		audioTextureRadialLollipops = new TextureEQRadialLollipops(vizW, vizH);
+		audioTextureVectorField = new TextureVectorFieldEQ(vizW, vizH);
+		audioTextureLinesConnected = new TextureEQLinesConnected(vizW, vizH);
+		audioTextureFloatParticles = new TextureEQFloatParticles(vizW, vizH);
+		audioTextureWaveformCircle = new TextureWaveformCircle(vizW, vizH);
+		audioTextureTextLog = new TextureEQTextLog(vizW, vizH);
+		audioTextureOuterCube = new TextureOuterCube(vizW, vizH);
+		audioTextureOuterSphere = new TextureOuterSphere(vizW, vizH);
+		audioTextureEQLinesTerrain = new TextureEQLinesTerrain(650, vizH);
+		audioTextureConcentricDashedCubes = new TextureConcentricDashedCubes(vizW, vizH);
+		audioTextureEQPointsDeformAndTexture = new TextureEQPointsDeformAndTexture(vizW, vizH);
 	}
 	
 	protected void drawApp() {
+		// AudioIn.setDampeningFFT(0.5f);
+
 		p.background(20);
 		PG.drawGrid(p.g, 0xff111111, 0xff222222, p.width / 10, p.height / 10, 1, false);
 		PG.setDrawFlat2d(p.g, true);
 
 		// keep audio playing
-		autoPlay();
+		// autoPlay();
 		DebugView.setValue("AudioContext :: numinputs", player.activeConnections());
 
+		// check timecode trigger
+		float audioPositionSFX = player.position(AUDIO_FILE) / 1000f;
+		audioRestartTrigger.update(AUDIO_FILE, audioPositionSFX);
+		DebugView.setValue("audioPlayer.position", audioPositionSFX);
+
+		// update/draw
+		updateVizTextures();
+		drawVizTextures();
+		// updateVizTexturesTemp();
+		// drawVizTexturesTemp();
+	}
+
+	protected void updateVizTexturesTemp() {
+		history.updateFFT();
+		history.updateWaveform();
+		audioTextureConcentricCircles.update();
+		audioTextureLinesConnected.update();
+	}
+
+	protected void updateVizTextures() {
 		// update specific audio viz
 		history.updateFFT();
 		history.updateWaveform();
-		audioTextureCircles.update();
+		audioTextureConcentricCircles.update();
 		audioTextureRadialLollipops.update();
 		audioTextureVectorField.update();
 		audioTextureLinesConnected.update();
@@ -118,72 +175,67 @@ extends PAppletHax {
 		audioTextureOuterSphere.update();
 		audioTextureEQLinesTerrain.update();
 		audioTextureConcentricDashedCubes.update();
+		audioTextureEQPointsDeformAndTexture.update();
+	}
 
+	protected void drawVizTexturesTemp() {
+		p.image(audioTextureConcentricCircles.texture(), 0, 0);
+		p.image(audioTextureLinesConnected.texture(), 800, 0);
+	}
+
+	protected void nextLayoutCell() {
+	}
+	
+	protected void drawViz(String title, PImage img) {
+		layoutX = spacing * MathUtil.gridXFromIndex(layoutIndex, cols);
+		layoutY = spacing * MathUtil.gridYFromIndex(layoutIndex, cols);
+		p.text(title, padding + layoutX, padding + layoutY);
+		p.image(img, padding + layoutX, padding + layoutY + 30);
+		layoutIndex++;
+	}
+	
+	protected void drawVizExtra(String title, PImage img) {
+		layoutIndex--;
+		layoutX = spacing * MathUtil.gridXFromIndex(layoutIndex, cols);
+		layoutY = spacing * MathUtil.gridYFromIndex(layoutIndex, cols);
+		p.text(title, padding + layoutX, padding + layoutY + 40);
+		p.image(img, padding + layoutX, padding + layoutY + 72, 300, 256);
+		layoutIndex++;
+	}
+	
+	protected void drawVizTextures() {
 		// draw viz to screen
-		int y = 40;
+		layoutIndex = 0;
+
 		DemoAssets.setDemoFont(p.g);
-
-		p.text("AudioIn.bufferDebug()", 50, y);
+		
 		if(DebugView.active() == false) AudioIn.drawDebugBuffer();
-		p.image(AudioIn.bufferDebug(), 50, y += 30);
 
-		p.text("AudioIn.bufferFFT()", 50, y += 320);
-		p.image(AudioIn.bufferFFT(), 50, y += 30, 300, 2);
+		drawViz("TextureEQConcentricCircles", audioTextureConcentricCircles.texture());
+		drawViz("TextureEQPointsDeformAndTexture", audioTextureEQPointsDeformAndTexture.texture());
+		drawViz("TextureEQRadialLollipops", audioTextureRadialLollipops.texture());
+		drawViz("TextureWaveformCircle", audioTextureWaveformCircle.texture());
+		drawViz("TextureEQLinesConnected", audioTextureLinesConnected.texture());
+		drawViz("TextureVectorFieldEQ", audioTextureVectorField.texture());
+		drawViz("TextureOuterCube", audioTextureOuterCube.texture());
+		drawViz("TextureOuterSphere", audioTextureOuterSphere.texture());
+		drawViz("TextureConcentricDashedCubes", audioTextureConcentricDashedCubes.texture());
+		drawViz("TextureEQFloatParticles", audioTextureFloatParticles.texture());
+		drawViz("TextureEQLinesTerrain", audioTextureEQLinesTerrain.texture()); layoutIndex++;
+		drawViz("AudioIn.bufferDebug()", AudioIn.bufferDebug());
+		drawViz("AudioIn.bufferFFT()", AudioIn.bufferFFT());
+		drawVizExtra("history.textureFFT()", history.textureFFT());
+		drawViz("AudioIn.bufferWaveform()", AudioIn.bufferWaveform());
+		drawVizExtra("history.textureWaveform()", history.textureWaveform());
+		drawViz("TextureEQTextLog", audioTextureTextLog.texture());
 
-		p.text("history.textureFFT()", 50, y += 14);
-		p.image(history.textureFFT(), 50, y += 30, 300, 256);
-		
-		p.text("AudioIn.bufferWaveform()", 50, y += 276);
-		p.image(AudioIn.bufferWaveform(), 50, y += 30, 300, 2);
-
-		p.text("history.textureWaveform()", 50, y += 14);
-		p.image(history.textureWaveform(), 50, y += 30, 300, 256);
-
-		// reset y
-		y = 40;
-
-		p.text("TextureEQConcentricCircles", 400, y += 0);
-		p.image(audioTextureCircles.texture(), 400, y += 30);
-
-		p.text("TextureOuterCube", 400, y += 320);
-		p.image(audioTextureOuterCube.texture(), 400, y += 30);
-
-		p.text("TextureEQTextLog", 400, y += 320);
-		p.image(audioTextureTextLog.texture(), 400, y += 30);
-
-		// reset y
-		y = 40;
-
-		p.text("TextureEQRadialLollipops", 750, y += 0);
-		p.image(audioTextureRadialLollipops.texture(), 750, y += 30);
-
-		p.text("TextureVectorFieldEQ", 750, y += 320);
-		p.image(audioTextureVectorField.texture(), 750, y += 30);
-
-		p.text("TextureOuterSphere", 750, y += 320);
-		p.image(audioTextureOuterSphere.texture(), 750, y += 30);
-
-		// reset y
-		y = 40;
-
-		p.text("TextureEQLinesConnected", 1100, y += 0);
-		p.image(audioTextureLinesConnected.texture(), 1100, y += 30);
-
-		p.text("TextureEQFloatParticles", 1100, y += 320);
-		p.image(audioTextureFloatParticles.texture(), 1100, y += 30);
-		
-		p.text("TextureEQLinesTerrain", 1100, y += 320);
-		p.image(audioTextureEQLinesTerrain.texture(), 1100, y += 30);
-		
-		
-		// reset y
-		y = 40;
-
-		p.text("TextureWaveformCircle", 1450, y += 0);
-		p.image(audioTextureWaveformCircle.texture(), 1450, y += 30);
-		
-		p.text("TextureConcentricDashedCubes", 1450, y += 320);
-		p.image(audioTextureConcentricDashedCubes.texture(), 1450, y += 30);
+		// draw video
+		if(soundVideo.width > 100) {
+			layoutX = padding + spacing * MathUtil.gridXFromIndex(layoutIndex, cols);
+			layoutY = padding + spacing * MathUtil.gridYFromIndex(layoutIndex, cols) + 30;
+			// ImageUtil.cropFillCopyImage(soundVideo, p.g, layoutX, layoutY, 650, vizH, true);
+			p.image(soundVideo, layoutX, layoutY, 650, soundVideo.height * (650f / soundVideo.width));
+		}
 	}
 
 	protected void updateVizTiming() {
@@ -213,9 +265,15 @@ extends PAppletHax {
 		}
 	}
 
-	public void keyPressed() {
-		super.keyPressed();
-		if(p.key == '1') player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, MathUtil.randRange(-10, 10), 0, 0, 0, 0);
-		if(p.key == '3') player.playWav(oneshots[1], 1, WavPlayer.PAN_LEFT, false, MathUtil.randRange(-10, 10), MathUtil.randRange(0, 500), 0, 0, 0);
+	//////////////////////////////////////////////////////
+	// IMediaTimecodeTriggerDelegate callback
+	//////////////////////////////////////////////////////
+
+	public void mediaTimecodeTriggered(String mediaId, float time, String action) {
+		// P.out(mediaId, time, action);
+		soundVideo.pause();
+		soundVideo.jump(0);
+		soundVideo.play();
 	}
+
 }

@@ -85,8 +85,8 @@ public class AudioIn {
 	public AudioIn(IAudioInput input, PApplet p) {
 		AudioIn.audioInput = input;
 		AudioIn.audioInput.update();	// force a build of the internal AudioStreamData object
-		AudioIn.frequencies = AudioIn.audioInput.audioData().freqsDampened;
-		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
+		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies();
+		AudioIn.waveform = AudioIn.audioInput.audioData().waveform();
 
 		// subscribe for auto draw() updates
 		p.registerMethod(PRegisterableMethods.pre, this);
@@ -172,6 +172,16 @@ public class AudioIn {
 	public static PGraphics bufferWaveform() {
 		return audioInput.audioData().bufferWaveform;
 	}
+
+	// setters
+
+	public static void setGain(float newGain) {
+		audioInput.audioData().setGain(newGain);
+	}
+
+	public static void setDampeningFFT(float dampening) {
+		audioInput.audioData().setDampening(dampening);
+	}
 	
 	// debug
 	
@@ -195,8 +205,8 @@ public class AudioIn {
 		audioInput.drawDataBuffers();
 		
 		// store static props for global audio input
-		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
-		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
+		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies();
+		AudioIn.waveform = AudioIn.audioInput.audioData().waveform();
 		
 		// update debug buffer if DebugView is showing
 		boolean shouldDrawDebug = (P.isHaxApp() && DebugView.active() == true);

@@ -174,9 +174,9 @@ extends PAppletHax {
 			drawXShape(false);
 
 		// draw map
-		updateMapPerlin();
+		// updateMapPerlin();
 //		updateMapAudio();
-//		updateMapWebcam();
+		updateMapWebcam();
 //		updateMapShader();
 
 		// blur the map

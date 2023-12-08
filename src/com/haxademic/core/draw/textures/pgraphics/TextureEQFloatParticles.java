@@ -78,7 +78,7 @@ extends BaseTexture {
 //			_size = P.p.random(1, height * 0.3f);
 //			_speed = new PVector(0, _size * 0.1f, 0);
 
-			float amp = AudioIn.audioFreq(eqIndex) * 4f;
+			float amp = AudioIn.audioFreq(eqIndex) * 13f;
 			if(amp > _amp) _amp = amp;
 			float curSize = _amp;
 			float curSpeed = (_speed.y / 3f) * (_amp);

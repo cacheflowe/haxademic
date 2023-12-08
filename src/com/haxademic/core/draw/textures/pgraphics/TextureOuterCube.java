@@ -30,7 +30,7 @@ extends BaseTexture {
 		_rotSpeedTarget.z = ( wichAxis == 2 ) ? newRotSpeed : 0;
 	}
 
-	public void preDraw() {
+	public void drawPre() {
 		audioTexture.update();
 	}
 	

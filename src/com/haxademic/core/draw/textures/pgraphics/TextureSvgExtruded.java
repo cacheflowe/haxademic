@@ -69,7 +69,7 @@ extends BaseTexture {
 //		drawMode = ;
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		// update audio texture
 		audioTexture.update();
 

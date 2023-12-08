@@ -84,7 +84,7 @@ extends BaseTexture {
 		audioTexture.newRotation();
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		audioTexture.update();
 		if(gridShape == null) buildGrid();	// lazy-init after we have an audio texture
 		

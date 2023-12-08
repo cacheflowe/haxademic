@@ -83,7 +83,7 @@ extends BaseTexture {
 		nextImage();
 	}
 
-	public void preDraw() {
+	public void drawPre() {
 		// redraw buffers when cycling to next image 
 		// if(P.p.frameCount % frames == 0) showNextImage();
 		if(showNextDirty) showNextImage();

@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
@@ -17,6 +18,7 @@ import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
@@ -59,15 +61,17 @@ extends PAppletHax {
 
 	protected void config() {
 		Config.setAppSize(1920, 1080);
+		// Config.setProperty(AppSettings.FPS, 90);
 	}
 		
 	protected void firstFrame () {
 		// init depth cam
+		RealSenseWrapper.setMidStreamFast();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 6);
 		depthSilhouetteSmoothed.buildUI(false);
-        depthSilhouetteSmoothed.setDepthFar(3000);
+		depthSilhouetteSmoothed.setDepthFar(3000);
 		DebugView.setTexture("depthBuffer", depthSilhouetteSmoothed.depthBuffer());
 		DebugView.setTexture("avgBuffer", depthSilhouetteSmoothed.avgBuffer());
 		DebugView.setTexture("image", depthSilhouetteSmoothed.image());
@@ -191,6 +195,7 @@ extends PAppletHax {
 		
 		// update particles color map
 		ImageUtil.copyImage(ImageGradient.PASTELS(), gpuParticles.colorBuffer());
+		// ImageUtil.copyImage(DepthCamera.instance().camera.getRgbImage(), gpuParticles.colorBuffer());
 
 		// update/draw particles
 //		shapesLayer.beginDraw();

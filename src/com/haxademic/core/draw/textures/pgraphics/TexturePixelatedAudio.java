@@ -90,7 +90,7 @@ extends BaseTexture {
 		noiseZoom.setTarget(MathUtil.randRangeDecimal(0.25f, 1.5f));
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		// update noise params
 		if(AudioIn.isBeat()) newRotation();
 		noiseRot.update(true);

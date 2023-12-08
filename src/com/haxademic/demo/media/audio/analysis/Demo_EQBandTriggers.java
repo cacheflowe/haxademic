@@ -14,11 +14,11 @@ extends PAppletHax {
 	float[] lastAudioFrame;
 	float[] bufferedValues;
 	int[] eqBandTrigger;
-	float ampThreshold = 0.2f;
+	float ampThreshold = 0.1f;
 	
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
-		AudioIn.instance(AudioInputLibrary.Beads);
+		AudioIn.instance();
 		
 		numElements = 40; // p.width;
 		

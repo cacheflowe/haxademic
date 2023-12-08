@@ -118,7 +118,7 @@ extends BaseTexture {
 		audioTexture.setColor(newColor);
 	}
 	
-	public void preDraw() {
+	public void drawPre() {
 		audioTexture.update();
 		if(gridShape == null) buildGrid();
 		

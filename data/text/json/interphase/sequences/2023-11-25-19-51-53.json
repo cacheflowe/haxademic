@@ -2,18 +2,18 @@
   "sequencers": [
     {
       "volume": 1,
-      "sampleIndex": 44,
-      "noteOffset": 11,
+      "sampleIndex": 66,
+      "noteOffset": 8,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_01_LurkaKick-Rillakik.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_23_LurkaKick-Subb_lo.wav",
       "steps": [
         1,
         0,
         0,
         0,
+        0,
+        0,
         1,
-        0,
-        0,
         0,
         1,
         0,
@@ -26,11 +26,11 @@
       ]
     },
     {
-      "volume": 1,
-      "sampleIndex": 37,
-      "noteOffset": 15,
+      "volume": 0.75,
+      "sampleIndex": 104,
+      "noteOffset": 12,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Hyroglifics_-_Blocks_Vol.2_Sample_Pack_-_162_Snare_05.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\VMH1_Minimal_Perc_320.wav",
       "steps": [
         0,
         0,
@@ -51,64 +51,40 @@
       ]
     },
     {
-      "volume": 1,
-      "sampleIndex": 24,
-      "noteOffset": 5,
-      "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\Closed_09_HH_The_APX.wav",
-      "steps": [
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "volume": 1,
-      "sampleIndex": 51,
-      "noteOffset": 14,
-      "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Hyroglifics_-_Blocks_Vol.2_Sample_Pack_-_148_Percussion_03.wav",
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        1,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1
-      ]
-    },
-    {
-      "volume": 0.8500000238418579,
-      "sampleIndex": 69,
+      "volume": 0.6000000238418579,
+      "sampleIndex": 60,
       "noteOffset": 9,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\METALATT.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\VMH1_Minimal_Perc_055.wav",
+      "steps": [
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "volume": 0.800000011920929,
+      "sampleIndex": 147,
+      "noteOffset": 2,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\VMH1_Minimal_Perc_245.wav",
       "steps": [
         0,
         0,
+        1,
         0,
         0,
         1,
@@ -118,9 +94,33 @@
         0,
         0,
         0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "volume": 1.5118110179901123,
+      "sampleIndex": 44,
+      "noteOffset": 1,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\DF-TOC-FX-Hit-19.wav",
+      "steps": [
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
         0,
         0
       ]
@@ -128,13 +128,16 @@
     {
       "volume": 1,
       "sampleIndex": 23,
-      "noteOffset": 9,
+      "noteOffset": 5,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Sub_Bass-26-F.wav",
       "steps": [
         1,
         0,
         0,
+        1,
+        0,
+        0,
         0,
         0,
         1,
@@ -143,6 +146,28 @@
         1,
         0,
         0,
+        0,
+        0
+      ]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 31,
+      "noteOffset": 1,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Dark_Bass-48-A.wav",
+      "steps": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        1,
         0,
         0,
         1,
@@ -151,36 +176,11 @@
       ]
     },
     {
-      "volume": 0.8500000238418579,
-      "sampleIndex": 38,
-      "noteOffset": 0,
+      "volume": 1.2992125749588013,
+      "sampleIndex": 19,
+      "noteOffset": 3,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Deep_Lead-07-C#.wav",
-      "steps": [
-        0,
-        0,
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        0,
-        0,
-        0
-      ]
-    },
-    {
-      "volume": 0.8500000238418579,
-      "sampleIndex": 33,
-      "noteOffset": 4,
-      "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Synth_Lead-45-D#.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Dark_Bass-49-D.wav",
       "steps": [
         0,
         0,
@@ -191,7 +191,7 @@
         0,
         0,
         0,
-        1,
+        0,
         0,
         0,
         0,
@@ -201,5 +201,5 @@
       ]
     }
   ],
-  "BPM": 116
+  "BPM": 109
 }
