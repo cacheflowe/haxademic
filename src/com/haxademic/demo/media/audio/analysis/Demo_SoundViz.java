@@ -28,6 +28,7 @@ import com.haxademic.core.media.audio.analysis.AudioHistoryTexture;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
+import com.haxademic.core.media.video.VLCVideo;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
@@ -53,6 +54,7 @@ implements IMediaTimecodeTriggerDelegate {
 	};
 	protected String soundbed = "data/audio/communichords/bass/operator-organ-bass.aif";
 	protected Movie soundVideo;
+	protected VLCVideo video;
 	protected String AUDIO_FILE;
 	protected String AUDIO_RESTART = "AUDIO_RESTART";
 	protected MediaTimecodeTrigger audioRestartTrigger;
@@ -96,12 +98,16 @@ implements IMediaTimecodeTriggerDelegate {
 		// this ensures that audio analysis can be done on the shared context's output
 		player = new WavPlayer();
 
-		AUDIO_FILE = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
-		String videoPath = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.noaudio.mp4";
-		player.loopWav(AUDIO_FILE);
-		soundVideo = new Movie(p, videoPath);
-		soundVideo.play();
-		audioRestartTrigger = new MediaTimecodeTrigger(AUDIO_FILE, 0f, AUDIO_RESTART, this);
+		// video = new VLCVideo(p);
+		if(video != null) {
+			AUDIO_FILE = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
+			String videoPath = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.noaudio.mp4";
+			player.loopWav(AUDIO_FILE);
+			// soundVideo = new Movie(p, videoPath);
+			// soundVideo.play();
+			video.open(videoPath);
+			audioRestartTrigger = new MediaTimecodeTrigger(AUDIO_FILE, 0f, AUDIO_RESTART, this);
+		}
 		
 		// send Beads audio player analyzer to PAppletHax.
 		// this automatically writes audio data to the global 
@@ -138,13 +144,15 @@ implements IMediaTimecodeTriggerDelegate {
 		PG.setDrawFlat2d(p.g, true);
 
 		// keep audio playing
-		// autoPlay();
+		if(video == null) autoPlay();
 		DebugView.setValue("AudioContext :: numinputs", player.activeConnections());
 
 		// check timecode trigger
-		float audioPositionSFX = player.position(AUDIO_FILE) / 1000f;
-		audioRestartTrigger.update(AUDIO_FILE, audioPositionSFX);
-		DebugView.setValue("audioPlayer.position", audioPositionSFX);
+		if(video != null) {
+			float audioPositionSFX = player.position(AUDIO_FILE) / 1000f;
+			audioRestartTrigger.update(AUDIO_FILE, audioPositionSFX);
+			DebugView.setValue("audioPlayer.position", audioPositionSFX);
+		}
 
 		// update/draw
 		updateVizTextures();
@@ -230,11 +238,11 @@ implements IMediaTimecodeTriggerDelegate {
 		drawViz("TextureEQTextLog", audioTextureTextLog.texture());
 
 		// draw video
-		if(soundVideo.width > 100) {
+		if(video != null && video.width > 100) {
 			layoutX = padding + spacing * MathUtil.gridXFromIndex(layoutIndex, cols);
 			layoutY = padding + spacing * MathUtil.gridYFromIndex(layoutIndex, cols) + 30;
-			// ImageUtil.cropFillCopyImage(soundVideo, p.g, layoutX, layoutY, 650, vizH, true);
-			p.image(soundVideo, layoutX, layoutY, 650, soundVideo.height * (650f / soundVideo.width));
+			// ImageUtil.cropFillCopyImage(video, p.g, layoutX, layoutY, 650, vizH, true);
+			p.image(video, layoutX, layoutY, 650, video.height * (650f / video.width));
 		}
 	}
 
@@ -271,9 +279,12 @@ implements IMediaTimecodeTriggerDelegate {
 
 	public void mediaTimecodeTriggered(String mediaId, float time, String action) {
 		// P.out(mediaId, time, action);
-		soundVideo.pause();
-		soundVideo.jump(0);
-		soundVideo.play();
+		// soundVideo.pause();
+		// soundVideo.jump(0);
+		// soundVideo.play();
+
+		video.setPosition(0);
+		video.play();
 	}
 
 }

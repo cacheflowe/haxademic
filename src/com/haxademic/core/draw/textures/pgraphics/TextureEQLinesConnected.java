@@ -54,7 +54,7 @@ extends BaseTexture {
 		RepeatFilter.instance().setOffset(0, 0);
 		RepeatFilter.instance().setZoom(zoom);
 		RepeatFilter.instance().applyTo(_texture);
-		float fade = P.map(audioAmp.value(), 0, 1, 1, 0.25f); // fade more when audio is quiet
+		float fade = P.map(audioAmp.value(), 0, 1, 1, 0.15f); // fade more when audio is quiet
 		fade = P.constrain(fade, 0, 1);
 		BrightnessStepFilter.instance().setBrightnessStep(-fade);
 		BrightnessStepFilter.instance().applyTo(_texture);
