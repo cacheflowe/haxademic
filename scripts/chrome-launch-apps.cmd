@@ -22,8 +22,9 @@ set chromeFlags=--app=%url% ^
 --disable-gesture-requirement-for-presentation ^
 --enable-experimental-accessibility-autoclick ^
 --autoplay-policy=no-user-gesture-required ^
+--pull-to-refresh=0 ^
 --unsafely-treat-insecure-origin-as-secure=http://192.168.0.61 ^
---user-data-dir=c:/chrome-kiosk/amfam
+--user-data-dir=c:/chrome-kiosk/screen1
 
 @REM =================================================================================================
 @REM = Restart loop point
