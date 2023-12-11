@@ -321,6 +321,16 @@ choco install ffmpeg
   $ cd C:\Users\your_user\Documents\workspace\github-repo
   ```
 
+## Set up a touchscreen kiosk
+
+- Set touchscreen monitor as primary monitor in Display Settings. This will ensure that a (Chrome) launch script goes fullscreen on the touchscreen
+- Disable EdgeUI in the Registry
+  - https://www.thewindowsclub.com/disable-screen-edge-swipe-in-windows-10
+- Turn off Windows multitouch gestures:
+  - Settings -> Bluetooth & Devices -> Touch 
+  - Turn off three and four finger gestures
+- Use a [launch script](../scripts/chrome-launch-apps.cmd) to launch Chrome in locked-down kiosk mode
+
 ## Additional steps
 
   * https://github.com/farag2/Sophia-Script-for-Windows
