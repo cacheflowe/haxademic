@@ -215,6 +215,20 @@ Write-Host "Enabling Developer Mode..."
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Type DWord -Value 1
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowAllTrustedApps" -Type DWord -Value 1
 
+
+######################################################################################################
+
+Write-Host "Disabling EdgeUI for touchscreen lockdown..."
+If (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\EdgeUI")) {
+    New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\EdgeUI" | Out-Null
+}
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\EdgeUI" -Name "AllowEdgeSwipe" -Type DWord -Value 0
+
+Write-Host "Disabling 3/4-touch gestures for touchscreen lockdown..."
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad" -Name "ThreeFingerSlideEnabled" -Type DWord -Value 0
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\PrecisionTouchPad" -Name "FourFingerSlideEnabled" -Type DWord -Value 0
+
+
 ######################################################################################################
 ######################################################################################################
 ######################################################################################################
