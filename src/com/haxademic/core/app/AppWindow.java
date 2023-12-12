@@ -164,14 +164,17 @@ implements IAppStoreListener {
 		// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
 		if(P.p.frameCount == 10) {
 			// check for additional screen_x params to manually place the window
-			boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
+			// boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
 			if(Config.getInt(AppSettings.SCREEN_X, -1) != -1) {
-				if(isFullscreen == false) {
-					P.error("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
-					return;
+				int w = Config.getInt(AppSettings.WIDTH, 800);
+				int h = Config.getInt(AppSettings.HEIGHT, 600);
+				int x = Config.getInt(AppSettings.SCREEN_X, -1);
+				int y = Config.getInt(AppSettings.SCREEN_Y, -1);
+				AppUtil.setSize(P.p, w, h);
+				if(x != -1) {
+					// location has to happen after size, to break it out of fullscreen
+					AppUtil.setLocation(P.p, x, y);
 				}
-				P.surface().setSize(Config.getInt(AppSettings.WIDTH, 800), Config.getInt(AppSettings.HEIGHT, 600));
-				P.surface().setLocation(Config.getInt(AppSettings.SCREEN_X, 0), Config.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
 			}
 			
 			// Always on top?
