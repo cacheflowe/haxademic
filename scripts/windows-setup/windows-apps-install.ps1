@@ -18,7 +18,7 @@ choco install teamviewer
 choco install vlc
 choco install googlechrome
 choco install nodejs-lts
-choco install rustdesk
+choco install rustdesk.install --ignore-checksums
 choco install quicklook
 choco install nvidia-display-driver
 choco install python
