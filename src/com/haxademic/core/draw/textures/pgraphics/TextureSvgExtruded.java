@@ -80,12 +80,12 @@ extends BaseTexture {
 	}
 
 	public void draw() {
-		_texture.clear();
-		_texture.noStroke();
-		PG.setDrawCorner(_texture);
+		pg.clear();
+		pg.noStroke();
+		PG.setDrawCorner(pg);
 		
 		// draw logo
-		PG.setCenterScreen(_texture);
+		PG.setCenterScreen(pg);
 		if(AudioIn.isBeat()) {
 			colorLogoProgress.setTarget(MathUtil.randRangeDecimal(0, 1));
 			logoScale.setCurrent(1.2f);
@@ -100,24 +100,24 @@ extends BaseTexture {
 		logoRotX.update(true);
 		logoRotZ.update(true);
 		
-		_texture.pushMatrix();
-		PG.setBasicLights(_texture);
+		pg.pushMatrix();
+		PG.setBasicLights(pg);
 //		PG.setBetterLights(_texture);
 //		_texture.lights();
-		_texture.fill(gradient.getColorAtProgress(colorLogoProgress.value()));
-		_texture.rotateX(logoRotX.value());
-		_texture.rotateY(logoRotY.value());
-		_texture.rotateZ(logoRotZ.value());
+		pg.fill(gradient.getColorAtProgress(colorLogoProgress.value()));
+		pg.rotateX(logoRotX.value());
+		pg.rotateY(logoRotY.value());
+		pg.rotateZ(logoRotZ.value());
 //		_texture.shape(logo3d);
 //		PShapeUtil.drawTriangles(_texture, logo3d, audioTexture.texture(), logoScale.value());
-		PShapeUtil.drawTrianglesAudio(_texture, logo3d, logoScale.value(), _colorEase.colorInt());
-		_texture.noLights();
-		_texture.popMatrix();
+		PShapeUtil.drawTrianglesAudio(pg, logo3d, logoScale.value(), _colorEase.colorInt());
+		pg.noLights();
+		pg.popMatrix();
 		// post-process
 		DisplacementMapFilter.instance().setMap(audioTexture.texture());
 		DisplacementMapFilter.instance().setAmp(2f);
 		DisplacementMapFilter.instance().setMode(3);
-		DisplacementMapFilter.instance().applyTo(_texture);
+		DisplacementMapFilter.instance().applyTo(pg);
 	}
 	
 }

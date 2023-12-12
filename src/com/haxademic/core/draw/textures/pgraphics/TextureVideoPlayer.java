@@ -31,7 +31,7 @@ extends BaseTexture {
 	}
 	
 	public void draw() {
-		ImageUtil.drawImageCropFill(_movie, _texture, true);
+		ImageUtil.drawImageCropFill(_movie, pg, true);
 //		_texture.image(_movie, 0, 0, width, height);
 	}
 	

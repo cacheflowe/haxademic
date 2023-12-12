@@ -61,20 +61,20 @@ extends BaseTexture {
 		FeedbackRadialFilter.instance().setWaveAmp(0f);
 		FeedbackRadialFilter.instance().setWaveFreq(0f);
 		FeedbackRadialFilter.instance().setAlphaMult(0.94f);
-		FeedbackRadialFilter.instance().applyTo(_texture);
+		FeedbackRadialFilter.instance().applyTo(pg);
 
 		// draw text
 		showFrameCount = 50;
 		if(P.p.frameCount < showFrame + showFrameCount) {
-			_texture.pushMatrix();
-			_texture.pushStyle();
-			_texture.fill(255);
-			_texture.noStroke();
-			_texture.textFont(textFont);
-			_texture.textAlign(P.CENTER, P.CENTER);
-			_texture.text(_words.get(_wordIndex), 0, 0, width, height);
-			_texture.popStyle();
-			_texture.popMatrix();
+			pg.pushMatrix();
+			pg.pushStyle();
+			pg.fill(255);
+			pg.noStroke();
+			pg.textFont(textFont);
+			pg.textAlign(P.CENTER, P.CENTER);
+			pg.text(_words.get(_wordIndex), 0, 0, width, height);
+			pg.popStyle();
+			pg.popMatrix();
 		}
 
 	}

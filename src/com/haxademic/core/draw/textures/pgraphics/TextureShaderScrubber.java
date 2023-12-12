@@ -36,28 +36,28 @@ extends BaseTexture {
 	
 	protected void loadShaders( String textureShader ) {
 		_shaderFile = textureShader;
-		_patternShader = _texture.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/" + textureShader ); 
+		_patternShader = pg.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/" + textureShader ); 
 		_patternShader.set("time", _timeSpeed.value() );
 		_patternShader.set("mode", _mode);
 
-		_vignette = _texture.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		_vignette = pg.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
 		_vignette.set("spread", 0.15f);
 
-		_brightness = _texture.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
+		_brightness = pg.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
 
-		_saturation = _texture.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
+		_saturation = pg.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_saturation.set("saturation", 0.25f );
 	}
 
 	public void draw() {
 		updateShaders();
-		_texture.background(0,255,0);
-		_texture.filter( _patternShader );
-		_texture.filter( _saturation );
-		_texture.filter( _brightness );
-		_texture.filter( _vignette );
+		pg.background(0,255,0);
+		pg.filter( _patternShader );
+		pg.filter( _saturation );
+		pg.filter( _brightness );
+		pg.filter( _vignette );
 	}
 	
 	public BaseTexture setActive( boolean isActive ) {

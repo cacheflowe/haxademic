@@ -59,22 +59,22 @@ extends BaseTexture {
 	}
 	
 	public void draw() { 
-		_texture.background(0);
-		_texture.translate(0, 0, -width * 1f);
+		pg.background(0);
+		pg.translate(0, 0, -width * 1f);
 		
 		_radMultiplier = this.width;
 		
 		// context & camera
-		PG.setBetterLights(_texture);
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
+		PG.setBetterLights(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		
 		// put it all in a huge cube
-		_texture.fill( 255 );
+		pg.fill( 255 );
 		
 		// rotate the sphere - no push/pop since we resetMatrix() every frame... kinda weak
 		_masterAngle += 0.01f;
-		_texture.rotateX( _masterAngle * .1f );
+		pg.rotateX( _masterAngle * .1f );
 		
 		// fade lines back down
 		_linesAlpha = ( _linesAlpha > 0 ) ? _linesAlpha - 0.05f : 0;
@@ -284,7 +284,7 @@ extends BaseTexture {
 			
 			// get color
 			int cellColor = P.p.color( 127 + 127 *P.sin(r), 127 + 127 *P.sin(g), 127 + 127 *P.cos(b) );
-			_texture.fill(cellColor);
+			pg.fill(cellColor);
 			
 			// use brightness to push radius out
 			float brightAdjust = 1 + P.p.brightness( cellColor ) * .75f;
@@ -297,32 +297,32 @@ extends BaseTexture {
 			float ampSizeMultiplier = amp * .09f;
 			
 			// draw line to previous sphere point
-			_texture.stroke(cellColor, _linesAlpha);
-			_texture.strokeWeight(1*ampSizeMultiplier*.1f);
+			pg.stroke(cellColor, _linesAlpha);
+			pg.strokeWeight(1*ampSizeMultiplier*.1f);
 			if( minus1cell != null && minus2cell != null && _linesAlpha > 0 ) {
-				_texture.line(x, y, z, minus1cell.x, minus1cell.y, minus1cell.z);				
-				_texture.line(x, y, z, minus2cell.x, minus2cell.y, minus2cell.z);			
+				pg.line(x, y, z, minus1cell.x, minus1cell.y, minus1cell.z);				
+				pg.line(x, y, z, minus2cell.x, minus2cell.y, minus2cell.z);			
 			}
 
-			_texture.pushMatrix();
+			pg.pushMatrix();
 			//			_texture.rect(x,y,w*ampSizeMultiplier,h*ampSizeMultiplier); 
 			
 			// draw shape at sphere point
-			_texture.translate( x, y, z );
+			pg.translate( x, y, z );
 			if( _is_wireframe_mode == true ) {
-				_texture.stroke(cellColor);
-				_texture.noFill();
+				pg.stroke(cellColor);
+				pg.noFill();
 			} else {
-				_texture.fill(cellColor);
-				_texture.noStroke();
+				pg.fill(cellColor);
+				pg.noStroke();
 			}
 			float size = 10 + 5 * ampSizeMultiplier * .1f;
-			_texture.box(size);
+			pg.box(size);
 //			gfx.sphere(new Sphere(new Vec3D(0,0,0),size), 10);
 
 			
 			
-			_texture.popMatrix();
+			pg.popMatrix();
 		}
 	}
 

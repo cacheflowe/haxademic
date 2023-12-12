@@ -37,33 +37,41 @@ extends BaseTexture {
 	}
 	
 	public void draw() {
-		_texture.background(0);
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
-
+		pg.background(0);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		
 		int audioPoints = AudioIn.waveform.length;
 		audioPoints = circlePoints / 2; // divide by 2 to mirroe
 		float segmentRads = P.TWO_PI / (float) circlePoints;
 		
 		// draw a circle
-		_texture.fill(0);
-		_texture.stroke(_color);
-		_strokeWeight = width * 0.005f;
-		_texture.strokeWeight(_strokeWeight);
+		float minDim = Math.min(width, height);
+		float circleSize = minDim * 0.01f;
+		pg.fill(0);
+		pg.stroke(_color);
+		_strokeWeight = minDim * 0.005f;
+		pg.strokeWeight(_strokeWeight);
 		
 		float radsOffset = -P.HALF_PI;
 		for (int i = 0; i < circlePoints; i++ ) {
 			int loopI = i;
 			if(loopI >= audioPoints) loopI = audioPoints - (i % audioPoints);
-			float radius = width * 0.2f + width * 0.13f * AudioIn.audioFreq(1 + loopI);
+			float radius = minDim * 0.2f + minDim * 0.1f * AudioIn.audioFreq(1 + loopI);
 			amps[i].setTarget(radius).update();
 			amps[i].setEaseFactor(0.9f);
-
+			
+			// draw line
 			float curRads = radsOffset + segmentRads * i;
 			float x = P.cos(curRads) * amps[i].value();
 			float y = P.sin(curRads) * amps[i].value();
-			_texture.line(0, 0, x, y);
-			_texture.circle(x, y, width * 0.01f);
+			pg.line(0, 0, x, y);
+
+			// make sure circle is in fron of line
+			pg.push();
+			pg.translate(0, 0, 1);
+			pg.circle(x, y, circleSize);
+			pg.pop();
 		}
 	}
 	

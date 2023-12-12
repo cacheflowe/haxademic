@@ -54,7 +54,7 @@ extends BaseTexture {
 //		shape.setTexture(sphereTexture);
 //		shapeTessellated.setTexture(sphereTexture);
 		
-		shapeIcos = Icosahedron.createIcosahedron(_texture, 7, sphereTexture);
+		shapeIcos = Icosahedron.createIcosahedron(pg, 7, sphereTexture);
 		PShapeUtil.scaleShapeToExtent(shapeIcos, extent);
 		
 //		objSolid = new PShapeSolid(shapeIcos);
@@ -109,7 +109,7 @@ extends BaseTexture {
 		// lazy init shape after we for sure have a texture
 		if(shape == null) createNewSphere();
 
-		_texture.clear();
+		pg.clear();
 
 		// test show audio texture
 		//_texture.image(sphereTexture, 0, 0);
@@ -119,17 +119,17 @@ extends BaseTexture {
 
 		// icosahedron
 		// set position to center
-		_texture.pushMatrix();
-		_texture.translate(width/2f, height/2f);
+		pg.pushMatrix();
+		pg.translate(width/2f, height/2f);
 		
 		// shadow
-		Gradients.radial(_texture, height * 2.5f, height * 2.5f, P.p.color(0,150), P.p.color(1, 0), 50);
-		Gradients.radial(_texture, height * 1.5f, height * 1.5f, P.p.color(0,100), P.p.color(1, 0), 50);
+		Gradients.radial(pg, height * 2.5f, height * 2.5f, P.p.color(0,150), P.p.color(1, 0), 50);
+		Gradients.radial(pg, height * 1.5f, height * 1.5f, P.p.color(0,100), P.p.color(1, 0), 50);
 		
 		_rotation.update();
-		_texture.rotateY( -P.HALF_PI + _rotation.x() );
-		_texture.rotateX( _rotation.y() );
-		_texture.rotateZ( _rotation.z() );
+		pg.rotateY( -P.HALF_PI + _rotation.x() );
+		pg.rotateX( _rotation.y() );
+		pg.rotateZ( _rotation.z() );
 //		objSolid.deformWithAudioByNormals();
 //		_texture.shape(objSolid.shape());
 //		PShapeUtil.drawTrianglesWithTexture(_texture, objSolid.shape(), sphereTexture, 3f); // img
@@ -140,17 +140,17 @@ extends BaseTexture {
 		MeshDeformAndTextureFilter.instance().setDisplacementMap(sphereTexture);
 		MeshDeformAndTextureFilter.instance().setDisplaceAmp(0.65f + 0.3f * P.sin(scaleOsc));
 		MeshDeformAndTextureFilter.instance().setSheetMode(false);
-		MeshDeformAndTextureFilter.instance().setOnContext(_texture);
+		MeshDeformAndTextureFilter.instance().setOnContext(pg);
 //		// set texture using PShape method
 //		shape.setTexture(textureFlipped);
 
 //		_texture.scale(0.65f + 0.45f * P.sin(P.PI + scaleOsc));
-		_texture.scale(0.45f + 0.2f * P.sin(P.PI + scaleOsc));
-		_texture.shape(shapeIcos);
-		_texture.resetShader();
+		pg.scale(0.45f + 0.2f * P.sin(P.PI + scaleOsc));
+		pg.shape(shapeIcos);
+		pg.resetShader();
 //		_texture.shape(shape);
 //		_texture.shape(shapeTessellated);
-		_texture.popMatrix();
+		pg.popMatrix();
 
 	}
 }

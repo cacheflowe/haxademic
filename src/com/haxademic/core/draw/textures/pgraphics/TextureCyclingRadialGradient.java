@@ -25,14 +25,14 @@ extends BaseTexture {
 	}
 	
 	public void draw() {
-		_texture.clear();
+		pg.clear();
 		
 		time += speed;
 		
-		_texture.pushMatrix();
-		_texture.translate(width/2, height/2);
+		pg.pushMatrix();
+		pg.translate(width/2, height/2);
 		Gradients.radial(
-				_texture, 
+				pg, 
 				size * 2, 
 				size * 2, 
 				P.p.color(127f + 127f * P.sin(time)), 
@@ -40,7 +40,7 @@ extends BaseTexture {
 				40
 		);
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 }

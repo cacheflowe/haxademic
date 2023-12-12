@@ -35,14 +35,14 @@ extends BaseTexture {
 	}
 
 	public void draw() {
-		_texture.clear();
+		pg.clear();
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setCenterScreen( _texture );
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		pg.pushMatrix();
 		
-		_texture.rectMode(PConstants.CENTER);
-		_texture.noStroke();
+		pg.rectMode(PConstants.CENTER);
+		pg.noStroke();
 				
 		// ease vertex multipliers
 		for( int i=0; i < 8; i++ ) {
@@ -53,39 +53,39 @@ extends BaseTexture {
 		float outerMult = 3;
 		float halfW = width/2f;
 		float halfH = height/2f;
-		_texture.fill( 0 );
-		_texture.noStroke();
+		pg.fill( 0 );
+		pg.noStroke();
 		
 		// draw in halves - drawing all at once wasn't filling properly
 		// draw frame right side		
-		_texture.beginShape();
-		_texture.vertex( 0, -height * outerMult );
-		_texture.vertex( 0, -halfH * _radii.get( 0 ).value() );
-		_texture.vertex( halfW * _radii.get( 1 ).value(), -halfH * _radii.get( 1 ).value() );
-		_texture.vertex( halfW * _radii.get( 2 ).value(), 0 );
-		_texture.vertex( halfW * _radii.get( 3 ).value(), halfH * _radii.get( 3 ).value() );
-		_texture.vertex( 0, halfH * _radii.get( 4 ).value() );
-		_texture.vertex( 0, height * outerMult );
-		_texture.vertex( width * outerMult, height * outerMult );
-		_texture.vertex( width * outerMult, -height * outerMult );
-		_texture.vertex( 0, -height * outerMult );
-		_texture.endShape(P.CLOSE);
+		pg.beginShape();
+		pg.vertex( 0, -height * outerMult );
+		pg.vertex( 0, -halfH * _radii.get( 0 ).value() );
+		pg.vertex( halfW * _radii.get( 1 ).value(), -halfH * _radii.get( 1 ).value() );
+		pg.vertex( halfW * _radii.get( 2 ).value(), 0 );
+		pg.vertex( halfW * _radii.get( 3 ).value(), halfH * _radii.get( 3 ).value() );
+		pg.vertex( 0, halfH * _radii.get( 4 ).value() );
+		pg.vertex( 0, height * outerMult );
+		pg.vertex( width * outerMult, height * outerMult );
+		pg.vertex( width * outerMult, -height * outerMult );
+		pg.vertex( 0, -height * outerMult );
+		pg.endShape(P.CLOSE);
 
 		// draw frame left side		
-		_texture.beginShape();
-		_texture.vertex( 0, -height * outerMult );
-		_texture.vertex( 0, -halfH * _radii.get( 0 ).value() );
-		_texture.vertex( -halfW * _radii.get( 7 ).value(), -halfH * _radii.get( 7 ).value() );
-		_texture.vertex( -halfW * _radii.get( 6 ).value(), 0 );
-		_texture.vertex( -halfW * _radii.get( 5 ).value(), halfH * _radii.get( 5 ).value() );
-		_texture.vertex( 0, halfH * _radii.get( 4 ).value() );
-		_texture.vertex( 0, height * outerMult );
-		_texture.vertex( -width * outerMult, height * outerMult );
-		_texture.vertex( -width * outerMult, -height * outerMult );
-		_texture.vertex( 0, -height * outerMult );
-		_texture.endShape(P.CLOSE);
+		pg.beginShape();
+		pg.vertex( 0, -height * outerMult );
+		pg.vertex( 0, -halfH * _radii.get( 0 ).value() );
+		pg.vertex( -halfW * _radii.get( 7 ).value(), -halfH * _radii.get( 7 ).value() );
+		pg.vertex( -halfW * _radii.get( 6 ).value(), 0 );
+		pg.vertex( -halfW * _radii.get( 5 ).value(), halfH * _radii.get( 5 ).value() );
+		pg.vertex( 0, halfH * _radii.get( 4 ).value() );
+		pg.vertex( 0, height * outerMult );
+		pg.vertex( -width * outerMult, height * outerMult );
+		pg.vertex( -width * outerMult, -height * outerMult );
+		pg.vertex( 0, -height * outerMult );
+		pg.endShape(P.CLOSE);
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 		
 //		float scaleVal = P.constrain( 0.1f * AudioIn.getEqBand( P.floor(_spectrumInterval * spectrumIndex) ), 0, 1 );
 	}

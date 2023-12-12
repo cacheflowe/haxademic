@@ -61,13 +61,13 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		PG.setCenterScreen( _texture );
-		_texture.translate(0, 0, -600);
+		PG.setCenterScreen( pg );
+		pg.translate(0, 0, -600);
 		// rotate beginning z
 		_baseRotZAdd = MathUtil.easeTo( _baseRotZAdd, _baseRotZTarget, 20 );
-		_texture.rotateZ( _rotDir * P.p.frameCount - _baseRotZAdd );
+		pg.rotateZ( _rotDir * P.p.frameCount - _baseRotZAdd );
 
 		// update the single shape
 		_curPointGroup.update();
@@ -75,17 +75,17 @@ extends BaseTexture {
 		// draw repeated shape 
 		float rotationIncrement = P.TWO_PI / _numRotations;
 		float spectrumData;
-		_texture.noStroke();
+		pg.noStroke();
 //		PG.setColorForPImage(_texture);
 		for( int i = 0; i < _numRotations; i++ ) {
 			spectrumData = AudioIn.audioFreq( 20 + (int) (i * (255f/_numRotations)) );
-			_texture.fill( _color, 255f * spectrumData );
+			pg.fill( _color, 255f * spectrumData );
 //			_texture.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			_texture.stroke( spectrumData * 255, spectrumData * 127 );
-			_texture.pushMatrix();
-			_texture.rotateZ( rotationIncrement * i );
+			pg.pushMatrix();
+			pg.rotateZ( rotationIncrement * i );
 			_curPointGroup.drawPointsTriangles();
-			_texture.popMatrix();
+			pg.popMatrix();
 		}
 	}
 	
@@ -164,10 +164,10 @@ extends BaseTexture {
 				// draw a line - currently disabled from noStroke()
 				
 //				P.p.toxi.line( line );
-				_texture.beginShape(P.LINE);
-				_texture.vertex(_points[ i - 1 ]._pos.x, _points[ i - 1 ]._pos.y, _points[ i - 1 ]._pos.z);
-				_texture.vertex(_points[ i - 0 ]._pos.x, _points[ i - 0 ]._pos.y, _points[ i - 0 ]._pos.z);
-				_texture.endShape();
+				pg.beginShape(P.LINE);
+				pg.vertex(_points[ i - 1 ]._pos.x, _points[ i - 1 ]._pos.y, _points[ i - 1 ]._pos.z);
+				pg.vertex(_points[ i - 0 ]._pos.x, _points[ i - 0 ]._pos.y, _points[ i - 0 ]._pos.z);
+				pg.endShape();
 
 				
 				// from 3rd point on, start connecting triangles
@@ -175,12 +175,12 @@ extends BaseTexture {
 //					tri = new Triangle3D( _points[ i - 2 ]._pos, _points[ i - 1 ]._pos, _points[ i ]._pos ); 
 //					P.p.toxi.triangle( tri );
 					
-					_texture.beginShape(P.TRIANGLE);
+					pg.beginShape(P.TRIANGLE);
 					// map the screen coordinates to the texture coordinates
-					_texture.vertex(_points[ i - 2 ]._pos.x, _points[ i - 2 ]._pos.y, _points[ i - 2 ]._pos.z);
-					_texture.vertex(_points[ i - 1 ]._pos.x, _points[ i - 1 ]._pos.y, _points[ i - 1 ]._pos.z);
-					_texture.vertex(_points[ i - 0 ]._pos.x, _points[ i - 0 ]._pos.y, _points[ i - 0 ]._pos.z);
-					_texture.endShape();
+					pg.vertex(_points[ i - 2 ]._pos.x, _points[ i - 2 ]._pos.y, _points[ i - 2 ]._pos.z);
+					pg.vertex(_points[ i - 1 ]._pos.x, _points[ i - 1 ]._pos.y, _points[ i - 1 ]._pos.z);
+					pg.vertex(_points[ i - 0 ]._pos.x, _points[ i - 0 ]._pos.y, _points[ i - 0 ]._pos.z);
+					pg.endShape();
 
 				}
 			}

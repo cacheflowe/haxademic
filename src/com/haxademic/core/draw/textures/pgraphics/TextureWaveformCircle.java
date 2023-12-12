@@ -37,25 +37,25 @@ extends BaseTexture {
 	public void draw() {
 		if(trailIn) {
 			// feedback(-20, 0.1f);
-			PG.feedback(_texture, 0, 0.1f, -10);
+			PG.feedback(pg, 0, 0.1f, -10);
 		} else {
 			// feedback(30, 0.2f);
-			PG.feedback(_texture, 0, 0.2f, 15);
+			PG.feedback(pg, 0, 0.2f, 15);
 		}
 		
 		_radius.update();
 		
-		PG.setCenterScreen( _texture );
+		PG.setCenterScreen( pg );
 
 		int audioPoints = AudioIn.waveform.length;
 		int circlePoints = audioPoints * 2;
 		segmentRads = P.TWO_PI / (float) circlePoints;
 		
 		// draw a circle
-		_texture.noFill();
-		_texture.stroke( _color );
-		_texture.strokeWeight( _strokeWeight );
-		_texture.beginShape();
+		pg.noFill();
+		pg.stroke( _color );
+		pg.strokeWeight( _strokeWeight );
+		pg.beginShape();
 		
 		float radius;
 		float radsOffset = -P.HALF_PI;
@@ -67,13 +67,13 @@ extends BaseTexture {
 			float curRads = radsOffset + segmentRads * i;
 			float x = P.cos(curRads) * radius;
 			float y = P.sin(curRads) * radius;
-			_texture.vertex(x, y);
+			pg.vertex(x, y);
 		}
 
 		// connect 1st and last points
 //			radius = _radius.value() + AudioIn.waveform[0] * _amp;
 //			_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
-		_texture.endShape();
+		pg.endShape();
 	}
 	
 }

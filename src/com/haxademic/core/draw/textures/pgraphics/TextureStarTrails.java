@@ -51,19 +51,19 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
-		PG.feedback(_texture, 0xff000000, 0.15f, 1);
+		pg.background(0);
+		PG.feedback(pg, 0xff000000, 0.15f, 1);
 
-		PG.setCenterScreen( _texture );
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		pg.pushMatrix();
 		
-		PG.setDrawCenter(_texture);
-		_texture.noStroke();
+		PG.setDrawCenter(pg);
+		pg.noStroke();
 		
 		for( int i = 0; i < _numStars; i++ ) {
 			_stars.get( i ).update( AudioIn.audioFreq(i) );
 		}
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 	class Star {
@@ -158,34 +158,34 @@ extends BaseTexture {
 
 			if( _wireframe == false ) {
 				// loop backwards through history of locations
-				_texture.noStroke();
+				pg.noStroke();
 				for( int i = _numTrails + _trailIndex; i > _trailIndex; i-- ) {
 					indx = i % _numTrails;
-					_texture.pushMatrix();
-					_texture.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
-					_texture.fill( fillColor, alpha );
-					_texture.box( baseSize );
+					pg.pushMatrix();
+					pg.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
+					pg.fill( fillColor, alpha );
+					pg.box( baseSize );
 					baseSize *= 0.97f;
 					alpha -= 12.5;
-					_texture.popMatrix();
+					pg.popMatrix();
 				}
 			} else {
 				// draw lines between locations
 	//			_texture.noFill();
-				_texture.pushMatrix();
-				_texture.stroke( fillColor, 255 );
-				_texture.noFill();
-				_texture.strokeWeight( 7f );
-				_texture.beginShape(P.LINES);
+				pg.pushMatrix();
+				pg.stroke( fillColor, 255 );
+				pg.noFill();
+				pg.strokeWeight( 7f );
+				pg.beginShape(P.LINES);
 //				_texture.beginShape(P.TRIANGLES);
 				for( int i = _trailIndex + _numTrails; i > _trailIndex; i-- ) {
 					indx = i % _numTrails;
-					if( i == 0 ) _texture.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
-					_texture.vertex( _trailPoints.get(indx).x + _size, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
+					if( i == 0 ) pg.translate( _trailPoints.get(indx).x, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
+					pg.vertex( _trailPoints.get(indx).x + _size, _trailPoints.get(indx).y, _trailPoints.get(indx).z );
 					alpha -= 12.5;
 				}
-				_texture.endShape();
-				_texture.popMatrix();
+				pg.endShape();
+				pg.popMatrix();
 			}
 			
 			

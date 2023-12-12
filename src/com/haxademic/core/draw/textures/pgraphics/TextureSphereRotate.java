@@ -29,18 +29,18 @@ extends BaseTexture {
 	
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		_texture.translate( width * 0.5f, height * 0.5f );
-		_texture.rotateY( P.p.millis() * 0.0002f );
+		pg.translate( width * 0.5f, height * 0.5f );
+		pg.rotateY( P.p.millis() * 0.0002f );
 		
 		if( _isWireframe == true ) {
-			_texture.noFill();
-			_texture.strokeWeight(3);
-			_texture.stroke( _colorEase.colorInt() );
+			pg.noFill();
+			pg.strokeWeight(3);
+			pg.stroke( _colorEase.colorInt() );
 		} else {
-			_texture.noStroke();
-			_texture.fill( _colorEase.colorInt(), 80 );
+			pg.noStroke();
+			pg.fill( _colorEase.colorInt(), 80 );
 		}
 		
 		float size = 20;
@@ -48,10 +48,10 @@ extends BaseTexture {
 			float amp = AudioIn.audioFreq( i%512 );
 			amp = AudioIn.audioFreq(i) * 65f;
 
-			_texture.pushMatrix();
-			_texture.translate(points[i], points[i+1], points[i+2]);
-			_texture.box(size * amp, size * amp, size * amp);
-			_texture.popMatrix();
+			pg.pushMatrix();
+			pg.translate(points[i], points[i+1], points[i+2]);
+			pg.box(size * amp, size * amp, size * amp);
+			pg.popMatrix();
 		}
 	}
 }

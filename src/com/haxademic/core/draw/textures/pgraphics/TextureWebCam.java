@@ -28,9 +28,9 @@ extends BaseTexture {
 	}
 
 	public void draw() {
-		if( _texture != null && _webCam != null && _webCam.available() == true ) { 			
+		if( pg != null && _webCam != null && _webCam.available() == true ) { 			
 			_webCam.read(); 
-			_texture.image( _webCam.get(), 0, 0, width, height );
+			pg.image( _webCam.get(), 0, 0, width, height );
 		}
 	}
 }

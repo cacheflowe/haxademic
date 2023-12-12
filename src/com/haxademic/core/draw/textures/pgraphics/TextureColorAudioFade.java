@@ -26,9 +26,9 @@ extends BaseTexture {
 	
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		_texture.fill( _colorEase.colorInt(), P.constrain( AudioIn.audioFreq( _eqIndex ) * 255, 0, 255 ) );
-		_texture.rect(0, 0, width, height );
+		pg.fill( _colorEase.colorInt(), P.constrain( AudioIn.audioFreq( _eqIndex ) * 255, 0, 255 ) );
+		pg.rect(0, 0, width, height );
 	}
 }

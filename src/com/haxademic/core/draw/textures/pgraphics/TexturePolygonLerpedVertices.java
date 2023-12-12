@@ -26,26 +26,26 @@ extends BaseTexture {
 	
 	public void draw() {
 		// clear background when activated
-		if(_newlyActive) _texture.background(0);
+		if(_newlyActive) pg.background(0);
 		
 		// feedback & brightness
 		feedbackDist.update();
 		feedbackDarken.update();
-		PG.feedback(_texture, (int) feedbackDist.value());
+		PG.feedback(pg, (int) feedbackDist.value());
 		BrightnessStepFilter.instance().setBrightnessStep(-feedbackDarken.value()/255f);
-		BrightnessStepFilter.instance().applyTo(_texture);
+		BrightnessStepFilter.instance().applyTo(pg);
 
 		// set line weight
-		_texture.noFill();
-		_texture.strokeCap(P.SQUARE);
+		pg.noFill();
+		pg.strokeCap(P.SQUARE);
 		lineWeight.update();
-		_texture.strokeWeight(lineWeight.value());
-		_texture.stroke(255);
-		_texture.blendMode(PBlendModes.BLEND);
+		pg.strokeWeight(lineWeight.value());
+		pg.stroke(255);
+		pg.blendMode(PBlendModes.BLEND);
 		
 		// context & camera
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		
 		// draw polygon
 		scaleV.update(true);
@@ -53,16 +53,16 @@ extends BaseTexture {
 		vertices.update(true);
 		float segmentRads = P.TWO_PI / vertices.value();
 		float rotOffset = P.HALF_PI + segmentRads/2f;
-		_texture.rotate(P.PI - rotOffset);
+		pg.rotate(P.PI - rotOffset);
 		
-		_texture.beginShape();
+		pg.beginShape();
 		for (float i = 0; i < vertices.value(); i++) {
 			float curRads = i * segmentRads;
 			float curX = P.cos(curRads) * polySize; 
 			float curY = P.sin(curRads) * polySize; 
-			_texture.vertex(curX, curY);
+			pg.vertex(curX, curY);
 		}
-		_texture.endShape(P.CLOSE);
+		pg.endShape(P.CLOSE);
 	}
 	
 	public void updateTiming() {

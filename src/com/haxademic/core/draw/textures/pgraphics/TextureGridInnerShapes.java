@@ -67,8 +67,8 @@ extends BaseTexture {
 	
 	public void draw() {
 		// draw transition result to texture
-		_texture.background(0);
-		_texture.stroke(255);
+		pg.background(0);
+		pg.stroke(255);
 //		lineWeight.update();
 //		_texture.strokeWeight(lineWeight.value());
 		
@@ -175,7 +175,7 @@ extends BaseTexture {
 		
 		public void draw() {
 			for (int i = 0; i < shapes.size(); i++) {
-				_texture.image(cellPG, x, y);
+				pg.image(cellPG, x, y);
 				
 				// thickening stroke
 //				_texture.noFill();

@@ -87,10 +87,10 @@ extends BaseTexture {
 		updateShaders();
 		
 //		_texture.clear();
-		_texture.background(0);
-		_texture.image( _image, 0, 0, _image.width, _image.height );
-		_texture.filter( _saturation );
-		_texture.filter( _brightness );
+		pg.background(0);
+		pg.image( _image, 0, 0, _image.width, _image.height );
+		pg.filter( _saturation );
+		pg.filter( _brightness );
 //		_texture.filter( _vignette );
 	}
 	

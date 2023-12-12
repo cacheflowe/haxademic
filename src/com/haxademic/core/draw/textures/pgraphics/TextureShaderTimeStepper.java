@@ -56,7 +56,7 @@ extends BaseTexture {
 
 		
 	public void draw() {
-		_texture.background(0);
+		pg.background(0);
 		updateTime();
 		updateDrawWithTime(_timeEaser.value());
 	}
@@ -67,7 +67,7 @@ extends BaseTexture {
 		
 		_patternShader.set("time", time );
 		_patternShader.set("mode", _mode);
-		_texture.filter( _patternShader );
+		pg.filter( _patternShader );
 		
 		postProcess();
 	}

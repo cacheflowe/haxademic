@@ -101,14 +101,14 @@ extends BaseTexture {
 	
 	public void draw() {
 		// background & debug
-		_texture.background(255);
+		pg.background(255);
 //		ImageUtil.drawImageCropFill(eqHistoryCopy, _texture, false);
 		
 		// rotate
-		PG.setCenterScreen(_texture);
+		PG.setCenterScreen(pg);
 //		PG.basicCameraFromMouse(_texture);
-		_texture.translate(0, -height * 0.15f, -height * 0.1f);
-		_texture.rotateX(0.8f);
+		pg.translate(0, -height * 0.15f, -height * 0.1f);
+		pg.rotateX(0.8f);
 
 		// draw shader-displaced mesh
 		LinesDeformAndTextureFilter.instance().setDisplacementMap(eqHistoryCopy);
@@ -118,12 +118,12 @@ extends BaseTexture {
 		LinesDeformAndTextureFilter.instance().setColorThicknessMode(true);
 		LinesDeformAndTextureFilter.instance().setSheetMode(true);
 		LinesDeformAndTextureFilter.instance().setDisplaceAmp(70);
-		LinesDeformAndTextureFilter.instance().setOnContext(_texture);
+		LinesDeformAndTextureFilter.instance().setOnContext(pg);
 
-		_texture.stroke(255);
-		_texture.scale(1.2f, 1.2f);
-		_texture.shape(shape);
-		_texture.resetShader();
+		pg.stroke(255);
+		pg.scale(1.2f, 1.2f);
+		pg.shape(shape);
+		pg.resetShader();
 
 		// post effects
 		// VignetteAltFilter.instance().setDarkness(-4f);
@@ -132,6 +132,6 @@ extends BaseTexture {
 		// BlurProcessingFilter.instance().setSigma(6);
 		// BlurProcessingFilter.instance().setBlurSize(1);
 		// BlurProcessingFilter.instance().applyTo(_texture);
-		InvertFilter.instance().applyTo(_texture);
+		InvertFilter.instance().applyTo(pg);
 	}
 }

@@ -29,25 +29,25 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		PG.feedback(_texture, 0xff000000, 0.15f, 3);
+		PG.feedback(pg, 0xff000000, 0.15f, 3);
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setCenterScreen( _texture );
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		pg.pushMatrix();
 		
-		_texture.rectMode(PConstants.CORNER);
-		_texture.noStroke();
+		pg.rectMode(PConstants.CORNER);
+		pg.noStroke();
 		
-		_texture.fill( _color );
+		pg.fill( _color );
 		
 		// draw bars
-		_texture.translate( 0, -height/2, 0 );
+		pg.translate( 0, -height/2, 0 );
 		drawBars();
-		_texture.translate( 0, height, 0 );
-		_texture.rotateX( P.PI );
+		pg.translate( 0, height, 0 );
+		pg.rotateX( P.PI );
 		drawBars();
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 	public void drawBars() {
@@ -57,7 +57,7 @@ extends BaseTexture {
 		float startX = -P.p.width/2f;
 		int spectrumInterval = (int) ( 256f / _cols );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 		for (int i = 0; i < _cols; i++) {
-			_texture.rect( startX + i * cellW, 0, cellW, AudioIn.audioFreq(i*spectrumInterval) * cellH );
+			pg.rect( startX + i * cellW, 0, cellW, AudioIn.audioFreq(i*spectrumInterval) * cellH );
 		}		
 	}
 

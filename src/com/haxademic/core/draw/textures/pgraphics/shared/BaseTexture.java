@@ -16,7 +16,7 @@ import processing.core.PGraphics;
 
 public class BaseTexture {
 	
-	protected PGraphics _texture;
+	protected PGraphics pg;
 	protected int width;
 	protected int height;
 	protected boolean smoothPG;
@@ -56,8 +56,8 @@ public class BaseTexture {
 	}
 	
 	public PGraphics texture() {
-		if(_texture == null) _texture = PGPool.getPG(width, height);
-		return _texture;
+		if(pg == null) pg = PGPool.getPG(width, height);
+		return pg;
 	}
 	
 	public boolean isActive() {
@@ -68,8 +68,8 @@ public class BaseTexture {
 		_active = isActive;
 		_newlyActive = true;
 		if( _active == true ) {
-			if(_texture == null) {
-				_texture = PGPool.getPG(width, height);
+			if(pg == null) {
+				pg = PGPool.getPG(width, height);
 //				_texture = PG.newPG(width, height, smoothPG, true);
 			}
 			addUseCount();
@@ -101,11 +101,11 @@ public float heightNorm(float val) {
 
 		if( _makeOverlay == true ) {
 			ThresholdFilter.instance().setCutoff(0.5f);
-			ThresholdFilter.instance().applyTo(_texture);
-			InvertFilter.instance().applyTo(_texture);
-			ChromaColorFilter.instance().presetBlackKnockout().applyTo(_texture);
+			ThresholdFilter.instance().applyTo(pg);
+			InvertFilter.instance().applyTo(pg);
+			ChromaColorFilter.instance().presetBlackKnockout().applyTo(pg);
 		} else if( _knockoutBlack == true ) {
-			ChromaColorFilter.instance().presetBlackKnockout().applyTo(_texture);
+			ChromaColorFilter.instance().presetBlackKnockout().applyTo(pg);
 		}
 		
 		if( _brightMode > -1 ) {
@@ -114,7 +114,7 @@ public float heightNorm(float val) {
 				P.println(_brightEaser.value());
 			}
 			BrightnessFilter.instance().setBrightness(_brightEaser.value());
-			BrightnessFilter.instance().applyTo(_texture);
+			BrightnessFilter.instance().applyTo(pg);
 		}
 	}
 	
@@ -150,11 +150,11 @@ public float heightNorm(float val) {
 	
 	public void update() {
 		if(_active == false) {
-			_texture = null;	// do this on the main draw thread so _texture doesn't disappear in a race condition
+			pg = null;	// do this on the main draw thread so _texture doesn't disappear in a race condition
 			return; 
 		}
 
-		PGPool.updatePG(_texture);
+		PGPool.updatePG(pg);
 
 		int startRender = P.p.millis();
 		_colorEase.update();
@@ -162,18 +162,18 @@ public float heightNorm(float val) {
 		
 		drawPre();
 		
-		_texture.beginDraw();
-		_texture.push();
-		_texture.perspective();
-		_texture.noLights();
-		_texture.blendMode(PBlendModes.BLEND);
+		pg.beginDraw();
+		pg.push();
+		pg.perspective();
+		pg.noLights();
+		pg.blendMode(PBlendModes.BLEND);
 //		CameraUtil.setCameraDistance(_texture, 200, 20000);
-		PG.setDrawCorner(_texture);
-		_texture.push();
+		PG.setDrawCorner(pg);
+		pg.push();
 		draw();
-		_texture.pop();
-		_texture.pop();
-		_texture.endDraw();
+		pg.pop();
+		pg.pop();
+		pg.endDraw();
 		
 //		postProcess();
 		_newlyActive = false;

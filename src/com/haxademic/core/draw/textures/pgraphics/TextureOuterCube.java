@@ -37,23 +37,23 @@ extends BaseTexture {
 	public void draw() {
 		// prep context
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		PG.setCenterScreen( _texture );
-		CameraUtil.setCameraDistance(_texture, 200, 20000);
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		CameraUtil.setCameraDistance(pg, 200, 20000);
+		pg.pushMatrix();
 
 		// update rotation
 		_rotSpeed.lerp(_rotSpeedTarget, 0.10f);
 		rotation.add(_rotSpeed);
-		_texture.rotateX( rotation.x );
-		_texture.rotateY( rotation.y );
-		_texture.rotateZ( rotation.z );
+		pg.rotateX( rotation.x );
+		pg.rotateY( rotation.y );
+		pg.rotateZ( rotation.z );
 		
 		// draw outer sphere
-		Shapes.drawTexturedCube(_texture, width * 2.25f, audioTexture.texture());
+		Shapes.drawTexturedCube(pg, width * 2.25f, audioTexture.texture());
 		
 		// pop context
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 }

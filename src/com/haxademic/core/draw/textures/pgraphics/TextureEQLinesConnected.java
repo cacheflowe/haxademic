@@ -26,9 +26,9 @@ extends BaseTexture {
 	public TextureEQLinesConnected( int width, int height ) {
 		super(width, height);
 		
-		_texture.beginDraw();
-		_texture.background(0);
-		_texture.endDraw();
+		pg.beginDraw();
+		pg.background(0);
+		pg.endDraw();
 
 		// build objects
 		for (int i = 0; i < points; i++ ) {
@@ -47,26 +47,26 @@ extends BaseTexture {
 		audioAmp.setTarget(AudioIn.amplitude()).update();
 
 		// context
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		
 		// feedback w/shaders
 		float zoom = 1f - 0.2f * audioAmp.value(); // zoom more when moving
 		RepeatFilter.instance().setOffset(0, 0);
 		RepeatFilter.instance().setZoom(zoom);
-		RepeatFilter.instance().applyTo(_texture);
+		RepeatFilter.instance().applyTo(pg);
 		float fade = P.map(audioAmp.value(), 0, 1, 0.25f, -0.001f); // fade more when audio is quiet
 		fade = P.constrain(fade, 0, 1);
 		DebugView.setValue("fade", fade);
 		BrightnessStepFilter.instance().setBrightnessStep(-fade);
-		BrightnessStepFilter.instance().applyTo(_texture);
+		BrightnessStepFilter.instance().applyTo(pg);
 		
 		// draw points
-		_texture.noFill();
-		_texture.stroke(_color);
+		pg.noFill();
+		pg.stroke(_color);
 		float strokeWeight = width * 0.007f;
-		_texture.strokeWeight(strokeWeight);
-		_texture.beginShape();
+		pg.strokeWeight(strokeWeight);
+		pg.beginShape();
 		for (int i = 0; i < points; i++ ) {
 			// lerp the EQ amp
 			int ampInterval = i * 5; // skip frequencies
@@ -86,12 +86,12 @@ extends BaseTexture {
 
 			// draw shape
 			if(useCurves) {
-				_texture.curveVertex(positions[i].x, positions[i].y);
+				pg.curveVertex(positions[i].x, positions[i].y);
 			} else {
-				_texture.vertex(positions[i].x, positions[i].y);
+				pg.vertex(positions[i].x, positions[i].y);
 			}
 		}
-		_texture.endShape();
+		pg.endShape();
 	}
 	
 }

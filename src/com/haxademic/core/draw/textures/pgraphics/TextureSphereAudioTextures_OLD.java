@@ -83,7 +83,7 @@ extends BaseTexture {
 	}
 	
 	public void draw() {
-		_texture.clear();
+		pg.clear();
 
 		// make sure no PGraphics drawing at the same time - draw sphere texture first
 		_sphereTexture.setColor( _color );
@@ -91,27 +91,27 @@ extends BaseTexture {
 			
 		// then draw sphere w/texture applied
 		
-		_texture.pushMatrix();
+		pg.pushMatrix();
 		
 //		PG.setColorForPImage(_texture);
-		PG.setCenterScreen(_texture);
-		_texture.noStroke();
+		PG.setCenterScreen(pg);
+		pg.noStroke();
 		
-		_texture.translate( 0, 0, -height/2f );
+		pg.translate( 0, 0, -height/2f );
 		_rotation.update();
-		_texture.rotateY( _rotation.x() );
-		_texture.rotateX( _rotation.y() );
-		_texture.rotateZ( _rotation.z() );
+		pg.rotateY( _rotation.x() );
+		pg.rotateX( _rotation.y() );
+		pg.rotateZ( _rotation.z() );
 		
 		// Now broken since the PAppletHax audio data updates
 //		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, P.p._audioInput, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
-		Toxiclibs.instance(P.p).toxi.setGraphics(_texture);
+		Toxiclibs.instance(P.p).toxi.setGraphics(pg);
 		if( _sphereTexture.texture() != null ) MeshUtilToxi.drawToxiMesh( P.p, Toxiclibs.instance(P.p).toxi, _deformMesh, _sphereTexture.texture() );
-		PG.setColorForPImage(_texture);
-		PG.resetPImageAlpha(_texture);
+		PG.setColorForPImage(pg);
+		PG.resetPImageAlpha(pg);
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 }

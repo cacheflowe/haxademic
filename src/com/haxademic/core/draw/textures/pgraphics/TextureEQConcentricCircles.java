@@ -29,21 +29,21 @@ extends BaseTexture {
 	
 	public void draw() {
 		_spectrumInterval = 180 / _numCircles; // use lower end of spectrum
-		_texture.background(0);
+		pg.background(0);
 		
 		// draw grid
 		float startX = width / 2f;
 		float startY = height / 2f;
 		int white = P.p.color(255);
-		_texture.noFill();
-		_texture.strokeWeight(_circleRadiusStep / 1.8f);
-		PG.setDrawCenter(_texture);
+		pg.noFill();
+		pg.strokeWeight(_circleRadiusStep / 1.8f);
+		PG.setDrawCenter(pg);
 		for (int i = 0; i < _numCircles; i++) {
 			amps[i].setEaseFactor(0.99f);
 			amps[i].setTarget(AudioIn.audioFreq(P.floor(_spectrumInterval * i))).update();
 			float alphaVal = amps[i].value() * 0.8f;
-			_texture.stroke( white, P.constrain( alphaVal * 255f, 0, 255 ) );
-			_texture.ellipse( startX, startY, i * _circleRadiusStep, i * _circleRadiusStep );	
+			pg.stroke( white, P.constrain( alphaVal * 255f, 0, 255 ) );
+			pg.ellipse( startX, startY, i * _circleRadiusStep, i * _circleRadiusStep );	
 		}
 	}
 }

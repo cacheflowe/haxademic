@@ -92,23 +92,23 @@ extends BaseTexture {
 	// fractal polygon drawing
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setBasicLights( _texture );
-		PG.setCenterScreen( _texture );
-		PG.setDrawCenter(_texture);
+		PG.setBasicLights( pg );
+		PG.setCenterScreen( pg );
+		PG.setDrawCenter(pg);
 
-		_texture.pushMatrix();
-		_texture.rectMode(PConstants.CORNER);
+		pg.pushMatrix();
+		pg.rectMode(PConstants.CORNER);
 				
 		// ease rotations & set center
 		_curRotation = MathUtil.easeTo(_curRotation, _rotationTarget, 10);
 		_curRotX = MathUtil.easeTo(_curRotX, _rotXTarget, 10);
-		_texture.rotate( _curRotation );
+		pg.rotate( _curRotation );
 		
 		drawShapes();
-		_texture.popMatrix();
+		pg.popMatrix();
 	}	
 
 	protected void generateVars() {
@@ -131,10 +131,10 @@ extends BaseTexture {
 	}
 		
 	public void drawShapes() {
-		_texture.noFill();
-		_texture.stroke(_colorEase.colorInt());
-		_texture.strokeWeight(_strokeWidth.value());
-		_texture.strokeJoin(P.MITER);
+		pg.noFill();
+		pg.stroke(_colorEase.colorInt());
+		pg.strokeWeight(_strokeWidth.value());
+		pg.strokeJoin(P.MITER);
 		
 		_baseRadiusEased.update();
 		_numArms.update();
@@ -166,13 +166,13 @@ extends BaseTexture {
 			}
 
 			// draw the polygon vertices
-			_texture.beginShape();
+			pg.beginShape();
 			for( int i=0; i < numArms; i++ ) {
 				if(_everyOtherPoly == false || ((i+level)%2==0 && i < level)) {
-					_texture.vertex( arms[i]._x, arms[i]._y);
+					pg.vertex( arms[i]._x, arms[i]._y);
 				}
 			}
-			_texture.endShape(P.CLOSE);
+			pg.endShape(P.CLOSE);
 			for( int i=0; i < numArms; i++ ) {
 				if(_everyOtherPoly == false || ((i+level)%2==0 && i < level)) {
 //					BoxBetween.draw(_texture, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[(i+1)%arms.length]._x, arms[(i+1)%arms.length]._y), 6);
@@ -184,10 +184,10 @@ extends BaseTexture {
 			if( _drawsLinesOut == true ) {
 				for( int i=0; i < numArms; i++ ) {
 					if(_everyOtherPolyVerts == false || ((i+level)%2==0 && i < level)) {
-						_texture.beginShape();
-						_texture.vertex( x, y );
-						_texture.vertex( arms[i]._x, arms[i]._y);
-						_texture.endShape();
+						pg.beginShape();
+						pg.vertex( x, y );
+						pg.vertex( arms[i]._x, arms[i]._y);
+						pg.endShape();
 //						BoxBetween.draw(_texture, new PVector(x, y), new PVector(arms[i]._x, arms[i]._y), 6);
 					}
 				}
@@ -195,7 +195,7 @@ extends BaseTexture {
 				for( int i=0; i < numArms; i++ ) {
 					if( arms[i].clusterPolygon != null ) {
 						for( int j=0; j < numArms; j++ ) {
-							_texture.line( arms[i]._x, arms[i]._y, arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y );
+							pg.line( arms[i]._x, arms[i]._y, arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y );
 //							BoxBetween.draw(_texture, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y), 6);
 						}
 					}
@@ -244,9 +244,9 @@ extends BaseTexture {
 					
 				if( _drawCircles == true ) {
 					if( _everyOtherCircle == true && level % 2 == 0 ) 
-						_texture.ellipse(_x, _y, radius*2f, radius*2f);
+						pg.ellipse(_x, _y, radius*2f, radius*2f);
 					else 
-						_texture.ellipse(_x, _y, radius, radius);
+						pg.ellipse(_x, _y, radius, radius);
 				}
 			} else {
 				float distFromCenter = MathUtil.getDistance(width/2, height/2, _x, _y);

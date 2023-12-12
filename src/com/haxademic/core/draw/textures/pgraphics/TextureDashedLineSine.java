@@ -33,10 +33,10 @@ extends BaseTexture {
 		loopProgress = P.abs(loopProgress) * P.TWO_PI;
 
 		// draw transition result to texture
-		_texture.background(0);
-		_texture.stroke(255);
+		pg.background(0);
+		pg.stroke(255);
 		lineWeight.update();
-		_texture.strokeWeight(lineWeight.value());
+		pg.strokeWeight(lineWeight.value());
 		
 		// draw rows
 		for (int i = 0; i < numRows; i++) {
@@ -104,7 +104,7 @@ extends BaseTexture {
 //				oscValue *= oscValue3;
 				float waveY = centerY + oscValue * waveAmp;
 //				p.point(x, waveY);
-				_texture.line(x, centerY, 0, x, waveY, 0);
+				pg.line(x, centerY, 0, x, waveY, 0);
 			}
 		}
 		

@@ -25,15 +25,15 @@ extends BaseTexture {
 	}
 	
 	public void draw() {
-		_texture.background(0);
+		pg.background(0);
 		// if(AudioIn.isBeat()) {
 		// 	log.update("BEAT");
 		// 	log2.update("BEAT");
 		// } else {
 			log.update("freq["+eq1+"] = " + MathUtil.roundToPrecision(AudioIn.frequencies[eq1], 4));
-			log.printToScreen(_texture, 20, 10);
+			log.printToScreen(pg, 20, 10);
 			log2.update("freq["+eq2+"] = " + MathUtil.roundToPrecision(AudioIn.frequencies[eq2], 4));
-			log2.printToScreen(_texture, 10 + width / 2, 10);
+			log2.printToScreen(pg, 10 + width / 2, 10);
 		// }
 	}
 	

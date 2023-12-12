@@ -209,11 +209,11 @@ extends BaseTexture {
 	public void draw() {
 		// reset context
 		if(drawMode == DrawMode.Displacement2d) {
-			_texture.background(0);
+			pg.background(0);
 		} else {
-			_texture.clear();
+			pg.clear();
 		}
-		_texture.noStroke();
+		pg.noStroke();
 //		_texture.stroke(255);
 		
 		// update colors & pump scale on beat
@@ -226,7 +226,7 @@ extends BaseTexture {
 			logoRotZ.setTarget(MathUtil.randRangeDecimal(-0.3f, 0.3f));
 		}
 		colorLogoProgress.update(true);
-		_texture.fill(_colorEase.colorInt());
+		pg.fill(_colorEase.colorInt());
 		
 		// update lerping values
 		logoScale.update(true);
@@ -235,29 +235,29 @@ extends BaseTexture {
 		logoRotZ.update(true);
 		
 		// set context
-		_texture.pushMatrix();
-		PG.setDrawCorner(_texture);
-		PG.setCenterScreen(_texture);
-		_texture.rotateX(logoRotX.value());
-		_texture.rotateY(logoRotY.value());
-		_texture.rotateZ(logoRotZ.value());
+		pg.pushMatrix();
+		PG.setDrawCorner(pg);
+		PG.setCenterScreen(pg);
+		pg.rotateX(logoRotX.value());
+		pg.rotateY(logoRotY.value());
+		pg.rotateZ(logoRotZ.value());
 		
 		switch (drawMode) {
 		case Color:
 //			_texture.lights();
-			_texture.fill(255);
-			PG.setBetterLights(_texture);
+			pg.fill(255);
+			PG.setBetterLights(pg);
 //			PG.setBasicLights(_texture);
 //			PShapeUtil.drawTriangles(_texture, logo3d, DemoAssets.justin(), logoScale.value());
 //			_texture.shape(logo3d);
-			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
+			PShapeUtil.drawTriangles(pg, logo3d, curMeshTexture, logoScale.value());
 			break;
 		case Textured:
-			_texture.fill(255);
+			pg.fill(255);
 //			_texture.lights();
-			PG.setBetterLights(_texture);
+			PG.setBetterLights(pg);
 //			PG.setBasicLights(_texture);
-			PShapeUtil.drawTriangles(_texture, logo3d, audioTexture.texture(), logoScale.value());
+			PShapeUtil.drawTriangles(pg, logo3d, audioTexture.texture(), logoScale.value());
 			break;
 //		case AudioTriangles:
 //			PG.setBasicLights(_texture);
@@ -267,21 +267,21 @@ extends BaseTexture {
 //			break;
 		case Displacement2d:
 //			PG.setBetterLights(_texture);
-			PG.setBasicLights(_texture);
+			PG.setBasicLights(pg);
 //			_texture.shape(logo3d, 0, 0);
-			_texture.fill(_colorEase.colorInt());
-			_texture.shape(logo3d);
+			pg.fill(_colorEase.colorInt());
+			pg.shape(logo3d);
 //			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
 			// post-process wobble
 			DisplacementMapFilter.instance().setMap(audioTexture.texture());
 			DisplacementMapFilter.instance().setAmp(0.15f * AudioIn.audioFreq(100));
 			DisplacementMapFilter.instance().setMode(3);
-			DisplacementMapFilter.instance().applyTo(_texture);
+			DisplacementMapFilter.instance().applyTo(pg);
 			break;
 		case Points:
 //			P.println("Switch displacement to vertex shader");
-			_texture.stroke(_colorEase.colorInt());
-			_texture.fill(_colorEase.colorInt());
+			pg.stroke(_colorEase.colorInt());
+			pg.fill(_colorEase.colorInt());
 			
 			// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
 			// apply points deform/texture shader
@@ -293,7 +293,7 @@ extends BaseTexture {
 			PointsDeformAndTextureFilter.instance().setSheetMode(true);
 //			PointsDeformAndTextureFilter.instance().setSheetMode(false);
 			PointsDeformAndTextureFilter.instance().setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
-			_texture.noLights();
+			pg.noLights();
 //			logoPoints.setTexture(audioTexture.texture());
 //			_texture.shape(obj);
 
@@ -302,13 +302,13 @@ extends BaseTexture {
 			float thickSpacing = -0.2f; // thickness / (numLayers - 1);
 			float spacing = thickness / numLayers / 4f;
 			for (float i = 0; i < 1; i++) {
-				_texture.pushMatrix();
-				_texture.strokeWeight(2f - thickSpacing * i);
-				_texture.translate(0, 0, numLayers/2f * spacing - spacing * i);
-				PointsDeformAndTextureFilter.instance().setOnContext(_texture);
-				_texture.shape(logoPoints);
-				_texture.resetShader();
-				_texture.popMatrix();
+				pg.pushMatrix();
+				pg.strokeWeight(2f - thickSpacing * i);
+				pg.translate(0, 0, numLayers/2f * spacing - spacing * i);
+				PointsDeformAndTextureFilter.instance().setOnContext(pg);
+				pg.shape(logoPoints);
+				pg.resetShader();
+				pg.popMatrix();
 			}
 			
 			// post-process wobble
@@ -340,15 +340,15 @@ extends BaseTexture {
 		}
 
 		// pop context
-		_texture.noLights();
-		_texture.popMatrix();
+		pg.noLights();
+		pg.popMatrix();
 
 		// post-processing
 		rotateZoom.update(true);
 		rotateRot.update(true);
 		RotateFilter.instance().setZoom(rotateZoom.value());
 		RotateFilter.instance().setRotation(rotateRot.value());
-		RotateFilter.instance().applyTo(_texture);
+		RotateFilter.instance().applyTo(pg);
 		
 		// black to transparent
 		if(drawMode == DrawMode.Displacement2d) {

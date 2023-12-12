@@ -92,11 +92,11 @@ extends BaseTexture {
 //		PG.setDrawFlat2d(_texture, true);
 
 //		_texture.clear();
-		PG.feedback(_texture, 0xff000000, 0.3f, 1);
+		PG.feedback(pg, 0xff000000, 0.3f, 1);
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setCenterScreen( _texture );
-		PG.setDrawCorner(_texture);
+		PG.setCenterScreen( pg );
+		PG.setDrawCorner(pg);
 		
 		// increment the starting points
 		startR += startIncR;
@@ -113,7 +113,7 @@ extends BaseTexture {
 		}
 		
 		if( _curMode ==  MODE_MESH || _curMode == MODE_TRIANGLES || _curMode == MODE_MESH_COLOR ) {
-			_texture.beginShape(P.TRIANGLES);
+			pg.beginShape(P.TRIANGLES);
 		}
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
@@ -134,7 +134,7 @@ extends BaseTexture {
 			}
 		}
 		if( _curMode ==  MODE_MESH || _curMode == MODE_TRIANGLES || _curMode == MODE_MESH_COLOR ) {
-			_texture.endShape();
+			pg.endShape();
 		}
 	}
 	
@@ -208,50 +208,50 @@ extends BaseTexture {
 
 			// adjust cell z per brightness
 			z = 200f * ( AudioIn.audioFreq((int)ctrlPt1) + AudioIn.audioFreq((int)ctrlPt2)) / 10f;
-			_texture.pushMatrix();
-			_texture.translate( 0, 0, -700 + z );
+			pg.pushMatrix();
+			pg.translate( 0, 0, -700 + z );
 			
 			
 			switch( _curMode ){
 				case MODE_BOXES :
-					_texture.fill(cellColor, 167f);
-					_texture.noStroke();
-					_texture.rect(x,y,w*sizeMult,h*sizeMult); 
+					pg.fill(cellColor, 167f);
+					pg.noStroke();
+					pg.rect(x,y,w*sizeMult,h*sizeMult); 
 					break;
 				case MODE_CIRCLES :
-					_texture.stroke(cellColor);
-					_texture.strokeWeight(1);
-					_texture.noFill();
-					_texture.ellipse(x,y,w*sizeMult,h*sizeMult); 
+					pg.stroke(cellColor);
+					pg.strokeWeight(1);
+					pg.noFill();
+					pg.ellipse(x,y,w*sizeMult,h*sizeMult); 
 					break;
 				case MODE_BOXEN :
-					_texture.fill(cellColor, 167f);
-					_texture.noStroke();
-					_texture.translate( x, y, 0 );
-					_texture.box( w*sizeMult, h*sizeMult, 10 ); 
+					pg.fill(cellColor, 167f);
+					pg.noStroke();
+					pg.translate( x, y, 0 );
+					pg.box( w*sizeMult, h*sizeMult, 10 ); 
 					break;
 				case MODE_BOXES_OUTLINE :
-					_texture.stroke(cellColor);
-					_texture.strokeWeight(1);
-					_texture.noFill();
-					_texture.rect(x,y,w*sizeMult,h*sizeMult); 
+					pg.stroke(cellColor);
+					pg.strokeWeight(1);
+					pg.noFill();
+					pg.rect(x,y,w*sizeMult,h*sizeMult); 
 					break;
 				case MODE_MESH :
-					_texture.noFill();
-					_texture.stroke( _color ); // ,p.brightness( cellColor )
-					_texture.strokeWeight(1);
+					pg.noFill();
+					pg.stroke( _color ); // ,p.brightness( cellColor )
+					pg.strokeWeight(1);
 					drawTrianglesToNeighbor();
 					break;
 				case MODE_MESH_COLOR :
-					_texture.noFill();
-					_texture.stroke(cellColor);	// ,p.brightness( cellColor )
-					_texture.strokeWeight(2);
+					pg.noFill();
+					pg.stroke(cellColor);	// ,p.brightness( cellColor )
+					pg.strokeWeight(2);
 					drawTrianglesToNeighbor();
 					break;
 				case MODE_TRIANGLES :
-					_texture.fill(cellColor, 167f);
-					_texture.stroke(0);
-					_texture.strokeWeight(3);
+					pg.fill(cellColor, 167f);
+					pg.stroke(0);
+					pg.strokeWeight(3);
 					drawTrianglesToNeighbor();
 					break;
 				default : 
@@ -263,18 +263,18 @@ extends BaseTexture {
 					break;
 			}
 			
-			_texture.popMatrix();
+			pg.popMatrix();
 		}
 		
 		protected void drawTrianglesToNeighbor(){
 			if( tCell != null ) {
-				_texture.vertex( x, y, z );
-				_texture.vertex( tCell.x, tCell.y, tCell.z );
-				_texture.vertex( tlCell.x, tlCell.y, tlCell.z );
+				pg.vertex( x, y, z );
+				pg.vertex( tCell.x, tCell.y, tCell.z );
+				pg.vertex( tlCell.x, tlCell.y, tlCell.z );
 				
-				_texture.vertex( x, y, z );
-				_texture.vertex( lCell.x, lCell.y, lCell.z );
-				_texture.vertex( tlCell.x, tlCell.y, tlCell.z );
+				pg.vertex( x, y, z );
+				pg.vertex( lCell.x, lCell.y, lCell.z );
+				pg.vertex( tlCell.x, tlCell.y, tlCell.z );
 			}
 		}
 	}

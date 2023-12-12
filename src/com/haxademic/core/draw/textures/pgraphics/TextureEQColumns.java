@@ -26,7 +26,7 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
 		float eqW = width / _numLines;
 		// float spectrumInterval = ( 512f / _numLines );
@@ -34,25 +34,25 @@ extends BaseTexture {
 		
 
 		if( _hasStroke == true ) {
-			_texture.stroke(0);
-			_texture.strokeWeight(1);
+			pg.stroke(0);
+			pg.strokeWeight(1);
 		} else {
-			_texture.noStroke();
+			pg.noStroke();
 		}
 
 		if( _barsGrow == true ) {
 			for( int i=0; i < _numLines; i++ ) {
 				float eqAmp = AudioIn.audioFreq( P.floor(i*avergeInterval) );
 				eqAmp = AudioIn.audioFreq(P.floor(i * _spectrumInterval));
-				_texture.fill( _colorEase.colorInt() );
-				_texture.rect(i * eqW, 0, eqW, eqAmp * height * 0.8f );  //  AudioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
+				pg.fill( _colorEase.colorInt() );
+				pg.rect(i * eqW, 0, eqW, eqAmp * height * 0.8f );  //  AudioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}
 		} else {
 			for( int i=0; i < _numLines; i++ ) {
 				float eqAmp = AudioIn.audioFreq( P.floor(i*avergeInterval) );
 				eqAmp = AudioIn.audioFreq(P.floor(i * _spectrumInterval));
-				_texture.fill( _colorEase.colorInt(), P.constrain( eqAmp * 255, 0, 255 ) );
-				_texture.rect(i * eqW, 0, eqW, height );  //  AudioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
+				pg.fill( _colorEase.colorInt(), P.constrain( eqAmp * 255, 0, 255 ) );
+				pg.rect(i * eqW, 0, eqW, height );  //  AudioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}
 		}
 	}

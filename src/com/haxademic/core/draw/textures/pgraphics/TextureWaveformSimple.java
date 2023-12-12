@@ -22,17 +22,17 @@ extends BaseTexture {
 	}
 
 	public void draw() {
-		PG.feedback(_texture, 0xff000000, 0.15f, 5);
+		PG.feedback(pg, 0xff000000, 0.15f, 5);
 		int waveformDataLength = AudioIn.waveform.length;
 		float widthStep = (float) width / (float) waveformDataLength;
 		float startY = height * 0.5f;
 		float amp = height * 0.4f;
 		
-		_texture.stroke(_color);
-		_texture.strokeWeight(3.f);
+		pg.stroke(_color);
+		pg.strokeWeight(3.f);
 
 		for(int i = 1; i < waveformDataLength; i++) {
-			_texture.line( i * widthStep, startY + AudioIn.waveform[i-1] * amp, (i+1) * widthStep, startY + AudioIn.waveform[i] * amp );
+			pg.line( i * widthStep, startY + AudioIn.waveform[i-1] * amp, (i+1) * widthStep, startY + AudioIn.waveform[i] * amp );
 		}
 	}
 }

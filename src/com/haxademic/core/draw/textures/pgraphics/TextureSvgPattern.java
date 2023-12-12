@@ -67,9 +67,9 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		PG.feedback(_texture, 0xff000000, 0.2f, 0.5f);
+		PG.feedback(pg, 0xff000000, 0.2f, 0.5f);
 //		PG.resetGlobalProps(_texture);
-		PG.setDrawCenter(_texture);
+		PG.setDrawCenter(pg);
 
 		_timeEaser.update();
 
@@ -88,17 +88,17 @@ extends BaseTexture {
 		float newW = shorterRatio * curShape.width;
 		float newH = shorterRatio * curShape.height;
 
-		_texture.fill(255);
-		_texture.noStroke();
+		pg.fill(255);
+		pg.noStroke();
 
 		for( float i=-quarterW; i < width + quarterW; i+= spacing ) {
 			for( float j=-quarterW; j < height + quarterW; j+= spacing ) {
-				_texture.pushMatrix();
-				_texture.translate(i, j);
-				_texture.rotateZ(1.5f * P.sin((_timeEaser.value() +j)/75f));
-				_texture.scale( (scaleMult*2f) + scaleMult * P.sin((_timeEaser.value() + i + j)/75f));
-				_texture.shape( curShape, 0, 0, newW, newH );
-				_texture.popMatrix();
+				pg.pushMatrix();
+				pg.translate(i, j);
+				pg.rotateZ(1.5f * P.sin((_timeEaser.value() +j)/75f));
+				pg.scale( (scaleMult*2f) + scaleMult * P.sin((_timeEaser.value() + i + j)/75f));
+				pg.shape( curShape, 0, 0, newW, newH );
+				pg.popMatrix();
 			}			
 		}
 	}

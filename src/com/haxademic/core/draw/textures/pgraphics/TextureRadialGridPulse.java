@@ -42,11 +42,11 @@ extends BaseTexture {
 
 	public void draw() {
 		// context & camera
-		_texture.background(0);
-		_texture.noStroke();
-		_texture.blendMode(PBlendModes.BLEND);
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
+		pg.background(0);
+		pg.noStroke();
+		pg.blendMode(PBlendModes.BLEND);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 
 		// time
 		time += speed;
@@ -85,10 +85,10 @@ extends BaseTexture {
 				float tileOscSize = tileSize * (0.7f + 0.2f * curOsc);
 
 				// position and draw
-				_texture.pushMatrix();
-				_texture.translate(tileX, tileY);
+				pg.pushMatrix();
+				pg.translate(tileX, tileY);
 				
-				if(isRect && noiseCutoff.value() < 0.2f) _texture.rotate(progressRads + distanceToRadians);
+				if(isRect && noiseCutoff.value() < 0.2f) pg.rotate(progressRads + distanceToRadians);
 //				_texture.translate(0, 0, curOsc * 10f);
 				
 				// tint it in a skinnier pulse
@@ -104,14 +104,14 @@ extends BaseTexture {
 
 					// draw 
 //					int curColor = lerpColor(white, orange, tintOsc);
-					_texture.fill(tintOsc * 255f);
+					pg.fill(tintOsc * 255f);
 					if(isRect) {
-						_texture.rect(0, 0, tileOscSize, tileOscSize);
+						pg.rect(0, 0, tileOscSize, tileOscSize);
 					} else {
-						_texture.ellipse(0, 0, tileOscSize, tileOscSize);
+						pg.ellipse(0, 0, tileOscSize, tileOscSize);
 					}
 				}
-				_texture.popMatrix();
+				pg.popMatrix();
 			}
 		}
 	}

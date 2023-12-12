@@ -25,18 +25,18 @@ extends BaseTexture {
 	
 	public void draw() {
 		// draw transition result to texture
-		_texture.background(0);
-		_texture.stroke(255);
+		pg.background(0);
+		pg.stroke(255);
 		lineWeight.update();
-		_texture.strokeWeight(lineWeight.value());
+		pg.strokeWeight(lineWeight.value());
 		
 		// context & camera
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
-		_texture.ortho();
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		pg.ortho();
 		
 		// hexagon tilt
-		_texture.rotateZ(P.PI * 0.25f); // Mouse.yNorm
+		pg.rotateZ(P.PI * 0.25f); // Mouse.yNorm
 
 		speed.update(true);
 		frames += speed.value();
@@ -51,11 +51,11 @@ extends BaseTexture {
 			float cubeSize = i * spacing.value();
 			cubeSize += loopProgress * spacing.value();
 //			drawDashedCube(cubeSize, 20f + P.sin(AnimationLoop.progressRads()) * 5f);
-			_texture.push();
-			_texture.strokeWeight(lineWeight.value() / 2f + lineWeight.value() * AudioIn.audioFreq(i * 5));
-			_texture.rotateZ(wobbleAmp.value() * P.sin(cubeSize * wobbleFreq.value()));
-			Shapes.drawDashedCube(_texture, cubeSize, 2f + (cubeSize * 0.08f), false);
-			_texture.pop();
+			pg.push();
+			pg.strokeWeight(lineWeight.value() / 2f + lineWeight.value() * AudioIn.audioFreq(i * 5));
+			pg.rotateZ(wobbleAmp.value() * P.sin(cubeSize * wobbleFreq.value()));
+			Shapes.drawDashedCube(pg, cubeSize, 2f + (cubeSize * 0.08f), false);
+			pg.pop();
 		}
 	}
 	

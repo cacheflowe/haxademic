@@ -34,20 +34,20 @@ extends BaseTexture {
 		twist.update(true);
 		
 		// draw transition result to texture
-		_texture.background(0);
-		_texture.stroke(255);
+		pg.background(0);
+		pg.stroke(255);
 		lineWeight.update();
-		_texture.strokeWeight(lineWeight.value());
-		_texture.strokeCap(PStrokeCaps.SQUARE);
+		pg.strokeWeight(lineWeight.value());
+		pg.strokeCap(PStrokeCaps.SQUARE);
 //		_texture.noStroke();
-		_texture.fill(_baseColor);//, fillAlpha * 127 );	// , fillAlpha
-		if(lineWeight.value() > 3) _texture.noFill();
+		pg.fill(_baseColor);//, fillAlpha * 127 );	// , fillAlpha
+		if(lineWeight.value() > 3) pg.noFill();
 		
 		// context & camera
-		PG.setBetterLights(_texture);
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
-		_texture.rotateX(-P.HALF_PI);
+		PG.setBetterLights(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		pg.rotateX(-P.HALF_PI);
 		
 		// draw sphere
 		for( int i = 0; i < numCubes.value(); i++ ) {
@@ -65,20 +65,20 @@ extends BaseTexture {
 //     		size = P.min(size, 10);
      		float oscInc = P.p.frameCount * 0.04f;
 			
-     		_texture.fill(ColorsHax.COLOR_GROUPS[0][i % 4]);
+     		pg.fill(ColorsHax.COLOR_GROUPS[0][i % 4]);
      		
      		// position, rotate, draw
-     		_texture.pushMatrix();
-     		_texture.translate(pointX, pointY, pointZ);
-     		_texture.rotateX( twist.value() * i );
-     		_texture.rotateY( twist.value() * i );
-     		_texture.rotateZ( twist.value() * i );
-			_texture.box(
+     		pg.pushMatrix();
+     		pg.translate(pointX, pointY, pointZ);
+     		pg.rotateX( twist.value() * i );
+     		pg.rotateY( twist.value() * i );
+     		pg.rotateZ( twist.value() * i );
+			pg.box(
 					size * (1f + 0.9f * P.sin(i+0 + oscInc)), 
 					size * (1f + 0.9f * P.sin(i+1 + oscInc)), 
 					size * (1f + 0.9f * P.sin(i+2 + oscInc))
 			);
-			_texture.popMatrix();
+			pg.popMatrix();
 		}
 	}
 	

@@ -93,25 +93,25 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		PG.setDrawCorner(_texture);
-		PG.setCenterScreen(_texture);
-		_texture.pushMatrix();
+		PG.setDrawCorner(pg);
+		PG.setCenterScreen(pg);
+		pg.pushMatrix();
 
 		_rotation.x += _rotSpeed.x;
 		_rotation.y += _rotSpeed.y;
 		_rotation.z += _rotSpeed.z;
-		_texture.rotateX( _rotation.x );
-		_texture.rotateY( _rotation.y );
-		_texture.rotateZ( _rotation.z );
+		pg.rotateX( _rotation.x );
+		pg.rotateY( _rotation.y );
+		pg.rotateZ( _rotation.z );
 
 		if( _isWireframe ) {
-			_texture.noFill(); 
-			_texture.strokeWeight( 3 );
+			pg.noFill(); 
+			pg.strokeWeight( 3 );
 		} else {
-			_texture.noStroke(); 
-			_texture.fill(255);
+			pg.noStroke(); 
+			pg.fill(255);
 		}
 
 		// deform and draw mesh
@@ -119,11 +119,11 @@ extends BaseTexture {
 			// _curMesh.deformWithAudioByNormals();
 			_curMesh.deformWithAudio(3);
 			_curMesh.setVertexColorWithAudio(255);
-			_texture.shape(_curMesh.shape());
+			pg.shape(_curMesh.shape());
 			// PShapeUtil.drawTriangles(_texture, _curMesh.shape(), null, 1f); // img
 		}
 
-		_texture.popMatrix();		
+		pg.popMatrix();		
 	}
 
 }

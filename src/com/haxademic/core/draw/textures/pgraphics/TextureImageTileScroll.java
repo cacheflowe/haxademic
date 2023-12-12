@@ -97,10 +97,10 @@ extends BaseTexture {
 	
 	public void draw() {
 		// draw transition result to texture
-		_texture.background(255);
-		PG.setCenterScreen(_texture);
-		PG.setDrawCenter(_texture);
-		_texture.fill(255); // todo: remove this
+		pg.background(255);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		pg.fill(255); // todo: remove this
 		
 		// update tiled texture object to fill texture
 		scale.update(true);
@@ -111,9 +111,9 @@ extends BaseTexture {
 		tiledImg.setOffset(xOffset.value(), yOffset.value());
 		tiledImg.setZoom(scale.value(), scale.value());
 		tiledImg.update();
-		tiledImg.draw(_texture, width, height);
+		tiledImg.draw(pg, width, height);
 		
-		InvertFilter.instance().applyTo(_texture);
+		InvertFilter.instance().applyTo(pg);
 	}
 	
 	public PImage image() {

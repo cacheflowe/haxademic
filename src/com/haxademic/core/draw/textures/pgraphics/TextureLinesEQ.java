@@ -47,13 +47,13 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setBasicLights( _texture );
+		PG.setBasicLights( pg );
 
-		_texture.pushMatrix();
-		_texture.rectMode(PConstants.CORNER);
+		pg.pushMatrix();
+		pg.rectMode(PConstants.CORNER);
 		
 		_width = width * 6;
 		_height = height * 6;
@@ -64,34 +64,34 @@ extends BaseTexture {
 		_curRotX = MathUtil.easeTo(_curRotX, _rotXTarget, 5);
 		
 		// set colors and alphas
-		_texture.noStroke();
+		pg.noStroke();
 		int spectrumInterval = P.round( AudioIn.frequencies.length / _numLines);
 		
 		// double lines
 		lineH = _height / _numLines;
-		PG.setCenterScreen( _texture );
-		_texture.translate( 0, -_height/2, 0 );
-		_texture.rotateX( _curRotX );
+		PG.setCenterScreen( pg );
+		pg.translate( 0, -_height/2, 0 );
+		pg.rotateX( _curRotX );
 		
-		_texture.pushMatrix();
-		_texture.rotateY(-_curRotation);
+		pg.pushMatrix();
+		pg.rotateY(-_curRotation);
 		drawLines( _color, lineH, spectrumInterval );
-		_texture.popMatrix();
+		pg.popMatrix();
 		
-		_texture.pushMatrix();
-		_texture.rotateY(_curRotation - (float)Math.PI);
+		pg.pushMatrix();
+		pg.rotateY(_curRotation - (float)Math.PI);
 		drawLines( _color, lineH, spectrumInterval );
-		_texture.popMatrix();
+		pg.popMatrix();
 
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 	protected void drawLines( int fillColor, float lineH, int spectrumInterval ) {
 		for( int i = 0; i < _numLines; i++ ) {
 			float alpha = 2f * AudioIn.audioFreq(i*spectrumInterval);
-			_texture.fill( fillColor, alpha * 255 );
-			_texture.rect( 0, i * lineH, _width, lineH );
+			pg.fill( fillColor, alpha * 255 );
+			pg.rect( 0, i * lineH, _width, lineH );
 		}
 	}		
 	

@@ -42,9 +42,9 @@ extends BaseTexture {
 	
 	protected void updateRotation() {
 		_rotation.lerp(_rotationTarget, 0.2f );
-		_texture.rotateY( _rotation.y );
+		pg.rotateY( _rotation.y );
 //		_texture.rotateZ( _rotation.z );
-		_texture.rotateX( _rotation.x );
+		pg.rotateX( _rotation.x );
 	}
 
 	public void updateTiming() {
@@ -58,19 +58,19 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		_texture.ambientLight(102, 102, 102);
-		_texture.lightSpecular(204, 204, 204);
-		_texture.directionalLight(102, 102, 102, 0, 0, -1);
-		_texture.specular(255, 255, 255);
-		_texture.emissive(51, 51, 51);
-		_texture.ambient(50, 50, 50);
-		_texture.shininess(20.0f);
+		pg.ambientLight(102, 102, 102);
+		pg.lightSpecular(204, 204, 204);
+		pg.directionalLight(102, 102, 102, 0, 0, -1);
+		pg.specular(255, 255, 255);
+		pg.emissive(51, 51, 51);
+		pg.ambient(50, 50, 50);
+		pg.shininess(20.0f);
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setCenterScreen( _texture );
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		pg.pushMatrix();
 		DebugView.setValue("_radius", _radius.value());
 		_radius.update();
 		_spacing.update();
@@ -79,14 +79,14 @@ extends BaseTexture {
 //		drawEQ(100,8,height/3f,width/100f,2);
 		drawEQSmoothed(50,8,_radius.value(),_spacing.value(),8,2,2);
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 	protected void drawEQ(int numBands, int discReso, float radius, float spacing, float amp) {
 		float startX = -spacing * numBands/2f;
 		
-		_texture.noStroke();
-		_texture.fill(200, 200, 200);
+		pg.noStroke();
+		pg.fill(200, 200, 200);
 
 //		_texture.rotateY(P.p.mouseX/100f);
 //		_texture.rotateX(P.p.mouseY/100f);
@@ -99,13 +99,13 @@ extends BaseTexture {
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
-			_texture.beginShape(P.TRIANGLE_STRIP);
+			pg.beginShape(P.TRIANGLE_STRIP);
 			for (int j = 0; j <= discReso; j++) {
 				float curRads = j * radSegment + (i/10f); // last bit for a twist
-				_texture.vertex(lastX, P.sin(curRads) * lastEqVal, P.cos(curRads) * lastEqVal);
-				_texture.vertex(curX, P.sin(curRads) * eqVal, P.cos(curRads) * eqVal);
+				pg.vertex(lastX, P.sin(curRads) * lastEqVal, P.cos(curRads) * lastEqVal);
+				pg.vertex(curX, P.sin(curRads) * eqVal, P.cos(curRads) * eqVal);
 			}
-			_texture.endShape();
+			pg.endShape();
 		}
 
 	}
@@ -114,10 +114,10 @@ extends BaseTexture {
 	protected void drawEQSmoothed(int numBands, int discReso, float radius, float spacing, float smoothsteps, float amp, float smoothEasing) {
 		float startX = -spacing * numBands/2f;
 		
-		_texture.noStroke();
-		_texture.fill(255, 255, 255);
+		pg.noStroke();
+		pg.fill(255, 255, 255);
 		
-		int from = _texture.color(0);
+		int from = pg.color(0);
 		int to = _color; //_texture.color(255);
 
 //		_texture.stroke(200, 200, 200);
@@ -138,7 +138,7 @@ extends BaseTexture {
 			
 			float ampDiff = eqVal - lastEqVal;
 			
-			_texture.fill( _texture.lerpColor(from, to, (float)i/numBands) );
+			pg.fill( pg.lerpColor(from, to, (float)i/numBands) );
 			
 //			P.println("lastEqVal",lastEqVal);
 //			P.println("eqVal",eqVal);
@@ -164,13 +164,13 @@ extends BaseTexture {
 //				if(subDivision == smoothsteps) _texture.fill(255, 255, 255);
 
 				
-				_texture.beginShape(P.TRIANGLE_STRIP);
+				pg.beginShape(P.TRIANGLE_STRIP);
 				for (int j = 0; j <= discReso; j++) {
 					float curRads = j * radSegment;
-					_texture.vertex(subDivLastX, P.sin(curRads) * lastEqSubDiv, P.cos(curRads) * lastEqSubDiv);
-					_texture.vertex(subDivCurX, P.sin(curRads) * curEqSubDiv, P.cos(curRads) * curEqSubDiv);
+					pg.vertex(subDivLastX, P.sin(curRads) * lastEqSubDiv, P.cos(curRads) * lastEqSubDiv);
+					pg.vertex(subDivCurX, P.sin(curRads) * curEqSubDiv, P.cos(curRads) * curEqSubDiv);
 				}
-				_texture.endShape();
+				pg.endShape();
 				
 			}
 		}

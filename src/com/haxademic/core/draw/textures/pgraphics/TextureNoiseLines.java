@@ -29,8 +29,8 @@ extends BaseTexture {
 	
 	public void draw() {
 		// draw transition result to texture
-		_texture.background(0);
-		_texture.noStroke();
+		pg.background(0);
+		pg.noStroke();
 		
 		// draw rows
 		for (int i = 0; i < numRows; i++) {
@@ -85,8 +85,8 @@ extends BaseTexture {
 			for (int x = 0; x < width; x++) {
 				float noiseX = P.p.noise(noiseStart + x * noiseMult.value());
 				if(noiseX > 0.65f) {
-					_texture.fill(255); //  * noiseX 
-					_texture.rect(x, rowHeight * index, 1, rowHeight);
+					pg.fill(255); //  * noiseX 
+					pg.rect(x, rowHeight * index, 1, rowHeight);
 				}
 			}
 

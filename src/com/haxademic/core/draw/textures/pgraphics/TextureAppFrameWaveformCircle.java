@@ -34,17 +34,17 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
 		_radius.update();
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setCenterScreen( _texture );
+		PG.setCenterScreen( pg );
 
 		int numPoints = AudioIn.waveform.length;
-		_texture.fill(0);
-		_texture.noStroke();
-		_texture.beginShape();
+		pg.fill(0);
+		pg.noStroke();
+		pg.beginShape();
 		
 //		int iNext = 0;
 		float radius;//, radiusNext;
@@ -53,22 +53,22 @@ extends BaseTexture {
 			radius =     _radius.value() + AudioIn.waveform[i] * _amp;
 //			radiusNext = _radius.value() + _waveformData._waveform[iNext] * _amp;
 //			p.line( p.sin( _circleInc * i ) * radius , p.cos( _circleInc * i ) * radius, p.sin( _circleInc * iNext ) * radiusNext, p.cos( _circleInc * iNext ) * radiusNext );
-			_texture.vertex( P.sin( _circleInc * i ) * radius , P.cos( _circleInc * i ) * radius );
+			pg.vertex( P.sin( _circleInc * i ) * radius , P.cos( _circleInc * i ) * radius );
 		}
 		// connect 1st and last points
 		radius = _radius.value() + AudioIn.waveform[0] * _amp;
-		_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
+		pg.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
 		
 		// draw around outer canvas edge
-		_texture.vertex( 0, height/2 );
-		_texture.vertex( width/2, height/2 );
-		_texture.vertex( width/2, -height/2 );
-		_texture.vertex( -width/2, -height/2 );
-		_texture.vertex( -width/2, height/2 );
-		_texture.vertex( 0, height );
+		pg.vertex( 0, height/2 );
+		pg.vertex( width/2, height/2 );
+		pg.vertex( width/2, -height/2 );
+		pg.vertex( -width/2, -height/2 );
+		pg.vertex( -width/2, height/2 );
+		pg.vertex( 0, height );
 
 		
-		_texture.endShape();
+		pg.endShape();
 	}
 	
 }

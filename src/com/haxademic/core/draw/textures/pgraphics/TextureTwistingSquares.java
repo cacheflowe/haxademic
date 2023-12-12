@@ -22,10 +22,10 @@ extends BaseTexture {
 //		_texture.clear();
 		_steps.update();
 
-		PG.setDrawCenter(_texture);
-		_texture.translate( width/2, height/2, 0 );
+		PG.setDrawCenter(pg);
+		pg.translate( width/2, height/2, 0 );
 
-		_texture.background(0);
+		pg.background(0);
 		
 		float steps = 80; // _steps.value();
 		float oscInc = P.TWO_PI / steps;
@@ -36,17 +36,17 @@ extends BaseTexture {
 			float rot = P.sin( ( P.p.frameCount + i ) * oscInc );
 			
 			if( i % 2 == 0 ) {
-				_texture.fill( 0 );
-				_texture.stroke( 0 );
+				pg.fill( 0 );
+				pg.stroke( 0 );
 			} else {
-				_texture.fill( _colorEase.colorInt() );
-				_texture.stroke( _colorEase.colorInt() );
+				pg.fill( _colorEase.colorInt() );
+				pg.stroke( _colorEase.colorInt() );
 			}
 			
-			_texture.pushMatrix();
-			_texture.rotate( rot * 0.4f );
-			_texture.rect( 0, 0, i * lineSize, i * lineSize );
-			_texture.popMatrix();
+			pg.pushMatrix();
+			pg.rotate( rot * 0.4f );
+			pg.rect( 0, 0, i * lineSize, i * lineSize );
+			pg.popMatrix();
 		}
 	}
 	

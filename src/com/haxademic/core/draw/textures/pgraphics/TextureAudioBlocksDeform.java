@@ -104,15 +104,15 @@ extends BaseTexture {
 	public void draw() {
 		// reset context
 //		_texture.background(0);
-		PG.feedback(_texture, 0xff000000, 0, 1);
-		_texture.noStroke();
-		PG.setDrawCorner(_texture);
-		PG.setCenterScreen(_texture);
+		PG.feedback(pg, 0xff000000, 0, 1);
+		pg.noStroke();
+		PG.setDrawCorner(pg);
+		PG.setCenterScreen(pg);
 //		PG.setDrawFlat2d(_texture, true);
 		
 		// update colors & pump scale on beat
 		if(AudioIn.isBeat()) newRotation();
-		_texture.fill(_colorEase.colorInt());
+		pg.fill(_colorEase.colorInt());
 		
 		// update lerping values
 		logoRotY.update(true);
@@ -120,10 +120,10 @@ extends BaseTexture {
 		logoRotZ.update(true);
 		
 		// set context
-		_texture.pushMatrix();
-		_texture.rotateX(logoRotX.value());
-		_texture.rotateY(logoRotY.value());
-		_texture.rotateZ(logoRotZ.value());
+		pg.pushMatrix();
+		pg.rotateX(logoRotX.value());
+		pg.rotateY(logoRotY.value());
+		pg.rotateZ(logoRotZ.value());
 
 		// deform mesh
 		MeshDeformAndTextureFilter.instance().setDisplacementMap(audioTexture.texture());
@@ -131,21 +131,21 @@ extends BaseTexture {
 		MeshDeformAndTextureFilter.instance().setSheetMode(true);
 		MeshDeformAndTextureFilter.instance().setDisplaceAmp(1.5f);
 		MeshDeformAndTextureFilter.instance().setSheetMode(false);
-		MeshDeformAndTextureFilter.instance().setOnContext(_texture);
+		MeshDeformAndTextureFilter.instance().setOnContext(pg);
 		// set texture using PShape method
 //		gridShape.setTexture(DemoAssets.textureNebula());
 
 		// draw shape
-		_texture.noLights();
-		_texture.shape(gridShape);
+		pg.noLights();
+		pg.shape(gridShape);
 		
 		for (int i = 0; i < blocks.length; i++) {
-			_texture.shape(blocks[i]);
+			pg.shape(blocks[i]);
 		}
 		
 		// pop context
-		_texture.resetShader();
-		_texture.popMatrix();
+		pg.resetShader();
+		pg.popMatrix();
 	}
 	
 }

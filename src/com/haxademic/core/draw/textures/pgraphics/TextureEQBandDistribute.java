@@ -19,8 +19,8 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		PG.feedback(_texture, 0xff000000, 0.2f, 3);
-		_texture.noStroke();
+		PG.feedback(pg, 0xff000000, 0.2f, 3);
+		pg.noStroke();
 		float numEQ = 128f;
 		float numElements = 300f;
 
@@ -30,9 +30,9 @@ extends BaseTexture {
 		for(int i=0; i < numElements; i++) {
 			eqIndex = P.floor(i * eqStep);
 			float eq = AudioIn.audioFreq(eqIndex) * 3f;
-			_texture.fill(_colorEase.colorInt(eq));
-			_texture.rect(width/2 + i * barW, 0, barW, height);
-			_texture.rect(width/2 - i * barW, 0, barW, height);
+			pg.fill(_colorEase.colorInt(eq));
+			pg.rect(width/2 + i * barW, 0, barW, height);
+			pg.rect(width/2 - i * barW, 0, barW, height);
 		}
 		
 	}

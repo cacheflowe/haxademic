@@ -45,14 +45,14 @@ extends BaseTexture {
 	
 	public void draw() {
 		// fade out background
-		PG.setDrawCorner(_texture);
-		_texture.noStroke();
-		_texture.fill(0, OVERDRAW_FADE);
-		_texture.rect(0,0,width, height);
+		PG.setDrawCorner(pg);
+		pg.noStroke();
+		pg.fill(0, OVERDRAW_FADE);
+		pg.rect(0,0,width, height);
 		
 		// update & draw field
-		PG.setDrawCenter(_texture);
-		_texture.fill(255);
+		PG.setDrawCenter(pg);
+		pg.fill(255);
 		for (PVector vector : _vectorField) {
 			float noise = P.p.noise(
 					vector.x/11f + P.p.noise(P.p.frameCount/50f), 
@@ -63,20 +63,20 @@ extends BaseTexture {
 
 			if(DEBUG_VECTORS == true) {
 				// draw attractors
-				_texture.pushMatrix();
-				_texture.translate(vector.x, vector.y);
-				_texture.rotate( vector.z );	// use z for rotation!
-				_texture.rect(0, 0, 2, 10);
-				_texture.popMatrix();
+				pg.pushMatrix();
+				pg.translate(vector.x, vector.y);
+				pg.rotate( vector.z );	// use z for rotation!
+				pg.rect(0, 0, 2, 10);
+				pg.popMatrix();
 			}
 		}
 		
 		for (int j = 0; j < DRAWS_PER_FRAME; j++) {
 			// draw particles
-			_texture.strokeWeight(2f);
-			PG.setDrawCenter(_texture);
+			pg.strokeWeight(2f);
+			PG.setDrawCenter(pg);
 			for( int i = 0; i < _particles.size(); i++ ) {
-				_texture.stroke(180 + (i % 75), 200 + (i % 55), 210 + (i % 45));
+				pg.stroke(180 + (i % 75), 200 + (i % 55), 210 + (i % 45));
 				_particles.get(i).update( _vectorField, i );
 			}
 		}
@@ -144,7 +144,7 @@ extends BaseTexture {
 			
 			// draw
 			if(position.dist(lastPosition) < curSpeed * 2f) {
-				_texture.line(position.x, position.y, lastPosition.x, lastPosition.y);
+				pg.line(position.x, position.y, lastPosition.x, lastPosition.y);
 			}
 		}
 	}

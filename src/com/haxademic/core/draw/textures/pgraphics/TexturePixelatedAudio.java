@@ -158,11 +158,11 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
-		_texture.noStroke();
-		PG.setDrawCorner(_texture);
+		pg.background(0);
+		pg.noStroke();
+		PG.setDrawCorner(pg);
 		// draw image
-		ImageUtil.drawImageCropFill(noiseComposite, _texture, true);
+		ImageUtil.drawImageCropFill(noiseComposite, pg, true);
 	}
 	
 	public class AudioCell {

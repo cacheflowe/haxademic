@@ -43,9 +43,9 @@ extends BaseTexture {
 	
 	protected void updateRotation() {
 		_rotation.lerp( _rotationTarget, 0.2f );
-		_texture.rotateX( _rotation.x );
-		_texture.rotateY( _rotation.y );
-		_texture.rotateZ( _rotation.z );
+		pg.rotateX( _rotation.x );
+		pg.rotateY( _rotation.y );
+		pg.rotateZ( _rotation.z );
 	}
 	
 
@@ -58,11 +58,11 @@ extends BaseTexture {
 
 	public void draw() {
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
 //		PG.resetGlobalProps( _texture );
-		PG.setCenterScreen( _texture );
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		pg.pushMatrix();
 		
 		// rotation for entire scene
 		_radius.update();
@@ -75,10 +75,10 @@ extends BaseTexture {
 		
 		// wireframe modes
 		if( _isWireframe == true ) 
-			_texture.noFill();
+			pg.noFill();
 		else
-			_texture.noStroke();
-		_texture.strokeWeight( 2 );
+			pg.noStroke();
+		pg.strokeWeight( 2 );
 		
 		// draw rings
 		for( int i = 0; i < NUM_RINGS; i++ ) {
@@ -88,20 +88,20 @@ extends BaseTexture {
 
 			// set colors
 			if( _isWireframe == false ) {
-				_texture.fill( _color, ringEQVal * alphaMultiplier );
-				_texture.noStroke();
+				pg.fill( _color, ringEQVal * alphaMultiplier );
+				pg.noStroke();
 			}
 			if( _isWireframe == true ) {
-				_texture.stroke( _color, ringEQVal * alphaMultiplier );
-				_texture.noFill();
+				pg.stroke( _color, ringEQVal * alphaMultiplier );
+				pg.noFill();
 			}
 			
 			// draw disc, with thickness based on eq 
 			float eqThickness = 100 + ( ringEQVal * 5000 );
-			_texture.pushMatrix();			
-			_texture.rotateY( i * circleSegment );
-			Shapes.drawDisc3D( _texture, discRadius, discRadius + 100, eqThickness, discPrecision, -1, -1 );
-			_texture.popMatrix();
+			pg.pushMatrix();			
+			pg.rotateY( i * circleSegment );
+			Shapes.drawDisc3D( pg, discRadius, discRadius + 100, eqThickness, discPrecision, -1, -1 );
+			pg.popMatrix();
 			
 			// draw orbiting star per ring
 //			p.pushMatrix();
@@ -115,7 +115,7 @@ extends BaseTexture {
 //			p.popMatrix();
 		}
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 }

@@ -34,7 +34,7 @@ extends BaseTexture {
 	}
 	
 	public void draw() {
-		_texture.clear();
+		pg.clear();
 		
 		rotation.update();
 		_barW.update();
@@ -43,19 +43,19 @@ extends BaseTexture {
 		time += speed;
 		float x = time % (barW * 2f);
 		
-		_texture.pushMatrix();
-		_texture.translate(width/2, height/2);
-		_texture.rotate(rotation.value());
+		pg.pushMatrix();
+		pg.translate(width/2, height/2);
+		pg.rotate(rotation.value());
 		
-		PG.setDrawCenter(_texture);
+		PG.setDrawCenter(pg);
 		for( float i=x - width - barW*2f; i < width * 2; i+=barW*2f ) {
-			_texture.fill( 0 );
-			_texture.rect(i, 0, barW, height * 2 );
-			_texture.fill( _colorEase.colorInt() );
-			_texture.rect(i+barW, 0, barW, height * 2 );
+			pg.fill( 0 );
+			pg.rect(i, 0, barW, height * 2 );
+			pg.fill( _colorEase.colorInt() );
+			pg.rect(i+barW, 0, barW, height * 2 );
 		}
 		
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 	
 	public void updateTimingSection() {

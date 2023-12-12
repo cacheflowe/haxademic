@@ -27,7 +27,7 @@ extends BaseTexture {
 		
 		
 		int detail = 3;
-		icosa = Icosahedron.createIcosahedron(P.p.g, detail, _texture);
+		icosa = Icosahedron.createIcosahedron(P.p.g, detail, pg);
 		PShapeUtil.scaleShapeToHeight(icosa, width * 2f);
 
 		reset();
@@ -56,31 +56,31 @@ extends BaseTexture {
 	public void draw() {
 		// prep context
 //		_texture.clear();
-		_texture.background(0);
+		pg.background(0);
 		
-		PG.setCenterScreen( _texture );
-		_texture.pushMatrix();
+		PG.setCenterScreen( pg );
+		pg.pushMatrix();
 
 		// update rotation
 		_rotSpeed.lerp(_rotSpeedTarget, 0.10f);
 		rotation.add(_rotSpeed);
-		_texture.rotateX( rotation.x );
-		_texture.rotateY( rotation.y );
-		_texture.rotateZ( rotation.z );
+		pg.rotateX( rotation.x );
+		pg.rotateY( rotation.y );
+		pg.rotateZ( rotation.z );
 		
 		// prep sphere drawing
 		if( _isWireframe ) {
-			_texture.noFill(); 
-			_texture.strokeWeight = 2;
-			_texture.stroke(255);
+			pg.noFill(); 
+			pg.strokeWeight = 2;
+			pg.stroke(255);
 		} else {
-			_texture.noStroke(); 
+			pg.noStroke(); 
 		}
 		
 		// draw outer sphere
-		PShapeUtil.drawTrianglesAudio(_texture, icosa, 1f, _colorEase.colorInt());
+		PShapeUtil.drawTrianglesAudio(pg, icosa, 1f, _colorEase.colorInt());
 		
 		// pop context
-		_texture.popMatrix();
+		pg.popMatrix();
 	}
 }

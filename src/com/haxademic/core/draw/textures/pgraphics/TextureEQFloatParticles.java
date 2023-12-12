@@ -35,14 +35,14 @@ extends BaseTexture {
 	}
 
 	public void draw() {
-		_texture.clear();
-		_texture.background(0);
+		pg.clear();
+		pg.background(0);
 		
 		float spectrumInterval = ( 512f / _numParticles );
 		
-		_texture.noStroke();
-		_texture.blendMode(PBlendModes.ADD);
-		PG.setDrawCenter(_texture);
+		pg.noStroke();
+		pg.blendMode(PBlendModes.ADD);
+		PG.setDrawCenter(pg);
 
 		for( int i=0; i < _particles.size(); i++ ) {
 			int eqIndex = P.floor(spectrumInterval * i);
@@ -53,9 +53,9 @@ extends BaseTexture {
 	public void postProcess() {
 		super.postProcess();
 		BlurHFilter.instance().setBlurByPercent(1.7f, width);
-		BlurHFilter.instance().applyTo(_texture);
+		BlurHFilter.instance().applyTo(pg);
 		BlurVFilter.instance().setBlurByPercent(1.7f, height);
-		BlurVFilter.instance().applyTo(_texture);
+		BlurVFilter.instance().applyTo(pg);
 	}
 	
 	public class FloatParticle {
@@ -91,10 +91,10 @@ extends BaseTexture {
 			if(_pos.x > width + maxSize) _pos.set(-maxSize, height + maxSize);
 			
 //			_texture.fill(255, 255f * _amp);
-			_texture.fill(255);
+			pg.fill(255);
 //			_texture.rect(_pos.x, _pos.y, curSize, curSize);
 //			_texture.ellipse(_pos.x, _pos.y, curSize, curSize);
-			_texture.image(DemoAssets.particle(), _pos.x, _pos.y, curSize, curSize);
+			pg.image(DemoAssets.particle(), _pos.x, _pos.y, curSize, curSize);
 			
 			_amp *= _ampDecay;
 		}

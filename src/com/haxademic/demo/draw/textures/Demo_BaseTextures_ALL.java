@@ -16,11 +16,16 @@ import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
 import com.haxademic.core.draw.textures.pgraphics.TextureDashedLineSine;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQChladni;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesConnected;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQPointsDeformAndTexture;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQRadialLollipops;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQTextLog;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
 import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
 import com.haxademic.core.draw.textures.pgraphics.TextureImageTimeStepper;
@@ -85,8 +90,8 @@ extends PAppletHax {
 	
 
 	protected void config() {
-//		Config.setProperty( AppSettings.WIDTH, 1500 );
-//		Config.setProperty( AppSettings.HEIGHT, 1000 );
+		Config.setAppSize(1500, 1000);
+		Config.setAppLocation(100, 100);
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 		Config.setProperty( AppSettings.FILLS_SCREEN, false );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -100,7 +105,9 @@ extends PAppletHax {
 		AudioUtil.setPrimaryMixer();
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
-		player.loopWav(FileUtil.getPath(DemoAssets.audioBrimBeat));		
+		String soundFile = FileUtil.getPath(DemoAssets.audioBrimBeat);
+		player.loopWav(soundFile);
+		player.setVolume(soundFile, 0.1f);
 		
 		// init textures
 		int w = p.width; 
@@ -109,6 +116,21 @@ extends PAppletHax {
 		OpenGLUtil.setTextureRepeat(g);
 		
 		allTextures = new BaseTexture[]{
+			// new TextureEQConcentricCircles(w, h),
+			new TextureEQChladni(w, h),
+			new TextureEQRadialLollipops(w, h),
+			// new TextureVectorFieldEQ(w, h),
+			new TextureEQLinesConnected(w, h),
+			new TextureEQFloatParticles(w, h),
+			// new TextureWaveformCircle(w, h),
+			new TextureEQTextLog(w, h),
+			// new TextureOuterCube(w, h),
+			// new TextureOuterSphere(w, h),
+			// new TextureEQLinesTerrain(w, h),
+			// new TextureConcentricDashedCubes(w, h),
+			new TextureEQPointsDeformAndTexture(w, h),
+
+			/*
 //			new TextureAppFrame2d(w, h),			// not really a texture
 //			new TextureAppFrameEq2d(w, h),			// not really a texture
 			new TextureAppFrameWaveformCircle(w, h),// not really a texture
@@ -160,7 +182,6 @@ extends PAppletHax {
 			new TextureWaveformSimple(w, h),
 //			new TextureWebCam(w, h),
 			new TextureWords2d(w, h),
-			/* */
 		
 			new TextureShaderTimeStepper(w, h, TextureShader.basic_checker),
 			new TextureShaderTimeStepper(w, h, TextureShader.basic_diagonal_stripes),
@@ -265,6 +286,7 @@ extends PAppletHax {
 			new TextureShaderTimeStepper(w, h, TextureShader.wavy_3d_tubes),
 			new TextureShaderTimeStepper(w, h, TextureShader.wavy_checker_planes),
 			new TextureShaderTimeStepper(w, h, TextureShader.wobble_sin),
+			 */
 		};
 		
 //		for(BaseTexture tex : _textures) {
@@ -279,9 +301,8 @@ extends PAppletHax {
 		background(127);
 		simulateMidiAndBeats();
 		
-//		BaseTexture tex = allTextures[UI.valueInt(TEX_INDEX)];
-		BaseTexture tex = allTextures[textureIndex];
-		// float frameInc = P.TWO_PI / frames;
+		BaseTexture tex = allTextures[UI.valueInt(TEX_INDEX)];
+		// BaseTexture tex = allTextures[textureIndex];
 //		if(tex.getClass().getName() == TextureShaderTimeStepper.class.getName()) {
 //			((TextureShaderTimeStepper) tex).updateDrawWithTime(p.frameCount * frameInc);
 //		} else {
@@ -302,12 +323,14 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == '1') {
-			textureIndex--;
-			if(textureIndex < 0) textureIndex = 0;
+			int newIndex = UI.valueInt(TEX_INDEX) - 1;
+			if(newIndex < 0) newIndex = 0;
+			UI.setValue(TEX_INDEX, newIndex);
 		}
 		if(p.key == '2') {
-			textureIndex++;
-			if(textureIndex >= allTextures.length) textureIndex = allTextures.length - 1;
+			int newIndex = UI.valueInt(TEX_INDEX) + 1;
+			if(newIndex >= allTextures.length) newIndex = allTextures.length - 1;
+			UI.setValue(TEX_INDEX, newIndex);
 		}
 	}
 	

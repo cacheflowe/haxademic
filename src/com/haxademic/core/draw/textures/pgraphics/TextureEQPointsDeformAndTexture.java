@@ -44,14 +44,14 @@ extends BaseTexture {
 	
 	public void draw() {
 		// clear background
-		_texture.background(0);
+		pg.background(0);
 
 		// set context
-		PG.setCenterScreen(_texture);
+		PG.setCenterScreen(pg);
 		// PG.basicCameraFromMouse(_texture);
-		_texture.rotateX(P.cos(FrameLoop.count(0.01f)) * 0.3f);
-		_texture.rotateY(P.sin(FrameLoop.count(0.01f)) * 0.3f);
-		_texture.rotateZ(FrameLoop.count(0.003f));
+		pg.rotateX(P.cos(FrameLoop.count(0.01f)) * 0.3f);
+		pg.rotateY(P.sin(FrameLoop.count(0.01f)) * 0.3f);
+		pg.rotateZ(FrameLoop.count(0.003f));
 
 		// draw geometry with shader
 		PointsDeformAndTextureFilter.instance().setColorMap(audioTexture.texture());
@@ -63,9 +63,9 @@ extends BaseTexture {
 		PointsDeformAndTextureFilter.instance().setColorPointSizeMode(true);
 		
 		// draw points mesh 
-		_texture.stroke(255);	// make sure to reset stroke
-		PointsDeformAndTextureFilter.instance().setOnContext(_texture);
-		_texture.shape(svg);
-		_texture.resetShader();
+		pg.stroke(255);	// make sure to reset stroke
+		PointsDeformAndTextureFilter.instance().setOnContext(pg);
+		pg.shape(svg);
+		pg.resetShader();
 	}
 }
