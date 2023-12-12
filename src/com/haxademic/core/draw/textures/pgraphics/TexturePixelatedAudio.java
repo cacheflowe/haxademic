@@ -156,7 +156,7 @@ extends BaseTexture {
 		BlendTowardsTexture.instance().applyTo(noiseComposite);
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		_texture.noStroke();

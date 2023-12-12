@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -20,9 +21,8 @@ extends BaseTexture {
 		_hasStroke = !_hasStroke;
 	}
 
-	public void updateDraw() {
-		feedback(10f, 0.12f);
-		
+	public void draw() {
+		PG.feedback(_texture, 0xff000000, 0.15f, 5);
 		int waveformDataLength = AudioIn.waveform.length;
 		float widthStep = (float) width / (float) waveformDataLength;
 		float startY = height * 0.5f;

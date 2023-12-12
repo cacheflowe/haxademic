@@ -30,7 +30,7 @@ extends BaseTexture {
 		return this;
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		ImageUtil.drawImageCropFill(_movie, _texture, true);
 //		_texture.image(_movie, 0, 0, width, height);
 	}

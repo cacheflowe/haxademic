@@ -56,7 +56,7 @@ extends BaseTexture {
 		_spacing.setTarget(MathUtil.randRangeDecimal(width/10f, width/5f));
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

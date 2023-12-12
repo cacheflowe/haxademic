@@ -40,7 +40,7 @@ extends BaseTexture {
 		pulseWidth.setTarget(MathUtil.randRangeDecimal(0.5f, 4f));
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		// context & camera
 		_texture.background(0);
 		_texture.noStroke();

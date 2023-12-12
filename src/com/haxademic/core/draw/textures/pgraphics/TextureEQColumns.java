@@ -24,7 +24,7 @@ extends BaseTexture {
 		_barsGrow = false; // MathUtil.randBoolean();
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

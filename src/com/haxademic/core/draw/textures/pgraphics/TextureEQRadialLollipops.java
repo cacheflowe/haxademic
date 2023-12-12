@@ -36,7 +36,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		_texture.background(0);
 		PG.setCenterScreen(_texture);
 		PG.setDrawCenter(_texture);

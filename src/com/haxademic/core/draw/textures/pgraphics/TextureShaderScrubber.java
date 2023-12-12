@@ -51,7 +51,7 @@ extends BaseTexture {
 		_saturation.set("saturation", 0.25f );
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		updateShaders();
 		_texture.background(0,255,0);
 		_texture.filter( _patternShader );

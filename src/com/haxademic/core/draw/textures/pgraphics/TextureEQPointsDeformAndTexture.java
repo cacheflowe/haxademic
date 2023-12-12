@@ -42,7 +42,7 @@ extends BaseTexture {
 		BlurProcessingFilter.instance().applyTo(audioTexture.texture());
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// clear background
 		_texture.background(0);
 

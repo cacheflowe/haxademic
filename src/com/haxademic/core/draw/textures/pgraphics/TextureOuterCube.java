@@ -34,7 +34,7 @@ extends BaseTexture {
 		audioTexture.update();
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// prep context
 //		_texture.clear();
 		_texture.background(0);

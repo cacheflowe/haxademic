@@ -33,7 +33,7 @@ extends BaseTexture {
 		_mode = MathUtil.randRange(0, 3);
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

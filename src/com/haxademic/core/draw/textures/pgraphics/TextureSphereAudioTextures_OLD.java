@@ -82,7 +82,7 @@ extends BaseTexture {
 		pickRandomTexture();
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		_texture.clear();
 
 		// make sure no PGraphics drawing at the same time - draw sphere texture first

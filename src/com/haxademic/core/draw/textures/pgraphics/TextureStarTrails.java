@@ -49,11 +49,11 @@ extends BaseTexture {
 //		_wireframe = MathUtil.randBoolean();
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
-		feedback(1f, 0.15f);
-		
+		PG.feedback(_texture, 0xff000000, 0.15f, 1);
+
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		

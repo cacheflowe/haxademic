@@ -33,7 +33,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		_texture.clear();
 		
 		rotation.update();

@@ -58,7 +58,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() { 
+	public void draw() { 
 		_texture.background(0);
 		_texture.translate(0, 0, -width * 1f);
 		

@@ -24,7 +24,7 @@ extends BaseTexture {
 		return this;
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

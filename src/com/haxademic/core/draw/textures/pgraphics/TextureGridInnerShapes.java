@@ -65,7 +65,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// draw transition result to texture
 		_texture.background(0);
 		_texture.stroke(255);

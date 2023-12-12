@@ -34,7 +34,7 @@ extends BaseTexture {
 		}
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		_texture.clear();
 		
 //		PG.resetGlobalProps( _texture );

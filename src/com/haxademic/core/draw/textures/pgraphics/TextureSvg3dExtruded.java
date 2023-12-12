@@ -206,7 +206,7 @@ extends BaseTexture {
 //		DebugView.setTexture(audioTexture.texture());
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		// reset context
 		if(drawMode == DrawMode.Displacement2d) {
 			_texture.background(0);

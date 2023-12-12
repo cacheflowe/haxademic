@@ -172,6 +172,11 @@ public class Config {
 		Config.setProperty(AppSettings.HEIGHT, P.round(h));
 	}
 	
+	public static void setAppLocation(float x, float y) {
+		Config.setProperty(AppSettings.SCREEN_X, P.round(x));
+		Config.setProperty(AppSettings.SCREEN_Y, P.round(y));
+	}
+	
 	public static void setPgSize(int w, int h) {
 		Config.setProperty(AppSettings.PG_WIDTH, w);
 		Config.setProperty(AppSettings.PG_HEIGHT, h);

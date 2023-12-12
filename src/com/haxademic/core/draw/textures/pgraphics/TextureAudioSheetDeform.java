@@ -70,7 +70,7 @@ extends BaseTexture {
 //		ColorizeFilter.instance().applyTo(audioTexture.texture());
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		// reset context
 		_texture.background(0);
 		_texture.noStroke();

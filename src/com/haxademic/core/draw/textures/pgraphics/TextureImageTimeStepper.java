@@ -78,7 +78,7 @@ extends BaseTexture {
 
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		if( _needsReload == true ) {
 			reloadImage();
 			_needsReload = false;

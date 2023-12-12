@@ -32,7 +32,7 @@ extends BaseTexture {
 		_radius.setTarget(MathUtil.randRangeDecimal(width / 3f, width / 2f)); 
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
@@ -16,9 +17,9 @@ extends BaseTexture {
 
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
-		feedback(6f,0.2f);
+		PG.feedback(_texture, 0xff000000, 0.2f, 3);
 		_texture.noStroke();
 		float numEQ = 128f;
 		float numElements = 300f;

@@ -34,11 +34,13 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		if(trailIn) {
-			feedback(-20, 0.1f);
+			// feedback(-20, 0.1f);
+			PG.feedback(_texture, 0, 0.1f, -10);
 		} else {
-			feedback(30, 0.2f);
+			// feedback(30, 0.2f);
+			PG.feedback(_texture, 0, 0.2f, 15);
 		}
 		
 		_radius.update();

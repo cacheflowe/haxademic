@@ -269,11 +269,11 @@ public class PG {
 
     // only works properly on PGraphics buffers
     // feedback distance should only be even numbers
-    public static void feedback(PGraphics pg, float feedbackDistance) {
-        feedback(pg, -1, -1, feedbackDistance);
+    public static void feedback(PGraphics pg, float amp) {
+        feedback(pg, -1, -1, amp);
     }
 
-    public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
+    public static void feedback(PGraphics pg, int overlayColor, float overlayAlpha, float amp) {
         PG.setDrawCorner(pg);
         PG.setDrawFlat2d(pg, true);
         pg.copy(
@@ -282,18 +282,37 @@ public class PG {
                 0, 
                 pg.width, 
                 pg.height, 
-                P.round(-feedbackDistance), 
-                P.round(-feedbackDistance), 
-                P.round(pg.width + feedbackDistance * 2f), 
-                P.round(pg.height + feedbackDistance * 2f)
+                P.round(-amp), 
+                P.round(-amp), 
+                P.round(pg.width + amp * 2f), 
+                P.round(pg.height + amp * 2f)
                 );
-        if(color != -1) {
-            pg.fill(color, colorFade * 255f);
+        if(overlayColor != -1) {
+            pg.fill(overlayColor, overlayAlpha * 255f);
             pg.noStroke();
             pg.rect(0, 0, pg.width, pg.height);
         }
         PG.setDrawFlat2d(pg, false);
     }
+
+    /*
+    public void feedback(float amp, float darkness (ovelayAlpha)) {
+        PG.setDrawCorner(_texture);
+        _texture.copy(
+                _texture,
+                0,
+                0,
+                width,
+                height,
+                P.round(-amp / 2f),
+                P.round(-amp / 2f),
+                P.round(width + amp),
+                P.round(height + amp));
+        _texture.fill(0, darkness * 255f);
+        _texture.noStroke();
+        _texture.rect(0, 0, width, height);
+    }
+     */
 
     // from: http://p5art.tumblr.com/post/144205983628/a-small-transparency-tip
     public static void fadeToBlack(PGraphics pg, float blackVal) {

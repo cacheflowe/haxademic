@@ -24,7 +24,7 @@ extends BaseTexture {
 		
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// clear background when activated
 		if(_newlyActive) _texture.background(0);
 		

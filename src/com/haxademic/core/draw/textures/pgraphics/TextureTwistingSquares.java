@@ -18,7 +18,7 @@ extends BaseTexture {
 		updateTimingSection();
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_steps.update();
 

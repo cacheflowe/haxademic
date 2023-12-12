@@ -24,7 +24,7 @@ extends BaseTexture {
 		speed = MathUtil.randRangeDecimal(-0.1f, 0.1f);
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		_texture.clear();
 		
 		time += speed;

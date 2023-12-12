@@ -43,7 +43,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// fade out background
 		PG.setDrawCorner(_texture);
 		_texture.noStroke();

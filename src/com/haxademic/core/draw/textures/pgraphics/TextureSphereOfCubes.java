@@ -27,7 +27,7 @@ extends BaseTexture {
 		
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		baseRadius.update(true);
 		boxSize.update(true);
 		numCubes.update(true);

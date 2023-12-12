@@ -101,10 +101,10 @@ extends BaseTexture {
 //		ColorizeFilter.instance().applyTo(audioTexture.texture());
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		// reset context
 //		_texture.background(0);
-		feedback(2f, 0f);
+		PG.feedback(_texture, 0xff000000, 0, 1);
 		_texture.noStroke();
 		PG.setDrawCorner(_texture);
 		PG.setCenterScreen(_texture);

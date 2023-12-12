@@ -139,7 +139,7 @@ extends BaseTexture {
 //		DebugView.setTexture(audioTexture.texture());
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		if(P.p.frameCount == 10) PG.setDrawFlat2d(_texture, true);
 
 		// reset context

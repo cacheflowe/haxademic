@@ -53,7 +53,7 @@ extends BaseTexture {
 		_rotSpeedTarget.z = ( wichAxis == 2 ) ? newRotSpeed : 0;
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		// prep context
 //		_texture.clear();
 		_texture.background(0);

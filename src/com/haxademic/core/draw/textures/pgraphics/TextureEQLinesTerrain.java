@@ -99,7 +99,7 @@ extends BaseTexture {
 		// ReflectFilter.instance().applyTo(eqHistoryCopy);
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// background & debug
 		_texture.background(255);
 //		ImageUtil.drawImageCropFill(eqHistoryCopy, _texture, false);

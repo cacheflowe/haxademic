@@ -79,7 +79,7 @@ extends BaseTexture {
 //		DebugView.setTexture(audioTexture.texture());
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		_texture.clear();
 		_texture.noStroke();
 		PG.setDrawCorner(_texture);

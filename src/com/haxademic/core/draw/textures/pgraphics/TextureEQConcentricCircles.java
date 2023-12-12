@@ -27,7 +27,7 @@ extends BaseTexture {
 		_circleRadiusStep = _maxRadius / _numCircles;
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		_spectrumInterval = 180 / _numCircles; // use lower end of spectrum
 		_texture.background(0);
 		

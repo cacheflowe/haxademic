@@ -26,7 +26,7 @@ extends BaseTexture {
 		}
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// update loop
 		frames++;
 		loopProgress = (frames % 100f) / 100f;

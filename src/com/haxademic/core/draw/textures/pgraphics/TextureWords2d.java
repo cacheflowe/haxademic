@@ -54,7 +54,7 @@ extends BaseTexture {
 	public void newLineMode() {
 	}
 
-	public void updateDraw() {
+	public void draw() {
 		// feedback alpha fade
 		FeedbackRadialFilter.instance().setAmp(1f / 255f);
 		FeedbackRadialFilter.instance().setSampleMult(0.93f);

@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -26,9 +27,9 @@ extends BaseTexture {
 		_boxesGrow = MathUtil.randBoolean();
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
-		feedback(2f,0.1f);
+		PG.feedback(_texture, 0xff000000, 0.1f, 1);
 		
 		// draw grid
 		float startX = 0;

@@ -105,7 +105,7 @@ extends BaseTexture {
 		BlurProcessingFilter.instance().applyTo(sphereTexture);
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// lazy init shape after we for sure have a texture
 		if(shape == null) createNewSphere();
 

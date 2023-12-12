@@ -55,7 +55,7 @@ extends BaseTexture {
 	}
 
 		
-	public void updateDraw() {
+	public void draw() {
 		_texture.background(0);
 		updateTime();
 		updateDrawWithTime(_timeEaser.value());

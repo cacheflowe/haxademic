@@ -1,11 +1,9 @@
 package com.haxademic.demo.media.audio.analysis;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
@@ -85,7 +83,8 @@ implements IMediaTimecodeTriggerDelegate {
 
 
 	protected void config() {
-		Config.setAppSize(1800, 1130);
+		Config.setAppSize(1430, 1460);
+		Config.setAppLocation(100, 100);
 		// Config.setAppSize(1600, 800);
 	}
 	

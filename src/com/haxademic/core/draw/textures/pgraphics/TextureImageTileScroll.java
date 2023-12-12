@@ -95,7 +95,7 @@ extends BaseTexture {
 		resultBuffer.filter(transitionShader);		
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// draw transition result to texture
 		_texture.background(255);
 		PG.setCenterScreen(_texture);

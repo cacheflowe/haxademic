@@ -24,7 +24,7 @@ extends BaseTexture {
 		eq2 = MathUtil.randIndex(180);
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		_texture.background(0);
 		// if(AudioIn.isBeat()) {
 		// 	log.update("BEAT");

@@ -90,7 +90,7 @@ extends BaseTexture {
 	}
 
 	// fractal polygon drawing
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

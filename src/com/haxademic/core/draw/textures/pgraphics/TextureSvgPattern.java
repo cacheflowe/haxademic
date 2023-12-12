@@ -65,10 +65,9 @@ extends BaseTexture {
 	}
 
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
-		feedback(0.5f,0.2f);
-		
+		PG.feedback(_texture, 0xff000000, 0.2f, 0.5f);
 //		PG.resetGlobalProps(_texture);
 		PG.setDrawCenter(_texture);
 

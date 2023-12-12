@@ -170,7 +170,7 @@ public float heightNorm(float val) {
 //		CameraUtil.setCameraDistance(_texture, 200, 20000);
 		PG.setDrawCorner(_texture);
 		_texture.push();
-		updateDraw();
+		draw();
 		_texture.pop();
 		_texture.pop();
 		_texture.endDraw();
@@ -184,7 +184,7 @@ public float heightNorm(float val) {
 		// override with subclass
 	}
 	
-	public void updateDraw() {
+	public void draw() {
 		// override with subclass
 	}
 	
@@ -219,22 +219,4 @@ public float heightNorm(float val) {
 		// override with subclass
 	}
 	
-	public void feedback(float amp, float darkness) {
-		PG.setDrawCorner(_texture);
-		_texture.copy(
-			_texture, 
-			0, 
-			0, 
-			width, 
-			height, 
-			P.round(-amp/2f), 
-			P.round(-amp/2f), 
-			P.round(width + amp), 
-			P.round(height + amp)
-		);
-		_texture.fill(0, darkness * 255f);
-		_texture.noStroke();
-		_texture.rect(0, 0, width, height);
-	}
-
 }

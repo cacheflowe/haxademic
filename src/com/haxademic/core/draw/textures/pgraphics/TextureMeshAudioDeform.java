@@ -91,7 +91,7 @@ extends BaseTexture {
 		_curMesh = _meshPool.get(_meshIndex);
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
 		_texture.background(0);
 		

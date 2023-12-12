@@ -27,9 +27,9 @@ extends BaseTexture {
 	public void newLineMode() {
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		_texture.clear();
-		feedback(7f, 0.15f);
+		PG.feedback(_texture, 0xff000000, 0.15f, 3);
 		
 //		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );

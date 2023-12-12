@@ -88,12 +88,11 @@ extends BaseTexture {
 		DebugView.setValue("_curMode", _curMode);
 	}
 
-	public void updateDraw() {
+	public void draw() {
 //		PG.setDrawFlat2d(_texture, true);
 
 //		_texture.clear();
-		feedback(1f,0.3f);
-
+		PG.feedback(_texture, 0xff000000, 0.3f, 1);
 		
 //		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
