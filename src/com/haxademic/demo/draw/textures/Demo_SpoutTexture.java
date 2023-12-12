@@ -15,10 +15,11 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// SpoutTexture dimensions must match sender dimensions!
-//		spoutTexture = new SpoutTexture(1920, 1080);
+		// spoutTexture = new SpoutTexture(1920, 1080);
 //		spoutTexture = new SpoutTexture(960, 540);
 //		spoutTexture = new SpoutTexture(1280, 720, "CEF_0");
-		spoutTexture = new SpoutTexture(1280, 720, "TDSyphonSpoutOut");
+		// spoutTexture = new SpoutTexture(1280, 720, "TDSyphonSpoutOut");
+		spoutTexture = new SpoutTexture(1280, 720, "SpoutWinCapture");
 //		spoutTexture.setFlipY();
 		DebugView.setTexture("spoutTexture.texture()", spoutTexture.texture());
 	}
