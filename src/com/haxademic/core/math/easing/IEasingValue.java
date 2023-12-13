@@ -5,7 +5,7 @@ public interface IEasingValue {
 	public IEasingValue setCurrent(float value);
 	public IEasingValue setDelegate(IEasingValueDelegate delegate);
 	public float value();
-	public void update();
+	public IEasingValue update();
 	public boolean isComplete();
 
 	public interface IEasingValueDelegate {

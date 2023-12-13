@@ -3,7 +3,7 @@ package com.haxademic.core.math.easing;
 public class ElasticFloat
 implements IEasingValue {
 	
-    // Hooke's law: F = -kx
+		// Hooke's law: F = -kx
 	// .75/.40 = bouncy elastic
 	// .50/.90 = short elastic
 	// .50/.50 = smooth elastic
@@ -15,7 +15,7 @@ implements IEasingValue {
 	protected float speed;
 	protected float value;
 	protected float target;
-		   
+			
 	public ElasticFloat( float val, float fric, float accel ) {
 		this.fric = fric;
 		this.accel = accel;
@@ -56,10 +56,11 @@ implements IEasingValue {
 		return value == target;
 	}
 
-	public void update() {
+	public IEasingValue update() {
 		// update elastic point based on current target position vs current position
 		speed = ( ( target - value ) * accel + speed ) * fric;
 		value += speed;
+		return this;
 	}
 
 }

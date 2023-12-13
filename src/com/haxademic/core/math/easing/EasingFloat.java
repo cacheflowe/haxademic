@@ -81,18 +81,19 @@ implements IEasingValue {
 		return value == target;
 	}
 	
-	public void update() {
-		if(value == target) return;
-		if(delay > 0) { delay--; return; }
+	public IEasingValue update() {
+		if(value == target) return this;
+		if(delay > 0) { delay--; return this; }
 		value += (target - value ) / easeFactor;
 		checkThreshold();
 		if(delegate != null) checkComplete();
+		return this;
 	}
 	
-	public void update(boolean accelerates) {
+	public IEasingValue update(boolean accelerates) {
 		// don't do any math if we're already at the destination
-		if(value == target) return;
-		if(delay > 0) { delay--; return; }
+		if(value == target) return this;
+		if(delay > 0) { delay--; return this; }
 		// interpolate
 		if(accelerates == false) {
 			update();
@@ -108,11 +109,12 @@ implements IEasingValue {
 		// set the value to the target if we're close enough
 		checkThreshold();
 		if(delegate != null) checkComplete();
+		return this;
 	}
 	
-	public void updateRadians() {
-		if(value == target) return;
-		if(delay > 0) { delay--; return; }
+	public IEasingValue updateRadians() {
+		if(value == target) return this;
+		if(delay > 0) { delay--; return this; }
 		float angleDifference = target - value;
 		float addToLoop = 0;
 		if( angleDifference > Math.PI) {
@@ -125,6 +127,7 @@ implements IEasingValue {
 		if(Math.abs( value - target ) < completeThreshold) {
 			value = target;
 		}
+		return this;
 	}
 
 	protected void checkThreshold() {

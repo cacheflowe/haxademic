@@ -65,16 +65,16 @@ implements IEasingValue {
 	}
 	
 	// mask to be swappable with EasingFloat
-	public void update(boolean bool) {
-		update();
+	public IEasingValue update(boolean bool) {
+		return update();
 	}
 	
 	public boolean isComplete() {
 		return value == target;
 	}
 	
-	public void update() {
-		if( delay > 0 ) { delay--; return; }
+	public IEasingValue update() {
+		if( delay > 0 ) { delay--; return this; }
 		if( value != target ) {
 			boolean passedTarget = false;
 			if( value < target ) {
@@ -89,6 +89,7 @@ implements IEasingValue {
 				if(delegate != null) checkComplete();
 			}
 		}
+		return this;
 	}
 	
 	protected void checkComplete() {
