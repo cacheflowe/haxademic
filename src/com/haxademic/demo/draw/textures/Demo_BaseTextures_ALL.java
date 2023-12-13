@@ -88,9 +88,8 @@ extends PAppletHax {
 	// TODO:
 	// * Toggle audio vs. frame-based testing
 	
-
 	protected void config() {
-		Config.setAppSize(1500, 1000);
+		Config.setAppSize(1500, 1500);
 		Config.setAppLocation(100, 100);
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 		Config.setProperty( AppSettings.FILLS_SCREEN, false );
@@ -99,15 +98,15 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)frames);
 	}
 
-
 	protected void firstFrame() {
 		// send Beads audio player analyzer to PAppletHax
 		AudioUtil.setPrimaryMixer();
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
-		String soundFile = FileUtil.getPath(DemoAssets.audioBrimBeat);
+		String soundFile = FileUtil.getPath(DemoAssets.audioBrimBeatPath);
+		// soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
 		player.loopWav(soundFile);
-		player.setVolume(soundFile, 0.1f);
+		// player.setVolume(soundFile, 0.01f);
 		
 		// init textures
 		int w = p.width; 
@@ -286,13 +285,9 @@ extends PAppletHax {
 			new TextureShaderTimeStepper(w, h, TextureShader.wavy_3d_tubes),
 			new TextureShaderTimeStepper(w, h, TextureShader.wavy_checker_planes),
 			new TextureShaderTimeStepper(w, h, TextureShader.wobble_sin),
-			 */
+			*/
 		};
 		
-//		for(BaseTexture tex : _textures) {
-//			tex.setActive(true);
-//		}
-
 		// add sliders
 		UI.addSlider(TEX_INDEX, 0, 0, allTextures.length - 1, 1, false);
 	}

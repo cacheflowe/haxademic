@@ -125,8 +125,8 @@ public class DemoAssets {
 	
 	// AUDIO
 	
-	public static String audioBiggerLoop = "haxademic/audio/cacheflowe_bigger_loop.wav";
-	public static String audioBrimBeat = "haxademic/audio/brim-beat-4.wav";
+	public static String audioBiggerLoopPath = "haxademic/audio/cacheflowe_bigger_loop.wav";
+	public static String audioBrimBeatPath = "haxademic/audio/brim-beat-4.wav";
 
 	// FONTS
 

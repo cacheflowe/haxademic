@@ -1,3 +1,4 @@
+#version 140
 #ifdef GL_ES
 precision highp float;
 precision highp int;

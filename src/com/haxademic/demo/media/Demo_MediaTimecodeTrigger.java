@@ -44,7 +44,7 @@ implements IMediaTimecodeTriggerDelegate {
     protected void firstFrame() {
         // loop audio
         AudioUtil.setPrimaryMixer();
-        AUDIO_FILE = FileUtil.getPath(DemoAssets.audioBiggerLoop); // make sure we're pulling from absolute project data path
+        AUDIO_FILE = FileUtil.getPath(DemoAssets.audioBiggerLoopPath); // make sure we're pulling from absolute project data path
         audioPlayer = new WavPlayer(false);
         audioPlayer.loopWav(AUDIO_FILE);
 

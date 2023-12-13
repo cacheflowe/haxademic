@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQChladni;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesConnected;
@@ -129,6 +130,7 @@ implements IMediaTimecodeTriggerDelegate {
 		audioTextureWaveformCircle = new TextureWaveformCircle(vizW, vizH);
 		audioTextureTextLog = new TextureEQTextLog(vizW, vizH);
 		audioTextureOuterCube = new TextureOuterCube(vizW, vizH);
+		audioTextureOuterCube = new TextureEQChladni(vizW, vizH);
 		audioTextureOuterSphere = new TextureOuterSphere(vizW, vizH);
 		audioTextureEQLinesTerrain = new TextureEQLinesTerrain(650, vizH);
 		audioTextureConcentricDashedCubes = new TextureConcentricDashedCubes(vizW, vizH);

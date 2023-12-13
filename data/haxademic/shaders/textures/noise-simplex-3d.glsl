@@ -148,8 +148,12 @@ void main() {
   }
   
   // return simplex noise
-  float value = (fractalMode == 0) ? simplex3d(p3) : simplex3d_fractal(p3);
-  value = 0.5 + 0.5 * value;
+  float r = (fractalMode == 0) ? simplex3d(p3) : simplex3d_fractal(p3);
+  float g = (fractalMode == 0) ? simplex3d(p3 + vec3(20.)) : simplex3d_fractal(p3 + vec3(20.));
+  float b = (fractalMode == 0) ? simplex3d(p3 + vec3(40.)) : simplex3d_fractal(p3 + vec3(40.));
+  r = 0.5 + 0.5 * r;
+  g = 0.5 + 0.5 * g;
+  b = 0.5 + 0.5 * b;
 
-  gl_FragColor = vec4(vec3(value), 1.0);
+  gl_FragColor = vec4(r, g, g, 1.0);
 }

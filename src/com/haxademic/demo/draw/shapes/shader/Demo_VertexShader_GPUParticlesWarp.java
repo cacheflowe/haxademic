@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -25,9 +26,9 @@ extends PAppletHax {
 
 	protected PShape shape;
 	protected PGraphics bufferPositions;
-	protected PShader randomColorShader;
-	protected PShader particleMoverShader;
-	protected PShader particlesDrawShader;
+	protected PShaderHotSwap randomColorShader;
+	protected PShaderHotSwap particleMoverShader;
+	protected PShaderHotSwap particlesDrawShader;
 	protected String WIDTH = "WIDTH";
 	protected String HEIGHT = "HEIGHT";
 	protected String DEPTH = "DEPTH";
@@ -62,8 +63,8 @@ extends PAppletHax {
 		generateSettings();
 		
 		// build random particle placement shader
-		randomColorShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
-		particleMoverShader = p.loadShader(FileUtil.getPath("haxademic/shaders/point/particle-warp-z-mover.glsl"));
+		randomColorShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
+		particleMoverShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-warp-z-mover.glsl"));
 
 		// create texture to store positions
 		int positionBufferSize = 1024;
@@ -79,9 +80,9 @@ extends PAppletHax {
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
 		
 		// load shader
-		particlesDrawShader = p.loadShader(
-			FileUtil.getPath("haxademic/shaders/point/points-default-frag.glsl"), 
-			FileUtil.getPath("haxademic/shaders/point/particle-warp-vert.glsl")
+		particlesDrawShader = new PShaderHotSwap(
+			FileUtil.getPath("haxademic/shaders/point/particle-warp-vert.glsl"),
+			FileUtil.getPath("haxademic/shaders/point/points-default-frag.glsl")
 		);	
 		
 		// build UI
@@ -102,11 +103,13 @@ extends PAppletHax {
 	}
 	
 	protected void newPositions() {
-		randomColorShader.set("offset", MathUtil.randRangeDecimal(0, 100), MathUtil.randRangeDecimal(0, 100));
-		bufferPositions.filter(randomColorShader);
+		randomColorShader.shader().set("offset", MathUtil.randRangeDecimal(0, 100), MathUtil.randRangeDecimal(0, 100));
+		bufferPositions.filter(randomColorShader.shader());
 	}
 
 	public void drawPre() {
+		randomColorShader.update();
+		particleMoverShader.update();
 	}
 	
 	protected void drawApp() {
@@ -140,17 +143,17 @@ extends PAppletHax {
 //		PG.basicCameraFromMouse(p.g);
 		
 		// update particle positions
-		particleMoverShader.set("speed", 1f/2048f);
-		particleMoverShader.set("variableSpeed", false); // p.frameCount % 200 > 100);
-		bufferPositions.filter(particleMoverShader);
+		particleMoverShader.shader().set("speed", 1f/2048f);
+		particleMoverShader.shader().set("variableSpeed", false); // p.frameCount % 200 > 100);
+		bufferPositions.filter(particleMoverShader.shader());
 
 		// draw shape w/shader
-		particlesDrawShader.set("width", w.value());
-		particlesDrawShader.set("height", h.value());
-		particlesDrawShader.set("depth", d.value());
-		particlesDrawShader.set("positionMap", bufferPositions);
-		particlesDrawShader.set("pointSize", pointSize.value());
-		pg.shader(particlesDrawShader);  	// update positions
+		particlesDrawShader.shader().set("width", w.value());
+		particlesDrawShader.shader().set("height", h.value());
+		particlesDrawShader.shader().set("depth", d.value());
+		particlesDrawShader.shader().set("positionMap", bufferPositions);
+		particlesDrawShader.shader().set("pointSize", pointSize.value());
+		pg.shader(particlesDrawShader.shader());  	// update positions
 		pg.shape(shape);						// draw vertices
 		pg.resetShader();
 		

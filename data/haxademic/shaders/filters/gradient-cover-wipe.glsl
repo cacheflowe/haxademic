@@ -22,7 +22,6 @@ float map(float value, float low1, float high1, float low2, float high2) {
 
 void main() {
   vec4 color = texture2D(texture, vertTexCoord.xy);
-  vec4 overlayColor = mix(colorBot, colorTop, vertTexCoord.y);
 
   // clear -> color bot -> color top -> clear
   float curProgress = -1. * vertTexCoord.y + progress * 4.;
