@@ -40,6 +40,7 @@ uniform mat3 normalMatrix;
 
 uniform sampler2D positionMap;
 uniform sampler2D colorMap;
+uniform sampler2D randomMap;
 uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
@@ -63,30 +64,37 @@ vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
 
 void main() {
   float vertexIndex = float(gl_VertexID);
+  vec2 uvOrig = vec2(vertex.x, vertex.y);
 
-  // float lookupX = mod(vertexIndex, width) / width;
-  // float lookupY = (vertexIndex - lookupX) / width;
-
-  vec4 positionColor = texture2D( positionMap, vec2(vertex.x, vertex.y) ); // rgba color of displacement map
+  // get position from texture
+  vec4 positionColor = texture2D(positionMap, uvOrig); // rgba color of displacement map
+  vec4 randomColor = texture2D(randomMap, uvOrig);
   // vec4 textureColor = vec4(vertex.x, vertex.y, 0.5, 1.); // rgba color of displacement map
 
-  // calc index of this vertex for positioning use
+  // calc stage & local position
   float w = width;
   float h = height;
   float x = positionColor.x;
   float y = positionColor.y;
+
+  // get uv based on particle current position
+  vec2 uvCur = vec2(x / width, y / height);
+
+  // get speed from texture
   float speed = positionColor.b;
   float z = 0.; // depth/2. - textureColor.z * depth;
-  vec4 vertPosition = vec4(x, y, z, 1.);
 
-  vec4 mapColor = texture2D( colorMap, vec2(x / width, y / height) ); // rgba color of displacement map
+  // get uv based on particle current position
+  vec4 mapColor = texture2D(colorMap, uvCur); // rgba color of displacement map
 
   // custom point size - use speed to shrink point
   // speed can be > 1, so we need to divide a bit
   float finalPointSize = pointSize - (0.1 * speed);
+  finalPointSize *= 0.9 + randomColor.r * 0.2;
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:
+  vec4 vertPosition = vec4(x, y, z, 1.);
   vec4 pos = modelview * vertPosition;
   vec4 clip = projection * pos;
 

@@ -139,7 +139,7 @@ implements IAudioInput {
 		// update audio data object
 		if(features != null) {
 			// make a lower-amplitude copy
-			int hopSize = FFT_SIZE/2;
+			int hopSize = FFT_SIZE / 2;
 			for (int i = 0; i < hopSize; i++) {
 				freqs[i] = features[i] * 5f * window(hopSize, i);
 			}

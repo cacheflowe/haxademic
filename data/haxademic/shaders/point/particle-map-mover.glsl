@@ -28,13 +28,17 @@ float remap(float value, float low1, float high1, float low2, float high2) {
 }
 
 void main() {
-	// get cur color/position
+	// get cur color/position from textures
+	// particleColor
+	// - rg = xy
+	// randomColor
+	// - b = random rot
 	vec2 uv = vertTexCoord.xy;
-	vec4 texelColor = texture2D(texture, uv);
+	vec4 particleColor = texture2D(texture, uv);
 	vec4 randomColor = texture2D(mapRandom, uv);
 
 	// get position and rotation from textures
-  vec2 pos = texelColor.rg;
+  vec2 pos = particleColor.rg;
 	float rot = randomColor.b * TAU;
 	// rot += sin(randomColor.g * 0.1) * 0.1;
 
@@ -44,14 +48,19 @@ void main() {
 	vec4 noiseColor = texture2D(mapNoise, posToUV);
 
 	// move particle and wrap around
-	rot = mix(rot, noiseColor.r * TAU * 2f, 0.1 + 0.45 * randomColor.g); // mix between random direction and move toward following noise texture
+	// rotation --
+	float rotMix = 0.1 + 0.45 * randomColor.g;
+	float rotNoise = noiseColor.r * TAU * 2.;
+	rot = mix(rot, rotNoise, rotMix); // mix between random direction and move toward following noise texture
+	// speed --
 	float mapAccel = 1. - clamp(easeOutQuart(mapColor.r * 3.), 0., 0.9);
 	float noiseSpeed = (0.5 + 1.5 * noiseColor.g);
 	float randomSpeed = (0.9 + 0.2 * randomColor.r);
 	float customSpeed = speed * randomSpeed * noiseSpeed * mapAccel;
+	// set position
 	pos += vec2(cos(rot), sin(rot)) * customSpeed;
 
-	// recycle when out of view
+	// recycle to random location when out of view
 	if(pos.x < 0. || pos.x > width || pos.y < 0. || pos.y > height) {
 		pos = vec2(width * randomColor.x, height * randomColor.y); // random
 	}
