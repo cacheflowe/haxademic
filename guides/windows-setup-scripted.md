@@ -26,8 +26,6 @@ We'll use some .ps1 scripts and fewer manual steps
     - `powershell.exe -executionpolicy unrestricted .\set-windows-settings.ps1`
     - Restart the machine!
     - Now we manually go through Windows settings that aren't updated with the script
-- Add Windows Refender with Advanced Security rule
-  - Ports (in & out): 80, 443, 3000-3100, 8000-8100
 
 ## Check for non-essential apps & bloatware
 
@@ -61,6 +59,8 @@ We'll use some .ps1 scripts and fewer manual steps
   * Windows button + "R" -> "netplwiz" + Run
     * Uncheck "Users must enter..." -> Apply -> Type password twice
 * Unpin apps from the Start menu
+- Add Windows Refender with Advanced Security rule
+  - Ports (in & out): 80, 443, 3000-3100, 8000-8100
 
 
 ## Teamviewer settings
