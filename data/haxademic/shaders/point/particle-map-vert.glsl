@@ -71,7 +71,7 @@ void main() {
   vec2 uvOrig = vec2(vertex.x, vertex.y);
 
   // get position from texture
-  vec4 positionColor = texture2D(mapPositions, uvOrig); // rgba color of displacement map
+  vec4 positionColor = texture2D(mapPositions, uvOrig); // rgba color of particles positions
   vec4 randomColor = texture2D(mapRandom, uvOrig);
   // vec4 textureColor = vec4(vertex.x, vertex.y, 0.5, 1.); // rgba color of displacement map
 
@@ -95,7 +95,7 @@ void main() {
   // speed can be > 1, so we need to divide a bit
   float speedShrink = (0.15 * speed);
   float finalPointSize = pointSize - speedShrink;
-  finalPointSize *= 0.8 + randomColor.r * 0.4;
+  finalPointSize *= 0.8 + randomColor.b * 0.4;
 
   // get z from texture
   z = luma(colorMapColor) * depth; // * depth/2.; // - textureColor.z * depth;

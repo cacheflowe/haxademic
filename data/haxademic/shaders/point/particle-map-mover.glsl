@@ -16,6 +16,7 @@ uniform float speed = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
 uniform float decelCurve = 3.;
+uniform bool resetPositionsDirty = false;
 
 #define PI 3.141592653589793
 #define TAU 6.283185307179586
@@ -71,7 +72,8 @@ void main() {
 	pos += vec2(cos(rot), sin(rot)) * curSpeed;
 
 	// recycle to random location when out of view
-	if(pos.x < 0. || pos.x > width || pos.y < 0. || pos.y > height) {
+	// or when we've flipped the reset flag
+	if(pos.x < 0. || pos.x > width || pos.y < 0. || pos.y > height || resetPositionsDirty) {
 		pos = vec2(width * randomColor.x, height * randomColor.y); // random
 	}
 

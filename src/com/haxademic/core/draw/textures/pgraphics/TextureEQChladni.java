@@ -18,6 +18,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticlesGPU;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.FrameLoop;
@@ -63,7 +64,7 @@ extends BaseTexture {
 		pgPost = PG.newPG(pg.width, pg.height);
 		pgPostColor = PG.newPG(pg.width, pg.height);
 		gradient = new ImageGradient(ImageGradient.HEAT());
-		
+
 		DebugView.setTexture("pgPost", pgPost);
 		DebugView.setTexture("pgPostColor", pgPostColor);
 		DebugView.setTexture("gradient", gradient.texture());
@@ -161,6 +162,7 @@ extends BaseTexture {
 		particles.setBaseParticleSpeed(3f);
 		particles.setMapDecelCurve(3f);
 		particles.updateParticles(pg, pgMap);
+		if(KeyboardState.keyTriggered(' ')) particles.resetRandomPositions();
 	}
 
 	protected void updatePostFx() {

@@ -39,6 +39,8 @@ public class ParticlesGPU {
 	protected float baseParticleSize = 1.5f;
 	protected float mapDecelCurve = 0f;
 
+  protected boolean resetPositionsDirty = false;
+
   
   public ParticlesGPU() {
     this(1024);
@@ -63,9 +65,8 @@ public class ParticlesGPU {
 		
 		// count vertices for debugView
 		int vertices = P.round(positionBufferSize * positionBufferSize); 
-		DebugView.setValue("numParticles", vertices);
-
 		resetRandomPositions();
+		DebugView.setValue("numParticles", vertices);
 		
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
@@ -99,7 +100,9 @@ public class ParticlesGPU {
 		simulationShader.shader().set("mapNoise", noiseTexture.texture());
 		simulationShader.shader().set("speed", baseParticleSpeed);
 		simulationShader.shader().set("decelCurve", mapDecelCurve);
+		simulationShader.shader().set("resetPositionsDirty", resetPositionsDirty);
 		bufferPositions.filter(simulationShader.shader());
+    resetPositionsDirty = false;
 	}
 
 	public void drawParticles(PGraphics pg, PImage colorMap) {
@@ -129,8 +132,7 @@ public class ParticlesGPU {
   }
 
 	public void resetRandomPositions() {
-		randomColorShader.shader().set("offset", MathUtil.randRangeDecimal(0, 100), MathUtil.randRangeDecimal(0, 100));
-		bufferPositions.filter(randomColorShader.shader());
+		resetPositionsDirty = true;
 	}
 
   public PImage noiseTexture() {
