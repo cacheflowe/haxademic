@@ -107,7 +107,7 @@ extends PAppletHax {
 		// soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
 		soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\b-ball-vids\\Recording_2023-12-13_160422-00.00.06.213-00.00.13.063.mp4.wav";
 		player.loopWav(soundFile);
-		// player.setVolume(soundFile, 0.01f);
+		player.setVolume(soundFile, 0.01f);
 		
 		// init textures
 		int w = p.width; 

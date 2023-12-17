@@ -1,6 +1,10 @@
 // by @jorgemoag - https://www.shadertoy.com/view/WdKXRV
 // references:
 // https://thelig.ht/chladni/
+// https://paulbourke.net/geometry/chladni/
+// https://www.shadertoy.com/view/cssfRr
+// https://www.shadertoy.com/view/WdKXRV
+
 
 #ifdef GL_ES
 precision mediump float;
@@ -39,10 +43,6 @@ void main() {
   float amp = a * sin(PI * n * uv.x) * sin(PI * m * uv.y) + 
               b * sin(PI * m * uv.x) * sin(PI * n * uv.y);
 
-  // amp = a * sin(PI * n * uv.x) * sin(PI * m * uv.y) + 
-  //       b * sin(PI * m * uv.x) * sin(PI * n * uv.y);
-
   float col = step(abs(amp), thickness);
-
   gl_FragColor = vec4(vec3(col), 1.0);
 }

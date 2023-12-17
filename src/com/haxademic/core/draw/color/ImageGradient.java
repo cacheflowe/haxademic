@@ -70,6 +70,10 @@ public class ImageGradient {
 		return ImageCacher.get("haxademic/images/palettes/thermal-gradient.png");
 	}
 	
+	public static PImage HEAT() {
+		return ImageCacher.get("haxademic/images/palettes/gradient-heat.png");
+	}
+	
 	// Palette collections /////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static String COOLORS_PATH = "haxademic/images/palettes/coolors/";
