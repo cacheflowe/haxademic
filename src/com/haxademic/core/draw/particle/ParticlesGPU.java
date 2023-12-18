@@ -8,7 +8,6 @@ import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
@@ -22,6 +21,7 @@ public class ParticlesGPU {
 	//   - Add color easing based on underlying map texture as an alternative colorization technique
 	// - Add audioreactive texture for speed ramp
 	// - newPositions() needs to be float-32 positions, not normalized
+  //   - Something about the random color map makes this weird and improperly-distributed... Needs more investigation for a fix, but leave as-is for now
   // - Add optical flow
 	/////////////////////////////////////////////////
 
