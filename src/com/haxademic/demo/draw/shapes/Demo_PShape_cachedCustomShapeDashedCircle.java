@@ -1,8 +1,6 @@
 package com.haxademic.demo.draw.shapes;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 
@@ -14,10 +12,6 @@ extends PAppletHax {
 
 	protected PShape shape;
 
-	protected void config() {
-		// Config.setAppSize(960, 960);
-	}
-
 	protected void firstFrame() {
 		float weight = 3;
 		int color = p.color(255, 200, 0);
@@ -27,10 +21,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		background(0);
 		PG.setCenterScreen(p);
-		PG.basicCameraFromMouse(p.g, 1.3f);
-		// PG.setDrawFlat2d(p, true);
-		PG.setBetterLights(p);
-		// p.lights();
+		PG.basicCameraFromMouse(p.g);
 		p.shape(shape);
 	}
 
