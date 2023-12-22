@@ -33,7 +33,7 @@ extends PAppletHax {
 
 	protected void config() {
 		Config.setAppSize(1024, 1024);
-		Config.setProperty(AppSettings.LOOP_FRAMES, 900);
+		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 	}
 	
 	protected void firstFrame() {
@@ -47,7 +47,7 @@ extends PAppletHax {
 		ImageUtil.copyImage(bumpMap, specMap);
 		BrightnessFilter.instance().setBrightness(0.25f);
 		BrightnessFilter.instance().applyTo(specMap);
-		for(int i=0; i < 2; i++) BlurProcessingFilter.instance().applyTo(specMap);
+		for(int i=0; i < 4; i++) BlurProcessingFilter.instance().applyTo(specMap);
 
 		// show in debug
 		DebugView.setTexture("bumpMap", bumpMap);
@@ -67,8 +67,8 @@ extends PAppletHax {
 		p.sphereDetail(150);
 		sphere = createShape(P.SPHERE, p.height * 0.35f);
 		sphere.setStroke(false);
-		sphere.setSpecular(color(125));
-		sphere.setShininess(10);
+		// sphere.setSpecular(color(25));
+		// sphere.setShininess(100);
 	}
 	
 	protected void drawApp() {
@@ -78,7 +78,7 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 		
 		// light source emitting from the right of the camera
-		p.pointLight(255, 255, 255, P.map(Mouse.xNorm, 0, 1, 1500, -1500), 0, 500);
+		p.pointLight(255, 255, 255, P.map(Mouse.xNorm, 0, 1, 3000, -3000), 0, 500);
 		
 		// update shader
 		bumpMapShader.set("bumpScale", Mouse.yNorm * 0.02f);
