@@ -38,7 +38,7 @@ extends PAppletHax {
 				float lightFloorX = P.cos(colRads) * totemRadius;
 				float lightFloorZ = P.sin(colRads) * totemRadius;
 				
-				PShape subShape = createShape();
+				PShape subShape = p.createShape();
 				subShape.beginShape();
 				subShape.strokeWeight(2);
 				subShape.stroke(255, 127);

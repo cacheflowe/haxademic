@@ -1045,25 +1045,47 @@ public class Shapes {
 		}
 	}
 	
-	public static float drawDashedCircle(PGraphics pg, float x, float y, float radius, float dashLength, float offset, boolean rounds) {
+	public static void drawDashedCircle(PGraphics pg, float x, float y, float radius, float dashLength, float offset, boolean rounds) {
+		drawDashedCircle(pg, x, y, radius, dashLength, offset, rounds, -1, -1);
+	}
+
+	public static PShape drawDashedCircle(float x, float y, float radius, float dashLength, float offset, boolean rounds, int strokeColor, float strokeWeight) {
+		return drawDashedCircle(null, x, y, radius, dashLength, offset, rounds, strokeColor, strokeWeight);
+	}
+
+	public static PShape drawDashedCircle(PGraphics pg, float x, float y, float radius, float dashLength, float offset, boolean rounds, int strokeColor, float strokeWeight) {
 		if(dashLength <= 0) dashLength = 1;	// prevent infinite loop
 		float lineLength = MathUtil.circumferenceFromRadius(radius);
 		float numDashes = (rounds) ? P.round(lineLength / dashLength) : lineLength / dashLength;
 		float numSegments = (numDashes * 2);
 		float segmentRadians = P.TWO_PI / numSegments;
 		int oddEven = 0;
+		PShape shape = (pg == null) ? P.p.createShape(P.GROUP) : null;
 		for (float i = offset; i < numSegments + offset; i++) {
 			if(oddEven % 2 == 0) {
 				float curRads = segmentRadians * i;
 				float nextRads = segmentRadians * (i+1);
-				pg.line(
-					x + P.cos(curRads) * radius, y + P.sin(curRads) * radius,
-					x + P.cos(nextRads) * radius, y + P.sin(nextRads) * radius
-				);
+				float x1 = x + P.cos(curRads) * radius;
+				float y1 = y + P.sin(curRads) * radius;
+				float x2 = x + P.cos(nextRads) * radius;
+				float y2 = y + P.sin(nextRads) * radius;
+				if(pg != null) {
+					pg.line(x1, y1, x2, y2);
+				} else {
+					PShape subShape = P.p.createShape(PShape.PATH);
+					subShape.beginShape();
+					subShape.strokeWeight(strokeWeight);
+					subShape.stroke(strokeColor);
+					subShape.noFill();
+					subShape.vertex(x1, y1);
+					subShape.quadraticVertex(x2, y2, x2, y2);
+					subShape.endShape();
+					shape.addChild(subShape);
+				}
 			}
 			oddEven++;
 		}
-		return numDashes;
+		return shape;
 	}
 	
 	public static void drawLineOfCircles(PGraphics pg, float startX, float startY, float endX, float endY) {
