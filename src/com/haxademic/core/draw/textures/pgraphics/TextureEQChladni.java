@@ -118,8 +118,8 @@ extends BaseTexture {
 			); 
 		}
 		shader.shader().set("thickness", 0.5f); // use audio amplitude
-		shader.shader().set("time", P.map(amp, 0, 1f, 1, 2));
-		shader.shader().set("zoom", P.map(amp, 0, 1f, 0.5f, 0.85f));
+		shader.shader().set("time", P.map(amp, 0, 1f, 1, 3));
+		shader.shader().set("zoom", P.map(amp, 0, 1f, 0.25f, 0.65f));
 
 		// shader.shader().set("time", Mouse.xNorm * P.TWO_PI * 3f);
 		// shader.shader().set("zoom", 0.7f + Mouse.yNorm * 3f); // use audio amplitude?

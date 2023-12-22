@@ -6,51 +6,13 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.textures.pgraphics.TextureAppFrameWaveformCircle;
-import com.haxademic.core.draw.textures.pgraphics.TextureAudioBlocksDeform;
-import com.haxademic.core.draw.textures.pgraphics.TextureAudioSheetDeform;
-import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
-import com.haxademic.core.draw.textures.pgraphics.TextureBarsEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureBlocksSheet;
-import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
-import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
-import com.haxademic.core.draw.textures.pgraphics.TextureDashedLineSine;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQChladni;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQChladniVideo;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesConnected;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQPointsDeformAndTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQRadialLollipops;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQTextLog;
-import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
-import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
-import com.haxademic.core.draw.textures.pgraphics.TextureImageTimeStepper;
-import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
-import com.haxademic.core.draw.textures.pgraphics.TextureNoiseLines;
-import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
-import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
-import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
-import com.haxademic.core.draw.textures.pgraphics.TexturePolygonLerpedVertices;
-import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
-import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
-import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
-import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfBoxes;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfCubes;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
-import com.haxademic.core.draw.textures.pgraphics.TextureSvgPattern;
-import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
-import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
-import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
-import com.haxademic.core.draw.textures.pgraphics.TextureWords2d;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
-import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
@@ -101,13 +63,16 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// send Beads audio player analyzer to PAppletHax
 		AudioUtil.setPrimaryMixer();
-		player = new WavPlayer(); // WavPlayer.newAudioContext()
-		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
-		String soundFile = FileUtil.getPath(DemoAssets.audioBrimBeatPath);
-		// soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
-		soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\b-ball-vids\\Recording_2023-12-13_160422-00.00.06.213-00.00.13.063.mp4.wav";
-		player.loopWav(soundFile);
-		player.setVolume(soundFile, 0.01f);
+		AudioIn.instance();
+		/*
+			player = new WavPlayer(); // WavPlayer.newAudioContext()
+			AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
+			String soundFile = FileUtil.getPath(DemoAssets.audioBrimBeatPath);
+			// soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\connected-canvas-bball-audio-test_AME\\Comp_1.wav";
+			soundFile = "D:\\workspace\\att-connected-canvas\\_assets\\audio-viz\\b-ball-vids\\Recording_2023-12-13_160422-00.00.06.213-00.00.13.063.mp4.wav";
+			player.loopWav(soundFile);
+			player.setVolume(soundFile, 0.01f);
+		 */
 		
 		// init textures
 		int w = p.width; 
@@ -117,7 +82,7 @@ extends PAppletHax {
 		
 		allTextures = new BaseTexture[]{
 			// new TextureEQConcentricCircles(w, h),
-			new TextureEQChladni(w, h),
+			new TextureEQChladniVideo(w, h),
 			new TextureEQRadialLollipops(w, h),
 			// new TextureVectorFieldEQ(w, h),
 			new TextureEQLinesConnected(w, h),
