@@ -40,23 +40,23 @@ public class SerialDevice {
 	}
 	
 	public SerialDevice(ISerialDeviceDelegate delegate, String serialDeviceName, int baudRate) {
-	    this.delegate = delegate;
-	    this.serialDeviceName = serialDeviceName;
-	    this.baudRate = baudRate;
-	    
-	    // init device
-        if(deviceExists(serialDeviceName)) {
-            device = new Serial(P.p, serialDeviceName, baudRate); 
-            device.clear();
-            // Throw out the first reading, in case we started reading in the middle of a string from the sender.
-            device.readStringUntil(cr);
-            P.out("SerialDevice.initSerialDevice() complete!");
-        } else {
-            P.error("Couldn't find SerialDevice:", serialDeviceName);
-        }
+		this.delegate = delegate;
+		this.serialDeviceName = serialDeviceName;
+		this.baudRate = baudRate;
+		
+		// init device
+		if(deviceExists(serialDeviceName)) {
+			device = new Serial(P.p, serialDeviceName, baudRate); 
+			device.clear();
+			// Throw out the first reading, in case we started reading in the middle of a string from the sender.
+			device.readStringUntil(cr);
+			P.out("SerialDevice.initSerialDevice() complete!");
+		} else {
+			P.error("Couldn't find SerialDevice:", serialDeviceName);
+		}
 
-        // listen for frame loop
-        P.p.registerMethod("post", this);
+		// listen for frame loop
+		P.p.registerMethod("post", this);
 	}
 	
 	public static void printDevices() {
@@ -67,7 +67,7 @@ public class SerialDevice {
 	}
 
 	public static boolean deviceExists(String deviceName) {
-	    return Arrays.asList(Serial.list()).contains(deviceName);
+		return Arrays.asList(Serial.list()).contains(deviceName);
 	}
 	
 	// getters
