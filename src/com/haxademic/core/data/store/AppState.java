@@ -45,6 +45,14 @@ public class AppState {
 		return P.store.getString(APP_STATE).equals(state);
 	}
 	
+	public static boolean isAny(String ...args) {
+		String curState = get();
+		for (int i = 0; i < args.length; i++) {
+			if(curState != null && curState.equals(args[i])) return true;
+		}
+		return false;
+	}
+	
 	public static void checkQueuedState() {
 		String queuedState = P.store.getString(QUEUED_APP_STATE);
 		if(!queuedState.equals(NO_QUEUE)) {
