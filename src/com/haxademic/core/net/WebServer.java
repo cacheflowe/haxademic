@@ -4,6 +4,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -25,6 +28,7 @@ public class WebServer {
 	public static final String REQUEST_URL = "REQUEST_URL";
 	public static String WWW_PATH = "";	// deprecated from old, stupid static file server, but could be useful is an external class wants to know what the web path root is 
 	protected AbstractHandler handler;
+	protected HttpConfiguration httpConfiguration;
 	protected Server server;
 	protected String wwwPath;
 	protected Boolean useSSL;
@@ -58,8 +62,9 @@ public class WebServer {
 		disableLogging();
 		createServer();
 		configServer();
+		// addNonSSL();
 		if(useSSL) addSSL();
-	    startServer();
+		startServer();
 	}
 	
 	protected void disableLogging() {
@@ -67,53 +72,78 @@ public class WebServer {
 	}
 	
 	protected void createServer() {
-//		if(useSSL) PORT = PORT_SSL;
+		// if(useSSL) PORT = PORT_SSL;
 		P.out("Starting WebServer at "+wwwPath+":"+PORT);
-        server = new Server(PORT);
+		server = new Server(PORT);
 	}
 	
 	protected void configServer() {
-        // init static web server
-        WebAppContext webAppContext = new WebAppContext(wwwPath, "/");
-        
-        // turn off file locking! 
-        // without this, we were blocked from dynamically replace static files in the web server directory at runtime
-        webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
-        
-        // set custom & static handlers
-        HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] { 
-    		this.handler, 
-    		webAppContext 			// Jetty's built-in static asset web server. this catches any request not handled by the custom handler
-        });
-        server.setHandler(handlers);
+		// init static web server
+		WebAppContext webAppContext = new WebAppContext(wwwPath, "/");
+		
+		// turn off file locking! 
+		// without this, we were blocked from dynamically replacing static files in the web server directory at runtime
+		webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
+		
+		// set custom & static handlers
+		HandlerList handlers = new HandlerList();
+		handlers.setHandlers(new Handler[] { 
+			this.handler, 
+			webAppContext 			// Jetty's built-in static asset web server. this catches any request not handled by the custom handler
+		});
+		server.setHandler(handlers);
 	}
 	
+	protected void addNonSSL() {
+		httpConfiguration = new HttpConfiguration();
+		httpConfiguration.setSecureScheme("https");
+		httpConfiguration.setSecurePort(PORT_SSL);
+
+		final ServerConnector http = new ServerConnector(server, new HttpConnectionFactory(httpConfiguration));
+		http.setPort(PORT);
+		server.addConnector(http);
+	}
+
 	protected void addSSL() {
-        // add self-signed ssl
+		// keystore creds
+		String keyStorePath = P.path("haxademic/net/config/server.pkcs12");
+		String keyStorePassword = "haxademic";
+
+		// info:
+		// https://gist.github.com/jelinden/2909741
+		// add self-signed ssl
 		// generate a self-signed cert: 
-		// $ keytool -genkey -keyalg RSA -alias tomcat -keystore selfsigned.jks -validity 9999 -keysize 2048
+		// $ keytool -genkey -keyalg RSA -alias haxademic -keystore selfsigned.jks -validity 9999 -keysize 2048
+		// $ keytool -genkey -keyalg RSA -alias haxademic -keystore selfsigned.jks -validity 9999 -keysize 2048 -sigalg SHA256withRSA
 		// password: haxademic
 		// Migrate to pkcs12
-		// $ keytool -importkeystore -srckeystore selfsigned.jks -destkeystore selfsigned.jks -deststoretype pkcs12
+		// $ keytool -importkeystore -srckeystore selfsigned.jks -destkeystore selfsigned.pkcs12 -deststoretype pkcs12
+		// $ keytool -importkeystore -srckeystore selfsigned.pkcs12 -srcstoretype PKCS12 -destkeystore keystore
+		// Import into keystore - use password "changeit", which is the default password for a .crt downloaded from a server
+		// $ "C:\Program Files\Eclipse Adoptium\jdk-17.0.4-Processing\bin\keytool.exe" -import -alias haxademic -keystore "C:\Program Files\Eclipse Adoptium\jdk-17.0.4-Processing\lib\security\cacerts" -file .\data\haxademic\net\config\server.crt
+
 		SslContextFactory.Server ssl = new SslContextFactory.Server();
-	    ssl.setKeyStorePath(FileUtil.getPath("haxademic/net/config/haxademic-selfsigned.jks"));
-	    ssl.setKeyStorePassword("haxademic");
-	    ssl.setKeyManagerPassword("haxademic");
-	    ssl.setKeyStoreType("PKCS12"); // "JKS" if not migrated
-	    ssl.setNeedClientAuth(false);
-	    ssl.setTrustAll(true);
-	    ssl.setValidateCerts(false);
-	    // build the connector
-	    final ServerConnector https = new ServerConnector(server, ssl);
-	    https.setPort(PORT_SSL);
-//	    https.setIdleTimeout(30000L);
-//	    https.setHost("localhost");
-	    server.addConnector(https);
+		ssl.setKeyStorePath(keyStorePath);
+		ssl.setKeyStorePassword(keyStorePassword);
+		ssl.setKeyManagerPassword(keyStorePassword);
+		ssl.setTrustStorePath(keyStorePath);
+		ssl.setTrustStorePassword(keyStorePassword);
+		ssl.setKeyStoreType("PKCS12"); // "JKS" if not migrated
+		// ssl.setKeyStoreType("JKS"); // "JKS" if not migrated
+		ssl.setNeedClientAuth(false);
+		ssl.setTrustAll(true);
+		ssl.setValidateCerts(false);
+
+		// build the connector
+		ServerConnector https = new ServerConnector(server, ssl); // add 3rd argument for both http & https?? :: , new HttpConnectionFactory(httpConfiguration)
+		https.setPort(PORT_SSL);
+		// https.setIdleTimeout(30000L);
+		// https.setHost("localhost");
+		server.addConnector(https);
 	}
 	
 	protected void startServer() {
-        try {
+		try {
 			server.start();
 			server.join();
 		} catch (Exception e) {
@@ -157,7 +187,7 @@ public class WebServer {
 			// byte[] ipAddr = addr.getAddress();
 			// String hostname = addr.getHostName();
 			String protocol = (IS_SSL) ? "https://" : "http://";
-			String nonSSLPort = (IS_SSL) ? "" : ":" + WebServer.PORT;	// add port if not SSL. if is SSL< we don't need any port
+			String nonSSLPort = (IS_SSL) ? "" : ":" + WebServer.PORT;	// add port if not SSL. if is SSL, we don't need a port
 			serverBase = protocol + addr.getHostAddress() + nonSSLPort + "/";
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
@@ -168,20 +198,20 @@ public class WebServer {
 	// Stop jetty logging (mostly). More info here: https://stackoverflow.com/a/19059551/352456 
 
 	public class NoLogging implements Logger {
-	    @Override public String getName() { return "no"; }
-	    @Override public void warn(String msg, Object... args) { }
-	    @Override public void warn(Throwable thrown) { }
-	    @Override public void warn(String msg, Throwable thrown) { }
-	    @Override public void info(String msg, Object... args) { }
-	    @Override public void info(Throwable thrown) { }
-	    @Override public void info(String msg, Throwable thrown) { }
-	    @Override public boolean isDebugEnabled() { return false; }
-	    @Override public void setDebugEnabled(boolean enabled) { }
-	    @Override public void debug(String msg, Object... args) { }
-	    @Override public void debug(Throwable thrown) { }
-	    @Override public void debug(String msg, Throwable thrown) { }
-	    @Override public Logger getLogger(String name) { return this; }
-	    @Override public void ignore(Throwable ignored) { }
+		@Override public String getName() { return "no"; }
+		@Override public void warn(String msg, Object... args) { }
+		@Override public void warn(Throwable thrown) { }
+		@Override public void warn(String msg, Throwable thrown) { }
+		@Override public void info(String msg, Object... args) { }
+		@Override public void info(Throwable thrown) { }
+		@Override public void info(String msg, Throwable thrown) { }
+		@Override public boolean isDebugEnabled() { return false; }
+		@Override public void setDebugEnabled(boolean enabled) { }
+		@Override public void debug(String msg, Object... args) { }
+		@Override public void debug(Throwable thrown) { }
+		@Override public void debug(String msg, Throwable thrown) { }
+		@Override public Logger getLogger(String name) { return this; }
+		@Override public void ignore(Throwable ignored) { }
 		@Override public void debug(String arg0, long arg1) { }
 	}
 }
