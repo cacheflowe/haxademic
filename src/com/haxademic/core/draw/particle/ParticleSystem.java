@@ -214,7 +214,7 @@ public class ParticleSystem<T extends Particle> {
 	
 	// generic particle factory
 
-	public static <T> T initNewParticle(Class<T> objectClass) {
+	public <T> T initNewParticle(Class<T> objectClass) {
 		// P.out("initNewParticle() -> objectClass", objectClass.getCanonicalName());
 		try {
 			return objectClass.getDeclaredConstructor().newInstance();
@@ -231,7 +231,6 @@ public class ParticleSystem<T extends Particle> {
 				Particle particle = particles.get(i);
 				updateRandomRanges(particle);
 				particle.launch(x, y, z);
-				particle.randomize();
 				return particle;
 			}
 		}
@@ -239,7 +238,6 @@ public class ParticleSystem<T extends Particle> {
 		Particle particle = (Particle) initNewParticle(particleDef);
 		updateRandomRanges(particle);
 		particle.launch(x, y, z);
-		particle.randomize();
 		particles.add(particle);
 		return particle;
 	}
