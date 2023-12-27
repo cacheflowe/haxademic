@@ -86,6 +86,10 @@ extends WebSocketServer {
 	 *             When socket related I/O errors occur.
 	 */
 	public void sendToAll( String text ) {
+		if(text == null) {
+			P.error("SocketServerHandler.sendToAll() - text is null");
+			return; // will throw errors if null
+		}
 		Collection<WebSocket> con = getConnections();
 		synchronized ( con ) {
 			for( WebSocket c : con ) {
