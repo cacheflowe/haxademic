@@ -12,14 +12,14 @@ import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
-public class Demo_EQBandsPolar 
+public class Demo_EQBandsPolar_ReactionDiffusion 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected FloatBuffer ampBuffer = new FloatBuffer(6);
 	
 	protected void config() {
-	    Config.setAppSize(1024, 1024);
+			Config.setAppSize(1024, 1024);
 	}
 	
 	protected void firstFrame() {
@@ -28,27 +28,19 @@ extends PAppletHax {
 		AudioIn.instance(AudioInputLibrary.ESS);
 //		AudioIn.instance(AudioInputLibrary.Minim);
 //		AudioIn.instance(AudioInputLibrary.Processing);
-		
-		AudioIn.drawDebugBuffer();
-		AudioIn.drawBufferFFT();
-		AudioIn.drawBufferWaveform();
 	}
 	
 	protected void drawApp() {
 		// update audio textures/buffers
-//		DebugView.setTexture("AudioIn.bufferDebug", AudioIn.bufferDebug());
-//		DebugView.setTexture("AudioIn.bufferFFT", AudioIn.bufferFFT());
-//		DebugView.setTexture("AudioIn.bufferWaveform", AudioIn.bufferWaveform());
 		pg.beginDraw();
-	    if(p.frameCount == 1) {
-	      pg.background(0);
-	      pg.noStroke();
-	    }
-	    
-	    PG.setCenterScreen(pg);
-	    PG.setDrawCenter(pg);
-	    
-
+		if(p.frameCount == 1) {
+			pg.background(0);
+			pg.noStroke();
+		}
+		
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		
 		// draw radial FFT
 		float circleSize = 8;
 		float numElements = 128;
@@ -59,9 +51,9 @@ extends PAppletHax {
 		float radsOffset = P.HALF_PI; // FrameLoop.count(0.01f);
 		
 		for(int i=0; i < numElements; i++) {
-		    // get FT eq val
-            int eqIndex = P.floor(i * eqStep);
-            int eqIndexLoop = P.floor((i % halfElements) * eqStep);
+				// get FT eq val
+				int eqIndex = P.floor(i * eqStep);
+				int eqIndexLoop = P.floor((i % halfElements) * eqStep);
 			if(i >= halfElements) eqIndex -= eqIndexLoop * 2; 
 //			if(frameCount % 300 == 0) P.out(eqIndex);
 			float eq = AudioIn.audioFreq(eqIndex) * 3f;

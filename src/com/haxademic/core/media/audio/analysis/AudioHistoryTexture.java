@@ -34,8 +34,7 @@ public class AudioHistoryTexture {
     historyFFT.copy(0, 0, historyFFT.width, historyFFT.height, 0, 1, historyFFT.width, historyFFT.height);
 
     // draw top line of current eq, either with pixels, or by 
-    // using the AudioIn global texture. Requires `AudioIn.drawBufferFFT();`
-    // see Demo_WavPlayer
+    // using the AudioIn global texture
     if(useAudioInTexture) {
       historyFFT.image(AudioIn.bufferFFT(), 0, 0, historyFFT.width, 1);
     } else {

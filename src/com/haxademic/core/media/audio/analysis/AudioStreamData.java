@@ -30,6 +30,8 @@ public class AudioStreamData {
 
 
 	public AudioStreamData() {
+		bufferFFT = PG.newPG(16, 16);
+		bufferWaveform = PG.newPG(16, 16);
 		debugBuffer = PG.newPG((int) debugW, (int) debugH);
 	}
 	
@@ -40,6 +42,7 @@ public class AudioStreamData {
 			frequencies = new float[freqs.length];
 			freqsDampened = new float[freqs.length];
 			for(int i=0; i < freqsDampened.length; i++) freqsDampened[i] = 0;
+			bufferFFT = PG.newPG(freqsDampened.length, 2, false, false);
 		}
 //		System.arraycopy(freqs, 0, frequencies, 0, freqs.length);
 		for(int i=0; i < frequencies.length; i++) frequencies[i] = P.abs(freqs[i]);
@@ -54,8 +57,8 @@ public class AudioStreamData {
 	public void lerpWaveformOffsets(float[] buffer, float lerpAmount) {
 		if(waveform.length != buffer.length) {
 			waveform = new float[buffer.length];
-//			System.arraycopy(buffer, 0, waveform, 0, buffer.length);
 			for(int i=0; i < waveform.length; i++) waveform[i] = buffer[i];
+			bufferWaveform = PG.newPG(waveform.length, 2, false, false);
 		}
 		for(int i=0; i < waveform.length; i++) {
 			waveform[i] = P.lerp(waveform[i], buffer[i], lerpAmount);
@@ -254,9 +257,6 @@ public class AudioStreamData {
 	public void drawBufferFFT() {
 		float[] freqs = freqsDampened; // frequencies
 		
-		// lazy init buffer
-		if(bufferFFT == null) bufferFFT = PG.newPG(freqs.length, 2, false, false);
-		
 		// draw fft data
 		bufferFFT.beginDraw();
 		bufferFFT.background(0);
@@ -272,9 +272,6 @@ public class AudioStreamData {
 	}
 	
 	public void drawBufferWaveform() {
-		// lazy init buffer
-		if(bufferWaveform == null) bufferWaveform = PG.newPG(waveform.length, 2, false, false);
-		
 		// draw waveform data
 		bufferWaveform.beginDraw();
 		bufferWaveform.background(0);

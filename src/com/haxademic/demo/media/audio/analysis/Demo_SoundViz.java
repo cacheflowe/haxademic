@@ -114,12 +114,6 @@ implements IMediaTimecodeTriggerDelegate {
 		AudioIn.instance(new AudioInputBeads(player.context()));
 		AudioIn.setDampeningFFT(0.5f);
 
-		// Make sure audio data buffers are created before trying to use them
-		// Afterwards, AudioIn creates a listener for Processing's `pre()` method, 
-		// ensuring that they're coninuoulsy updated as the program runs
-		AudioIn.drawBufferFFT();
-		AudioIn.drawBufferWaveform();
-
 		// audio history texture. used for shader effects
 		history = new AudioHistoryTexture();
 		audioTextureConcentricCircles = new TextureEQConcentricCircles(vizW, vizH);

@@ -13,14 +13,14 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
-//		AudioIn.instance(AudioInputLibrary.Beads);
-//		AudioIn.instance(AudioInputLibrary.ESS);
-//		AudioIn.instance(AudioInputLibrary.Minim);
-		AudioIn.instance(AudioInputLibrary.Processing);
+		// AudioUtil.getAudioMixerIndex("Microphone Array");
+		AudioIn.instance();
+		// AudioIn.instance(AudioInputLibrary.Beads);
+		// AudioIn.instance(AudioInputLibrary.ESS);
+		// AudioIn.instance(AudioInputLibrary.Minim);
+		// AudioIn.instance(AudioInputLibrary.Processing);
 		
 		AudioIn.drawDebugBuffer();
-		AudioIn.drawBufferFFT();
-		AudioIn.drawBufferWaveform();
 	}
 	
 	protected void drawApp() {

@@ -46,8 +46,6 @@ extends PAppletHax {
 		// send Beads audio player analyzer to PAppletHax.
 		// this automatically writes audio data to the global 
 		AudioIn.instance(new AudioInputBeads(player.context()));
-		AudioIn.drawBufferFFT();
-		AudioIn.drawBufferWaveform();
 
 		// audio history texture. used for shader effects
 		history = new AudioHistoryTexture();
