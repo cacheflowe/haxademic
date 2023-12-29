@@ -8,7 +8,7 @@ REM more flags and Node launcher: https://github.com/GoogleChrome/chrome-launche
 @REM https://codefodder.github.io/chrome-chromium-startup-flags/
 @REM https://peter.sh/experiments/chromium-command-line-switches/
 @REM https://kapeli.com/cheat_sheets/Chromium_Command_Line_Switches.docset/Contents/Resources/Documents/index
-
+@REM https://developer.chrome.com/docs/web-platform/chrome-flags
 
 @echo off
 
