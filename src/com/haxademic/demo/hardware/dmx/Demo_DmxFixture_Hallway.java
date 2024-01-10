@@ -82,7 +82,7 @@ extends PAppletHax {
     }
 
     protected void buildLights() {
-        DMXUniverse.instanceInit("COM8", 9600);
+        DMXUniverse.instanceInit();
 
         fixtures = new ArrayList<DMXFixture>(); 
         for (int i = 0; i < numFixtures; i++) {

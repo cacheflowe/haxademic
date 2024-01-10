@@ -60,6 +60,9 @@ public class AppSettings {
 	// depth cams
 	public static final String DEPTH_CAM_RGB_ACTIVE = "depth_camera_rgb_active";
 	public static final String DEPTH_CAM_DEPTH_ACTIVE = "depth_camera_depth_active";
+	// dmx
+	public static final String DMX_PORT = "dmx_port";
+	public static final String DMX_BAUD_RATE = "dmx_baud_rate";
 	// input
 	public static final String DISABLE_ESC_KEY = "disable_esc";
 	// Debugging

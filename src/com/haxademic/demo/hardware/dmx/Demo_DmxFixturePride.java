@@ -20,7 +20,7 @@ extends PAppletHax {
 	protected String speed = "speed";
 	
 	protected void firstFrame() {
-		DMXUniverse.instanceInit("COM8", 9600);
+		DMXUniverse.instanceInit();
 		
 		fixture = new ArrayList<DMXFixture>(); 
 		for (int i = 0; i < 12; i++) {

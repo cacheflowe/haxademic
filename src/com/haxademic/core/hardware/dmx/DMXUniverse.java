@@ -3,6 +3,8 @@ package com.haxademic.core.hardware.dmx;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 
 public class DMXUniverse
@@ -25,6 +27,13 @@ extends DMXWrapper {
 		return instance;
 	}
 	
+	public static DMXUniverse instanceInit() {
+		return instanceInit(
+			DMXWrapper.getDefaultPort(), 
+			DMXWrapper.getDefaultBaudRate()
+		);
+	}
+
 	public static DMXUniverse instanceInit(String port, int baudRate) {
 		if(instance != null) return instance;
 		instance = new DMXUniverse(port, baudRate);

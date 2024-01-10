@@ -43,7 +43,7 @@ extends PAppletHax {
 		// load a shader to sample colors from
 		textureShader = new TextureShader(TextureShader.cacheflowe_scrolling_dashed_lines);
 		// build editor with all buffers & images
-		editor = new DMXEditor("COM8", 115200, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
+		editor = new DMXEditor("text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
 		// add debug buffer
 		dmxDebug = new DMXDebug();
 		DebugView.setTexture("dmxDebug", dmxDebug.buffer());

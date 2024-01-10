@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		AudioIn.instance();
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM4", 9600);
+		dmx = new DMXWrapper();
 		
 		// init easing colors
 		colors = new EasingColor[numLights];
