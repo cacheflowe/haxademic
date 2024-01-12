@@ -69,23 +69,23 @@ public class AudioPlayerBeads {
 	}
 	
 	protected void detectBeats() {
-		  // beat detection
-		  SpectralDifference sd = new SpectralDifference(audioContext.getSampleRate());
-		  powerSpectrum.addListener(sd);
-		  od = new PeakDetector();
-		  sd.addListener(od);
+		// beat detection
+		SpectralDifference sd = new SpectralDifference(audioContext.getSampleRate());
+		powerSpectrum.addListener(sd);
+		od = new PeakDetector();
+		sd.addListener(od);
 
-		  od.setThreshold(0.15f);
-		  od.setAlpha(.9f);
-		  od.addMessageListener(new Bead() {
+		od.setThreshold(0.15f);
+		od.setAlpha(.9f);
+		od.addMessageListener(new Bead() {
 			protected void messageReceived(Bead b)
 			{
 				audioData.setBeat();
 			}
-		  });
+		});
 
-		  // common setup and stream init
-		  gain.addDependent(sfs);
+		// common setup and stream init
+		gain.addDependent(sfs);
 	}
 
 	public void update() {

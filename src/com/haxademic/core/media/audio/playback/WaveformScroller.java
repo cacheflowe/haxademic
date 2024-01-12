@@ -62,7 +62,6 @@ public class WaveformScroller {
   }
 
   protected void updatePlayheadProgress() {
-    playheadEaseFactor = 0.1f;
     // NOTE: had to use an easing float because the playhead progress will be stuck on the same number for multiple frames, leading to weird echoed waveform readings
     float progressLocal = (float) curSound.getPosition() / (float) curSound.getSample().getLength(); // borrowed from WavPlayer.progress();
     progress.setEaseFactor(playheadEaseFactor);
