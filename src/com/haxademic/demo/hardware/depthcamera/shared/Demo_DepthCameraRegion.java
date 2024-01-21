@@ -12,7 +12,6 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraRegion;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
-import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -50,8 +49,8 @@ implements IEasingBooleanCallback {
 	}
 	
 	protected void firstFrame() {
-		RealSenseWrapper.setTinyStream();
-		RealSenseWrapper.setSmallStream();
+//		RealSenseWrapper.setTinyStream();
+//		RealSenseWrapper.setSmallStream();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		
 		// add ui sliders to tweak at runtime

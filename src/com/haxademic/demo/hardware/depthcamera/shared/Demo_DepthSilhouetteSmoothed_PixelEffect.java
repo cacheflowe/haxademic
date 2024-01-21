@@ -31,7 +31,7 @@ extends PAppletHax {
     protected SimplexNoise3dTexture noiseTexture;
 
 	protected void config() {
-	    Config.setAppSize(1920, 1080);
+	  Config.setAppSize(1920, 1080);
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
