@@ -108,13 +108,16 @@ implements IDepthCamera {
 
 		// Print camera info
 		// camera.getAdvancedDevice().setAdvancedModeEnabled(true);
-		P.outInit("Realsense config: -------------------------");
-		P.outInit("getName", camera.getAdvancedDevice().getName());
-		P.outInit("getFirmwareVersion", camera.getAdvancedDevice().getFirmwareVersion());
-		P.outInit("getUSBTypeDescriptor", camera.getAdvancedDevice().getUSBTypeDescriptor());
-		P.outInit("getProductId", camera.getAdvancedDevice().getProductId());
-		P.outInit("getPhysicalPort", camera.getAdvancedDevice().getPhysicalPort());
-		P.outInit("Realsense end: ----------------------------");
+		P.outInitLineBreak();
+		P.outInit("Realsense config:");
+		P.outInit("-----------------");
+		P.outInit("Name", camera.getAdvancedDevice().getName());
+		P.outInit("SerialNumber", camera.getAdvancedDevice().getSerialNumber());
+		P.outInit("FirmwareVersion", camera.getAdvancedDevice().getFirmwareVersion());
+		P.outInit("USBTypeDescriptor", camera.getAdvancedDevice().getUSBTypeDescriptor());
+		P.outInit("ProductId", camera.getAdvancedDevice().getProductId());
+		P.outInit("PhysicalPort", camera.getAdvancedDevice().getPhysicalPort());
+		P.outInitLineBreak();
 
 		// set advanced options
 		// highest laser poser leads to much better depth data - less noise/holes
