@@ -333,7 +333,7 @@ implements ISocketClientDelegate, IAppStoreListener {
 	    sendJSON(jsonOut);
 	}
 	
-	protected void sendJSON(JSONObject jsonData) {
+	public void sendJSON(JSONObject jsonData) {
 		String jsonString = JsonUtil.jsonToSingleLine(jsonData);
 		socketClient.sendMessage(jsonString);
 		socketLog.update("OUT: " + jsonString);
