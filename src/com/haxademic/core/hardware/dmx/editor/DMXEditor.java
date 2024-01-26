@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
@@ -17,6 +19,7 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
+import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.SystemUtil;
@@ -90,6 +93,17 @@ implements IAppStoreListener {
 	// INIT
 	/////////////////////////////////
 	
+	public DMXEditor(String configPath, PGraphics pgUI, PGraphics textureMap, PImage floorplan) {
+		this(
+			DMXWrapper.getDefaultPort(), 
+			DMXWrapper.getDefaultBaudRate(),
+			configPath,
+			pgUI,
+			textureMap,
+			floorplan
+		);
+	}
+
 	public DMXEditor(String port, int baudRate, String configPath, PGraphics pgUI, PGraphics textureMap, PImage floorplan) {
 		// init state		
 		P.store.addListener(this);

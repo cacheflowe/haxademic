@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.depthcamera.cameras;
 
 import org.intel.rs.device.Device;
+import org.intel.rs.types.Option;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
@@ -8,6 +9,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 
 import ch.bildspur.realsense.RealSenseCamera;
+import ch.bildspur.realsense.processing.RSThresholdFilter;
 import ch.bildspur.realsense.type.ColorScheme;
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -33,9 +35,9 @@ implements IDepthCamera {
 	protected PGraphics mirrorDepth;
 	protected short[][] data;
 	public static float METERS_FAR_THRESH = 15;
-	public static float METERS_NEAR_QUEUED = -1;
-	public static float METERS_FAR_QUEUED = -1;
-	public static ColorScheme COLOR_SCHEME = ColorScheme.Cold;
+	public static boolean FIXED_COLOR_SCHEME_GRADIENT = true;
+	protected RSThresholdFilter thresholdFilter;
+	public static ColorScheme COLOR_SCHEME = ColorScheme.WhiteToBlack;
 	
 	public static void set720p() {
 		RGB_W = DEPTH_W = 1280;
@@ -84,25 +86,53 @@ implements IDepthCamera {
 		data = new short[RGB_H][RGB_W];
 		DepthCameraSize.setSize(RGB_W, RGB_H);
 		
+		// init camera streams as needed
 		camera = new RealSenseCamera(p);
 		if(initRGB)        camera.enableColorStream(RGB_W, RGB_H);
 		if(initDepthImage) camera.enableDepthStream(DEPTH_W, DEPTH_H);
-//		camera.enableDepthStream(480, 270);
-		if(COLOR_SCHEME != null) camera.enableColorizer(COLOR_SCHEME);
+
+		// enable color sceheme - black/white far/near makes most sense to me
+		camera.enableColorizer(COLOR_SCHEME);
+		if(FIXED_COLOR_SCHEME_GRADIENT) camera.getColorizer().setOption(Option.VisualPreset, 1f); // set fixed "Visual Preset", which makes the depth texture much more usable!
+
 //		camera.enableIRStream(CAMERA_W, CAMERA_H, 30);
 		camera.enableAlign();
-		camera.addThresholdFilter(0.0f, METERS_FAR_THRESH);
-//		camera.addSpatialFilter(1, 0.75f, 50, 1);
-//		camera.addDecimationFilter(2);
-//		camera.addDisparityTransform(true);
-//		camera.addHoleFillingFilter(HoleFillingType.FarestFromAround);
-//		camera.addTemporalFilter(0.5f, 30, PersistencyIndex.ValidIn1_Last2);
+		thresholdFilter = camera.addThresholdFilter(0, METERS_FAR_THRESH);
+		
+		// init camera!
 		if(serialNumber == null) {
 			camera.start();
 		} else {
 			camera.start(serialNumber);
 		}
-		
+
+		// Print camera info
+		// camera.getAdvancedDevice().setAdvancedModeEnabled(true);
+		P.outInitLineBreak();
+		P.outInit("Realsense config:");
+		P.outInit("-----------------");
+		P.outInit("Name", camera.getAdvancedDevice().getName());
+		P.outInit("SerialNumber", camera.getAdvancedDevice().getSerialNumber());
+		P.outInit("FirmwareVersion", camera.getAdvancedDevice().getFirmwareVersion());
+		P.outInit("USBTypeDescriptor", camera.getAdvancedDevice().getUSBTypeDescriptor());
+		P.outInit("ProductId", camera.getAdvancedDevice().getProductId());
+		P.outInit("PhysicalPort", camera.getAdvancedDevice().getPhysicalPort());
+		P.outInitLineBreak();
+
+		// set advanced options
+		// highest laser poser leads to much better depth data - less noise/holes
+		camera.getDepthSensor().setOption(Option.LaserPower, 360);
+		camera.getColorizer().setOption(Option.ColorScheme, COLOR_SCHEME.getIndex());
+
+		// https://github.com/IntelRealSense/librealsense/wiki/D400-Series-Visual-Presets#preset-table
+		// camera.setJsonConfiguration("{\"controls-laserpower\": \"360\", \"param-neighborthresh\": \"0\"}");
+		// camera.setJsonConfiguration("{\"controls-depth-white-balance-auto\": \"False\"}");
+		// P.out("getOptionMin(Option.VisualPreset", camera.getDepthSensor().getOptionMin(Option.VisualPreset));
+		// P.out("getOptionMax(Option.VisualPreset", camera.getDepthSensor().getOptionMax(Option.VisualPreset));
+		// P.out("getOptionStep(Option.VisualPreset", camera.getDepthSensor().getOptionStep(Option.VisualPreset));
+		// P.out("getOptionDefault(Option.VisualPreset", camera.getDepthSensor().getOptionDefault(Option.VisualPreset));
+
+		// init buffers
 		mirrorRGB = PG.newPG(RGB_W, RGB_H);
 		mirrorDepth = PG.newPG(DEPTH_W, DEPTH_H);
 	}
@@ -116,10 +146,10 @@ implements IDepthCamera {
 		}
 	}
 	
-//	public void setNearFar(float near, float far) {
-//		METERS_NEAR_QUEUED = near;
-//		METERS_FAR_QUEUED = far;
-//	}
+	public void setNearFar(float near, float far) {
+		thresholdFilter.setMinDistance(near);
+		thresholdFilter.setMaxDistance(far);
+	}
 	
 	public RealSenseCamera camera() {
 		return camera;
@@ -174,12 +204,6 @@ implements IDepthCamera {
 			if(RGB_ACTIVE) {
 				if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
 			}
-			if(METERS_NEAR_QUEUED != -1 || METERS_FAR_QUEUED != -1) {
-				camera.clearFilters();
-				camera.addThresholdFilter(METERS_NEAR_QUEUED, METERS_FAR_QUEUED);
-				METERS_NEAR_QUEUED = -1;
-				METERS_FAR_QUEUED = -1;
-			}
 		}
 	}
 	
@@ -219,16 +243,6 @@ implements IDepthCamera {
 	}
 	
 	public int getDepthAt( int x, int y ) {
-	    /*
-	    if(x < 0 || x >= data[y].length || y < 0 || y >= data[y].length) {
-	        P.out("BAD!!! getDepthAt("+x+", "+y+")");
-	        P.out("data.length: ", data.length);
-	        P.out("data[y].length: ", data[y].length);
-	        P.out("RGB_W, RGB_H: ", RGB_W, RGB_H);
-	        P.out("DEPTH_W, DEPTH_H: ", DEPTH_W, DEPTH_H);
-	        return 0;
-	    }
-	    */
 		return (MIRROR) ? 
 			data[y][DEPTH_W - 1 - x] : 
 			data[y][x];

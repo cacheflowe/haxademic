@@ -98,7 +98,7 @@ extends PAppletHax {
 	
 	protected void initDMX() {
 		// build DMX lights
-		dmxWrapper = new DMXWrapper("COM7", 9600);
+		dmxWrapper = new DMXWrapper();
 		UI.addSlider(LIGHT_DEBUG_CHANNEL, 0, 0, 255, 1f);
 
 		// init lights

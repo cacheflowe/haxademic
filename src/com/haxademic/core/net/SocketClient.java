@@ -8,7 +8,6 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugView;
 
 import processing.data.JSONObject;
 
@@ -26,7 +25,7 @@ public class SocketClient {
 	public static int RECONNECT_TIME = 1000 * 60;
 	
 	public SocketClient(String serverAddress, ISocketClientDelegate delegate, boolean debug) {
-	    SOCKET_DEBUG = debug;
+		SOCKET_DEBUG = debug;
 		this.serverAddress = (serverAddress != null) ? serverAddress : localSocketServerAddress();
 		this.delegate = delegate;
 		P.p.registerMethod("pre", this);

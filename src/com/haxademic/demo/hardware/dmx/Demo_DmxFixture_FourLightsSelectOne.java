@@ -13,7 +13,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// use most basic singleton instance version of DMXUniverse
-		DMXUniverse.instanceInit("COM3", 9600);
+		DMXUniverse.instanceInit();
 		
 		// create lights
 		float easeFactor = 0.04f;

@@ -42,7 +42,7 @@ public class AppState {
 	}
 
 	public static boolean is(String state) {
-		return P.store.getString(APP_STATE).equals(state);
+		return get().equals(state);
 	}
 	
 	public static boolean isAny(String ...args) {
@@ -56,8 +56,10 @@ public class AppState {
 	public static void checkQueuedState() {
 		String queuedState = P.store.getString(QUEUED_APP_STATE);
 		if(!queuedState.equals(NO_QUEUE)) {
-			P.store.setString(PREVIOUS_APP_STATE, P.store.getString(APP_STATE));
-			if(P.storeDistributed != null) {
+			String prevState = get();
+			boolean stateChanged = queuedState.equals(prevState) == false;
+			P.store.setString(PREVIOUS_APP_STATE, prevState);
+			if(P.storeDistributed != null && stateChanged) { // don't re-broadcast if app state hasn't changed. test this!
 				P.storeDistributed.setString(APP_STATE, queuedState);
 			} else {
 				P.store.setString(APP_STATE, queuedState);

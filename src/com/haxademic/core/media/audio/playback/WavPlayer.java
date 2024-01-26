@@ -378,7 +378,7 @@ public class WavPlayer {
 		int numChannels = sample.getNumChannels();
 		float[][] SampleFrames = new float[numChannels][(int)sampleFrames]; // (int)sampleFrames
 		sample.getFrames(0, SampleFrames);
-		float skipFrames = SampleFrames[0].length / 512f;
+		float skipFrames = SampleFrames[0].length / pg.width;
 		int x = 0;
 		int h = pg.height;
 		

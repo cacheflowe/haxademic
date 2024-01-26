@@ -49,17 +49,16 @@ public class AudioStreamData {
 	}
 	
 	public void setWaveformOffsets(float[] buffer) {
-		if(waveform.length != buffer.length) waveform = new float[buffer.length];
-//		System.arraycopy(buffer, 0, waveform, 0, buffer.length);
-		for(int i=0; i < waveform.length; i++) waveform[i] = buffer[i];
-	}
-	
-	public void lerpWaveformOffsets(float[] buffer, float lerpAmount) {
 		if(waveform.length != buffer.length) {
 			waveform = new float[buffer.length];
 			for(int i=0; i < waveform.length; i++) waveform[i] = buffer[i];
 			bufferWaveform = PG.newPG(waveform.length, 2, false, false);
 		}
+//		System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+		for(int i=0; i < waveform.length; i++) waveform[i] = buffer[i];
+	}
+	
+	public void lerpWaveformOffsets(float[] buffer, float lerpAmount) {
 		for(int i=0; i < waveform.length; i++) {
 			waveform[i] = P.lerp(waveform[i], buffer[i], lerpAmount);
 		}

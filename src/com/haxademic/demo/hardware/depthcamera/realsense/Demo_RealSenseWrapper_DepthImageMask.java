@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
@@ -14,8 +15,6 @@ import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
 
-import ch.bildspur.realsense.type.ColorScheme;
-import ch.bildspur.realsense.type.PersistencyIndex;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -39,17 +38,14 @@ implements IAppStoreListener {
 		thermalGradient = P.getImage("haxademic/images/palettes/thermal-gradient.png");
 		
 		// build realsense wrapper
+		RealSenseWrapper.setMidStreamFast();
 		RealSenseWrapper.METERS_FAR_THRESH = 2;
-		RealSenseWrapper.COLOR_SCHEME = ColorScheme.BlackToWhite;
+		RealSenseWrapper.FIXED_COLOR_SCHEME_GRADIENT = false;
 		realSenseWrapper = new RealSenseWrapper(p, true, true);
 		realSenseWrapper.setMirror(true);
 		
-		// add extra camera config
-		realSenseWrapper.camera().addSpatialFilter(1, 0.75f, 50, 1);
-		realSenseWrapper.camera().addDecimationFilter(2);
-		realSenseWrapper.camera().addDisparityTransform(true);
-//		realSenseWrapper.camera().addHoleFillingFilter(HoleFillingType.NearestFromAround);
-		realSenseWrapper.camera().addTemporalFilter(0.5f, 30, PersistencyIndex.ValidIn1_Last2);
+		UI.addSlider(NEAR, 0, 0, 5, 0.01f, false);
+		UI.addSlider(FAR, 5, 0, 16, 0.01f, false);
 
 		// store listener
 		P.store.addListener(this);
@@ -63,11 +59,15 @@ implements IAppStoreListener {
 		// copy realsense depth to buffer
 		realSenseWrapper.update();
 		ImageUtil.cropFillCopyImage(realSenseWrapper.getDepthImage(), pg, true);
+
+		// use new threshold filter
+		realSenseWrapper.setNearFar(UI.value(NEAR), UI.value(FAR));
+		DebugView.setTexture("realSenseWrapper.getDepthImage()", realSenseWrapper.getDepthImage());
 		
 		// preprocess
 		ChromaColorFilter.instance().presetBlackKnockout();
 		ChromaColorFilter.instance().applyTo(pg);
-		ContrastFilter.instance().setContrast(2f);
+		ContrastFilter.instance().setContrast(5f);
 		ContrastFilter.instance().applyTo(pg);
 		
 		// colorize

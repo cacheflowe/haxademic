@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.dmx;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 
@@ -30,14 +31,22 @@ public class DMXWrapper {
 	// 119 = 9v
 	// 240 = 12v
 
-	
-	public static final String DMXPRO_PORT = "DMXPRO_PORT";
-	public static final String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
+	// 	public static final String DMXPRO_PORT = "DMXPRO_PORT";
+	// public static final String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
+
 	public static final String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
 	
 	protected DmxP512 dmx;
 	protected int universeSize = 512;
 	protected int[] localData;
+
+	public static String getDefaultPort() {
+		return Config.getString(AppSettings.DMX_PORT, "COM3");
+	}
+
+	public static int getDefaultBaudRate() {
+		return Config.getInt(AppSettings.DMX_BAUD_RATE, 115000);
+	}
 
 	public DMXWrapper(String port, int baudRate, int universeSize) {
 		init(port, baudRate, universeSize);		
@@ -52,15 +61,15 @@ public class DMXWrapper {
 		if (P.platform == P.MACOSX) {
 			// mac
 			init( 
-				Config.getString(DMXPRO_PORT, "/dev/tty.usbserial-EN158815"), 
-				Config.getInt(DMXPRO_BAUDRATE, 115000), 
+				Config.getString(AppSettings.DMX_PORT, "/dev/tty.usbserial-EN158815"), 
+				Config.getInt(AppSettings.DMX_BAUD_RATE, 115000), 
 				Config.getInt(DMXPRO_UNIVERSE_SIZE, 512)
 			); 
 		} else {
 			// win
 			init( 
-				Config.getString(DMXPRO_PORT, "COM3"), 
-				Config.getInt(DMXPRO_BAUDRATE, 115000), 
+				getDefaultPort(), 
+				getDefaultBaudRate(), 
 				Config.getInt(DMXPRO_UNIVERSE_SIZE, 512)
 			);
 		}

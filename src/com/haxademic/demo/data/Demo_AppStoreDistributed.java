@@ -206,9 +206,9 @@ implements IAppStoreListener {
 	}
 	
 	protected void broadcastJson() {
-	    JSONObject jsonOut = new JSONObject();
-	    jsonOut.setBoolean("data", false);
-	    jsonOut.setString("source", "java");
+		JSONObject jsonOut = new JSONObject();
+		jsonOut.setBoolean("data", false);
+		jsonOut.setString("source", "java");
 		P.storeDistributed.broadcastJson(jsonOut);
 	}
 	

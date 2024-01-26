@@ -1126,6 +1126,69 @@ public class Shapes {
 		}
 	}
 
+	public static void drawDashedRect(PGraphics pg, float w, float h, float dashLength, float strokeWeight, int colorBg, int colorStroke) {
+		// handle corner/center mode to match processing rect()
+		int prevRectMode = pg.rectMode;
+		pg.push();
+		if (prevRectMode == P.CENTER) {
+			pg.translate((float)P.round(-w / 2f), (float)P.round(-h / 2f));
+		}
+
+		// set draw props
+		pg.rectMode(P.CORNER);
+
+		// draw background
+		if(colorBg != -1) {
+			pg.noStroke();
+			pg.fill(colorBg);
+			pg.rect(0f, 0f, w, h);
+		}
+		
+		// set dash draw props
+		pg.fill(colorStroke);
+		
+		// dashed edges
+		float edgeLengthX = MathUtil.getDistance(0, w, 0, 0);
+		float edgeLengthY = MathUtil.getDistance(0, h, 0, 0);
+
+		// calc dashes X
+		float numDashesX = (float)P.round(edgeLengthX / dashLength);
+		if (numDashesX % 2 == 0) numDashesX--;
+		float dashLengthX = w / numDashesX;
+
+		// draw dashes x
+		int oddEven = 0;
+		for(float i = 0; i < numDashesX; i++) {
+			if (oddEven % 2 == 0) {
+				float lineProgress = i / numDashesX;
+				float curX = P.lerp(0, w, lineProgress);
+				pg.rect(curX, 0, dashLengthX, strokeWeight);
+				pg.rect(curX, h - strokeWeight, dashLengthX, strokeWeight);
+			}
+			++oddEven;
+		}
+
+		// draw dashes Y
+		float numDashesY = (float)P.round(edgeLengthY / dashLength);
+		if (numDashesY % 2 == 0) numDashesY--;
+		float dashLengthY = h / numDashesY;
+
+		// draw dashes x
+		oddEven = 0;
+		for(float i = 0; i < numDashesY; i++) {
+			if (oddEven % 2 == 0) {
+				float lineProgress = i / numDashesY;
+				float curY = P.lerp(0, h, lineProgress);
+				pg.rect(0, curY, strokeWeight, dashLengthY);
+				pg.rect(w - strokeWeight, curY, strokeWeight, dashLengthY);
+			}
+			++oddEven;
+		}
+
+		// reset context corner/center mode
+		pg.rectMode(prevRectMode);
+		pg.pop();
+	}
 
 	public static void drawCylinder(PGraphics pg, int sides, float r, float rBot, float h, boolean drawCaps) {
 		float segemtnRadians = P.TWO_PI / (float) sides;

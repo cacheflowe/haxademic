@@ -67,7 +67,7 @@ extends PAppletHax {
 		AudioIn.instance(AudioInputLibrary.ESS);
 		
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM3", 115200);
+		dmx = new DMXWrapper();
 		dmxDebug = new DMXDebug();
 		DebugView.setTexture("dmxData", dmxDebug.buffer());
 		

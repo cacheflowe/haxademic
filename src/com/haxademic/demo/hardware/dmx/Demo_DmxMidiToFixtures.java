@@ -26,7 +26,7 @@ implements SimpleMidiListener {
 
 	protected void firstFrame() {
 		// Build DMXUniverse for fixtures
-		DMXUniverse.instanceInit("COM8", 115200);
+		DMXUniverse.instanceInit();
 		midi2Dmx = new Midi2DMX[] {
 				new Midi2DMX('1', RolandSPDSX.PAD_01, 1),
 				new Midi2DMX('2', RolandSPDSX.PAD_02, 4),
