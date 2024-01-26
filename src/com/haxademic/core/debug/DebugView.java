@@ -40,7 +40,7 @@ public class DebugView
 implements IAppStoreListener {
 	
 	protected PApplet p;
-	protected static PFont debugFont;	
+	public static PFont debugFont;	
 	protected static PFont debugFontLg;	
 	protected static LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
 	protected static LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
@@ -52,6 +52,7 @@ implements IAppStoreListener {
 	protected static int fontSize = 11;
 	protected static int fontSizeLg = 36;
 	protected static boolean active = false;
+	protected static boolean pixelFont = true;
 	
 	protected static int MODE_DEBUG = 0;
 	protected static int MODE_HELP = 1;
@@ -102,7 +103,7 @@ implements IAppStoreListener {
 	}
 	
 	public static void logUptime() {
-	    if(FrameLoop.frameModMinutes(10)) P.out("Uptime:", DebugView.uptimeStr());
+		if(FrameLoop.frameModMinutes(10)) P.out("Uptime:", DebugView.uptimeStr());
 	}
 	
 	public static boolean active() {
@@ -219,45 +220,45 @@ implements IAppStoreListener {
 		// build string by iterating over LinkedHashMap
 		String string = "";
 		for (Map.Entry<String, String> item : hashMap.entrySet()) {
-		    String key = item.getKey();
-		    String value = item.getValue();
-		    if(key != null && value != null) {
-			    	if(value.length() > 0) 	string += key + ": " + value + "\n";
-			    	else 					string += key + "\n";
-		    }
+			String key = item.getKey();
+			String value = item.getValue();
+			if(key != null && value != null) {
+				if(value.length() > 0) 	string += key + ": " + value + "\n";
+				else 										string += key + "\n";
+			}
 		}
 		return string;
 	}
 	
 	protected void drawValuesFromHashMap(LinkedHashMap<String, String> hashMap) {
-	    try {
-    		// build string by iterating over LinkedHashMap
-    		for (Map.Entry<String, String> item : hashMap.entrySet()) {
-    			String key = item.getKey();
-    			String value = item.getValue();
-    			if(value != null && value.length() > 100) value = value.substring(0, 99);	// limit long strings
-    			if(key != null && value != null) {
-    				String textLine = (value.length() > 0) ?
-    						key + ": " + value + "\n" :
-    						key + "\n";
-    				boolean isTitle = textLine.indexOf(TITLE_PREFIX) == 0; 
-    				if(isTitle) textLine = textLine.substring(TITLE_PREFIX.length()).trim();
-    				drawTextLine(textLine, isTitle);
-    			}
-    		}
-    		
-    		if(mode == MODE_DEBUG) {
-    			for (Map.Entry<String, PImage> item : textures.entrySet()) {
-    			    String imageName = item.getKey();
-    			    PImage image = item.getValue();
-    			    if(imageName != null && image != null) {
-    					drawImage(imageName, image);
-    			    }
-    			}
-    		}
-	    } catch(ConcurrentModificationException e) {
-	        P.error("DebugView.drawValuesFromHashMap() error :: ConcurrentModificationException");
-	    }
+		try {
+			// build string by iterating over LinkedHashMap
+			for (Map.Entry<String, String> item : hashMap.entrySet()) {
+				String key = item.getKey();
+				String value = item.getValue();
+				if(value != null && value.length() > 100) value = value.substring(0, 99);	// limit long strings
+				if(key != null && value != null) {
+					String textLine = (value.length() > 0) ?
+							key + ": " + value + "\n" :
+							key + "\n";
+					boolean isTitle = textLine.indexOf(TITLE_PREFIX) == 0; 
+					if(isTitle) textLine = textLine.substring(TITLE_PREFIX.length()).trim();
+					drawTextLine(textLine, isTitle);
+				}
+			}
+			
+			if(mode == MODE_DEBUG) {
+				for (Map.Entry<String, PImage> item : textures.entrySet()) {
+					String imageName = item.getKey();
+					PImage image = item.getValue();
+					if(imageName != null && image != null) {
+						drawImage(imageName, image);
+					}
+				}
+			}
+		} catch(ConcurrentModificationException e) {
+			P.error("DebugView.drawValuesFromHashMap() error :: ConcurrentModificationException");
+		}
 	}
 	
 	protected void drawTextLine(String textLine, boolean isTitle) {
@@ -273,8 +274,8 @@ implements IAppStoreListener {
 		PG.drawStrokedRect(pg, IUIControl.controlW, controlH, 1, fill, ColorsHax.BUTTON_OUTLINE);
 
 		// text label
-		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(textLine, IUIControl.TEXT_INDENT, 1f); // , IUIControl.controlW, controlH
+		pg.fill((pixelFont) ? 0xffbbbbbb : ColorsHax.BUTTON_TEXT);
+		pg.text(textLine, IUIControl.TEXT_INDENT, (pixelFont) ? 3f : 1f); // , IUIControl.controlW, controlH
 
 		// if mouse hover, draw big afterwards
 		if(!isTitle && CollisionUtil.rectangleContainsPoint(Mouse.x, Mouse.y, controlX, controlY, IUIControl.controlW, controlH)) {
@@ -292,7 +293,7 @@ implements IAppStoreListener {
 	protected void drawImage(String imageName, PImage image) {
 		PGraphics pg = P.p.g;
 
-    	// scale to fit
+			// scale to fit
 		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW - padding * 2);
 		float texW = image.width * imgScale;
 		float texH = image.height * imgScale;
@@ -365,7 +366,7 @@ implements IAppStoreListener {
 			if((totalW < pg.width && totalH < pg.height) || P.p.mousePressed) {
 				PG.setCenterScreen(pg);
 				PG.setDrawCenter(pg);
-				PG.drawStrokedRect(pg, totalW, totalH, 1, P.p.color(0, 0, 0), ColorsHax.BUTTON_OUTLINE);
+				PG.drawStrokedRect(pg, totalW, totalH, 1, P.p.color(0, 0), ColorsHax.BUTTON_OUTLINE);
 				p.image(highlightedImage, 0, 0);
 			}  else {
 				PG.setDrawCorner(pg);
@@ -380,32 +381,32 @@ implements IAppStoreListener {
 	}
 	
 	protected void drawCrosshair() {
-	    PGraphics pg = P.p.g;
-	    pg.push();
-	    PG.setDrawCorner(pg);
-	    if(KeyboardState.keyOn('l')) {
-	        int w = pg.width * 2;
-	        int h = pg.height * 2;
-	        pg.push();
-	        pg.fill(255);
-	        pg.rect(Mouse.x - w/2, Mouse.y, w, 1);
-	        pg.rect(Mouse.x, Mouse.y - h/2, 1, h);
-	        pg.stroke(255);
-	        pg.text(Mouse.x+", "+Mouse.y, 20,  -20);
-	        pg.pop();
-	    }
-	    pg.pop();
+		PGraphics pg = P.p.g;
+		pg.push();
+		PG.setDrawCorner(pg);
+		if(KeyboardState.keyOn('l')) {
+			int w = pg.width * 2;
+			int h = pg.height * 2;
+			pg.push();
+			pg.fill(255);
+			pg.rect(Mouse.x - w/2, Mouse.y, w, 1);
+			pg.rect(Mouse.x, Mouse.y - h/2, 1, h);
+			pg.stroke(255);
+			pg.text(Mouse.x+", "+Mouse.y, 20,  -20);
+			pg.pop();
+		}
+		pg.pop();
 	}
 	
 	protected void drawPixelValue() {
-	    PGraphics pg = P.p.g;
-	    pg.push();
-	    PG.setDrawCorner(pg);
-	    if(KeyboardState.keyOn('p')) {
-	        int col = pg.get(Mouse.x, Mouse.y);
-	        pixelVal = "[" + Mouse.x + ", " + Mouse.y + "]: " + P.hex(col);
-	    }
-	    pg.pop();
+		PGraphics pg = P.p.g;
+		pg.push();
+		PG.setDrawCorner(pg);
+		if(KeyboardState.keyOn('p')) {
+			int col = pg.get(Mouse.x, Mouse.y);
+			pixelVal = "[" + Mouse.x + ", " + Mouse.y + "]: " + P.hex(col);
+		}
+		pg.pop();
 	}
 	
 	protected static void nextCol() {
@@ -428,6 +429,11 @@ implements IAppStoreListener {
 		if(debugFont == null) return;
 		if(active == false) return;
 		if(autoHide && p.frameCount > frameOpened + hideFrames) active = false;
+		
+		// testing pixel font
+		if(pixelFont) {
+			debugFont = FontCacher.getFont("haxademic/fonts/Minecraftia-Regular.ttf", 8f);
+		}
 		
 		// update core app stats
 		updateAppInfo();

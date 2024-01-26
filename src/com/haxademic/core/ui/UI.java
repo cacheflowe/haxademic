@@ -307,7 +307,7 @@ implements IAppStoreListener {
 		// update control values (whether UI is showing or not) 
 		DebugView.setHighlightedText(null);
 		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
-		    IUIControl control = entry.getValue();
+			IUIControl control = entry.getValue();
 			control.update();
 			
 			// add DebugView highlight text on hover of a UI control
@@ -322,8 +322,8 @@ implements IAppStoreListener {
 		if(active && P.renderer != PRenderers.PDF) {
 			PG.setDrawFlat2d(P.p.g, true);
 			P.p.g.noLights();
-	        for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
-	            IUIControl control = entry.getValue();
+			for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+				IUIControl control = entry.getValue();
 				control.draw(P.p.g);
 			}
 			PG.setDrawFlat2d(P.p.g, false);
@@ -348,7 +348,6 @@ implements IAppStoreListener {
 		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {	// With LinkedHashMap, keys are in order
 			// String key = entry.getKey();
 			IUIControl control = entry.getValue();
-
 			JSONObject controlJson = new JSONObject();
 			controlJson.setString(KEY_TYPE, control.type());
 			controlJson.setString(KEY_ID, control.id());
@@ -375,17 +374,17 @@ implements IAppStoreListener {
 	
 	public static String valuesToJSON(String[] filters, boolean singleLine) {
 		// get sorted key list
-        Set<String> names = controls.keySet(); 
+		Set<String> names = controls.keySet(); 
 //        System.out.println("HashSet before sorting : " + names); 
-        // Sorting HashSet using List 
-        List<String> tempList = new ArrayList<String>(names);
-        Collections.sort(tempList); 
+		// Sorting HashSet using List 
+		List<String> tempList = new ArrayList<String>(names);
+		Collections.sort(tempList); 
 		
-        // loop through keys
+		// loop through keys
 //		JSONObject json = new JSONObject();
 		String jsonOutput = "{" + FileUtil.NEWLINE;
-        for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
-            IUIControl control = entry.getValue();
+		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+			IUIControl control = entry.getValue();
 //		for (String hashKey : tempList) {
 			// get key/val
 //			IUIControl control = controls.get(hashKey);
@@ -431,12 +430,12 @@ implements IAppStoreListener {
 //		P.out(JsonUtil.isValid(jsonData.toString()));
 		Iterator<?> iterator = jsonData.keys().iterator();
 		while(iterator.hasNext()) {
-		    String key = (String) iterator.next();
-		    if(controls.containsKey(key)) {
-		    	controls.get(key).set(jsonData.getFloat(key));
-		    } else {
-		    	P.out("UI.loadValuesFromJSON() Error: couldn't find key: ", key);
-		    }
+			String key = (String) iterator.next();
+			if(controls.containsKey(key)) {
+				controls.get(key).set(jsonData.getFloat(key));
+			} else {
+				P.out("UI.loadValuesFromJSON() Error: couldn't find key: ", key);
+			}
 		}
 	}
 

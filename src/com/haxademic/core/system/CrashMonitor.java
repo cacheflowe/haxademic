@@ -75,9 +75,9 @@ public class CrashMonitor {
 
 		public void setup() {
 			int windowX = (showing) ? 0 : -1000;
-			super.surface.setResizable(true);	// needed for setLocation()
-			super.surface.setLocation(windowX, 0);					// super.surface.setVisible(showing);	<- this seems to disable the restart functionality
-			super.surface.setTitle("CrashMonitor");
+			surface.setResizable(true);	// needed for setLocation()
+			surface.setLocation(windowX, 0);					// surface.setVisible(showing);	<- this seems to disable the restart functionality
+			surface.setTitle("CrashMonitor");
 		}
 		
 		public void setUpdateTime(int updateTime) {
