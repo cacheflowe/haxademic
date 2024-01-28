@@ -62,8 +62,8 @@ implements IKinectV2SkeletonsARDelegate {
 			arPool.addElement(arAsset);
 		}
 		{
-			ArElementImage arAsset = new ArElementImage("../../bounty-fan-cam-sb-2024/data/ar-assets/wing-spin/", 0.15f, BodyTrackType.HEAD);
-			arPool.addElement(arAsset.setPositionOffset(0, -0.55f, 0));
+			ArElementImage arAsset = new ArElementImage("../../bounty-fan-cam-sb-2024/data/ar-assets/wing-spin/", 0.3f, BodyTrackType.HEAD);
+			arPool.addElement(arAsset.setPositionOffset(0, -0.28f, 0));
 		}
 		{
 			ArElementImage arAsset = new ArElementImage("../../bounty-fan-cam-sb-2024/data/ar-assets/bounty-face/", 0.22f, BodyTrackType.HEAD);
