@@ -2,15 +2,11 @@ package com.haxademic.core.hardware.depthcamera.ar;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.hardware.depthcamera.ar.ArObjectBase;
-import com.haxademic.core.hardware.depthcamera.ar.IArElement;
-
 import KinectPV2.KJoint;
 import processing.core.PGraphics;
 
 public class ArElementCompoundBase 
-extends ArObjectBase
-implements IArElement {
+extends ArObjectBase {
 
 	protected ArrayList<IArElement> elements = new ArrayList<IArElement>();
 

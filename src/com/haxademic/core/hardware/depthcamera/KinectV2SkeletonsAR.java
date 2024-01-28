@@ -25,11 +25,11 @@ public class KinectV2SkeletonsAR {
 	}
 	
 	// TODO
-	// - Refactor positioning in ArObjectBase - this should happen more discretely
+	// - Refactor positioning in ArObjectBase - this should happen more discretely - not sure what this means anymore :(
 	// - AR elements scale: Figure out app scaledown for future use
 	//   - Handle scaling depending on app resolution - it changes if the app size changes...
-	//   - Why the scale difference between AFI app and Haxademic demo?
-	//   - POSSIBLE FIX: in the `depthcamera.ar` package, replace `pg.height` with `KinectV2SkeletonsAR.CAMERA_HEIGHT` - AFTER we launch. this would mess up our scales in AFI app
+	//   - Why the scale difference between AFI app and Haxademic demo? Not sure yet, but probably this global scaling
+	//   - [DONE, TEST! Will Need to fix AFI app by maybe setting CAMERA_HEIGHT to pg.height] POSSIBLE FIX: in the `depthcamera.ar` package, replace `pg.height` with `KinectV2SkeletonsAR.CAMERA_HEIGHT` - AFTER we launch. this would mess up our scales in AFI app
 	// - Kinect user detection
 	//   - Sort drawing by `z` using `skeletonZ` - or change z-position and switch to ortho() camera?
 
@@ -148,10 +148,12 @@ public class KinectV2SkeletonsAR {
 		boolean arrayDiff3d = skeletons3d.size() != skeletonsCur3d.size();
 		if(arrayDiff2d && arrayDiff3d && arraysAreSafe) return true;
 		// if the skeletons have reordered, we've changed. we know the old & new arrays are the same size at this point, 
-		// so we don't need to preotect against index out of bounds
+		// so we don't need to protect against index out of bounds
 		for (int i = 0; i < skeletons2d.size(); i++) {
+			if(i > skeletons2d.size() || i > skeletonsCur2d.size()) return true;
 			if(skeletons2d.get(i) != skeletonsCur2d.get(i)) return true;
-			if(skeletons3d.get(i) != skeletonsCur3d.get(i)) return true;
+			if(i > skeletons3d.size() || i > skeletons3d.size()) return true;
+			if(skeletons3d.get(i) != skeletonsCur3d.get(i)) return true;  // ERROR HAPPENED HERE - now we're checking on the line above to see if we're in bounds
 		}
 		// arrays are the same as before!
 		return false;
@@ -162,15 +164,16 @@ public class KinectV2SkeletonsAR {
 		ArrayList<KSkeleton> skeletonsCur2d = kinectV2.getSkeletonColorMap();
 		ArrayList<KSkeleton> skeletonsCur3d = kinectV2.getSkeleton3d();
 		boolean usersChanged = skeletonsDidChange(skeletonsCur2d, skeletonsCur3d);
-		DebugView.setValue("usersChanged", usersChanged);
+		// DebugView.setValue("usersChanged", usersChanged);
 		
 		// If users changed, store an ArElement along with the Skeleton, and remove olds
-		if(usersChanged) {
+		if(usersChanged && skeletonsCur2d.size() == skeletonsCur3d.size()) { // occasional error could happen when internal array sizes are different
 			// check to see if old skeletons still exist? maybe unnecessary
 			// check to see if new skeletons have shown up (not in old array) - assign them an ar element
 			for (int i = 0; i < skeletonsCur2d.size(); i++) {
+				int iSafe = P.min(i, skeletonsCur3d.size() - 1);
 				KSkeleton skel = skeletonsCur2d.get(i);
-				KSkeleton skel3d = skeletonsCur3d.get(i);
+				KSkeleton skel3d = skeletonsCur3d.get(iSafe); // ERROR HAPPENED HERE, now we're protecting against out-of-bounds, even though the conditional above all of this should've protected us
 				if(skeletons2d.indexOf(skel) == -1) {
 					IArElement nextArElement = arPool.nextArElement();
 					if(nextArElement != null) {
@@ -205,6 +208,7 @@ public class KinectV2SkeletonsAR {
 		pg.fill(col);
 		pg.stroke(col);
 		pg.strokeWeight(3);
+		PG.setDrawCenter(pg);
 		drawBody(joints2d);
 
 		//draw different color for each hand state
@@ -430,7 +434,7 @@ public class KinectV2SkeletonsAR {
 	void drawBone(KJoint[] joints, int jointType1, int jointType2) {
 		pg.pushMatrix();
 		pg.translate(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ());
-		pg.ellipse(0, 0, 10, 10);
+		pg.ellipse(0, 0, 20, 20);
 		pg.popMatrix();
 		pg.line(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ(), joints[jointType2].getX(), joints[jointType2].getY(), joints[jointType2].getZ());
 	}

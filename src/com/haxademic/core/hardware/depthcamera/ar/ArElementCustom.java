@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.depthcamera.ar;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.math.MathUtil;
 
 import KinectPV2.KJoint;
@@ -11,8 +12,7 @@ import processing.core.PGraphics;
 import processing.core.PVector;
 
 public class ArElementCustom 
-extends ArObjectBase
-implements IArElement {
+extends ArObjectBase {
 
 
 	public ArElementCustom(float baseScale) {
@@ -24,7 +24,7 @@ implements IArElement {
 		PG.setBetterLights(pg);
 		pg.translate(position.x, position.y);
 		setRotationOnContext(pg);
-		float responsiveHeight = pg.height * baseScale;
+		float responsiveHeight = KinectV2SkeletonsAR.CAMERA_HEIGHT * baseScale;
 		pg.translate(
 				positionOffset.x * userScale * responsiveHeight, 
 				positionOffset.y * userScale * responsiveHeight, 

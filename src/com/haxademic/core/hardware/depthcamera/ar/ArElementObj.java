@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.depthcamera.ar;
 
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -8,8 +9,7 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 public class ArElementObj 
-extends ArObjectBase
-implements IArElement {
+extends ArObjectBase {
 
 	protected PShape shape;
 	protected float shapeWidth;
@@ -40,7 +40,7 @@ implements IArElement {
 		setLights(pg);
 		pg.translate(position.x, position.y);
 		setRotationOnContext(pg);
-		float responsiveHeight = pg.height * baseScale;
+		float responsiveHeight = KinectV2SkeletonsAR.CAMERA_HEIGHT * baseScale;
 		float shapeScale = MathUtil.scaleToTarget(shapeHeight, responsiveHeight);
 		pg.translate(
 				positionOffset.x * userScale * responsiveHeight, 

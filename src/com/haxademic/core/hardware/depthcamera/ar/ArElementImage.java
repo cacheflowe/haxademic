@@ -3,6 +3,7 @@ package com.haxademic.core.hardware.depthcamera.ar;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.depthcamera.KinectV2SkeletonsAR;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 
@@ -10,8 +11,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class ArElementImage 
-extends ArObjectBase
-implements IArElement {
+extends ArObjectBase {
 
 	protected ImageSequenceMovieClip imageSequence;
 	protected PImage image;
@@ -80,14 +80,14 @@ implements IArElement {
 			fadeIn.update();
 		}
 		
-		float curScale = MathUtil.scaleToTarget(image().height, pg.height * baseScale);
+		float curScale = MathUtil.scaleToTarget(image().height, KinectV2SkeletonsAR.CAMERA_HEIGHT * baseScale);
 		float imgW = image().width * curScale * userScale; 
 		float imgH = image().height * curScale * userScale; 
 		PG.setDrawCenter(pg);
 		pg.push();
 		pg.translate(position.x, position.y);
 		setRotationOnContext(pg);
-		float responsiveHeight = pg.height * baseScale;
+		float responsiveHeight = KinectV2SkeletonsAR.CAMERA_HEIGHT * baseScale;
 		pg.translate(
 				positionOffset.x * userScale * responsiveHeight, 
 				positionOffset.y * userScale * responsiveHeight, 

@@ -36,7 +36,7 @@ public class ArObjectBase
 		
 		// init position
 		this.position = new PVector();
-		this.positionOffset = new PVector(0, 0, 0);
+		this.positionOffset = new PVector();
 		this.pivotOffset = new PVector();
 		this.rotation = new PVector();
 		this.rotationOffset = new PVector();
@@ -141,14 +141,14 @@ public class ArObjectBase
 		// some predefined joint tracking. 
 		// you can override this and do something totally custom 
 		switch (bodyTrackType) {
-			case HEAD: 						setPositionForHead(joints2d, joints3d); break;
+			case HEAD: 							setPositionForHead(joints2d, joints3d); break;
 			case HAND_LEFT: 				setPositionHand(joints2d, joints3d, false, false); break;
-			case HAND_POINT_LEFT: 			setPositionHand(joints2d, joints3d, true, false); break;
+			case HAND_POINT_LEFT: 	setPositionHand(joints2d, joints3d, true, false); break;
 			case HAND_RIGHT: 				setPositionHand(joints2d, joints3d, false, true); break;
-			case HAND_POINT_RIGHT: 			setPositionHand(joints2d, joints3d, true, true); break;
-			case HANG_ON_SHOULDERS: 		setPositionHangFromShoulders(joints2d, joints3d); break;
+			case HAND_POINT_RIGHT: 	setPositionHand(joints2d, joints3d, true, true); break;
+			case HANG_ON_SHOULDERS: setPositionHangFromShoulders(joints2d, joints3d); break;
 			case HAND_FLAG: 				setPositionForHandFlag(joints2d, joints3d); break;
-			case WAIST: 					setPositionWaist(joints2d, joints3d); break;
+			case WAIST: 						setPositionWaist(joints2d, joints3d); break;
 			default: break;
 		}
 		return this;
@@ -205,7 +205,7 @@ public class ArObjectBase
 		float bankZ = (float) Math.atan2(2.0 * (q1y*q1z + q1x*q1w),(-sqx - sqy + sqz + sqw));
 		bankZ = (bankZ + P.PI); // wraps around -HALF_PI when standing straight up, but base is HALF_PI< so rotate a lil more
 		if(bankZ > P.PI) bankZ = bankZ - P.TWO_PI;
-		DebugView.setValue("bankZ", bankZ);
+		// DebugView.setValue("bankZ", bankZ);
 		// scale based on spine-should to spine-mid
 		KJoint headJoint = joints2d[KinectPV2.JointType_Head];
 		KJoint spineShoulderJoint = joints2d[KinectPV2.JointType_SpineShoulder];
