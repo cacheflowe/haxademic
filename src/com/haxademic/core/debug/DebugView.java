@@ -391,8 +391,9 @@ implements IAppStoreListener {
 			pg.fill(255);
 			pg.rect(Mouse.x - w/2, Mouse.y, w, 1);
 			pg.rect(Mouse.x, Mouse.y - h/2, 1, h);
+			DemoAssets.setDemoFont(pg);
 			pg.stroke(255);
-			pg.text(Mouse.x+", "+Mouse.y, 20,  -20);
+			pg.text(P.round(Mouse.x) + ", " + P.round(Mouse.y), Mouse.x + 10, Mouse.y - 30);
 			pg.pop();
 		}
 		pg.pop();
