@@ -9,6 +9,7 @@ import java.util.HashMap;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -21,11 +22,11 @@ import processing.opengl.Texture;
 
 public class ImageUtil {
 	
-		//////////////////////////////
-		// COLOR ANLYSIS CONSTANTS
-		//////////////////////////////
+	//////////////////////////////
+	// COLOR ANLYSIS CONSTANTS
+	//////////////////////////////
 
-		public static final int BLACK_INT = -16777216;
+	public static final int BLACK_INT = -16777216;
 	public static final int TRANSPARENT_PNG = 16777215;
 	public static final int CLEAR_INT = 48356;
 	public static final int CLEAR_INT_PG = 13421772;
@@ -83,18 +84,18 @@ public class ImageUtil {
 	// needs testing....
 	public static int getPixelColorFast( PApplet p, PGraphics image, int x, int y ) {
 		// this should be done before all reading, and close after all reading (below)
-			PGL pgl = image.beginPGL();
-			ByteBuffer buffer = ByteBuffer.allocateDirect(1 * 1 * Integer.SIZE / 8);
-	
-			pgl.readPixels(x, y, 1, 1, PGL.RGBA, PGL.UNSIGNED_BYTE, buffer); 
-	
-			// get the first three bytes
-			int r = buffer.get() & 0xFF;
-			int g = buffer.get() & 0xFF;
-			int b = buffer.get() & 0xFF;
-			buffer.clear();
-			image.endPGL();
-			return p.color(r, g, b);
+		PGL pgl = image.beginPGL();
+		ByteBuffer buffer = ByteBuffer.allocateDirect(1 * 1 * Integer.SIZE / 8);
+
+		pgl.readPixels(x, y, 1, 1, PGL.RGBA, PGL.UNSIGNED_BYTE, buffer); 
+
+		// get the first three bytes
+		int r = buffer.get() & 0xFF;
+		int g = buffer.get() & 0xFF;
+		int b = buffer.get() & 0xFF;
+		buffer.clear();
+		image.endPGL();
+		return p.color(r, g, b);
 	}
 	
 	public static float getBrightnessForPixel( PApplet p, PImage image, int x, int y ) {
@@ -159,7 +160,7 @@ public class ImageUtil {
 
 	public static void copyBufferedToPImagePixels(BufferedImage buffImg, PImage pimg) {
 		// get pixels from BufferedImage
-//		int pixels[] = ((DataBufferInt) buffImg.getRaster().getDataBuffer()).getData();
+		// int pixels[] = ((DataBufferInt) buffImg.getRaster().getDataBuffer()).getData();
 		// Copy array to PImage and update
 		buffImg.getRGB(0, 0, pimg.width, pimg.height, pimg.pixels, 0, pimg.width);
 		pimg.updatePixels();
@@ -291,6 +292,13 @@ public class ImageUtil {
 	public static void copyImage(PImage src, PImage dest) {
 		dest.copy(src, 0, 0, src.width, src.height, 0, 0, dest.width, dest.height);
 	}
+
+	// draw image full-size inside of a container, and scroll with the mouse so we can see the whole thing
+	public static void drawImageScroll(PImage src, PGraphics dest) {
+		float scrollX = src.width - dest.width;
+		float scrollY = src.height - dest.height;
+		dest.image(src, (int) P.map(Mouse.xNorm, 0, 1, 0, -scrollX), (int) P.map(Mouse.yNorm, 0, 1, 0, -scrollY));
+	}
 	
 	protected static Rectangle cropFillRect = new Rectangle();
 	public static Rectangle cropFillCopyImage( PImage src, PImage dest, boolean cropFill ) {
@@ -310,7 +318,7 @@ public class ImageUtil {
 		
 		cropFillRect.setFrame(offsetX, offsetY, resizedW, resizedH);
 		dest.copy(src, 0, 0, (int) imageW, (int) imageH, cropFillRect.x, cropFillRect.y, cropFillRect.width, cropFillRect.height);
-			return cropFillRect;
+		return cropFillRect;
 	}
 	
 	// fills a specific rectangle without depending on offsetting off an entire buffer/canvas like the other version of this method
@@ -446,14 +454,11 @@ public class ImageUtil {
 		// https://forum.processing.org/two/discussion/6898/how-to-correctly-release-pimage-memory
 		// https://github.com/jeffThompson/ProcessingTeachingSketches/blob/master/Utilities/AvoidPImageMemoryLeaks/AvoidPImageMemoryLeaks.pde
 		// https://forum.processing.org/one/topic/pimage-memory-leak-example.html
-//		for (int i = 0; i < imageSequence.size(); i++) {
-			Object cache = pg.getCache(img);
-			pg.removeCache(img);
-			if (cache instanceof Texture) {
-				((Texture) cache).disposeSourceBuffer();
-			}
-//		}
-//		imageSequence.clear();
+		Object cache = pg.getCache(img);
+		pg.removeCache(img);
+		if (cache instanceof Texture) {
+			((Texture) cache).disposeSourceBuffer();
+		}
 	}
 
 	public static int[] zero4 = new int[] {0, 0, 0, 0};
