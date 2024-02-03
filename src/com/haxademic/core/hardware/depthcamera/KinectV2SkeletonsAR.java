@@ -153,6 +153,7 @@ public class KinectV2SkeletonsAR {
 			if(i > skeletons2d.size() || i > skeletonsCur2d.size()) return true;
 			if(skeletons2d.get(i) != skeletonsCur2d.get(i)) return true;
 			if(i > skeletons3d.size() || i > skeletons3d.size()) return true;
+			if(i > skeletonsCur3d.size()) return false; // trying to solve error below bbut also ot have things go weird in checkUsersChanged() because it's expecting the arrays to be the same size
 			if(skeletons3d.get(i) != skeletonsCur3d.get(i)) return true;  // ERROR HAPPENED HERE - now we're checking on the line above to see if we're in bounds
 		}
 		// arrays are the same as before!
