@@ -14,16 +14,25 @@ public class DMXFixture {
 
 	protected DMXUniverse universe;
 	protected int dmxChannel;
-	protected EasingColor color = new EasingColor("#ffffff", 0.3f); 
+	protected EasingColor color; 
 	
 	public DMXFixture(int dmxChannel) {
 		this(DMXUniverse.instance(), dmxChannel, DMXMode.RGB);	// default mode requires calling `DMXUniverse.instanceInit()` on app init to use the singleton
 	}
 		
+	public DMXFixture(int dmxChannel, boolean easingFloatMode) {
+		this(DMXUniverse.instance(), dmxChannel, DMXMode.RGB, easingFloatMode);
+	}
+		
 	public DMXFixture(DMXUniverse universe, int dmxChannel, DMXMode mode) {
+		this(DMXUniverse.instance(), dmxChannel, DMXMode.RGB, true);
+	}
+
+	public DMXFixture(DMXUniverse universe, int dmxChannel, DMXMode mode, boolean easingFloatMode) {
 		this.universe = universe;
 		this.dmxChannel = dmxChannel;
 		this.mode = mode;
+		this.color = new EasingColor("#ffffff", 0.3f);
 		if(this.universe != null) this.universe.addFixture(this);
 		else P.error("DMXFixture initialized without a DMXUniverse");
 	}

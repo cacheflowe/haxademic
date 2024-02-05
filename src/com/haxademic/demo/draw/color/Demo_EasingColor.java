@@ -24,14 +24,19 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// init easing color obj in various ways
-//		colorHaxEasing = new EasingColor("#00ff00", 10);
-//		colorHaxEasing = new EasingColor(0x00ff00, 10);
-//		colorHaxEasing = new EasingColor("#ff00ff00", 10);
-//		colorHaxEasing = new EasingColor(0, 255, 0, 255);
-		colorHaxEasing = new EasingColor(0, 255, 0);
-		
+		//		colorHaxEasing = new EasingColor("#00ff00", 10);
+		//		colorHaxEasing = new EasingColor("#ff00ff00", 10);
+		//		colorHaxEasing = new EasingColor(0, 255, 0, 255);
+		boolean easingFloatMode = false;
+		colorHaxEasing = new EasingColor(0xff00ff00, 12, true);
+		// colorHaxEasing = new EasingColor(0, 255, 0, 255, 0.1f, easingFloatMode);
+
 		// add UI
-		UI.addSlider(EASING, 0.2f, 0.001f, 10, 0.001f, false);
+		if(easingFloatMode) {
+			UI.addSlider(EASING, 0.2f, 0.001f, 10, 0.01f, false);
+		} else {
+			UI.addSlider(EASING, 5, 0, 255, 1f, false);
+		}
 	}
 	
 	protected void drawApp() {

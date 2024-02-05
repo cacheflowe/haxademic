@@ -59,6 +59,11 @@ implements IEasingValue {
 		return this;
 	}
 	
+	public IEasingValue setEaseFactor(float easeFactor) {
+		setInc(easeFactor);
+		return this;
+	}
+	
 	public IEasingValue setDelay(int frames) {
 		this.delay = frames;
 		return this;
