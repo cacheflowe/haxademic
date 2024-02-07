@@ -24,6 +24,10 @@ public class DMXFixture {
 		this(DMXUniverse.instance(), dmxChannel, DMXMode.RGB, easingFloatMode);
 	}
 		
+	public DMXFixture(int dmxChannel, DMXMode mode, boolean easingFloatMode) {
+	    this(DMXUniverse.instance(), dmxChannel, mode, easingFloatMode);
+	}
+	
 	public DMXFixture(DMXUniverse universe, int dmxChannel, DMXMode mode) {
 		this(DMXUniverse.instance(), dmxChannel, DMXMode.RGB, true);
 	}
