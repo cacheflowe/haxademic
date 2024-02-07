@@ -88,17 +88,21 @@ extends BaseFragmentShader {
 		// blend it
 		if(blendMode == BLEND_SCREEN) {
 			pg.beginDraw();
+			PG.setDrawFlat2d(pg, true);
 			pg.push();
 			pg.blendMode(PBlendModes.SCREEN);
 			pg.image(glowTexture, 0, 0);
 			pg.pop();
+			PG.setDrawFlat2d(pg, false);
 			pg.endDraw();
 		} else if(blendMode == BLEND_ADD) {
 			pg.beginDraw();
+			PG.setDrawFlat2d(pg, true);
 			pg.push();
 			pg.blendMode(PBlendModes.ADD);
 			pg.image(glowTexture, 0, 0);
 			pg.pop();
+			PG.setDrawFlat2d(pg, false);
 			pg.endDraw();
 		} else if(blendMode == BLEND_MULTIPLY) {
 			BlendTextureMultiply.instance().setSourceTexture(glowTexture);
