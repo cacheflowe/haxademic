@@ -51,12 +51,19 @@ public class SocketServer {
 			////////////////////////////////////////////////
 			
 			server.start();
-			P.println( "WS Server started on port: " + server.getPort() );
-			P.println( "WS Server started on ip: " + IPAddress.getLocalAddress() );
+			
+			P.outInitLineBreak();
+			P.outInit( "WS Server started on port: " + server.getPort() );
+			P.outInit( "WS Server started on ip: " + IPAddress.getLocalAddress() );
+			P.outInitLineBreak();
 			
 			BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
 			while (true) { // sysin.ready()
 				String in = sysin.readLine();
+				P.outInitLineBreak();
+				P.outInit("SocketServer :: relaying (to " + server.getConnections().size() + " clients):");
+				P.outInit(in);
+				P.outInitLineBreak();
 				server.sendToAll( in );
 			}
 		} catch(IOException e) {	//  | NoSuchAlgorithmException | CertificateException | UnrecoverableKeyException | KeyStoreException | KeyManagementException
@@ -69,8 +76,12 @@ public class SocketServer {
 	}
 	
 	public void sendMessage(String msg) {
-		if(SocketServer.DEBUG == true) P.println("sending (to " + server.getConnections().size() + " clients):");
-		if(SocketServer.DEBUG == true) P.println(msg);
+		if(SocketServer.DEBUG == true) {
+			P.outInitLineBreak();
+			P.outInit("SocketServer :: sending (to " + server.getConnections().size() + " clients):");
+			P.outInit(msg);
+			P.outInitLineBreak();
+		}
 		server.sendToAll( msg );
 	}
 	

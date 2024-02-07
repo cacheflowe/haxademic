@@ -59,7 +59,7 @@ public class AppState {
 			String prevState = get();
 			boolean stateChanged = queuedState.equals(prevState) == false;
 			P.store.setString(PREVIOUS_APP_STATE, prevState);
-			if(P.storeDistributed != null && stateChanged) { // don't re-broadcast if app state hasn't changed. test this!
+			if(P.storeDistributed != null && stateChanged && AppStoreDistributed.autoBroadcastAppState) { // don't re-broadcast if app state hasn't changed. test this!
 				P.storeDistributed.setString(APP_STATE, queuedState);
 			} else {
 				P.store.setString(APP_STATE, queuedState);

@@ -19,7 +19,8 @@ implements ISocketClientDelegate {
 	public static AppStoreDistributed instance;
 	public static int MODE_SERVER = 0;
 	public static int MODE_CLIENT = 1;
-	public static boolean setLocalAuto = true; // if the ws:// server is external (ex: Node), we don't want to store immediately, but wait for the bounce-back, like the .js version 
+	public static boolean setLocalAuto = true; // if the ws:// server is external (ex: Node), we don't want to store immediately, but wait for the bounce-back, like the .js version, in which case we'd se to false
+	public static boolean autoBroadcastAppState = true; // if true, we'll automatically broadcast app state changes to all connected clients. however, other clients may get double messages since all messages are auto-relayed to all clients. A client can set AppState, but will get it back twice
 	protected SocketServer server;
 	protected SocketClient client;
 	
