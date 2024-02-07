@@ -3,8 +3,6 @@ package com.haxademic.core.hardware.dmx;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 
 public class DMXUniverse

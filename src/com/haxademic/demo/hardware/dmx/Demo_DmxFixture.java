@@ -18,7 +18,7 @@ extends PAppletHax {
 		
 		// and an EasingFloat vs LinearFloat
 		fixture1 = (new DMXFixture(1)).setEaseFactor(0.1f);
-		fixture2 = (new DMXFixture(4, false)).setEaseFactor(100f);
+		fixture2 = (new DMXFixture(4, false)).setEaseFactor(5f);
 	}
 
 	protected void drawApp() {

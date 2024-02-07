@@ -1,4 +1,4 @@
- package com.haxademic.core.hardware.dmx;
+package com.haxademic.core.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
@@ -25,7 +25,7 @@ public class DMXFixture {
 	}
 		
 	public DMXFixture(int dmxChannel, DMXMode mode, boolean easingFloatMode) {
-	    this(DMXUniverse.instance(), dmxChannel, mode, easingFloatMode);
+		this(DMXUniverse.instance(), dmxChannel, mode, easingFloatMode);
 	}
 	
 	public DMXFixture(DMXUniverse universe, int dmxChannel, DMXMode mode) {
@@ -36,7 +36,7 @@ public class DMXFixture {
 		this.universe = universe;
 		this.dmxChannel = dmxChannel;
 		this.mode = mode;
-		this.color = new EasingColor("#ffffff", 0.3f);
+		this.color = new EasingColor(0xffffffff, 0.3f, easingFloatMode);
 		if(this.universe != null) this.universe.addFixture(this);
 		else P.error("DMXFixture initialized without a DMXUniverse");
 	}
