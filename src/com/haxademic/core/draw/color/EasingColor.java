@@ -2,22 +2,35 @@ package com.haxademic.core.draw.color;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.IEasingValue;
+import com.haxademic.core.math.easing.LinearFloat;
 
 public class EasingColor {
 	
 	public static final float defaultEasing = 0.125f;
-	public EasingFloat r;
-	public EasingFloat g;
-	public EasingFloat b;
-	public EasingFloat a;
+	public IEasingValue r;
+	public IEasingValue g;
+	public IEasingValue b;
+	public IEasingValue a;
 	
 	// INIT
 	
 	public EasingColor( float r, float g, float b, float a, float easeFactor ) {
-		this.r = new EasingFloat(r, easeFactor);
-		this.g = new EasingFloat(g, easeFactor);
-		this.b = new EasingFloat(b, easeFactor);
-		this.a = new EasingFloat(a, easeFactor);
+		this(r, g, b, a, easeFactor, true);
+	}
+
+	public EasingColor( float r, float g, float b, float a, float easeFactor, boolean isEasingFloat) {
+		if(isEasingFloat) {
+			this.r = new EasingFloat(r, easeFactor);
+			this.g = new EasingFloat(g, easeFactor);
+			this.b = new EasingFloat(b, easeFactor);
+			this.a = new EasingFloat(a, easeFactor);
+		} else {
+			this.r = new LinearFloat(r, easeFactor);
+			this.g = new LinearFloat(g, easeFactor);
+			this.b = new LinearFloat(b, easeFactor);
+			this.a = new LinearFloat(a, easeFactor);
+		}
 	} 
 	
 	public EasingColor( float r, float g, float b, float a ) {
@@ -28,8 +41,12 @@ public class EasingColor {
 		this(r, g, b, 255, defaultEasing);
 	} 
 	
+	public EasingColor( int color, float easeFactor, boolean isEasingFloat ) {
+		this(redFromColorInt(color), greenFromColorInt(color), blueFromColorInt(color), alphaFromColorInt(color), easeFactor, isEasingFloat);
+	}
+
 	public EasingColor( int color, float easeFactor ) {
-		this(redFromColorInt(color), greenFromColorInt(color), blueFromColorInt(color), alphaFromColorInt(color), easeFactor);
+		this(color, easeFactor, true);
 	}
 
 	public EasingColor( int color ) {
@@ -51,11 +68,11 @@ public class EasingColor {
 	}
 	
 	public EasingColor setDelay(int delay) {
-	    this.r.setDelay(delay);
-	    this.g.setDelay(delay);
-	    this.b.setDelay(delay);
-	    this.a.setDelay(delay);
-	    return this;
+		this.r.setDelay(delay);
+		this.g.setDelay(delay);
+		this.b.setDelay(delay);
+		this.a.setDelay(delay);
+		return this;
 	}
 	
 	public EasingColor setTargetEasingColor( EasingColor color ) {
@@ -188,10 +205,17 @@ public class EasingColor {
 	// UPDATE
 	
 	public void update() {
-		r.update(true);
-		g.update(true);
-		b.update(true);
-		a.update(true);
+		if(r instanceof EasingFloat) {
+			((EasingFloat) r).update(true);
+			((EasingFloat) g).update(true);
+			((EasingFloat) b).update(true);
+			((EasingFloat) a).update(true);
+		} else {
+			r.update();
+			g.update();
+			b.update();
+			a.update();
+		}
 	}
 	
 	// OTHER SETTERS

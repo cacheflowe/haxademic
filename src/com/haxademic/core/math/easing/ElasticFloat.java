@@ -15,6 +15,7 @@ implements IEasingValue {
 	protected float speed;
 	protected float value;
 	protected float target;
+	protected int delay;
 			
 	public ElasticFloat( float val, float fric, float accel ) {
 		this.fric = fric;
@@ -25,6 +26,10 @@ implements IEasingValue {
 	
 	public float value() {
 		return value;
+	}
+
+	public float target() {
+		return target;
 	}
 
 	public IEasingValue setCurrent( float val ) {
@@ -39,6 +44,16 @@ implements IEasingValue {
 	
 	public IEasingValue setDelegate( IEasingValueDelegate delegate ) {
 		// no-op :-/ hard to know when elastic value settles, but should be revisited
+		return this;
+	}
+
+	public IEasingValue setDelay(int delay) {
+		// no-op :-/ should be revisited
+		return this;
+	}
+
+	public IEasingValue setEaseFactor(float easeFactor) {
+		// no-op :-/ should be revisited?
 		return this;
 	}
 
