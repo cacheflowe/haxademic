@@ -87,7 +87,7 @@ implements IAppStoreListener {
 
 		// set to true to see messages coming in and out of the server
 		// must be set after server init
-		SocketServer.DEBUG = false;
+		SocketServer.DEBUG = true;
 	}
 	
 	protected void buildWebServer() {
@@ -201,8 +201,8 @@ implements IAppStoreListener {
 	protected void sendSharedValues() {
 		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber(MOUSE_X, p.mouseX);
 		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber(MOUSE_Y, p.mouseY);
-		if(FrameLoop.frameModLooped(100)) P.storeDistributed.setNumber("heartbeat", p.frameCount);
-		if(FrameLoop.frameModLooped(200)) broadcastJson();	
+		if(FrameLoop.frameModSeconds(10)) P.storeDistributed.setNumber("heartbeat", p.frameCount);
+		if(FrameLoop.frameModSeconds(15)) broadcastJson();	
 	}
 	
 	protected void broadcastJson() {
