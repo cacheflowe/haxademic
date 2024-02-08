@@ -14,21 +14,32 @@ public class StringRandomCharAnim {
   protected int[] letterFrames; // timing helper
   protected final String randChars="`1234567890-=~!@#$%^&*()_+{}[]:<,>.?/`";
   
+  public StringRandomCharAnim(String text) {
+      this(text, 1);
+  }
+  
   public StringRandomCharAnim(String text, int advanceInterval) {
+      this(text, advanceInterval, 100);
+  }
+  
+  public StringRandomCharAnim(String text, int advanceInterval, int maxFrames) {
     this.text = text;
     this.curText = text;
     this.advanceInterval = advanceInterval;
+    this.maxFrames = maxFrames;
     curTextArray = curText.toCharArray();
     letterFrames = new int[text.length()];
     restart();
   }
   
-  public void setAdvanceInterval(int advanceInterval) {
+  public StringRandomCharAnim setAdvanceInterval(int advanceInterval) {
     this.advanceInterval = advanceInterval;
+    return this;
   }
 
-  public void setMaxFrames(int maxFrames) {
+  public StringRandomCharAnim setMaxFrames(int maxFrames) {
     this.maxFrames = maxFrames;
+    return this;
   }
 
   protected void randomizeLetterFrames() {
@@ -38,29 +49,32 @@ public class StringRandomCharAnim {
     }
   }
   
-  public void resetText(String newText) {
+  public StringRandomCharAnim resetText(String newText) {
     if(text.length() != newText.length()) { // if new text is different length, create a new char array
       letterFrames = new int[newText.length()];
       curTextArray = newText.toCharArray();
     }
     text = newText;
     restart();
+    return this;
   }
   
-  public void restart() {
+  public StringRandomCharAnim restart() {
     curFrame = 0;
     randomizeLetterFrames();
     updateCharacters();
+    return this;
   }
   
-  public void update() {
+  public StringRandomCharAnim update() {
     if(FrameLoop.frameModLooped(advanceInterval)) {
       curFrame++;
       updateCharacters();
     }
+    return this;
   }
 
-  protected void updateCharacters() {
+  protected StringRandomCharAnim updateCharacters() {
     // loop through characters array, choosing a random character until
     // framecount has passed the random frame to stop randomizing
     for (int i = 0; i < text.length(); i++) {
@@ -73,6 +87,7 @@ public class StringRandomCharAnim {
     }
 
     curText = String.valueOf(curTextArray);
+    return this;
   }
   
   public String curString() {
