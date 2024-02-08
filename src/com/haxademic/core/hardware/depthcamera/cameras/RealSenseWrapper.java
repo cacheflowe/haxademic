@@ -19,9 +19,11 @@ public class RealSenseWrapper
 implements IDepthCamera {
 	
 	protected RealSenseCamera camera;
-	public static int FPS = 30;
+	protected String serialNumber;
 	public static int RGB_W = 1280;
 	public static int RGB_H = 720;
+	public static int FPS = 30;
+	public static int FPS_D = 30;
 	public static int DEPTH_W = RGB_W;
 	public static int DEPTH_H = RGB_H;
 	protected boolean DEPTH_ACTIVE = true;
@@ -40,27 +42,30 @@ implements IDepthCamera {
 	public static ColorScheme COLOR_SCHEME = ColorScheme.WhiteToBlack;
 	
 	public static void set720p() {
-		RGB_W = DEPTH_W = 1280;
-		RGB_H = DEPTH_H = 720;
-		FPS = 30;
+		setConfig(1280, 720, 30, 30);
 	}
 	
 	public static void setMidStreamFast() {
-		RGB_W = DEPTH_W = 848;
-		RGB_H = DEPTH_H = 480;
-		FPS = 60;
+		setConfig(848, 480, 60, 60);
 	}
 	
 	public static void setSmallStream() {
-		RGB_W = DEPTH_W = 640;
-		RGB_H = DEPTH_H = 480;
-		FPS = 30;
+		setConfig(640, 480, 30, 30);
 	}
 	
 	public static void setTinyStream() {
-		RGB_W = DEPTH_W = 424;
-		RGB_H = DEPTH_H = 240;
-		FPS = 30;
+		setConfig(424, 240, 30, 30);
+	}
+	
+	public static void setTinyStreamSuperFast() {
+		setConfig(424, 240, 60, 90);
+	}
+
+	public static void setConfig(int width, int height, int fps, int fpsDepth) {
+		RGB_W = DEPTH_W = width;
+		RGB_H = DEPTH_H = height;
+		FPS = fps;
+		FPS_D = fpsDepth;
 	}
 	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
@@ -82,14 +87,22 @@ implements IDepthCamera {
 		RGB_H = height;
 		DEPTH_W = width;
 		DEPTH_H = height;
+		this.serialNumber = serialNumber;
 
 		data = new short[RGB_H][RGB_W];
 		DepthCameraSize.setSize(RGB_W, RGB_H);
-		
+		initBuffers();
+
 		// init camera streams as needed
-		camera = new RealSenseCamera(p);
-		if(initRGB)        camera.enableColorStream(RGB_W, RGB_H);
-		if(initDepthImage) camera.enableDepthStream(DEPTH_W, DEPTH_H);
+		if(RealSenseCamera.getDeviceCount() > 0) {
+			initCamera();
+		}
+	}
+	
+	protected void initCamera() {
+		camera = new RealSenseCamera(P.p);
+		if(RGB_ACTIVE)   camera.enableColorStream(RGB_W, RGB_H, FPS);
+		if(DEPTH_ACTIVE) camera.enableDepthStream(DEPTH_W, DEPTH_H, FPS_D);
 
 		// enable color sceheme - black/white far/near makes most sense to me
 		camera.enableColorizer(COLOR_SCHEME);
@@ -131,8 +144,9 @@ implements IDepthCamera {
 		// P.out("getOptionMax(Option.VisualPreset", camera.getDepthSensor().getOptionMax(Option.VisualPreset));
 		// P.out("getOptionStep(Option.VisualPreset", camera.getDepthSensor().getOptionStep(Option.VisualPreset));
 		// P.out("getOptionDefault(Option.VisualPreset", camera.getDepthSensor().getOptionDefault(Option.VisualPreset));
+	}
 
-		// init buffers
+	protected void initBuffers() {
 		mirrorRGB = PG.newPG(RGB_W, RGB_H);
 		mirrorDepth = PG.newPG(DEPTH_W, DEPTH_H);
 	}
@@ -170,6 +184,7 @@ implements IDepthCamera {
 	///////////////////////////
 
 	public void update() {
+		if(camera == null) return;
 		if(camera.isRunning() == false) return;
 		if(threaded) {
 			if(threadBusy == false) {
@@ -212,6 +227,7 @@ implements IDepthCamera {
 	///////////////////////////
 	
 	public PImage getDepthImage() {
+		if(this.camera == null) return mirrorDepth; // return empty pg
 		return (MIRROR) ? mirrorDepth : camera.getDepthImage();
 	}
 	
@@ -220,6 +236,7 @@ implements IDepthCamera {
 	}
 	
 	public PImage getRgbImage() {
+		if(this.camera == null) return mirrorRGB; // return empty pg
 		return (MIRROR) ? mirrorRGB : camera.getColorImage();
 	}
 	
