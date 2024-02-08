@@ -36,7 +36,7 @@ public class DepthCamera {
 	
 	public static DepthCamera instance() {
 		if(instance != null) return instance;
-		instance = new DepthCamera(DepthCameraType.KinectV1);
+		instance = new DepthCamera(DepthCameraType.Realsense);
 		return instance;
 	}
 	
@@ -48,7 +48,7 @@ public class DepthCamera {
 		this.camera = input;
 		initialized = true;
 		if(camera != null) {
-			camera.setMirror( Config.getBoolean( "kinect_mirrored", true ) );
+			camera.setMirror( Config.getBoolean( "depth_camera_mirrored", true ) );
 		}
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}

@@ -27,7 +27,7 @@ extends PAppletHax {
 		Config.setProperty( "kinect_pixel_skip", "3" );
 		Config.setProperty( "kinect_scan_frames", "400" );
 		Config.setProperty( "kinect_depth_key_dist", "400" );
-		Config.setProperty( "kinect_mirrored", "true" );
+		Config.setProperty( "depth_camera_mirrored", "true" );
 		
 		Config.setProperty( "kinect_top_pixel", "130" );
 		Config.setProperty( "kinect_bottom_pixel", "380" );
