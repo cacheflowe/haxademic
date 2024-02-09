@@ -36,13 +36,14 @@ implements IKinectV2SkeletonsARDelegate {
 	}
 	
 	protected void firstFrame() {
-		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, buildArPool(), true);
+		ArElementPool arPool = buildArPool();
+		kinectSkeletonsAR = new KinectV2SkeletonsAR(pg, arPool, true);
 		kinectSkeletonsAR.setDelegate(this);
 		ColorAdjustmentFilter.buildUI();
 	}
 	
-	protected ArElementPool buildArPool() {
-		arPool = new ArElementPool();
+	public static ArElementPool buildArPool() {
+		ArElementPool arPool = new ArElementPool();
 		
 		{
 			ArElementObj arAsset = loadObjFingie("../../afi-stadium-apps/data/ar-assets/falcons/foam-finger/FOAM_FINGIE.obj");
@@ -198,7 +199,7 @@ implements IKinectV2SkeletonsARDelegate {
 	// Special asset loader methods
 	//////////////////////////////////////////
 
-	protected ArElementObj loadObjFingie(String filePath) {
+	public static ArElementObj loadObjFingie(String filePath) {
 		PShape shape = P.p.loadShape(FileUtil.getPath(filePath));
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.meshFlipOnAxis(shape, P.Y);
@@ -208,7 +209,7 @@ implements IKinectV2SkeletonsARDelegate {
 		return newObj;
 	}
 
-	protected ArElementObj loadObjHelmet(String modelPath, String texturePath) {
+	public static ArElementObj loadObjHelmet(String modelPath, String texturePath) {
 		PShape shape = PShapeUtil.loadModelAndTexture(modelPath, texturePath);
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
