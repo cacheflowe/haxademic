@@ -65,7 +65,7 @@ public class DisplacementPoint {
 	public float displacedCurTotal() { return displacedCurX() + displacedCurY(); }
 
 	public void update(float influenceX, float influenceY) {
-		// calculate displacement based on mouse distance from point base
+		// calculate displacement based on distance from point base
 		float xdiff = baseX - influenceX;
 		float ydiff = baseY - influenceY;
 		float dist = P.sqrt(xdiff * xdiff + ydiff * ydiff);
