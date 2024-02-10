@@ -146,4 +146,13 @@ public class SerialDevice {
 		} 
 	}
 	
+	public void dispose() {
+		if(device != null) {
+			P.p.unregisterMethod("post", this);
+			delegate = null;
+			device.clear();
+			device.stop();
+			device = null;
+		}
+	}
 }
