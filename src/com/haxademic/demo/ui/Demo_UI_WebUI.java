@@ -5,8 +5,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebViewWindow;
 import com.haxademic.core.ui.UI;
 
 public class Demo_UI_WebUI 
@@ -35,11 +33,18 @@ extends PAppletHax {
 		UI.addTextfield(TEXT, "Test String", false);
 //		for (int i = 0; i < 30; i++) UI.addSlider("Test slider " + i, 255, 0, 255, 0.5f, false);
 		P.out(UI.configToJSON());
-		P.out(UI.valuesToJSON());
+		P.out(UI.valuesToJSON());	
 		
 		// add web controls
 		UI.addWebInterface(false);
 		UI.launchWebUIWindow();
+
+		// if we already have a server running, we need to set that on HttpInputState, so it uses the shared server
+		/*
+		WebServer webServer = new WebServer(new UIControlsHandler(), false);
+		HttpInputState.instance(webServer);
+		UI.addWebInterface(false);
+		 */
 	}
 	
 	protected void drawApp() {
