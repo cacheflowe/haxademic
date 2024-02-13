@@ -30,6 +30,8 @@ extends PAppletHax {
 	}
 
 	protected void drawApp() {
+		p.background(0);
+
 		fixture1.color().setTargetRGBANormalized(1, 0, 0, 0);
 		// fixture1.color().setTargetRGBANormalized(Mouse.xNorm, 0, Mouse.yNorm, 1);
 		fixture1.amber.setTarget(0);
