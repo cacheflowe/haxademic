@@ -347,6 +347,10 @@ public class PG {
         pg.endDraw();
     }
 
+    public static void drawStrokedRect(PGraphics pg, float w, float h, float strokeWeight, int colorStroke) {
+        drawStrokedRect(pg, w, h, strokeWeight, -1, colorStroke);
+    }
+
     public static void drawStrokedRect(PGraphics pg, float w, float h, float strokeWeight, int colorBg, int colorStroke) {
         int prevRectMode = pg.rectMode;
         pg.push();
@@ -357,8 +361,10 @@ public class PG {
 
         // rect bg
         pg.noStroke();
-        pg.fill(colorBg);
-        pg.rect(0, 0, w, h);
+        if(colorBg != -1) {
+            pg.fill(colorBg);
+            pg.rect(0, 0, w, h);
+        }
 
         // pixel-perfect stroke by drawing 4 rects
         pg.fill(colorStroke);
