@@ -43,7 +43,7 @@ public class AppState {
 
 	public static boolean is(String state) {
 		if(state == null || get() == null) {
-			P.error("AppState.is() encountered a null value");
+			// P.error("AppState.is() encountered a null value");
 			return false;
 		}
 		return get().equals(state);
