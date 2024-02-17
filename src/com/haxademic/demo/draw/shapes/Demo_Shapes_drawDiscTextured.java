@@ -1,16 +1,12 @@
 package com.haxademic.demo.draw.shapes;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
-
-import processing.core.PImage;
 
 public class Demo_Shapes_drawDiscTextured 
 extends PAppletHax {
@@ -23,18 +19,31 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		noStroke();
+		pg = PG.newPG(512, 32);
+		DebugView.setTexture("pg", pg);
 	}
 
 	protected void drawApp() {
+		// set context
 		background(0);
-		lights();
+		// PG.setBetterLights(p.g);
 		PG.setCenterScreen(p.g);
 		PG.basicCameraFromMouse(p.g);
 
-		float easedPercent = Penner.easeInOutQuart(FrameLoop.progress());
-		float radsCompleteEased = easedPercent * P.TWO_PI;
+		// draw texture for disc
+		if(FrameLoop.frameModLooped(60)) {
+			pg.beginDraw();
+			pg.background(0);
+			pg.noStroke();
+			for (int i = 0; i < pg.height; i++) {
+				pg.fill(p.random(255));
+				pg.rect(0, i, pg.width, 1);
+			}
+			pg.endDraw();
+		}
 		
-		Shapes.drawDiscTextured(p.g, 300, 250, 100, DemoAssets.justin());
+		// draw disc
+		p.noStroke();
+		Shapes.drawDiscTextured(p.g, 300, 200, 100, pg);
 	}
 }
