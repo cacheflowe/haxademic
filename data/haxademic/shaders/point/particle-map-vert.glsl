@@ -45,6 +45,8 @@ uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
 uniform float depth = 256.;
+uniform bool colorized = true;
+uniform bool lerpedColorTexture = true;
 
 attribute vec2 texCoord;
 attribute vec3 normal;
@@ -89,13 +91,16 @@ void main() {
   float speed = positionColor.b;
 
   // get color under particle's current position
-  vec4 colorMapColor = texture2D(mapColor, uvCur); 
+  vec4 colorMapColor = (lerpedColorTexture) ?
+    texture2D(mapColor, uvOrig) :
+    texture2D(mapColor, uvCur);
 
   // custom point size - use speed to shrink point
   // speed can be > 1, so we need to divide a bit
   float speedShrink = (0.15 * speed);
   float finalPointSize = pointSize - speedShrink;
-  finalPointSize *= 0.8 + randomColor.b * 0.4;
+  finalPointSize *= 0.99 + randomColor.b * 0.4;
+  // finalPointSize = 1.;
 
   // get z from texture
   z = luma(colorMapColor) * depth; // * depth/2.; // - textureColor.z * depth;
@@ -121,9 +126,12 @@ void main() {
   // vertColor = color;
   // or instead, use texture-mapped color :)
   float colorMult = 1.;
-  vertColor = vec4(1., 1., 1., 1.);
+  if(colorized == true) {
+    vertColor = vec4(colorMapColor.rgb * colorMult, 1.);
+  } else {
+    vertColor = vec4(1., 1., 1., 1.);
+  }
   // vertColor = vec4(1., 1. - speed/3f, 1. - speed/3f, 1.); // speed is variable & should be divided dynamically
   // vertColor = vec4(positionColor.rgb * colorMult, 1.);
-  // vertColor = vec4(colorMapColor.rgb * colorMult, 1.);
   // vertColor = textureColor;
 }

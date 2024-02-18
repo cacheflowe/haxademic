@@ -10,7 +10,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
-import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;

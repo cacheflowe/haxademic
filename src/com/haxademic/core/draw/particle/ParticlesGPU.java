@@ -17,11 +17,13 @@ import processing.core.PShape;
 public class ParticlesGPU {
   /////////////////////////////////////////////////
 	// Particles TODO
-	// - Add color gradient ramp 
-	//   - Add color easing based on underlying map texture as an alternative colorization technique
+	// - Toggle ADD blend mode
+	// - Add more params to control externallys
+	//   - Noise props
 	// - Add audioreactive texture for speed ramp
 	// - newPositions() needs to be float-32 positions, not normalized
   //   - Something about the random color map makes this weird and improperly-distributed... Needs more investigation for a fix, but leave as-is for now
+	//   - Seems like rotation multiplier is the culprit
   // - Add optical flow
 	/////////////////////////////////////////////////
 
@@ -30,17 +32,19 @@ public class ParticlesGPU {
   protected int positionBufferSize;
 	protected PGraphics bufferPositions;
 	protected PGraphics bufferRandom;
+	protected PGraphics bufferColorLerp;
 	protected PShaderHotSwap randomColorShader;
 	protected PShaderHotSwap simulationShader;
 	protected PShaderHotSwap renderShader;
+	protected PShaderHotSwap colorLerpShader;
 	protected SimplexNoise3dTexture noiseTexture;
 
 	protected float baseParticleSpeed = 5;
 	protected float baseParticleSize = 1.5f;
-	protected float mapDecelCurve = 0f;
+	protected float mapDecelCurve = 2f;
 
+  protected boolean lerpingColor = true;
   protected boolean resetPositionsDirty = false;
-
   
   public ParticlesGPU() {
     this(1024);
@@ -52,16 +56,13 @@ public class ParticlesGPU {
   }
 
 	protected void initParticles() {
-		// build random particle placement shader
-		randomColorShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
-		
 		// create texture & shader to store positions
-		simulationShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-map-mover.glsl"));
 		bufferPositions = PG.newDataPG(positionBufferSize, positionBufferSize);
 		bufferRandom = PG.newDataPG(positionBufferSize, positionBufferSize);
-		bufferRandom.filter(randomColorShader.shader());
+		bufferColorLerp = PG.newDataPG(positionBufferSize, positionBufferSize);
 		DebugView.setTexture("bufferPositions", bufferPositions);
 		DebugView.setTexture("bufferRandom", bufferRandom);
+		DebugView.setTexture("bufferColorLerp", bufferColorLerp);
 		
 		// count vertices for debugView
 		int vertices = P.round(positionBufferSize * positionBufferSize); 
@@ -71,12 +72,16 @@ public class ParticlesGPU {
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
 		
-		// load shader
+		// load shaders
+		randomColorShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/textures/random-pixel-color.glsl"));
+		bufferRandom.filter(randomColorShader.shader());
+		simulationShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-map-mover.glsl"));
 		renderShader = new PShaderHotSwap(
 			FileUtil.getPath("haxademic/shaders/point/particle-map-vert.glsl"),
 			FileUtil.getPath("haxademic/shaders/point/points-default-frag.glsl")
 		);
-
+		colorLerpShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-map-color-lerp.glsl"));
+			
 		// noise texture
 		noiseTexture = new SimplexNoise3dTexture(256, 256, true);
 		noiseTexture.update(0.07f, 0, 0, 0, 0, false, false);
@@ -88,9 +93,20 @@ public class ParticlesGPU {
 		randomColorShader.update();
 		simulationShader.update();
 		renderShader.update();
+		colorLerpShader.update();
 
 		// update noise texture
-		noiseTexture.update(5f, 0, 0, 0, FrameLoop.count(0.005f), false, false);
+		noiseTexture.update(4f, 0, 0, 0, FrameLoop.count(0.001f), false, false);
+
+		// update particle colors
+		if(lerpingColor) {
+			colorLerpShader.shader().set("width", (float) pg.width);
+			colorLerpShader.shader().set("height", (float) pg.height);
+			colorLerpShader.shader().set("mapRandom", bufferRandom);
+			colorLerpShader.shader().set("mapTexture", imgMap);
+			colorLerpShader.shader().set("mapPositions", bufferPositions);
+			bufferColorLerp.filter(colorLerpShader.shader());
+		}
 
 		// update particle positions
 		simulationShader.shader().set("width", (float) pg.width);
@@ -110,11 +126,14 @@ public class ParticlesGPU {
 		renderShader.shader().set("height", (float) pg.height);
 		renderShader.shader().set("depth", 0f);
 		renderShader.shader().set("mapPositions", bufferPositions);
-		renderShader.shader().set("mapColor", colorMap);
+		PImage mapColor = (lerpingColor) ? bufferColorLerp : colorMap;
+		renderShader.shader().set("mapColor", mapColor);
 		renderShader.shader().set("mapRandom", bufferRandom);
 		renderShader.shader().set("pointSize", baseParticleSize);
+		renderShader.shader().set("colorized", true);
+		renderShader.shader().set("lerpedColorTexture", lerpingColor);
 		pg.shader(renderShader.shader());
-		pg.blendMode(PBlendModes.ADD);
+		// pg.blendMode(PBlendModes.ADD);
 		pg.shape(shape);
 		pg.resetShader();
 	}
