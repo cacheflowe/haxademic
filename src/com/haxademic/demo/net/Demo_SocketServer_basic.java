@@ -30,7 +30,6 @@ implements ISocketClientDelegate {
 	}
 
 	protected void firstFrame() {
-	
 		buildSocketServer();
 		SystemUtil.openWebPage("http://localhost/haxademic/www/web-socket-demo/");
 	}
@@ -53,9 +52,9 @@ implements ISocketClientDelegate {
 	}
 	
 	protected void sendFrameMessage() {
-	    JSONObject jsonOut = new JSONObject();
-	    jsonOut.setString("event", "frame-count");
-	    jsonOut.setInt("frame", p.frameCount);
+		JSONObject jsonOut = new JSONObject();
+		jsonOut.setString("event", "frame-count");
+		jsonOut.setInt("frame", p.frameCount);
 		wsServer.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
@@ -68,9 +67,9 @@ implements ISocketClientDelegate {
 		// this check is specifically listening for events from `www/web-socket-demo/`
 		if(message.indexOf("web-event") != -1) {
 			JSONObject eventData = JSONObject.parse(message);
-		    String event = eventData.getString("event");	
-		    String command = eventData.getString("command");	
-		    DebugUtil.printBig("Incoming WS message: " + event + " / " + command);
+			String event = eventData.getString("event");	
+			String command = eventData.getString("command");	
+			DebugUtil.printBig("Incoming WS message: " + event + " / " + command);
 		}
 	}
 
