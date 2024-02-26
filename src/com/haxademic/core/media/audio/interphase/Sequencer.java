@@ -735,6 +735,7 @@ implements IAppStoreListener {
 		boolean hasReverb = reverbSize > 0.1f;
 		Reverb rb = null;
 		Reverb rb2 = null;
+		hasReverb = false;
 		if(hasReverb) {
 			// P.out("reverbSize", reverbSize);
 			rb = new Reverb(ac, 2);

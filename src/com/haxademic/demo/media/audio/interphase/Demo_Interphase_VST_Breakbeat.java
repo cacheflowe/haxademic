@@ -56,7 +56,9 @@ implements IAppStoreListener {
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
     interphase.initLaunchControls(LaunchControlXL.BUTTONS_1, LaunchControlXL.BUTTONS_2, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		interphase.initLaunchpads(2, 5, 4, 7);
+		// interphase.initLaunchpads(2, 5, 4, 7);
+		interphase.initLaunchpads("MIDIIN2 (LPMiniMK3 MIDI)", "MIDIOUT2 (LPMiniMK3 MIDI)", "MIDIIN4 (LPMiniMK3 MIDI)", "MIDIOUT4 (LPMiniMK3 MIDI)");
+
 		//		interphase.initGlobalControlsUI();
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 		// UI.launchWebUIWindow();
@@ -139,7 +141,7 @@ implements IAppStoreListener {
 			if(sequencerIndex == bassChannelIndex) {
 				// if(P.store.getInt(Interphase.CUR_STEP) <= 1) vstSynth.randomizeAllParams();
 				int curSequencerNote = interphase.sequencerAt(bassChannelIndex).pitchIndex1();
-				vstSynth.playMidiNote(36 + curSequencerNote, 300);
+				vstSynth.playMidiNote(36 + curSequencerNote, 200);
 			}
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {

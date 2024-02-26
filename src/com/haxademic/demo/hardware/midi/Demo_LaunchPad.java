@@ -19,7 +19,6 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		p.background(0);
-		// p.midi.isMidiButtonOn(LaunchControl.PAD_01)
 		
 		// outgoing midi changes the LED color on the launch control
 		MidiDevice.instance().sendMidiOut(true, 0, LaunchPadMini.gridToMidiNote(0, 0), NovationColors.colors[P.round((NovationColors.colors.length - 1) * AudioIn.audioFreq(80) )]);

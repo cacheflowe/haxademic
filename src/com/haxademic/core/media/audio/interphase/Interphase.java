@@ -220,6 +220,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 			// add sliders for each sequencer
 			Sequencer seq = sequencerAt(i);
 			UI.addButton(UI_TRIGGER_+(i+1), false, sampleTriggerMidi[i]);
+			UI.addButton(UI_MUTE_+(i+1), true);
 			UI.addButton(UI_EVOLVE_+(i+1), false, sampleEvolveMidi[i]);
 			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
 			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
