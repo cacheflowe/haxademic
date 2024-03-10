@@ -22,27 +22,54 @@ public class NovationColors {
 	public static int YELLOW_STRONG = 127;
 	
 	public static final int[] colors = new int[] {
-			NONE,
-			RED_WEAK,
-			RED_MEDIUM,
-			RED_RED_STRONG,
-			ORANGE_WEAKER,
-			ORANGE_WEAK,
-			ORANGE_MEDIUM,
-			ORANGE_STRONG,
-			GREEN_WEAK,
-			GREEN_MEDIUM,
-			GREEN_STRONG,
-			GREEN_LIME_2,
-			GREEN_LIME_WEAK,
-			GREEN_LIME_1,
-			YELLOW_MEDIUM,
-			YELLOW_STRONG,
+		NONE,
+		RED_WEAK,
+		RED_MEDIUM,
+		RED_RED_STRONG,
+		ORANGE_WEAKER,
+		ORANGE_WEAK,
+		ORANGE_MEDIUM,
+		ORANGE_STRONG,
+		GREEN_WEAK,
+		GREEN_MEDIUM,
+		GREEN_STRONG,
+		GREEN_LIME_2,
+		GREEN_LIME_WEAK,
+		GREEN_LIME_1,
+		YELLOW_MEDIUM,
+		YELLOW_STRONG,
 	};
 	
 	public static int colorByPercent(float percent) {
 		return colors[P.round((colors.length - 1) * P.constrain(percent, 0, 1))];
 	}
+	
+	public static byte NONE_BYTE = 12;
+	public static byte RED_LOW_BYTE = 13;
+	public static byte RED_FULL_BYTE = 15;
+	public static byte ORANGE_LOW_BYTE = 29;
+	public static byte ORANGE_FULL_BYTE = 63;
+	public static byte GREEN_LOW_BYTE = 28;
+	public static byte GREEN_FULL_BYTE = 60;
+	public static byte YELLOW_BYTE = 62;
+
+	public static final byte[] colorsSysex = new byte[] {
+		NONE_BYTE,
+		RED_LOW_BYTE, 
+		RED_FULL_BYTE,
+		ORANGE_LOW_BYTE, 
+		ORANGE_FULL_BYTE,
+		GREEN_LOW_BYTE,
+		GREEN_FULL_BYTE,
+		YELLOW_BYTE,
+	};
+
+	public static byte colorSysexByPercent(float percent) {
+		float index = colorsSysex.length * percent;
+		int i = (int) P.constrain(index, 0, colorsSysex.length - 1);
+		return colorsSysex[i];
+	}
+
 }
 
 	/*
@@ -68,7 +95,7 @@ public class NovationColors {
 	Medium - 108 / 104 / 100 / 96 / 44 / 40 / 36 / 32
 	Weak - 92 / 88 / 84 / 80 / 28 / 24 / 20 / 16
 
-	ORANGE 
+	ORANGE
 
 	Strong - 95 / 91 / 87 / 83 / 31 / 27 / 23 / 19 
 	Medium - 111 / 107 / 103 / 99 / 47 / 43 / 39 / 35

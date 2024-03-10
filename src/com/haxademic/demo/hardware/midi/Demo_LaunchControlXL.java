@@ -8,6 +8,8 @@ import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL.ILaunchControlXLCallback;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.FrameLoop;
+import com.leapmotion.leap.Frame;
 
 public class Demo_LaunchControlXL
 extends PAppletHax
@@ -30,15 +32,22 @@ implements ILaunchControlXLCallback {
 	protected void drawApp() {
 		p.background(0);
 		
-		// launchControl1.setButtonRow1(p.frameCount % 8, p.frameCount % 100 / 100f);
-		// launchControl1.setButtonRow2(p.frameCount % 8, p.frameCount % 50 / 50f);
-		launchControl2.setButtonRow1(p.frameCount % 8, p.frameCount % 100 / 100f);
-		launchControl2.setButtonRow2(p.frameCount % 8, p.frameCount % 50 / 50f);
-		// launchControl1.sendNoteOn(LaunchControlXL.KNOBS_ROW_1[p.frameCount % 8], p.frameCount % 127);
-		// launchControl2.sendCC(p.frameCount % 110, p.frameCount % 127);
-		launchControl2.sendCC(LaunchControlXL.KNOBS_ROW_1[5], p.frameCount % 127);
-		launchControl2.sendNoteOn(LaunchControlXL.BUTTON_SIDE_1, p.frameCount % 127);
-		launchControl2.sendCC(LaunchControlXL.BUTTON_UP, 0);
+		int curFrame = (int) FrameLoop.count(0.4f);
+		int curFrame2 = (int) FrameLoop.count(0.8f);
+		float frames = 8 * 16;
+		launchControl1.setButtonRow1(curFrame % 8, (curFrame % frames) / frames);
+		launchControl1.setButtonRow2(curFrame % 8, (curFrame % frames) / frames);
+		launchControl2.setButtonRow1(curFrame % 8, (curFrame % frames) / frames);
+		launchControl2.setButtonRow2(curFrame % 8, (curFrame % frames) / frames);
+		launchControl1.setKnobLED(0, curFrame2 % 8, (curFrame2 % frames) / frames);
+		launchControl1.setKnobLED(1, curFrame2 % 8, (curFrame2 % frames) / frames);
+		launchControl1.setKnobLED(2, curFrame2 % 8, (curFrame2 % frames) / frames);
+		launchControl2.setKnobLED(0, curFrame2 % 8, (curFrame2 % frames) / frames);
+		launchControl2.setKnobLED(1, curFrame2 % 8, (curFrame2 % frames) / frames);
+		launchControl2.setKnobLED(2, curFrame2 % 8, (curFrame2 % frames) / frames);
+
+		// launchControl2.sendNoteOn(LaunchControlXL.BUTTON_SIDE_1, curFrame % 127);
+		// launchControl2.sendCC(LaunchControlXL.BUTTON_UP, 0);
 	}
 	
 	public void noteOnLaunchControl(LaunchControlXL launchControl, int note, float value) {
@@ -48,7 +57,7 @@ implements ILaunchControlXLCallback {
 		if(launchControl.isKnob(note)) {
 			int noteVal = P.round(value) % launchControl.numColors(); //();
 			P.out(note, noteVal);
-			launchControl.sendCC(note, NovationColors.colorByPercent(noteVal / (float) launchControl.numColors()));
+			// launchControl.sendNoteOn(note, NovationColors.colorByPercent(noteVal / (float) launchControl.numColors()));
 		}
 	}
 

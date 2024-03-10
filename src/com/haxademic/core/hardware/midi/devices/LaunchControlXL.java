@@ -9,6 +9,12 @@ import themidibus.SimpleMidiListener;
 public class LaunchControlXL
 implements SimpleMidiListener {
 
+	// Info:
+	// - https://components.novationmusic.com/ - Device editor
+	// - https://support.novationmusic.com/hc/en-gb/articles/4411807214226-Launch-Control-XL-Components-guide
+	// - https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-xl-programmers-reference-guide.pdf
+	// - https://scsynth.org/t/sending-sysex-messages-to-a-midi-controller/549/9
+
 	// Static device props
 
 	public static String deviceName = "Launch Control XL";
@@ -42,6 +48,10 @@ implements SimpleMidiListener {
 	
 	public int numColors() {
 		return NovationColors.colors.length;
+	}
+	
+	public int numColorsSysex() {
+		return NovationColors.colorsSysex.length;
 	}
 	
 	//////////////////////////////
@@ -96,6 +106,15 @@ implements SimpleMidiListener {
 		sendNoteOn(BUTTONS_2[i], colorByPercent(val));
 	}
 
+	public void setKnobLED(int row, int btn, float val) {
+		val = P.floor(val * (float) numColorsSysex()) / (float) numColorsSysex();
+		// byte valByte = (byte) (val * 60); // doesn't go to 127! it goes to 60
+		byte valByte = NovationColors.colorSysexByPercent(val);
+		byte template5 = 12;
+		byte btnIndex = (byte) (row * 8 + btn);
+		sendSysEx(new byte[] { (byte) 240, 0, 32, 41, 2, 17, 120, template5, btnIndex, valByte, (byte) 247 });
+	}
+
 	public boolean isKnob(int note) {
 		if (ArrayUtil.indexOfInt(KNOBS_ROW_1, note) != -1) return true; 
 		if (ArrayUtil.indexOfInt(KNOBS_ROW_2, note) != -1) return true; 
@@ -113,6 +132,10 @@ implements SimpleMidiListener {
 	
 	public void sendCC(int pitch, int velocity) {
 		midiBus.sendControllerChange(CHANNEL, pitch, velocity);
+	}
+	
+	public void sendSysEx(byte[] data) {
+		midiBus.sendMessage(data);
 	}
 	
 	//////////////////////////
