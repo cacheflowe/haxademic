@@ -12,6 +12,7 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.SocketServer;
@@ -134,7 +135,7 @@ implements IAppStoreListener {
 		// neat when shared from another instance of PAppletHax
 		p.fill(255);
 		p.noStroke();
-		p.ellipse(P.store.getInt(MOUSE_X), P.store.getInt(MOUSE_Y), 20, 20);
+		p.ellipse(P.store.getFloat(MOUSE_X) * p.width, P.store.getFloat(MOUSE_Y) * p.height, 20, 20);
 	}
 	
 	protected void drawServerLocation() {
@@ -199,8 +200,8 @@ implements IAppStoreListener {
 	/////////////////////////////////
 	
 	protected void sendSharedValues() {
-		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber(MOUSE_X, p.mouseX);
-		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber(MOUSE_Y, p.mouseY);
+		if(p.mouseX != p.pmouseX && p.frameCount % 2 == 0) P.storeDistributed.setNumber(MOUSE_X, Mouse.xNorm);
+		if(p.mouseY != p.pmouseY && p.frameCount % 2 == 0) P.storeDistributed.setNumber(MOUSE_Y, Mouse.yNorm);
 		if(FrameLoop.frameModSeconds(10)) P.storeDistributed.setNumber("heartbeat", p.frameCount);
 		if(FrameLoop.frameModSeconds(15)) broadcastJson();	
 	}
@@ -220,12 +221,10 @@ implements IAppStoreListener {
 	// AppStore callbacks
 	/////////////////////////////////////////
 
-	@Override
 	public void updatedNumber(String key, Number val) {
 //		DebugView.setValue(key, val.floatValue());
 	}
 
-	@Override
 	public void updatedString(String key, String val) {
 		if(key.equals(WebServer.REQUEST_URL)) {
 			webServerLog.update(val);
@@ -235,19 +234,9 @@ implements IAppStoreListener {
 		}
 	}
 
-	@Override
-	public void updatedBoolean(String key, Boolean val) {
-//		DebugView.setValue(key, val);
-	}	
-
-	public void updatedImage(String key, PImage val) {
-		
-	}
-	
-	public void updatedBuffer(String key, PGraphics val) {
-		
-	}
-
+	public void updatedBoolean(String key, Boolean val) {}	
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 
 }
 
