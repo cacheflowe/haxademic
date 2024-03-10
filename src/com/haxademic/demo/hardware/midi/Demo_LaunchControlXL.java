@@ -46,6 +46,7 @@ implements ILaunchControlXLCallback {
 		launchControl2.setKnobLED(1, curFrame2 % 8, (curFrame2 % frames) / frames);
 		launchControl2.setKnobLED(2, curFrame2 % 8, (curFrame2 % frames) / frames);
 
+
 		// launchControl2.sendNoteOn(LaunchControlXL.BUTTON_SIDE_1, curFrame % 127);
 		// launchControl2.sendCC(LaunchControlXL.BUTTON_UP, 0);
 	}
@@ -55,9 +56,7 @@ implements ILaunchControlXLCallback {
 		P.out("[LaunchControlXL] noteOn:", device, note, value);
 
 		if(launchControl.isKnob(note)) {
-			int noteVal = P.round(value) % launchControl.numColors(); //();
-			P.out(note, noteVal);
-			// launchControl.sendNoteOn(note, NovationColors.colorByPercent(noteVal / (float) launchControl.numColors()));
+			int noteVal = P.round(value) % launchControl.numColors();
 		}
 	}
 
