@@ -173,6 +173,27 @@ public static DrawMode randomDrawMode()  {
 drawMode = randomDrawMode();
 ```
 
+## Extend a class inline
+
+```java
+PVector p = new PVector(0, 0, 0) {
+  public String toString() {
+    return "x: " + x + ", y: " + y + ", z: " + z;
+  }
+};
+```
+
+or 
+  
+```java
+Movie vid = new Movie(this, "transit.mov") {
+  @Override public void eosEvent() {
+    super.eosEvent();
+    myEoS();
+  }
+};
+```
+
 ## Add a site's SSL cert for secure http/ws connections
 
 If you see an error that looks like the following, try [this solution](https://stackoverflow.com/a/36427118).
@@ -365,4 +386,7 @@ For background, in late 2022 when the CMS SSL certificate was updated, the Java 
   </build>
 ```
 Then run:
-* mvn package
+* `mvn package`
+
+If tests fail, you can ignore them when building:
+* `mvn package -DskipTests`
