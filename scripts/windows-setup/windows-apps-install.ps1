@@ -21,7 +21,7 @@ choco install nodejs-lts
 choco install rustdesk
 choco install quicklook
 choco install nvidia-display-driver
-choco install python
+# choco install python
 choco install 7zip.install
 
 ######################################################################################################
