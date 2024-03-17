@@ -18,8 +18,7 @@ implements SimpleMidiListener {
 	// Static device props
 
 	public static String deviceName = "Launch Control XL";
-	public static String deviceName2 = "2- Launch Control XL";
-	public static String deviceName3 = "3- Launch Control XL";
+	public static String deviceName2 = "Launch Control XL 2";
 
 	public static int[] KNOBS_ROW_1   = new int[] {13, 14, 15, 16, 17, 18, 19, 20};	// CC
 	public static int[] KNOBS_ROW_2   = new int[] {29, 30, 31, 32, 33, 34, 35, 36};	// CC

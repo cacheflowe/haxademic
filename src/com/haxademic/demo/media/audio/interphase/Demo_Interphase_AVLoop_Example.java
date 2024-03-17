@@ -68,7 +68,8 @@ implements IAppStoreListener {
 	
 	protected void initInterphase() {
 		// init device for UI knobs MIDI input
-		knobs = new MidiDevice(LaunchControlXL.deviceName, null);
+		// knobs = new MidiDevice(LaunchControlXL.deviceName, null);
+		knobs = new MidiDevice(LaunchControlXL.deviceName2, null);
 
 		// init interphase + config 
 		SequencerConfig.setAbsolutePath();

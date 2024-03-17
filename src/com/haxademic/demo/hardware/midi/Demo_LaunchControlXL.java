@@ -23,9 +23,10 @@ implements ILaunchControlXLCallback {
 		AudioIn.instance();
 		MidiDevice.printDevices();
 		MidiState.instance();
-		launchControl1 = new LaunchControlXL(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2);
+		
+		launchControl1 = new LaunchControlXL(LaunchControlXL.deviceName, LaunchControlXL.deviceName);
 		launchControl1.setDelegate(this);
-		launchControl2 = new LaunchControlXL(LaunchControlXL.deviceName3, LaunchControlXL.deviceName3);
+		launchControl2 = new LaunchControlXL(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2);
 		launchControl2.setDelegate(this);
 	}
 	
@@ -35,6 +36,7 @@ implements ILaunchControlXLCallback {
 		int curFrame = (int) FrameLoop.count(0.4f);
 		int curFrame2 = (int) FrameLoop.count(0.8f);
 		float frames = 8 * 16;
+
 		launchControl1.setButtonRow1(curFrame % 8, (curFrame % frames) / frames);
 		launchControl1.setButtonRow2(curFrame % 8, (curFrame % frames) / frames);
 		launchControl2.setButtonRow1(curFrame % 8, (curFrame % frames) / frames);

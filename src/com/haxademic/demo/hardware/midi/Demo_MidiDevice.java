@@ -33,8 +33,8 @@ implements SimpleMidiListener {
 		AudioIn.instance();
 		
 		// init 2 devices
-		device1 = MidiDevice.init(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2, this);	// basic singleton initialization in case there's only one device
-		device2 = new MidiDevice(LaunchControlXL.deviceName3, LaunchControlXL.deviceName3, this);	// a 2nd device, with normal constructor
+		device1 = MidiDevice.init(LaunchControlXL.deviceName, LaunchControlXL.deviceName, this);	// basic singleton initialization in case there's only one device
+		device2 = new MidiDevice(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2, this);	// a 2nd device, with normal constructor
 //		device3 = new MidiDevice(12, 15, this);	// a 2nd device, with normal constructor
 	}
 	
