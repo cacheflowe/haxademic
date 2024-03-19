@@ -594,6 +594,11 @@ implements IAppStoreListener, ILaunchpadCallback {
 			sequencerAt(sequencerIndex).triggerSample();
 			// P.out("TRIGGER", sequencerIndex, "");
 		}
+		if(key.indexOf(UI_MUTE_) == 0) {
+			String sequencerNum = key.substring(UI_MUTE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
+			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
+			sequencerAt(sequencerIndex).toggleMute();
+		}
 		if(key.indexOf(UI_EVOLVE_) == 0) {
 			String sequencerNum = key.substring(UI_EVOLVE_.length(), key.length() - 0);	// used to break after 9 channels, should work for higher numbers 
 			int sequencerIndex = ConvertUtil.stringToInt(sequencerNum) - 1;	// use key to grab sample index
