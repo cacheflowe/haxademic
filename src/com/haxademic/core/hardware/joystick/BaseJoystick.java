@@ -2,11 +2,14 @@ package com.haxademic.core.hardware.joystick;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.math.easing.EasingBoolean;
+import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
+import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
 
 public class BaseJoystick
-implements IJoystickControl {
+implements IJoystickControl, IEasingBooleanCallback {
 	
 	protected float _oscSpeedX = 0;
 	protected float _oscSpeedY = 0;
@@ -15,12 +18,26 @@ implements IJoystickControl {
 	protected float _oscCurY = 0;
 	protected float _oscCurZ = 0;
 	
+	// immediate props - up to subclass to calculate
 	protected boolean _isActive = true;
 	protected float _controlX = 0;
 	protected float _controlY = 0;
 	protected float _controlZ = 0;
+
+	// smoothed props
+	protected EasingFloat userX;
+	protected EasingFloat userY;
+	protected EasingFloat userZ;
+	protected EasingBoolean userActive;
+	protected IJoystickActiveDelegate activeDelegate;
+
 	
-	public BaseJoystick() {}
+	public BaseJoystick() {
+		userActive = new EasingBoolean(false, 20, this);
+		userX = new EasingFloat(0, 0.1f);
+		userY = new EasingFloat(0, 0.1f);
+		userZ = new EasingFloat(0, 0.1f);
+	}
 	
 	public float controlX() {
 		return _controlX;
@@ -53,6 +70,54 @@ implements IJoystickControl {
 	public void isActive( boolean value ) {
 		_isActive = value;
 	}
+
+	// update smoothed values
+
+	public float easedX() {
+		return userX.value();
+	}
+
+	public float easedY() {
+		return userY.value();
+	}
+
+	public float easedZ() {
+		return userZ.value();
+	}
+
+	public boolean easedActive() {
+		return userActive.value();
+	}
+
+	public void setEaseFactor(float easeFactor) {
+		setEaseFactor(easeFactor, -1);
+	}	
+
+	public void setEaseFactor(float easeFactor, int frames) {
+		userX.setEaseFactor(easeFactor);
+		userY.setEaseFactor(easeFactor);
+		userZ.setEaseFactor(easeFactor);
+		if(frames >= 0) userActive.setInc(frames);
+	}
+
+	protected void updateSmoothedJoystickResults() {
+		userX.setTarget(controlX()).update();
+		userY.setTarget(controlY()).update();
+		userZ.setTarget(controlZ()).update();
+		userActive.target(isActive()).update();
+	}
+
+	// IEasingBooleanCallback methods 
+
+	public void setActiveDelegate(IJoystickActiveDelegate delegate) {
+		activeDelegate = delegate;
+	}
+
+	public void booleanSwitched(EasingBoolean booleanSwitch, boolean value) {
+		if(activeDelegate != null) activeDelegate.activeSwitched(this, value);
+	}
+
+	// draw / debug
 	
 	public void drawDebug(PGraphics debugGraphics) {}
 	

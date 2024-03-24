@@ -3,6 +3,11 @@ package com.haxademic.core.hardware.joystick;
 import processing.core.PGraphics;
 
 public interface IJoystickControl {
+
+	public interface IJoystickActiveDelegate {
+		public void activeSwitched(BaseJoystick joystick, boolean value);
+	}
+
 	public float controlX();
 	public void controlX(float value);
 	public float controlY();

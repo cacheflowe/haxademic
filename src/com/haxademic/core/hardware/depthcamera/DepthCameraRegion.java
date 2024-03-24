@@ -2,14 +2,18 @@ package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
+import processing.data.JSONObject;
 
 public class DepthCameraRegion
 extends BaseJoystick
@@ -26,13 +30,27 @@ implements IJoystickControl {
 	protected int pixelSkip = 10;
 	protected int minPixels = 20;
 	protected boolean farPlaneTilt = false;
-	
+
+	// debug	
 	protected int debugColor = -1;
+	
+	// active calculation
 	protected int pixelCount = 0;
 	
 	// ui
 	protected String uiID = null;
 	protected boolean hasUI = false;
+
+	public static final String LEFT = "CAMERA_LEFT";
+	public static final String RIGHT = "CAMERA_RIGHT";
+	public static final String NEAR = "CAMERA_NEAR";
+	public static final String FAR = "CAMERA_FAR";
+	public static final String FAR_BOTTOM = "CAMERA_FAR_BOTTOM";
+	public static final String TOP = "CAMERA_TOP";
+	public static final String BOTTOM = "CAMERA_BOTTOM";
+	public static final String PIXEL_SKIP = "CAMERA_PIXEL_SKIP";
+	public static final String MIN_PIXELS = "CAMERA_MIN_PIXELS";
+
 	protected String CAMERA_LEFT = "CAMERA_LEFT";
 	protected String CAMERA_RIGHT = "CAMERA_RIGHT";
 	protected String CAMERA_NEAR = "CAMERA_NEAR";
@@ -43,7 +61,12 @@ implements IJoystickControl {
 	protected String CAMERA_PIXEL_SKIP = "CAMERA_PIXEL_SKIP";
 	protected String CAMERA_MIN_PIXELS = "CAMERA_MIN_PIXELS";
 
+	protected String configFilePath;
 	
+	public DepthCameraRegion() {
+		this(null, false, false);
+	}
+
 	public DepthCameraRegion(String uiID) {
 		this(uiID, false, false);
 	}
@@ -53,39 +76,12 @@ implements IJoystickControl {
 	}
 
 	public DepthCameraRegion(String uiID, boolean savesUI, boolean farPlaneTilt) {
-		this(0, 0, 0, 0, 0, 0, 0, 0, 0xff00ff00);
-
-		// set UI keys to be unique in case of multiple cameras. needs testing
-		String uiTitle = "DepthCamera Config | " + uiID;
-		CAMERA_LEFT += "_" + uiID;
-		CAMERA_RIGHT += "_" + uiID;
-		CAMERA_NEAR += "_" + uiID;
-		CAMERA_FAR += "_" + uiID;
-		CAMERA_FAR_BOTTOM += "_" + uiID;
-		CAMERA_TOP += "_" + uiID;
-		CAMERA_BOTTOM += "_" + uiID;
-		CAMERA_PIXEL_SKIP += "_" + uiID;
-		CAMERA_MIN_PIXELS += "_" + uiID;
-		
-		// if nothing passed in, we create UI controls
-		UI.addTitle(uiTitle);
-		UI.addSlider(CAMERA_LEFT, 0, 0, DepthCameraSize.WIDTH, 1, savesUI);
-		UI.addSlider(CAMERA_RIGHT, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, savesUI);
-		UI.addSlider(CAMERA_NEAR, 500, 0, 20000, 1, savesUI);
-		UI.addSlider(CAMERA_FAR, 1200, 0, 20000, 1, savesUI);
-		if(farPlaneTilt) {
-			UI.addSlider(CAMERA_FAR_BOTTOM, 1200, 0, 20000, 1, savesUI);
-		}
-		UI.addSlider(CAMERA_TOP, 0, 0, DepthCameraSize.HEIGHT, 1, savesUI);
-		UI.addSlider(CAMERA_BOTTOM, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, savesUI);
-		UI.addSlider(CAMERA_PIXEL_SKIP, 20, 1, 30, 1, savesUI);
-		UI.addSlider(CAMERA_MIN_PIXELS, 20, 1, 200, 1, savesUI);
-		
-		// use default UI props & note that we have a UI
-		updatePropsFromUI();
+		this(0, DepthCameraSize.WIDTH, 0, 5000, 0, DepthCameraSize.HEIGHT, 20, 20, 0xff00ff00);
 		this.uiID = uiID;
 		this.farPlaneTilt = farPlaneTilt;
-		hasUI = true;
+
+		hasUI = uiID != null;
+		if(hasUI) buildUI(savesUI);
 	}
 	
 	public DepthCameraRegion(int left, int right, int near, int far, int top, int bottom, int pixelSkip, int minPixels, int debugColor) {
@@ -100,8 +96,60 @@ implements IJoystickControl {
 		this.minPixels = minPixels;
 		this.debugColor = debugColor;
 	}
+
+	protected void buildUI(boolean savesUI) {
+		// set UI keys to be unique in case of multiple cameras. needs testing
+		String uiTitle = "DepthCamera Config | " + uiID;
+		CAMERA_LEFT = LEFT + "_" + uiID;
+		CAMERA_RIGHT = RIGHT + "_" + uiID;
+		CAMERA_NEAR = NEAR + "_" + uiID;
+		CAMERA_FAR = FAR + "_" + uiID;
+		CAMERA_FAR_BOTTOM = FAR_BOTTOM + "_" + uiID;
+		CAMERA_TOP = TOP + "_" + uiID;
+		CAMERA_BOTTOM = BOTTOM + "_" + uiID;
+		CAMERA_PIXEL_SKIP = PIXEL_SKIP + "_" + uiID;
+		CAMERA_MIN_PIXELS = MIN_PIXELS + "_" + uiID;
+		
+		String farBottomKey = (farPlaneTilt) ? CAMERA_FAR_BOTTOM : null;
+
+		buildUI(uiTitle, CAMERA_LEFT, CAMERA_RIGHT, CAMERA_NEAR, CAMERA_FAR, farBottomKey, CAMERA_TOP, CAMERA_BOTTOM, CAMERA_PIXEL_SKIP, CAMERA_MIN_PIXELS, savesUI);
+
+		// use default UI props & note that we have a UI
+		updatePropsFromUI();
+	}
+
+	public static void buildUI(String title, String keyLeft, String keyRight, String keyNear, String keyFar, String keyFarBottom, String keyTop, String keyBottom, String keyPixelSkip, String keyMinPixels, boolean savesUI) {
+		UI.addTitle(title);
+		UI.addSlider(keyLeft, 0, 0, DepthCameraSize.WIDTH, 1, savesUI);
+		UI.addSlider(keyRight, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, savesUI);
+		UI.addSlider(keyNear, 500, 300, 10000, 1, savesUI);
+		UI.addSlider(keyFar, 1200, 300, 10000, 1, savesUI);
+		if (keyFarBottom != null) {
+			UI.addSlider(keyFarBottom, 1200, 0, 10000, 1, savesUI);
+		}
+		UI.addSlider(keyTop, 0, 0, DepthCameraSize.HEIGHT, 1, savesUI);
+		UI.addSlider(keyBottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, savesUI);
+		UI.addSlider(keyPixelSkip, 20, 1, 30, 1, savesUI);
+		UI.addSlider(keyMinPixels, 20, 1, 200, 1, savesUI);
+	}
+
+	public static void buildGenericUI() {
+		buildUI("DepthCameraRegion", LEFT, RIGHT, NEAR, FAR, FAR_BOTTOM, TOP, BOTTOM, PIXEL_SKIP, MIN_PIXELS, false);
+	}
+
+	public static void setGenericUiFromRegion(DepthCameraRegion region) {
+		UI.setValue(LEFT, region.left());
+		UI.setValue(RIGHT, region.right());
+		UI.setValue(NEAR, region.near());
+		UI.setValue(FAR, region.far());
+		UI.setValue(FAR_BOTTOM, region.farBottom());
+		UI.setValue(TOP, region.top());
+		UI.setValue(BOTTOM, region.bottom());
+		UI.setValue(PIXEL_SKIP, region.pixelSkip());
+		UI.setValue(MIN_PIXELS, region.minPixels());
+	}
 	
-	// setters in case we're not using UI
+	// getters/setters in case we're not using UI
 	
 	public int left() { return left; }
 	public void left( int value ) { this.left = value; }
@@ -152,6 +200,22 @@ implements IJoystickControl {
 		pixelSkip(UI.valueInt(CAMERA_PIXEL_SKIP));
 		minPixels(UI.valueInt(CAMERA_MIN_PIXELS));
 	}
+
+	public void updatePropsFromGenericUI() {
+		updatePropsFromGenericUI(false);
+	}
+
+	public void updatePropsFromGenericUI(boolean farPlaneTilt) {
+		left(UI.valueInt(LEFT));
+		right(UI.valueInt(RIGHT));
+		near(UI.valueInt(NEAR));
+		far(UI.valueInt(FAR));
+		farBottom((farPlaneTilt) ? UI.valueInt(FAR_BOTTOM) : UI.valueInt(FAR));
+		top(UI.valueInt(TOP));
+		bottom(UI.valueInt(BOTTOM));
+		pixelSkip(UI.valueInt(PIXEL_SKIP));
+		minPixels(UI.valueInt(MIN_PIXELS));
+	}
 	
 	public void debugLogPropsFromUI() {
 		// debug info
@@ -184,6 +248,9 @@ implements IJoystickControl {
 		// draw 3d "floor"
 		float depthDivider = 0.3f;
 		if(debugGraphics != null) {
+			debugGraphics.push();
+			debugGraphics.lights();
+
 			debugGraphics.beginShape();
 			debugGraphics.stroke(debugColor);
 			debugGraphics.fill( 255, pixelCount / minPixels * 10f );
@@ -193,7 +260,23 @@ implements IJoystickControl {
 			debugGraphics.vertex(left, bottom, -far * depthDivider);
 			debugGraphics.endShape();
 			debugGraphics.noStroke();
+
+			float boxW = right - left;
+			float boxH = bottom - top;
+			float boxD = (far - near) * depthDivider;
+			float boxX = left + boxW/2;
+			float boxY = top + boxH/2;
+			float boxZ = -near * depthDivider - boxD/2;
+			debugGraphics.push();
+			PG.setDrawCenter(debugGraphics);
+			debugGraphics.stroke(0, 255, 0);
+			debugGraphics.noFill();
+			debugGraphics.translate(boxX, boxY, boxZ);
+			debugGraphics.box(boxW, boxH, boxD);
+			debugGraphics.pop();
+			// P.out(boxW, boxH, boxD, boxX, boxY, boxZ);
 		}
+
 		// find depth readings in the region
 		_isActive = false;
 		if( depthCamera != null ) {
@@ -214,10 +297,10 @@ implements IJoystickControl {
 						if(pixelDepth > near && pixelDepth < curFar) {
 							if(debugGraphics != null) {
 								float debugZ = is3d ? -pixelDepth * depthDivider : 0;
-								debugGraphics.fill( debugColor, 127 );
+								debugGraphics.fill(debugColor, 127);
 								debugGraphics.pushMatrix();
 								debugGraphics.translate(x, y, debugZ);
-								debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
+								debugGraphics.rect(0, 0, pixelSkip, pixelSkip);
 								debugGraphics.popMatrix();
 							}
 							// add up for calculations
@@ -231,7 +314,7 @@ implements IJoystickControl {
 								debugGraphics.fill( 127, 127 );
 								debugGraphics.pushMatrix();
 								debugGraphics.translate(x, y, debugZ);
-								debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
+								debugGraphics.rect(0, 0, pixelSkip, pixelSkip);
 								debugGraphics.popMatrix();
 							}
 						}
@@ -254,17 +337,23 @@ implements IJoystickControl {
 					// show debug
 					if(debugGraphics != null) {
 						float playerH = debugGraphics.height * 0.75f;
-						debugGraphics.fill( 255, 127 );
+						debugGraphics.fill(255);
 						debugGraphics.pushMatrix();
-						debugGraphics.translate(avgX, bottom - playerH/2, -avgZ * depthDivider);
-						debugGraphics.box(20, playerH, 20);
+						debugGraphics.translate(avgX, avgY, -avgZ * depthDivider);
+						debugGraphics.box(50);
 						debugGraphics.popMatrix();
 					}
 				}
 			}
+
+			if(debugGraphics != null) {
+				debugGraphics.pop();
+			}
 		}
+
+		updateSmoothedJoystickResults();
 	}
-	
+
 	public void drawDebugFlat(PGraphics debugGraphics) {
 		drawDebugFlat(null, debugGraphics);
 	}
@@ -313,4 +402,51 @@ implements IJoystickControl {
 		debugGraphics.endDraw();
 	}
 	
+	// save/load
+
+	public void loadConfig(String configFilePath) {
+		this.configFilePath = configFilePath;
+		if(FileUtil.fileExists(configFilePath)) {
+			JSONObject json = JsonUtil.jsonFromFile(configFilePath);
+			left(json.getInt("left"));
+			right(json.getInt("right"));
+			near(json.getInt("near"));
+			far(json.getInt("far"));
+			int farBottom = json.hasKey("farBottom") ? json.getInt("farBottom") : json.getInt("far");
+			farBottom(farBottom);
+			top(json.getInt("top"));
+			bottom(json.getInt("bottom"));
+			pixelSkip(json.getInt("pixelSkip"));
+			minPixels(json.getInt("minPixels"));
+			P.out("DepthCameraRegion: Loaded DepthCameraRegion config from " + configFilePath);
+			P.out(json.toString());
+		} else {
+			P.out("DepthCameraRegion: no config file found at " + configFilePath);
+		}
+	}
+	
+	public void saveConfig() {
+		if(configFilePath == null) {
+			P.out("DepthCameraRegion: no config file path set");
+		} else {
+			String dir = FileUtil.pathForFile(configFilePath);
+			FileUtil.createDir(dir);
+			P.out(dir, "exists", FileUtil.fileOrPathExists(dir));
+
+			JSONObject json = new JSONObject();
+			json.setInt("left", left);
+			json.setInt("right", right);
+			json.setInt("near", near);
+			json.setInt("far", far);
+			int farBottom = json.hasKey("farBottom") ? json.getInt("farBottom") : json.getInt("far");
+			json.setInt("farBottom", farBottom);
+			json.setInt("top", top);
+			json.setInt("bottom", bottom);
+			json.setInt("pixelSkip", pixelSkip);
+			json.setInt("minPixels", minPixels);
+			JsonUtil.jsonToFile(json, configFilePath);
+			P.out("DepthCameraRegion: Saved DepthCameraRegion config to " + configFilePath);
+		}
+	}
+
 }

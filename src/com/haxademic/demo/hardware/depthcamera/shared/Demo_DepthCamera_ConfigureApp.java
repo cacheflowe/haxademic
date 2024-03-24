@@ -10,6 +10,7 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.ui.UI;
 
 public class Demo_DepthCamera_ConfigureApp
@@ -37,15 +38,16 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// init camera
+		RealSenseWrapper.setMidStreamFast();
 		DepthCamera.instance(DepthCameraType.Realsense);
 		DepthCamera.instance().camera.setMirror(false);
 
 		// add UI controls
 		UI.addTitle("Depth Data Settings");
-		UI.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH/2, 1, false);
-		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
-		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
-		UI.addSlider(kinectBottom, DepthCameraSize.HEIGHT, DepthCameraSize.HEIGHT/2,DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(kinectBottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
 		UI.addSlider(kinectNear, 300, 300, 12000, 10, false);
 		UI.addSlider(kinectFar, 7000, 300, 12000, 10, false);
 		UI.addSlider(pixelSkip, 5, 1, 30, 1, false);

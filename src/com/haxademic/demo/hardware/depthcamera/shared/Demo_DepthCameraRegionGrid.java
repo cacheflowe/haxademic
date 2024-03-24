@@ -25,7 +25,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		int KINECT_MIN_DIST = 	300;
-		int KINECT_MAX_DIST = 	2000;
+		int KINECT_MAX_DIST = 	1200;
 		int KINECT_TOP = 		0;
 		int KINECT_BOTTOM = 	DepthCameraSize.HEIGHT;
 		int KINECT_PLAYER_GAP = 20;

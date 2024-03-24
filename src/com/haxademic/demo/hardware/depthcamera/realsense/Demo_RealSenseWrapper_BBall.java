@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.render.FrameLoop;
@@ -14,12 +15,13 @@ import com.haxademic.core.render.FrameLoop;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_RealSenseWrapper
+public class Demo_RealSenseWrapper_BBall
 extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected RealSenseWrapper realSenseWrapper;
+	protected boolean seenEnough = false;
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -32,9 +34,8 @@ implements IAppStoreListener {
 		// bild realsense wrapper
 		RealSenseWrapper.METERS_FAR_THRESH = 3;
 		// RealSenseWrapper.setSmallStream();
-		// RealSenseWrapper.setTinyStream();
-		RealSenseWrapper.setTinyStreamSuperFast();
-		realSenseWrapper = new RealSenseWrapper(p, true, true);
+		RealSenseWrapper.setTinyStream();
+		realSenseWrapper = new RealSenseWrapper(p, false, true);
 		realSenseWrapper.setMirror(false);
 	}
 
@@ -54,6 +55,7 @@ implements IAppStoreListener {
 		PG.resetPImageAlpha(p);
 		p.blendMode(PBlendModes.BLEND);
 		drawDepthPixels();
+		if(seenEnough) PG.drawStrokedRect(p.g, p.width, p.height, 20, ColorsHax.WHITE);
 		if(FrameLoop.frameModHours(1)) P.out("Still running:", DebugView.uptimeStr());
 		
 		DebugView.setTexture("getRgbImage()", realSenseWrapper.getRgbImage());
@@ -66,17 +68,19 @@ implements IAppStoreListener {
 		
 		int numPixelsProcessed = 0;
 		int pixelSize = 10;
-		int depthFar = P.round(RealSenseWrapper.METERS_FAR_THRESH * 1000);
+		int depthFar = 500;
 		for ( int x = 0; x < RealSenseWrapper.DEPTH_W; x += pixelSize ) {
 			for ( int y = 0; y < RealSenseWrapper.DEPTH_H; y += pixelSize ) {
 				// get intensity
 				float pixelDepth = realSenseWrapper.getDepthAt(x, y);
 				if(pixelDepth != 0 && pixelDepth < depthFar) {
 					p.fill(P.map(pixelDepth, 0, depthFar, 255, 0));
+					p.fill(255);
 					p.rect(x, y, pixelSize, pixelSize);
 					numPixelsProcessed++;
 				}
 			}
+			seenEnough = (numPixelsProcessed > 40);
 		}
 		
 		p.popMatrix();

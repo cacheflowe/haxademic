@@ -38,7 +38,7 @@ extends Demo_DepthCameraRegion {
 		boxTex.endDraw();
 		
 		// draw box based on user position
-		float xOffset = userX.value();
+		float xOffset = region.easedX();
 		CameraUtil.setCameraDistance(p.g, 100, 20000);
 		p.push();
 		p.rotateY(xOffset / 2f);

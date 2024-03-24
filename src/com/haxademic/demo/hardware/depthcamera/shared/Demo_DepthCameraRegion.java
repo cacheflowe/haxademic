@@ -14,7 +14,6 @@ import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
-import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
@@ -31,12 +30,6 @@ implements IEasingBooleanCallback {
 	protected PGraphics regionFlatDebug;	// updated by the `region` object
 	protected PGraphics joystickDebug;		// updated by the `region`
 	
-	// smoothed output
-	protected EasingBoolean userActive;
-	protected EasingFloat userX = new EasingFloat(0, 0.1f);
-	protected EasingFloat userY = new EasingFloat(0, 0.1f);
-	protected EasingFloat userZ = new EasingFloat(0, 0.1f);
-
 	// UI
 	protected String CAMERA_debug = "CAMERA_debug";
 	protected String CAMERA_debug_flat = "CAMERA_debug_flat";
@@ -63,7 +56,6 @@ implements IEasingBooleanCallback {
 		regionFlatDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		joystickDebug = PG.newPG(200, 200);
 		region = new DepthCameraRegion("cam1", false, true);
-		userActive = new EasingBoolean(false, 20, this);
 	}
 	
 	protected void updateDepthRegion() {
@@ -84,18 +76,7 @@ implements IEasingBooleanCallback {
 			region.drawDebugFlat(regionFlatDebug);
 		}
 		// draw x/y coords grid debug view
-		DepthCameraRegion.drawDebugCoords(joystickDebug, userX.value(), userY.value(), userActive.value());
-	}
-	
-	protected void updateSmoothedJoystickResults() {
-		userActive.target(region.isActive()).update();
-		userX.setTarget(region.controlX()).update();
-		userY.setTarget(region.controlY()).update();
-		userZ.setTarget(region.controlZ()).update();
-		DebugView.setValue("userActive", userActive.value());
-		DebugView.setValue("userX", userX.value());
-		DebugView.setValue("userY", userY.value());
-		DebugView.setValue("userZ", userZ.value());
+		DepthCameraRegion.drawDebugCoords(joystickDebug, region.easedX(), region.easedY(), region.easedActive());
 	}
 	
 	protected void addDebugTextures() {
@@ -129,7 +110,6 @@ implements IEasingBooleanCallback {
 		p.background(30);
 		if(DepthCamera.instance().camera.isActive() == false) return;
 		updateDepthRegion();
-		updateSmoothedJoystickResults();
 		addDebugTextures();
 		drawDebugToScreen();
 	}
