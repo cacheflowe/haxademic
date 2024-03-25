@@ -1,16 +1,16 @@
 {
   "sequencers": [
     {
-      "volume": 0.7795275449752808,
-      "sampleIndex": 38,
+      "volume": 1.3228346109390259,
+      "sampleIndex": 32,
       "noteOffset": 11,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_05_LurkaKick-Modslammed.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_139_HYROGLIFICS_kick_one_shot_flataf.wav",
       "steps": [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0]
     },
     {
       "volume": 0.5905511379241943,
-      "sampleIndex": 30,
+      "sampleIndex": 38,
       "noteOffset": 15,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Hyroglifics_-_Blocks_Vol.2_Sample_Pack_-_127_Snap_02.wav",
@@ -18,7 +18,7 @@
     },
     {
       "volume": 0.82677161693573,
-      "sampleIndex": 5,
+      "sampleIndex": 4,
       "noteOffset": 5,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0006-Astrophonica_-_Astrophonica_x_LABS_Breakbeats_Sample_Pack_-_48_ASTROxLABS_SULLY_BREAK_03_loop_8_.wav",
@@ -26,31 +26,31 @@
     },
     {
       "volume": 0.6850393414497375,
-      "sampleIndex": 91,
+      "sampleIndex": 7,
       "noteOffset": 14,
-      "notesByStep": false,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Om_Unit_-_Hardware_Synth_Drums_(Sample_Pack)_-_114_Perc_28.wav",
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\BLIP_10.wav",
       "steps": [0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0]
     },
     {
       "volume": 0.8740158081054688,
-      "sampleIndex": 21,
+      "sampleIndex": 22,
       "noteOffset": 8,
-      "notesByStep": false,
+      "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Clouds_-_Clouds_Sample_Pack_001_-_319_Sound_072.wav",
       "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
     },
     {
       "volume": 1.5826771259307861,
-      "sampleIndex": 5,
+      "sampleIndex": 23,
       "noteOffset": 14,
       "notesByStep": true,
-      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Bass_Lead-17-G#.wav",
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Sub_Bass-26-F.wav",
       "steps": [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0]
     },
     {
       "volume": 1.2047243118286133,
-      "sampleIndex": 43,
+      "sampleIndex": 47,
       "noteOffset": 13,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Synth_Lead-67-C.wav",
@@ -58,7 +58,7 @@
     },
     {
       "volume": 0.8503937721252441,
-      "sampleIndex": 47,
+      "sampleIndex": 55,
       "noteOffset": 4,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_283.wav",

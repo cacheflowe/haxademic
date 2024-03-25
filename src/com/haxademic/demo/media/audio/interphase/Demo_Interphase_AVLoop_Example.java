@@ -13,7 +13,6 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
 import com.haxademic.core.hardware.dmx.artnet.LedMatrix48x12;
 import com.haxademic.core.hardware.midi.MidiDevice;
-import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
@@ -21,9 +20,7 @@ import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
 import com.haxademic.demo.media.audio.interphase.viz.IInterphaseViz;
-import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizAudioTexture;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizBasicLines;
-import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizBasicPolygons;
 import com.haxademic.demo.media.audio.interphase.viz.InterphaseVizDmxTriggers;
 
 import processing.core.PGraphics;
@@ -67,17 +64,10 @@ implements IAppStoreListener {
 	}
 	
 	protected void initInterphase() {
-		// init device for UI knobs MIDI input
-		// knobs = new MidiDevice(LaunchControlXL.deviceName, null);
-		knobs = new MidiDevice(LaunchControlXL.deviceName2, null);
-
 		// init interphase + config 
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initLaunchControls(LaunchControlXL.BUTTONS_1, LaunchControlXL.BUTTONS_2, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		// interphase.initLaunchpads(2, 5, 4, 7);
-		interphase.initLaunchpads("MIDIIN2 (LPMiniMK3 MIDI)", "MIDIOUT2 (LPMiniMK3 MIDI)", "MIDIIN4 (LPMiniMK3 MIDI)", "MIDIOUT4 (LPMiniMK3 MIDI)");
 		interphase.initAudioAnalysisPerChannel();
 
 		// visual buffers

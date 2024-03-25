@@ -1,0 +1,69 @@
+{
+  "sequencers": [
+    {
+      "volume": 1.3464566469192505,
+      "sampleIndex": 56,
+      "noteOffset": 11,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_13_LurkaKick-DOOMBong.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.157480239868164,
+      "sampleIndex": 105,
+      "noteOffset": 15,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\VMH1_Minimal_Perc_343.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    },
+    {
+      "volume": 0.8976378440856934,
+      "sampleIndex": 61,
+      "noteOffset": 5,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\VMH1_Minimal_Perc_077.wav",
+      "steps": [0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1]
+    },
+    {
+      "volume": 0.35433071851730347,
+      "sampleIndex": 95,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Om_Unit_-_Hardware_Synth_Drums_(Sample_Pack)_-_114_Perc_28.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.9448819160461426,
+      "sampleIndex": 81,
+      "noteOffset": 9,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\SKWEEK_2.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+    },
+    {
+      "volume": 1.2047243118286133,
+      "sampleIndex": 9,
+      "noteOffset": 9,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Dark_Bass-10-D#.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+    },
+    {
+      "volume": 1.3464566469192505,
+      "sampleIndex": 72,
+      "noteOffset": 3,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\VMH1_Synth_Shots_177.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.6299211978912354,
+      "sampleIndex": 15,
+      "noteOffset": 2,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Chord-36-A#.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0]
+    }
+  ],
+  "BPM": 124
+}

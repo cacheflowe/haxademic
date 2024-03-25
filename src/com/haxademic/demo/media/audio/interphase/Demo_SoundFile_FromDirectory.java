@@ -237,8 +237,7 @@ extends PAppletHax {
 	}
 
 	protected void drawSound() {
-		if (curSound == null)
-			return;
+		if (curSound == null) return;
 
 		// draw wave data
 		p.fill(255, 127);

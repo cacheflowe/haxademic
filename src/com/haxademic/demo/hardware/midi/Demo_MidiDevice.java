@@ -34,7 +34,7 @@ implements SimpleMidiListener {
 		
 		// init 2 devices
 		device1 = MidiDevice.init(LaunchControlXL.deviceName, LaunchControlXL.deviceName, this);	// basic singleton initialization in case there's only one device
-		device2 = new MidiDevice(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2, this);	// a 2nd device, with normal constructor
+		// device2 = new MidiDevice(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2, this);	// a 2nd device, with normal constructor
 //		device3 = new MidiDevice(12, 15, this);	// a 2nd device, with normal constructor
 	}
 	
@@ -45,8 +45,9 @@ implements SimpleMidiListener {
 		logOut.printToScreen(p.g, p.width - 300, 20);
 
 		// test MidiState storage
-		DebugView.setValue("PAD 1 on", MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01));
-		
+		DebugView.setValue("PAD 1 on", MidiState.instance().isMidiNoteOn(LaunchControlXL.BUTTONS_1[0]));
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControlXL.BUTTONS_2[2])) P.out("TRIGGERED 2");
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControlXL.BUTTONS_2[1])) P.out("TRIGGERED 1");
 		// test midi out to launchpad
 		// updateLaunchpadLEDs();
 	}

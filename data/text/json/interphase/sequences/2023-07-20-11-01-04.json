@@ -6,24 +6,7 @@
       "noteOffset": 11,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_06_LurkaKick-VcKick.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "steps": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1.0866141319274902,
@@ -31,24 +14,7 @@
       "noteOffset": 15,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Lurka_-_Lurka_Sample_Pack_-_52_LurkaSnare-SSLTite.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1,
@@ -56,24 +22,7 @@
       "noteOffset": 5,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0004-Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_72_HYROGLIFICS_174_shuffle_miami_loop_4_.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0
-      ]
+      "steps": [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0]
     },
     {
       "volume": 1,
@@ -81,24 +30,7 @@
       "noteOffset": 14,
       "notesByStep": false,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\SOS_Root_C_54.wav",
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        1,
-        1,
-        0,
-        1,
-        0,
-        0,
-        1
-      ]
+      "steps": [0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1]
     },
     {
       "volume": 0.8500000238418579,
@@ -106,24 +38,7 @@
       "noteOffset": 9,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_81_HYROGLIFICS_atmos_one_shot_sting.wav",
-      "steps": [
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 1,
@@ -131,24 +46,7 @@
       "noteOffset": 9,
       "notesByStep": false,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Sub_Bass-25-F#.wav",
-      "steps": [
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0
-      ]
+      "steps": [0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0]
     },
     {
       "volume": 1.370078682899475,
@@ -156,24 +54,7 @@
       "noteOffset": 0,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\Fracture_-_TURBO_TOOLS_VOL_2_Sample_Pack_-_162_ST_DIVA_RAVE_STAB_1_MACKIE_A.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0]
     },
     {
       "volume": 1.1338582038879395,
@@ -181,24 +62,7 @@
       "noteOffset": 4,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_356.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
     }
   ],
   "BPM": 118

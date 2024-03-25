@@ -1,0 +1,69 @@
+{
+  "sequencers": [
+    {
+      "volume": 1.3937007188796997,
+      "sampleIndex": 24,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Hyroglifics_-_Blocks_Vol.2_Sample_Pack_-_116_Kick_12.wav",
+      "steps": [1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.2283464670181274,
+      "sampleIndex": 40,
+      "noteOffset": 15,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\Hyroglifics_-_Blocks_Vol.2_Sample_Pack_-_161_Snare_04.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+    },
+    {
+      "volume": 0.6850393414497375,
+      "sampleIndex": 29,
+      "noteOffset": 5,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\Clouds_-_Clouds_Sample_Pack_001_-_59_Closed_Hat_004.wav",
+      "steps": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.6141732335090637,
+      "sampleIndex": 133,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\VMH1_Minimal_Perc_070.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.6062991619110107,
+      "sampleIndex": 71,
+      "noteOffset": 8,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Om_Unit_-_Hardware_Synth_Drums_(Sample_Pack)_-_74_Perc_FX_15.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.4409449100494385,
+      "sampleIndex": 20,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Sub_Bass-22-A.wav",
+      "steps": [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+    },
+    {
+      "volume": 0.7559055089950562,
+      "sampleIndex": 54,
+      "noteOffset": 5,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\LMajor_-_LMajor_Presents-_Illegal_Hardware_-_212_LM_IL_BASS_Tech_F.wav",
+      "steps": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1]
+    },
+    {
+      "volume": 1.1811022758483887,
+      "sampleIndex": 16,
+      "noteOffset": 9,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Chord-57-G#.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0]
+    }
+  ],
+  "BPM": 102
+}

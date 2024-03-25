@@ -44,8 +44,6 @@ implements IAppStoreListener {
 			new SequencerConfig(3, "audio/samples/04-perc", SequencerConfig.buildHatPatterns(), 1f, false, false, false, false, false),
 		});
 		interphase.initUI();
-		interphase.initLaunchpads(2, 5, 4, 7);
-		interphase.initGlobalControlsUI();
 		interphase.initAudioAnalysisPerChannel();
 //		interphase.initAudioTexturesPerChannel();
 		interphase.autoPlay();

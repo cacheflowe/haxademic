@@ -55,7 +55,7 @@ implements IAppStoreListener {
 		SequencerConfig.setAbsolutePath();
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels());
-		interphase.initUI().initLaunchpads(1, 4, 2, 5);
+		interphase.initUI();
 		numSequencers = interphase.sequencers().length;
 
 		// add drawable sequencers

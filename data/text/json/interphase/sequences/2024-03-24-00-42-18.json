@@ -1,0 +1,69 @@
+{
+  "sequencers": [
+    {
+      "volume": 1.4173228740692139,
+      "sampleIndex": 16,
+      "noteOffset": 12,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Fracture_-_TURBO_TOOLS_VOL_2_Sample_Pack_-_69_DR_KICK_4_-MACKIE-.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.2283464670181274,
+      "sampleIndex": 90,
+      "noteOffset": 10,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\SNARE_7.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+    },
+    {
+      "volume": 0.9685039520263672,
+      "sampleIndex": 6,
+      "noteOffset": 15,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0008-Astrophonica_-_Astrophonica_x_LABS_Breakbeats_Sample_Pack_-_50_ASTROxLABS_SULLY_BREAK_05_loop_8_.wav",
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.0866141319274902,
+      "sampleIndex": 14,
+      "noteOffset": 1,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\bongo_2__nyhouze2.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 0.8500000238418579,
+      "sampleIndex": 77,
+      "noteOffset": 3,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\POOON.wav",
+      "steps": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1]
+    },
+    {
+      "volume": 1.4173228740692139,
+      "sampleIndex": 13,
+      "noteOffset": 6,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Dark_Bass-47-C#.wav",
+      "steps": [0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0]
+    },
+    {
+      "volume": 0.7322834730148315,
+      "sampleIndex": 62,
+      "noteOffset": 14,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\LMajor_-_LMajor_UK_Bass_EMU_ESI_4000_Sample_Pack_-_121_LM_ESI_M1_Organ_Stab_01.wav",
+      "steps": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    {
+      "volume": 1.960629940032959,
+      "sampleIndex": 7,
+      "noteOffset": 0,
+      "notesByStep": true,
+      "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\DF-TOC-Bass_Lead-46-D#.wav",
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
+    }
+  ],
+  "BPM": 122
+}

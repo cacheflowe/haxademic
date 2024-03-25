@@ -53,6 +53,7 @@ implements SimpleMidiListener {
 	
 	protected void updateTriggerState() {
 		if(P.p.frameCount == lastUpdatedFrame) return;
+
 		for (Integer key : midiNoteStates.keySet()) {
 			if(midiNoteStates.get(key) == InputState.TRIGGER) midiNoteStates.put(key, InputState.ON);
 		}

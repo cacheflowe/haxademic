@@ -6,24 +6,7 @@
       "noteOffset": 11,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Clouds_-_Clouds_Sample_Pack_001_-_20_Kick_014_(C).wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 2.2204723358154297,
@@ -31,24 +14,7 @@
       "noteOffset": 15,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\SNARE_16.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 1.0629920959472656,
@@ -56,24 +22,7 @@
       "noteOffset": 5,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\VMH1_Minimal_Perc_012.wav",
-      "steps": [
-        0,
-        1,
-        1,
-        1,
-        0,
-        0,
-        1,
-        1,
-        0,
-        1,
-        1,
-        1,
-        0,
-        1,
-        0,
-        1
-      ]
+      "steps": [0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1]
     },
     {
       "volume": 1,
@@ -81,24 +30,7 @@
       "noteOffset": 14,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\Om_Unit_-_Hardware_Synth_Drums_(Sample_Pack)_-_114_Perc_28.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 0.8500000238418579,
@@ -106,24 +38,7 @@
       "noteOffset": 9,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\Tom_The_APX_08.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0
-      ]
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
     },
     {
       "volume": 1.464566946029663,
@@ -131,24 +46,7 @@
       "noteOffset": 9,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\DF-TOC-Sub_Bass-18-D#.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0
-      ]
+      "steps": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0]
     },
     {
       "volume": 1.1102361679077148,
@@ -156,24 +54,7 @@
       "noteOffset": 0,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\DF-TOC-Synth_Lead-67-C.wav",
-      "steps": [
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1
-      ]
+      "steps": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
     },
     {
       "volume": 1.5826771259307861,
@@ -181,24 +62,7 @@
       "noteOffset": 2,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_009.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0
-      ]
+      "steps": [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0]
     }
   ],
   "BPM": 124

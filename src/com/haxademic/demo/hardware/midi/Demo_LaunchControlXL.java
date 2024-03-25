@@ -5,11 +5,9 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
-import com.haxademic.core.hardware.midi.devices.NovationColors;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL.ILaunchControlXLCallback;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.FrameLoop;
-import com.leapmotion.leap.Frame;
 
 public class Demo_LaunchControlXL
 extends PAppletHax
@@ -24,9 +22,11 @@ implements ILaunchControlXLCallback {
 		MidiDevice.printDevices();
 		MidiState.instance();
 		
-		launchControl1 = new LaunchControlXL(LaunchControlXL.deviceName, LaunchControlXL.deviceName);
+//		launchControl1 = new LaunchControlXL(LaunchControlXL.deviceName, LaunchControlXL.deviceName);
+		launchControl1 = new LaunchControlXL(1, 4);
 		launchControl1.setDelegate(this);
-		launchControl2 = new LaunchControlXL(LaunchControlXL.deviceName2, LaunchControlXL.deviceName2);
+//		launchControl2 = new LaunchControlXL(LaunchControlXL.deviceNameIn2, LaunchControlXL.deviceNameOut2);
+		launchControl2 = new LaunchControlXL(3, 6);
 		launchControl2.setDelegate(this);
 	}
 	

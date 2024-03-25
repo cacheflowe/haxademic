@@ -10,7 +10,7 @@ import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.MidiState;
-import com.haxademic.core.hardware.midi.devices.LaunchControl;
+import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.hardware.osc.OscState;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
@@ -24,12 +24,12 @@ implements IAppStoreListener {
 	
 	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
 	protected InputTrigger trigger = (new InputTrigger()).addKeyCodes(new char[]{'b', 'v'})
-														 .addOscMessages(new String[]{"/video-start", "/3/fader1"})
-														 .addMidiNotes(new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03})
-														 .addMidiCCNotes(new Integer[]{LaunchControl.KNOB_01})
-														 .addHttpRequests(new String[]{"button1", "slider1", "slider2"})
-														 .addGamepadControls(new String[]{"Button 9"})
-														 .setBroadcastKey("TRIGGER");
+														.addOscMessages(new String[]{"/video-start", "/3/fader1"})
+														.addMidiNotes(new Integer[]{LaunchControlXL.BUTTONS_1[0], LaunchControlXL.BUTTONS_1[1]})
+														.addMidiCCNotes(new Integer[]{LaunchControlXL.KNOBS_ROW_1[0]})
+														.addHttpRequests(new String[]{"button1", "slider1", "slider2"})
+														.addGamepadControls(new String[]{"Button 9"})
+														.setBroadcastKey("TRIGGER");
 
 	
 	protected void firstFrame() {
@@ -50,7 +50,8 @@ implements IAppStoreListener {
 	
 	protected void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01) || OscState.instance().isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiNoteOn(LaunchControlXL.BUTTONS_1[2]) || OscState.instance().isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControlXL.BUTTONS_1[0])) P.println("trigger MIDI");
 		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
 			p.background(0, 255, 255f * OscState.instance().getValue("/1/faderC"));

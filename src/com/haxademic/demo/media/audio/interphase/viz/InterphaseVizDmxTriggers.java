@@ -23,7 +23,7 @@ implements IInterphaseViz {
   }
 
 	protected void initDMX() {
-		DMXUniverse.instanceInit("COM8", 9600);
+		DMXUniverse.instanceInit();
 		fixture = new ArrayList<DMXFixture>();
 		for (int i = 0; i < numSequencers; i++) {
 			fixture.add((new DMXFixture(1 + i * 3)).setEaseFactor(0.25f));

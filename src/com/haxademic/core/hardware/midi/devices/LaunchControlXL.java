@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.midi.devices;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ArrayUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
 
 import themidibus.MidiBus;
 import themidibus.SimpleMidiListener;
@@ -18,7 +19,11 @@ implements SimpleMidiListener {
 	// Static device props
 
 	public static String deviceName = "Launch Control XL";
-	public static String deviceName2 = "Launch Control XL 2";
+	public static String deviceName2 = "Launch Control XL";
+	public static String deviceNameIn = "MIDIIN2 (Launch Control XL)";
+	public static String deviceNameIn2 = "MIDIIN4 (Launch Control XL)";
+	public static String deviceNameOut = "MIDIOUT2 (Launch Control XL)";
+	public static String deviceNameOut2 = "MIDIOUT4 (Launch Control XL)";
 
 	public static int[] KNOBS_ROW_1   = new int[] {13, 14, 15, 16, 17, 18, 19, 20};	// CC
 	public static int[] KNOBS_ROW_2   = new int[] {29, 30, 31, 32, 33, 34, 35, 36};	// CC
@@ -69,12 +74,16 @@ implements SimpleMidiListener {
 	protected ILaunchControlXLCallback delegate;
 
 	public LaunchControlXL(String launchControlDeviceNameIn, String launchControlDeviceNameOut) {
-		midiBus = new MidiBus(this, launchControlDeviceNameIn, launchControlDeviceNameOut);
+		MidiDevice device = new MidiDevice(launchControlDeviceNameIn, launchControlDeviceNameOut, this);
+		// midiBus = new MidiBus(this, launchControlDeviceNameIn, launchControlDeviceNameOut);  // switched to MidiDevice, which also forwards incoming MIDI to MidiState
+		midiBus = device.midiBus;
 		init();
 	}
 	
 	public LaunchControlXL(int midiIndexIn, int midiIndexOut) {
-		midiBus = new MidiBus(this, midiIndexIn, midiIndexOut);
+		MidiDevice device = new MidiDevice(midiIndexIn, midiIndexOut, this);
+		// midiBus = new MidiBus(this, midiIndexIn, midiIndexOut); // switched to MidiDevice, which also forwards incoming MIDI to MidiState
+		midiBus = device.midiBus;
 		init();
 	}
 	

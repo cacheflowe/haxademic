@@ -6,24 +6,7 @@
       "noteOffset": 3,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\01-kick\\Lurka_-_Lurka_Sample_Pack_-_25_LurkaKick-Strngtub.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0
-      ]
+      "steps": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]
     },
     {
       "volume": 0.75,
@@ -31,24 +14,7 @@
       "noteOffset": 2,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\02-snare\\RIM_4.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     },
     {
       "volume": 0.6000000238418579,
@@ -56,24 +22,7 @@
       "noteOffset": 14,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\03-hats\\0014-VFX1_FX_Loops_068_112BPM_loop_4_.wav",
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        1,
-        0
-      ]
+      "steps": [0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0]
     },
     {
       "volume": 0.800000011920929,
@@ -81,24 +30,7 @@
       "noteOffset": 2,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\04-perc\\VMH1_Minimal_Perc_297.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
     },
     {
       "volume": 1.5118110179901123,
@@ -106,24 +38,7 @@
       "noteOffset": 2,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\05-fx\\MARIMBU2.wav",
-      "steps": [
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
     },
     {
       "volume": 1,
@@ -131,24 +46,7 @@
       "noteOffset": 2,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\06-bass\\Hyroglifics_-_Blocks_Vol.3_Sample_Pack_-_97_HYROGLIFICS_bass_one_shot_moogtownLFO.wav",
-      "steps": [
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0
-      ]
+      "steps": [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
     },
     {
       "volume": 1.535433053970337,
@@ -156,24 +54,7 @@
       "noteOffset": 12,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\07-keys\\VMH1_Synth_Shots_327.wav",
-      "steps": [
-        0,
-        0,
-        1,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0
-      ]
+      "steps": [0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0]
     },
     {
       "volume": 1.6062991619110107,
@@ -181,24 +62,7 @@
       "noteOffset": 3,
       "notesByStep": true,
       "samplePath": "D:\\workspace\\interphase\\data\\audio\\samples2\\08-lead\\VMH1_Synth_Shots_165.wav",
-      "steps": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        1,
-        0,
-        0,
-        0,
-        0,
-        1,
-        0,
-        0
-      ]
+      "steps": [0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0]
     }
   ],
   "BPM": 109

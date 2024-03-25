@@ -26,8 +26,6 @@ extends PAppletHax {
 		SequencerConfig.setAbsolutePath();
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initLaunchControls(LaunchControlXL.BUTTONS_1, LaunchControlXL.BUTTONS_2, LaunchControlXL.KNOBS_ROW_1, LaunchControlXL.SLIDERS, LaunchControlXL.KNOBS_ROW_2, LaunchControlXL.KNOBS_ROW_3);
-		interphase.initLaunchpads("MIDIIN2 (LPMiniMK3 MIDI)", "MIDIOUT2 (LPMiniMK3 MIDI)", "MIDIIN4 (LPMiniMK3 MIDI)", "MIDIOUT4 (LPMiniMK3 MIDI)");
 		interphase.initAudioAnalysisPerChannel();
 
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);

@@ -62,14 +62,14 @@ public class MidiDevice {
 
 	public MidiDevice(int midiDeviceInIndex, int midiDeviceOutIndex, SimpleMidiListener delegate) {
 		printDevices();
-		new Thread(new Runnable() { public void run() {
+		// new Thread(new Runnable() { public void run() {
 			midiBus = new MidiBus(this, midiDeviceInIndex, midiDeviceOutIndex);
 			midiBus.addMidiListener((MidiListener) MidiState.instance());
 			if(delegate != null) {
 				midiBus.addMidiListener(delegate);
 			}
 			P.outColor(Console.GREEN_BACKGROUND, "MidiBus init by index:", midiDeviceInIndex, midiDeviceOutIndex);
-		}}).start();
+		// }}).start();
 	}
 	
 	public MidiDevice(String midiDeviceInName, SimpleMidiListener delegate) {
@@ -78,14 +78,14 @@ public class MidiDevice {
 
 	public MidiDevice(String midiDeviceInName, String midiDeviceOutName, SimpleMidiListener delegate) {
 		printDevices();		
-		new Thread(new Runnable() { public void run() {
+		// new Thread(new Runnable() { public void run() {
 			midiBus = new MidiBus(this, midiDeviceInName, midiDeviceOutName);
 			midiBus.addMidiListener((MidiListener) MidiState.instance());
 			if(delegate != null) {
 				midiBus.addMidiListener(delegate);
 			}
 			P.outColor(Console.GREEN_BACKGROUND, "MidiBus init by name:", midiDeviceInName, midiDeviceOutName);
-		}}).start();
+		// }}).start();
 	}
 	
 	public void sendMidiOut(boolean isNoteOn, int channel, int note, int velocity) {

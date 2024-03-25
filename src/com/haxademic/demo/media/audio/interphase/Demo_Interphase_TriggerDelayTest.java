@@ -52,10 +52,7 @@ implements IAppStoreListener {
 //		});
 		interphase = new Interphase(SequencerConfig.interphaseChannelsAlt());
 		interphase.initUI();
-		interphase.initLaunchpads(2, 5, 4, 7);
-		interphase.initGlobalControlsUI();
 		interphase.initAudioAnalysisPerChannel();
-//		interphase.initAudioTexturesPerChannel();
 		interphase.autoPlay();
 		
 		// build custom objects for tracking amplitude per sequencer

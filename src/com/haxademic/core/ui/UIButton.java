@@ -17,7 +17,7 @@ implements IUIControl {
 	public interface IUIButtonDelegate {
 		public void uiButtonClicked(UIButton button);
 	}
-	 
+	
 	protected IUIButtonDelegate delegate;
 	protected String id;
 	protected String label;
@@ -29,6 +29,7 @@ implements IUIControl {
 	protected float layoutW = 1;
 	protected int activeTime = 0;
 	protected int midiNote = -1;
+	protected int lastClickTime = 0;
 
 	public UIButton(IUIButtonDelegate delegate, String id, int x, int y, int w, int h, boolean toggles) {
 		this(delegate, id, x, y, w, h, toggles, -1);
@@ -135,7 +136,6 @@ implements IUIControl {
 	public void update() {
 		// check midi
 		if(midiNote != -1 && MidiState.instance().isMidiNoteTriggered(midiNote)) {
-			// P.out("click framecount:", P.p.frameCount);
 			click();
 		}
 	}
@@ -171,6 +171,11 @@ implements IUIControl {
 	/////////////////////////////////////////
 
 	public void click() {
+		// prevent double-click. MIDI messages only trigger once, but click()  was getting called twice...
+		int curTime = P.p.millis();
+		if(curTime < lastClickTime + 50) return;	
+		lastClickTime = curTime;
+
 		if(toggles) {
 			value = (value == 0) ? 1 : 0;	// flip toggle value
 		}

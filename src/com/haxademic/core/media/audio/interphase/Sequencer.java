@@ -238,11 +238,11 @@ implements IAppStoreListener {
 		return muted;
 	}
 	
-	protected boolean stepActive(int i) {
+	public boolean stepActive(int i) {
 		return steps[i];
 	}
 	
-	protected void stepActive(int i, boolean active) {
+	public void stepActive(int i, boolean active) {
 		steps[i] = active;
 	}
 	
@@ -465,6 +465,10 @@ implements IAppStoreListener {
 		} else {
 			PatternUtil.morphPattern(steps);
 		}
+	}
+
+	public void nudgePattern() {
+		PatternUtil.nudgePatternForward(steps);
 	}
 
 	protected void newRandomNoteScheme() {
@@ -780,6 +784,10 @@ implements IAppStoreListener {
 		}
 		ac.out.addInput(gain);
 
+
+		// overall volume adjustment. we were red-lining
+		// this should probably be elsewhere
+		gain.setGain(gain.getGain() * 0.35f);
 		
 		// } else {
 		// 	// add sample direct to AudioContext output

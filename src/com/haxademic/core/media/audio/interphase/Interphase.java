@@ -14,13 +14,11 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.midi.devices.LaunchPad;
-import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
-import com.haxademic.core.hardware.midi.devices.LaunchPadMini;
+import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
 import com.haxademic.core.hardware.shared.InputTrigger;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.AudioUtil;
-import com.haxademic.core.media.audio.playback.WavPlayer;
+import com.haxademic.core.media.audio.interphase.controllers.LaunchControls;
+import com.haxademic.core.media.audio.interphase.controllers.Launchpads;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.Console;
 import com.haxademic.core.system.SystemUtil;
@@ -33,10 +31,9 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
-import themidibus.MidiBus;
 
 public class Interphase
-implements IAppStoreListener, ILaunchpadCallback {
+implements IAppStoreListener {
 	
 	////////////////////////////////////////
 	
@@ -87,6 +84,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected Scales scales;
 	public Sequencer sequencers[];
 	protected Metronome metronome;
+	protected Launchpads launchpads;
+	protected LaunchControls launchControls;
 	
 	protected String SEQUENCES_PATH = "text/json/interphase/sequences/";
 	protected ArrayList<String> configFiles = new ArrayList<String>();
@@ -98,8 +97,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected InputTrigger triggerUp = new InputTrigger().addKeyCodes(new char[]{'='});
 //	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
 
-	protected LaunchPadMini launchpad1;
-	protected LaunchPadMini launchpad2;
 
 	
 	public Interphase(SequencerConfig[] interphaseChannels) {
@@ -126,6 +123,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// build objects
 		scales = new Scales();
 		metronome = new Metronome();
+		launchpads = new Launchpads(this);
+		launchControls = new LaunchControls(this);
 		
 		P.store.setNumber(BPM, 90);
 
@@ -161,71 +160,50 @@ implements IAppStoreListener, ILaunchpadCallback {
 	
 	public Interphase initUI() {
 		hasUI = true;
-		// add UI buttons grid
+		buildUiGridButtons();
+		buildGlobalUI();
+		initSequencerControls();
+		UI.addWebInterface(false);
+		return this;
+	}
+
+	protected void buildUiGridButtons() {
 		// make dyanmic number of columns per number of sequencers
 		for (int i = 0; i < NUM_STEPS; i++) {
 			int numChannels = sequencers.length;
 			String[] buttonIds = new String[numChannels];
-			for(int j = 0; j < numChannels; j++) {
+			for (int j = 0; j < numChannels; j++) {
 				int channel = j;
 				int step = i;
-				buttonIds[j] = "beatgrid-"+channel+"-"+step;
+				buttonIds[j] = "beatgrid-" + channel + "-" + step;
 			}
 			UI.addButtons(buttonIds, true);
 		}
-		UI.addWebInterface(false);
-		return this;
 	}
-	
-	// init MIDI input
 
-	public Interphase initGlobalControlsUI() {
-		return initLaunchControls(null, null, null, null, null, null);
-	}
-	
-	public Interphase initGlobalControlsUI(int sampleTriggerMidi, int sampleEvolveMidi, int samplePickerMidiCC, int volumeCC, int pitchCC, int reverbCC) {
-		// create sequential MIDI CC notes
-		int[] sampleTriggerMidiArray = new int[sequencers.length];
-		for (int i = 0; i < sampleTriggerMidiArray.length; i++) sampleTriggerMidiArray[i] = sampleTriggerMidi + i;
-		int[] sampleEvolveMidiArray = new int[sequencers.length];
-		for (int i = 0; i < sampleEvolveMidiArray.length; i++) sampleEvolveMidiArray[i] = sampleEvolveMidi + i;
-		int[] samplePickerMidiCCArray = new int[sequencers.length];
-		for (int i = 0; i < samplePickerMidiCCArray.length; i++) samplePickerMidiCCArray[i] = samplePickerMidiCC + i;
-		int[] midiCCSequenceArray = new int[sequencers.length];
-		for (int i = 0; i < midiCCSequenceArray.length; i++) midiCCSequenceArray[i] = volumeCC + i;
-		int[] pitchCCSequenceArray = new int[sequencers.length];
-		for (int i = 0; i < pitchCCSequenceArray.length; i++) pitchCCSequenceArray[i] = pitchCC + i;
-		int[] reverbCCSequenceArray = new int[sequencers.length];
-		for (int i = 0; i < reverbCCSequenceArray.length; i++) reverbCCSequenceArray[i] = reverbCC + i;
-		// pass to constructor
-		return initLaunchControls(sampleTriggerMidiArray, sampleEvolveMidiArray, samplePickerMidiCCArray, midiCCSequenceArray, pitchCCSequenceArray, reverbCCSequenceArray);
-	}
-	
-	public Interphase initLaunchControls(int[] sampleTriggerMidi, int[] sampleEvolveMidi, int[] samplePickerMidiCC, int[] volumeMidiCC, int[] pitchMidiCC, int[] reverbMidiCC) {
-		// global controls
-		// TODO: add MIDI!
+	protected void buildGlobalUI() {
 		UI.addTitle("Interphase");
 		UI.addSlider(UI_GLOBAL_BPM, P.store.getInt(BPM), 30, 200, 1, false);
 		UI.addToggle(UI_GLOBAL_EVOLVES, false, false);
-		UI.addSlider(UI_CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
-
+		UI.addSlider(UI_CUR_SCALE, 0, 0, Scales.SCALES.length - 1, 1, false);
+	}
+	
+	// init MIDI input
+	
+	public Interphase initSequencerControls() {
 		// per-sequencer controls
 		UI.addTitle("Interphase | Sequencers");
 		for (int i = 0; i < sequencers.length; i++) {
-			// add optonal midi
-			int midiCCSample = (samplePickerMidiCC != null) ? samplePickerMidiCC[i] : -1;
-			int midiCCVolume = (volumeMidiCC != null) ? volumeMidiCC[i] : -1;
-			int midiCCPitch = (pitchMidiCC != null) ? pitchMidiCC[i] : -1;
-			int midiCCReverb = (reverbMidiCC != null) ? reverbMidiCC[i] : -1;
 			// add sliders for each sequencer
+			// TODO: FINISH MOVING MIDI TO LAUNCH CONTROLS. THESE CAN'T BE SEPARATED BETWEEN 2 DEVICES, so we need to add on the functionality in the LaunchControls class
 			Sequencer seq = sequencerAt(i);
-			UI.addButton(UI_TRIGGER_+(i+1), false, sampleTriggerMidi[i]);
-			UI.addButton(UI_MUTE_+(i+1), true);
-			UI.addButton(UI_EVOLVE_+(i+1), false, sampleEvolveMidi[i]);
-			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false, midiCCSample);
-			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, midiCCVolume);
-			UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, midiCCPitch);
-			UI.addSlider(UI_REVERB_+(i+1), 0, 0, 1, 0.005f, false, midiCCReverb);
+			UI.addButton(UI_TRIGGER_+(i+1), false); // , LaunchControlXL.BUTTONS_1[i]
+			UI.addButton(UI_MUTE_+(i+1), true, LaunchControlXL.BUTTONS_2[i]);
+			UI.addButton(UI_EVOLVE_+(i+1), false); // , LaunchControlXL.BUTTONS_2[i]
+			UI.addSlider(UI_SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false); // , LaunchControlXL.KNOBS_ROW_1[i]
+			UI.addSlider(UI_VOLUME_+(i+1), seq.volume(), 0, 3, 0.01f, false, LaunchControlXL.SLIDERS[i]);
+			UI.addSlider(UI_PITCH_+(i+1), 0, -1, 1, 0.01f, false, LaunchControlXL.KNOBS_ROW_2[i]);
+			UI.addSlider(UI_REVERB_+(i+1), 0, 0, 1, 0.005f, false, LaunchControlXL.KNOBS_ROW_3[i]);
 		}
 		return this;
 	}
@@ -286,7 +264,7 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// App controls ---------------------------------------
 		// TODO: play toggle should be a button with MIDI
 		P.out("Interphase keyPressed:", P.p.key);
-		if (P.p.key == ' ') metronome.togglePlay();
+		if (P.p.key == ' ') togglePlay();
 		if (P.p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
 		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) P.store.setBoolean(SYSTEM_MUTED, true);
 		if (P.p.key == P.CODED && P.p.keyCode == P.UP) P.store.setBoolean(SYSTEM_MUTED, false);
@@ -317,14 +295,26 @@ implements IAppStoreListener, ILaunchpadCallback {
 //		if(P.p.key == 'p') loadConfig("{\"sequencers\": [ { \"volume\": 1, \"sampleIndex\": 19, \"noteOffset\": 3, \"notesByStep\": true, \"steps\": [ 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1 ] }, { \"volume\": 1, \"sampleIndex\": 22, \"noteOffset\": 6, \"notesByStep\": false, \"steps\": [ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 29, \"noteOffset\": 13, \"notesByStep\": true, \"steps\": [ 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 35, \"noteOffset\": 7, \"notesByStep\": true, \"steps\": [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] } ]}");
 //		if(P.p.key == 'p') loadConfigFromFile("2022-01-16-20-34-35.json");
 		if(configFiles.size() > 0) {
-			if(P.p.key == '9') { curConfigIndex--; curConfigIndex = P.max(curConfigIndex, 0); loadConfigFromFile(configFiles.get(curConfigIndex)); }
-			if(P.p.key == '0') { curConfigIndex++; curConfigIndex = P.min(curConfigIndex, configFiles.size() - 1); loadConfigFromFile(configFiles.get(curConfigIndex)); }
+			if(P.p.key == '9') prevConfig();
+			if(P.p.key == '0') nextConfig();
 		}
 	}
 	
 	/////////////////////////////////
 	// JSON CONFIGS
 	/////////////////////////////////
+
+	public void prevConfig() {
+		curConfigIndex--;
+		curConfigIndex = P.max(curConfigIndex, 0);
+		loadConfigFromFile(configFiles.get(curConfigIndex));
+	}
+
+	public void nextConfig() {
+		curConfigIndex++;
+		curConfigIndex = P.min(curConfigIndex, configFiles.size() - 1);
+		loadConfigFromFile(configFiles.get(curConfigIndex));
+	}
 	
 	protected void loadConfigFiles() {
 		if(FileUtil.fileOrPathExists(FileUtil.getPath(SEQUENCES_PATH))) {
@@ -403,48 +393,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 		}
 	}
 
-	/////////////////////////////////
-	// LAUNCHPAD INTEGRATION
-	/////////////////////////////////
-	
-	public Interphase initLaunchpads(int midiIn1, int midiOut1, int midiIn2, int midiOut2) {
-		MidiBus.list();
-		launchpad1 = new LaunchPadMini(midiIn1, midiOut1);
-		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(midiIn2, midiOut2);
-		launchpad2.setDelegate(this);
-		return this;
-	}
-	
-	public Interphase initLaunchpads(String device1In, String device1Out, String device2In, String device2Out) {
-		MidiBus.list();
-		launchpad1 = new LaunchPadMini(device1In, device1Out);
-		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPadMini(device2In, device2Out);
-		launchpad2.setDelegate(this);
-		return this;
-	}
-	
-	protected void updateLaunchpads() {
-		if(launchpad1 == null) return;
-		// split across launchpads
-		int curStep = P.store.getInt(CUR_STEP);
-		int nextStep = (P.store.getInt(CUR_STEP) + 1) % NUM_STEPS;
-		for (int i = 0; i < sequencers.length; i++) {
-			for (int step = 0; step < NUM_STEPS; step++) {
-				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
-				float adjustedVal = value;
-				if(sequencers[i].manuallyTriggered() && step == nextStep) adjustedVal = 0.87f;
-				if(value == 0 && step % 4 == 0) adjustedVal = 0.3f;	// show divisor by 4
-				if(value == 0 && step == curStep) adjustedVal = 0.65f;	// show playhead in row
-				if(step <= 7) {
-					launchpad1.setButton(i, step, adjustedVal);
-				} else {
-					launchpad2.setButton(i, step - 8, adjustedVal);
-				}
-			}
-		}
-	}
 	
 	/////////////////////////////////
 	// Bridge to UIControls for mouse control
@@ -453,7 +401,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 	protected void updateUIGridButtons() {
 		if(!hasUI) return;
 		
-		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
 			int channel = i;
 			for (int step = 0; step < NUM_STEPS; step++) {
@@ -472,8 +419,8 @@ implements IAppStoreListener, ILaunchpadCallback {
 		
 		// playhead
 		if(UI.active()) {
-			P.p.fill(255);
-			P.p.rect(0, IUIControl.controlSpacing * P.store.getInt(CUR_STEP), IUIControl.controlW + 20, IUIControl.controlH);
+			P.p.fill(255, 255, 0);
+			P.p.rect(0, IUIControl.controlSpacing * P.store.getInt(CUR_STEP), IUIControl.controlW + 200, IUIControl.controlH);
 		}
 	}
 	
@@ -513,6 +460,20 @@ implements IAppStoreListener, ILaunchpadCallback {
 		// !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
 	}
 
+	public void togglePlay() {
+		metronome.togglePlay();
+	}
+
+	public void bpmDown() {
+		int curBmpMIDI = P.store.getInt(Interphase.UI_GLOBAL_BPM);
+		UI.setValue(Interphase.UI_GLOBAL_BPM, curBmpMIDI + 1);
+	}
+
+	public void bpmUp() {
+		int curBmpMIDI = P.store.getInt(Interphase.UI_GLOBAL_BPM);
+		UI.setValue(Interphase.UI_GLOBAL_BPM, curBmpMIDI - 1);
+	}
+
 	protected void checkUserInteraction() {
 		// set overall user activity for tempo change
 		// this is leftover from original Interphase app, but could come back someday!
@@ -531,42 +492,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER_VISUAL));
 		DebugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
-		
-	/////////////////////////////////
-	// LAUNCHPAD CALLBACK
-	/////////////////////////////////
-	
-	public void cellUpdated(LaunchPad launchpad, int x, int y, float value) {
-		// apply toggle button press
-		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
-//		P.out(launchpadNumber, x, y, value);
-		int step = (launchpadNumber == 1) ? y : 8 + y;
-		boolean isActive = (value == 1f);
-		if(x < NUM_CHANNELS) sequencers[x].stepActive(step, isActive);
-	}
-	
-	public void noteOn(LaunchPad launchpad, int note, float value) {
-		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
-//		P.out("Interphase.noteOn", launchpadNumber, note, value);
-		// special functions on original paunchpad.
-		// launchpad mini doesn't send MIDI notes from 9th row/col of buttons
-		if(launchpad1 instanceof LaunchPadMini == false) {
-			if(launchpadNumber == 1) {
-				for (int i = 0; i < NUM_CHANNELS; i++) {
-					if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(); 
-				}
-			} else {
-				// change sample
-				for (int i = 0; i < NUM_CHANNELS; i++) {
-					if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].loadNextSound(); 
-				}
-				// bpm up/down
-				int curBmpMIDI = P.store.getInt(Interphase.BPM);
-				if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1); 
-				if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
-			}
-		}
-	}
 	
 	//////////////////////////
 	// IAppStoreListener updates
@@ -581,8 +506,6 @@ implements IAppStoreListener, ILaunchpadCallback {
 			boolean isActive = (val.intValue() == 1);
 			sequencers[gridX].stepActive(gridY, isActive);
 		}
-		// update launchpads with BEAT delay
-		if(key.equals(BEAT)) updateLaunchpads();
 		// connect local UI events to global settings
 		if(key.equals(UI_GLOBAL_BPM)) P.store.setNumber(Interphase.BPM, val.floatValue());
 		if(key.equals(UI_CUR_SCALE)) P.store.setNumber(Interphase.CUR_SCALE_INDEX, val.intValue());
