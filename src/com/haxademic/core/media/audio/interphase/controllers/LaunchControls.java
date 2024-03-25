@@ -110,8 +110,10 @@ implements IAppStoreListener, ILaunchControlXLCallback {
       // global tempo 
       if (note == LaunchControlXL.BUTTON_UP && value > 0) interphase.bpmDown(); // button sends noteOn with 0.0f value on release
       if (note == LaunchControlXL.BUTTON_DOWN && value > 0) interphase.bpmUp();
+      // load json configs
       if (note == LaunchControlXL.BUTTON_LEFT && value > 0) interphase.prevConfig();
       if (note == LaunchControlXL.BUTTON_RIGHT && value > 0) interphase.nextConfig();
+      // global play/pause
       if (note == LaunchControlXL.BUTTON_SIDE_4 && value > 0) interphase.togglePlay();
     }
 
@@ -122,13 +124,6 @@ implements IAppStoreListener, ILaunchControlXLCallback {
         String evolveKey = Interphase.UI_EVOLVE_ + (sequencerIndex + 1);
         UI.setValue(evolveKey, 1);
       }
-
-      // TODO:
-      // - Reload current song json
-      // - Save current song json
-      // - Load prev/next song json
-      // - Global tempo
-      // - Global play/pause
     }
   }
 

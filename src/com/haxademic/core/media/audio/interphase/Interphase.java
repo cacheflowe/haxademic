@@ -47,6 +47,7 @@ implements IAppStoreListener {
 	public static final String BEAT = "BEAT";
 	public static final String CUR_STEP = "CUR_STEP";
 	public static final String BPM = "BPM";
+	public static final String LOOP_PROGRESS = "LOOP_PROGRESS";
 	public static final String SEQUENCER_TRIGGER_VISUAL = "SEQUENCER_TRIGGER";
 	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER_IMMEDIATE";
 
@@ -64,11 +65,13 @@ implements IAppStoreListener {
 	public static final int TRIGGER_TIMEOUT = 45000;
 	public static final String INTERACTION_SPEED_MULT = "INTERACTION_SPEED_MULT";
 	
-	// ui
+	// ui / input
+
 	// global
 	public static final String UI_GLOBAL_BPM = "UI_GLOBAL_BPM";
 	public static final String UI_GLOBAL_EVOLVES = "UI_GLOBAL_EVOLVES";
 	public static final String UI_CUR_SCALE = "UI_CUR_SCALE";
+
 	// per-channel
 	public static final String UI_SAMPLE_ = "UI_SAMPLE_";
 	public static final String UI_VOLUME_ = "UI_VOLUME_";
@@ -92,12 +95,6 @@ implements IAppStoreListener {
 	protected int curConfigIndex = 0;
 	
 	protected boolean hasUI = false;
-	
-	protected InputTrigger triggerDown = new InputTrigger().addKeyCodes(new char[]{'-'});
-	protected InputTrigger triggerUp = new InputTrigger().addKeyCodes(new char[]{'='});
-//	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
-
-
 	
 	public Interphase(SequencerConfig[] interphaseChannels) {
 		this(interphaseChannels, AudioUtil.getAudioMixerIndex("Primary"));
@@ -151,9 +148,9 @@ implements IAppStoreListener {
 		DebugView.setHelpLine("[9, 0]  |", "Load stored sequences");
 		DebugView.setHelpLine("[o]    |", "Save stored sequences");
 		DebugView.setHelpLine("[O]    |", "Overwrite cur sequence");
+		DebugView.setHelpLine("[+]    |", "BPM ++");
+		DebugView.setHelpLine("[-]    |", "BPM --");
 		// DebugView.setHelpLine("[ZXCV] |", "Toggle Evloves");
-		// DebugView.setHelpLine("[+]    |", "BPM ++");
-		// DebugView.setHelpLine("[-]    |", "BPM --");
 	}
 	
 	// init config
@@ -298,6 +295,8 @@ implements IAppStoreListener {
 			if(P.p.key == '9') prevConfig();
 			if(P.p.key == '0') nextConfig();
 		}
+		if(P.p.key == '-') bpmUp();
+		if(P.p.key == '=') bpmDown();
 	}
 	
 	/////////////////////////////////
@@ -433,7 +432,6 @@ implements IAppStoreListener {
 	}
 	
 	public void update() {
-		checkInputs();
 		updateSequencers();
 		updateUIGridButtons();
 		updateDebugValues();
@@ -448,17 +446,6 @@ implements IAppStoreListener {
 	/////////////////////////////////
 	// Inputs
 	/////////////////////////////////
-	
-	protected void checkInputs() {
-		// bpm
-		int curBmpMIDI = P.store.getInt(Interphase.BPM);
-		if (triggerDown.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1);
-		if (triggerUp.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI + 1);
-
-		// global settings
-		// if(trigger9.triggered()) P.store.setBoolean(GLOBAL_PATTERNS_EVLOVE,
-		// !P.store.getBoolean(GLOBAL_PATTERNS_EVLOVE));
-	}
 
 	public void togglePlay() {
 		metronome.togglePlay();
