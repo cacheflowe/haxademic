@@ -433,6 +433,7 @@ implements IAppStoreListener {
 	
 	public void update() {
 		updateSequencers();
+		updateProgress();
 		updateUIGridButtons();
 		updateDebugValues();
 	}
@@ -441,6 +442,10 @@ implements IAppStoreListener {
 		for (int i = 0; i < sequencers.length; i++) {
 			sequencers[i].update();
 		}
+	}
+
+	protected void updateProgress() {
+		P.store.setNumber(LOOP_PROGRESS, Metronome.loopProgress());
 	}
 
 	/////////////////////////////////
