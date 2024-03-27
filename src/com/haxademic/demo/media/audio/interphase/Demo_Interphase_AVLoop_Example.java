@@ -93,15 +93,15 @@ implements IAppStoreListener {
 		// interphaseViz = new InterphaseVizAudioTexture();
 		// interphaseViz2 = new InterphaseVizBasicPolygons();
 		// interphaseViz = new InterphaseVizSequencerDrawableDemo(interphase.sequencers());
-		interphaseDmxTriggers = new InterphaseVizDmxTriggers(interphase.sequencers());
-		ledMatrix = new LedMatrix48x12();
+		// interphaseDmxTriggers = new InterphaseVizDmxTriggers(interphase.sequencers());
+		// ledMatrix = new LedMatrix48x12();
 	}
 
 	protected void drawApp() {
 		interphase.update();
 		drawVisuals();
 		if(interphaseDmxTriggers != null) interphaseDmxTriggers.update(pg);
-		updateLedMatrix();
+		if(ledMatrix != null) updateLedMatrix();
 	}
 
 	protected void drawVisuals() {

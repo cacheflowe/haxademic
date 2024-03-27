@@ -421,6 +421,8 @@ implements IAppStoreListener {
 	
 	public void toggleMute() {
 		muted = !muted;
+		shouldPlay = false;
+		manuallyTriggered = false;
 	}
 	
 	public void setMute(boolean muted) {
@@ -577,7 +579,7 @@ implements IAppStoreListener {
 	protected void checkPlaySample() {
 		if(!shouldPlay) return;
 		if(curSample == null) return;
-		if(muted) return;
+		if(muted && manuallyTriggered == false) return; // allow manually triggering even when channel is muted. good for jamming
 		
 		// get scale/pitch, play sound, send event out
 		selectNewNote();
