@@ -2,6 +2,8 @@ package com.haxademic.core.media.audio.interphase;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
@@ -291,6 +293,10 @@ implements IAppStoreListener {
 		if(P.p.key == 'O') rewriteCurJsonFile();
 //		if(P.p.key == 'p') loadConfig("{\"sequencers\": [ { \"volume\": 1, \"sampleIndex\": 19, \"noteOffset\": 3, \"notesByStep\": true, \"steps\": [ 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1 ] }, { \"volume\": 1, \"sampleIndex\": 22, \"noteOffset\": 6, \"notesByStep\": false, \"steps\": [ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 29, \"noteOffset\": 13, \"notesByStep\": true, \"steps\": [ 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] }, { \"volume\": 1, \"sampleIndex\": 35, \"noteOffset\": 7, \"notesByStep\": true, \"steps\": [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] } ]}");
 //		if(P.p.key == 'p') loadConfigFromFile("2022-01-16-20-34-35.json");
+
+		if(P.p.key == '6') AudioUtil.buildRecorder(Metronome.ac, 1500);
+		if(P.p.key == '7') AudioUtil.finishRecording();
+
 		if(configFiles.size() > 0) {
 			if(P.p.key == '9') prevConfig();
 			if(P.p.key == '0') nextConfig();
@@ -318,6 +324,7 @@ implements IAppStoreListener {
 	protected void loadConfigFiles() {
 		if(FileUtil.fileOrPathExists(FileUtil.getPath(SEQUENCES_PATH))) {
 			configFiles = FileUtil.getFilesInDirOfType(FileUtil.getPath(SEQUENCES_PATH), "json");
+			Collections.reverse(configFiles); // newest first!
 		}
 	}
 	

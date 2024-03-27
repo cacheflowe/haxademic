@@ -159,8 +159,6 @@ implements IAppStoreListener {
 	public void updatedString(String key, String val) {
 		if(key.equals(PEvents.KEY_PRESSED)) {
 			if(val.equals("b")) SystemUtil.openWebPage("http://localhost:8080/ui");
-			if(p.key == '6') AudioUtil.buildRecorder(Metronome.ac, 1500);
-			if(p.key == '7') AudioUtil.finishRecording();
 		}
 
 	}
