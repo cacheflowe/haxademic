@@ -2,7 +2,6 @@ package com.haxademic.core.media.audio.interphase;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import com.haxademic.core.app.P;
@@ -17,7 +16,6 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchControlXL;
-import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.controllers.LaunchControls;
 import com.haxademic.core.media.audio.interphase.controllers.Launchpads;
