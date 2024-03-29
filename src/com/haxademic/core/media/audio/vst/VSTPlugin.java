@@ -29,7 +29,7 @@ public class VSTPlugin
 implements JVstHostListener, IAppStoreListener {
 
 	private static final float SAMPLE_RATE = 44100f;
-	private static final int BLOCK_SIZE = 2048;
+	private static final int BLOCK_SIZE = 2048 / 2;
 	
 	protected String vstPath;
 	protected JVstHost2 vst;
@@ -154,7 +154,7 @@ implements JVstHostListener, IAppStoreListener {
 	public void playRandomNote(int holdTimeMS) {
 		playRandomNote(24, holdTimeMS);
 	}
-	
+
 	public void playRandomNote(int baseNote, int holdTimeMS) {
 //		int randNote = (int) (Math.random() * 36) + 36; // 48;
 		int randNote = 36 + Scales.CUR_SCALE[MathUtil.randIndex(Scales.CUR_SCALE.length)];
@@ -200,6 +200,11 @@ implements JVstHostListener, IAppStoreListener {
 	public void randomizeAllParams() {
 		randomizeAllParams(null);
 		syncUIToVstUI();
+	}
+
+	public void setRandomProgram() {
+		vst.setProgram(MathUtil.randIndex(vst.numPrograms()));
+		P.out("NEED TO PULL UI VALUES AFTER PROGRAM CHANGE");
 	}
 	
 	public void randomizeAllParams(int[] excludeIndices) {

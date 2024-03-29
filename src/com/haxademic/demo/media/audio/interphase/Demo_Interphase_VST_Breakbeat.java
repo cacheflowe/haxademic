@@ -16,8 +16,8 @@ import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
+import com.haxademic.core.media.audio.vst.devices.effects.EffectDubStation;
 import com.haxademic.core.media.audio.vst.devices.synth.SynthCharlatan;
-import com.haxademic.core.media.audio.vst.devices.synth.SynthDolphin;
 import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
