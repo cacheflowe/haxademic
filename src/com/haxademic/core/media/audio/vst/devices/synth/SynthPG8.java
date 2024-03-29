@@ -12,8 +12,8 @@ extends VSTPlugin {
 		super(pluginPath);
 	}
 	
-	public SynthPG8(boolean openVstUI, boolean buildUI) {
-		super(pluginPath, openVstUI, buildUI);
+	public SynthPG8(boolean openVstUI, boolean buildUI, boolean startsAudioThread) {
+		super(pluginPath, openVstUI, buildUI, startsAudioThread);
 	}
 
 	public void randomizeAllParams() {
@@ -25,6 +25,8 @@ extends VSTPlugin {
 		vst.setParameter(35, 1);	// VCA LEVEL ()
 		vst.setParameter(40, MathUtil.randRangeDecimal(0, 0.2f));	// ENV1 ATT  ()
 		vst.setParameter(47, MathUtil.randRangeDecimal(0, 0.2f));	// ENV2 ATT  ()
+		// write to vst
+		syncUIToVstUI();
 	}
 	
 }

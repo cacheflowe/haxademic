@@ -16,6 +16,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
+import com.haxademic.demo.media.audio.vst.JVstAudioThreadCustom;
 import com.synthbot.audioio.vst.JVstAudioThread;
 import com.synthbot.audioplugin.vst.JVstLoadException;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
@@ -54,10 +55,10 @@ implements JVstHostListener, IAppStoreListener {
 
 
 	public VSTPlugin(String vstPath) {
-		this(vstPath, false, false);
+		this(vstPath, false, false, true);
 	}
 	
-	public VSTPlugin(String vstPath, boolean openVstUI, boolean buildUI) {
+	public VSTPlugin(String vstPath, boolean openVstUI, boolean buildUI, boolean startsAudioThread) {
 		this.vstPath = vstPath;
 		P.store.addListener(this);
 
@@ -81,24 +82,38 @@ implements JVstHostListener, IAppStoreListener {
 			if(buildUI) buildUISliders();
 			
 			// start the audio thread
-			audioThread = new JVstAudioThread(vst);
-			Thread thread = new Thread(audioThread);
-			thread.start();
+			if(startsAudioThread) startAudioThread();
 		}}).start();
 	}
 	
+  public void startAudioThread() {
+		audioThread = new JVstAudioThread(vst);
+		Thread thread = new Thread(audioThread);
+		thread.start();
+	}
+
+  public void startAudioThreadWithFX(JVstHost2 vstFX) {
+		JVstAudioThreadCustom audioThread2 = new JVstAudioThreadCustom(vst, vstFX, vstOutput);
+		Thread thread2 = new Thread(audioThread2);
+		thread2.start();
+	}
+
+	public JVstHost2 vst() {
+		return vst;
+	}
+
 	public void printVstDebug() {
 		P.out("[VST] ###################################################################");
 		P.out("[VST] Loaded - " + vst.getEffectName() + " by " + vst.getVendorName());
 		P.out("[VST] ..with - " + vst.numParameters() + " parameters");
-	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	P.out("[VST] Param [" + i + "] - " + vst.getParameterName(i) + " (" + vst.getParameterLabel(i) + ")");
-	    }
-	    P.out("[VST] ..with - " + vst.numPrograms() + " programs");
-	    for (int i = 0; i < vst.numPrograms(); i++) {
-	    	P.out("[VST] Program [" + i + "] - " + vst.getProgramName(i));
-	    }
-	    P.out("[VST] ###################################################################");
+		for (int i = 0; i < vst.numParameters(); i++) {
+			P.out("[VST] Param [" + i + "] - " + vst.getParameterName(i) + " (" + vst.getParameterLabel(i) + ")");
+		}
+		P.out("[VST] ..with - " + vst.numPrograms() + " programs");
+		for (int i = 0; i < vst.numPrograms(); i++) {
+			P.out("[VST] Program [" + i + "] - " + vst.getProgramName(i));
+		}
+		P.out("[VST] ###################################################################");
 	}
 	
 	public String getVstName() {
@@ -118,18 +133,18 @@ implements JVstHostListener, IAppStoreListener {
 		UI.addTitle(getVstName());
 		randomizeButtonUIKey = getVstName() + " | Randomize!";
 		UI.addButton(randomizeButtonUIKey, false);
-	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	float initVal = vst.getParameter(i);
-	    	UI.addSlider(vstUIKeyForParamIndex(i), initVal, 0, 1, 0.005f, false);
-	    }
+			for (int i = 0; i < vst.numParameters(); i++) {
+				float initVal = vst.getParameter(i);
+				UI.addSlider(vstUIKeyForParamIndex(i), initVal, 0, 1, 0.005f, false);
+			}
 	}
 	
 	protected void syncUIToVstUI() {
 		if(!hasUI) return;
-	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	float initVal = vst.getParameter(i);
-	    	UI.setValue(vstUIKeyForParamIndex(i), initVal);
-	    }
+			for (int i = 0; i < vst.numParameters(); i++) {
+				float initVal = vst.getParameter(i);
+				UI.setValue(vstUIKeyForParamIndex(i), initVal);
+			}
 	}
 	
 	public void playRandomNote() {
@@ -137,8 +152,12 @@ implements JVstHostListener, IAppStoreListener {
 	}
 	
 	public void playRandomNote(int holdTimeMS) {
+		playRandomNote(24, holdTimeMS);
+	}
+	
+	public void playRandomNote(int baseNote, int holdTimeMS) {
 //		int randNote = (int) (Math.random() * 36) + 36; // 48;
-		int randNote = 24 + Scales.CUR_SCALE[MathUtil.randIndex(Scales.CUR_SCALE.length)];
+		int randNote = 36 + Scales.CUR_SCALE[MathUtil.randIndex(Scales.CUR_SCALE.length)];
 		if(MathUtil.randBoolean()) randNote += 12;
 		if(MathUtil.randBoolean()) randNote += 12;
 		playMidiNote(randNote, holdTimeMS);
@@ -185,12 +204,12 @@ implements JVstHostListener, IAppStoreListener {
 	
 	public void randomizeAllParams(int[] excludeIndices) {
 		if(vst == null) return;
-	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	if(excludeIndices == null || ArrayUtil.indexOfInt(excludeIndices, i) == -1 ) {
-	    		vst.setParameter(i, P.p.random(1));
-	    	}
-	    }
-	    syncUIToVstUI();
+			for (int i = 0; i < vst.numParameters(); i++) {
+				if(excludeIndices == null || ArrayUtil.indexOfInt(excludeIndices, i) == -1 ) {
+					vst.setParameter(i, P.p.random(1));
+				}
+			}
+			syncUIToVstUI();
 	}
 
 	public void toggleVstUI() {

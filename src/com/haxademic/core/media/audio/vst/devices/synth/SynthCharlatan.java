@@ -12,8 +12,8 @@ extends VSTPlugin {
 		super(pluginPath);
 	}
 	
-	public SynthCharlatan(boolean openVstUI, boolean buildUI) {
-		super(pluginPath, openVstUI, buildUI);
+	public SynthCharlatan(boolean openVstUI, boolean buildUI, boolean startsAudioThread) {
+		super(pluginPath, openVstUI, buildUI, startsAudioThread);
 	}
 
 	public void randomizeAllParams() {
@@ -23,6 +23,8 @@ extends VSTPlugin {
 		vst.setParameter(9, P.p.random(0.5f, 1));	// Osc2 Volume (dB}
 		vst.setParameter(23, P.p.random(0.3f, 1));	// Filter Cutoff (Hz}
 		vst.setParameter(35, P.p.random(0, 0.4f));	// Amp Attack (ms}
+		// write to vst
+		syncUIToVstUI();
 	}
 	
 }

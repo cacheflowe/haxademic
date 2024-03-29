@@ -27,18 +27,18 @@ implements IAppStoreListener {
 	protected LinearFloat trigger = new LinearFloat(0, 0.03f);
 
 	protected void firstFrame() {
-	    AudioUtil.setPrimaryMixer();
-	    
-        metronome = new Metronome(true);
-	    P.store.setNumber(Interphase.BPM, 96);
-	    P.store.addListener(this);
-	    UI.addSlider(Interphase.BPM, P.store.getInt(Interphase.BPM), 20, 240, 1, false);
-	    
+		AudioUtil.setPrimaryMixer();
+		
+			metronome = new Metronome(true);
+		P.store.setNumber(Interphase.BPM, 96);
+		P.store.addListener(this);
+		UI.addSlider(Interphase.BPM, P.store.getInt(Interphase.BPM), 20, 240, 1, false);
+		
 		// these are happy with their window being opened
 //	    vstSynth = new VSTPlugin("vst/synth/Zebra2(x64).dll");
 //	    vstSynth = new VSTPlugin("vst/synth/PG-8X.dll");
 //		String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
-		vstSynth = new SynthPG8(true, true);
+		vstSynth = new SynthPG8(true, true, true);
 //		vstSynth = new SynthCharlatan(true, true);
 //		vstSynth = new SynthYoozBL303(true, true);
 		vstSynth2 = new VSTPlugin("vst/synth/Synsonic_BD-909.dll");

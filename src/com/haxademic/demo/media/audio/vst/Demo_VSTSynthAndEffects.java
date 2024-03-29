@@ -47,6 +47,7 @@ implements JVstHostListener {
 		new Thread(new Runnable() { public void run() {
 //			String vstFile = FileUtil.getPath("vst/synth/Phosphor.dll");
 			String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
+			// String vstFile = FileUtil.getPath("vst/synth/YoozBL303_x64.dll");
 //			String vstFile = FileUtil.getPath("vst/synth/synister64.dll");
 //			String vstFile = FileUtil.getPath("vst/synth/Charlatan.dll");
 //			String vstFile2 = FileUtil.getPath("vst/fx/Protoverb_x64.dll");
@@ -58,15 +59,15 @@ implements JVstHostListener {
 				P.out("[VST] Loaded - " + vst.getEffectName() + " by " + vst.getVendorName());
 				P.out("[VST] Class - " + vst.getClass().getSimpleName());
 				P.out("[VST] ..with - " + vst.numParameters() + " parameters");
-			    for (int i = 0; i < vst.numParameters(); i++) {
-			    	P.out("[VST] Param [" + i + "] - " + vst.getParameterName(i) + " (" + vst.getParameterLabel(i) + "}");
-			    }
-			    P.out("[VST] ..with - " + vst.numPrograms() + " programs");
-			    for (int i = 0; i < vst.numPrograms(); i++) {
-			    	P.out("[VST] Program [" + i + "] - " + vst.getProgramName(i));
-			    }
+					for (int i = 0; i < vst.numParameters(); i++) {
+						P.out("[VST] Param [" + i + "] - " + vst.getParameterName(i) + " (" + vst.getParameterLabel(i) + "}");
+					}
+					P.out("[VST] ..with - " + vst.numPrograms() + " programs");
+					for (int i = 0; i < vst.numPrograms(); i++) {
+						P.out("[VST] Program [" + i + "] - " + vst.getProgramName(i));
+					}
 //			    vst.openEditor(vst.getEffectName());
-			    P.out("[VST] ###################################################################");
+					P.out("[VST] ###################################################################");
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace(System.err);
 			} catch (JVstLoadException jvle) {
@@ -87,7 +88,6 @@ implements JVstHostListener {
 				}
 //				vstFX.openEditor(vstFX.getEffectName());
 //				vstFX.setBlockSize(BLOCK_SIZE);
-				P.out("[VST] ###################################################################");
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace(System.err);
 			} catch (JVstLoadException jvle) {
@@ -97,16 +97,12 @@ implements JVstHostListener {
 //			vstFX.addJVstHostListener(self);
 //			vstFX.turnOn();
 			
-		    P.out("################################# YO 4");
-		    P.out(vst.canReplacing() + "?");
-		    P.out(vstFX.canReplacing() + "??");
+				P.out(vst.canReplacing() + "?");
+				P.out(vstFX.canReplacing() + "??");
 
 //			vst.processReplacing(vstInput, vstOutput, BLOCK_SIZE);
-			P.out("################################# YO 9");
 			P.out(vstFX.canDo(VstPluginCanDo.RECEIVE_VST_EVENTS));
 //			vstFX.processReplacing(vst2Input, vst2Output, BLOCK_SIZE);
-
-			P.out("################################# YO 5");
 			
 			// start the audio thread
 //			audioThread = new JVstAudioThreadCustom(vst, vstOutput);
@@ -163,10 +159,10 @@ implements JVstHostListener {
 			vstFX.setParameter(1, 0.5f);
 			vstFX.setParameter(2, 0.005f);
 			vstFX.setParameter(3, 0.5f);
-	//		vstFX.setParameter(4, 0.5f);
-//			vstFX.setParameter(8, 0.5f);
-//			vstFX.setParameter(9, 0.5f);
-//			vstFX.setParameter(10, 0.5f);
+//		vstFX.setParameter(4, 0.5f);
+//		vstFX.setParameter(8, 0.5f);
+//		vstFX.setParameter(9, 0.5f);
+//		vstFX.setParameter(10, 0.5f);
 		}
 	}
 	
@@ -176,16 +172,16 @@ implements JVstHostListener {
 	}
 	
 	protected void randomizeAllParams() {
-	    for (int i = 0; i < vst.numParameters(); i++) {
-	    	vst.setParameter(i, p.random(1));
-	    }
-	    // make sure some params are in range
-	    vst.setParameter(27, 1);
-	    vst.setParameter(35, 0);
-	    vst.setParameter(40, 0);
-	    vst.setParameter(47, 1);
-	    vst.setParameter(14, 1);
-	    vst.setParameter(15, 1);
+		for (int i = 0; i < vst.numParameters(); i++) {
+			vst.setParameter(i, p.random(1));
+		}
+		// make sure some params are in range
+		vst.setParameter(27, 1);
+		vst.setParameter(35, 0);
+		vst.setParameter(40, 0);
+		vst.setParameter(47, 1);
+		vst.setParameter(14, 1);
+		vst.setParameter(15, 1);
 	}
 	
 	protected void oscAllParams() {

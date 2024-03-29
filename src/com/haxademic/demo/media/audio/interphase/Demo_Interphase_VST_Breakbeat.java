@@ -63,7 +63,7 @@ implements IAppStoreListener {
 		
 		// load VSTs
 		// vstSynth = new SynthDolphin(true, true);
-		vstSynth = new SynthCharlatan(true, true);
+		vstSynth = new SynthCharlatan(true, true, true);
 		
 		// beat loop
 		AudioContext acInterphase = Metronome.ac;

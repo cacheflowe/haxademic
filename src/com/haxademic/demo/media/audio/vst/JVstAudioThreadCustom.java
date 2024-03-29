@@ -28,7 +28,6 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import com.haxademic.core.app.P;
 import com.synthbot.audioplugin.vst.vst2.JVstHost2;
 
 /**
@@ -54,12 +53,13 @@ public class JVstAudioThreadCustom implements Runnable {
   public JVstAudioThreadCustom(JVstHost2 vst, JVstHost2 vstFX, float[][] fInputs) {
     this.vst = vst;
     this.vstFX = vstFX;
-    P.out("################################# YO ?");
+
     numOutputs = vst.numOutputs();
     numAudioOutputs = Math.min(2, numOutputs); // because most machines do not offer more than 2 output channels
     blockSize = vst.getBlockSize();
     this.fInputs = fInputs;
 //    fInputs = new float[vst.numInputs()][blockSize];
+
     fOutputs = new float[numOutputs][blockSize];
     fOutputs2 = new float[numOutputs][blockSize];
     bOutput = new byte[numAudioOutputs * blockSize * 2];
@@ -67,7 +67,6 @@ public class JVstAudioThreadCustom implements Runnable {
     audioFormat = new AudioFormat((int) vst.getSampleRate(), 16, numAudioOutputs, true, false);
     DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
 
-    P.out("################################# YO");
     sourceDataLine = null;
     try {
       sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
@@ -77,7 +76,6 @@ public class JVstAudioThreadCustom implements Runnable {
       lue.printStackTrace(System.err);
 //      System.exit(1);
     }
-    P.out("################################# YO 2");
   }
   
   @Override
@@ -114,7 +112,6 @@ public class JVstAudioThreadCustom implements Runnable {
 //    	P.out("Hello2", vst.turnOn());
 //    	VstPinProperties props = vst.getInputProperties(0);
 //    	P.out("Hello2", props.isActive());
-    	
       vst.processReplacing(fInputs, fOutputs, blockSize);
       vstFX.processReplacing(fOutputs, fOutputs2, blockSize);
 //      vst.process(fInputs, fOutputs, blockSize);

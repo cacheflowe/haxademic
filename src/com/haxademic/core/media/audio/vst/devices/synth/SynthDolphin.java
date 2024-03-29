@@ -12,8 +12,8 @@ extends VSTPlugin {
 		super(pluginPath);
 	}
 	
-	public SynthDolphin(boolean openVstUI, boolean buildUI) {
-		super(pluginPath, openVstUI, buildUI);
+	public SynthDolphin(boolean openVstUI, boolean buildUI, boolean startsAudioThread) {
+		super(pluginPath, openVstUI, buildUI, startsAudioThread);
 	}
 
 	public void randomizeAllParams() {
@@ -21,6 +21,8 @@ extends VSTPlugin {
 		// randomize some params that should stay within a specific range
 		vst.setParameter(1, 0.5f);					// tune ()
 		vst.setParameter(2, P.p.random(0.2f, 1));	// cutoff (%)
+		// write to vst
+		syncUIToVstUI();
 	}
 	
 }
