@@ -47,6 +47,7 @@ implements IAppStoreListener {
 	public static final String LOOP_PROGRESS = "LOOP_PROGRESS";
 	public static final String SEQUENCER_TRIGGER_VISUAL = "SEQUENCER_TRIGGER";
 	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER_IMMEDIATE";
+	public static final String SAMPLE_CHANGED = "SAMPLE_CHANGED";
 
 	// state
 	
@@ -90,6 +91,7 @@ implements IAppStoreListener {
 	protected String SEQUENCES_PATH = "text/json/interphase/sequences/";
 	protected ArrayList<String> configFiles = new ArrayList<String>();
 	protected int curConfigIndex = 0;
+	protected String lastConfigFileName;
 	
 	protected boolean hasUI = false;
 	
@@ -350,6 +352,13 @@ implements IAppStoreListener {
 		curConfigIndex = configFiles.size() - 1;
 		P.outColor(Console.GREEN_BOLD, "Saved: ", jsonSavePath);
 	}
+
+	public void saveCurrentStateToJSON() {
+		FileUtil.createDir(FileUtil.getPath(SEQUENCES_PATH));
+		String jsonFilename = "_current.json";
+		String jsonSavePath = FileUtil.getPath(SEQUENCES_PATH + jsonFilename);
+		JsonUtil.jsonToFile(outputConfig(), jsonSavePath);
+	}
 	
 	public void rewriteCurJsonFile() {
 		// when we want to update an existing json :) 
@@ -366,8 +375,13 @@ implements IAppStoreListener {
 	}
 	
 	protected void loadConfigFromFile(String filename) {
+		lastConfigFileName = filename;
 		JSONObject interphaseConfig = JsonUtil.jsonFromFile(FileUtil.getPath(SEQUENCES_PATH + filename));
 		loadConfig(interphaseConfig);
+	}
+
+	public void reloadLastConfigFile() {
+		loadConfigFromFile(lastConfigFileName);
 	}
 	
 	protected void loadConfig(JSONObject interphaseConfig) {
@@ -392,6 +406,8 @@ implements IAppStoreListener {
 			if(UI.has(uiPitchKey)) UI.setValue(UI_PITCH_+(i+1), seq.pitchShift());
 			if(UI.has(uiReverbKey)) UI.setValue(UI_REVERB_+(i+1), seq.reverbSize());
 		}
+
+		saveCurrentStateToJSON();
 	}
 
 	

@@ -111,9 +111,9 @@ implements IAppStoreListener {
 		
 		// draw layers to screen
 			// draw ------------------------
-			interphaseViz.update(viz);
+			// interphaseViz.update(viz);
 			interphaseViz2.update(viz2);
-			// interphaseVizGrid.update(viz);
+			interphaseVizGrid.update(viz);
 			interphaseVizInfo.update(viz2);
 			// draw viz 1 & 2------------------------
 			ImageUtil.drawImageCropFill(viz, p.g, true);

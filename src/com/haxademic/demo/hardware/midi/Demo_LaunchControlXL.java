@@ -61,5 +61,14 @@ implements ILaunchControlXLCallback {
 			int noteVal = P.round(value) % launchControl.numColors();
 		}
 	}
+	
+	public void ccLaunchControl(LaunchControlXL launchControl, int note, float value) {
+		int device = launchControl == launchControl1 ? '1' : '2';
+		P.out("[LaunchControlXL] cc:", device, note, value);
+
+		if(launchControl.isKnob(note)) {
+			int noteVal = P.round(value) % launchControl.numColors();
+		}
+	}
 
 }

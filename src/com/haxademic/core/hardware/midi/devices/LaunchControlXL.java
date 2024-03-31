@@ -64,6 +64,7 @@ implements SimpleMidiListener {
 	
 	public interface ILaunchControlXLCallback {
 		public void noteOnLaunchControl(LaunchControlXL launchControl, int note, float value);
+		public void ccLaunchControl(LaunchControlXL launchControl, int note, float value);
 	}
 	
 	//////////////////////////////
@@ -123,6 +124,14 @@ implements SimpleMidiListener {
 		sendSysEx(new byte[] { (byte) 240, 0, 32, 41, 2, 17, 120, template5, btnIndex, valByte, (byte) 247 });
 	}
 
+	public void setKnobLED(int row, int btn, int val) {
+		int safeIndex = val % numColorsSysex();
+		byte valByte = NovationColors.colorsSysex[safeIndex];
+		byte template5 = 12;
+		byte btnIndex = (byte) (row * 8 + btn);
+		sendSysEx(new byte[] { (byte) 240, 0, 32, 41, 2, 17, 120, template5, btnIndex, valByte, (byte) 247 });
+	}
+
 	public boolean isKnob(int note) {
 		if (ArrayUtil.indexOfInt(KNOBS_ROW_1, note) != -1) return true; 
 		if (ArrayUtil.indexOfInt(KNOBS_ROW_2, note) != -1) return true; 
@@ -152,8 +161,7 @@ implements SimpleMidiListener {
 
 	public void controllerChange(int channel, int pitch, int velocity) {
 		if(delegate != null) {
-			// TODO: change to ccLaunchControl
-			delegate.noteOnLaunchControl(this, pitch, velocity);
+			delegate.ccLaunchControl(this, pitch, velocity);
 		}
 	}
 

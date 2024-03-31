@@ -81,6 +81,11 @@ implements IAppStoreListener, ILaunchControlXLCallback {
       }, 100);
   }
 
+  protected void sampleChanged(int sequencerIndex) {
+    int sampleIndex = interphase.sequencerAt(sequencerIndex).sampleIndex();
+    launchControl1.setKnobLED(0, sequencerIndex, sampleIndex); // flash button green
+  }
+
   //////////////////////////
   // ILaunchpadCallback updates
   //////////////////////////
@@ -94,26 +99,14 @@ implements IAppStoreListener, ILaunchControlXLCallback {
 
     // set UI values from local midi
     if(launchControlNumber == 1) {
-      // sample selection
-      if (ArrayUtil.indexOfInt(LaunchControlXL.KNOBS_ROW_1, note) != -1) {
-        int sequencerIndex = ArrayUtil.indexOfInt(LaunchControlXL.KNOBS_ROW_1, note);
-        String sampleKey = Interphase.UI_SAMPLE_+(sequencerIndex+1);
-        int numSamples = interphase.sequencerAt(sequencerIndex).numSamples();
-        UI.setValue(sampleKey, value / 127f * (numSamples - 1));
-      }
       // manual trigger
       if (ArrayUtil.indexOfInt(LaunchControlXL.BUTTONS_1, note) != -1) {
         int sequencerIndex = ArrayUtil.indexOfInt(LaunchControlXL.BUTTONS_1, note);
         String sampleKey = Interphase.UI_TRIGGER_+(sequencerIndex+1);
         UI.setValue(sampleKey, 1);
       }
-      // global tempo 
-      if (note == LaunchControlXL.BUTTON_UP && value > 0) interphase.bpmDown(); // button sends noteOn with 0.0f value on release
-      if (note == LaunchControlXL.BUTTON_DOWN && value > 0) interphase.bpmUp();
-      // load json configs
-      if (note == LaunchControlXL.BUTTON_LEFT && value > 0) interphase.prevConfig();
-      if (note == LaunchControlXL.BUTTON_RIGHT && value > 0) interphase.nextConfig();
       // global play/pause
+      if (note == LaunchControlXL.BUTTON_SIDE_3 && value > 0) interphase.reloadLastConfigFile();
       if (note == LaunchControlXL.BUTTON_SIDE_4 && value > 0) interphase.togglePlay();
     }
 
@@ -127,6 +120,26 @@ implements IAppStoreListener, ILaunchControlXLCallback {
     }
   }
 
+  public void ccLaunchControl(LaunchControlXL launchControl, int note, float value) {
+    int launchControlNumber = (launchControl == launchControl1) ? 1 : 2;
+    P.out("ccLaunchControl :: launchControlNumber", note, value);
+    if(launchControlNumber == 1) {
+      // sample selection
+      if (ArrayUtil.indexOfInt(LaunchControlXL.KNOBS_ROW_1, note) != -1) {
+        int sequencerIndex = ArrayUtil.indexOfInt(LaunchControlXL.KNOBS_ROW_1, note);
+        String sampleKey = Interphase.UI_SAMPLE_ + (sequencerIndex + 1);
+        int numSamples = interphase.sequencerAt(sequencerIndex).numSamples();
+        UI.setValue(sampleKey, value / 127f * (numSamples - 1));
+      }
+      // global tempo 
+      if (note == LaunchControlXL.BUTTON_UP && value > 0) interphase.bpmDown(); // button sends noteOn with 0.0f value on release
+      if (note == LaunchControlXL.BUTTON_DOWN && value > 0) interphase.bpmUp();
+      // load json configs
+      if (note == LaunchControlXL.BUTTON_LEFT && value > 0) interphase.prevConfig();
+      if (note == LaunchControlXL.BUTTON_RIGHT && value > 0) interphase.nextConfig();
+    }
+  }
+
   //////////////////////////
   // IAppStoreListener updates
   //////////////////////////
@@ -135,6 +148,7 @@ implements IAppStoreListener, ILaunchControlXLCallback {
     // update launchpads with BEAT delay
     if(key.equals(Interphase.BEAT)) updateLaunchControls();
     if(key.equals(Interphase.SEQUENCER_TRIGGER_VISUAL)) flashSampleTrigger(val.intValue());
+    if(key.equals(Interphase.SAMPLE_CHANGED)) sampleChanged(val.intValue());
     if(key.indexOf(Interphase.UI_TRIGGER_) == 0) flashSampleManualTrigger(key);
     
   }

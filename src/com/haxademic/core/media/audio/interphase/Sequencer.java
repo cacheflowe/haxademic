@@ -331,9 +331,11 @@ implements IAppStoreListener {
 		return stepsString;
 	}
 	
-	public Sequencer setSampleByIndex(int index) {
-		sampleIndex = index;
-		setSample(samples[sampleIndex % samples.length]); // safe access
+	public Sequencer setSampleByIndex(int newIndex) {
+		int safeIndex = newIndex % samples.length;
+		if(newIndex != sampleIndex) P.store.setNumber(Interphase.SAMPLE_CHANGED, this.index);
+		sampleIndex = newIndex;
+		setSample(samples[safeIndex]); // safe access
 		return this;
 	}
 	

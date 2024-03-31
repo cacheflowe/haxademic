@@ -42,15 +42,17 @@ implements IAppStoreListener, IInterphaseViz {
 		for (int y = 0; y < Interphase.NUM_CHANNELS; y++) {
 			for (int x = 0; x < Interphase.NUM_STEPS; x++) {
 				boolean isOn = (sequencers[y].stepActive(x));
+				boolean channelActive = !sequencers[y].muted();
 				pg.push();
 				pg.translate(x * boxSize, y * boxSize);
 				int cellColor = 10;
 				if (x % 4 == 0) cellColor = P.p.color(0, 87, 167);
-				if (isOn) cellColor = P.p.color(0, 127, 0);
+				if (isOn) cellColor = (channelActive) ? P.p.color(0, 127, 0) : P.p.color(127);
 				pg.fill(cellColor);
 				pg.stroke(100);
 				pg.rect(0, 0, boxSize, boxSize);
-				if (isOn) pg.image(sequencers[y].sampleWaveformPG(), 0, 0, sequencers[y].sampleWaveformPG().width, boxSize);
+				if(!channelActive) PG.setPImageAlpha(pg, 0.3f);
+				if (isOn && channelActive) pg.image(sequencers[y].sampleWaveformPG(), 0, 0, sequencers[y].sampleWaveformPG().width, boxSize);
 				pg.pop();
 			}
 		}
