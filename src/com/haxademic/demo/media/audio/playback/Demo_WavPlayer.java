@@ -1,5 +1,7 @@
 package com.haxademic.demo.media.audio.playback;
 
+import javax.sound.sampled.Mixer;
+
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -41,7 +43,7 @@ extends PAppletHax {
 		// this ensures that audio analysis can be done on the shared context's output
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.sharedContext());
-//		player2 = new WavPlayer(WavPlayer.newAudioContext());
+		// player2 = new WavPlayer(WavPlayer.newAudioContext());
 
 		// send Beads audio player analyzer to PAppletHax.
 		// this automatically writes audio data to the global 
@@ -80,6 +82,11 @@ extends PAppletHax {
 		}
 	}
 
+	protected void testMixerVolume() {
+		// Mixer mixer = AudioUtil.getMixerFromIndex(AudioUtil.DEFAULT_AUDIO_MIXER_INDEX);
+		AudioUtil.setVolume(MathUtil.randRangeDecimal(0.1f, 1f));
+	}
+
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == '1') player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, MathUtil.randRange(-10, 10), 0, 0, 0, 0);
@@ -94,5 +101,6 @@ extends PAppletHax {
 		if(p.key == '0') player.stop(soundbed);
 		if(p.key == '-') player.fadeOut(soundbed);
 		if(p.key == '=') player.playWav(oneshots[2], 1, WavPlayer.PAN_CENTER, true, 0, 0, 5000, 5000, 0);
+		if(p.key == 'm') testMixerVolume();
 	}
 }

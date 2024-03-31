@@ -143,14 +143,17 @@ implements IAppStoreListener {
 				+ nl + "sequencesComplete: " + sequencesComplete 
 				+ nl + "triggerCount: " + (sampleTriggerCount % 4) 
 				+ nl + "velocity: " + P.round(100f * velocity) 
+				+ nl
 				+ nl + "EVOLVE ------------------- " 
 				+ nl + "evolves: " + evolves 
 				+ nl + "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound 
+				+ nl
 				+ nl + "SAMPLE ------------------- " 
 				// + nl + "file: " + filenames[sampleIndex] 
 				+ nl + "file: " + sampleFileName
 				+ nl + "sampleIndex: " + sampleIndex
 				+ nl + "sampleLength: " + sampleLength 
+				+ nl
 				+ nl + "PLAYBACK ------------------- " 
 				+ nl + "sampleProgress: " + sampleProgress() 
 				+ nl + "volume: " + volume() 
@@ -158,6 +161,7 @@ implements IAppStoreListener {
 				+ nl + "attack: " + attack 
 				+ nl + "release: " + release 
 				+ nl + "reverb: " + reverbSize + "/" + reverbDamping
+				+ nl
 				+ nl + "NOTES ------------------- " 
 				+ nl + "playsNotes: " + config.playsNotes 
 				+ nl + "pitchShift: " + pitchShift 

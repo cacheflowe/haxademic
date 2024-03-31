@@ -37,7 +37,7 @@ extends PAppletHax {
 		PG.setDrawCorner(p);
 
 		interphase.update();
-		interphase.drawAudioGrid(p.g, false);
+		// interphase.drawAudioGrid(p.g, false); // TODO - switch to externalized grid viz
 	}
 	
 }

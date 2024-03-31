@@ -28,10 +28,18 @@ public class StringBufferLog {
 	}
 	
 	public String itemAt(int index) {
-	    int localIndex = curIndex + index;
-	    while(localIndex < 0) localIndex += lines.length;
-	    localIndex = localIndex % lines.length;
-	    return lines[localIndex];
+		int localIndex = curIndex + index;
+		while(localIndex < 0) localIndex += lines.length;
+		localIndex = localIndex % lines.length;
+		return lines[localIndex];
+	}
+
+	public String newestValue() {
+		return itemAt(-1);
+	}
+	
+	public String oldestValue() {
+		return itemAt(0);
 	}
 	
 	public void update(String newStr) {
@@ -45,7 +53,7 @@ public class StringBufferLog {
 	}
 
 	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont) {
-        printToScreen(pg, x, y, true, 0);
+		printToScreen(pg, x, y, useDefaultFont, 0);
 	}
 	
 	public void printToScreen(PGraphics pg, float x, float y, boolean useDefaultFont, float maxW) {
@@ -61,9 +69,9 @@ public class StringBufferLog {
 		}
 		
 		if(maxW > 0) {
-		    pg.text(outputStr, x, y, maxW, 9999);
+			pg.text(outputStr, x, y, maxW, 9999);
 		} else {
-		    pg.text(outputStr, x, y);
+			pg.text(outputStr, x, y);
 		}
 	}
 }

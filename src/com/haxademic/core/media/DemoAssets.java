@@ -161,6 +161,14 @@ public class DemoAssets {
 		}
 		return fontInter;
 	}
+	
+	public static String font8pxPath = "haxademic/fonts/Minecraftia-Regular.ttf";
+	public static PFont font8px = null;
+	public static PFont font8px() { return font8px(8); }
+	public static PFont font8px(float fontSize) {
+		if(font8px == null) font8px = P.p.createFont(P.path(font8pxPath), fontSize);
+		return font8px;
+	}
 
 	public static String fontRalewayPath = "haxademic/fonts/Raleway-Regular.ttf";
 	public static PFont fontRaleway = null;
