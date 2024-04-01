@@ -3,12 +3,15 @@ package com.haxademic.demo.media.audio.vst;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.AudioUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Metronome;
+import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.vst.VSTPlugin;
-import com.haxademic.core.media.audio.vst.devices.synth.SynthPG8;
+import com.haxademic.core.media.audio.vst.devices.synth.SynthRagnarok;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -29,7 +32,7 @@ implements IAppStoreListener {
 	protected void firstFrame() {
 		AudioUtil.setPrimaryMixer();
 		
-			metronome = new Metronome(true);
+		metronome = new Metronome(true);
 		P.store.setNumber(Interphase.BPM, 96);
 		P.store.addListener(this);
 		UI.addSlider(Interphase.BPM, P.store.getInt(Interphase.BPM), 20, 240, 1, false);
@@ -37,22 +40,26 @@ implements IAppStoreListener {
 		// these are happy with their window being opened
 //	    vstSynth = new VSTPlugin("vst/synth/Zebra2(x64).dll");
 //	    vstSynth = new VSTPlugin("vst/synth/PG-8X.dll");
+		// vstSynth = new VSTPlugin("vst/synth/ragnarok64.dll");
 //		String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
-		vstSynth = new SynthPG8(true, true, true);
-//		vstSynth = new SynthCharlatan(true, true);
-//		vstSynth = new SynthYoozBL303(true, true);
-		vstSynth2 = new VSTPlugin("vst/synth/Synsonic_BD-909.dll");
+		// vstSynth = new SynthPG8(true, true, true);
+//		vstSynth = new SynthCharlatan(true, true, true);
+		// vstSynth = new SynthYoozBL303(true, true, true);
+		vstSynth = new SynthRagnarok(true, true, true);
+		// vstSynth2 = new VSTPlugin("vst/synth/Synsonic_BD-909.dll");
+		// vstSynth2 = new VSTPlugin("vst/synth/kern64.dll");
+		// vstSynth2 = new VSTPlugin("vst/synth/ragnarok64.dll");
+		
 		
 		// these ones don't like their window opened, or at least opened automatically:
 //		String vstFile = FileUtil.getPath("vst/synth/JuceOPLVSTi_ax64.dll");
 //		String vstFile = FileUtil.getPath("vst/synth/synister64.dll");
-
 	}
 
 	protected void drawApp() {
 		trigger.update();
 		background(30 * trigger.value());
-		
+		// if(p.frameCount == 100) vstSynth.toggleVstUI();
 		// play notes
 //		if(FrameLoop.frameMod(60) == 30) vstSynth.playRandomNote(400);
 //		if(FrameLoop.frameMod(60) == 1) vstSynth2.playRandomNote(400);
@@ -91,24 +98,34 @@ implements IAppStoreListener {
 		}
 	}
 
-    @Override
-    public void updatedNumber(String key, Number val) {
-//        if(key.equals(Interphase.BEAT)) P.out("BEAT");
-        if(key.equals(Interphase.CUR_STEP)) {
-            if(val.intValue() % 4 == 0) {
-                trigger.setTarget(0).setCurrent(1);
-//                vstSynth2.playMidiNote(36, 100);
-            }
-            if(val.intValue() % 4 == 2) {
-                trigger.setTarget(0).setCurrent(1);
-                vstSynth.playMidiNote(36, 100);
-//                vstSynth.playRandomNote(300);
-            }
-        }
-    }
-    public void updatedString(String key, String val) {}
-    public void updatedBoolean(String key, Boolean val) {}
-    public void updatedImage(String key, PImage val) {}
-    public void updatedBuffer(String key, PGraphics val) {}
+		@Override
+		public void updatedNumber(String key, Number val) {
+		if(key.equals(Interphase.CUR_STEP)) {
+			int curStep = val.intValue() % 8;
+			if(curStep != -1) {
+				int[] notes = new int[] {
+					Scales.CUR_SCALE[0], 
+					0, 
+					Scales.CUR_SCALE[0], 
+					Scales.CUR_SCALE[3], 
+					Scales.CUR_SCALE[2], 
+					0, 
+					0, 
+					Scales.CUR_SCALE[5]
+				};
+				int curNote = 36 + notes[curStep];
+				if(curNote > 36) {
+					if(MathUtil.randBooleanWeighted(0.2f)) curNote += 12;
+					trigger.setTarget(0).setCurrent(1);
+					// play double synth
+					vstSynth.playMidiNote(curNote - 12, MathUtil.randRange(150, 200));
+				}
+			}
+		}
+		}
+		public void updatedString(String key, String val) {}
+		public void updatedBoolean(String key, Boolean val) {}
+		public void updatedImage(String key, PImage val) {}
+		public void updatedBuffer(String key, PGraphics val) {}
 
 }

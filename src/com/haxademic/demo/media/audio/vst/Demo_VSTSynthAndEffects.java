@@ -46,13 +46,20 @@ implements JVstHostListener {
 		JVstHostListener self = this;
 		new Thread(new Runnable() { public void run() {
 //			String vstFile = FileUtil.getPath("vst/synth/Phosphor.dll");
-			String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
+			// String vstFile = FileUtil.getPath("vst/synth/PG-8X.dll");
+			// String vstFile = FileUtil.getPath("vst/synth/vstsid.dll");
+			// String vstFile = FileUtil.getPath("vst/synth/Chip32.dll");
 			// String vstFile = FileUtil.getPath("vst/synth/YoozBL303_x64.dll");
 //			String vstFile = FileUtil.getPath("vst/synth/synister64.dll");
-//			String vstFile = FileUtil.getPath("vst/synth/Charlatan.dll");
-//			String vstFile2 = FileUtil.getPath("vst/fx/Protoverb_x64.dll");
+			// String vstFile = FileUtil.getPath("vst/synth/Charlatan.dll");
+			String vstFile = FileUtil.getPath("vst/synth/ragnarok64.dll");
+
+			// FX
+			// String vstFile2 = FileUtil.getPath("vst/fx/Protoverb_x64.dll");
 //			String vstFile2 = FileUtil.getPath("vst/fx/ValhallaFreqEcho_x64.dll");
 			String vstFile2 = FileUtil.getPath("vst/fx/DubStation_15.dll");
+			// String vstFile2 = FileUtil.getPath("vst/fx/TAL-Dub-3.dll");
+			// String vstFile2 = FileUtil.getPath("vst/fx/fogpad.dll");
 			try {
 				vst = JVstHost2.newInstance(FileUtil.fileFromPath(vstFile), SAMPLE_RATE, BLOCK_SIZE);
 				P.out("[VST] ###################################################################");
@@ -149,16 +156,16 @@ implements JVstHostListener {
 		
 		if(frameCount == 100) {
 			vst.openEditor(vst.getEffectName());
-//			vstFX.openEditor(vstFX.getEffectName());
+			vstFX.openEditor(vstFX.getEffectName());
 		}
 		
 		// hard-coded audio fx
 		if(vstFX != null) {
 //			vstFX.setProgram(5);
-			vstFX.setParameter(0, 0.75f);
-			vstFX.setParameter(1, 0.5f);
-			vstFX.setParameter(2, 0.005f);
-			vstFX.setParameter(3, 0.5f);
+			// vstFX.setParameter(0, 0.75f);
+			// vstFX.setParameter(1, 0.5f);
+			// vstFX.setParameter(2, 0.005f);
+			// vstFX.setParameter(3, 0.5f);
 //		vstFX.setParameter(4, 0.5f);
 //		vstFX.setParameter(8, 0.5f);
 //		vstFX.setParameter(9, 0.5f);
@@ -176,12 +183,12 @@ implements JVstHostListener {
 			vst.setParameter(i, p.random(1));
 		}
 		// make sure some params are in range
-		vst.setParameter(27, 1);
-		vst.setParameter(35, 0);
-		vst.setParameter(40, 0);
-		vst.setParameter(47, 1);
-		vst.setParameter(14, 1);
-		vst.setParameter(15, 1);
+		// vst.setParameter(27, 1);
+		// vst.setParameter(35, 0);
+		// vst.setParameter(40, 0);
+		// vst.setParameter(47, 1);
+		// vst.setParameter(14, 1);
+		// vst.setParameter(15, 1);
 	}
 	
 	protected void oscAllParams() {
