@@ -33,9 +33,12 @@ implements IJoystickControl {
 
 	// debug	
 	protected int debugColor = -1;
+	protected boolean isEditing = false;
+	protected String id;
 	
 	// active calculation
 	protected int pixelCount = 0;
+	protected boolean clickMode = false;
 	
 	// ui
 	protected String uiID = null;
@@ -174,6 +177,44 @@ implements IJoystickControl {
 	public int pixelCount() { return pixelCount; }
 	public void pixelCount( int value ) { this.pixelCount = value; }
 	
+	public String id() { 
+		return id; 
+	}
+	public DepthCameraRegion id(String id) { 
+		this.id = id; 
+		return this; 
+	}
+	
+	public DepthCameraRegion isEditing(boolean isEditing) { 
+		this.isEditing = isEditing; 
+		return this; 
+	}
+	
+	public boolean isEditing() { 
+		return isEditing; 
+	}
+
+	public DepthCameraRegion clickMode(boolean clickMode) { 
+		this.clickMode = clickMode; 
+		return this; 
+	}
+	
+	public boolean clickMode() { 
+		return clickMode; 
+	}
+
+	protected void updateSmoothedJoystickResults() {
+		if(clickMode == true) {
+			if(isActive()) {
+				userActive.setInc(5);
+			} else {
+				userActive.setInc(10);
+			}
+		}
+		super.updateSmoothedJoystickResults();
+		
+	}
+
 	public void drawDebug(PGraphics debugGraphics) {
 		if( debugColor == -1 ) return;
 //		debugGraphics.stroke(debugColor);
@@ -270,6 +311,8 @@ implements IJoystickControl {
 			debugGraphics.push();
 			PG.setDrawCenter(debugGraphics);
 			debugGraphics.stroke(0, 255, 0);
+			if(isEditing) debugGraphics.stroke(255);
+			if(userActive.value()) debugGraphics.stroke(0, 0, 255);
 			debugGraphics.noFill();
 			debugGraphics.translate(boxX, boxY, boxZ);
 			debugGraphics.box(boxW, boxH, boxD);
