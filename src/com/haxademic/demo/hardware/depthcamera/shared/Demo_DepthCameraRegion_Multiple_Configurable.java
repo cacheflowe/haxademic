@@ -4,11 +4,11 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraRegion;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
@@ -18,6 +18,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl.IJoystickActiveDelegate;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
@@ -29,12 +30,6 @@ extends PAppletHax
 implements IAppStoreListener, IJoystickActiveDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	// TODO: 
-	// - Add name/id for regions to check active?
-	// - Actively-editing region should be highlighted in UI
-	// - Test with floor alignment & measureing tape
-	// - Active trigger should be faster on than off!! make this configurable
-
 	// regions
 	protected DepthCameraRegion[] regions;
 	protected DepthCameraRegion activeRegion;
@@ -48,6 +43,10 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 	protected String REGION_INDEX = "REGION_INDEX";
 	protected String CAMERA_DEBUG_3D = "CAMERA_DEBUG_3D";
 
+	// region IDs
+	protected String CLICK_1 = "CLICK_1";
+	protected String CLICK_2 = "CLICK_2";
+
 	protected void config() {
 		Config.setAppSize(1024, 1024);
 		Config.setProperty(AppSettings.SHOW_UI, true);
@@ -58,15 +57,16 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 		initCameras();
 		buildRegions();
 		initDebugBuffers();
+		initKeystones();
 		P.store.addListener(this);
 	}
 
 	protected void buildRegions() {
 		// build multiple regions
 		regions = new DepthCameraRegion[] {
-				new DepthCameraRegion(),
-				new DepthCameraRegion(),
-				new DepthCameraRegion(),
+			(new DepthCameraRegion()).id(CLICK_1).clickMode(true),
+			(new DepthCameraRegion()).id(CLICK_2).clickMode(true),
+			(new DepthCameraRegion()).id("Debug"), // entire camera FOV for visual debugging
 		};
 		activeRegion = regions[0];
 
@@ -85,7 +85,11 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 	}
 
 	protected void setRegionToUI(int index) {
+		// deactivate prior region
+		if(activeRegion != null) activeRegion.isEditing(false); 
+		// activate new region
 		activeRegion = regions[index];
+		activeRegion.isEditing(true);
 		DepthCameraRegion.setGenericUiFromRegion(activeRegion);
 	}
 
@@ -137,6 +141,10 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 	protected void drawDebugToScreen() {
 		if(UI.valueToggle(CAMERA_DEBUG_3D)) {
 			ImageUtil.cropFillCopyImage(regionDebug, p.g, false);
+			if(activeRegion != null) {
+				DemoAssets.setDemoFont(p.g);
+				p.g.text("Editing: " + activeRegion.id(), 50, p.g.height - 150);
+			}
 		}
 
 		// draw joystick x/y debug in upper corner
@@ -152,6 +160,7 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 		updateDepthRegions();
 		addDebugTextures();
 		drawDebugToScreen();
+		updateKeystones();
 		if(KeyboardState.keyTriggered('s')) saveRegions();
 	}
 
@@ -164,7 +173,10 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 	// IJoystickActiveDelegate methods 
 
 	public void activeSwitched(BaseJoystick joystick, boolean value) {
-		P.out("activeSwitched() :: active = " + value);
+		// P.out("activeSwitched() :: active = " + value);
+		// get id of clicked region
+		String regionId = ((DepthCameraRegion) joystick).id();
+		if(value == true) P.out("CLICKED", regionId);
 	}
 
 	// IAppStoreListener methods
@@ -178,4 +190,37 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
+
+	// Keystoning ------------------------------------------------------
+
+	protected PGraphicsKeystone[] keystoneQuads;
+
+	protected void initKeystones() {
+		keystoneQuads = new PGraphicsKeystone[] {
+			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-2.txt")),
+			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-2.txt")),
+		};
+	}
+
+	protected void updateKeystones() {
+		// enable/disable active keystoning quad
+		if(KeyboardState.keyTriggered('1')) {
+			keystoneQuads[0].setActive(true);
+			keystoneQuads[1].setActive(false);
+		} 
+		if(KeyboardState.keyTriggered('2')) {
+			keystoneQuads[0].setActive(false);
+			keystoneQuads[1].setActive(true);
+		}
+		if(KeyboardState.keyTriggered('3')) {
+			keystoneQuads[0].setActive(false);
+			keystoneQuads[1].setActive(false);
+		}
+
+		// update & draw keystone quads
+		for (int i = 0; i < keystoneQuads.length; i++) {
+			keystoneQuads[i].update(p.g);
+			keystoneQuads[i].fillSolidColor(p.g, regions[i].easedActive() ? 0xff00ff00 : 0xffff0000);
+		}
+	}
 }
