@@ -37,7 +37,6 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 	// debug
 	protected PGraphics regionDebug;		  // updated by the `region` object
 	protected PGraphics regionFlatDebug;	// updated by the `region` object
-	protected PGraphics joystickDebug;		// updated by the `region`
 	
 	// UI
 	protected String REGION_INDEX = "REGION_INDEX";
@@ -108,7 +107,6 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 		// build CAMERA region and debug buffer
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		regionFlatDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
-		joystickDebug = PG.newPG(200, 200);
 	}
 	
 	protected void updateDepthRegions() {
@@ -127,15 +125,12 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 		} else {
 			for (int i = 0; i < regions.length; i++) regions[i].update();
 		}
-		// draw x/y coords grid debug view
-		DepthCameraRegion.drawDebugCoords(joystickDebug, activeRegion.easedX(), activeRegion.easedY(), activeRegion.easedActive());
 	}
 		
 	protected void addDebugTextures() {
 		if(DepthCamera.instance().camera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", DepthCamera.instance().camera.getRgbImage());
 		if(DepthCamera.instance().camera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", DepthCamera.instance().camera.getDepthImage());
 		if(UI.valueToggle(CAMERA_DEBUG_3D)) DebugView.setTexture("regionDebug", regionDebug);
-		if(UI.valueToggle(CAMERA_DEBUG_3D)) DebugView.setTexture("joystickDebug", joystickDebug);
 	}
 	
 	protected void drawDebugToScreen() {
@@ -146,10 +141,6 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 				p.g.text("Editing: " + activeRegion.id(), 50, p.g.height - 150);
 			}
 		}
-
-		// draw joystick x/y debug in upper corner
-		// use userY if overhead vs mirror
-		p.g.image(joystickDebug, p.width - joystickDebug.width, 0);
 	}
 	
 	protected void drawApp() {
@@ -197,7 +188,7 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 
 	protected void initKeystones() {
 		keystoneQuads = new PGraphicsKeystone[] {
-			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-2.txt")),
+			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-1.txt")),
 			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-2.txt")),
 		};
 	}
