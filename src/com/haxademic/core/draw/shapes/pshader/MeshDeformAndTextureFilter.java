@@ -18,8 +18,8 @@ extends BaseVertexShader {
 	
 	public MeshDeformAndTextureFilter() {
 		super(
-	        "haxademic/shaders/vertex/mesh-deform-frag.glsl", 
-	        "haxademic/shaders/vertex/mesh-deform-vert.glsl"
+			"haxademic/shaders/vertex/mesh-deform-frag.glsl", 
+			"haxademic/shaders/vertex/mesh-deform-vert.glsl"
 		);
 		setDisplacementMap(DemoAssets.justin());
 		setDisplaceAmp(1f);
