@@ -197,7 +197,7 @@ implements IAppStoreListener, IJoystickActiveDelegate {
 
 	protected void initKeystones() {
 		keystoneQuads = new PGraphicsKeystone[] {
-			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-2.txt")),
+			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-1.txt")),
 			new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/deph-region-demo-2.txt")),
 		};
 	}
