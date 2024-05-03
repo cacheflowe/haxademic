@@ -97,7 +97,7 @@ implements IAppStoreListener {
 		buildFakeLighting();
 		buildColorOffsets();
 		ColorCorrectionFilter.instance().buildUI(COLOR_CORRECTION_ID, true);
-		// loadVertexShader();
+		loadVertexShader();
 		P.store.addListener(this);
 	}
 
@@ -263,7 +263,7 @@ implements IAppStoreListener {
 			cells[i].draw();
 			cells[i].advance();
 		}			
-		// pg.resetShader();
+		pg.resetShader();
 		pg.endDraw();
 	}
 
@@ -338,14 +338,15 @@ implements IAppStoreListener {
 			shape.beginShape();
 			shape.noStroke();
 			shape.fill( p.random(0, 255));
+			float center = p.random(0, width);
 			for (int i = 0; i < CELL_DETAIL; i++) {
 				rads = segmentRads * i;
 				shape.vertex(0, 0, -rFix);
-				// shape.attrib("shapeCenter", p.random(0, width));
+				shape.attrib("shapeCenter", center);
 				shape.vertex(hoffOrthoFactor * cos(rads), hoffOrthoFactor * sin(rads), -hoffOrthoFactor);
-				// shape.attrib("shapeCenter", p.random(0, width));
+				shape.attrib("shapeCenter", center);
 				shape.vertex(hoffOrthoFactor * cos(rads + segmentRads), hoffOrthoFactor * sin(rads + segmentRads), -hoffOrthoFactor);
-				// shape.attrib("shapeCenter", p.random(0, width));
+				shape.attrib("shapeCenter", center);
 			}
 			shape.endShape();
 		}
