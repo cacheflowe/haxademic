@@ -327,8 +327,8 @@ choco install ffmpeg
 - Disable EdgeUI in the Registry
   - https://www.thewindowsclub.com/disable-screen-edge-swipe-in-windows-10
 - Turn off Windows multitouch gestures:
-  - Settings -> Bluetooth & Devices -> Touch 
-  - Turn off three and four finger gestures
+  - Settings -> Bluetooth & Devices -> Touchpad
+  - Turn off three and four finger gestures and any other settings
 - Use a [launch script](../scripts/chrome-launch-apps.cmd) to launch Chrome in locked-down kiosk mode
 
 ## Additional steps
