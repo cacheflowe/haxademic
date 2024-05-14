@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.depthcamera.cameras;
 
 import org.intel.rs.device.Device;
 import org.intel.rs.types.Option;
+import org.intel.rs.util.RealSenseException;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
@@ -183,6 +184,10 @@ implements IDepthCamera {
 	// THREADED UPDATING
 	///////////////////////////
 
+	public void setThreaded(boolean threaded) {
+		this.threaded = threaded;
+	}
+
 	public void update() {
 		if(camera == null) return;
 		if(camera.isRunning() == false) return;
@@ -199,7 +204,14 @@ implements IDepthCamera {
 						P.out("RealSenseWrapper failed to update");
 						e.printStackTrace();
 					}
-					if(DEPTH_ACTIVE && successfulFrame) data = camera.getDepthData();
+					if(DEPTH_ACTIVE && successfulFrame) {
+						try {
+							data = camera.getDepthData();
+						} catch (RealSenseException e) {
+							P.out("RealSenseWrapper failed to update depth data in camera.getDepthData()");
+							e.printStackTrace();
+						}
+					}
 					threadBusy = false;
 					hasUpdated = true;
 				}});
@@ -207,6 +219,7 @@ implements IDepthCamera {
 			}
 		} else {
 			camera.readFrames();
+			data = camera.getDepthData();
 			hasUpdated = true;
 		}
 		
@@ -214,10 +227,24 @@ implements IDepthCamera {
 		// make sure camera has updated once before reading images & data
 		if(hasUpdated) {
 			if(DEPTH_ACTIVE) {
-				if(MIRROR) ImageUtil.copyImageFlipH(camera.getDepthImage(), mirrorDepth);
+				if(MIRROR) {
+					try {
+						ImageUtil.copyImageFlipH(camera.getDepthImage(), mirrorDepth);
+					} catch(NullPointerException e) {
+						P.out("RealSenseWrapper failed to update depth image");
+						e.printStackTrace();
+					}
+				}
 			}
 			if(RGB_ACTIVE) {
-				if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
+				if(MIRROR) {
+					try {
+						ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
+					} catch(NullPointerException e) {
+						P.out("RealSenseWrapper failed to update color image");
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}

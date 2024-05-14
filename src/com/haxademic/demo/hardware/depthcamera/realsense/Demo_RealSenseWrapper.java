@@ -35,6 +35,7 @@ implements IAppStoreListener {
 		// RealSenseWrapper.setTinyStream();
 		RealSenseWrapper.setTinyStreamSuperFast();
 		realSenseWrapper = new RealSenseWrapper(p, true, true);
+//		realSenseWrapper.setThreaded(false);
 		realSenseWrapper.setMirror(false);
 	}
 
