@@ -18,7 +18,6 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class Demo_VertexShader_GPUParticlesWarp 
 extends PAppletHax {
