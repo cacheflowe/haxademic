@@ -18,14 +18,14 @@ public class SocketClient {
 	protected ISocketClientDelegate delegate;
 	public String serverAddress;// = "ws://xxx.xxx.xxx.xxx:8887";
 
-	protected boolean SOCKET_DEBUG = false;
+	public static boolean DEBUG = false;
 	protected int lastConnectAttemptTime = -1;
 	protected int _userCaptureFoundTime = -1;
 	protected int _curCountdownSecs = -1;
 	public static int RECONNECT_TIME = 1000 * 60;
 	
 	public SocketClient(String serverAddress, ISocketClientDelegate delegate, boolean debug) {
-		SOCKET_DEBUG = debug;
+		DEBUG = debug;
 		this.serverAddress = (serverAddress != null) ? serverAddress : localSocketServerAddress();
 		this.delegate = delegate;
 		P.p.registerMethod("pre", this);
@@ -46,13 +46,13 @@ public class SocketClient {
 			client = new WebSocketClient( new URI( serverAddress ), new Draft_6455() ) {
 				@Override
 				public void onMessage( String message ) {
-					if(SOCKET_DEBUG == true) P.out("onMessage: "+message);
+					if(DEBUG == true) P.out("onMessage: "+message);
 					if(delegate != null) delegate.messageReceived(message);
 				}
 
 				@Override
 				public void onOpen( ServerHandshake handshake ) {
-					if(SOCKET_DEBUG == true) P.out( "opened connection" );
+					if(DEBUG == true) P.out( "opened connection" );
 					if(delegate != null) delegate.socketConnected("self");
 					JSONObject jsonOut = new JSONObject();
 					jsonOut.setString("event", "SocketClient: opened connection");
@@ -62,12 +62,12 @@ public class SocketClient {
 				@Override
 				public void onClose( int code, String reason, boolean remote ) {
 					if(delegate != null) delegate.socketDisconnected("self");
-					if(SOCKET_DEBUG == true) P.out( "closed connection:", code, reason, remote );
+					if(DEBUG == true) P.out( "closed connection:", code, reason, remote );
 				}
 
 				@Override
 				public void onError( Exception ex ) {
-					if(SOCKET_DEBUG == true) P.out( "connection error", ex.getMessage() );
+					if(DEBUG == true) P.out( "connection error", ex.getMessage() );
 					ex.printStackTrace();
 				}
 			};
@@ -94,19 +94,19 @@ public class SocketClient {
 	public void sendMessage(String message) {
 		if(isConnected() == false) return;
 		client.send(message);
-		if(SOCKET_DEBUG == true) P.out("sent message: "+message);
+		if(DEBUG == true) P.out("sent message: "+message);
 	}
 	
 	protected void checkConnection() {
 		if(isConnected() == false) {
 			if(P.p.millis() - lastConnectAttemptTime > RECONNECT_TIME) {
-				if(SOCKET_DEBUG == true) P.out("Attempting to reconnect to Websocket");
+				if(DEBUG == true) P.out("Attempting to reconnect to Websocket");
 				new Thread(new Runnable() { public void run() {
 					if(client != null) {
 						try {
 							client.reconnect();
 						} catch (IllegalStateException e) {
-							if(SOCKET_DEBUG == true) P.out("[SocketClient ERROR] client.reconnect() \n"+e.getMessage());
+							if(DEBUG == true) P.out("[SocketClient ERROR] client.reconnect() \n"+e.getMessage());
 						}	
 						lastConnectAttemptTime = P.p.millis();
 					} else {
