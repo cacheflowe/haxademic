@@ -9,7 +9,6 @@ import processing.core.PImage;
 
 public class SecondWindow {
 	public PGraphics srcBuffer;
-	public PGraphics dstBuffer;
 	public PImage displayImage; // - has to be PImage to be shared between window contexts. PGraphics doesn't work
 	public SecondWindowWindow appWindow;
 	protected int defaultX;
@@ -20,7 +19,6 @@ public class SecondWindow {
 		defaultX = x;
 		defaultY = y;
 		displayImage = newImage(srcBuffer.width, srcBuffer.height);
-		dstBuffer = P.p.createGraphics(srcBuffer.width, srcBuffer.height, P.P3D);
 		P.p.registerMethod(PRegisterableMethods.post, this); // update texture to 2nd window after main draw() execution
 	}
 
