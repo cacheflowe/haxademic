@@ -1,40 +1,54 @@
 package com.haxademic.core.system;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRegisterableMethods;
-import com.haxademic.core.draw.image.ImageUtil;
 
+import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class SecondWindow {
-
 	public PGraphics srcBuffer;
+	public PGraphics dstBuffer;
 	public PImage displayImage; // - has to be PImage to be shared between window contexts. PGraphics doesn't work
 	public SecondWindowWindow appWindow;
 	protected int defaultX;
 	protected int defaultY;
-	
+
 	public SecondWindow(PGraphics buffer, int x, int y) {
 		srcBuffer = buffer;
 		defaultX = x;
 		defaultY = y;
-		displayImage = ImageUtil.newImage(srcBuffer.width, srcBuffer.height);
-		P.p.registerMethod(PRegisterableMethods.post, this);	 // update texture to 2nd window after main draw() execution
+		displayImage = newImage(srcBuffer.width, srcBuffer.height);
+		dstBuffer = P.p.createGraphics(srcBuffer.width, srcBuffer.height, P.P3D);
+		P.p.registerMethod(PRegisterableMethods.post, this); // update texture to 2nd window after main draw() execution
 	}
-	
+
+	public static PImage newImage(int w, int h) {
+		return P.p.createImage(w, h, P.ARGB);
+	}
+
 	public void post() {
-		if(appWindow == null && P.p.frameCount >= 1) {
+		// create window if it doesn't exist
+		if (appWindow == null && P.p.frameCount >= 1) {
 			appWindow = new SecondWindowWindow(this);
 		}
-		ImageUtil.copyImage(srcBuffer, displayImage);
+
+		// copy display image pixels
+		// - this was super slow:
+		// ImageUtil.copyImage(srcBuffer, displayImage);
+		// - ...so we copy the pixel array instead. This is also not great - maybe we should use Spout instead?
+		srcBuffer.loadPixels();
+		if (srcBuffer.pixels != null && displayImage.pixels != null) {
+			System.arraycopy(srcBuffer.pixels, 0, displayImage.pixels, 0, srcBuffer.pixels.length);
+			displayImage.updatePixels();
+		}
 	}
 
 	public void setLocation(int x, int y) {
 		AppUtil.setLocation(appWindow, x, y);
 	}
-	
+
 	public void setSize(int w, int h) {
 		AppUtil.setSize(appWindow, w, h);
 	}
@@ -47,37 +61,33 @@ public class SecondWindow {
 	////////////////////////////////////////////////////
 	// PAppletHax subclass for second window
 	////////////////////////////////////////////////////
-	
-	class SecondWindowWindow extends PAppletHax {
+
+	class SecondWindowWindow extends PApplet {
 
 		protected SecondWindow parentObj;
 
 		public SecondWindowWindow(SecondWindow parentObj) {
 			this.parentObj = parentObj;
-			runSketch(new String[] {"SecondWindowWindow"}, this);
+			runSketch(new String[] { "SecondWindowWindow" }, this);
 		}
 
 		public void settings() {
-			// THIS OVERRIDES PAppletHax normal initialization... So we're cutting off what it can do, however, this breaks super hard if not
 			// size(dstBuffer.width, dstBuffer.height, PRenderers.P3D);
-			fullScreen(P.P3D);
+			fullScreen(P.P3D); // use fullscreen to remove window chrome
 		}
 
 		public void setup() {
-			P.out("SETUP");
 		}
-		
+
 		protected void initWindowProps() {
-			AppUtil.setLocation(this, defaultX, defaultY);
 			AppUtil.setSize(this, displayImage.width, displayImage.height);
+			AppUtil.setLocation(this, defaultX, defaultY);
 			AppUtil.setResizable(this, true);
 		}
 
-		public void drawApp() {
-			if(frameCount == 5) initWindowProps();
-			background(0);
+		public void draw() {
+			if (frameCount == 5) initWindowProps();
 			image(displayImage, 0, 0);
 		}
-
 	}
 }
