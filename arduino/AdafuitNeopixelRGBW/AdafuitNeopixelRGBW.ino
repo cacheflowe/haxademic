@@ -26,7 +26,7 @@ static unsigned long ledLastUpdate = 0;
 
 // Serial control --------------------------------
 const char START_CHAR = 'n'; // your special character
-int receivedNumber = 0;
+int receivedNumber = 100;
 bool numberStarted = false;
 // Serial control --------------------------------
 
