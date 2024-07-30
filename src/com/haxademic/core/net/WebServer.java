@@ -32,6 +32,7 @@ public class WebServer {
 	protected Server server;
 	protected String wwwPath;
 	protected Boolean useSSL;
+	protected Thread serverThread;
 
 	public WebServer(AbstractHandler handler) {
 		this(handler, false, FileUtil.haxademicWwwPath(), false);
@@ -52,13 +53,13 @@ public class WebServer {
 		this.useSSL = useSSL;
 		WWW_PATH = wwwPath;
 		IS_SSL = useSSL;
-		
 		new Thread(new Runnable() { public void run() {
 			initWebServer();
 		}}).start();
 	}
 	
 	protected void initWebServer() {
+		if(server != null) return;
 		disableLogging();
 		createServer();
 		configServer();
@@ -72,17 +73,20 @@ public class WebServer {
 	}
 	
 	protected void createServer() {
-		// if(useSSL) PORT = PORT_SSL;
+		if(useSSL) {
+			PORT = PORT_SSL;
+			server = new Server();
+		} else {
+			server = new Server(PORT);
+		}
 		P.out("Starting WebServer at "+wwwPath+":"+PORT);
-		server = new Server(PORT);
 	}
 	
 	protected void configServer() {
 		// init static web server
 		WebAppContext webAppContext = new WebAppContext(wwwPath, "/");
 		
-		// turn off file locking! 
-		// without this, we were blocked from dynamically replacing static files in the web server directory at runtime
+		// turn off file locking! without this, we were blocked from dynamically replacing static files in the web server directory at runtime
 		webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
 		
 		// set custom & static handlers
@@ -106,40 +110,45 @@ public class WebServer {
 
 	protected void addSSL() {
 		// keystore creds
-		String keyStorePath = P.path("haxademic/net/config/server.pkcs12");
+		String keyStorePath = P.path("haxademic/net/config/cert.p12");
 		String keyStorePassword = "haxademic";
-
-		// info:
-		// https://gist.github.com/jelinden/2909741
-		// add self-signed ssl
-		// generate a self-signed cert: 
-		// $ keytool -genkey -keyalg RSA -alias haxademic -keystore selfsigned.jks -validity 9999 -keysize 2048
-		// $ keytool -genkey -keyalg RSA -alias haxademic -keystore selfsigned.jks -validity 9999 -keysize 2048 -sigalg SHA256withRSA
-		// password: haxademic
-		// Migrate to pkcs12
-		// $ keytool -importkeystore -srckeystore selfsigned.jks -destkeystore selfsigned.pkcs12 -deststoretype pkcs12
-		// $ keytool -importkeystore -srckeystore selfsigned.pkcs12 -srcstoretype PKCS12 -destkeystore keystore
+	
+		// generate a self-signed cert:
+		// ```
+		// mkcert -cert-file cert.pem -key-file key.pem localhost
+		// openssl pkcs12 -export -out cert.p12 -inkey key.pem -in cert.pem -name "localhost"
+		// mkcert -cert-file cert.pem -key-file key.pem localhost
+		// openssl pkcs12 -export -out cert.p12 -inkey key.pem -in cert.pem -name "localhost"
+		// ```
+		
 		// Import into keystore - use password "changeit", which is the default password for a .crt downloaded from a server
 		// $ "C:\Program Files\Eclipse Adoptium\jdk-17.0.4-Processing\bin\keytool.exe" -import -alias haxademic -keystore "C:\Program Files\Eclipse Adoptium\jdk-17.0.4-Processing\lib\security\cacerts" -file .\data\haxademic\net\config\server.crt
 
-		SslContextFactory.Server ssl = new SslContextFactory.Server();
-		ssl.setKeyStorePath(keyStorePath);
-		ssl.setKeyStorePassword(keyStorePassword);
-		ssl.setKeyManagerPassword(keyStorePassword);
-		ssl.setTrustStorePath(keyStorePath);
-		ssl.setTrustStorePassword(keyStorePassword);
-		ssl.setKeyStoreType("PKCS12"); // "JKS" if not migrated
-		// ssl.setKeyStoreType("JKS"); // "JKS" if not migrated
-		ssl.setNeedClientAuth(false);
-		ssl.setTrustAll(true);
-		ssl.setValidateCerts(false);
+		try {
+			SslContextFactory.Server ssl = new SslContextFactory.Server();
+			ssl.setKeyStorePath(keyStorePath);
+			ssl.setKeyStorePassword(keyStorePassword);
+			ssl.setKeyManagerPassword(keyStorePassword);
+			ssl.setTrustStorePath(keyStorePath);
+			ssl.setTrustStorePassword(keyStorePassword);
+			ssl.setKeyStoreType("PKCS12"); // "JKS" if not migrated
+			// ssl.setKeyStoreType("JKS"); // "JKS" if not migrated
+			ssl.setNeedClientAuth(false);
+			ssl.setTrustAll(true);
+			ssl.setValidateCerts(false);
 
-		// build the connector
-		ServerConnector https = new ServerConnector(server, ssl); // add 3rd argument for both http & https?? :: , new HttpConnectionFactory(httpConfiguration)
-		https.setPort(PORT_SSL);
-		// https.setIdleTimeout(30000L);
-		// https.setHost("localhost");
-		server.addConnector(https);
+			// build the connector
+			ServerConnector https = new ServerConnector(server, ssl);
+			https.setPort(PORT_SSL);
+			// https.setIdleTimeout(30000L);
+			// https.setHost("localhost");
+			server.addConnector(https);
+
+			System.out.println("SSL Connector added on port: " + PORT_SSL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 	
 	protected void startServer() {
@@ -171,7 +180,7 @@ public class WebServer {
 				if(server != null) {
 					server.stop();
 					Thread.sleep(1000);		// let ports clear up: https://stackoverflow.com/a/15240883/352456
-					initWebServer();
+					// initWebServer();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

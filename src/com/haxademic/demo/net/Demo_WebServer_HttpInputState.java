@@ -22,21 +22,24 @@ implements IAppStoreListener {
 	
 	protected WebServer server;
 	protected String webServerURL;
+	protected boolean isSSL = false;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
 	protected void firstFrame() {
-		// basic web server
-		server = new WebServer(new UIControlsHandler(), false);
+		P.out("isSSL", isSSL);
+		if(!isSSL) {
+			server = new WebServer(new UIControlsHandler(), false);
+			webServerURL = WebServer.getServerAddress() + "web-server-demo/";
+		} else {
+			server = new WebServer(new UIControlsHandler(), false, true);
+			webServerURL = "https://localhost/web-server-demo/"; // don't use IP address because certificate is for localhost
+		}
+		// set custom server on HttpInputState or else it'll create its own!
+		HttpInputState.instance(server);
 		
-		// basic web server with SSL
-		// server = new WebServer(new UIControlsHandler(), false, true);
-		
-		// store address
-		webServerURL = WebServer.getServerAddress() + "web-server-demo/";
-
 		// create QR code
 		ZXING4P qr = new ZXING4P();
 		PImage qrImage = qr.generateQRCode(webServerURL, 128, 128);
@@ -46,9 +49,12 @@ implements IAppStoreListener {
 	protected void drawApp() {
 		background(0);
 		if(p.frameCount == 200) SystemUtil.openWebPage(webServerURL);
-		// draw slider val
-		p.fill(255);
-		p.rect(0, 0, P.map(HttpInputState.instance().getValue("slider1"), 0, 1, 0, p.width), p.height);
+
+		// draw slider val, but wait a moment, because HttpInputState.instance() was creating a second webserver before the thread created the first!!!
+		if (p.frameCount > 200) {
+			p.fill(255);
+			p.rect(0, 0, P.map(HttpInputState.instance().getValue("slider1"), 0, 1, 0, p.width), p.height);
+		}
 		
 		// show incoming web request paths in DebugView
 		P.store.showStoreValuesInDebugView();
