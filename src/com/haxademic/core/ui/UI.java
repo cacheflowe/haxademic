@@ -38,6 +38,7 @@ implements IAppStoreListener {
 
 	protected static LinkedHashMap<String, IUIControl> controls;
 	
+	public static int MAX_H = 0;
 	public static int controlX = 0;
 	public static int controlY = 0;
 
@@ -108,14 +109,14 @@ implements IAppStoreListener {
 		if(controls.containsKey(title)) { showDuplicateKeyError(title); return; }
 		controls.put(title, new UITitle(title, controlX, controlY, IUIControl.controlW, IUIControl.controlH));
 		controlY += IUIControl.controlSpacing;
-		if(controlY > P.p.height - IUIControl.controlH) nextCol();
+		if(controlY > maxH() - IUIControl.controlH) nextCol();
 	}
 	
 	public static void addTextfield(String key, String value, boolean saves) {
 		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		controls.put(key, new UITextInput(key, value, DemoAssets.fontOpenSansPath, PTextAlign.LEFT, controlX, controlY, IUIControl.controlW, IUIControl.controlH, saves));
 		controlY += IUIControl.controlSpacing;
-		if(controlY > P.p.height - IUIControl.controlH) nextCol();
+		if(controlY > maxH() - IUIControl.controlH) nextCol();
 	}
 	
 	public static void addToggle(String key, boolean value, boolean saves) {
@@ -136,7 +137,7 @@ implements IAppStoreListener {
 		if(controls.containsKey(key)) { showDuplicateKeyError(key); return; }
 		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, IUIControl.controlW, IUIControl.controlH, saves, midiCCNote));
 		controlY += IUIControl.controlSpacing;
-		if(controlY > P.p.height - IUIControl.controlH) nextCol();
+		if(controlY > maxH() - IUIControl.controlH) nextCol();
 	}
 	
 	public static void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
@@ -154,7 +155,11 @@ implements IAppStoreListener {
 		controls.get(key + "_Y").layoutW(0.333f);
 		controls.get(key + "_Z").layoutW(0.333f);
 		controlY += controlHStack - 1;
-		if(controlY > P.p.height - controlHStack) nextCol();
+		if(controlY > maxH() - controlHStack) nextCol();
+	}
+
+	protected static int maxH() {
+		return (MAX_H > 0) ? MAX_H : P.p.height;
 	}
 	
 	protected static void nextCol() {
