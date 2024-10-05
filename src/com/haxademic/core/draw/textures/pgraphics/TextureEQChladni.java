@@ -9,7 +9,6 @@ import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
-import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.RepeatFilter;

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PTextAlign;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
-import com.haxademic.core.draw.image.ImageCacher;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.textures.pgraphics.shared.PGPool;
@@ -31,7 +29,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// set images path
-		imagesPath = "D:\\workspace\\dbg-sci-py\\_assets\\omniglobe\\assets\\content\\Content";
+		imagesPath = "D:\\workspace\\dbg-sci-py\\_assets\\omniglobe\\assets\\content\\Content\\__CONVERT";
 		
 		// create output directory
 		imagesOutputPath = imagesPath + "_Equirect";

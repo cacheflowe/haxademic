@@ -14,14 +14,12 @@ import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 public class Demo_ParticleSystem_Custom_Rings
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ParticleSystem<ParticleCustom> particles;
-	protected PImage[] particleImages;
 	
 	protected void config() {
 		Config.setAppSize(1024, 1024);
