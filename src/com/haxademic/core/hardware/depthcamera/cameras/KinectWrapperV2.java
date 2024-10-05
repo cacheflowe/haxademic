@@ -28,6 +28,12 @@ implements IDepthCamera {
 	//     - `Win+R -> services.msc -> KinectMonitor`
 	// - Download different KinectSensor drivers if you must: 
 	//     - https://www.catalog.update.microsoft.com/Search.aspx?q=VID_045E+PID_02C4
+	// - To solve weird "black w/a few white pixels" issue where Kinect doesn't fully start up, try this:
+	//     - Uninstall Kinect device from Device Manager
+	// 		 - Uninstall Kinect SDK
+	//     - Upgrade NVIDIA driver
+	//     - Reinstall Kinect SDK - KinectSDK-v2.0_1409-Setup.exe
+	//     - `Win+R -> services.msc -> KinectMonitor` - restart service
 	
 	protected PApplet p;
 	protected KinectPV2 kinect;
