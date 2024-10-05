@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.Timer;
 
@@ -101,18 +103,52 @@ public class SystemUtil {
         scriptRunner.runWithParams();
     }
     
-    public static void printRunningProcesses() {
+    public static void printRunningProcessesOLD() {
         try {
             String line;
             Process p = Runtime.getRuntime().exec("ps -e");
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
             while ((line = input.readLine()) != null) {
-                System.out.println("## "+line); //<-- Parse data here.
+                P.out("## "+line); //<-- Parse data here.
             }
             input.close();
         } catch (Exception err) {
             err.printStackTrace();
         }
+    }
+
+    public static String printRunningProcesses() {
+        ProcessHandle.allProcesses().forEach(process -> {
+            if(process.info().command().isPresent()) {
+                P.out("Process commandLine:\t" + process.pid() + "\t" + process.info().command().get());
+            }
+        });
+        return "";
+    }
+
+    public static void printRunningProcessesSorted() {
+        ArrayList<String> processList = new ArrayList<String>();
+        ProcessHandle.allProcesses().forEach(process -> {
+            if (process.info().command().isPresent()) {
+                String command = process.info().command().get();
+                processList.add(command + " (" + process.pid() + ")");
+            }
+        });
+        processList.sort(String.CASE_INSENSITIVE_ORDER);
+        processList.forEach(P::out);
+    }
+
+    public static int countProcessesByString(String searchTerm) {
+        AtomicInteger count = new AtomicInteger(0); // need AtomicInteger for stream lambda
+        ProcessHandle.allProcesses().forEach(process -> {
+            if(process.info().command().isPresent()) {
+                String command = process.info().command().get();
+                if(command.toLowerCase().contains(searchTerm.toLowerCase())) {
+                    count.incrementAndGet();
+                }
+            }
+        });
+        return count.get();
     }
 
     public static boolean hasProcessContainingString(String processName) {
