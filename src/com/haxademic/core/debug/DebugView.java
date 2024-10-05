@@ -48,6 +48,7 @@ implements IAppStoreListener {
 	protected static float padding = 10;
 	protected static float debugPanelW = 0;
 	protected static float MAX_PANEL_WIDTH = 500;
+	public static int MAX_H = 0;
 	protected static float helpPanelW = 0;
 	protected static int fontSize = 11;
 	protected static int fontSizeLg = 36;
@@ -274,7 +275,8 @@ implements IAppStoreListener {
 		PG.drawStrokedRect(pg, IUIControl.controlW, controlH, 1, fill, ColorsHax.BUTTON_OUTLINE);
 
 		// text label
-		pg.fill((pixelFont) ? 0xffbbbbbb : ColorsHax.BUTTON_TEXT);
+		// pg.fill((pixelFont) ? 0xffbbbbbb : ColorsHax.BUTTON_TEXT);
+		pg.fill(ColorsHax.BUTTON_TEXT);
 		pg.text(textLine, IUIControl.TEXT_INDENT, (pixelFont) ? 3f : 1f); // , IUIControl.controlW, controlH
 
 		// if mouse hover, draw big afterwards
@@ -287,7 +289,7 @@ implements IAppStoreListener {
 
 		// move to next box
 		controlY += controlH - 1;
-		if(controlY > P.p.height - controlH) nextCol();
+		if(controlY > maxH() - controlH) nextCol();
 	}
 	
 	protected void drawImage(String imageName, PImage image) {
@@ -303,7 +305,7 @@ implements IAppStoreListener {
 		}
 		
 		// if not enough room, move to next col
-		if(controlY + texH > P.p.height) nextCol();
+		if(controlY + texH > maxH()) nextCol();
 
 		// draw title
 		drawTextLine(imageName + " (" + image.width + " x " + image.height + ")", true);
@@ -410,6 +412,10 @@ implements IAppStoreListener {
 		pg.pop();
 	}
 	
+	protected static int maxH() {
+		return (MAX_H > 0) ? MAX_H : P.p.height;
+	}
+
 	protected static void nextCol() {
 		controlY = 0;
 		controlX += IUIControl.controlW - 1;
@@ -429,6 +435,8 @@ implements IAppStoreListener {
 	public void post() {
 		if(debugFont == null) return;
 		if(active == false) return;
+
+		// do auto-hide
 		if(autoHide && p.frameCount > frameOpened + hideFrames) active = false;
 		
 		// testing pixel font
@@ -440,6 +448,7 @@ implements IAppStoreListener {
 		updateAppInfo();
 		
 		p.push();
+		// p.translate(-9999, 0);
 		p.noLights();
 		
 		// set up flat drawing
