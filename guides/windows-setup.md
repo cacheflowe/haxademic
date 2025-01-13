@@ -55,6 +55,7 @@
     * Power button should shut down
     * Laptop should do nothing on lid close
 * (WIN + "Sign-in Options") "If you've been away, when should Windows require you to sign in again?" -> Never
+  * Dynamic Lock -> Off
 * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
 * Turn off system sounds:
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds

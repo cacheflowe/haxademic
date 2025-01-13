@@ -61,6 +61,8 @@ We'll use some .ps1 scripts and fewer manual steps
 * Unpin apps from the Start menu
 - Add Windows Refender with Advanced Security rule
   - Ports (in & out): 80, 443, 3000-3100, 8000-8100
+* (WIN + "Sign-in Options") "If you've been away, when should Windows require you to sign in again?" -> Never
+  * Dynamic Lock -> Off
 
 
 ## Teamviewer settings
