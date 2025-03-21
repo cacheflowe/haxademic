@@ -16,14 +16,14 @@ We'll use some .ps1 scripts and fewer manual steps
     - Open Powershell ***as Administrator***
     - cd to the script that you downloaded (`cd $HOME\Downloads`) and run: `.\windows-apps-install.ps1`
         - If permissions don't allow, run it like this:
-        - `powershell.exe -executionpolicy unrestricted .\windows-apps-install.ps1`
+        - `powershell.exe -executionpolicy Bypass .\windows-apps-install.ps1`
   - Unzip and run Wub.exe from Downloads - turn off updates. We'll manually update Windows once in a while when we log in
   - Run Realsense installer from Downloads with default settings
   - Uninstall unnecessary apps:
     - (WIN + "Add or Remove Programs") 
     - `Control Panel\Programs\Programs and Features`
 - Set global windows settings with [**this script**](../scripts/windows-setup/set-windows-settings.ps1).
-    - `powershell.exe -executionpolicy unrestricted .\set-windows-settings.ps1`
+    - `powershell.exe -executionpolicy Bypass .\set-windows-settings.ps1`
     - Restart the machine!
     - Now we manually go through Windows settings that aren't updated with the script
 
@@ -46,9 +46,8 @@ We'll use some .ps1 scripts and fewer manual steps
   * Uncheck all "Notify me" boxes
 * (WIN + "Security and Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
   * Uncheck all boxes
-* Turn on Windows Defender
-  * But turn off notifications
-    * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
+* Turn off Windows Defender notifications
+  * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
 * (WIN + "Time & Date Settings") 
   * Check "Set Time Automatically"
   * Check "Set Time Zone Automatically"
@@ -58,33 +57,39 @@ We'll use some .ps1 scripts and fewer manual steps
 * Remove login screen:
   * Windows button + "R" -> "netplwiz" + Run
     * Uncheck "Users must enter..." -> Apply -> Type password twice
+* (WIN + "Sign-in Options") "If you've been away, when should Windows require you to sign in again?" -> Never
+  * Dynamic Lock -> Off
 * Unpin apps from the Start menu
 - Add Windows Refender with Advanced Security rule
   - Ports (in & out): 80, 443, 3000-3100, 8000-8100
-* (WIN + "Sign-in Options") "If you've been away, when should Windows require you to sign in again?" -> Never
-  * Dynamic Lock -> Off
+* (WIN + "Powershell Developer Setings") Allow Powershell scripts to run without signing -> On
+* Remove widgets from taskbar. This [can not be done](https://kolbi.cz/blog/2024/04/03/userchoice-protection-driver-ucpd-sys/) with the script
+
+## Add firewall rules for apps
 
 
 ## Teamviewer settings
 
 * On remote machine
-  * Check "Start with Windows" under "Unattended Access"
-  * Go to "Extras -> Options"
+  * Open Settings
     * General 
+      * Check: "Start TeamViewer with Windows"
       * Incoming LAN connections: "Accept"
-      * For Windows, make sure both Private & Public networks are checked in the firewall settings!
-        * Control Panel\System and Security\Windows Defender Firewall\Allowed apps
+        * If you're going to access via IP address from another local machine, make sure both Private & Public networks are checked in the firewall settings
+          * Control Panel\System and Security\Windows Defender Firewall\Allowed apps
     * Security
       * Windows Logon: Set to "All Users"
     * Remote Control
-      * Optimize Speed
-      * Uncheck "Remove Remote Wallpaper"
-      * Uncheck "Play Sounds and Music"
+      * Quality: Optimize Speed
+      * Uncheck: "Remove Remote Wallpaper"
+      * Check: Show your partner's cursor
+      * Uncheck: "Play Sounds and Music"
     * Advanced
-      * Enter a personal password
       * Check: "Automatically Minimize local TeamViewer Panel"
-      * Check: "Ignore Alpha Blending"
       * Check: "Full access control when a partner is connecting to the Windows Logon screen"
+      * Check: "Ignore Alpha Blending"
+      * Set a personal password
+      * Lock Remote Computer: "Never"
 
 
 ## Make sure your app is using the graphics card

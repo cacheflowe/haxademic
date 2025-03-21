@@ -18,23 +18,26 @@ choco install teamviewer
 choco install vlc
 choco install googlechrome --ignore-checksums
 choco install nodejs-lts
-choco install rustdesk
+# choco install rustdesk
 choco install quicklook
 choco install nvidia-display-driver
-# choco install python
+choco install python
 choco install 7zip.install
 
 ######################################################################################################
 # Download apps for manual install
 ######################################################################################################
 
-$WebClient = New-Object System.Net.WebClient
-# Realsense
-$WebClient.DownloadFile("https://github.com/IntelRealSense/librealsense/releases/download/v2.55.1/Intel.RealSense.SDK-WIN10-2.55.1.6486.exe", "$HOME\Downloads\Intel.RealSense.SDK-WIN10-2.55.1.6486.exe")
-# Wub.exe
-$WebClient.DownloadFile("https://www.sordum.org/files/download/windows-update-blocker/Wub_v1.8.zip", "$HOME\Downloads\Wub_v1.8.zip")
-Expand-Archive -Path "$HOME\Downloads\Wub_v1.8.zip" -Force -DestinationPath "$HOME\Downloads\Wub_v1.8"
-Remove-Item -Path "$HOME\Downloads\Wub_v1.8.zip"
+# $WebClient = New-Object System.Net.WebClient
+# # Realsense
+# $WebClient.DownloadFile("https://github.com/IntelRealSense/librealsense/releases/download/v2.55.1/Intel.RealSense.SDK-WIN10-2.55.1.6486.exe", "$HOME\Downloads\Intel.RealSense.SDK-WIN10-2.55.1.6486.exe")
+# # Wub.exe
+# $WebClient.DownloadFile("https://www.sordum.org/files/download/windows-update-blocker/Wub_v1.8.zip", "$HOME\Downloads\Wub_v1.8.zip")
+# Expand-Archive -Path "$HOME\Downloads\Wub_v1.8.zip" -Force -DestinationPath "$HOME\Downloads\Wub_v1.8"
+# Remove-Item -Path "$HOME\Downloads\Wub_v1.8.zip"
+
+# Open WUB URL
+Start-Process "https://www.sordum.org/files/downloads.php?st-windows-update-blocker"
 
 ######################################################################################################
 # Clean up links created on desktop

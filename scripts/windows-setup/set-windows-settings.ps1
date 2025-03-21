@@ -9,6 +9,9 @@
 # https://github.com/TairikuOokami/Windows/blob/main/Windows%20Tweaks.bat
 ######################################################################################################
 
+# TODO: 
+# - Powershell setting: change execution policy to allow local scripts without signing
+
 ######################################################################################################
 ######################################################################################################
 ######################################################################################################
@@ -22,7 +25,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
 Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" | Out-Null
-Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater" | Out-Null
+# Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater" | Out-Null
 Disable-ScheduledTask -TaskName "Microsoft\Windows\Autochk\Proxy" | Out-Null
 Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Consolidator" | Out-Null
 Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip" | Out-Null
@@ -69,6 +72,15 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" 
 
 Write-Host "Ensuring netplwiz is available..."
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" -Name "DevicePasswordLessBuildVersion" -Type DWord -Value 0
+
+######################################################################################################
+
+Write-Host "### Remove 'learn about this picture' from Windows desktop..."
+Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{2cc5ca98-6485-489a-920e-b3e88a6ccce3}" -Recurse -ErrorAction SilentlyContinue
+If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel")) {
+    New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Force | Out-Null
+}
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{2cc5ca98-6485-489a-920e-b3e88a6ccce3}" -Type DWord -Value 1
 
 ######################################################################################################
 
@@ -280,19 +292,19 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Fla
 Write-Host "Showing small icons in taskbar..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarSmallIcons" -Type DWord -Value 1
 Write-Host "Remove weather & news from taskbar..."
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
+# Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
 Write-Host "Remove other taskbar behavior..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarFlashing" -Type DWord -Value 0
 
 ######################################################################################################
 
-Write-Host "Auto Hiding Windows TaskBar..."
-if (Test-Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3") {
-	$RegValues = (Get-ItemProperty -Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3").Settings
-	$RegValues[8] = 3
-	Set-ItemProperty -Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3" -Name Settings -Value $RegValues
-	#Kill the Explorer process to force the change
-}
+# Write-Host "Auto Hiding Windows TaskBar..."
+# if (Test-Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3") {
+# 	$RegValues = (Get-ItemProperty -Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3").Settings
+# 	$RegValues[8] = 3
+# 	Set-ItemProperty -Path "HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3" -Name Settings -Value $RegValues
+# 	#Kill the Explorer process to force the change
+# }
 
 ######################################################################################################
 
@@ -311,27 +323,27 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 
 ######################################################################################################
 
-Write-Host 'Enabling Taskbar Autohide...'
-if (Test-Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects2') {
-    $CurrPath = 'StuckRects2'
-}
-elseif (Test-Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3') {
-    $CurrPath = 'StuckRects3'
-}
-else {
-    Write-Warning 'Unable to set the taskbar setting'
-    return
-}
-$BasePath = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer'
-$RegPath = Join-Path $BasePath $CurrPath
-try {
-    $CurrSettings = (Get-ItemProperty $RegPath).Settings
-    $CurrSettings[8] = 3
-    Set-ItemProperty -Path $BasePath -Name $CurrPath -Value $CurrSettings -Type Binary
-}
-catch {
-    Write-Warning "Unable to pull the current registry settings!"
-}
+# Write-Host 'Enabling Taskbar Autohide...'
+# if (Test-Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects2') {
+#     $CurrPath = 'StuckRects2'
+# }
+# elseif (Test-Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3') {
+#     $CurrPath = 'StuckRects3'
+# }
+# else {
+#     Write-Warning 'Unable to set the taskbar setting'
+#     return
+# }
+# $BasePath = 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer'
+# $RegPath = Join-Path $BasePath $CurrPath
+# try {
+#     $CurrSettings = (Get-ItemProperty $RegPath).Settings
+#     $CurrSettings[8] = 3
+#     Set-ItemProperty -Path $BasePath -Name $CurrPath -Value $CurrSettings -Type Binary
+# }
+# catch {
+#     Write-Warning "Unable to pull the current registry settings!"
+# }
 
 ######################################################################################################
 
@@ -340,8 +352,8 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 
 ######################################################################################################
 
-Write-Host "Hiding more notifications..."
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" -Name "Enabled" -Type DWord -Value 0
+# Write-Host "Hiding more notifications..."
+# Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.SecurityAndMaintenance" -Name "Enabled" -Type DWord -Value 0
 
 ######################################################################################################
 
@@ -406,11 +418,14 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\DWM" -Name "EnableAeroP
 
 # Write-Host "Disabling startup sound..."
 # Didn't work - maybe need to create property if doesn't exist
-# Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" -Name "DisableStartupSound" -Type DWord -Value 1
+If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation")) {
+    New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" -Force | Out-Null
+}
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" -Name "DisableStartupSound" -Type DWord -Value 1
 
 # Write-Host "Disabling windows sounds..."
-# Remove-ItemProperty -Path "HKCU:\AppEvents\Schemes\Apps" -Name "FavoritesResolve" -Force -ErrorAction SilentlyContinue
-# New-ItemProperty -Path HKCU:\AppEvents\Schemes -Name "(Default)" -Value ".None" -Force | Out-Null
+Remove-ItemProperty -Path "HKCU:\AppEvents\Schemes\Apps" -Name "FavoritesResolve" -Force -ErrorAction SilentlyContinue
+New-ItemProperty -Path HKCU:\AppEvents\Schemes -Name "(Default)" -Value ".None" -Force | Out-Null
 
 ######################################################################################################
 
@@ -425,19 +440,19 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 
 ######################################################################################################
 
-Write-Host "Unpinning all Start Menu tiles..."
-If ([System.Environment]::OSVersion.Version.Build -ge 15063 -And [System.Environment]::OSVersion.Version.Build -le 16299) {
-    Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Include "*.group" -Recurse | ForEach-Object {
-        $data = (Get-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data").Data -Join ","
-        $data = $data.Substring(0, $data.IndexOf(",0,202,30") + 9) + ",0,202,80,0,0"
-        Set-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data" -Type Binary -Value $data.Split(",")
-    }
-} ElseIf ([System.Environment]::OSVersion.Version.Build -ge 17134) {
-    $key = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\*start.tilegrid`$windows.data.curatedtilecollection.tilecollection\Current"
-    $data = $key.Data[0..25] + ([byte[]](202,50,0,226,44,1,1,0,0))
-    Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
-    Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
-}
+# Write-Host "Unpinning all Start Menu tiles..."
+# If ([System.Environment]::OSVersion.Version.Build -ge 15063 -And [System.Environment]::OSVersion.Version.Build -le 16299) {
+#     Get-ChildItem -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount" -Include "*.group" -Recurse | ForEach-Object {
+#         $data = (Get-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data").Data -Join ","
+#         $data = $data.Substring(0, $data.IndexOf(",0,202,30") + 9) + ",0,202,80,0,0"
+#         Set-ItemProperty -Path "$($_.PsPath)\Current" -Name "Data" -Type Binary -Value $data.Split(",")
+#     }
+# } ElseIf ([System.Environment]::OSVersion.Version.Build -ge 17134) {
+#     $key = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\CloudStore\Store\Cache\DefaultAccount\*start.tilegrid`$windows.data.curatedtilecollection.tilecollection\Current"
+#     $data = $key.Data[0..25] + ([byte[]](202,50,0,226,44,1,1,0,0))
+#     Set-ItemProperty -Path $key.PSPath -Name "Data" -Type Binary -Value $data
+#     Stop-Process -Name "ShellExperienceHost" -Force -ErrorAction SilentlyContinue
+# }
 
 ######################################################################################################
 
@@ -484,7 +499,7 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advan
 Write-Host "Taskbar..."
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name SearchboxTaskbarMode -Value 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name ShowTaskViewButton -Value 0
-Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name TaskbarDa -Value 0
+# Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name TaskbarDa -Value 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name TaskbarMn -Value 0
 
 Write-Host "Start Menu..."
