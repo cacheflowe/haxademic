@@ -46,7 +46,7 @@ static unsigned long ledLastUpdate = 0;
 // Piezo setup -------------------------------------
 const int knockSensor = A0;  // the piezo is connected to analog pin 0
 // TODO: figure out threshold for weird voltage difference when plugged inot wall. test 50' USB extensiom
-const int threshold = 100;   // threshold value to decide when the detected sound is a knock or not
+const int threshold = 10000;   // threshold value to decide when the detected sound is a knock or not
 int sensorReading = 0;  // variable to store the value read from the sensor pin
 int lastReading = 0;
 static unsigned long piezoLastUpdate = 0;
@@ -115,7 +115,7 @@ void updateLidar() {
     int val = sensors[i].read();
     if (val > 0 && val < 450) {
       lidarDetectTime = millis();
-      // Serial.print("detect: ");
+      Serial.print("detect: ");
       // Serial.println(lidarDetectTime);
       // TODO: send several messages in a row, ensuring that they're received
     }

@@ -1,49 +1,54 @@
 ////////////////////////////////////////////////////////////////
-// Adafruit_NeoPixel instead of FastLED to deal with RGBW diodes
-// ----------------------------------------
-// from: https://github.com/adafruit/Adafruit_NeoPixel
-// --------------
-// LED wiring:
-// --------------
-// 'Red'    ->  5V
-// 'Green'  ->  Digital 2
-// 'White'  ->  GND
+// Controls LPD8806-based RGB LED Modules in a strip
+////////////////////////////////////////////////////////////////
+// Wiring diagram: https://learn.adafruit.com/digital-led-strip/wiring
+// -5V  = 5V
+// -GND = GND
+// -DI  = Digital 2
+// -CI  = Digital 3
 ////////////////////////////////////////////////////////////////
 
+// For led chips like WS2812, which have a data line, ground, and power, you just
+// need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
+// ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
+// Clock pin only needed for SPI based chipsets when not using hardware SPI
 
-// LED setup -------------------------------------
-// NeoPixel library for RGBW LEDs
-#include <Adafruit_NeoPixel.h>
-#ifdef __AVR__
-#include <avr/power.h>
-#endif
+////////////////////////////////////////////////////////////////
+
+// hardware setup --------------------------------
+#include <FastLED.h>
 #define DATA_PIN 2
-#define NUM_LEDS 30
-Adafruit_NeoPixel pixels(NUM_LEDS, DATA_PIN, NEO_GRBW + NEO_KHZ800);
+#define CLOCK_PIN 3
+
+// lights config --------------------------------
+#define NUM_LEDS 99
+CRGB leds[NUM_LEDS];
+
+// LED state --------------------------------
 int ledIndex = 0;
 static unsigned long ledLastUpdate = 0;
-// LED setup -------------------------------------
 
 // Serial control --------------------------------
 const char START_CHAR = 'n'; // your special character
 int receivedNumber = 100;
 bool numberStarted = false;
-// Serial control --------------------------------
 
-// force reboot helper ---------------------------------------
-void(* Reboot)(void) = 0;
-
-
+// start
 void setup() {
   while (!Serial) {}
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.setTimeout(0);
   Serial.println("- Arduino is ready -");
-  initLEDNeopixel();
+  initLED();
 }
 
+void initLED() { 
+  // ## Clocked (SPI) initializer ##
+  FastLED.addLeds<LPD8806, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
+  // FastLED.addLeds<WS2801, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);   // GRB ordering is typical
+}
 
-void loop() {
+void loop() { 
   checkInput();
   if(receivedNumber == 100) {
     updateLEDNeopixel();
@@ -76,28 +81,21 @@ void checkInput() {
   }
 }
 
-
-void initLEDNeopixel() {
-  pixels.begin();
-}
-
 void updateLEDNeopixel() {
   if (millis() < ledLastUpdate + 200) return;
   ledLastUpdate = millis();
 
   for (int i = 0; i < NUM_LEDS; i++) {
-    int luma = (i == ledIndex) ? 20 : 0;
-    int r = luma;
-    int g = luma;
-    int b = luma;
-    int w = luma;
-    pixels.setPixelColor(i, pixels.Color(r, g, b, w));
+    if(i == ledIndex) {
+      leds[i] = CRGB(100, 100, 100); // CRGB::White;
+    } else {
+      leds[i] = CRGB::Black;
+    }
   }
 
-  // pixels.clear();
-  pixels.show();
   ledIndex++;
   ledIndex = ledIndex % NUM_LEDS;
+  FastLED.show();
 }
 
 void updateLEDNeopixelByIndex() {
@@ -106,12 +104,12 @@ void updateLEDNeopixelByIndex() {
 
   // set all LEDs
   for (int i = 0; i < NUM_LEDS; i++) {
-    int luma = (i == receivedNumber) ? 50 : 0;
-    int r = luma;
-    int g = luma;
-    int b = luma;
-    int w = luma;
-    pixels.setPixelColor(i, pixels.Color(r, g, b, w));
+    if(i == receivedNumber) {
+      leds[i] = CRGB(100, 100, 100); // CRGB::White;
+    } else {
+      leds[i] = CRGB::Black;
+    }
   }
-  pixels.show();
+  FastLED.show();
 }
+

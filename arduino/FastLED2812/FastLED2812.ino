@@ -14,8 +14,8 @@
 #define DATA_PIN 2
 
 // lights config
-#define NUM_LEDS 128
-CRGB leds[NUM_LEDS];
+#define NUM_LEDS 40
+CRGBW leds[NUM_LEDS];
 
 // state-machine for bufferless serial input
 typedef enum {  NONE, GOT_COLOR, GOT_OTHER } states;
@@ -27,14 +27,16 @@ int rgbInputValIndex = 0;
 
 // start
 void setup() { 
-  // ## Clocked (SPI) initializer ##
-//  FastLED.addLeds<LPD8806, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
-  FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUM_LEDS);
-  
   // Start serial for input
   Serial.begin(115200);
   Serial.setTimeout(0);
   Serial.println("<Arduino is ready>");
+
+  // ## Clocked (SPI) initializer ##
+//  FastLED.addLeds<LPD8806, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
+  // FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUM_LEDS);
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+  Serial.println("<FastLED is ready>");
   state = NONE;
 }
 
@@ -44,9 +46,9 @@ int byteToInt(byte b) {
 
 
 void loop() { 
-//   runSingleDotPulseDemo();
-   runSinWaveDemo();
-//  runRgbSerial();
+  runSingleDotPulseDemo();
+  // runSinWaveDemo();
+  // runRgbSerial();
 }
 
 /////////////////////////////
@@ -61,7 +63,7 @@ void runRgbSerial() {
   clearBytes();
   delay(16);
   
-//  Serial.println ("...");
+  // Serial.println ("...");
 }
 
 void clearBytes() {
@@ -167,7 +169,7 @@ void runSingleDotPulseDemo() {
     FastLED.show();
     
     // Wait a little bit (60fps)
-    delay(16);
+    delay(1000);
     
     // Turn our current led back to black for the next loop around
     leds[whiteLed] = CRGB::Black;
@@ -180,7 +182,9 @@ void runSinWaveDemo() {
     float freq = 0.2;
     float offset = millis() * 0.005;
     int luma = round(127 + 127.0 * sin(i * freq + offset));
-    leds[i] = CRGB(luma, luma, luma);
+    int luma2 = round(127 + 127.0 * sin(i * freq + offset + 1));
+    int luma3 = round(127 + 127.0 * sin(i * freq + offset + 2));
+    leds[i] = CRGB(luma, luma2, luma3);
   }
 
   // Show the leds (only one of which is set to white, from above)
