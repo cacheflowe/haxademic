@@ -12,18 +12,25 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 Below you'll find a long list of classes and utilities that I've built to make my life easier. I've tried to make as many basic [demos](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/demo) as possible for all of these features. The `demo` package mostly mirrors the `core` directory and should give you an idea of how to implement these object on your own.
 
-* [Data](#data)
-* [Debug](#debug)
-* [Draw](#draw)
-* [File](#file)
-* [Hardware](#hardware)
-* [Math](#math)
-* [Media](#media)
-* [Net](#net)
-* [Render](#render)
-* [System](#system)
-* [Text](#text)
-* [UI](#ui)
+- [Haxademic](#haxademic)
+	- [State of affairs](#state-of-affairs)
+	- [Notable code](#notable-code)
+		- [App](#app)
+		- [Data](#data)
+		- [Debug](#debug)
+		- [Draw](#draw)
+		- [File](#file)
+		- [Hardware](#hardware)
+		- [Math](#math)
+		- [Media](#media)
+		- [Net](#net)
+		- [Render](#render)
+		- [System](#system)
+		- [Text](#text)
+		- [UI](#ui)
+	- [Run on Mac M1/M2](#run-on-mac-m1m2)
+	- [Dependencies](#dependencies)
+	- [Licensing](#licensing)
 
 ### App
 
@@ -397,8 +404,9 @@ Or in VSCode
 	"args": "testArg arg=1 agr2=2",
 	"vmArgs": "-Xmx8G -Xms2G -Djava.library.path=lib/KinectPV2/library;lib/processing-4/libraries/serial/library/windows64"
 },
-
 ```
+
+
 
 
 ## Dependencies
