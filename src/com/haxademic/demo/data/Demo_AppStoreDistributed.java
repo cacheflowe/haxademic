@@ -36,8 +36,9 @@ implements IAppStoreListener {
 	protected String MOUSE_Y = "MOUSE_Y";
 	
 	// config
-	protected boolean isServer = true;
-	protected String socketServerAddress = null;// "ws://10.10.1.111:3001"; // null; // make null if we're running the server & client on the same machine
+	protected boolean isServer = false;
+//	protected String socketServerAddress = null;// "ws://10.10.1.111:3001"; // null; // make null if we're running the server & client on the same machine
+	protected String socketServerAddress = "ws://localhost:3003/ws?sender=java";// "ws://10.10.1.111:3001"; // null; // make null if we're running the server & client on the same machine
 	
 	// web server to serve up the html/js demo
 	protected String wsServerAddress;
@@ -69,6 +70,7 @@ implements IAppStoreListener {
 	}
 	
 	protected void initAppStore() {
+		AppStoreDistributed.DEBUG = false;
 		P.storeDistributed = AppStoreDistributed.instance();
 		if(isServer == true) {
 			P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);
@@ -85,10 +87,6 @@ implements IAppStoreListener {
 		}
 		P.store.addListener(this);
 		AppState.init(APP_STATE_ONE);
-
-		// set to true to see messages coming in and out of the server
-		// must be set after server init
-		SocketServer.DEBUG = true;
 	}
 	
 	protected void buildWebServer() {
