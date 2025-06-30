@@ -16,6 +16,7 @@ Once you gain your footing, shaders can become a powerful and indispensible tool
 
 ## Use cases
 
+* Materials & lighting for 3d meshes, which was the original [use-case](https://vimeo.com/16292363) for shaders. 
 * [Generative graphics](https://www.shadertoy.com) in [2d](https://www.shadertoy.com/view/lsjBRD) and [3d](https://www.shadertoy.com/view/XdGGzw) (via raymarching)
 * Post-processing effects and graphical operations (like real-time Photoshop filters)
   * [Shadertoy example](https://www.shadertoy.com/view/MdffDS)
