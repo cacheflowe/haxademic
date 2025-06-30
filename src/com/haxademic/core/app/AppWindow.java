@@ -76,7 +76,8 @@ implements IAppStoreListener {
 		} else if (fullScreen == true) {
 			if (fullScreenScreenNumber != 1)
 				P.error("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
-			P.p.fullScreen(P.renderer);
+			// P.p.fullScreen(P.renderer);
+			P.p.fullScreen(P.renderer, fullScreenScreenNumber);
 		} else if (fillsScreen == true) {
 			P.p.size(P.p.displayWidth, P.p.displayHeight, P.renderer);
 		} else {
