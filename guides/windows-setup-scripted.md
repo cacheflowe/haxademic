@@ -7,6 +7,7 @@ We'll use some .ps1 scripts and fewer manual steps
 ## Let's go
 
 - Set up machine with [no Microsoft account](https://github.com/cacheflowe/haxademic/blob/master/guides/windows-setup.md?plain=1#L5-L12) 
+  - Make sure ethernet is disconnected
   - Hit `Shift + F10` to launch a cmd prompt when you reach the wifi screen
     * Run this command: `OOBE\BYPASSNRO`
     - When it restarts, you'll have a new button "I don't have internet" - click that
@@ -32,40 +33,65 @@ We'll use some .ps1 scripts and fewer manual steps
 * Uninstall from Settings and Control Panel
   * (WIN + "Add or Remove Programs") 
   * `Control Panel\Programs\Programs and Features`
+    * CMD: `control appwiz.cpl`
+    * CMD: `start ms-settings:appsfeatures`
 * If you clearly have bloatware, delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers). Some PCs come pretty stripped-down these days
 
 ## More settings
 
-* `Control Panel\Hardware and Sound\Power Options`
-  * Power button should shut down
+Find CLI commands to open specific [Settings pages](https://www.ninjaone.com/blog/shortcuts-to-directly-open-pages-windows/) and [Control Panel pages](https://www.tenforums.com/tutorials/86339-list-commands-open-control-panel-items-windows-10-a.html) 
+
+* Set power plan
+  * `Control Panel\Hardware and Sound\Power Options`
+  * CMD: `control powercfg.cpl`
 * Don't sleep when closing the laptop lid
+  * Power button should shut down
   * (WIN + "Lid")
+  * CMD: `start ms-settings:powersleep` - Power & sleep button controls
 * Turn off system sounds:
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
+  * CMD: `control mmsys.cpl sounds`
 * (WIN + "Firewall & Network protection" -> Settings) Firewall notification settings
+  * CMD: `start ms-settings:windowsdefender` -> Settings -> Firewall notification settings
   * Uncheck all "Notify me" boxes
 * (WIN + "Security and Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
+  * CMD: `control wscui.cpl` -> Change Security & Maintenance settings
   * Uncheck all boxes
 * Turn off Windows Defender notifications
   * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
+  * CMD: `taskmgr`
 * (WIN + "Time & Date Settings") 
+  * CMD: `control timedate.cpl`
+  * CMD: `start ms-settings:dateandtime`
   * Check "Set Time Automatically"
   * Check "Set Time Zone Automatically"
   * Click "Sync Now"
 * (WIN + "About") Rename PC (requires restart):
+  * CMD: `start ms-settings:about`
+  * CMD: `control sysdm.cpl`
   * Settings -> System -> About -> Rename PC
 * Remove login screen:
   * Windows button + "R" -> "netplwiz" + Run
+  * CMD: `netplwiz`
     * Uncheck "Users must enter..." -> Apply -> Type password twice
 * (WIN + "Sign-in Options") "If you've been away, when should Windows require you to sign in again?" -> Never
+  * CMD: `start ms-settings:signinoptions`
   * Dynamic Lock -> Off
+* Change background to black
+  * (WIN + "Background") Settings -> Personalization -> Background
+  * CMD: `start ms-settings:personalization-background`
+  * Select "Solid color" and choose black
 * Unpin apps from the Start menu
 - Add Windows Refender with Advanced Security rule
-  - Ports (in & out): 80, 443, 3000-3100, 8000-8100
+  - Ports (in & out): 80, 443, 3000-3100, 5173-5176, 8000-8100
+  - CMD: `wf.msc`
 * (WIN + "Powershell Developer Setings") Allow Powershell scripts to run without signing -> On
+  * CMD: `start ms-settings:developer`
 * Remove widgets from taskbar. This [can not be done](https://kolbi.cz/blog/2024/04/03/userchoice-protection-driver-ucpd-sys/) with the script
+  * CMD: `start ms-settings:taskbar`
 
 ## Add firewall rules for apps
+
 
 
 ## Teamviewer settings
