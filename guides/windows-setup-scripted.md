@@ -46,25 +46,31 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
     * Set "Put Computer to Sleep" to Never
 * Don't sleep when closing the laptop lid
   * Power button should shut down
-  * (WIN + "Lid") or `Control Panel\All Control Panel Items\Power Options\System Settings` 
+  * (WIN + "Lid") or (WIN + "Choose a power plan") or `Control Panel\All Control Panel Items\Power Options\System Settings` 
+    * Choose what the power buttons do
+      * When I Press the power button: Shut down
+      * When I close the lid: Do nothing (if available)
   * CMD: `start ms-settings:powersleep` - Power & sleep button controls
     * Power Mode -> Best Performance
 * Turn off system sounds:
-  * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
   * CMD: `control mmsys.cpl sounds`
+  * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
+    * Uncheck "Play Windows Startup Sound"
 * (WIN + "Firewall & Network protection" -> Settings) Firewall notification settings
-  * CMD: `start ms-settings:windowsdefender` -> Settings -> Firewall notification settings
+  * CMD: `start ms-settings:windowsdefender` (Open Security Settings) -> Settings (bottom left corner) -> Firewall notification settings (or Manage Notifications)
   * Uncheck all "Notify me" boxes
 * (WIN + "Security and Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
   * CMD: `control wscui.cpl` -> Change Security & Maintenance settings
   * Uncheck all boxes
 * Turn off Windows Defender notifications
-  * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
+  * (WIN + "Startup") Task Manager -> Startup Apps -> Disable Windows Defender Notifications (Also SecurityHealthSystray.exe)
   * CMD: `taskmgr`
+  * Right-click -> Disable
 * (WIN + "Time & Date Settings") 
-  * CMD: `control timedate.cpl`
+  * ~~CMD: `control timedate.cpl`~~
   * CMD: `start ms-settings:dateandtime`
   * Check "Set Time Automatically"
+    * If this is grayed out, click "Location Setings" and turn on Location Services
   * Check "Set Time Zone Automatically"
   * Click "Sync Now"
 * (WIN + "About") Rename PC (requires restart):
@@ -83,11 +89,11 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
   * CMD: `start ms-settings:personalization-background`
   * Select "Solid color" and choose black
 * Unpin apps from the Start menu
-- Add Windows Refender with Advanced Security rule
+* Add Windows Defender with Advanced Security rule
   - Ports (in & out): 80, 443, 3000-3100, 5173-5176, 8000-8100
   - CMD: `wf.msc`
 * (WIN + "Powershell Developer Setings") Allow Powershell scripts to run without signing -> On
-  * CMD: `start ms-settings:developer`
+  * ~~CMD: `start ms-settings:developer`~~
 * Remove widgets from taskbar. This [can not be done](https://kolbi.cz/blog/2024/04/03/userchoice-protection-driver-ucpd-sys/) with the script
   * CMD: `start ms-settings:taskbar`
 
