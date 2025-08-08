@@ -16,30 +16,27 @@ We'll use some .ps1 scripts and fewer manual steps
   - Download **apps install/uninstall [script](../scripts/windows-setup/windows-apps-install.ps1).** This will install the Chocolatey package manager with a bunch of boilerplate apps & drivers, and uninstall bloatware.
     - Open Powershell ***as Administrator***
     - cd to the script that you downloaded (`cd $HOME\Downloads`) and run: `.\windows-apps-install.ps1`
-        - If permissions don't allow, run it like this:
-        - `powershell.exe -executionpolicy Bypass .\windows-apps-install.ps1`
+      - If permissions don't allow, run it like this:
+      - `powershell.exe -executionpolicy Bypass .\windows-apps-install.ps1`
   - Unzip and run Wub.exe from Downloads - turn off updates. We'll manually update Windows once in a while when we log in
-  - Run Realsense installer from Downloads with default settings
-  - Uninstall unnecessary apps:
-    - (WIN + "Add or Remove Programs") 
-    - `Control Panel\Programs\Programs and Features`
 - Set global windows settings with [**this script**](../scripts/windows-setup/set-windows-settings.ps1).
-    - `powershell.exe -executionpolicy Bypass .\set-windows-settings.ps1`
-    - Restart the machine!
-    - Now we manually go through Windows settings that aren't updated with the script
+  - `powershell.exe -executionpolicy Bypass .\set-windows-settings.ps1`
+  - Restart the machine!
+- Now we manually go through Windows settings that aren't updated with the script
 
 ## Check for non-essential apps & bloatware
 
 * Uninstall from Settings and Control Panel
   * (WIN + "Add or Remove Programs") 
-  * `Control Panel\Programs\Programs and Features`
-    * CMD: `control appwiz.cpl`
+  * `Control Panel\Programs\Programs and Features` (enter into Explorer address bar)
+    * CMD: `control appwiz.cpl` (WIN + R) to run the command
     * CMD: `start ms-settings:appsfeatures`
+  * Open the Start menu and uninstall anything that's trying to trick you into using it (LinkedIn, WhatsApp, etc)
 * If you clearly have bloatware, delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers). Some PCs come pretty stripped-down these days
 
 ## More settings
 
-Find CLI commands to open specific [Settings pages](https://www.ninjaone.com/blog/shortcuts-to-directly-open-pages-windows/) and [Control Panel pages](https://www.tenforums.com/tutorials/86339-list-commands-open-control-panel-items-windows-10-a.html) 
+Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages](https://www.ninjaone.com/blog/shortcuts-to-directly-open-pages-windows/) and [Control Panel pages](https://www.tenforums.com/tutorials/86339-list-commands-open-control-panel-items-windows-10-a.html) 
 
 * Set power plan
   * `Control Panel\Hardware and Sound\Power Options`
