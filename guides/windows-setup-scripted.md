@@ -44,9 +44,9 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
   * "Change plan settings" -> "Change advanced power settings"
     * Set "Turn off display after" to Never
     * Set "Put Computer to Sleep" to Never
-* Don't sleep when closing the laptop lid
-  * Power button should shut down
-  * (WIN + "Lid") or (WIN + "Choose a power plan") or `Control Panel\All Control Panel Items\Power Options\System Settings` 
+  * Hit back button -> "Choose a power plan"
+    * or (WIN + "Lid") or (WIN + "Choose a power plan") or `Control Panel\All Control Panel Items\Power Options\System Settings` 
+    * Power button should shut down
     * Choose what the power buttons do
       * When I Press the power button: Shut down
       * When I close the lid: Do nothing (if available)
@@ -57,7 +57,7 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
     * Uncheck "Play Windows Startup Sound"
 * (WIN + "Firewall & Network protection" -> Settings) Firewall notification settings
-  * CMD: `start ms-settings:windowsdefender` (Open Security Settings) -> Settings (bottom left corner) -> Firewall notification settings (or Manage Notifications)
+  * CMD: `start ms-settings:windowsdefender` "Open Windows Security" -> Settings (bottom left corner) -> Firewall notification settings (or "Manage Notifications")
   * Uncheck all "Notify me" boxes
 * (WIN + "Security and Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
   * CMD: `control wscui.cpl` -> Change Security & Maintenance settings
@@ -117,6 +117,7 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
       * Uncheck: "Remove Remote Wallpaper"
       * Check: Show your partner's cursor
       * Uncheck: "Play Sounds and Music"
+      * Check: "Send key combinations"
     * Advanced
       * Check: "Automatically Minimize local TeamViewer Panel"
       * Check: "Full access control when a partner is connecting to the Windows Logon screen"
