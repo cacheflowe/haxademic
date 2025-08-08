@@ -41,10 +41,14 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
 * Set power plan
   * `Control Panel\Hardware and Sound\Power Options`
   * CMD: `control powercfg.cpl`
+  * "Change plan settings" -> "Change advanced power settings"
+    * Set "Turn off display after" to Never
+    * Set "Put Computer to Sleep" to Never
 * Don't sleep when closing the laptop lid
   * Power button should shut down
-  * (WIN + "Lid")
+  * (WIN + "Lid") or `Control Panel\All Control Panel Items\Power Options\System Settings` 
   * CMD: `start ms-settings:powersleep` - Power & sleep button controls
+    * Power Mode -> Best Performance
 * Turn off system sounds:
   * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
   * CMD: `control mmsys.cpl sounds`
