@@ -292,29 +292,33 @@ choco install ffmpeg
 
 * Generate a project-specific (and potentially password-less) key via Git Bash
   * `ssh-keygen -t rsa -b 4096 -C "user@domain.com"`
-* Go to the project page on GitHub, click **Settings**, then **Deploy Keys**, then **Add New**
+  * Save in a notable location and name related to your project, like `id_projectname_rsa`
+* Go to the project page on GitHub, click **Settings**, then **Deploy Keys**, then **Add Deploy Key**
+  * Title is just a description for the GitHub interface, like `ProjectName Deploy Key`
   * Paste your public key (.pub file) into the **Key** textfield
 
 ### Add ssh key to each machine
 
-* Add key to Windows w/Git Bash
+Add key to Windows w/Git Bash:
+
 * Copy ssh key files into `C:\Users\your_user\.ssh`
+* Load key into a Git Bash session with:
   ```
   $ eval `ssh-agent -s`
-  $ ssh-add ~/.ssh/id_ed25519
+  $ ssh-add ~/.ssh/id_projectname_rsa
   ```
-* Pull repo
+* Pull repo w/SSH address. Type "yes" when asked to add identity
   ```
-  $ `mkdir ~/Documents/workspace`
-  $ `cd ~/Documents/workspace`
-  $ `git clone git@github.com:GitHub-Account/github-repo.git`
-  $ `cd ~/Documents/workspace/github-repo`
-  $ `git pull`
+  $ mkdir ~/Documents/workspace
+  $ cd ~/Documents/workspace
+  $ git clone git@github.com:GitHub-Account/github-repo.git
+  $ cd ~/Documents/workspace/github-repo
+  $ git pull
   ```
 * Set up your git identity:
 ```
-  $ `git config --global user.email "you@example.com"`
-  $ `git config --global user.name "Your Name"`
+  $ git config --global user.email "you@example.com"
+  $ git config --global user.name "Your Name"
 ```
 * Do git things in Git Bash, and run scripts in CMD
 * CMD into project dir to pull, etc
@@ -325,8 +329,11 @@ choco install ffmpeg
 ## Set up a touchscreen kiosk
 
 - Set touchscreen monitor as primary monitor in Display Settings. This will ensure that a (Chrome) launch script goes fullscreen on the touchscreen
-- Disable EdgeUI in the Registry
-  - https://www.thewindowsclub.com/disable-screen-edge-swipe-in-windows-10
+- Disable [EdgeUI](https://www.thewindowsclub.com/disable-screen-edge-swipe-in-windows-10)
+  - `CMD + R` -> `gpedit.msc`
+  - `Computer Configuration/Administrative Templates/Windows Components/Edge UI`
+    - Select `Edge UI`, double-click on `Allow edge swipe` under Setting
+    - Select `Disabled`, click `OK`
 - Turn off Windows multitouch gestures:
   - Settings -> Bluetooth & Devices -> Touchpad
   - Turn off three and four finger gestures and any other settings
@@ -380,3 +387,24 @@ $ `pnputil /scan-devices`
 
 Enable/disable/restart/remove device by id:
 $ `pnputil /enable-device "ROOT\WindowsHelloFaceSoftwareDriver\0000"`
+
+
+## Run a VM of Windows to test any of this
+
+```powershell
+# Install Hyper-V
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+
+# Download Windows 11 ISO from Microsoft
+# - https://www.microsoft.com/en-us/software-download/windows11
+
+# Create a new VM
+# - Open Hyper-V Manager and click "Quick Create", pointing to the downloaded Windows 11 ISO
+# - Right-click new VM in Hyper-V Manager and select "Settings"
+# - Under "Security", Add Enable TPM
+# - Under network, disable internet for initial setup so we can `shift + F10` -> `oobe\bypassnro` to skip Microsoft account login
+# - Once set up with a local account, you can enable the network adapter again
+# - Save a checkpoint of the VM after setup
+# - You can now run the VM and test any of the above steps in a safe environment
+
+
