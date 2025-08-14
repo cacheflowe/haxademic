@@ -303,26 +303,26 @@ Add key to Windows w/Git Bash:
 
 * Copy ssh key files into `C:\Users\your_user\.ssh`
 * Load key into a Git Bash session with:
-  ```
+  ```bash
   $ eval `ssh-agent -s`
   $ ssh-add ~/.ssh/id_projectname_rsa
   ```
-* Pull repo w/SSH address. Type "yes" when asked to add identity
-  ```
+* Pull repo w/SSH address. Type "yes" + ENTER when asked to add authentication
+  ```bash
   $ mkdir ~/Documents/workspace
   $ cd ~/Documents/workspace
   $ git clone git@github.com:GitHub-Account/github-repo.git
   $ cd ~/Documents/workspace/github-repo
   $ git pull
   ```
-* Set up your git identity:
-```
+* Set up your git identity if you intend to push. Not needed for read-only keys:
+```bash
   $ git config --global user.email "you@example.com"
   $ git config --global user.name "Your Name"
 ```
 * Do git things in Git Bash, and run scripts in CMD
 * CMD into project dir to pull, etc
-  ```
+  ```bash
   $ cd C:\Users\your_user\Documents\workspace\github-repo
   ```
 
