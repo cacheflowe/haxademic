@@ -123,11 +123,11 @@ unsigned long readingCount = 0;
 float currentFps = 0.0;
 
 // Minimum signal strength to consider a valid reading
-const uint16_t MIN_STRENGTH = 5; // kcps/spad
+uint16_t MIN_STRENGTH = 5; // kcps/spad - make this non-const so it can be changed
 
 // Detection zone parameters (tune these based on your setup)
-const uint16_t MIN_DETECTION_DISTANCE = 100;   // mm - closer than this is ignored (mounting surface)
-const uint16_t MAX_DETECTION_DISTANCE = 500; // mm - farther than this is ignored (background)
+uint16_t MIN_DETECTION_DISTANCE = 100;   // mm - closer than this is ignored (mounting surface)
+uint16_t MAX_DETECTION_DISTANCE = 500; // mm - farther than this is ignored (background)
 
 /* Setup ---------------------------------------------------------------------*/
 
@@ -136,6 +136,12 @@ void setup()
   pinMode(LedPin, OUTPUT);
   SerialPort.begin(115200);
   SerialPort.println("VL53L4CD Dual Sensor Test");
+  SerialPort.println("Commands:");
+  SerialPort.println("  min <value> - Set minimum detection distance (mm)");
+  SerialPort.println("  max <value> - Set maximum detection distance (mm)");
+  SerialPort.println("  strength <value> - Set minimum signal strength (kcps)");
+  SerialPort.println("  show - Show current settings");
+  SerialPort.println();
 
   DEV_I2C.begin();
   DEV_I2C.setClock(400000); // 400kHz I2C (Fast Mode)
@@ -211,6 +217,9 @@ void initializeSensors() {
 }
 
 void loop() {
+  // Check for serial commands
+  checkSerialCommands();
+  
   static VL53L4CD_Result_t results;
   bool anyNewData = false;
   
@@ -239,6 +248,8 @@ void loop() {
   
   // Print if any sensor has new data AND at least one has a valid detection
   if (anyNewData) {
+    readingCount++;
+
     // Check if any sensor has a non-zero distance
     bool hasValidDetection = false;
     for (uint8_t i = 0; i < NUM_SENSORS; i++) {
@@ -268,7 +279,6 @@ void loop() {
       
       snprintf(report + offset, sizeof(report) - offset, "\r\n");
       SerialPort.print(report);
-      readingCount++;
     } else {
       // Reset hasNewData flags even if we didn't print
       for (uint8_t i = 0; i < NUM_SENSORS; i++) {
@@ -278,6 +288,91 @@ void loop() {
   }
   
   updateFPS();
+}
+
+void checkSerialCommands() {
+  static char commandBuffer[32];
+  static uint8_t bufferIndex = 0;
+  
+  while (SerialPort.available() > 0) {
+    char c = SerialPort.read();
+    
+    if (c == '\n' || c == '\r') {
+      if (bufferIndex > 0) {
+        commandBuffer[bufferIndex] = '\0';
+        processCommand(commandBuffer);
+        bufferIndex = 0;
+      }
+    } else if (bufferIndex < sizeof(commandBuffer) - 1) {
+      commandBuffer[bufferIndex++] = c;
+    }
+  }
+}
+
+/*
+Type min 200 to set minimum detection distance to 200mm
+Type max 800 to set maximum detection distance to 800mm
+Type strength 10 to set minimum signal strength to 10 kcps
+Type show to see current settings
+*/
+void processCommand(char* command) {
+  char* token = strtok(command, " ");
+  
+  if (token == NULL) return;
+  
+  if (strcmp(token, "min") == 0) {
+    token = strtok(NULL, " ");
+    if (token != NULL) {
+      uint16_t newMin = atoi(token);
+      if (newMin >= 0 && newMin < MAX_DETECTION_DISTANCE) {
+        MIN_DETECTION_DISTANCE = newMin;
+        SerialPort.print("MIN set to ");
+        SerialPort.print(MIN_DETECTION_DISTANCE);
+        SerialPort.println(" mm");
+      } else {
+        SerialPort.println("ERROR: Invalid MIN value");
+      }
+    }
+  } else if (strcmp(token, "max") == 0) {
+    token = strtok(NULL, " ");
+    if (token != NULL) {
+      uint16_t newMax = atoi(token);
+      if (newMax > MIN_DETECTION_DISTANCE && newMax <= 1300) {
+        MAX_DETECTION_DISTANCE = newMax;
+        SerialPort.print("MAX set to ");
+        SerialPort.print(MAX_DETECTION_DISTANCE);
+        SerialPort.println(" mm");
+      } else {
+        SerialPort.println("ERROR: Invalid MAX value");
+      }
+    }
+  } else if (strcmp(token, "strength") == 0) {
+    token = strtok(NULL, " ");
+    if (token != NULL) {
+      uint16_t newStrength = atoi(token);
+      if (newStrength >= 0 && newStrength <= 100) {
+        MIN_STRENGTH = newStrength;
+        SerialPort.print("MIN_STRENGTH set to ");
+        SerialPort.print(MIN_STRENGTH);
+        SerialPort.println(" kcps");
+      } else {
+        SerialPort.println("ERROR: Invalid STRENGTH value (0-100)");
+      }
+    }
+  } else if (strcmp(token, "show") == 0) {
+    SerialPort.println("Current settings:");
+    SerialPort.print("  MIN: ");
+    SerialPort.print(MIN_DETECTION_DISTANCE);
+    SerialPort.println(" mm");
+    SerialPort.print("  MAX: ");
+    SerialPort.print(MAX_DETECTION_DISTANCE);
+    SerialPort.println(" mm");
+    SerialPort.print("  MIN_STRENGTH: ");
+    SerialPort.print(MIN_STRENGTH);
+    SerialPort.println(" kcps");
+  } else {
+    SerialPort.println("Unknown command. Available: min, max, strength, show");
+  }
 }
 
 void updateFPS() {
