@@ -84,12 +84,9 @@
 #endif
 #define LedPin LED_BUILTIN
 
-// Sensor addresses (default is 0x29, we'll change sensor 2 to 0x2A)
-#define SENSOR1_ADDRESS 0x29
-#define SENSOR2_ADDRESS 0x2A
 
 // Number of sensors
-const uint8_t NUM_SENSORS = 2;
+const uint8_t NUM_SENSORS = 4;
 
 // Sensor configuration
 struct SensorConfig {
@@ -101,10 +98,14 @@ struct SensorConfig {
 
 VL53L4CD sensor1(&DEV_I2C, A0);
 VL53L4CD sensor2(&DEV_I2C, A1);
+VL53L4CD sensor3(&DEV_I2C, A2);
+VL53L4CD sensor4(&DEV_I2C, A3);
 
 SensorConfig sensors[NUM_SENSORS] = {
-  {&sensor1, A0, SENSOR1_ADDRESS, "S1"},
-  {&sensor2, A1, SENSOR2_ADDRESS, "S2"}
+  {&sensor1, A0, 0x30, "S1"}, // Sensor addresses (default is 0x29, we'll change sensor 2 to 0x2A, etc)
+  {&sensor2, A1, 0x2F, "S2"},
+  {&sensor3, A2, 0x2A, "S3"},
+  {&sensor4, A3, 0x3A, "S4"},
 };
 
 // Sensor state
@@ -150,68 +151,68 @@ void setup()
 }
 
 void initializeSensors() {
-  SerialPort.println("=== Initializing Dual Sensors ===");
+  SerialPort.println("=== Initializing Sensors (Robust Mode) ===");
   
-  // Set up all XSHUT pins and shut down all sensors
+  // 1. Turn EVERYTHING OFF first
+  // This ensures the bus is completely silent
   for (uint8_t i = 0; i < NUM_SENSORS; i++) {
     pinMode(sensors[i].xshutPin, OUTPUT);
     digitalWrite(sensors[i].xshutPin, LOW);
   }
   delay(100);
   
-  // Initialize each sensor one at a time
+  // 2. Initialize one by one
   for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-    SerialPort.print("Initializing ");
+    SerialPort.print("Configuring ");
     SerialPort.print(sensors[i].name);
     SerialPort.println("...");
     
-    // Power up this sensor only
+    // Power up ONLY this sensor
+    // Since all others are LOW, this is the ONLY device at 0x29
     digitalWrite(sensors[i].xshutPin, HIGH);
-    delay(100);
+    delay(50); // Give it time to boot
     
-    // Initialize sensor
+    // Initialize sensor (it talks at 0x29)
     sensors[i].sensor->begin();
     if (sensors[i].sensor->InitSensor() != 0) {
-      SerialPort.print("ERROR: ");
+      SerialPort.print("  ERROR: ");
       SerialPort.print(sensors[i].name);
       SerialPort.println(" init failed!");
-      if (i == 0) while(1); // Halt on first sensor failure
+      // If it fails, turn it off so it doesn't mess up the next one
+      digitalWrite(sensors[i].xshutPin, LOW);
       continue;
     }
     
-    // Change address if not the first sensor
-    if (i > 0) {
-      if (sensors[i].sensor->VL53L4CD_SetI2CAddress(sensors[i].i2cAddress) != 0) {
-        SerialPort.print("ERROR: ");
-        SerialPort.print(sensors[i].name);
-        SerialPort.println(" address change failed!");
-        continue;
-      }
-    }
-    
-    // Shut down this sensor before next one (except last sensor)
-    if (i < NUM_SENSORS - 1) {
+    // Change address immediately
+    // We move it from 0x29 to its assigned address (e.g., 0x30)
+    uint8_t newAddress = sensors[i].i2cAddress;
+    if (sensors[i].sensor->VL53L4CD_SetI2CAddress(newAddress) != 0) {
+      SerialPort.print("  ERROR: ");
+      SerialPort.print(sensors[i].name);
+      SerialPort.println(" address change failed!");
       digitalWrite(sensors[i].xshutPin, LOW);
-      delay(100);
+      continue;
     }
     
-    SerialPort.print(sensors[i].name);
-    SerialPort.print(" initialized at 0x");
-    SerialPort.println(sensors[i].i2cAddress, HEX);
+    SerialPort.print("  Address set to 0x");
+    SerialPort.println(newAddress, HEX);
+    
+    // IMPORTANT: We leave this sensor ON.
+    // Since it is now at 0x30 (or 31/32), it will NOT conflict 
+    // with the next sensor which will boot at 0x29.
   }
   
-  // Power all sensors back up
-  for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-    digitalWrite(sensors[i].xshutPin, HIGH);
-  }
+  SerialPort.println("All sensors addressed. Starting ranging...");
   delay(100);
   
-  // Configure and start all sensors
+  // 3. Start Ranging for all active sensors
   for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-    sensors[i].sensor->VL53L4CD_SetRangeTiming(10, 0);
-    sensors[i].sensor->VL53L4CD_StartRanging();
+    // Only start if the sensor is actually powered
+    if (digitalRead(sensors[i].xshutPin) == HIGH) {
+      sensors[i].sensor->VL53L4CD_SetRangeTiming(10, 0);
+      sensors[i].sensor->VL53L4CD_StartRanging();
+    }
   }
-  delay(100);
   
   SerialPort.println("All sensors ready!\n");
 }
