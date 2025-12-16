@@ -26,7 +26,7 @@ implements IHttpRequestCallback {
 	protected void makeRequest() {
 		HttpRequest.DEBUG = true;
 		if(request == null) request = new HttpRequest(this);
-		request.send("http://cacheflowe.com");
+		request.send("http://localhost:8080/");
 	}
 	
 	public void keyPressed() {
