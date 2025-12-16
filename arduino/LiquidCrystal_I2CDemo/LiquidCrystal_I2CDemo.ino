@@ -16,6 +16,8 @@ void setup() {
   lcd.backlight();
   lcd.setCursor(0,0);
   lcd.print(" HOVERCRAFT  STUDIO ");
+  lcd.setCursor(0,1);
+  lcd.print("     TEST EFFECT    ");
   // lcd.setCursor(0,2);
   // lcd.print("    2024 >> 2032    ");
   // lcd.setCursor(0,3);
