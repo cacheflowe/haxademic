@@ -42,15 +42,15 @@
 * IMPORTANT: You CANNOT simply daisy chain two VL53L4CD sensors without XSHUT control!
 * Both sensors boot with the same I2C address (0x29), causing conflicts.
 * 
-* WIRING FOR DUAL SENSORS:
+* WIRING FOR MULTIPLE SENSORS:
 * 
 * SENSOR 1:
 * - STEMMA QT connector to Arduino I2C (SDA/SCL shared)
-* - XSHUT pin connected to Arduino pin A1
+* - XSHUT pin connected to Arduino pin A0
 * 
 * SENSOR 2: 
 * - STEMMA QT connector to Arduino I2C (SDA/SCL shared via daisy chain)
-* - XSHUT pin connected to Arduino pin A0
+* - XSHUT pin connected to Arduino pin A1
 * 
 * The XSHUT pins allow us to control which sensor is active during initialization,
 * preventing I2C address conflicts during startup.
@@ -58,7 +58,7 @@
 
 /* 
 - Hello world code updated by @cacheflowe to achieve ~100fps updates
-- Modified to support 2 sensors running in tandem
+- Modified to support 2+ sensors running in tandem
 - References:
   - https://github.com/stm32duino/VL53L4CD/blob/main/src/vl53l4cd_api.cpp
 - TODO:

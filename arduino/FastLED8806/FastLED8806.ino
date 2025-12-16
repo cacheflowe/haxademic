@@ -47,8 +47,8 @@ int byteToInt(byte b) {
 
 
 void loop() { 
-  // runSingleDotPulseDemo();
-  runRgbSerial();
+  runSingleDotPulseDemo();
+  // runRgbSerial();
 }
 
 /////////////////////////////
@@ -150,7 +150,7 @@ void runSingleDotPulseDemo() {
     FastLED.show();
     
     // Wait a little bit (60fps)
-    delay(16);
+    delay(10);
     
     // Turn our current led back to black for the next loop around
     leds[whiteLed] = CRGB::Black;
