@@ -81,8 +81,9 @@ implements IAppStoreListener, ILaunchpadCallback {
     P.out("LaunchPads.cellUpdated()", launchpadNumber, x, y, value);
     int step = (launchpadNumber == 1) ? y : 8 + y;
     boolean isActive = (value == 1f);
-    if (x < Interphase.NUM_CHANNELS)
+    if (x < Interphase.NUM_CHANNELS) {
       interphase.sequencers[x].stepActive(step, isActive);
+    }
   }
 
   public void noteOn(LaunchPad launchpad, int note, float value) {
