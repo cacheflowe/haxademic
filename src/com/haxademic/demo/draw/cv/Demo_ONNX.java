@@ -25,7 +25,9 @@ import ai.onnxruntime.OrtEnvironment;
 import ai.onnxruntime.OrtException;
 import ai.onnxruntime.OrtSession;
 import ai.onnxruntime.OrtSession.Result;
+import ai.onnxruntime.OrtSession.SessionOptions;
 import processing.core.PImage;
+import processing.video.Movie;
 
 public class Demo_ONNX 
 extends PAppletHax
@@ -51,14 +53,29 @@ implements IWebCamCallback {
 	protected boolean lastFlipY = false;
 
 	protected static final String FLIP_Y = "FLIP_Y";
+	protected Movie demoVideo;
 
 	protected void config() {
 		Config.setAppSize(1280, 720);
 	}
 		
 	protected void firstFrame () {
+		// DOCs: https://onnxruntime.ai/docs/api/java/index.html
+		// Download jar from: https://mvnrepository.com/artifact/com.microsoft.onnxruntime/onnxruntime
+		// Download jar from: https://mvnrepository.com/artifact/com.microsoft.onnxruntime/onnxruntime_gpu
+		// Download dlls from : https://github.com/microsoft/onnxruntime/releases/tag/v1.23.2
+		// Add to vm args? -Donnxruntime.native.path=lib/ort
+		// Copy dlls from inside ort.jar: onnxruntime4j_jni.dll, etc
+		// and/or: https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/windows-x86_64/
+		// ---> cudnn-windows-x86_64-9.1.1.17_cuda12-archive.zip 639MB 2024-05-01 23:30
+		// String ortPath = FileUtil.getPath("../lib/ort");
+		// String currentPath = System.getProperty("java.library.path");
+		// System.setProperty("java.library.path", ortPath + ";" + currentPath);
+
 		// load webcam
 		WebCam.instance().setDelegate(this);
+		// demoVideo = new Movie(P.p, P.path("images/_sketch/les-twins-wod-2014.mp4"));
+		// demoVideo.loop();
 		
 		// add UI
 		UI.addTitle("ONNX Config");
@@ -71,8 +88,31 @@ implements IWebCamCallback {
 
 		// init ONNX session
 		try {
+			
+			// Log available providers
+			p.println("Available ONNX providers: " + OrtEnvironment.getAvailableProviders());
 			env = OrtEnvironment.getEnvironment();
-			session = env.createSession(FileUtil.getPath("ml/movenet-multipose-lightning.onnx"), new OrtSession.SessionOptions());
+			
+			// Add the CUDA Execution Provider
+			// The order in which EPs are added determines their priority
+			// Requirements:
+			// - CUDA 12.2 + cuDNN 9.1.1 (exact versions matter!)
+			// - Make sure Java is set to use NVIDIA card in Windows graphics settings
+			SessionOptions sessionOptions = new SessionOptions();
+			
+			boolean useCUDA = true; // Set to true once CUDA/cuDNN versions are matched
+			if (useCUDA) {
+				try {
+					sessionOptions.addCUDA(0); // GPU device ID 0
+					p.println("CUDA execution provider added successfully");
+				} catch (OrtException e) {
+					p.println("CUDA not available, falling back to CPU: " + e.getMessage());
+				}
+			} else {
+				p.println("Running on CPU (CUDA disabled)");
+			}
+
+			session = env.createSession(FileUtil.getPath("ml/movenet-multipose-lightning.onnx"), sessionOptions);
 			
 			// print input info
 			p.println("Input info: " + session.getInputInfo());
@@ -97,33 +137,30 @@ implements IWebCamCallback {
 		inferenceExecutor = Executors.newSingleThreadExecutor();
 	}
 
+	protected PImage getInputImage() {
+		// return WebCam.instance().image();
+		// if(demoVideo != null) {
+		// 	if (demoVideo.available()) demoVideo.read();
+		// 	return demoVideo;
+		// }
+		// check webcam
+		return WebCam.instance().image();
+		// return ImageCacher.get("images/_sketch/people.png");
+	}
+
 	protected void drawApp() {
 		// set up context
 		p.background(0);
 		PG.setDrawCorner(p);
 		
-		// draw webcam
-		PImage cam = WebCam.instance().image();
-		DebugView.setTexture("webcam", cam);
-		p.image(cam, 0, 0, p.width, p.height);
-
-		// PG.setDrawCenter(p);
-		// PImage people = ImageCacher.get("images/_sketch/people.png");
-		// float drawX = p.width / 2f + P.sin(p.frameCount * 0.01f) * 100f;
-		// float drawY = p.height / 2f + P.cos(p.frameCount * 0.007f) * 100f;
-		// float rot = P.sin(p.frameCount * 0.01f) * 0.2f;
-		// p.push();
-		// p.translate(drawX, drawY);
-		// p.rotate(rot);
-		// p.scale(0.6f);
-		// p.image(people, 0, 0);
-
-		PImage inputImage = cam;
-
+		// draw input image
+		PImage inputImage = getInputImage();
+		
 		// run inference on latest frame (async)
 		if(session != null && inputImage.width > 10) {
 			// Copy source image to input buffer, resizing to 256x256
 			inputResized.copy(inputImage, 0, 0, inputImage.width, inputImage.height, 0, 0, 256, 256);
+			p.image(inputResized, 0, 0, p.width, p.height); // why is the original image so slow?
 			
 			// Only submit new inference if previous one is done
 			if (!inferenceRunning.get()) {
@@ -141,12 +178,12 @@ implements IWebCamCallback {
 		// p.pop();
 
 		// show input image for debugging
-		// PG.setDrawCorner(p);
-		// p.image(inputResized, 0, 0);
+		PG.setDrawCorner(p);
+		p.image(inputResized, 0, 0);
 
 		// test general fps by drawing a moving box - check for smoothness
-		PG.setDrawCorner(p);
-		p.rect(p.frameCount % 200, 400, 100, 100);
+		// PG.setDrawCorner(p);
+		// p.rect(p.frameCount % 200, 400, 100, 100);
 	}
 
 	////////////////////////
@@ -268,11 +305,12 @@ implements IWebCamCallback {
 	
 	protected void drawSkeleton(float imgW, float imgH) {
 		PG.setDrawCenter(p);
-		p.noFill();
-		p.strokeWeight(3);
-		p.stroke(255);
 		
 		for (Person person : detectedPeople) {
+			p.noFill();
+			p.strokeWeight(3);
+			p.stroke(255);
+
 			// draw bbox
 			p.stroke(255, 255, 0);
 			float ymin = (person.bbox[0] * imgH);// - imgH/2f;
