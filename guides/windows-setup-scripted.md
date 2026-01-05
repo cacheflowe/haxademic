@@ -101,12 +101,21 @@ Use the CLI commands (or Start Menu shortcuts) to open specific [Settings pages]
 
 - Set touchscreen monitor as primary monitor in Display Settings. This will ensure that a (Chrome) launch script goes fullscreen on the touchscreen
 - Disable [EdgeUI](https://www.thewindowsclub.com/disable-screen-edge-swipe-in-windows-10)
-  - `CMD + R` -> `gpedit.msc`
-  - `Computer Configuration/Administrative Templates/Windows Components/Edge UI`
-    - Select `Edge UI`, double-click on `Allow edge swipe` under Setting
-    - Select `Disabled`, click `OK`
-- Turn off Windows multitouch gestures:
+  - If `gpedit is available:
+    - `CMD + R` -> `gpedit.msc`
+    - `Computer Configuration/Administrative Templates/Windows Components/Edge UI`
+      - Select `Edge UI`, double-click on `Allow edge swipe` under Setting
+      - Select `Disabled`, click `OK`
+  - Otherwise use the registry method:
+    - `CMD + R` -> `regedit`
+    - Navigate to: `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows`
+    - Right-click on `Windows` -> New -> Key -> Name it `EdgeUI`
+    - Right-click on `EdgeUI` -> New -> DWORD (32-bit) Value -> Name it `AllowEdgeSwipe`
+    - Double-click on `AllowEdgeSwipe` and set its value to `0`
+- Turn off Windows multitouch gestures and visual indicators:
   - Settings -> Bluetooth & Devices -> Touchpad
+  - Settings -> Bluetooth & Devices -> Tocch
+  - Accessibility -> Mouse pointer and touch
   - Turn off three and four finger gestures and any other settings
 - Use a [launch script](../scripts/chrome-launch-apps.cmd) to launch Chrome in locked-down kiosk mode
 
