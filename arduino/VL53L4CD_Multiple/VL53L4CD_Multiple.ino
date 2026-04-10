@@ -9,60 +9,34 @@
 *          This application makes use of C++ classes obtained from the C
 *          components' drivers.
 ******************************************************************************
-* @attention
 *
-* <h2><center>&copy; COPYRIGHT(c) 2021 STMicroelectronics</center></h2>
 *
-* Redistribution and use in source and binary forms, with or without modification,
-* are permitted provided that the following conditions are met:
-*   1. Redistributions of source code must retain the above copyright notice,
-*      this list of conditions and the following disclaimer.
-*   2. Redistributions in binary form must reproduce the above copyright notice,
-*      this list of conditions and the following disclaimer in the documentation
-*      and/or other materials provided with the distribution.
-*   3. Neither the name of STMicroelectronics nor the names of its contributors
-*      may be used to endorse or promote products derived from this software
-*      without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-* DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-* FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-******************************************************************************
-*/
-
-/*
 * IMPORTANT: You CANNOT simply daisy chain two VL53L4CD sensors without XSHUT control!
 * Both sensors boot with the same I2C address (0x29), causing conflicts.
-* 
+*
 * WIRING FOR MULTIPLE SENSORS:
-* 
+*
 * SENSOR 1:
 * - STEMMA QT connector to Arduino I2C (SDA/SCL shared)
 * - XSHUT pin connected to Arduino pin A0
-* 
-* SENSOR 2: 
+*
+* SENSOR 2,3,4:
 * - STEMMA QT connector to Arduino I2C (SDA/SCL shared via daisy chain)
-* - XSHUT pin connected to Arduino pin A1
-* 
+* - XSHUT pin connected to Arduino pin A1, A2, A3 respectively
+*
 * The XSHUT pins allow us to control which sensor is active during initialization,
 * preventing I2C address conflicts during startup.
-*/
-
-/* 
-- Hello world code updated by @cacheflowe to achieve ~100fps updates
-- Modified to support 2+ sensors running in tandem
-- References:
-  - https://github.com/stm32duino/VL53L4CD/blob/main/src/vl53l4cd_api.cpp
-- TODO:
-  - Better filtering of bad data
+*
+* Next time use this stemma qt hub: https://learn.adafruit.com/adafruit-pca9548-8-channel-stemma-qt-qwiic-i2c-multiplexer/arduino
+*
+* Info:
+* - Hello world code updated by @cacheflowe to achieve ~100fps updates
+* - Modified to support 2+ sensors running in tandem
+* - Runs on an Adafruit Metro Mini w/Stemma QT connectors
+*   - Select Adafruit AVR Boards -> Adafruit Metro
+* - Uses robust sensor initialization to avoid I2C conflicts
+* - References:
+*   - https://github.com/stm32duino/VL53L4CD/blob/main/src/vl53l4cd_api.cpp
 */
 
 /* Includes ------------------------------------------------------------------*/
@@ -136,13 +110,8 @@ void setup()
 {
   pinMode(LedPin, OUTPUT);
   SerialPort.begin(115200);
-  SerialPort.println("VL53L4CD Dual Sensor Test");
-  SerialPort.println("Commands:");
-  SerialPort.println("  min <value> - Set minimum detection distance (mm)");
-  SerialPort.println("  max <value> - Set maximum detection distance (mm)");
-  SerialPort.println("  strength <value> - Set minimum signal strength (kcps)");
-  SerialPort.println("  show - Show current settings");
-  SerialPort.println();
+  SerialPort.println("INFO: VL53L4CD Dual Sensor Test");
+  SerialPort.println("INFO: Commands: min <value>, max <value>, strength <value>, show");
 
   DEV_I2C.begin();
   DEV_I2C.setClock(400000); // 400kHz I2C (Fast Mode)
@@ -151,7 +120,7 @@ void setup()
 }
 
 void initializeSensors() {
-  SerialPort.println("=== Initializing Sensors (Robust Mode) ===");
+  SerialPort.println("INFO: Initializing Sensors (Robust Mode)");
   
   // 1. Turn EVERYTHING OFF first
   // This ensures the bus is completely silent
@@ -163,9 +132,7 @@ void initializeSensors() {
   
   // 2. Initialize one by one
   for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-    SerialPort.print("Configuring ");
-    SerialPort.print(sensors[i].name);
-    SerialPort.println("...");
+    SerialPort.println("INFO: Configuring " + String(sensors[i].name) + "...");
     
     // Power up ONLY this sensor
     // Since all others are LOW, this is the ONLY device at 0x29
@@ -175,9 +142,7 @@ void initializeSensors() {
     // Initialize sensor (it talks at 0x29)
     sensors[i].sensor->begin();
     if (sensors[i].sensor->InitSensor() != 0) {
-      SerialPort.print("  ERROR: ");
-      SerialPort.print(sensors[i].name);
-      SerialPort.println(" init failed!");
+      SerialPort.println("INFO: ERROR: " + String(sensors[i].name) + " init failed!");
       // If it fails, turn it off so it doesn't mess up the next one
       digitalWrite(sensors[i].xshutPin, LOW);
       continue;
@@ -187,22 +152,19 @@ void initializeSensors() {
     // We move it from 0x29 to its assigned address (e.g., 0x30)
     uint8_t newAddress = sensors[i].i2cAddress;
     if (sensors[i].sensor->VL53L4CD_SetI2CAddress(newAddress) != 0) {
-      SerialPort.print("  ERROR: ");
-      SerialPort.print(sensors[i].name);
-      SerialPort.println(" address change failed!");
+      SerialPort.println("INFO: ERROR: " + String(sensors[i].name) + " address change failed!");
       digitalWrite(sensors[i].xshutPin, LOW);
       continue;
     }
     
-    SerialPort.print("  Address set to 0x");
-    SerialPort.println(newAddress, HEX);
+    SerialPort.println("INFO: " + String(sensors[i].name) + " address set to 0x" + String(newAddress, HEX));
     
     // IMPORTANT: We leave this sensor ON.
     // Since it is now at 0x30 (or 31/32), it will NOT conflict 
     // with the next sensor which will boot at 0x29.
   }
   
-  SerialPort.println("All sensors addressed. Starting ranging...");
+  SerialPort.println("INFO: All sensors addressed. Starting ranging...");
   delay(100);
   
   // 3. Start Ranging for all active sensors
@@ -214,7 +176,7 @@ void initializeSensors() {
     }
   }
   
-  SerialPort.println("All sensors ready!\n");
+  SerialPort.println("INFO: All sensors ready!");
 }
 
 void loop() {
@@ -261,25 +223,21 @@ void loop() {
     }
     
     if (hasValidDetection) {
-      char report[200];
-      int offset = 0;
+      SerialPort.print("DATA:");
       
       for (uint8_t i = 0; i < NUM_SENSORS; i++) {
-        offset += snprintf(report + offset, sizeof(report) - offset,
-          "%s: %5u mm (%2u kcps)",
-          sensors[i].name,
-          sensorStates[i].distance,
-          sensorStates[i].signal);
+        SerialPort.print(sensorStates[i].distance);
+        SerialPort.print(',');
+        SerialPort.print(sensorStates[i].signal);
         
         if (i < NUM_SENSORS - 1) {
-          offset += snprintf(report + offset, sizeof(report) - offset, " | ");
+          SerialPort.print(',');
         }
         
         sensorStates[i].hasNewData = false;
       }
       
-      snprintf(report + offset, sizeof(report) - offset, "\r\n");
-      SerialPort.print(report);
+      SerialPort.println();
     } else {
       // Reset hasNewData flags even if we didn't print
       for (uint8_t i = 0; i < NUM_SENSORS; i++) {
@@ -327,11 +285,9 @@ void processCommand(char* command) {
       uint16_t newMin = atoi(token);
       if (newMin >= 0 && newMin < MAX_DETECTION_DISTANCE) {
         MIN_DETECTION_DISTANCE = newMin;
-        SerialPort.print("MIN set to ");
-        SerialPort.print(MIN_DETECTION_DISTANCE);
-        SerialPort.println(" mm");
+        SerialPort.println("INFO: MIN set to " + String(MIN_DETECTION_DISTANCE) + " mm");
       } else {
-        SerialPort.println("ERROR: Invalid MIN value");
+        SerialPort.println("INFO: ERROR: Invalid MIN value");
       }
     }
   } else if (strcmp(token, "max") == 0) {
@@ -340,11 +296,9 @@ void processCommand(char* command) {
       uint16_t newMax = atoi(token);
       if (newMax > MIN_DETECTION_DISTANCE && newMax <= 1300) {
         MAX_DETECTION_DISTANCE = newMax;
-        SerialPort.print("MAX set to ");
-        SerialPort.print(MAX_DETECTION_DISTANCE);
-        SerialPort.println(" mm");
+        SerialPort.println("INFO: MAX set to " + String(MAX_DETECTION_DISTANCE) + " mm");
       } else {
-        SerialPort.println("ERROR: Invalid MAX value");
+        SerialPort.println("INFO: ERROR: Invalid MAX value");
       }
     }
   } else if (strcmp(token, "strength") == 0) {
@@ -353,26 +307,15 @@ void processCommand(char* command) {
       uint16_t newStrength = atoi(token);
       if (newStrength >= 0 && newStrength <= 100) {
         MIN_STRENGTH = newStrength;
-        SerialPort.print("MIN_STRENGTH set to ");
-        SerialPort.print(MIN_STRENGTH);
-        SerialPort.println(" kcps");
+        SerialPort.println("INFO: MIN_STRENGTH set to " + String(MIN_STRENGTH) + " kcps");
       } else {
-        SerialPort.println("ERROR: Invalid STRENGTH value (0-100)");
+        SerialPort.println("INFO: ERROR: Invalid STRENGTH value (0-100)");
       }
     }
   } else if (strcmp(token, "show") == 0) {
-    SerialPort.println("Current settings:");
-    SerialPort.print("  MIN: ");
-    SerialPort.print(MIN_DETECTION_DISTANCE);
-    SerialPort.println(" mm");
-    SerialPort.print("  MAX: ");
-    SerialPort.print(MAX_DETECTION_DISTANCE);
-    SerialPort.println(" mm");
-    SerialPort.print("  MIN_STRENGTH: ");
-    SerialPort.print(MIN_STRENGTH);
-    SerialPort.println(" kcps");
+    SerialPort.println("INFO: MIN=" + String(MIN_DETECTION_DISTANCE) + "mm, MAX=" + String(MAX_DETECTION_DISTANCE) + "mm, MIN_STRENGTH=" + String(MIN_STRENGTH) + "kcps");
   } else {
-    SerialPort.println("Unknown command. Available: min, max, strength, show");
+    SerialPort.println("INFO: Unknown command. Available: min, max, strength, show");
   }
 }
 
@@ -380,7 +323,7 @@ void updateFPS() {
   unsigned long currentTime = millis();
   if (currentTime - lastFpsTime >= FPS_UPDATE_INTERVAL) {
     currentFps = (float)readingCount * 1000.0 / (currentTime - lastFpsTime);
-    SerialPort.print("FPS: ");
+    SerialPort.print("FPS:");
     SerialPort.println(currentFps, 1);
     readingCount = 0;
     lastFpsTime = currentTime;
