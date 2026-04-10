@@ -1,12 +1,12 @@
 package com.haxademic.demo.draw.textures;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SpoutTexture;
 import com.haxademic.core.hardware.dmx.artnet.ArtNetDataSender;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -29,10 +29,10 @@ extends PAppletHax {
         // SpoutTexture dimensions must match sender dimensions!
         spoutTexture = new SpoutTexture(384, 256, "chromeyumm_spout_output");
         DebugView.setTexture("spoutTexture.texture()", spoutTexture.texture());
-        ledTexture = PG.newPG(384, 32);
+        ledTexture = PG.newPG(384, 32 * 4);
 
         // Add ArtNet
-        numPixels = spoutTexture.texture().width * spoutTexture.texture().height;
+        numPixels = ledTexture.width * ledTexture.height;
         artNetDataSender = new ArtNetDataSender("192.168.1.253", 0, numPixels);
 
         // Add UI
@@ -71,6 +71,12 @@ extends PAppletHax {
         p.image(spoutTexture.texture(), 0, 0);
 
         // send it!
-        artNetDataSender.sendMatrixFromBuffer(ledTexture, false);
+        // sendMatrixFromBuffer was 3-5ms
+        // sendRgbDirectFromPixelsArray is 2-4ms
+        int startTime = P.p.millis();
+        // artNetDataSender.sendMatrixFromBuffer(ledTexture, false);
+        artNetDataSender.sendRgbDirectFromPixelsArray(ledTexture, true);
+        int sendTime = P.p.millis() - startTime;
+        DebugView.setValue("ArtNet Send", sendTime + "ms");
     }
 }

@@ -64,12 +64,17 @@ public class ArtNetDataSender {
 	}
 	
 	public void send() {
+		sendChannels(dmxData.length);
+	}
+
+	protected void sendChannels(int activeChannels) {
 		// loop through multiple universes, sending out via artnet 
 		// when we complete copying each universe to the current array
+		activeChannels = Math.max(0, Math.min(activeChannels, dmxData.length));
 		int curUniverse = universeStart;
 		int iCurUniverse = 0;
 		int loopedIndex = 0;
-		for(int i=0; i < dmxData.length; i++) {
+		for(int i=0; i < activeChannels; i++) {
 			loopedIndex = i % universeSize;
 			dmxDataCurUniverse[loopedIndex] = dmxData[i];
 			iCurUniverse++;
@@ -92,7 +97,7 @@ public class ArtNetDataSender {
 	}
 	
 	public void sendMatrixFromBuffer(PImage texture, boolean zigZags) {
-	    sendMatrixFromBuffer(texture, texture.width, texture.height, 0, 0, 0, true, true, zigZags);
+			sendMatrixFromBuffer(texture, texture.width, texture.height, 0, 0, 0, true, true, zigZags);
 	}
 	
 	public void sendMatrixFromBuffer(PImage texture, int matrixSize) {
@@ -104,7 +109,7 @@ public class ArtNetDataSender {
 	}
 	
 	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend) {
-	    sendMatrixFromBuffer(texture, matrixW, matrixH, pixelIndexStart, offsetX, offsetY, shouldLoadPixels, shouldSend, shouldSend);
+			sendMatrixFromBuffer(texture, matrixW, matrixH, pixelIndexStart, offsetX, offsetY, shouldLoadPixels, shouldSend, shouldSend);
 	}
 	
 	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend, boolean zigZags) {
@@ -148,6 +153,21 @@ public class ArtNetDataSender {
 		if(oobIndex > -1 && P.p.frameCount % 60 == 1) {
 			if(DEBUG) P.out("ERROR: ArtNet data index is past array length in sendMatrixFromBuffer(): ", oobIndex);
 		}
+	}
+
+	public void sendRgbDirectFromPixelsArray(PImage texture, boolean shouldLoadPixels) {
+		if(shouldLoadPixels) texture.loadPixels();
+		int[] pixelColors = texture.pixels;
+		int pixelsToCopy = Math.min(pixelColors.length, numPixels);
+		if(DEBUG && pixelColors.length != numPixels && P.p.frameCount % 60 == 1) {
+			P.out("WARNING: ArtNet texture pixel count does not match sender pixel count", pixelColors.length, numPixels);
+		}
+		// skip every 4th pixel because of RGBA format, and directly set RGB values in dmxData array
+		for(int i=0; i < pixelsToCopy; i++) {
+			int pixelColor = pixelColors[i];
+			setColorAtIndex(i * 3, (pixelColor >> 16) & 0xFF, (pixelColor >> 8) & 0xFF, pixelColor & 0xFF);
+		}
+		sendChannels(pixelsToCopy * 3);
 	}
 	
 	public void drawDebug(PGraphics pg) {
