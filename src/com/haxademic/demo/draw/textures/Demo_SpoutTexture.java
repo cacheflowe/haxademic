@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.textures;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GlitchShakeFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -19,7 +20,8 @@ extends PAppletHax {
 //		spoutTexture = new SpoutTexture(960, 540);
 //		spoutTexture = new SpoutTexture(1280, 720, "CEF_0");
 		// spoutTexture = new SpoutTexture(1280, 720, "TDSyphonSpoutOut");
-		spoutTexture = new SpoutTexture(1280, 720, "SpoutWinCapture");
+//		spoutTexture = new SpoutTexture(1280, 720, "SpoutWinCapture");
+		spoutTexture = new SpoutTexture(384, 32, "chromeyumm_spout_output");
 //		spoutTexture.setFlipY();
 		DebugView.setTexture("spoutTexture.texture()", spoutTexture.texture());
 	}
@@ -29,15 +31,18 @@ extends PAppletHax {
 		
 		// update & draw to screen
 		spoutTexture.update();
-		ImageUtil.cropFillCopyImage(spoutTexture.texture(), p.g, true);
-//		p.image(spoutTexture.texture(), 0, 0);
+//		ImageUtil.cropFillCopyImage(spoutTexture.texture(), p.g, true);
+		
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		p.image(spoutTexture.texture(), 0, 0);
 		
 		// some post-processing, just for fun
-		GlitchShakeFilter.instance().setAmp(0.03f);
-		GlitchShakeFilter.instance().setTime(p.frameCount * 0.1f);
-		GlitchShakeFilter.instance().setGlitchSpeed(0.002f);
-		GlitchShakeFilter.instance().applyTo(p);
-		VignetteFilter.instance().applyTo(p);
+//		GlitchShakeFilter.instance().setAmp(0.03f);
+//		GlitchShakeFilter.instance().setTime(p.frameCount * 0.1f);
+//		GlitchShakeFilter.instance().setGlitchSpeed(0.002f);
+//		GlitchShakeFilter.instance().applyTo(p);
+//		VignetteFilter.instance().applyTo(p);
 	}
 
 }

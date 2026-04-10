@@ -91,6 +91,10 @@ public class ArtNetDataSender {
 		sendMatrixFromBuffer(texture, texture.width, texture.height, 0, 0, 0, true, true);
 	}
 	
+	public void sendMatrixFromBuffer(PImage texture, boolean zigZags) {
+	    sendMatrixFromBuffer(texture, texture.width, texture.height, 0, 0, 0, true, true, zigZags);
+	}
+	
 	public void sendMatrixFromBuffer(PImage texture, int matrixSize) {
 		sendMatrixFromBuffer(texture, matrixSize, matrixSize, 0, 0, 0, true, true);
 	}
@@ -100,6 +104,10 @@ public class ArtNetDataSender {
 	}
 	
 	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend) {
+	    sendMatrixFromBuffer(texture, matrixW, matrixH, pixelIndexStart, offsetX, offsetY, shouldLoadPixels, shouldSend, shouldSend);
+	}
+	
+	public void sendMatrixFromBuffer(PImage texture, int matrixW, int matrixH, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend, boolean zigZags) {
 		if(shouldLoadPixels) texture.loadPixels();
 		
 		// check for out of bound color setting
@@ -123,7 +131,7 @@ public class ArtNetDataSender {
 			int rowStartI = P.floor(i / matrixW) * matrixW;
 			int twoRowIndex = i % (matrixW * 2);
 			int zigZagRevIndex = matrixW - 1 - (i % matrixW);
-			if(twoRowIndex < matrixW) {
+			if(zigZags && twoRowIndex < matrixW) {
 				pixelIndex = (rowStartI + zigZagRevIndex) * 3;
 			}
 			
