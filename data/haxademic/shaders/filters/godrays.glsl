@@ -8,6 +8,7 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
+uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
@@ -56,8 +57,12 @@ uniform float decay = 0.97;
 uniform float density = 0.5;
 // Sample weight. Decays as we radiate outwards.
 uniform float weight = 0.1;
-// Light rotation
-uniform float rotation = 0.;
+// Light source position, in normalized screen-space UV coords (0-1, 0.5/0.5 = center).
+// Can be off-screen (e.g. negative or >1) to simulate a light source outside the frame.
+uniform vec2 lightPos = vec2(0.5, 0.5);
+// Tint applied to the accumulated rays - lets rays take on a light color (e.g. warm sunlight)
+// independent of the source image's colors.
+uniform vec3 tint = vec3(1.);
 // effect mix
 uniform float amp = 1.;
 
@@ -66,41 +71,22 @@ uniform float amp = 1.;
 float hash( vec2 p ){ return fract(sin(dot(p, vec2(41, 289)))*45758.5453); }
 
 
-// Light offset.
-//
-// I realized, after a while, that determining the correct light position doesn't help, since
-// radial blur doesn't really look right unless its focus point is within the screen boundaries,
-// whereas the light is often out of frame. Therefore, I decided to go for something that at
-// least gives the feel of following the light. In this case, I normalized the light position
-// and rotated it in unison with the camera rotation. Hacky, for sure, but who's checking? :)
-vec3 lOff(){
-    vec2 u = sin(vec2(1.57, 0) - rotation/2.);
-    mat2 a = mat2(u, -u.y, u.x);
-
-    vec3 l = normalize(vec3(1.5, 1., -0.5));
-    l.xz = a * l.xz;
-    l.xy = a * l.xy;
-
-    return l;
-}
-
-
-
 void main() {
 
     // Screen coordinates.
     vec2 uv = vertTexCoord.xy;
 
-    // Light offset. Kind of fake. See above.
-    vec3 l = lOff();
-
-    // Offset texture position (uv - .5), offset again by the fake light movement.
-    // It's used to set the blur direction (a direction vector of sorts), and is used
-    // later to center the spotlight.
+    // Offset texture position (uv - lightPos). It's used to set the blur direction (a
+    // direction vector of sorts), and is used later to center the spotlight.
     //
     // The range is centered on zero, which allows the accumulation to spread out in
-    // all directions. Ie; It's radial.
-    vec2 tuv =  uv - .5 - l.xy*.45;
+    // all directions. Ie; It's radial. lightPos can be moved off-screen (values outside
+    // 0-1) to simulate a light source that's out of frame.
+    //
+    // Aspect-corrected (via texOffset, no extra uniform needed) so the radial blur/spotlight
+    // stays circular on non-square buffers instead of elliptical.
+    vec2 tuv = uv - lightPos;
+    tuv.x *= texOffset.y / texOffset.x;
 
     // Dividing the direction vector above by the sample number and a density factor
     // which controls how far the blur spreads out. Higher density means a greater
@@ -114,7 +100,7 @@ void main() {
 
     // Jittering, to get rid of banding. Vitally important when accumulating discontinuous
     // samples, especially when only a few layers are being used.
-    uv += dTuv*(hash(uv.xy + fract(rotation))*2. - 1.);
+    uv += dTuv*(hash(uv.xy)*2. - 1.);
 
     // The radial blur loop. Take a texture sample, move a little in the direction of
     // the radial direction vector (dTuv) then take another, slightly less weighted,
@@ -132,10 +118,12 @@ void main() {
     col *= (1. - dot(tuv, tuv)*.75);
 
     // Smoothstepping the final color, just to bring it out a bit, then applying some
-    // loose gamma correction.
+    // loose gamma correction, then tinting the rays (e.g. warm sunlight color).
     vec4 effectColor = sqrt(smoothstep(0., 1., col));
+    effectColor.rgb *= tint;
     gl_FragColor = mix(origColor, effectColor, amp);
 
     // Bypassing the radial blur to show the raymarched scene on its own.
     //fragColor = sqrt(texture2D(iChannel0, fragCoord.xy / iResolution.xy));
 }
+

@@ -491,7 +491,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		} else if(curFilter == GodRays.instance()) {
 			GodRays.instance().setDecay(Mouse.xNorm);
 			GodRays.instance().setWeight(Mouse.yNorm);
-			GodRays.instance().setRotation(oscillate());
+			GodRays.instance().setLightPos(0.5f + 0.45f * P.cos(oscillate()), 0.5f + 0.45f * P.sin(oscillate()));
 			GodRays.instance().setAmp(0.5f + 0.5f * oscillate());
 			GodRays.instance().applyTo(pg);
 		} else if(curFilter == GradientCoverWipe.instance()) {
