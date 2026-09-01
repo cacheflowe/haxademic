@@ -155,5 +155,5 @@ void main() {
   g = 0.5 + 0.5 * g;
   b = 0.5 + 0.5 * b;
 
-  gl_FragColor = vec4(r, g, g, 1.0);
+  gl_FragColor = vec4(r, g, b, 1.0);
 }
