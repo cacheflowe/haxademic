@@ -35,6 +35,9 @@ implements ISocketClientDelegate {
 	public static final String STORE_KEY = "store";
 	public static final String JSON_KEY = "key";
 	public static final String JSON_VALUE = "value";
+	public static final String SEND_ONLY_KEY = "sendonly"; // tells a relay (ex: Oversite) not to echo this message back to its own sender
+
+	protected int mode = -1;
 
 	public AppStoreDistributed() {}
 	
@@ -45,6 +48,7 @@ implements ISocketClientDelegate {
 	}
 	
 	public void start(int mode, String serverAddress) {
+		this.mode = mode;
 		if(mode == MODE_SERVER) {
 			startServer();
 		} else {
@@ -53,6 +57,7 @@ implements ISocketClientDelegate {
 	}
 	
 	public void start(SocketClient client) {
+		this.mode = MODE_CLIENT;
 		this.client = client;
 		this.client.setDelegate(this);
 	}
@@ -109,6 +114,7 @@ implements ISocketClientDelegate {
 		jsonOut.setString(DATA_TYPE, DATA_TYPE_NUMBER);
 		jsonOut.setString(JSON_KEY, storeKey);
 		jsonOut.setFloat(JSON_VALUE, val.floatValue());
+		if(mode == MODE_CLIENT) jsonOut.setBoolean(SEND_ONLY_KEY, true); // tell relays not to echo this back to us - we already applied it locally above
 		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
@@ -122,6 +128,7 @@ implements ISocketClientDelegate {
 		jsonOut.setString(DATA_TYPE, DATA_TYPE_STRING);
 		jsonOut.setString(JSON_KEY, storeKey);
 		jsonOut.setString(JSON_VALUE, val);
+		if(mode == MODE_CLIENT) jsonOut.setBoolean(SEND_ONLY_KEY, true); // tell relays not to echo this back to us - we already applied it locally above
 		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
@@ -135,6 +142,7 @@ implements ISocketClientDelegate {
 		jsonOut.setString(DATA_TYPE, DATA_TYPE_BOOLEAN);
 		jsonOut.setString(JSON_KEY, storeKey);
 		jsonOut.setBoolean(JSON_VALUE, val);
+		if(mode == MODE_CLIENT) jsonOut.setBoolean(SEND_ONLY_KEY, true); // tell relays not to echo this back to us - we already applied it locally above
 		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
@@ -158,11 +166,7 @@ implements ISocketClientDelegate {
 			String key = jsonData.getString(JSON_KEY);
 			if(jsonData.getString(DATA_TYPE).equals(DATA_TYPE_STRING)) {
 				String val = jsonData.getString(JSON_VALUE);
-				if(key.equals(AppState.APP_STATE)) { // special case for APP_STATE - we queue it so it behaves as expected
-					AppState.set(val);
-				} else {
-					P.store.setString(key, val);
-				}
+				P.store.setString(key, val);
 			} else if(jsonData.getString(DATA_TYPE).equals(DATA_TYPE_NUMBER)) {
 				P.store.setNumber(key, jsonData.getFloat(JSON_VALUE));
 			} else if(jsonData.getString(DATA_TYPE).equals(DATA_TYPE_BOOLEAN)) {
